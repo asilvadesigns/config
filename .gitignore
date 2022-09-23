@@ -1,0 +1,8 @@
+# ignore everything for now
+.DS_Store
+configstore
+iterm2
+karabiner
+nvim-old
+starship.toml
+yarn
