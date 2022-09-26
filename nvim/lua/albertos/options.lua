@@ -1,5 +1,9 @@
 vim.g.mapleader = ","
 
+-- OPTIONS | EDITING
+vim.keymap.set('i', '<c-l>', '<END>')         -- jump to end
+vim.keymap.set('i', '<c-h>', '<HOME>')        -- jump to start
+
 -- OPTIONS | FILES
 vim.opt.swapfile = false            -- disable swap file
 
