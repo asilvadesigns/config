@@ -22,4 +22,11 @@ return require('packer').startup(function(use)
   use('windwp/nvim-autopairs')
   -- better escape
   use('max397574/better-escape.nvim')
+  -- diagnostics
+  use('folke/trouble.nvim')
+  -- treesitter
+  use({ 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' })
+  use('windwp/nvim-ts-autotag')
+  -- surround
+  use({ 'kylechui/nvim-surround', tag = "*" })                      -- add motions for surround functionality
 end)

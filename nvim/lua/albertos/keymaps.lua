@@ -16,3 +16,9 @@ vim.keymap.set('v', '<ScrollWheelDown>', '<C-e>')
 -- KEYMAPS | SYSTEM
 vim.keymap.set('n', '<c-r>', '<cmd>luafile $MYVIMRC<cr>')
 
+-- KEYMAPS | WINDOW
+vim.keymap.set('n', '<c-h>', '<c-w>h')        -- go left split
+vim.keymap.set('n', '<c-j>', '<c-w>j')        -- go down split
+vim.keymap.set('n', '<c-k>', '<c-w>k')        -- go up split
+vim.keymap.set('n', '<c-l>', '<c-w>l')        -- go right split
+
