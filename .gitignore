@@ -1,9 +1,10 @@
 # ignore everything for now
 .DS_Store
 configstore
+gh
 iterm2
 karabiner
 nvim-old
 starship.toml
+verdaccio
 yarn
-gh

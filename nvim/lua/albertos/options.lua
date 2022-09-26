@@ -25,6 +25,7 @@ vim.opt.smartindent = true 	        -- autoindent new lines
 vim.opt.tabstop = 2 		            -- 1 tab == 2 spaces
 
 -- OPTIONS | UI
+vim.opt.wrap = false
 vim.opt.cursorline = true           -- enable cursorline
 vim.opt.laststatus = 3              -- global status line ftw
 vim.opt.number = true               -- use relative line numbers
