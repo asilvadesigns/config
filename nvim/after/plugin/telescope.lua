@@ -1,6 +1,7 @@
 require('telescope').setup({
   defaults = {
     borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+    layout_strategy = 'center',
     mappings = { i = { ["<C-u>"] = false }, },
     sorting_strategy = "ascending",
   }
