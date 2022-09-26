@@ -74,6 +74,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["mason.nvim"] = {
+    loaded = true,
+    path = "/Users/albertos/.local/share/nvim/site/pack/packer/start/mason.nvim",
+    url = "https://github.com/williamboman/mason.nvim"
+  },
   ["nvim-solarized-lua"] = {
     loaded = true,
     path = "/Users/albertos/.local/share/nvim/site/pack/packer/start/nvim-solarized-lua",

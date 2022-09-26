@@ -9,4 +9,6 @@ return require('packer').startup(function(use)
   use('ishan9299/nvim-solarized-lua')
   -- icons
   use('kyazdani42/nvim-web-devicons')
+  -- manage lsps, linters, and formatters
+  use('williamboman/mason.nvim')
 end)
