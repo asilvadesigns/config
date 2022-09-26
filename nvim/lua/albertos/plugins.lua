@@ -7,4 +7,6 @@ return require('packer').startup(function(use)
 	use('nvim-telescope/telescope.nvim')
   -- colorscheme
   use('ishan9299/nvim-solarized-lua')
+  -- icons
+  use('kyazdani42/nvim-web-devicons')
 end)
