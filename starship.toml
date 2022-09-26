@@ -1,0 +1,28 @@
+[character]
+success_symbol=''
+error_symbol=''
+
+[directory]
+style="blue"
+truncation_length = 0
+truncate_to_repo = false
+
+[git_branch]
+style="purple"
+symbol=" "
+
+[git_status]
+#disabled = true
+#ADDED=''
+#UNMERGED=''
+deleted=''
+diverged=''
+modified=''
+renamed=''
+stashed=''
+
+[python]
+disabled = true
+
+[nodejs]
+disabled = true
