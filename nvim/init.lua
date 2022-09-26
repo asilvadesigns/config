@@ -1,2 +1,2 @@
-require('profile')
-require('plugins')
+require('albertos.options')
+require('albertos.plugins')
