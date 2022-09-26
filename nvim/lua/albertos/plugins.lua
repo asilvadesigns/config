@@ -14,4 +14,12 @@ return require('packer').startup(function(use)
   use('williamboman/mason.nvim')
   use('williamboman/mason-lspconfig.nvim')
   use('neovim/nvim-lspconfig')
+  -- project management
+  use('ahmedkhalf/project.nvim')
+  -- matching brackets
+  use('andymass/vim-matchup')
+  -- autopairs
+  use('windwp/nvim-autopairs')
+  -- better escape
+  use('max397574/better-escape.nvim')
 end)
