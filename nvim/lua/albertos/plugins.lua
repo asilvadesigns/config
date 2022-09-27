@@ -28,5 +28,7 @@ return require('packer').startup(function(use)
   use({ 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' })
   use('windwp/nvim-ts-autotag')
   -- surround
-  use({ 'kylechui/nvim-surround', tag = "*" })                      -- add motions for surround functionality
+  use({ 'kylechui/nvim-surround', tag = "*" })
+  -- statusline
+  use('nvim-lualine/lualine.nvim')
 end)
