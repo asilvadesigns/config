@@ -1,11 +1,8 @@
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
 
-local ok, tree pcall(require, 'nvim-tree')
-if not ok then
-  vim.notify('whoops')
-  return
-end
+local ok, tree = pcall(require, 'nvim-tree')
+if not ok then return end
 
 tree.setup({
   update_cwd = true,
@@ -14,6 +11,10 @@ tree.setup({
     enable = true,
     ignore_list = {},
     update_cwd = true,
+  },
+  git = {
+    enable = true,
+    ignore = false
   },
   view = { width = 40 },
 })

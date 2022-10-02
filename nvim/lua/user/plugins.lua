@@ -24,9 +24,12 @@ return packer.startup(function(use)
   use('wbthomason/packer.nvim') -- Have packer manage itself
   use('nvim-lua/plenary.nvim') -- Useful lua functions used by lots of plugins
 
+  use('lewis6991/impatient.nvim') -- cache plugins
+
   use('ggandor/leap.nvim') -- jump
   use('kyazdani42/nvim-tree.lua') -- file tree
   use('nvim-telescope/telescope.nvim') -- fuzzy finder
+  use('nvim-pack/nvim-spectre') -- search & replace
 
   use('ishan9299/nvim-solarized-lua') -- solarized
   use('kyazdani42/nvim-web-devicons') -- icons

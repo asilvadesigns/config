@@ -109,6 +109,11 @@ _G.packer_plugins = {
     path = "/Users/albertos/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
+  ["impatient.nvim"] = {
+    loaded = true,
+    path = "/Users/albertos/.local/share/nvim/site/pack/packer/start/impatient.nvim",
+    url = "https://github.com/lewis6991/impatient.nvim"
+  },
   ["leap.nvim"] = {
     loaded = true,
     path = "/Users/albertos/.local/share/nvim/site/pack/packer/start/leap.nvim",
@@ -153,6 +158,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/albertos/.local/share/nvim/site/pack/packer/start/nvim-solarized-lua",
     url = "https://github.com/ishan9299/nvim-solarized-lua"
+  },
+  ["nvim-spectre"] = {
+    loaded = true,
+    path = "/Users/albertos/.local/share/nvim/site/pack/packer/start/nvim-spectre",
+    url = "https://github.com/nvim-pack/nvim-spectre"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
