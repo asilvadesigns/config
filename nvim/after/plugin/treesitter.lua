@@ -1,11 +1,31 @@
-require('nvim-treesitter.configs').setup({
-  ensure_installed = { "css", "html", "json", "lua", "scss", "tsx", "vim", "yaml" },
+local ok, treesitter = pcall(require, 'nvim-treesitter.configs')
+if (not ok) then return end
+
+treesitter.setup {
   highlight = {
     enable = true,
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
+    disable = {},
   },
-})
+  indent = {
+    enable = true,
+    disable = {},
+  },
+  ensure_installed = {
+    "css",
+    "fish",
+    "html",
+    "json",
+    "lua",
+    "php",
+    "swift",
+    "toml",
+    "tsx",
+    "yaml",
+  },
+  autotag = {
+    enable = true,
+  },
+}
+
+-- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+-- parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }

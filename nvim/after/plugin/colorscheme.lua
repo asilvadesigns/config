@@ -1,6 +1,5 @@
-require('onedark').setup({
-  style = 'dark'
-})
-require('onedark').load()
+local ok, onedark = pcall(require, 'onedark')
+if (not ok) then return end
 
--- vim.cmd('colorscheme solarized-flat')
+onedark.setup({ style = 'dark' })
+onedark.load()

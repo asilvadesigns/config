@@ -1,4 +1,13 @@
-require('nvim-tree').setup({
+vim.g.loaded = 1
+vim.g.loaded_netrwPlugin = 1
+
+local ok, tree pcall(require, 'nvim-tree')
+if not ok then
+  vim.notify('whoops')
+  return
+end
+
+tree.setup({
   update_cwd = true,
   respect_buf_cwd = true,
   update_focused_file = {
@@ -11,4 +20,5 @@ require('nvim-tree').setup({
 
 vim.keymap.set('n', '<C-S-j>', '<CMD>NvimTreeToggle<CR>')
 vim.keymap.set('n', '<LEADER>j', '<CMD>NvimTreeFindFile<CR>')
+
 
