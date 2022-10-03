@@ -1,23 +1,34 @@
--- editing
-vim.opt.clipboard = 'unnamedplus' -- use system clipboard
-vim.opt.expandtab = true -- spaces instead of tabs
-vim.opt.shiftwidth = 2 -- shift 2 spaces when using tab
-vim.opt.smartindent = true -- autoindent new lines
-vim.opt.tabstop = 2 -- 1 tab == 2 spaces
-
--- search
-vim.opt.ignorecase = true -- case insensitive search...
-vim.opt.inccommand = 'split' --show search in split
-vim.opt.smartcase = true -- ...unless we use upperase
-
--- theme
-vim.opt.cursorline = true -- show cursorline
-vim.opt.laststatus = 3 -- global status line ftw
-vim.opt.number = true -- show number line
-vim.opt.relativenumber = true -- relative number line
-vim.opt.scrolloff = 5 -- min lines to keep from cursor
-vim.opt.signcolumn = 'yes' -- always show signs
-vim.opt.splitbelow = true -- vertical split to the bottom
-vim.opt.splitright = true -- horizontal split to the right
-vim.opt.termguicolors = true -- enable rgb color in TUI
-vim.opt.wrap = false -- do not wrap
+vim.opt.backup = false
+vim.opt.clipboard = 'unnamedplus'
+vim.opt.cmdheight = 2
+vim.opt.completeopt = { 'menuone', 'noselect' }
+vim.opt.conceallevel = 0
+vim.opt.cursorline = true
+vim.opt.expandtab = true
+vim.opt.fileencoding = 'utf-8'
+vim.opt.hlsearch = true
+vim.opt.ignorecase = true
+vim.opt.laststatus = 3
+vim.opt.mouse = 'a'
+vim.opt.number = false
+vim.opt.numberwidth = 4
+vim.opt.pumheight = 10
+vim.opt.relativenumber = true
+vim.opt.scrolloff = 6
+vim.opt.shiftwidth = 2
+vim.opt.showmode = false
+vim.opt.showtabline = 2
+vim.opt.sidescrolloff = 6
+vim.opt.signcolumn = 'yes'
+vim.opt.smartcase = true
+vim.opt.smartindent = true
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.swapfile = false
+vim.opt.tabstop = 2
+vim.opt.termguicolors = true
+vim.opt.timeoutlen = 1000
+vim.opt.undofile = true
+vim.opt.updatetime = 300
+vim.opt.wrap = false
+vim.opt.writebackup = false
