@@ -20,20 +20,20 @@ insert('<c-l>', '<END>')
 insert('<c-h>', '<HOME>')
 
 -- navigation in buffers
-normal('<S-l>', ':bnext<CR>')
-normal('<S-h>', ':bprevious<CR>')
-normal('<leader>d', ':bdelete<CR>')
+normal('<S-l>', ':bnext<cr>')
+normal('<S-h>', ':bprevious<cr>')
+normal('<leader>d', ':bdelete<cr>')
+
+-- navigation in netrw
+normal('<leader>e', ':Ex<cr>')
+normal('<leader>j', ':Lex<cr>')
+normal('<C-S-j>', ':Lex<cr>')
 
 -- navigation in windows
 normal('<C-h>', '<C-w>h')
 normal('<C-j>', '<C-w>j')
 normal('<C-k>', '<C-w>k')
 normal('<C-l>', '<C-w>l')
-
--- TODO: extract to require('nvim-tree') module
--- navigation in tree
-normal('<C-S-j>', ':NvimTreeToggle<cr>')
-normal('<leader>j', ':NvimTreeFindFile<cr>')
 
 -- navigation with mouse
 normal('<ScrollWheelUp>', '<C-y>')
