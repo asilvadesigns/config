@@ -1,16 +1,12 @@
-local opts = { noremap = true, silent = true }
-
-local normal = function(lhs, rhs)
-  vim.api.nvim_set_keymap('n', lhs, rhs, opts)
+local factory = function(mode)
+  return function(lhs, rhs)
+    return vim.api.nvim_set_keymap(mode, lhs, rhs, { noremap = true, silent = true })
+  end
 end
 
-local insert = function(lhs, rhs)
-  vim.api.nvim_set_keymap('i', lhs, rhs, opts)
-end
-
-local visual = function(lhs, rhs)
-  vim.api.nvim_set_keymap('v', lhs, rhs, opts)
-end
+local normal = factory('n')
+local insert = factory('i')
+local visual = factory('v')
 
 -- leader
 vim.g.mapleader = ','
@@ -23,11 +19,6 @@ insert('<c-h>', '<HOME>')
 normal('<S-l>', ':bnext<cr>')
 normal('<S-h>', ':bprevious<cr>')
 normal('<leader>d', ':bdelete<cr>')
-
--- navigation in netrw
-normal('<leader>e', ':Ex<cr>')
-normal('<leader>j', ':Lex<cr>')
-normal('<C-S-j>', ':Lex<cr>')
 
 -- navigation in windows
 normal('<C-h>', '<C-w>h')

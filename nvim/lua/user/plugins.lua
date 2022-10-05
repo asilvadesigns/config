@@ -1,52 +1,38 @@
-local fn = vim.fn
-
--- auto install packer
-local install_path = fn.stdpath('data').. '/site/pack/packer/start/packer.nvim'
-
-if fn.empty(fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = fn.system({
-    'git',
-    'clone',
-    '--depth',
-    '1',
-    'https://github.com/wbthomason/packer.nvim',
-    install_path,
-  })
-  print('Installing packer close and reopen Neovim...')
-  vim.cmd [[packadd packer.nvim]]
-end
-
--- reload neovim whenever you save the plugins.lua file
-vim.cmd [[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]]
+local PACKER_BOOTSTRAP = require('core')
 
 -- avoid errors on first use
 local ok, packer = pcall(require, 'packer')
 if (not ok) then return end
 
 return packer.startup(function(use)
-  -- use({
-  --   'lewis6991/impatient.nvim'
-  -- })
-  use('wbthomason/packer.nvim')
-
-  use('nathom/filetype.nvim')
+  -- use('lewis6991/impatient.nvim')
   use('nvim-lua/plenary.nvim')
 
-  use('andymass/vim-matchup')
-  use('windwp/nvim-autopairs')
+  -- -- editing
+  -- use('andymass/vim-matchup')
+  -- use('kylechui/nvim-surround')
+  -- use('nathom/filetype.nvim')
+  -- use('numToStr/Comment.nvim')
+  -- use('windwp/nvim-autopairs')
 
-  use('kyazdani42/nvim-web-devicons')
-  use('lewis6991/gitsigns.nvim')
-  use('navarasu/onedark.nvim')
-
+  -- -- navigation
   -- use('kyazdani42/nvim-tree.lua')
-  use('nvim-lualine/lualine.nvim')
-  use('nvim-telescope/telescope.nvim')
+  -- use('nvim-lualine/lualine.nvim')
+  -- use('nvim-telescope/telescope.nvim')
+
+  -- -- theme
+  -- use('kyazdani42/nvim-web-devicons')
+  -- use('lewis6991/gitsigns.nvim')
+  -- use('navarasu/onedark.nvim')
+  use({
+    'ishan9299/nvim-solarized-lua',
+    config = function()
+      vim.cmd('colorscheme solarized-flat')
+    end
+  })
+
+  -- utils
+  use('wbthomason/packer.nvim')
 
   -- use({
   --   'nvim-treesitter/nvim-treesitter',
