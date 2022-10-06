@@ -1,7 +1,7 @@
 local ready = require('core.utils').get_packer()
 
 return require('packer').startup(function(use)
-	use({
+  use({
     'wbthomason/packer.nvim'
   })
 
@@ -12,17 +12,31 @@ return require('packer').startup(function(use)
     end
   })
 
-	use({
+  use({
+    'kylechui/nvim-surround',
+    config = function()
+      require('nvim-surround').setup()
+    end
+  })
+
+  use({
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup()
+    end
+  })
+
+  use({
     'ishan9299/nvim-solarized-lua',
     config = function()
       vim.cmd('colorscheme solarized-flat')
     end
   })
 
-	use({
+  use({
     'tpope/vim-fugitive',
     config = function()
-      vim.opt.statusline = '%{FugitiveStatusline()}'
+      vim.opt.statusline = '%{FugitiveStatusLine()}'
     end
   })
 
