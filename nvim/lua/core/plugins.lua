@@ -60,16 +60,11 @@ return require('packer').startup(function(use)
           lualine_z = {}
         },
         tabline = {},
-        -- not for now.
-        -- tabline = {
-        --   lualine_a = { 'buffers' },
-        --   lualine_z = { 'tabs' }
-        -- },
         winbar = {
-          lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 2 } },
+          lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 3 } },
         },
         inactive_winbar = {
-          lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 2 } },
+          lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 3 } },
         }
       })
     end
@@ -87,22 +82,22 @@ return require('packer').startup(function(use)
         -- Enable completion triggered by <c-x><c-o>
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
+        vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, bufopts)
+        vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+        vim.keymap.set('n', '<leader>lf', vim.lsp.buf.formatting, bufopts)
+        vim.keymap.set('n', '<leader>lk', vim.lsp.buf.signature_help, bufopts)
+        vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
+        vim.keymap.set('n', '<leader>ne', vim.diagnostic.goto_next)
+        vim.keymap.set('n', '<leader>np', vim.diagnostic.goto_prev)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
         vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-        vim.keymap.set('n', '<space>K', vim.lsp.buf.signature_help, bufopts)
         vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
-        vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, bufopts)
-        vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-        vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-        vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
-        vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-        vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-        vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
       end
 
+      -- @see: https://github.com/sumneko/lua-language-server
       require('lspconfig')['sumneko_lua'].setup({
         flags = { debounce_text_changes = 150 },
         on_attach = on_attach,
@@ -118,13 +113,13 @@ return require('packer').startup(function(use)
         }
       })
 
+      -- @see: https://github.com/typescript-language-server/typescript-language-server
       require('lspconfig')['tsserver'].setup({
         flags = { debounce_text_changes = 150 },
         on_attach = on_attach,
       })
 
       local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
