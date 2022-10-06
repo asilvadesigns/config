@@ -19,7 +19,7 @@ vim.g.loaded_zipPlugin = 1
 
 vim.opt.backup = false
 vim.opt.clipboard = 'unnamedplus'
-vim.opt.cmdheight = 2
+vim.opt.cmdheight = 1
 vim.opt.completeopt = { 'menuone', 'noselect' }
 vim.opt.conceallevel = 0
 vim.opt.cursorline = true
@@ -42,7 +42,7 @@ vim.opt.scrolloff = 6
 vim.opt.shiftwidth = 2
 vim.opt.showbreak = '↳  '
 vim.opt.showmode = false
-vim.opt.showtabline = 2
+vim.opt.showtabline = 0 -- none for now
 vim.opt.sidescrolloff = 6
 vim.opt.signcolumn = 'yes'
 vim.opt.smartcase = true

@@ -59,6 +59,12 @@ return require('packer').startup(function(use)
           lualine_y = {},
           lualine_z = {}
         },
+        tabline = {},
+        -- not for now.
+        -- tabline = {
+        --   lualine_a = { 'buffers' },
+        --   lualine_z = { 'tabs' }
+        -- },
         winbar = {
           lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 2 } },
         },
@@ -112,7 +118,12 @@ return require('packer').startup(function(use)
         }
       })
 
-      local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " } 
+      require('lspconfig')['tsserver'].setup({
+        flags = { debounce_text_changes = 150 },
+        on_attach = on_attach,
+      })
+
+      local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type

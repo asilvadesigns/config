@@ -18,8 +18,16 @@ api.nvim_create_autocmd(
 
 -- enable numbers in help buffer
 api.nvim_create_autocmd(
-  { 'FileType' },
-  { pattern = { 'help' }, command = 'setlocal number relativenumber', group = helpGroup }
+  { 'WinEnter', 'BufEnter' },
+  {
+    pattern = '*',
+    callback = function()
+      if vim.bo.filetype == "help" then
+        vim.cmd('set number relativenumber')
+      end
+    end,
+    group = helpGroup
+  }
 )
 
 -- enable cursorline in active buffer except netrw
@@ -30,7 +38,6 @@ api.nvim_create_autocmd(
     callback = function()
       if vim.bo.filetype ~= "netrw" then
         vim.cmd('set cursorline')
-        return
       end
     end,
     group = cursorGroup
@@ -44,7 +51,6 @@ api.nvim_create_autocmd(
     callback = function()
       if vim.bo.filetype ~= "netrw" then
         vim.cmd('set nocursorline')
-        return
       end
     end,
     group = cursorGroup
