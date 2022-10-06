@@ -1,39 +1,29 @@
-local factory = function(mode)
-  return function(lhs, rhs)
-    return vim.api.nvim_set_keymap(mode, lhs, rhs, { noremap = true, silent = true })
-  end
-end
-
-local normal = factory('n')
-local insert = factory('i')
-local visual = factory('v')
-
 -- leader
 vim.g.mapleader = ','
 
 -- editing
-insert('<c-l>', '<END>')
-insert('<c-h>', '<HOME>')
+vim.keymap.set('i', '<c-l>', '<END>')
+vim.keymap.set('i', '<c-h>', '<HOME>')
 
 -- navigation in buffers
-normal('<S-l>', ':bnext<cr>')
-normal('<S-h>', ':bprevious<cr>')
-normal('<leader>d', ':bdelete<cr>')
+vim.keymap.set('n', '<S-l>', ':bnext<cr>')
+vim.keymap.set('n', '<S-h>', ':bprevious<cr>')
+vim.keymap.set('n', '<leader>d', ':bdelete<cr>')
 
 -- navigation in windows
-normal('<C-h>', '<C-w>h')
-normal('<C-j>', '<C-w>j')
-normal('<C-k>', '<C-w>k')
-normal('<C-l>', '<C-w>l')
+vim.keymap.set('n', '<C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-j>', '<C-w>j')
+vim.keymap.set('n', '<C-k>', '<C-w>k')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
 
 -- navigation with mouse
-normal('<ScrollWheelUp>', '<C-y>')
-normal('<ScrollWheelDown>', '<C-e>')
-insert('<ScrollWheelUp>', '<C-y>')
-insert('<ScrollWheelDown>', '<C-e>')
-visual('<ScrollWheelUp>', '<C-y>')
-visual('<ScrollWheelDown>', '<C-e>')
+vim.keymap.set('n', '<ScrollWheelUp>', '<C-y>')
+vim.keymap.set('n', '<ScrollWheelDown>', '<C-e>')
+vim.keymap.set('i', '<ScrollWheelUp>', '<C-y>')
+vim.keymap.set('i', '<ScrollWheelDown>', '<C-e>')
+vim.keymap.set('v', '<ScrollWheelUp>', '<C-y>')
+vim.keymap.set('v', '<ScrollWheelDown>', '<C-e>')
 
--- indent 
-visual('v', '<', '<gv')
-visual('v', '>', '>gv')
+-- indent
+vim.keymap.set('v', '<', '<gv')
+vim.keymap.set('v', '>', '>gv')

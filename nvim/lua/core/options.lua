@@ -25,6 +25,7 @@ vim.opt.conceallevel = 0
 vim.opt.cursorline = true
 vim.opt.expandtab = true
 vim.opt.fileencoding = 'utf-8'
+vim.opt.fillchars = 'eob: '
 vim.opt.grepformat = '%f:%l:%c:%m'
 vim.opt.grepprg = 'rg --hidden --vimgrep --smart-case --'
 vim.opt.hlsearch = true
