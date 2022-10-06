@@ -71,12 +71,74 @@ return require('packer').startup(function(use)
   })
 
   use({
-    'neovim/nvim-lspconfig',
+    'kyazdani42/nvim-tree.lua',
     config = function()
+      require('nvim-tree').setup({
+        respect_buf_cwd = true,
+        update_cwd = true,
+        update_focused_file = {
+          enable = true,
+          ignore_list = {},
+          update_cwd = true,
+        },
+        git = {
+          enable = false,
+          ignore = false
+        },
+        view = { width = 40 },
+      })
+
+      vim.keymap.set('n', '<C-S-j>', '<CMD>NvimTreeToggle<CR>')
+      vim.keymap.set('n', '<LEADER>j', '<CMD>NvimTreeFindFile<CR>')
+    end
+  })
+
+  use({
+    'neovim/nvim-lspconfig',
+    requires = {
+      'L3MON4D3/LuaSnip',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'hrsh7th/nvim-cmp',
+      'neovim/nvim-lspconfig',
+      'saadparwaiz1/cmp_luasnip',
+    },
+    config = function()
+      local cmp = require('cmp')
       local lspconfig = require('lspconfig')
 
-      local on_attach = function(client, bufnr)
-        -- NOTE: unsure about buffer optionn
+      cmp.setup({
+        snippet = {
+          -- REQUIRED - you must specify a snippet engine
+          expand = function(args)
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          end,
+        },
+        window = {
+          -- completion = cmp.config.window.bordered(),
+          -- documentation = cmp.config.window.bordered(),
+        },
+        mapping = cmp.mapping.preset.insert({
+          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        }),
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+        }, {
+          { name = 'buffer' },
+          { name = 'path' },
+        })
+      })
+
+      local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+      local lsp_flags = { debounce_text_changes = 150 }
+      local lsp_on_attach = function(client, bufnr)
         local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
         -- Enable completion triggered by <c-x><c-o>
@@ -84,7 +146,7 @@ return require('packer').startup(function(use)
 
         vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, bufopts)
         vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-        vim.keymap.set('n', '<leader>lf', vim.lsp.buf.formatting, bufopts)
+        vim.keymap.set('n', '<leader>m', vim.lsp.buf.format, bufopts)
         vim.keymap.set('n', '<leader>lk', vim.lsp.buf.signature_help, bufopts)
         vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
         vim.keymap.set('n', '<leader>ne', vim.diagnostic.goto_next)
@@ -97,10 +159,19 @@ return require('packer').startup(function(use)
         vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
       end
 
+      -- NOTE: available servers
+      -- @see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+      require('lspconfig')['jsonls'].setup({
+        capabilities = lsp_capabilities,
+        flags = lsp_flags,
+        on_attach = lsp_on_attach,
+      })
+
       -- @see: https://github.com/sumneko/lua-language-server
       require('lspconfig')['sumneko_lua'].setup({
-        flags = { debounce_text_changes = 150 },
-        on_attach = on_attach,
+        capabilities = lsp_capabilities,
+        flags = lsp_flags,
+        on_attach = lsp_on_attach,
         settings = {
           Lua = {
             diagnostics = {
@@ -115,8 +186,9 @@ return require('packer').startup(function(use)
 
       -- @see: https://github.com/typescript-language-server/typescript-language-server
       require('lspconfig')['tsserver'].setup({
-        flags = { debounce_text_changes = 150 },
-        on_attach = on_attach,
+        capabilities = lsp_capabilities,
+        flags = lsp_flags,
+        on_attach = lsp_on_attach,
       })
 
       local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }

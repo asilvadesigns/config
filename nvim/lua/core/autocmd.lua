@@ -36,8 +36,9 @@ api.nvim_create_autocmd(
   {
     pattern = '*',
     callback = function()
-      if vim.bo.filetype ~= "netrw" then
-        vim.cmd('set cursorline')
+      if vim.bo.filetype ~= "NvimTree" then
+        -- vim.notify('enter:: not nvim tree')
+        vim.cmd('setlocal cursorline')
       end
     end,
     group = cursorGroup
@@ -49,8 +50,9 @@ api.nvim_create_autocmd(
   {
     pattern = '*',
     callback = function()
-      if vim.bo.filetype ~= "netrw" then
-        vim.cmd('set nocursorline')
+      if vim.bo.filetype ~= "NvimTree" then
+        -- vim.notify('leave:: not nvim tree')
+        vim.cmd('setlocal nocursorline')
       end
     end,
     group = cursorGroup
