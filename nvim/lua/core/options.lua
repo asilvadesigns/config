@@ -54,6 +54,5 @@ vim.opt.termguicolors = true
 vim.opt.timeoutlen = 1000
 vim.opt.undofile = true
 vim.opt.updatetime = 300
-vim.opt.winbar = '%f'
 vim.opt.wrap = false
 vim.opt.writebackup = false

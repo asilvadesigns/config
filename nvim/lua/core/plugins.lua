@@ -6,6 +6,13 @@ return require('packer').startup(function(use)
   })
 
   use({
+    'kyazdani42/nvim-web-devicons',
+    config = function()
+      require('nvim-web-devicons').setup()
+    end
+  })
+
+  use({
     'windwp/nvim-autopairs',
     config = function()
       require('nvim-autopairs').setup()
@@ -34,10 +41,45 @@ return require('packer').startup(function(use)
   })
 
   use({
-    'tpope/vim-fugitive',
+    'nvim-lualine/lualine.nvim',
     config = function()
-      vim.opt.statusline = '%{FugitiveStatusLine()}'
+      require('lualine').setup({
+        extensions = { 'fugitive' },
+        options = {
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
+          globalstatus = true,
+        },
+        sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        },
+        winbar = {
+          lualine_a = {},
+          lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 2 } },
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        },
+        inactive_winbar = {
+          lualine_a = {},
+          lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 2 } },
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        }
+      })
     end
+  })
+
+  use({
+    'tpope/vim-fugitive',
   })
 
   if ready then
