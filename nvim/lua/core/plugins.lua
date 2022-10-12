@@ -7,6 +7,19 @@ return require('packer').startup(function(use)
   })
 
   use({
+    'nvim-lua/plenary.nvim'
+  })
+
+  use({
+    'max397574/better-escape.nvim',
+    config = function()
+      require("better_escape").setup({
+        mapping = { "kj" },
+      })
+    end
+  })
+
+  use({
     'kyazdani42/nvim-web-devicons',
     config = function()
       require('nvim-web-devicons').setup()
@@ -67,6 +80,36 @@ return require('packer').startup(function(use)
           lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 3 } },
         }
       })
+    end
+  })
+
+  use({
+    'nvim-telescope/telescope.nvim',
+    config = function()
+      require('telescope').setup({
+        defaults = {
+          borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+          layout_config = {
+            center = { height = 0.5, width = 0.8 }
+          },
+          layout_strategy = 'center',
+          mappings = { i = { ["<C-u>"] = false }, },
+          sorting_strategy = "ascending",
+        }
+      })
+
+      function project_files()
+        local opts = {}
+        local git_ok = pcall(require('telescope.builtin').git_files, opts)
+        if not git_ok then require('telescope.builtin').find_files(opts) end
+      end
+
+      vim.keymap.set('n', '<LEADER>a', '<CMD>Telescope commands<CR>')
+      vim.keymap.set('n', '<LEADER>b', '<CMD>Telescope buffers<CR>')
+      vim.keymap.set('n', '<LEADER>c', '<CMD>Telescope colorscheme<CR>')
+      vim.keymap.set('n', '<LEADER>e', '<CMD>Telescope oldfiles<CR>')
+      vim.keymap.set('n', '<LEADER>f', '<CMD>lua project_files()<CR>')
+      vim.keymap.set('n', '<LEADER>l', '<CMD>Telescope current_buffer_fuzzy_find<CR>')
     end
   })
 
@@ -191,6 +234,7 @@ return require('packer').startup(function(use)
         on_attach = lsp_on_attach,
       })
 
+      -- @see:
       local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
