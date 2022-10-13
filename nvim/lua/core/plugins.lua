@@ -20,6 +20,16 @@ return require('packer').startup(function(use)
   })
 
   use({
+    'navarasu/onedark.nvim',
+    config = function ()
+      require('onedark').setup({
+        style = 'dark'
+      })
+      require('onedark').load()
+    end
+  })
+
+  use({
     'kyazdani42/nvim-web-devicons',
     config = function()
       require('nvim-web-devicons').setup()
@@ -50,7 +60,8 @@ return require('packer').startup(function(use)
   use({
     'ishan9299/nvim-solarized-lua',
     config = function()
-      vim.cmd('colorscheme solarized-flat')
+      -- NOTE: disabled for now
+      -- vim.cmd('colorscheme solarized-flat')
     end
   })
 
@@ -137,6 +148,13 @@ return require('packer').startup(function(use)
   })
 
   use({
+    'folke/trouble.nvim',
+    config = function ()
+      require("trouble").setup({})
+    end
+  })
+
+  use({
     'neovim/nvim-lspconfig',
     requires = {
       'L3MON4D3/LuaSnip',
@@ -187,14 +205,14 @@ return require('packer').startup(function(use)
         -- Enable completion triggered by <c-x><c-o>
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-        vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, bufopts)
-        vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-        vim.keymap.set('n', '<leader>m', vim.lsp.buf.format, bufopts)
-        vim.keymap.set('n', '<leader>lk', vim.lsp.buf.signature_help, bufopts)
-        vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
-        vim.keymap.set('n', '<leader>ne', vim.diagnostic.goto_next)
-        vim.keymap.set('n', '<leader>np', vim.diagnostic.goto_prev)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+        -- vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, bufopts)
+        -- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+        -- vim.keymap.set('n', '<leader>m', vim.lsp.buf.format, bufopts)
+        -- vim.keymap.set('n', '<leader>lk', vim.lsp.buf.signature_help, bufopts)
+        -- vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
+        -- vim.keymap.set('n', '<leader>ne', vim.diagnostic.goto_next)
+        -- vim.keymap.set('n', '<leader>np', vim.diagnostic.goto_prev)
+        -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
@@ -234,12 +252,44 @@ return require('packer').startup(function(use)
         on_attach = lsp_on_attach,
       })
 
-      -- @see:
-      local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
+      -- -- NOTE: Diagnostics in gutter
+      -- -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
+      -- local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+      -- for type, icon in pairs(signs) do
+      --   local hl = "DiagnosticSign" .. type
+      --   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      -- end
+
+      -- -- NOTE: Icons in completion menu
+      -- -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#completion-kinds
+      -- local icons = {
+      --   Class = " ",
+      --   Color = " ",
+      --   Constant = " ",
+      --   Constructor = " ",
+      --   Enum = "了 ",
+      --   EnumMember = " ",
+      --   Field = " ",
+      --   File = " ",
+      --   Folder = " ",
+      --   Function = " ",
+      --   Interface = "ﰮ ",
+      --   Keyword = " ",
+      --   Method = "ƒ ",
+      --   Module = " ",
+      --   Property = " ",
+      --   Snippet = "﬌ ",
+      --   Struct = " ",
+      --   Text = " ",
+      --   Unit = " ",
+      --   Value = " ",
+      --   Variable = " ",
+      -- }
+      --
+      -- local kinds = vim.lsp.protocol.CompletionItemKind
+      -- for i, kind in ipairs(kinds) do
+      --   kinds[i] = icons[kind] or kind
+      -- end
     end
   })
 

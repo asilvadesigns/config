@@ -5,7 +5,7 @@ local cursorGroup = api.nvim_create_augroup('CursorLine', { clear = true })
 local helpGroup = api.nvim_create_augroup('HelpDocs', { clear = true })
 
 
--- enable absolute line numbering in normal mode
+-- NOTE: enable absolute line numbering in normal mode
 api.nvim_create_autocmd(
   { 'InsertEnter' },
   { pattern = '*', command = 'set number norelativenumber' }
@@ -16,7 +16,7 @@ api.nvim_create_autocmd(
   { pattern = '*', command = 'set nonumber relativenumber' }
 )
 
--- enable numbers in help buffer
+-- NOTE: enable numbers in help buffer
 api.nvim_create_autocmd(
   { 'WinEnter', 'BufEnter' },
   {
@@ -30,7 +30,7 @@ api.nvim_create_autocmd(
   }
 )
 
--- enable cursorline in active buffer except netrw
+-- NOTE: enable cursorline in active buffer except netrw
 api.nvim_create_autocmd(
   { 'WinEnter', 'BufEnter' },
   {
@@ -59,8 +59,38 @@ api.nvim_create_autocmd(
   }
 )
 
--- enable highlight on copy
+-- NOTE: enable highlight on copy
 api.nvim_create_autocmd(
   { 'TextYankPost' },
   { command = 'silent! lua vim.highlight.on_yank()', group = copyGroup }
 )
+-- NOTE: enable highlight symbol under cursor
+-- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
+-- if vim.lsp.client.server_capabilities.documentHighlightProvider then
+--   vim.cmd [[
+--     hi! LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+--     hi! LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+--     hi! LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+--   ]]
+--
+--   vim.api.nvim_create_augroup('lsp_document_highlight', {
+--     clear = false
+--   })
+--
+--   vim.api.nvim_clear_autocmds({
+--     buffer = bufnr,
+--     group = 'lsp_document_highlight',
+--   })
+--
+--   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+--     group = 'lsp_document_highlight',
+--     buffer = bufnr,
+--     callback = vim.lsp.buf.document_highlight,
+--   })
+--
+--   vim.api.nvim_create_autocmd('CursorMoved', {
+--     group = 'lsp_document_highlight',
+--     buffer = bufnr,
+--     callback = vim.lsp.buf.clear_references,
+--   })
+-- end
