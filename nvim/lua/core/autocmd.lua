@@ -13,7 +13,7 @@ api.nvim_create_autocmd(
 
 api.nvim_create_autocmd(
   { 'InsertLeave' },
-  { pattern = '*', command = 'set nonumber relativenumber' }
+  { pattern = '*', command = 'set number relativenumber' }
 )
 
 -- NOTE: enable numbers in help buffer

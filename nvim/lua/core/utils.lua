@@ -1,31 +1,42 @@
 local M = {}
 
-M.get_packer = function()
-  local fn = vim.fn
-  local notify = vim.notify
+local _state = {
+  should_sync = false
+}
 
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    notify('Packer Bootstrap:: not found, downloading...')
-    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-    notify('Packer Bootstrap:: done')
+M.get_packer = function()
+  local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  local is_not_installed = vim.fn.empty(vim.fn.glob(install_path)) > 0
+
+  if is_not_installed then
+    vim.notify('Packer not found! Downloading...')
+    vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    vim.notify('Packer done')
     vim.cmd [[packadd packer.nvim]]
-    return true
+    _state.should_sync = true
   end
-  return false
+
+  vim.api.nvim_create_user_command('Reload', M.reload, {})
+
+  return require('packer')
 end
 
 M.get_plugin = function(name)
-  print('debug:: looking for', name)
-
   local ok, plugin = pcall(require, name)
 
-  if (not ok) then
-    vim.notify('WARN:: '..name..' config not used')
-    return false, plugin
+  if not ok then
+    vim.notify('Plugin not found!', name)
   end
 
-  return true, plugin
+  return plugin
+end
+
+M.get_state = function()
+  return _state
+end
+
+M.reload = function()
+  require('packer').sync()
 end
 
 return M
