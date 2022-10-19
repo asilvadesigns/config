@@ -2,14 +2,14 @@
 -- @see: https://github.com/cseickel/dotfiles/blob/main/config/nvim/lua/status.lua
 -- @see: https://nihilistkitten.me/nvim-lua-statusline/
 local utils = require('core.utils')
-local icons = utils.get_plugin('nvim-web-devicons')
 
-if not icons then
+local devicons = utils.get_plugin('nvim-web-devicons')
+-- local fugitive = utils.get_plugin('vim-fugitive')
+
+if not devicons then
   print('no dev icons')
   return
 end
-
-print('got em!')
 
 local M = {}
 
@@ -22,7 +22,7 @@ M.get_icon = function()
   local cached = _cache[key]
 
   if not cached then 
-    local icon, color = icons.get_icon(key, ext, { default = true })
+    local icon, color = devicons.get_icon(key, ext, { default = true })
 
     if vim.bo.filetype == '' then return '' end
     cached = "%#" .. color .. "#" .. icon .. "%*"
@@ -34,5 +34,5 @@ end
 
 _G.status = M
 
-vim.opt.statusline = ''
+vim.opt.statusline = ' '
 vim.opt.winbar = '    %{%v:lua.status.get_icon()%} %f'

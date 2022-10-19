@@ -29,11 +29,24 @@ packer.use({
 })
 
 packer.use({
+  'kylechui/nvim-surround',
+  event = 'BufEnter',
+  config = function()
+    require('nvim-surround').setup()
+  end
+})
+
+packer.use({
   'numToStr/Comment.nvim',
   event = 'BufEnter',
   config = function()
     require('Comment').setup()
   end
+})
+
+packer.use({
+  'andymass/vim-matchup',
+  event = 'VimEnter',
 })
 
 packer.use({
@@ -58,6 +71,14 @@ packer.use({
   end
 })
 
+packer.use({
+  'neovim/nvim-lspconfig',
+  event = 'VimEnter',
+  config = function()
+    require('plugins.completion')
+  end
+})
+
 if (state.should_sync) then
   utils.reload()
 end
@@ -65,20 +86,6 @@ end
 -- at this point I know packer exists... but packer is asynchronous... so how can I react to a plugin being loaded....
 
 -- return require('packer').startup(function(use)
---   use({
---     'kylechui/nvim-surround',
---     config = function()
---       require('nvim-surround').setup()
---     end
---   })
--- 
---   use({
---     'numToStr/Comment.nvim',
---     config = function()
---       require('Comment').setup()
---     end
---   })
--- 
 --   use({
 --     'ishan9299/nvim-solarized-lua',
 --     config = function()
@@ -284,10 +291,6 @@ end
 --       --   kinds[i] = icons[kind] or kind
 --       -- end
 --     end
---   })
--- 
---   use({
---     'tpope/vim-fugitive',
 --   })
 -- 
 --   -- if ready then

@@ -25,9 +25,12 @@ M.get_plugin = function(name)
   local ok, plugin = pcall(require, name)
 
   if not ok then
-    vim.notify('Plugin not found!', name)
+    vim.notify('Plugin not found::'..name)
     return false
   end
+
+
+  vim.notify('Plugin loaded::'..name)
 
   return plugin
 end
