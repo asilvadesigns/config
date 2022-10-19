@@ -7,12 +7,51 @@ packer.init()
 
 packer.use('nathom/filetype.nvim')
 packer.use('nvim-lua/plenary.nvim')
-packer.use('nvim-tree/nvim-web-devicons')
 packer.use('rmagatti/auto-session')
 packer.use('wbthomason/packer.nvim')
 
 packer.use({
+  'max397574/better-escape.nvim',
+  event = 'InsertEnter',
+  config = function()
+    require("better_escape").setup({
+      mapping = { "kj" },
+    })
+  end
+})
+
+packer.use({
+  'windwp/nvim-autopairs',
+  event = 'InsertEnter',
+  config = function()
+    require('nvim-autopairs').setup()
+  end
+})
+
+packer.use({
+  'numToStr/Comment.nvim',
+  event = 'BufEnter',
+  config = function()
+    require('Comment').setup()
+  end
+})
+
+packer.use({
+  'tpope/vim-fugitive',
+  event = 'VimEnter',
+})
+
+packer.use({
+  'nvim-tree/nvim-web-devicons',
+  event = 'VimEnter',
+  config = function()
+    require('plugins.statusline')
+  end
+})
+
+packer.use({
   'navarasu/onedark.nvim',
+  event = 'VimEnter',
   config = function()
     require('onedark').setup({ style = 'dark' })
     require('onedark').load()
@@ -23,32 +62,9 @@ if (state.should_sync) then
   utils.reload()
 end
 
-require('plugins.statusline')
+-- at this point I know packer exists... but packer is asynchronous... so how can I react to a plugin being loaded....
 
 -- return require('packer').startup(function(use)
---   use({
---     'max397574/better-escape.nvim',
---     config = function()
---       require("better_escape").setup({
---         mapping = { "kj" },
---       })
---     end
---   })
--- 
---   use({
---     'kyazdani42/nvim-web-devicons',
---     config = function()
---       require('nvim-web-devicons').setup()
---     end
---   })
--- 
---   use({
---     'windwp/nvim-autopairs',
---     config = function()
---       require('nvim-autopairs').setup()
---     end
---   })
--- 
 --   use({
 --     'kylechui/nvim-surround',
 --     config = function()
@@ -68,35 +84,6 @@ require('plugins.statusline')
 --     config = function()
 --       -- NOTE: disabled for now
 --       -- vim.cmd('colorscheme solarized-flat')
---     end
---   })
--- 
---   use({
---     'nvim-lualine/lualine.nvim',
---     config = function()
---       require('lualine').setup({
---         extensions = { 'fugitive' },
---         options = {
---           component_separators = { left = '', right = '' },
---           section_separators = { left = '', right = '' },
---           globalstatus = true,
---         },
---         sections = {
---           lualine_a = {},
---           lualine_b = { 'branch' },
---           lualine_c = {},
---           lualine_x = {},
---           lualine_y = {},
---           lualine_z = {}
---         },
---         tabline = {},
---         winbar = {
---           lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 3 } },
---         },
---         inactive_winbar = {
---           lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 3 } },
---         }
---       })
 --     end
 --   })
 -- 

@@ -4,7 +4,12 @@
 local utils = require('core.utils')
 local icons = utils.get_plugin('nvim-web-devicons')
 
-if not icons then return end
+if not icons then
+  print('no dev icons')
+  return
+end
+
+print('got em!')
 
 local M = {}
 

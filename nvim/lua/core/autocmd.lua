@@ -4,7 +4,6 @@ local copyGroup = api.nvim_create_augroup('YankHighlight', { clear = true })
 local cursorGroup = api.nvim_create_augroup('CursorLine', { clear = true })
 local helpGroup = api.nvim_create_augroup('HelpDocs', { clear = true })
 
-
 -- NOTE: enable absolute line numbering in normal mode
 api.nvim_create_autocmd(
   { 'InsertEnter' },
@@ -64,6 +63,7 @@ api.nvim_create_autocmd(
   { 'TextYankPost' },
   { command = 'silent! lua vim.highlight.on_yank()', group = copyGroup }
 )
+
 -- NOTE: enable highlight symbol under cursor
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#highlight-symbol-under-cursor
 -- if vim.lsp.client.server_capabilities.documentHighlightProvider then

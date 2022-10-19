@@ -1,6 +1,6 @@
 local M = {}
 
-local _state = {
+local state = {
   should_sync = false
 }
 
@@ -10,10 +10,10 @@ M.get_packer = function()
 
   if is_not_installed then
     vim.notify('Packer not found! Downloading...')
-    vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    vim.api.nvim_command('! git clone https://github.com/wbthomason/packer.nvim --depth=1 '..install_path)
     vim.notify('Packer done')
     vim.cmd [[packadd packer.nvim]]
-    _state.should_sync = true
+    state.should_sync = true
   end
 
   vim.api.nvim_create_user_command('Reload', M.reload, {})
@@ -26,13 +26,14 @@ M.get_plugin = function(name)
 
   if not ok then
     vim.notify('Plugin not found!', name)
+    return false
   end
 
   return plugin
 end
 
 M.get_state = function()
-  return _state
+  return state
 end
 
 M.reload = function()
