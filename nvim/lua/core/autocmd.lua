@@ -3,8 +3,9 @@ local api = vim.api
 local copyGroup = api.nvim_create_augroup('YankHighlight', { clear = true })
 local cursorGroup = api.nvim_create_augroup('CursorLine', { clear = true })
 local helpGroup = api.nvim_create_augroup('HelpDocs', { clear = true })
-
 local loadGroup = api.nvim_create_augroup('Loaders', { clear = true })
+
+-- NOTE: just delaying the inevitable. TJ does not approve.
 api.nvim_create_autocmd(
   { 'User' },
   { pattern = 'Priority1', command = '', group = loadGroup }
