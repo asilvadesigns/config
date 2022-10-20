@@ -4,12 +4,9 @@
 local utils = require('core.utils')
 
 local devicons = utils.get_plugin('nvim-web-devicons')
--- local fugitive = utils.get_plugin('vim-fugitive')
+if not devicons then return end
 
-if not devicons then
-  print('no dev icons')
-  return
-end
+-- local fugitive = utils.get_plugin('vim-fugitive')
 
 local M = {}
 
@@ -21,7 +18,7 @@ M.get_icon = function()
 
   local cached = _cache[key]
 
-  if not cached then 
+  if not cached then
     local icon, color = devicons.get_icon(key, ext, { default = true })
 
     if vim.bo.filetype == '' then return '' end

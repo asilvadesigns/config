@@ -4,6 +4,33 @@ local copyGroup = api.nvim_create_augroup('YankHighlight', { clear = true })
 local cursorGroup = api.nvim_create_augroup('CursorLine', { clear = true })
 local helpGroup = api.nvim_create_augroup('HelpDocs', { clear = true })
 
+local loadGroup = api.nvim_create_augroup('Loaders', { clear = true })
+api.nvim_create_autocmd(
+  { 'User' },
+  { pattern = 'Priority1', command = '', group = loadGroup }
+)
+
+api.nvim_create_autocmd(
+  { 'User' },
+  { pattern = 'Priority2', command = '', group = loadGroup }
+)
+
+api.nvim_create_autocmd(
+  { 'UIEnter' },
+  {
+    pattern = '*',
+    callback = function()
+      vim.defer_fn(function()
+        vim.api.nvim_exec([[ doautocmd User Priority1 ]], false)
+      end, 10)
+
+      vim.defer_fn(function()
+        vim.api.nvim_exec([[ doautocmd User Priority2 ]], false)
+      end, 20)
+    end
+  }
+)
+
 -- NOTE: enable absolute line numbering in normal mode
 api.nvim_create_autocmd(
   { 'InsertEnter' },

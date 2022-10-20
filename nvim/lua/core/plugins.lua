@@ -7,64 +7,17 @@ packer.init()
 
 packer.use('nathom/filetype.nvim')
 packer.use('nvim-lua/plenary.nvim')
-packer.use('rmagatti/auto-session')
 packer.use('wbthomason/packer.nvim')
 
 packer.use({
-  'max397574/better-escape.nvim',
-  event = 'InsertEnter',
+  'rmagatti/auto-session',
   config = function()
-    require("better_escape").setup({
-      mapping = { "kj" },
-    })
-  end
-})
-
-packer.use({
-  'windwp/nvim-autopairs',
-  event = 'InsertEnter',
-  config = function()
-    require('nvim-autopairs').setup()
-  end
-})
-
-packer.use({
-  'kylechui/nvim-surround',
-  event = 'BufEnter',
-  config = function()
-    require('nvim-surround').setup()
-  end
-})
-
-packer.use({
-  'numToStr/Comment.nvim',
-  event = 'BufEnter',
-  config = function()
-    require('Comment').setup()
-  end
-})
-
-packer.use({
-  'andymass/vim-matchup',
-  event = 'VimEnter',
-})
-
-packer.use({
-  'tpope/vim-fugitive',
-  event = 'VimEnter',
-})
-
-packer.use({
-  'nvim-tree/nvim-web-devicons',
-  event = 'VimEnter',
-  config = function()
-    require('plugins.statusline')
+    require('auto-session').setup({ log_level = 'error' })
   end
 })
 
 packer.use({
   'navarasu/onedark.nvim',
-  event = 'VimEnter',
   config = function()
     require('onedark').setup({ style = 'dark' })
     require('onedark').load()
@@ -72,8 +25,57 @@ packer.use({
 })
 
 packer.use({
+  'nvim-tree/nvim-web-devicons',
+  config = function()
+    require('plugins.statusline')
+  end
+})
+
+packer.use({
+  'max397574/better-escape.nvim',
+  event = { 'User PackerComplete', 'User Priority1' },
+  config = function()
+    require("better_escape").setup({ mapping = { "kj" }, })
+  end
+})
+
+packer.use({
+  'windwp/nvim-autopairs',
+  event = { 'User PackerComplete', 'User Priority1' },
+  config = function()
+    require('nvim-autopairs').setup()
+  end
+})
+
+packer.use({
+  'kylechui/nvim-surround',
+  event = { 'User PackerComplete', 'User Priority1' },
+  config = function()
+    require('nvim-surround').setup()
+  end
+})
+
+packer.use({
+  'andymass/vim-matchup',
+  event = { 'User PackerComplete', 'User Priority1' },
+})
+
+packer.use({
+  'tpope/vim-fugitive',
+  event = { 'User PackerComplete', 'User Priority1' },
+})
+
+packer.use({
+  'numToStr/Comment.nvim',
+  event = { 'User PackerComplete', 'User Priority1' },
+  config = function()
+    require('Comment').setup()
+  end
+})
+
+packer.use({
   'neovim/nvim-lspconfig',
-  event = 'VimEnter',
+  event = { 'User PackerComplete', 'User Priority2' },
   config = function()
     require('plugins.completion')
   end
@@ -93,7 +95,7 @@ end
 --       -- vim.cmd('colorscheme solarized-flat')
 --     end
 --   })
--- 
+--
 --   use({
 --     'nvim-telescope/telescope.nvim',
 --     config = function()
@@ -108,13 +110,13 @@ end
 --           sorting_strategy = "ascending",
 --         }
 --       })
--- 
+--
 --       function project_files()
 --         local opts = {}
 --         local git_ok = pcall(require('telescope.builtin').git_files, opts)
 --         if not git_ok then require('telescope.builtin').find_files(opts) end
 --       end
--- 
+--
 --       vim.keymap.set('n', '<LEADER>a', '<CMD>Telescope commands<CR>')
 --       vim.keymap.set('n', '<LEADER>b', '<CMD>Telescope buffers<CR>')
 --       vim.keymap.set('n', '<LEADER>c', '<CMD>Telescope colorscheme<CR>')
@@ -123,7 +125,7 @@ end
 --       vim.keymap.set('n', '<LEADER>l', '<CMD>Telescope current_buffer_fuzzy_find<CR>')
 --     end
 --   })
--- 
+--
 --   use({
 --     'kyazdani42/nvim-tree.lua',
 --     config = function()
@@ -141,19 +143,19 @@ end
 --         },
 --         view = { width = 40 },
 --       })
--- 
+--
 --       vim.keymap.set('n', '<C-S-j>', '<CMD>NvimTreeToggle<CR>')
 --       vim.keymap.set('n', '<LEADER>j', '<CMD>NvimTreeFindFile<CR>')
 --     end
 --   })
--- 
+--
 --   use({
 --     'folke/trouble.nvim',
 --     config = function ()
 --       require("trouble").setup({})
 --     end
 --   })
--- 
+--
 --   use({
 --     'neovim/nvim-lspconfig',
 --     requires = {
@@ -169,7 +171,7 @@ end
 --     config = function()
 --       local cmp = require('cmp')
 --       local lspconfig = require('lspconfig')
--- 
+--
 --       cmp.setup({
 --         snippet = {
 --           -- REQUIRED - you must specify a snippet engine
@@ -196,15 +198,15 @@ end
 --           { name = 'path' },
 --         })
 --       })
--- 
+--
 --       local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
 --       local lsp_flags = { debounce_text_changes = 150 }
 --       local lsp_on_attach = function(client, bufnr)
 --         local bufopts = { noremap = true, silent = true, buffer = bufnr }
--- 
+--
 --         -- Enable completion triggered by <c-x><c-o>
 --         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
--- 
+--
 --         -- vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, bufopts)
 --         -- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 --         -- vim.keymap.set('n', '<leader>m', vim.lsp.buf.format, bufopts)
@@ -219,7 +221,7 @@ end
 --         vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
 --         vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
 --       end
--- 
+--
 --       -- NOTE: available servers
 --       -- @see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 --       require('lspconfig')['jsonls'].setup({
@@ -227,7 +229,7 @@ end
 --         flags = lsp_flags,
 --         on_attach = lsp_on_attach,
 --       })
--- 
+--
 --       -- @see: https://github.com/sumneko/lua-language-server
 --       require('lspconfig')['sumneko_lua'].setup({
 --         capabilities = lsp_capabilities,
@@ -244,14 +246,14 @@ end
 --           }
 --         }
 --       })
--- 
+--
 --       -- @see: https://github.com/typescript-language-server/typescript-language-server
 --       require('lspconfig')['tsserver'].setup({
 --         capabilities = lsp_capabilities,
 --         flags = lsp_flags,
 --         on_attach = lsp_on_attach,
 --       })
--- 
+--
 --       -- -- NOTE: Diagnostics in gutter
 --       -- -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
 --       -- local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -259,7 +261,7 @@ end
 --       --   local hl = "DiagnosticSign" .. type
 --       --   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 --       -- end
--- 
+--
 --       -- -- NOTE: Icons in completion menu
 --       -- -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#completion-kinds
 --       -- local icons = {
@@ -292,7 +294,7 @@ end
 --       -- end
 --     end
 --   })
--- 
+--
 --   -- if ready then
 --   --   require('packer').sync()
 --   -- end

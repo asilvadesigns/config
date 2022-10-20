@@ -4,6 +4,26 @@ local lspconfig = utils.get_plugin('lspconfig')
 
 if (not lspconfig) then return end
 
+vim.diagnostic.config({
+  virtual_text = false
+})
+
+-- NOTE: Diagnostics in gutter
+-- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
+local signs = {
+  Error = " ",
+  Hint = " ",
+  Info = " ",
+  Warn = " ",
+}
+
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+-- NOTE: see all servers!
+-- @see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local options = {
   capabilities = vim.lsp.protocol.make_client_capabilities(),
   flags = { debounce_text_changes = 150 },
@@ -13,24 +33,21 @@ local options = {
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    -- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-    -- vim.keymap.set('n', '<leader>m', vim.lsp.buf.format, bufopts)
     -- vim.keymap.set('n', '<leader>lk', vim.lsp.buf.signature_help, bufopts)
     -- vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
     -- vim.keymap.set('n', '<leader>ne', vim.diagnostic.goto_next)
     -- vim.keymap.set('n', '<leader>np', vim.diagnostic.goto_prev)
     -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', '<leader>m', vim.lsp.buf.format, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'ge', vim.diagnostic.open_float)
     vim.keymap.set('n', 'gh', vim.lsp.buf.hover, bufopts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
     vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, bufopts)
   end
 }
-
--- NOTE: see all servers!
--- @see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
 -- NOTE: Server for JSON
 -- @see: https://github.com/hrsh7th/vscode-langservers-extracted
@@ -65,17 +82,3 @@ lspconfig['tsserver'].setup({
   flags = options.flags,
   on_attach = options.on_attach,
 })
-
--- NOTE: Diagnostics in gutter
--- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
-local signs = {
-  Error = " ",
-  Hint = " ",
-  Info = " ",
-  Warn = " ",
-}
-
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
