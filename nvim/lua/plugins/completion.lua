@@ -1,7 +1,6 @@
 local utils = require('core.utils')
 
 local lspconfig = utils.get_plugin('lspconfig')
-
 if (not lspconfig) then return end
 
 vim.diagnostic.config({

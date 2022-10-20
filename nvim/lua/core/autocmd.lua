@@ -8,12 +8,17 @@ local loadGroup = api.nvim_create_augroup('Loaders', { clear = true })
 -- NOTE: just delaying the inevitable. TJ does not approve.
 api.nvim_create_autocmd(
   { 'User' },
-  { pattern = 'Priority1', command = '', group = loadGroup }
+  { pattern = 'Priority1', group = loadGroup, command = '' }
 )
 
 api.nvim_create_autocmd(
   { 'User' },
-  { pattern = 'Priority2', command = '', group = loadGroup }
+  { pattern = 'Priority2', group = loadGroup, command = '' }
+)
+
+api.nvim_create_autocmd(
+  { 'User' },
+  { pattern = 'Priority3', group = loadGroup, command = '' }
 )
 
 api.nvim_create_autocmd(
@@ -23,11 +28,15 @@ api.nvim_create_autocmd(
     callback = function()
       vim.defer_fn(function()
         vim.api.nvim_exec([[ doautocmd User Priority1 ]], false)
-      end, 10)
+      end, 20)
 
       vim.defer_fn(function()
         vim.api.nvim_exec([[ doautocmd User Priority2 ]], false)
-      end, 20)
+      end, 40)
+
+      vim.defer_fn(function()
+        vim.api.nvim_exec([[ doautocmd User Priority3 ]], false)
+      end, 60)
     end
   }
 )

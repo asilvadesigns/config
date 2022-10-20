@@ -67,7 +67,7 @@ packer.use({
 
 packer.use({
   'numToStr/Comment.nvim',
-  event = { 'User PackerComplete', 'User Priority1' },
+  event = { 'User PackerComplete', 'User Priority2' },
   config = function()
     require('Comment').setup()
   end
@@ -78,6 +78,28 @@ packer.use({
   event = { 'User PackerComplete', 'User Priority2' },
   config = function()
     require('plugins.completion')
+  end
+})
+
+packer.use({
+  'folke/trouble.nvim',
+  event = { 'User PackerComplete', 'User Priority2' },
+  config = function()
+    require('trouble').setup({})
+  end
+})
+
+packer.use({
+  'nvim-telescope/telescope-fzf-native.nvim',
+  run = 'make',
+  event = { 'User PackerComplete', 'User Priority3' },
+})
+
+packer.use({
+  'nvim-telescope/telescope.nvim',
+  event = { 'User PackerComplete', 'User Priority3' },
+  config = function()
+    require('plugins.telescope')
   end
 })
 
@@ -146,13 +168,6 @@ end
 --
 --       vim.keymap.set('n', '<C-S-j>', '<CMD>NvimTreeToggle<CR>')
 --       vim.keymap.set('n', '<LEADER>j', '<CMD>NvimTreeFindFile<CR>')
---     end
---   })
---
---   use({
---     'folke/trouble.nvim',
---     config = function ()
---       require("trouble").setup({})
 --     end
 --   })
 --
