@@ -13,8 +13,8 @@ local M = {}
 local _cache = {}
 
 M.get_icon = function()
-  local ext = vim.fn.expand("%:e") -- file extension
-  local key = vim.fn.expand("%:t") -- file name
+  local ext = vim.fn.expand('%:e') -- file extension
+  local key = vim.fn.expand('%:t') -- file name
 
   local cached = _cache[key]
 
@@ -22,14 +22,18 @@ M.get_icon = function()
     local icon, color = devicons.get_icon(key, ext, { default = true })
 
     if vim.bo.filetype == '' then return '' end
-    cached = "%#" .. color .. "#" .. icon .. "%*"
+    cached = '%#' .. color .. '#' .. icon .. '%*'
     _cache[key] = cached
   end
 
   return cached
 end
 
+M.get_mod = function()
+  return '%m'
+end
+
 _G.status = M
 
 vim.opt.statusline = ' '
-vim.opt.winbar = '    %{%v:lua.status.get_icon()%} %f'
+vim.opt.winbar = '    %{%v:lua.status.get_icon()%} %f %{%v:lua.status.get_mod()%}'

@@ -28,15 +28,15 @@ api.nvim_create_autocmd(
     callback = function()
       vim.defer_fn(function()
         vim.api.nvim_exec([[ doautocmd User Priority1 ]], false)
-      end, 20)
+      end, 10)
 
       vim.defer_fn(function()
         vim.api.nvim_exec([[ doautocmd User Priority2 ]], false)
-      end, 40)
+      end, 20)
 
       vim.defer_fn(function()
         vim.api.nvim_exec([[ doautocmd User Priority3 ]], false)
-      end, 60)
+      end, 30)
     end
   }
 )
