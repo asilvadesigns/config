@@ -1,0 +1,219 @@
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.026  000.026: --- NVIM STARTING ---
+000.317  000.292: event init
+000.581  000.264: early init
+001.929  001.348: locale set
+002.003  000.074: init first window
+003.030  001.028: inits 1
+003.057  000.026: window checked
+003.063  000.007: parsing arguments
+003.646  000.083  000.083: require('vim.shared')
+003.771  000.047  000.047: require('vim._meta')
+003.774  000.123  000.076: require('vim._editor')
+003.776  000.249  000.043: require('vim._init_packages')
+003.792  000.479: init lua interpreter
+004.397  000.606: expanding arguments
+004.454  000.057: inits 2
+004.756  000.302: init highlight
+004.758  000.002: waiting for UI
+008.359  003.600: done waiting for UI
+008.376  000.018: clear screen
+008.600  000.224: init default mappings
+008.619  000.018: init default autocommands
+011.594  000.446  000.446: sourcing /usr/local/share/nvim/runtime/ftplugin.vim
+012.304  000.283  000.283: sourcing /usr/local/share/nvim/runtime/indent.vim
+013.964  000.572  000.572: require('core.autocmd')
+014.499  000.010  000.010: require('vim.keymap')
+014.715  000.747  000.737: require('core.keymaps')
+015.527  000.809  000.809: require('core.options')
+016.221  000.448  000.448: require('core.utils')
+018.896  000.768  000.768: require('packer.util')
+018.931  002.653  001.885: require('packer')
+021.408  001.034  001.034: require('packer.log')
+021.415  001.516  000.483: require('packer.async')
+022.437  000.411  000.411: require('packer.result')
+022.441  001.024  000.613: require('packer.jobs')
+022.446  003.470  000.929: require('packer.plugin_utils')
+023.026  000.553  000.553: require('packer.snapshot')
+023.115  007.584  000.461: require('core.plugins')
+023.117  010.154  000.441: sourcing /Users/albertos/.config/nvim/init.lua
+023.142  003.641: sourcing vimrc file(s)
+023.825  000.324  000.324: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/start/filetype.nvim/filetype.vim
+024.609  000.370  000.370: sourcing /usr/local/share/nvim/runtime/filetype.lua
+026.006  000.349  000.349: sourcing /usr/local/share/nvim/runtime/syntax/synload.vim
+026.297  001.337  000.988: sourcing /usr/local/share/nvim/runtime/syntax/syntax.vim
+029.910  000.320  000.320: sourcing /usr/local/share/nvim/runtime/plugin/gzip.vim
+030.425  000.256  000.256: sourcing /usr/local/share/nvim/runtime/plugin/health.vim
+030.757  000.107  000.107: sourcing /usr/local/share/nvim/runtime/plugin/matchit.vim
+031.065  000.077  000.077: sourcing /usr/local/share/nvim/runtime/plugin/matchparen.vim
+032.219  000.852  000.852: sourcing /usr/local/share/nvim/runtime/plugin/netrwPlugin.vim
+033.226  000.231  000.231: sourcing /Users/albertos/.local/share/nvim/rplugin.vim
+033.255  000.770  000.539: sourcing /usr/local/share/nvim/runtime/plugin/rplugin.vim
+033.675  000.175  000.175: sourcing /usr/local/share/nvim/runtime/plugin/shada.vim
+034.050  000.121  000.121: sourcing /usr/local/share/nvim/runtime/plugin/spellfile.vim
+034.448  000.118  000.118: sourcing /usr/local/share/nvim/runtime/plugin/tarPlugin.vim
+034.848  000.111  000.111: sourcing /usr/local/share/nvim/runtime/plugin/tohtml.vim
+035.356  000.184  000.184: sourcing /usr/local/share/nvim/runtime/plugin/tutor.vim
+035.920  000.134  000.134: sourcing /usr/local/share/nvim/runtime/plugin/zipPlugin.vim
+042.258  000.531  000.531: require('auto-session-library')
+042.566  000.305  000.305: require('auto-session-autocmds')
+042.600  004.174  003.339: require('auto-session')
+044.684  001.632  001.632: require('nvim-web-devicons')
+044.716  002.090  000.458: require('plugins.statusline')
+047.174  000.461  000.461: require('cmp.utils.debug')
+048.131  000.387  000.387: require('cmp.utils.char')
+048.138  000.961  000.574: require('cmp.utils.str')
+048.465  000.326  000.326: require('cmp.utils.pattern')
+049.935  000.563  000.563: require('cmp.utils.misc')
+050.282  000.343  000.343: require('cmp.utils.buffer')
+050.668  000.383  000.383: require('cmp.utils.api')
+050.675  001.877  000.588: require('cmp.utils.keymap')
+050.679  002.211  000.335: require('cmp.utils.feedkeys')
+051.164  000.437  000.437: require('cmp.utils.async')
+052.573  000.471  000.471: require('cmp.types.cmp')
+053.091  000.514  000.514: require('cmp.types.lsp')
+053.450  000.354  000.354: require('cmp.types.vim')
+053.453  001.724  000.385: require('cmp.types')
+053.942  000.487  000.487: require('cmp.utils.cache')
+053.947  002.779  000.569: require('cmp.context')
+056.175  000.555  000.555: require('cmp.config.mapping')
+057.198  000.577  000.577: require('cmp.config.compare')
+057.202  001.022  000.445: require('cmp.config.default')
+057.216  002.490  000.912: require('cmp.config')
+058.699  000.628  000.628: require('cmp.matcher')
+058.705  001.487  000.859: require('cmp.entry')
+058.711  004.763  000.786: require('cmp.source')
+059.881  000.353  000.353: require('cmp.utils.event')
+060.915  000.612  000.612: require('cmp.utils.window')
+060.919  001.035  000.423: require('cmp.view.docs_view')
+062.053  000.361  000.361: require('cmp.utils.autocmd')
+062.070  001.149  000.789: require('cmp.view.custom_entries_view')
+062.689  000.617  000.617: require('cmp.view.wildmenu_entries_view')
+063.222  000.530  000.530: require('cmp.view.native_entries_view')
+063.648  000.422  000.422: require('cmp.view.ghost_text_view')
+063.666  004.953  000.846: require('cmp.view')
+063.726  017.780  000.889: require('cmp.core')
+064.178  000.344  000.344: require('cmp.config.sources')
+064.570  000.388  000.388: require('cmp.config.window')
+064.642  019.663  001.152: require('cmp')
+065.747  000.566  000.566: require('cmp_nvim_lsp.source')
+065.751  001.107  000.541: require('cmp_nvim_lsp')
+072.980  000.941  000.941: require('vim.lsp.log')
+074.266  000.009  000.009: require('vim.F')
+074.270  001.286  001.277: require('vim.lsp.protocol')
+076.912  000.792  000.792: require('vim.lsp._snippet')
+078.123  001.208  001.208: require('vim.highlight')
+078.144  003.872  001.872: require('vim.lsp.util')
+078.166  007.289  001.190: require('vim.lsp.handlers')
+079.183  001.015  001.015: require('vim.lsp.rpc')
+079.918  000.731  000.731: require('vim.lsp.sync')
+080.911  000.989  000.989: require('vim.lsp.buf')
+081.554  000.640  000.640: require('vim.lsp.diagnostic')
+082.266  000.708  000.708: require('vim.lsp.codelens')
+082.325  013.804  002.432: require('vim.lsp')
+082.453  015.216  001.413: require('lspconfig.util')
+082.458  016.151  000.934: require('lspconfig.configs')
+082.461  016.707  000.557: require('lspconfig')
+083.116  000.647  000.647: require('packer.load')
+088.642  006.179  005.531: require('lspkind')
+094.811  000.584  000.584: require('luasnip.util.types')
+095.573  000.759  000.759: require('luasnip.util.ext_opts')
+097.435  001.859  001.859: require('luasnip.extras.filetype_functions')
+098.026  000.588  000.588: require('luasnip.session')
+101.054  001.213  001.213: require('luasnip.util.util')
+102.047  000.991  000.991: require('luasnip.nodes.util')
+103.008  000.957  000.957: require('luasnip.util.events')
+103.025  004.005  000.845: require('luasnip.nodes.node')
+103.605  000.517  000.517: require('luasnip.util.extend_decorator')
+103.614  005.586  001.063: require('luasnip.nodes.insertNode')
+105.193  000.577  000.577: require('luasnip.util.mark')
+106.865  000.439  000.439: require('luasnip.nodes.textNode')
+108.900  001.451  001.451: require('luasnip.util._builtin_vars')
+109.006  000.094  000.094: require('vim.inspect')
+109.076  002.207  000.662: require('luasnip.util.environ')
+109.645  000.566  000.566: require('luasnip.util.pattern_tokenizer')
+110.143  000.496  000.496: require('luasnip.util.dict')
+110.776  000.630  000.630: require('luasnip.session.snippet_collection')
+110.871  005.675  001.338: require('luasnip.nodes.snippet')
+110.879  007.263  001.011: require('luasnip.nodes.choiceNode')
+111.620  000.734  000.734: require('luasnip.nodes.functionNode')
+112.350  000.727  000.727: require('luasnip.nodes.dynamicNode')
+113.038  000.685  000.685: require('luasnip.nodes.restoreNode')
+113.646  000.606  000.606: require('luasnip.extras')
+114.824  000.430  000.430: require('luasnip.util.str')
+114.829  001.179  000.749: require('luasnip.extras.fmt')
+116.044  000.409  000.409: require('luasnip.extras.conditions')
+116.503  000.430  000.430: require('luasnip.extras.conditions.show')
+116.648  001.449  000.610: require('luasnip.extras.conditions.expand')
+116.651  001.821  000.372: require('luasnip.extras.expand_conditions')
+119.250  001.104  001.104: require('luasnip.util.parser.neovim_ast')
+120.970  000.604  000.604: require('luasnip.util.directed_graph')
+120.979  003.708  002.000: require('luasnip.util.parser.ast_utils')
+122.195  000.496  000.496: require('luasnip.util.functions')
+122.202  001.222  000.725: require('luasnip.util.parser.ast_parser')
+122.931  000.727  000.727: require('luasnip.util.parser.neovim_parser')
+122.976  006.322  000.666: require('luasnip.util.parser')
+123.463  000.486  000.486: require('luasnip.nodes.absolute_indexer')
+123.766  032.877  003.679: require('luasnip.config')
+123.841  033.376  000.499: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/opt/LuaSnip/plugin/luasnip.vim
+124.670  000.113  000.113: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/opt/LuaSnip/ftdetect/snippets.vim
+126.875  000.426  000.426: require('luasnip.loaders._caches')
+127.401  000.522  000.522: require('luasnip.util.path')
+127.423  001.528  000.580: require('luasnip.loaders')
+127.441  038.794  003.778: require('luasnip')
+130.096  001.866  001.866: require('vim.diagnostic')
+130.716  000.580  000.580: require('lspconfig.server_configurations.jsonls')
+131.995  000.738  000.738: require('lspconfig.server_configurations.sumneko_lua')
+132.833  000.567  000.567: require('lspconfig.server_configurations.tsserver')
+133.058  088.338  002.136: require('plugins.completion')
+133.734  000.671  000.671: require('onedark')
+136.970  000.386  000.386: require('onedark')
+139.640  000.590  000.590: require('onedark.palette')
+139.736  001.160  000.570: require('onedark.colors')
+140.377  000.633  000.633: require('onedark.util')
+140.459  003.112  001.319: require('onedark.highlights')
+143.172  000.436  000.436: require('onedark.terminal')
+143.187  007.413  003.478: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/start/onedark.nvim/colors/onedark.lua
+144.159  000.889  000.889: require('filetype')
+144.197  107.634  004.058: sourcing /Users/albertos/.config/nvim/plugin/packer_compiled.lua
+145.775  000.231  000.231: sourcing /usr/local/share/nvim/runtime/plugin/man.lua
+145.835  009.574: loading rtp plugins
+147.034  000.234  000.234: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/start/auto-session/plugin/auto-session.vim
+149.705  000.328  000.328: require('cmp.utils.highlight')
+150.057  000.961  000.633: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/start/nvim-cmp/plugin/cmp.lua
+151.670  000.580  000.580: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/start/nvim-lspconfig/plugin/lspconfig.lua
+152.528  000.164  000.164: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/start/nvim-web-devicons/plugin/nvim-web-devicons.vim
+154.316  000.332  000.332: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/start/plenary.nvim/plugin/plenary.vim
+155.224  007.117: loading packages
+156.774  000.390  000.390: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp/after/plugin/cmp_nvim_lsp.lua
+158.317  000.704  000.704: require('cmp_luasnip')
+158.360  001.094  000.390: sourcing /Users/albertos/.local/share/nvim/site/pack/packer/start/cmp_luasnip/after/plugin/cmp_luasnip.lua
+158.374  001.666: loading after plugins
+158.387  000.013: inits 3
+162.011  003.624: reading ShaDa
+163.523  000.660  000.660: require('luasnip.loaders.util')
+163.528  001.452  000.791: require('luasnip.loaders.from_lua')
+164.774  000.432  000.432: require('luasnip.nodes.snippetProxy')
+164.778  001.148  000.716: require('luasnip.loaders.from_snipmate')
+165.375  000.573  000.573: require('luasnip.loaders.from_vscode')
+165.428  000.244: opening buffers
+165.476  000.048: BufEnter autocommands
+165.481  000.005: editing files in windows
+200.554  001.419  001.419: require('filetype.mappings.extensions')
+201.569  000.106  000.106: sourcing /usr/local/share/nvim/runtime/ftplugin/lua.vim
+203.347  000.108  000.108: sourcing /usr/local/share/nvim/runtime/ftplugin/lua.lua
+204.613  000.075  000.075: sourcing /usr/local/share/nvim/runtime/indent/lua.vim
+206.224  000.839  000.839: sourcing /usr/local/share/nvim/runtime/syntax/lua.vim
+208.702  000.883  000.883: require('vim.uri')
+212.650  000.786  000.786: sourcing /usr/local/share/nvim/runtime/autoload/provider/clipboard.vim
+213.348  046.443  042.227: sourcing /Users/albertos/.local/share/nvim/sessions/%Users%albertos%.config.vim
+213.385  001.461: VimEnter autocommands
+213.422  000.037: UIEnter autocommands
+213.425  000.004: before starting main loop
+223.862  010.436: first screen update
+223.865  000.003: --- NVIM STARTED ---

@@ -22,21 +22,30 @@ api.nvim_create_autocmd(
 )
 
 api.nvim_create_autocmd(
+  { 'User' },
+  { pattern = 'Priority4', group = loadGroup, command = '' }
+)
+
+api.nvim_create_autocmd(
   { 'UIEnter' },
   {
     pattern = '*',
     callback = function()
       vim.defer_fn(function()
         vim.api.nvim_exec([[ doautocmd User Priority1 ]], false)
-      end, 10)
+      end, 25)
 
       vim.defer_fn(function()
         vim.api.nvim_exec([[ doautocmd User Priority2 ]], false)
-      end, 20)
+      end, 50)
 
       vim.defer_fn(function()
         vim.api.nvim_exec([[ doautocmd User Priority3 ]], false)
-      end, 30)
+      end, 75)
+
+      vim.defer_fn(function()
+        vim.api.nvim_exec([[ doautocmd User Priority4 ]], false)
+      end, 100)
     end
   }
 )

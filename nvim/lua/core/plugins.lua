@@ -81,32 +81,71 @@ packer.use({
   end
 })
 
-packer.use({ 'L3MON4D3/LuaSnip', module = 'luasnip', opt = true })
-packer.use({ 'onsails/lspkind.nvim', module = 'lspkind', opt = true })
+-- Completion
+packer.use({
+  'L3MON4D3/LuaSnip',
+  event = { 'User PackerComplete', 'User Priority3' },
+})
 
 packer.use({
-  'hrsh7th/nvim-cmp',
-  requires = {
+  'saadparwaiz1/cmp_luasnip',
+  event = { 'User PackerComplete', 'User Priority3' },
+})
+
+packer.use({
+  'onsails/lspkind.nvim',
+  event = { 'User PackerComplete', 'User Priority3' },
+})
+
+packer.use({
+  'neovim/nvim-lspconfig',
+  {
+    'hrsh7th/nvim-cmp',
     'hrsh7th/cmp-nvim-lsp',
-    'neovim/nvim-lspconfig',
-    'saadparwaiz1/cmp_luasnip',
   },
+  event = { 'User PackerComplete', 'User Priority3' },
   config = function()
     require('plugins.completion')
   end
 })
 
+-- Navigation
 packer.use({
   'nvim-telescope/telescope.nvim',
   requires = {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make',
   },
-  event = { 'User PackerComplete', 'User Priority3' },
+  event = { 'User PackerComplete', 'User Priority4' },
   config = function()
     require('plugins.telescope')
   end
 })
+
+packer.use({
+  'kyazdani42/nvim-tree.lua',
+  event = { 'User PackerComplete', 'User Priority4' },
+  config = function()
+    require('nvim-tree').setup({
+      respect_buf_cwd = true,
+      update_cwd = true,
+      update_focused_file = {
+        enable = true,
+        ignore_list = {},
+        update_cwd = true,
+      },
+      git = {
+        enable = false,
+        ignore = false
+      },
+      view = { width = 40 },
+    })
+
+    vim.keymap.set('n', '<C-S-j>', '<CMD>NvimTreeToggle<CR>')
+    vim.keymap.set('n', '<LEADER>j', '<CMD>NvimTreeFindFile<CR>')
+  end
+})
+
 
 if (state.should_sync) then
   utils.reload()
@@ -119,26 +158,4 @@ end
 --    -- vim.cmd('colorscheme solarized-flat')
 --  end
 --})
---
---use({
---  'kyazdani42/nvim-tree.lua',
---  config = function()
---    require('nvim-tree').setup({
---      respect_buf_cwd = true,
---      update_cwd = true,
---      update_focused_file = {
---        enable = true,
---        ignore_list = {},
---        update_cwd = true,
---      },
---      git = {
---        enable = false,
---        ignore = false
---      },
---      view = { width = 40 },
---    })
---
---    vim.keymap.set('n', '<C-S-j>', '<CMD>NvimTreeToggle<CR>')
---    vim.keymap.set('n', '<LEADER>j', '<CMD>NvimTreeFindFile<CR>')
---  end
 --})
