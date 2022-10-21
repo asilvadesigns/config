@@ -29,11 +29,12 @@ M.get_icon = function()
   return cached
 end
 
-M.get_mod = function()
-  return '%m'
-end
+-- M.get_mod = function()
+--   return '%m'
+-- end
 
 _G.status = M
 
 vim.opt.statusline = ' '
-vim.opt.winbar = '    %{%v:lua.status.get_icon()%} %f %{%v:lua.status.get_mod()%}'
+-- vim.opt.winbar = '    %{%v:lua.status.get_icon()%} %f %{%v:lua.status.get_mod()%}'
+vim.opt.winbar = '    %{%v:lua.status.get_icon()%} %f'

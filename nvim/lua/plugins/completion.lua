@@ -1,60 +1,51 @@
-local utils = require('core.utils')
+-- local utils = require('core.utils')
 
-local cmp = utils.get_plugin('cmp')
-if (not cmp) then return end
+-- local cmp = utils.get_plugin('cmp')
+-- if (not cmp) then return end
 
-local cmplsp = utils.get_plugin('cmp_nvim_lsp')
-if (not cmplsp) then return end
+-- local cmplsp = utils.get_plugin('cmp_nvim_lsp')
+-- if (not cmplsp) then return end
 
-local lspconfig = utils.get_plugin('lspconfig')
-if (not lspconfig) then return end
-
-local lspkind = utils.get_plugin('lspkind')
-if (not lspkind) then return end
-
-local luasnip = utils.get_plugin('luasnip')
-if (not luasnip) then return end
+-- local lspconfig = utils.get_plugin('lspconfig')
+-- if (not lspconfig) then return end
 
 -- NOTE: setup completion
 -- @see: https://github.com/hrsh7th/nvim-cmp#setup
-cmp.setup({
-  formatting = {
-    format = lspkind.cmp_format({
-      mode = 'symbol', -- show only symbol annotations
-      maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-      ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-
-      -- The function below will be called before any actual modifications from lspkind
-      -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-      before = function(entry, vim_item)
-        return vim_item
-      end
-    })
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-  }),
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-  }, {
-    { name = 'buffer' },
-    { name = 'path' },
-  }),
-  window = {
-    -- completion = cmp.config.window.bordered(),
-    -- documentation = cmp.config.window.bordered(),
-  },
-})
+-- cmp.setup({
+--   -- formatting = {
+--   --   format = require('lspkind').cmp_format({
+--   --     mode = 'symbol', -- show only symbol annotations
+--   --     maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+--   --     ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+-- 
+--   --     -- The function below will be called before any actual modifications from lspkind
+--   --     -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+--   --     before = function(entry, vim_item)
+--   --       return vim_item
+--   --     end
+--   --   })
+--   -- },
+--   mapping = cmp.mapping.preset.insert({
+--     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+--     ['<C-f>'] = cmp.mapping.scroll_docs(4),
+--     ['<C-Space>'] = cmp.mapping.complete(),
+--     ['<C-e>'] = cmp.mapping.abort(),
+--     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+--   }),
+--   snippet = {
+--     expand = function(args)
+--       require('luasnip').lsp_expand(args.body)
+--     end,
+--   },
+--   sources = cmp.config.sources({
+--     { name = 'nvim_lsp' },
+--     { name = 'luasnip' },
+--   }),
+--   window = {
+--     completion = cmp.config.window.bordered(),
+--     documentation = cmp.config.window.bordered(),
+--   },
+-- })
 
 -- NOTE: Hide ugly inline diagnostic info
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#customizing-how-diagnostics-are-displayed
@@ -79,8 +70,13 @@ end
 -- NOTE: see all servers!
 -- @see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local options = {
-  capabilities = cmplsp.default_capabilities(),
-  flags = { debounce_text_changes = 150 },
+  capabilities = vim.lsp.protocol.make_client_capabilities(),
+  -- vim.tbl_deep_extend(
+  --   'force',
+  --   lspconfig.util.default_config,
+  --   require('cmp_nvim_lsp').default_capabilities()
+  -- ),
+  flags = { debounce_text_changes = 50 },
   on_attach = function(client, bufnr)
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
@@ -105,7 +101,7 @@ local options = {
 
 -- NOTE: Server for JSON
 -- @see: https://github.com/hrsh7th/vscode-langservers-extracted
-lspconfig['jsonls'].setup({
+require('lspconfig')['jsonls'].setup({
   capabilities = options.capabilities,
   flags = options.flags,
   on_attach = options.on_attach,
@@ -113,7 +109,7 @@ lspconfig['jsonls'].setup({
 
 -- NOTE: Server for Lua
 -- @see: https://github.com/sumneko/lua-language-server
-lspconfig['sumneko_lua'].setup({
+require('lspconfig')['sumneko_lua'].setup({
   capabilities = options.capabilities,
   flags = options.flags,
   on_attach = options.on_attach,
@@ -131,7 +127,7 @@ lspconfig['sumneko_lua'].setup({
 
 -- NOTE: Server for TypeScript
 -- @see: https://github.com/typescript-language-server/typescript-language-server
-lspconfig['tsserver'].setup({
+require('lspconfig')['tsserver'].setup({
   capabilities = options.capabilities,
   flags = options.flags,
   on_attach = options.on_attach,

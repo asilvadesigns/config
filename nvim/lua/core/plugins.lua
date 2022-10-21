@@ -16,6 +16,13 @@ packer.use({
   end
 })
 
+-- packer.use({
+--   'j-hui/fidget.nvim',
+--   config = function()
+--     require('fidget').setup()
+--   end
+-- })
+
 packer.use({
   'navarasu/onedark.nvim',
   config = function()
@@ -81,34 +88,23 @@ packer.use({
   end
 })
 
+--
 -- Completion
 packer.use({
-  'L3MON4D3/LuaSnip',
-  event = { 'User PackerComplete', 'User Priority3' },
-})
-
-packer.use({
-  'saadparwaiz1/cmp_luasnip',
-  event = { 'User PackerComplete', 'User Priority3' },
-})
-
-packer.use({
-  'onsails/lspkind.nvim',
-  event = { 'User PackerComplete', 'User Priority3' },
-})
-
-packer.use({
   'neovim/nvim-lspconfig',
-  {
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-nvim-lsp',
-  },
   event = { 'User PackerComplete', 'User Priority3' },
   config = function()
     require('plugins.completion')
   end
 })
 
+-- packer.use({ 'L3MON4D3/LuaSnip', after = 'lspconfig' })
+-- packer.use({ 'onsails/lspkind', after = 'LuaSnip' })
+-- packer.use({ 'hrsh7th/nvim-cmp', after = 'neovim/nvim-lspconfig' })
+-- packer.use({ 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' })
+-- packer.use({ 'hrsh7th/cmp-nvim-lsp' , after = "cmp_luasnip", })
+
+--
 -- Navigation
 packer.use({
   'nvim-telescope/telescope.nvim',
@@ -145,7 +141,6 @@ packer.use({
     vim.keymap.set('n', '<LEADER>j', '<CMD>NvimTreeFindFile<CR>')
   end
 })
-
 
 if (state.should_sync) then
   utils.reload()
