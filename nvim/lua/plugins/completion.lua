@@ -3,9 +3,6 @@ local utils = require('core.utils')
 local cmp = utils.get_plugin('cmp')
 if (not cmp) then return end
 
--- local cmplsp = utils.get_plugin('cmp_nvim_lsp')
--- if (not cmplsp) then return end
-
 local lspconfig = utils.get_plugin('lspconfig')
 if (not lspconfig) then return end
 
@@ -117,11 +114,6 @@ end
 -- @see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 local options = {
   capabilities = vim.lsp.protocol.make_client_capabilities(),
-  -- vim.tbl_deep_extend(
-  --   'force',
-  --   lspconfig.util.default_config,
-  --   require('cmp_nvim_lsp').default_capabilities()
-  -- ),
   flags = { debounce_text_changes = 50 },
   on_attach = function(client, bufnr)
 

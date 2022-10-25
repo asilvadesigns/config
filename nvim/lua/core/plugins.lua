@@ -40,6 +40,23 @@ packer.use({
 })
 
 packer.use({
+  'nvim-lua/lsp-status.nvim',
+  event = { 'User PackerComplete', 'User Priority1' },
+  config = function()
+    local lsp_status = require('lsp-status')
+    lsp_status.register_progress()
+  end
+})
+
+packer.use({
+  'j-hui/fidget.nvim',
+  event = { 'User PackerComplete', 'User Priority1' },
+  config = function()
+    require('fidget').setup()
+  end
+})
+
+packer.use({
   'tpope/vim-fugitive',
   event = { 'User PackerComplete', 'User Priority2' },
 })
@@ -57,8 +74,10 @@ packer.use({
 packer.use({
   'hrsh7th/nvim-cmp',
   event = { 'User PackerComplete', 'User Priority3' },
-  wants = { 'LuaSnip' },
-  requires = { 'L3MON4D3/LuaSnip', 'neovim/nvim-lspconfig' },
+  requires = {
+    'L3MON4D3/LuaSnip',
+    'neovim/nvim-lspconfig',
+  },
   config = function()
     require('plugins.completion')
   end,
@@ -121,7 +140,6 @@ packer.use({
     require('Comment').setup()
   end
 })
-
 
 if (state.should_sync) then
   utils.reload()
