@@ -57,6 +57,14 @@ packer.use({
 })
 
 packer.use({
+  'NvChad/nvim-colorizer.lua',
+  event = { 'User PackerComplete', 'User Priority2' },
+  config = function ()
+    require('colorizer').setup()
+  end
+})
+
+packer.use({
   'tpope/vim-fugitive',
   event = { 'User PackerComplete', 'User Priority2' },
 })
