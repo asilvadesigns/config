@@ -1,7 +1,8 @@
 local M = {}
 
 local state = {
-  should_sync = false
+  should_sync = false,
+  last_win = ''
 }
 
 M.get_packer = function()
@@ -33,6 +34,10 @@ end
 
 M.get_state = function()
   return state
+end
+
+M.set_last = function(input)
+  state.last_win = input
 end
 
 M.reload = function()

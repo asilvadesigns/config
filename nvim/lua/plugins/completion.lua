@@ -1,51 +1,97 @@
--- local utils = require('core.utils')
+local utils = require('core.utils')
 
--- local cmp = utils.get_plugin('cmp')
--- if (not cmp) then return end
+local cmp = utils.get_plugin('cmp')
+if (not cmp) then return end
 
 -- local cmplsp = utils.get_plugin('cmp_nvim_lsp')
 -- if (not cmplsp) then return end
 
--- local lspconfig = utils.get_plugin('lspconfig')
--- if (not lspconfig) then return end
+local lspconfig = utils.get_plugin('lspconfig')
+if (not lspconfig) then return end
 
 -- NOTE: setup completion
 -- @see: https://github.com/hrsh7th/nvim-cmp#setup
--- cmp.setup({
---   -- formatting = {
---   --   format = require('lspkind').cmp_format({
---   --     mode = 'symbol', -- show only symbol annotations
---   --     maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
---   --     ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
--- 
---   --     -- The function below will be called before any actual modifications from lspkind
---   --     -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
---   --     before = function(entry, vim_item)
---   --       return vim_item
---   --     end
---   --   })
---   -- },
---   mapping = cmp.mapping.preset.insert({
---     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
---     ['<C-f>'] = cmp.mapping.scroll_docs(4),
---     ['<C-Space>'] = cmp.mapping.complete(),
---     ['<C-e>'] = cmp.mapping.abort(),
---     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
---   }),
---   snippet = {
---     expand = function(args)
---       require('luasnip').lsp_expand(args.body)
---     end,
---   },
---   sources = cmp.config.sources({
---     { name = 'nvim_lsp' },
---     { name = 'luasnip' },
---   }),
---   window = {
---     completion = cmp.config.window.bordered(),
---     documentation = cmp.config.window.bordered(),
---   },
--- })
+cmp.setup({
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  }),
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  }),
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+})
+
+-- -- NOTE: Completion Icons
+-- -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#completion-kinds
+-- local icons = {
+--   Class = " ",
+--   Color = " ",
+--   Constant = " ",
+--   Constructor = " ",
+--   Enum = "了 ",
+--   EnumMember = " ",
+--   Field = " ",
+--   File = " ",
+--   Folder = " ",
+--   Function = " ",
+--   Interface = "ﰮ ",
+--   Keyword = " ",
+--   Method = "ƒ ",
+--   Module = " ",
+--   Property = " ",
+--   Snippet = "﬌ ",
+--   Struct = " ",
+--   Text = " ",
+--   Unit = " ",
+--   Value = " ",
+--   Variable = " ",
+-- }
+--
+-- local kinds = vim.lsp.protocol.CompletionItemKind
+-- for i, kind in ipairs(kinds) do
+--   kinds[i] = icons[kind] or kind
+-- end
+
+vim.lsp.protocol.CompletionItemKind = {
+  '', -- Text
+  '', -- Method
+  '', -- Function
+  '', -- Constructor
+  '', -- Field
+  '', -- Variable
+  '', -- Class
+  'ﰮ', -- Interface
+  '', -- Module
+  '', -- Property
+  '', -- Unit
+  '', -- Value
+  '', -- Enum
+  '', -- Keyword
+  '﬌', -- Snippet
+  '', -- Color
+  '', -- File
+  '', -- Reference
+  '', -- Folder
+  '', -- EnumMember
+  '', -- Constant
+  '', -- Struct
+  '', -- Event
+  'ﬦ', -- Operator
+  '', -- TypeParameter
+}
 
 -- NOTE: Hide ugly inline diagnostic info
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#customizing-how-diagnostics-are-displayed
@@ -78,6 +124,7 @@ local options = {
   -- ),
   flags = { debounce_text_changes = 50 },
   on_attach = function(client, bufnr)
+
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
     -- Enable completion triggered by <c-x><c-o>
@@ -101,7 +148,7 @@ local options = {
 
 -- NOTE: Server for JSON
 -- @see: https://github.com/hrsh7th/vscode-langservers-extracted
-require('lspconfig')['jsonls'].setup({
+lspconfig['jsonls'].setup({
   capabilities = options.capabilities,
   flags = options.flags,
   on_attach = options.on_attach,
@@ -109,7 +156,7 @@ require('lspconfig')['jsonls'].setup({
 
 -- NOTE: Server for Lua
 -- @see: https://github.com/sumneko/lua-language-server
-require('lspconfig')['sumneko_lua'].setup({
+lspconfig['sumneko_lua'].setup({
   capabilities = options.capabilities,
   flags = options.flags,
   on_attach = options.on_attach,
@@ -127,7 +174,7 @@ require('lspconfig')['sumneko_lua'].setup({
 
 -- NOTE: Server for TypeScript
 -- @see: https://github.com/typescript-language-server/typescript-language-server
-require('lspconfig')['tsserver'].setup({
+lspconfig['tsserver'].setup({
   capabilities = options.capabilities,
   flags = options.flags,
   on_attach = options.on_attach,

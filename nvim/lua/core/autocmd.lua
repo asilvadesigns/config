@@ -1,9 +1,11 @@
+local utils = require('core.utils')
 local api = vim.api
 
 local copyGroup = api.nvim_create_augroup('YankHighlight', { clear = true })
 local cursorGroup = api.nvim_create_augroup('CursorLine', { clear = true })
 local helpGroup = api.nvim_create_augroup('HelpDocs', { clear = true })
 local loadGroup = api.nvim_create_augroup('Loaders', { clear = true })
+local saveGroup = api.nvim_create_augroup('Save', { clear = true })
 
 -- NOTE: just delaying the inevitable. TJ does not approve.
 api.nvim_create_autocmd(
@@ -82,7 +84,6 @@ api.nvim_create_autocmd(
     pattern = '*',
     callback = function()
       if vim.bo.filetype ~= "NvimTree" then
-        -- vim.notify('enter:: not nvim tree')
         vim.cmd('setlocal cursorline')
       end
     end,
@@ -96,7 +97,6 @@ api.nvim_create_autocmd(
     pattern = '*',
     callback = function()
       if vim.bo.filetype ~= "NvimTree" then
-        -- vim.notify('leave:: not nvim tree')
         vim.cmd('setlocal nocursorline')
       end
     end,
@@ -108,6 +108,21 @@ api.nvim_create_autocmd(
 api.nvim_create_autocmd(
   { 'TextYankPost' },
   { command = 'silent! lua vim.highlight.on_yank()', group = copyGroup }
+)
+
+-- NOTE: save last buffer
+api.nvim_create_autocmd(
+  { 'BufLeave' },
+  {
+    pattern = '*',
+    callback = function()
+      if vim.bo.filetype ~= "NvimTree" then
+        local new_id = vim.api.nvim_get_current_win()
+        utils.set_last(new_id)
+      end
+    end,
+    group = saveGroup
+  }
 )
 
 -- NOTE: enable highlight symbol under cursor
