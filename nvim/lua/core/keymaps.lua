@@ -15,7 +15,7 @@ vim.keymap.set('n', '<leader>d', ':bdelete<cr>')
 local escape = function()
   if (vim.bo.filetype == 'NvimTree') then
     local state = utils.get_state()
-    vim.cmd('call win_gotoid('..state.last_win..')')
+    vim.cmd("execute bufwinnr("..state.last_buf..") 'wincmd w'")
   end
 end
 

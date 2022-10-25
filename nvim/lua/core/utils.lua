@@ -2,7 +2,7 @@ local M = {}
 
 local state = {
   should_sync = false,
-  last_win = ''
+  last_buf = ''
 }
 
 M.get_packer = function()
@@ -37,7 +37,7 @@ M.get_state = function()
 end
 
 M.set_last = function(input)
-  state.last_win = input
+  state.last_buf = input
 end
 
 M.reload = function()

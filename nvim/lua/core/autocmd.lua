@@ -117,8 +117,8 @@ api.nvim_create_autocmd(
     pattern = '*',
     callback = function()
       if vim.bo.filetype ~= "NvimTree" then
-        local new_id = vim.api.nvim_get_current_win()
-        utils.set_last(new_id)
+        local test_id = vim.api.nvim_exec('echo bufnr()', true)
+        utils.set_last(test_id)
       end
     end,
     group = saveGroup
