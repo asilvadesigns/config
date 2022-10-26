@@ -43,4 +43,5 @@ telescope.load_extension('fzf')
 
 vim.keymap.set('n', '<LEADER>a', '<CMD>Telescope commands<CR>')
 vim.keymap.set('n', '<LEADER>b', '<CMD>Telescope builtin<CR>')
+vim.keymap.set('n', '<LEADER>e', '<CMD>Telescope oldfiles<CR>')
 vim.keymap.set('n', '<LEADER>f', '<CMD>Telescope find_files<CR>')

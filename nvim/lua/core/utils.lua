@@ -42,21 +42,20 @@ M.reload = function()
 end
 
 -- isolated module START
-local tool_buffers = {
+local tool_windows = {
   NvimTree = true,
   Trouble = true,
+  qf = true,
 }
 
--- if vim.bo.filetype == "NvimTree" then
--- if vim.bo.filetype ~= "NvimTree" then
 M.get_prev = function()
-  if (tool_buffers[vim.bo.filetype]) then
+  if (tool_windows[vim.bo.filetype]) then
     vim.cmd("execute bufwinnr(" .. state.last_buf .. ") 'wincmd w'")
   end
 end
 
 M.set_prev = function()
-  if (not tool_buffers[vim.bo.filetype]) then
+  if (not tool_windows[vim.bo.filetype]) then
     state.last_buf = vim.api.nvim_exec('echo bufnr()', true)
   end
 end

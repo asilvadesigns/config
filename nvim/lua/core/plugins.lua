@@ -12,7 +12,9 @@ packer.use('wbthomason/packer.nvim')
 packer.use({
   'rmagatti/auto-session',
   config = function()
-    require('auto-session').setup({ log_level = 'error' })
+    require('auto-session').setup({
+      log_level = 'error'
+    })
   end
 })
 
@@ -32,19 +34,19 @@ packer.use({
 })
 
 packer.use({
-  'kyazdani42/nvim-tree.lua',
+  'ishan9299/nvim-solarized-lua',
   event = { 'User PackerComplete', 'User Priority1' },
   config = function()
-    require('plugins.tree')
+    -- NOTE: disabled for now
+    -- vim.cmd('colorscheme solarized-flat')
   end
 })
 
 packer.use({
-  'nvim-lua/lsp-status.nvim',
+  'kyazdani42/nvim-tree.lua',
   event = { 'User PackerComplete', 'User Priority1' },
   config = function()
-    local lsp_status = require('lsp-status')
-    lsp_status.register_progress()
+    require('plugins.tree')
   end
 })
 
@@ -159,15 +161,26 @@ packer.use({
   end
 })
 
+packer.use({
+  'ggandor/leap.nvim',
+  event = { 'User PackerComplete', 'User Priority4' },
+  config = function()
+    require('plugins.leap')
+  end
+})
+
+packer.use({
+  'kazhala/close-buffers.nvim',
+  event = { 'User PackerComplete', 'User Priority4' },
+  config = function()
+    require('close_buffers').setup({
+      filetype_ignore = { 'NvimTree' }
+    })
+
+    vim.keymap.set('n', '<C-w>o', '<CMD>BDelete other<CR>')
+  end
+})
+
 if (state.should_sync) then
   utils.reload()
 end
-
---use({
---  'ishan9299/nvim-solarized-lua',
---  config = function()
---    -- NOTE: disabled for now
---    -- vim.cmd('colorscheme solarized-flat')
---  end
---})
---})

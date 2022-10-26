@@ -22,7 +22,7 @@ M.get_icon = function()
     local icon, color = devicons.get_icon(key, ext, { default = true })
 
     if vim.bo.filetype == '' then return '' end
-    cached = '%#' .. color .. '#' .. icon .. '%*'
+    cached = '%#' .. color .. '# ' .. icon .. ' %*'
     _cache[key] = cached
   end
 
@@ -35,6 +35,39 @@ end
 
 _G.status = M
 
+-- vim.opt.statusline = ' '
+-- function statusline()
+--   return table.concat({
+--     '%#Normal# ',
+--     '%{%v:lua.status.get_icon()%}',
+--     '%#Normal#',
+--     '%f',
+--   })
+-- end
+
 vim.opt.statusline = ' '
--- vim.opt.winbar = '    %{%v:lua.status.get_icon()%} %f %{%v:lua.status.get_mod()%}'
-vim.opt.winbar = '    %{%v:lua.status.get_icon()%} %f'
+-- vim.opt.winbar = '%{%v:lua.status.get_icon()%} %f'
+
+-- NOTE: update winbar
+-- TODO: doesn't work with telescope
+-- vim.api.nvim_create_autocmd(
+--   {
+--     "BufFilePost",
+--     "BufWinEnter",
+--     "BufWritePost",
+--     "BufEnter",
+--     "UIEnter",
+--     -- "CursorMoved",
+--     -- "InsertEnter",
+--   },
+--   {
+--     pattern = '*',
+--     callback = function()
+--       if (vim.bo.filetype == 'NvimTree') then
+--         return
+--       end
+--
+--       vim.api.nvim_set_option_value('winbar', ' %f', { scope = 'local' })
+--     end
+--   }
+-- )

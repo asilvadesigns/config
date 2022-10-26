@@ -4,6 +4,10 @@ local tree = utils.get_plugin('nvim-tree')
 if (not tree) then return end
 
 tree.setup({
+  git = {
+    enable = true,
+    ignore = true
+  },
   respect_buf_cwd = true,
   update_cwd = true,
   update_focused_file = {
@@ -11,11 +15,19 @@ tree.setup({
     ignore_list = {},
     update_cwd = false,
   },
-  git = {
-    enable = false,
-    ignore = false
+  renderer = {
+    indent_width = 1,
+    indent_markers = {
+      enable = false,
+    },
+    icons = {
+      git_placement = "after",
+    }
   },
-  view = { width = 40 },
+  view = {
+    hide_root_folder = true,
+    width = 40
+  },
 })
 
 vim.keymap.set('n', '<C-S-j>', '<CMD>NvimTreeToggle<CR>')
