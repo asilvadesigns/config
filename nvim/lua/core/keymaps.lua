@@ -12,19 +12,12 @@ vim.keymap.set('n', '<S-l>', ':bnext<cr>')
 vim.keymap.set('n', '<S-h>', ':bprevious<cr>')
 vim.keymap.set('n', '<leader>d', ':bdelete<cr>')
 
-local escape = function()
-  if (vim.bo.filetype == 'NvimTree') then
-    local state = utils.get_state()
-    vim.cmd("execute bufwinnr("..state.last_buf..") 'wincmd w'")
-  end
-end
-
 -- navigation in windows
 vim.keymap.set('n', '<C-h>', '<C-w>h')
 vim.keymap.set('n', '<C-j>', '<C-w>j')
 vim.keymap.set('n', '<C-k>', '<C-w>k')
 vim.keymap.set('n', '<C-l>', '<C-w>l')
-vim.keymap.set('n', '<esc>', escape)
+vim.keymap.set('n', '<esc>', utils.get_prev)
 
 -- navigation with mouse
 vim.keymap.set('n', '<ScrollWheelUp>', '<C-y>')

@@ -52,15 +52,23 @@ packer.use({
   'j-hui/fidget.nvim',
   event = { 'User PackerComplete', 'User Priority1' },
   config = function()
-    require('fidget').setup()
+    require('fidget').setup({})
+  end
+})
+
+packer.use({
+  'folke/zen-mode.nvim',
+  event = { 'User PackerComplete', 'User Priority1' },
+  config = function()
+    require('zen-mode').setup({})
   end
 })
 
 packer.use({
   'NvChad/nvim-colorizer.lua',
   event = { 'User PackerComplete', 'User Priority2' },
-  config = function ()
-    require('colorizer').setup()
+  config = function()
+    require('colorizer').setup({})
   end
 })
 
@@ -73,7 +81,9 @@ packer.use({
   'folke/trouble.nvim',
   event = { 'User PackerComplete', 'User Priority2' },
   config = function()
-    require('trouble').setup()
+    require('trouble').setup({
+      auto_preview = false,
+    })
   end
 })
 

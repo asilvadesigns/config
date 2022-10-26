@@ -6,12 +6,12 @@ local state = {
 }
 
 M.get_packer = function()
-  local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
   local is_not_installed = vim.fn.empty(vim.fn.glob(install_path)) > 0
 
   if is_not_installed then
     vim.notify('Packer not found! Downloading...')
-    vim.api.nvim_command('! git clone https://github.com/wbthomason/packer.nvim --depth=1 '..install_path)
+    vim.api.nvim_command('! git clone https://github.com/wbthomason/packer.nvim --depth=1 ' .. install_path)
     vim.notify('Packer done')
     vim.cmd [[packadd packer.nvim]]
     state.should_sync = true
@@ -36,13 +36,30 @@ M.get_state = function()
   return state
 end
 
-M.set_last = function(input)
-  state.last_buf = input
-end
 
 M.reload = function()
   require('packer').sync()
 end
 
-return M
+-- isolated module START
+local tool_buffers = {
+  NvimTree = true,
+  Trouble = true,
+}
 
+-- if vim.bo.filetype == "NvimTree" then
+-- if vim.bo.filetype ~= "NvimTree" then
+M.get_prev = function()
+  if (tool_buffers[vim.bo.filetype]) then
+    vim.cmd("execute bufwinnr(" .. state.last_buf .. ") 'wincmd w'")
+  end
+end
+
+M.set_prev = function()
+  if (not tool_buffers[vim.bo.filetype]) then
+    state.last_buf = vim.api.nvim_exec('echo bufnr()', true)
+  end
+end
+-- isolated module END
+
+return M

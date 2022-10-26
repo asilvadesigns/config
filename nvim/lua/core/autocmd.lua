@@ -110,17 +110,12 @@ api.nvim_create_autocmd(
   { command = 'silent! lua vim.highlight.on_yank()', group = copyGroup }
 )
 
--- NOTE: save last buffer
+-- NOTE: save previous buffer
 api.nvim_create_autocmd(
   { 'BufLeave' },
   {
     pattern = '*',
-    callback = function()
-      if vim.bo.filetype ~= "NvimTree" then
-        local test_id = vim.api.nvim_exec('echo bufnr()', true)
-        utils.set_last(test_id)
-      end
-    end,
+    callback = utils.set_prev,
     group = saveGroup
   }
 )

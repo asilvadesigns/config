@@ -99,10 +99,10 @@ vim.diagnostic.config({
 -- NOTE: Diagnostics in gutter
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
 local signs = {
-  Error = " ",
-  Hint = " ",
-  Info = " ",
-  Warn = " ",
+  Error = "",
+  Hint = "",
+  Info = "",
+  Warn = "",
 }
 
 for type, icon in pairs(signs) do
