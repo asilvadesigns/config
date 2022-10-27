@@ -8,25 +8,11 @@ local loadGroup = api.nvim_create_augroup('Loaders', { clear = true })
 local saveGroup = api.nvim_create_augroup('Save', { clear = true })
 
 -- NOTE: just delaying the inevitable. TJ does not approve.
-api.nvim_create_autocmd(
-  { 'User' },
-  { pattern = 'Priority1', group = loadGroup, command = '' }
-)
-
-api.nvim_create_autocmd(
-  { 'User' },
-  { pattern = 'Priority2', group = loadGroup, command = '' }
-)
-
-api.nvim_create_autocmd(
-  { 'User' },
-  { pattern = 'Priority3', group = loadGroup, command = '' }
-)
-
-api.nvim_create_autocmd(
-  { 'User' },
-  { pattern = 'Priority4', group = loadGroup, command = '' }
-)
+api.nvim_create_autocmd({ 'User' }, { pattern = 'Priority1', group = loadGroup, command = '' })
+api.nvim_create_autocmd({ 'User' }, { pattern = 'Priority2', group = loadGroup, command = '' })
+api.nvim_create_autocmd({ 'User' }, { pattern = 'Priority3', group = loadGroup, command = '' })
+api.nvim_create_autocmd({ 'User' }, { pattern = 'Priority4', group = loadGroup, command = '' })
+api.nvim_create_autocmd({ 'User' }, { pattern = 'Priority5', group = loadGroup, command = '' })
 
 api.nvim_create_autocmd(
   { 'UIEnter' },
@@ -48,6 +34,10 @@ api.nvim_create_autocmd(
       vim.defer_fn(function()
         vim.api.nvim_exec([[ doautocmd User Priority4 ]], false)
       end, 40)
+
+      vim.defer_fn(function()
+        vim.api.nvim_exec([[ doautocmd User Priority5 ]], false)
+      end, 50)
     end
   }
 )

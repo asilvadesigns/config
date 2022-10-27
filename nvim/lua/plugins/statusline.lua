@@ -3,6 +3,24 @@ local utils = require('core.utils')
 local lualine = utils.get_plugin('lualine')
 if not lualine then return end
 
+local statusline = {
+  lualine_a = {},
+  lualine_b = { 'branch' },
+  lualine_c = {},
+  lualine_x = {},
+  lualine_y = {},
+  lualine_z = {}
+}
+
+local winbar = {
+  lualine_a = {},
+  lualine_b = { { 'filetype', icon_only = true }, 'filename' },
+  lualine_c = {},
+  lualine_x = {},
+  lualine_y = {},
+  lualine_z = {}
+}
+
 lualine.setup({
   options = {
     icons_enabled = true,
@@ -10,10 +28,7 @@ lualine.setup({
     component_separators = { left = '', right = '' },
     section_separators = { left = '', right = '' },
     disabled_filetypes = {
-      statusline = {
-        'NvimTree',
-        'Trouble'
-      },
+      statusline = {},
       winbar = {
         'NvimTree',
         'Trouble'
@@ -28,24 +43,10 @@ lualine.setup({
       winbar = 1000,
     }
   },
-  sections = {},
-  inactive_sections = {},
-  tabline = {},
-  winbar = {
-    lualine_a = {},
-    lualine_b = { { 'filetype', icon_only = true }, 'filename' },
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = {}
-  },
-  inactive_winbar = {
-    lualine_a = {},
-    lualine_b = { { 'filetype', icon_only = true }, 'filename' },
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = {}
-  },
-  extensions = {}
+  -- statusline
+  sections = statusline,
+  inactive_sections = statusline,
+  -- winbar
+  winbar = winbar,
+  inactive_winbar = winbar,
 })

@@ -60,7 +60,7 @@ packer.use({
   'j-hui/fidget.nvim',
   event = { 'User PackerComplete', 'User Priority1' },
   config = function()
-    require('fidget').setup({})
+    require('fidget').setup()
   end
 })
 
@@ -68,7 +68,7 @@ packer.use({
   'NvChad/nvim-colorizer.lua',
   event = { 'User PackerComplete', 'User Priority2' },
   config = function()
-    require('colorizer').setup({})
+    require('colorizer').setup()
   end
 })
 
@@ -175,7 +175,20 @@ packer.use({
       filetype_ignore = { 'NvimTree' }
     })
 
-    vim.keymap.set('n', '<C-w>o', '<CMD>BDelete other<CR>')
+    vim.keymap.set(
+      'n',
+      '<C-w>o',
+      "<CMD>lua require('close_buffers').delete({ type = 'other' })<CR>",
+      { noremap = true, silent = true }
+    )
+  end
+})
+
+packer.use({
+  'nvim-pack/nvim-spectre',
+  event = { 'User PackerComplete', 'User Priority5' },
+  config = function()
+    require('spectre').setup()
   end
 })
 
