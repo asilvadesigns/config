@@ -20,17 +20,14 @@ packer.use({
 })
 
 packer.use({
+  'nvim-tree/nvim-web-devicons',
+})
+
+packer.use({
   'navarasu/onedark.nvim',
   config = function()
     require('onedark').setup({ style = 'dark' })
     require('onedark').load()
-  end
-})
-
-packer.use({
-  'nvim-tree/nvim-web-devicons',
-  config = function()
-    require('plugins.statusline')
   end
 })
 
@@ -52,18 +49,18 @@ packer.use({
 })
 
 packer.use({
-  'j-hui/fidget.nvim',
+  'nvim-lualine/lualine.nvim',
   event = { 'User PackerComplete', 'User Priority1' },
   config = function()
-    require('fidget').setup({})
+    require('plugins.statusline')
   end
 })
 
 packer.use({
-  'folke/zen-mode.nvim',
+  'j-hui/fidget.nvim',
   event = { 'User PackerComplete', 'User Priority1' },
   config = function()
-    require('zen-mode').setup({})
+    require('fidget').setup({})
   end
 })
 
