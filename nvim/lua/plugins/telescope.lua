@@ -31,6 +31,11 @@ telescope.setup({
       override_generic_sorter = true, -- override the generic sorter
     }
   },
+  pickers = {
+    oldfiles = {
+      only_cwd = true
+    }
+  }
 })
 
 telescope.load_extension('fzf')

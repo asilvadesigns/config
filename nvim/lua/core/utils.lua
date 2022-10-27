@@ -36,7 +36,6 @@ M.get_state = function()
   return state
 end
 
-
 M.reload = function()
   require('packer').sync()
 end
