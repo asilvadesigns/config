@@ -49,6 +49,7 @@ vim.opt.smartcase = true
 vim.opt.smartindent = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.statusline = '_'
 vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true

@@ -44,6 +44,7 @@ end
 local tool_windows = {
   NvimTree = true,
   Trouble = true,
+  ctrlsf = true,
   qf = true,
 }
 

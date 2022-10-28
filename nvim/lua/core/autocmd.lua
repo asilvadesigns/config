@@ -8,11 +8,11 @@ local loadGroup = api.nvim_create_augroup('Loaders', { clear = true })
 local saveGroup = api.nvim_create_augroup('Save', { clear = true })
 
 -- NOTE: just delaying the inevitable. TJ does not approve.
-api.nvim_create_autocmd({ 'User' }, { pattern = 'Priority1', group = loadGroup, command = '' })
-api.nvim_create_autocmd({ 'User' }, { pattern = 'Priority2', group = loadGroup, command = '' })
-api.nvim_create_autocmd({ 'User' }, { pattern = 'Priority3', group = loadGroup, command = '' })
-api.nvim_create_autocmd({ 'User' }, { pattern = 'Priority4', group = loadGroup, command = '' })
-api.nvim_create_autocmd({ 'User' }, { pattern = 'Priority5', group = loadGroup, command = '' })
+api.nvim_create_autocmd({ 'User' }, { pattern = 'DeferLoad1', group = loadGroup, command = '' })
+api.nvim_create_autocmd({ 'User' }, { pattern = 'DeferLoad2', group = loadGroup, command = '' })
+api.nvim_create_autocmd({ 'User' }, { pattern = 'DeferLoad3', group = loadGroup, command = '' })
+api.nvim_create_autocmd({ 'User' }, { pattern = 'DeferLoad4', group = loadGroup, command = '' })
+api.nvim_create_autocmd({ 'User' }, { pattern = 'DeferLoad5', group = loadGroup, command = '' })
 
 api.nvim_create_autocmd(
   { 'UIEnter' },
@@ -20,23 +20,23 @@ api.nvim_create_autocmd(
     pattern = '*',
     callback = function()
       vim.defer_fn(function()
-        vim.api.nvim_exec([[ doautocmd User Priority1 ]], false)
+        vim.api.nvim_exec([[ doautocmd User DeferLoad1 ]], false)
       end, 10)
 
       vim.defer_fn(function()
-        vim.api.nvim_exec([[ doautocmd User Priority2 ]], false)
+        vim.api.nvim_exec([[ doautocmd User DeferLoad2 ]], false)
       end, 20)
 
       vim.defer_fn(function()
-        vim.api.nvim_exec([[ doautocmd User Priority3 ]], false)
+        vim.api.nvim_exec([[ doautocmd User DeferLoad3 ]], false)
       end, 30)
 
       vim.defer_fn(function()
-        vim.api.nvim_exec([[ doautocmd User Priority4 ]], false)
+        vim.api.nvim_exec([[ doautocmd User DeferLoad4 ]], false)
       end, 40)
 
       vim.defer_fn(function()
-        vim.api.nvim_exec([[ doautocmd User Priority5 ]], false)
+        vim.api.nvim_exec([[ doautocmd User DeferLoad5 ]], false)
       end, 50)
     end
   }

@@ -14,7 +14,7 @@ packer.use({
   config = function()
     require('auto-session').setup({
       log_level = 'error',
-      pre_save_cmds = { 'NvimTreeClose', 'TroubleClose' },
+      pre_save_cmds = { 'CtrlSFClose', 'NvimTreeClose', 'TroubleClose' },
     })
   end
 })
@@ -33,7 +33,7 @@ packer.use({
 
 packer.use({
   'ishan9299/nvim-solarized-lua',
-  event = { 'User PackerComplete', 'User Priority1' },
+  event = { 'User PackerComplete', 'User DeferLoad1' },
   config = function()
     -- NOTE: disabled for now
     -- vim.cmd('colorscheme solarized-flat')
@@ -42,7 +42,7 @@ packer.use({
 
 packer.use({
   'kyazdani42/nvim-tree.lua',
-  event = { 'User PackerComplete', 'User Priority1' },
+  event = { 'User PackerComplete', 'User DeferLoad1' },
   config = function()
     require('plugins.tree')
   end
@@ -50,7 +50,7 @@ packer.use({
 
 packer.use({
   'nvim-lualine/lualine.nvim',
-  event = { 'User PackerComplete', 'User Priority1' },
+  event = { 'User PackerComplete', 'User DeferLoad1' },
   config = function()
     require('plugins.statusline')
   end
@@ -58,28 +58,28 @@ packer.use({
 
 packer.use({
   'j-hui/fidget.nvim',
-  event = { 'User PackerComplete', 'User Priority1' },
+  event = { 'User PackerComplete', 'User DeferLoad1' },
   config = function()
-    require('fidget').setup()
+    require('fidget').setup({})
   end
 })
 
 packer.use({
   'NvChad/nvim-colorizer.lua',
-  event = { 'User PackerComplete', 'User Priority2' },
+  event = { 'User PackerComplete', 'User DeferLoad2' },
   config = function()
-    require('colorizer').setup()
+    require('colorizer').setup({})
   end
 })
 
 packer.use({
   'tpope/vim-fugitive',
-  event = { 'User PackerComplete', 'User Priority2' },
+  event = { 'User PackerComplete', 'User DeferLoad2' },
 })
 
 packer.use({
   'folke/trouble.nvim',
-  event = { 'User PackerComplete', 'User Priority2' },
+  event = { 'User PackerComplete', 'User DeferLoad2' },
   config = function()
     require('trouble').setup({
       auto_preview = false,
@@ -91,7 +91,7 @@ packer.use({
 -- Completion
 packer.use({
   'hrsh7th/nvim-cmp',
-  event = { 'User PackerComplete', 'User Priority3' },
+  event = { 'User PackerComplete', 'User DeferLoad3' },
   requires = {
     'L3MON4D3/LuaSnip',
     'neovim/nvim-lspconfig',
@@ -114,7 +114,7 @@ packer.use({
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make',
   },
-  event = { 'User PackerComplete', 'User Priority3' },
+  event = { 'User PackerComplete', 'User DeferLoad3' },
   config = function()
     require('plugins.telescope')
   end
@@ -124,7 +124,7 @@ packer.use({
 -- Editing
 packer.use({
   'max397574/better-escape.nvim',
-  event = { 'User PackerComplete', 'User Priority4' },
+  event = { 'User PackerComplete', 'User DeferLoad4' },
   config = function()
     require("better_escape").setup({ mapping = { "kj" }, })
   end
@@ -132,36 +132,36 @@ packer.use({
 
 packer.use({
   'windwp/nvim-autopairs',
-  event = { 'User PackerComplete', 'User Priority4' },
+  event = { 'User PackerComplete', 'User DeferLoad4' },
   config = function()
-    require('nvim-autopairs').setup()
+    require('nvim-autopairs').setup({})
   end
 })
 
 packer.use({
   'kylechui/nvim-surround',
-  event = { 'User PackerComplete', 'User Priority4' },
+  event = { 'User PackerComplete', 'User DeferLoad4' },
   config = function()
-    require('nvim-surround').setup()
+    require('nvim-surround').setup({})
   end
 })
 
 packer.use({
   'andymass/vim-matchup',
-  event = { 'User PackerComplete', 'User Priority4' },
+  event = { 'User PackerComplete', 'User DeferLoad4' },
 })
 
 packer.use({
   'numToStr/Comment.nvim',
-  event = { 'User PackerComplete', 'User Priority4' },
+  event = { 'User PackerComplete', 'User DeferLoad4' },
   config = function()
-    require('Comment').setup()
+    require('Comment').setup({})
   end
 })
 
 packer.use({
   'ggandor/leap.nvim',
-  event = { 'User PackerComplete', 'User Priority4' },
+  event = { 'User PackerComplete', 'User DeferLoad4' },
   config = function()
     require('plugins.leap')
   end
@@ -169,7 +169,7 @@ packer.use({
 
 packer.use({
   'kazhala/close-buffers.nvim',
-  event = { 'User PackerComplete', 'User Priority4' },
+  event = { 'User PackerComplete', 'User DeferLoad4' },
   config = function()
     require('close_buffers').setup({
       filetype_ignore = { 'NvimTree' }
@@ -186,10 +186,15 @@ packer.use({
 
 packer.use({
   'nvim-pack/nvim-spectre',
-  event = { 'User PackerComplete', 'User Priority5' },
+  event = { 'User PackerComplete', 'User DeferLoad5' },
   config = function()
-    require('spectre').setup()
+    require('spectre').setup({})
   end
+})
+
+packer.use({
+  'dyng/ctrlsf.vim',
+  event = { 'User PackerComplete', 'User DeferLoad5' }
 })
 
 if (state.should_sync) then

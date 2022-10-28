@@ -16,6 +16,7 @@ telescope.setup({
     layout_config = {
       prompt_position = 'top'
     },
+    preview = false,
     mappings = {
       i = {
         ["<C-u>"] = false,
