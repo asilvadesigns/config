@@ -185,14 +185,6 @@ packer.use({
 })
 
 packer.use({
-  'nvim-pack/nvim-spectre',
-  event = { 'User PackerComplete', 'User DeferLoad5' },
-  config = function()
-    require('spectre').setup({})
-  end
-})
-
-packer.use({
   'dyng/ctrlsf.vim',
   event = { 'User PackerComplete', 'User DeferLoad5' }
 })
