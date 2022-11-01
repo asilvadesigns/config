@@ -17,8 +17,6 @@ M.get_packer = function()
     state.should_sync = true
   end
 
-  vim.api.nvim_create_user_command('Reload', M.reload, {})
-
   return require('packer')
 end
 
@@ -34,10 +32,6 @@ end
 
 M.get_state = function()
   return state
-end
-
-M.reload = function()
-  require('packer').sync()
 end
 
 -- isolated module START

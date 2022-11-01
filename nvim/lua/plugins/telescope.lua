@@ -4,17 +4,12 @@ local telescope = utils.get_plugin('telescope')
 if (not telescope) then return end
 
 telescope.setup({
-  defaults = {
+  defaults = require('telescope.themes').get_dropdown({
     borderchars = {
       { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
       prompt = { "─", "│", " ", "│", '┌', '┐', "│", "│" },
       results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
       preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
-    },
-    sorting_strategy = 'ascending',
-    layout_strategy = 'horizontal',
-    layout_config = {
-      prompt_position = 'top'
     },
     preview = false,
     mappings = {
@@ -23,7 +18,29 @@ telescope.setup({
         ["<esc>"] = require('telescope.actions').close
       },
     },
-  },
+  }),
+  -- defaults = {
+  --   borderchars = {
+  --     { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+  --     prompt = { "─", "│", " ", "│", '┌', '┐', "│", "│" },
+  --     results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+  --     preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+  --   },
+  --   sorting_strategy = 'ascending',
+  --   layout_strategy = 'horizontal',
+  --   layout_config = {
+  --     prompt_position = 'top',
+  --     height = 0.5,
+  --     width = { 0.6, min = 40 }
+  --   },
+  --   preview = false,
+  --   mappings = {
+  --     i = {
+  --       ["<C-u>"] = false,
+  --       ["<esc>"] = require('telescope.actions').close
+  --     },
+  --   },
+  -- },
   extensions = {
     fzf = {
       case_mode = "smart_case", -- or "ignore_case", "respect_case"

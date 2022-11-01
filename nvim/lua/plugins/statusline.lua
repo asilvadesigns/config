@@ -3,19 +3,21 @@ local utils = require('core.utils')
 local lualine = utils.get_plugin('lualine')
 if not lualine then return end
 
-local statusline = {
-  lualine_a = {},
-  lualine_b = { 'branch' },
-  lualine_c = {},
-  lualine_x = {},
-  lualine_y = {},
-  lualine_z = {}
-}
+-- local statusline = {
+--   lualine_a = {},
+--   lualine_b = { 'branch' },
+--   lualine_c = {},
+--   lualine_x = {},
+--   lualine_y = {},
+--   lualine_z = {}
+-- }
+
+local statusline = {}
 
 local winbar = {
   lualine_a = {},
-  lualine_b = { { 'filetype', icon_only = true }, 'filename' },
-  lualine_c = {},
+  lualine_b = {},
+  lualine_c = { { 'filetype', icon_only = true }, { 'filename', path = 3 } },
   lualine_x = {},
   lualine_y = {},
   lualine_z = {}
@@ -38,9 +40,9 @@ lualine.setup({
     always_divide_middle = true,
     globalstatus = true,
     refresh = {
-      statusline = 1000,
-      tabline = 1000,
-      winbar = 1000,
+      statusline = 100,
+      tabline = 100,
+      winbar = 100,
     }
   },
   -- statusline

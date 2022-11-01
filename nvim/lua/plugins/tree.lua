@@ -5,7 +5,7 @@ if (not tree) then return end
 
 tree.setup({
   git = {
-    enable = true,
+    enable = false,
     ignore = true
   },
   respect_buf_cwd = true,
@@ -16,9 +16,9 @@ tree.setup({
     update_cwd = false,
   },
   renderer = {
-    indent_width = 1,
+    indent_width = 2,
     indent_markers = {
-      enable = false,
+      enable = true,
     },
     icons = {
       git_placement = "after",
