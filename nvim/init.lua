@@ -1,5 +1,3 @@
--- require('impatient')
-require('core.autocmd')
-require('core.keymaps')
-require('core.options')
-require('core.plugins')
+require('user.core.keymaps')
+require('user.core.options')
+require('user.core.plugins')

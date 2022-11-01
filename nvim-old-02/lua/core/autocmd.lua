@@ -81,6 +81,13 @@ api.nvim_create_autocmd(
   }
 )
 
+-- NOTE: enable highlight on copy
+api.nvim_create_autocmd(
+  { 'TextYankPost' },
+  { command = 'silent! lua vim.highlight.on_yank()', group = copyGroup }
+)
+
+-- NOTE: save previous buffer
 api.nvim_create_autocmd(
   { 'WinLeave', 'BufLeave' },
   {
@@ -94,13 +101,6 @@ api.nvim_create_autocmd(
   }
 )
 
--- NOTE: enable highlight on copy
-api.nvim_create_autocmd(
-  { 'TextYankPost' },
-  { command = 'silent! lua vim.highlight.on_yank()', group = copyGroup }
-)
-
--- NOTE: save previous buffer
 api.nvim_create_autocmd(
   { 'BufLeave' },
   {
