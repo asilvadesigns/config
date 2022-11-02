@@ -44,8 +44,12 @@ packer.startup(function(use)
     module = 'luasnip'
   })
 
+  use({
+    'hrsh7th/cmp-nvim-lsp',
+    module = 'cmp_nvim_lsp'
+  })
+
   use({ after = 'nvim-cmp', 'hrsh7th/cmp-buffer' })
-  use({ after = 'nvim-cmp', 'hrsh7th/cmp-nvim-lsp' })
   use({ after = 'nvim-cmp', 'hrsh7th/cmp-path' })
   use({ after = 'nvim-cmp', 'saadparwaiz1/cmp_luasnip' })
 
