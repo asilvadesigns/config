@@ -38,6 +38,11 @@ packer.startup(function(use)
     module = 'mason-lspconfig'
   })
 
+  use({
+    'onsails/lspkind.nvim',
+    module = 'lspkind'
+  })
+
   -- completion
   use({
     'L3MON4D3/LuaSnip',

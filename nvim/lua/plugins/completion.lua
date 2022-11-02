@@ -47,7 +47,13 @@ M.setup = function()
       { name = 'luasnip' },
       { name = 'nvim_lsp' },
       { name = 'path' },
-    })
+    }),
+    formatting = {
+      format = require('lspkind').cmp_format({
+        mode = 'symbol',
+        maxwidth = 50,
+      })
+    }
   })
 
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
