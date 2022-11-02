@@ -25,7 +25,17 @@ packer.startup(function(use)
   -- language server
   use({
     'neovim/nvim-lspconfig',
-    config = require('plugins.lspconfig').setup,
+    module = 'lspconfig'
+  })
+
+  use({
+    'williamboman/mason.nvim',
+    module = 'mason'
+  })
+
+  use({
+    'williamboman/mason-lspconfig.nvim',
+    module = 'mason-lspconfig'
   })
 
   -- completion
@@ -34,15 +44,16 @@ packer.startup(function(use)
     module = 'luasnip'
   })
 
+  use({ after = 'nvim-cmp', 'hrsh7th/cmp-buffer' })
+  use({ after = 'nvim-cmp', 'hrsh7th/cmp-nvim-lsp' })
+  use({ after = 'nvim-cmp', 'hrsh7th/cmp-path' })
+  use({ after = 'nvim-cmp', 'saadparwaiz1/cmp_luasnip' })
+
   use({
     'hrsh7th/nvim-cmp',
     event = { 'User Defer' },
     config = require('plugins.completion').setup
   })
-
-  use({ after = 'nvim-cmp', 'hrsh7th/cmp-buffer' })
-  use({ after = 'nvim-cmp', 'hrsh7th/cmp-path' })
-  use({ after = 'nvim-cmp', 'saadparwaiz1/cmp_luasnip' })
 
   if (is_init) then
     packer.sync()
