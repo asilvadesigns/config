@@ -56,6 +56,26 @@ M.setup = function()
     }
   })
 
+  -- NOTE: Hide ugly inline diagnostic info
+  -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#customizing-how-diagnostics-are-displayed
+  vim.diagnostic.config({
+    virtual_text = false
+  })
+
+  -- NOTE: Diagnostics in gutter
+  -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
+  local signs = {
+    Error = '',
+    Hint = '',
+    Info = '',
+    Warn = '',
+  }
+
+  for type, icon in pairs(signs) do
+    local hl = 'DiagnosticSign' .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+  end
+
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
   local on_attach = function(client, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -87,7 +107,7 @@ M.setup = function()
         workspace = {
           library = {
             [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-            [vim.fn.stdpath('config')..'/lua'] = true,
+            [vim.fn.stdpath('config') .. '/lua'] = true,
           }
         },
       }
