@@ -1,7 +1,5 @@
 local is_init, packer = require('plugins.packer').setup()
 
-packer.on_complete = require('plugins.packer').handle_complete
-
 packer.startup(function(use)
   use('nathom/filetype.nvim')
   use('wbthomason/packer.nvim')
