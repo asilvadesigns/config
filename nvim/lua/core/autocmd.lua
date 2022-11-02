@@ -1,10 +1,26 @@
 local helpGroup = vim.api.nvim_create_augroup('HelpDocs', { clear = true })
+local loadGroup = vim.api.nvim_create_augroup('loadDocs', { clear = true })
+
+-- magic
+api.nvim_create_autocmd({ 'User' }, { pattern = 'Defer', group = loadGroup, command = '' })
+
+api.nvim_create_autocmd(
+  { 'UIEnter' },
+  {
+    pattern = '*',
+    callback = function()
+      vim.defer_fn(function()
+        vim.api.nvim_exec([[ doautocmd User Defer ]], false)
+      end, 20)
+    end
+  }
+)
 
 -- enable auto compile after saving plugins file
 vim.api.nvim_create_autocmd(
   { 'BufWritePost' },
   {
-    pattern = 'plugins.lua',
+    pattern = '**/core/plugins.lua',
     callback = function()
       local file = vim.fn.expand("<afile>")
 

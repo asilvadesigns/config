@@ -2,7 +2,7 @@ local M = {}
 
 M.setup = function()
   local function closeOthers()
-    vim.cmd('%bdelete | edit # | normal`"')
+    vim.cmd('only!')
   end
 
   require('auto-session').setup({
