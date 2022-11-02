@@ -1,10 +1,13 @@
 local helpGroup = vim.api.nvim_create_augroup('HelpDocs', { clear = true })
 local loadGroup = vim.api.nvim_create_augroup('loadDocs', { clear = true })
 
--- magic
-api.nvim_create_autocmd({ 'User' }, { pattern = 'Defer', group = loadGroup, command = '' })
+-- enable deferred loading
+vim.api.nvim_create_autocmd(
+  { 'User' },
+  { pattern = 'Defer', command = '', group = loadGroup }
+)
 
-api.nvim_create_autocmd(
+vim.api.nvim_create_autocmd(
   { 'UIEnter' },
   {
     pattern = '*',
@@ -23,6 +26,8 @@ vim.api.nvim_create_autocmd(
     pattern = '**/core/plugins.lua',
     callback = function()
       local file = vim.fn.expand("<afile>")
+
+      vim.inspect(file)
 
       vim.schedule(function()
         vim.cmd('source '..file..' | PackerSync')

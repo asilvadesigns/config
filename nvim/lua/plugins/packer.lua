@@ -1,5 +1,9 @@
 local M = {}
 
+M.handle_complete = vim.schedule_wrap(function()
+  vim.api.nvim_exec([[ doautocmd User Defer ]], false)
+end)
+
 M.setup = function()
   local packer_loaded = false
   local packer_install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'

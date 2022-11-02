@@ -1,6 +1,8 @@
 local is_init, packer = require('plugins.packer').setup()
 
-return packer.startup(function(use)
+packer.on_complete = require('plugins.packer').handle_complete
+
+packer.startup(function(use)
   use('nathom/filetype.nvim')
   use('wbthomason/packer.nvim')
 
@@ -21,7 +23,13 @@ return packer.startup(function(use)
 
   use({
     'neovim/nvim-lspconfig',
-    config = require('plugins.completion').setup,
+    config = require('plugins.lspconfig').setup,
+  })
+
+  use({
+    'hrsh7th/nvim-cmp',
+    event = { 'User Defer' },
+    config = require('plugins.completion').setup
   })
 
   if (is_init) then
