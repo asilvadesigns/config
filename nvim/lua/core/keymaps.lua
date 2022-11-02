@@ -1,6 +1,9 @@
 local defaults = { noremap = true, silent = true }
 local expr_opts = { noremap = true, expr = true, silent = true }
 
+-- leader
+vim.g.mapleader = ','
+
 -- better editing line movements
 vim.keymap.set('i', '<c-l>', '<END>', defaults)
 vim.keymap.set('i', '<c-h>', '<HOME>', defaults)

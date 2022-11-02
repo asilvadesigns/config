@@ -2,12 +2,13 @@ local is_init, packer = require('plugins.packer').setup()
 
 packer.startup(function(use)
   use('nathom/filetype.nvim')
+  use('nvim-tree/nvim-web-devicons')
   use('wbthomason/packer.nvim')
 
-  -- utility
+  -- lua utility
   use({ 'nvim-lua/plenary.nvim', module = 'plenary' })
 
-  -- session
+  -- session manager
   use({ 'rmagatti/auto-session', config = require('plugins.session').setup })
 
   -- colorscheme
@@ -38,6 +39,13 @@ packer.startup(function(use)
   use({ 'hrsh7th/cmp-buffer', after = 'nvim-cmp' })
   use({ 'hrsh7th/cmp-path', after = 'nvim-cmp'  })
   use({ 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp'  })
+
+  -- file explorer
+  use({
+    'nvim-tree/nvim-tree.lua',
+    event = { 'User Defer' },
+    config = require('plugins.explorer').setup
+  })
 
   if (is_init) then
     packer.sync()
