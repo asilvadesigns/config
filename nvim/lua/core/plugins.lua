@@ -1,5 +1,7 @@
 local is_init, packer = require('plugins.packer').setup()
 
+require('plugins.escape').setup()
+
 packer.startup(function(use)
   use('nathom/filetype.nvim')
   use('nvim-tree/nvim-web-devicons')
@@ -44,7 +46,7 @@ packer.startup(function(use)
   use({
     'nvim-tree/nvim-tree.lua',
     event = { 'User Defer' },
-    config = require('plugins.explorer').setup
+    config = require('plugins.tree').setup
   })
 
   if (is_init) then

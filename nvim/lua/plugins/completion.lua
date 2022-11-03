@@ -76,6 +76,8 @@ M.setup = function()
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
   end
 
+  -- NOTE: see all servers!
+  -- @see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
   local on_attach = function(client, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -96,6 +98,8 @@ M.setup = function()
     vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
   end
 
+  -- NOTE: see all servers!
+  -- @see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   require('lspconfig')['sumneko_lua'].setup({
     capabilities = capabilities,
     on_attach = on_attach,

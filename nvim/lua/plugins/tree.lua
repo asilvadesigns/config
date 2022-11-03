@@ -1,7 +1,14 @@
 local M = {}
 
-M.setup = function ()
+M.setup = function()
   require('nvim-tree').setup({
+    actions = {
+      open_file = {
+        window_picker = {
+          enable = false
+        }
+      }
+    },
     git = {
       enable = false,
       ignore = true
@@ -27,6 +34,8 @@ M.setup = function ()
       width = 40
     },
   })
+
+  vim.cmd('highlight! link NvimTreeIndentMarker Comment')
 
   vim.keymap.set('n', '<C-S-j>', '<CMD>NvimTreeToggle<CR>')
   vim.keymap.set('n', '<LEADER>j', '<CMD>NvimTreeFindFile<CR>')
