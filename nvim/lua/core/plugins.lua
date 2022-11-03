@@ -49,6 +49,13 @@ packer.startup(function(use)
     config = require('plugins.tree').setup
   })
 
+  -- statusline
+  use({
+    'nvim-lualine/lualine.nvim',
+    event = { 'User Defer' },
+    config = require('plugins.lualine').setup
+  })
+
   if (is_init) then
     packer.sync()
   end

@@ -1,4 +1,5 @@
 local helpGroup = vim.api.nvim_create_augroup('HelpDocs', { clear = true })
+local lineGroup = vim.api.nvim_create_augroup('lineDocs', { clear = true })
 local loadGroup = vim.api.nvim_create_augroup('loadDocs', { clear = true })
 
 -- enable deferred loading
@@ -16,6 +17,33 @@ vim.api.nvim_create_autocmd(
         vim.api.nvim_exec([[ doautocmd User Defer ]], false)
       end, 20)
     end
+  }
+)
+
+-- enable cursorline in active buffer except netrw
+vim.api.nvim_create_autocmd(
+  { 'WinEnter', 'BufEnter' },
+  {
+    pattern = '*',
+    callback = function()
+      if vim.bo.filetype ~= "NvimTree" then
+        vim.cmd('setlocal cursorline')
+      end
+    end,
+    group = lineGroup
+  }
+)
+
+vim.api.nvim_create_autocmd(
+  { 'WinLeave', 'BufLeave' },
+  {
+    pattern = '*',
+    callback = function()
+      if vim.bo.filetype ~= "NvimTree" then
+        vim.cmd('setlocal nocursorline')
+      end
+    end,
+    group = lineGroup
   }
 )
 

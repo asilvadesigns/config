@@ -37,7 +37,7 @@ M.setup = function()
   )
 
   -- return focus to previous buffer
-  vim.keymap.set('n', '<esc>', get_focus)
+  vim.keymap.set('n', '<ESC>', get_focus)
 end
 
 return M

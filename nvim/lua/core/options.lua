@@ -30,7 +30,7 @@ vim.opt.grepformat = '%f:%l:%c:%m'
 vim.opt.grepprg = 'rg --hidden --vimgrep --smart-case --'
 vim.opt.hlsearch = true
 vim.opt.ignorecase = true
-vim.opt.laststatus = 0
+vim.opt.laststatus = 3
 vim.opt.list = true
 vim.opt.listchars = 'tab:»·,nbsp:+,trail:·,extends:→,precedes:←'
 vim.opt.mouse = 'a'
@@ -58,5 +58,5 @@ vim.opt.updatetime = 300
 vim.opt.wrap = false
 vim.opt.writebackup = false
 
-vim.opt.statusline = ''
-vim.opt.winbar = '%f'
+vim.opt.statusline = '...'
+vim.opt.winbar = '...'

@@ -12,10 +12,6 @@ vim.keymap.set('i', '<c-h>', '<HOME>', defaults)
 vim.keymap.set("i", "kj", "<ESC>", defaults)
 vim.keymap.set("t", "kj", "<C-\\><C-n>", defaults)
 
--- center search results
-vim.keymap.set("n", "n", "nzz", defaults)
-vim.keymap.set("n", "N", "Nzz", defaults)
-
 -- better navigation in windows
 vim.keymap.set('n', '<C-h>', '<C-w>h', defaults)
 vim.keymap.set('n', '<C-j>', '<C-w>j', defaults)
@@ -44,9 +40,6 @@ vim.keymap.set("v", "p", '"_dP', defaults)
 -- switch buffer
 vim.keymap.set("n", "<S-h>", ":bprevious<CR>", defaults)
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", defaults)
-
--- cancel search highlighting with ESC
-vim.keymap.set("n", "<ESC>", ":nohlsearch<Bar>:echo<CR>", defaults)
 
 -- move selected line / block of text in visual mode
 vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", defaults)
