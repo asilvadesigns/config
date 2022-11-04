@@ -9,17 +9,15 @@ M.setup = function()
         }
       }
     },
+    git = {
+      enable = true,
+      ignore = true
+    },
     update_cwd = false,
-    -- git = {
-    --   enable = false,
-    --   ignore = true
-    -- },
-    -- respect_buf_cwd = true,
-    -- update_focused_file = {
-    --   enable = true,
-    --   ignore_list = {},
-    --   update_cwd = false,
-    -- },
+    respect_buf_cwd = true,
+    update_focused_file = {
+      update_cwd = false,
+    },
     renderer = {
       indent_width = 2,
       indent_markers = {
@@ -27,6 +25,17 @@ M.setup = function()
       },
       icons = {
         git_placement = "after",
+        glyphs = {
+          git = {
+            unstaged = "",
+            staged = "",
+            unmerged = "",
+            renamed = "",
+            untracked = "",
+            deleted = "-",
+            ignored = "",
+          }
+        }
       }
     },
     -- view = {

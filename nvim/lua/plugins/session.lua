@@ -3,6 +3,8 @@ local M = {}
 M.setup = function()
   local function closeOthers()
     vim.cmd('only!')
+    vim.cmd('NeoTreeClose')
+    vim.cmd('NvimTreeClose')
   end
 
   require('auto-session').setup({

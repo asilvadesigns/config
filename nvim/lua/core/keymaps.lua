@@ -50,3 +50,7 @@ vim.keymap.set("n", "<Left>", ":vertical resize +1<CR>", defaults)
 vim.keymap.set("n", "<Right>", ":vertical resize -1<CR>", defaults)
 vim.keymap.set("n", "<Up>", ":resize -1<CR>", defaults)
 vim.keymap.set("n", "<Down>", ":resize +1<CR>", defaults)
+
+-- using netrw
+-- @see: https://superuser.com/questions/1531456/how-to-reveal-a-file-in-vim-netrw-treeview
+vim.keymap.set("n", "<leader>x", ":let @/=expand('%:t') <Bar> execute 'Explore' expand('%:h') <Bar> normal n<CR>", defaults)
