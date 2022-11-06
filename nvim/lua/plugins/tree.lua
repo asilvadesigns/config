@@ -5,13 +5,13 @@ M.setup = function()
     actions = {
       open_file = {
         window_picker = {
-          enable = false
-        }
-      }
+          enable = false,
+        },
+      },
     },
     git = {
       enable = true,
-      ignore = true
+      ignore = true,
     },
     update_cwd = false,
     respect_buf_cwd = true,
@@ -24,19 +24,19 @@ M.setup = function()
         enable = true,
       },
       icons = {
-        git_placement = "after",
+        git_placement = 'after',
         glyphs = {
           git = {
-            unstaged = "",
-            staged = "",
-            unmerged = "",
-            renamed = "",
-            untracked = "",
-            deleted = "-",
-            ignored = "",
-          }
-        }
-      }
+            unstaged = '',
+            staged = '',
+            unmerged = '',
+            renamed = '',
+            untracked = '',
+            deleted = '-',
+            ignored = '',
+          },
+        },
+      },
     },
     -- view = {
     --   hide_root_folder = true,

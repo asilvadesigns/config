@@ -20,8 +20,8 @@ M.setup = function()
         ['m'] = 'move',
         ['o'] = 'open',
         ['r'] = 'rename',
-      }
-    }
+      },
+    },
   })
 
   -- enable easier jumping

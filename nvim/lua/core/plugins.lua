@@ -27,14 +27,14 @@ packer.startup(function(use)
   use({
     'windwp/nvim-autopairs',
     event = { 'User Defer' },
-    config = require('plugins.autopairs').setup
+    config = require('plugins.autopairs').setup,
   })
 
   -- completion engine
   use({
     'hrsh7th/nvim-cmp',
     event = { 'User Defer' },
-    config = require('plugins.completion').setup
+    config = require('plugins.completion').setup,
   })
 
   -- completion icons
@@ -49,18 +49,46 @@ packer.startup(function(use)
   use({ 'hrsh7th/cmp-path', after = 'nvim-cmp' })
   use({ 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' })
 
+  -- completion views
+  use({
+    'glepnir/lspsaga.nvim',
+    event = { 'User Defer' },
+    config = require('plugins.lspsaga').setup,
+  })
+
+  -- diagnostic views
+  use({
+    'folke/trouble.nvim',
+    event = { 'User Defer' },
+    config = require('plugins.trouble').setup,
+  })
+
+  -- completion linters and formatters
+  -- use({
+  --   "jose-elias-alvarez/null-ls.nvim",
+  --   event = { 'User Defer' },
+  --   config = require('plugins.null').setup
+  -- })
+
   -- colorizer
   use({
     'NvChad/nvim-colorizer.lua',
     event = { 'User Defer' },
-    config = require('plugins.colorizer').setup
+    config = require('plugins.colorizer').setup,
   })
 
   -- file tree
   use({
     'nvim-tree/nvim-tree.lua',
     event = { 'User Defer' },
-    config = require('plugins.tree').setup
+    config = require('plugins.tree').setup,
+  })
+
+  -- formatter
+  use({
+    'sbdchd/neoformat',
+    event = { 'User Defer' },
+    config = require('plugins.neoformat').setup,
   })
 
   -- fuzzy
@@ -71,7 +99,7 @@ packer.startup(function(use)
       run = 'make',
     },
     event = { 'User Defer' },
-    config = require('plugins.telescope').setup
+    config = require('plugins.telescope').setup,
   })
 
   -- git
@@ -84,17 +112,17 @@ packer.startup(function(use)
   use({
     'nvim-lualine/lualine.nvim',
     event = { 'User Defer' },
-    config = require('plugins.lualine').setup
+    config = require('plugins.lualine').setup,
   })
 
   -- surround
   use({
     'kylechui/nvim-surround',
     event = { 'User Defer' },
-    config = require('plugins.surround').setup
+    config = require('plugins.surround').setup,
   })
 
-  if (is_init) then
+  if is_init then
     packer.sync()
   end
 end)

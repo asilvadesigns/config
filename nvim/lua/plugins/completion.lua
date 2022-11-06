@@ -8,9 +8,9 @@ M.setup = function()
       icons = {
         package_installed = '✓',
         package_pending = '➜',
-        package_uninstalled = '✗'
-      }
-    }
+        package_uninstalled = '✗',
+      },
+    },
   })
 
   require('mason-lspconfig').setup({
@@ -23,7 +23,7 @@ M.setup = function()
       'pyright',
       'sumneko_lua',
       'tsserver',
-      'yamlls'
+      'yamlls',
     },
   })
 
@@ -52,14 +52,14 @@ M.setup = function()
       format = require('lspkind').cmp_format({
         mode = 'symbol',
         maxwidth = 50,
-      })
-    }
+      }),
+    },
   })
 
   -- NOTE: Hide ugly inline diagnostic info
   -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#customizing-how-diagnostics-are-displayed
   vim.diagnostic.config({
-    virtual_text = false
+    virtual_text = false,
   })
 
   -- NOTE: Diagnostics in gutter
@@ -87,8 +87,9 @@ M.setup = function()
     -- vim.keymap.set('n', '<leader>ne', vim.diagnostic.goto_next)
     -- vim.keymap.set('n', '<leader>np', vim.diagnostic.goto_prev)
     -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    -- vim.keymap.set('n', '<leader>m', vim.lsp.buf.format, opts)
+
     vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<leader>m', vim.lsp.buf.format, opts)
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'ge', vim.diagnostic.open_float)
@@ -98,11 +99,14 @@ M.setup = function()
     vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
   end
 
+  local root_dir = require('lspconfig.util').root_pattern('.git')
+
   -- NOTE: see all servers!
   -- @see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   require('lspconfig')['sumneko_lua'].setup({
     capabilities = capabilities,
     on_attach = on_attach,
+    root_dir = root_dir,
     settings = {
       Lua = {
         diagnostics = {
@@ -112,45 +116,52 @@ M.setup = function()
           library = {
             [vim.fn.expand('$VIMRUNTIME/lua')] = true,
             [vim.fn.stdpath('config') .. '/lua'] = true,
-          }
+          },
         },
-      }
-    }
+      },
+    },
   })
 
   require('lspconfig')['tsserver'].setup({
     capabilities = capabilities,
     on_attach = on_attach,
+    root_dir = root_dir,
   })
 
   require('lspconfig')['cssls'].setup({
     capabilities = capabilities,
     on_attach = on_attach,
+    root_dir = root_dir,
   })
 
   require('lspconfig')['eslint'].setup({
     capabilities = capabilities,
     on_attach = on_attach,
+    root_dir = root_dir,
   })
 
   require('lspconfig')['html'].setup({
     capabilities = capabilities,
     on_attach = on_attach,
+    root_dir = root_dir,
   })
 
   require('lspconfig')['jsonls'].setup({
     capabilities = capabilities,
     on_attach = on_attach,
+    root_dir = root_dir,
   })
 
   require('lspconfig')['pyright'].setup({
     capabilities = capabilities,
     on_attach = on_attach,
+    root_dir = root_dir,
   })
 
   require('lspconfig')['yamlls'].setup({
     capabilities = capabilities,
     on_attach = on_attach,
+    root_dir = root_dir,
   })
 end
 

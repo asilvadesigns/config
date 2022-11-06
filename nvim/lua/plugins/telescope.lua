@@ -13,7 +13,7 @@ M.setup = function()
       mappings = {
         i = {
           ['<C-u>'] = false,
-          ['<esc>'] = require('telescope.actions').close
+          ['<esc>'] = require('telescope.actions').close,
         },
       },
     }),
@@ -23,13 +23,13 @@ M.setup = function()
         fuzzy = true, -- false will only do exact matching
         override_file_sorter = true, -- override the file sorter
         override_generic_sorter = true, -- override the generic sorter
-      }
+      },
     },
     pickers = {
       oldfiles = {
-        only_cwd = true
-      }
-    }
+        only_cwd = true,
+      },
+    },
   })
 
   require('telescope').load_extension('fzf')

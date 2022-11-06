@@ -5,7 +5,7 @@ M.setup = function()
     options = {
       always_divide_middle = true,
       component_separators = { left = '', right = '' },
-      disabled_filetypes = { statusline = {}, winbar = { 'NvimTree', 'Trouble' } },
+      disabled_filetypes = { statusline = {}, winbar = { 'NvimTree' } },
       globalstatus = true,
       icons_enabled = true,
       ignore_focus = {},
@@ -20,7 +20,7 @@ M.setup = function()
       lualine_c = {},
       lualine_x = {},
       lualine_y = {},
-      lualine_z = {}
+      lualine_z = {},
     },
     inactive_sections = {},
     inactive_winbar = {
@@ -29,7 +29,7 @@ M.setup = function()
       lualine_c = {},
       lualine_x = {},
       lualine_y = {},
-      lualine_z = {}
+      lualine_z = {},
     },
   })
 end

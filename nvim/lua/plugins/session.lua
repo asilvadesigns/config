@@ -5,6 +5,7 @@ M.setup = function()
     vim.cmd('only!')
     vim.cmd('NeoTreeClose')
     vim.cmd('NvimTreeClose')
+    vim.cmd('TroubleClose')
   end
 
   require('auto-session').setup({
