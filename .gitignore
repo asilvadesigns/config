@@ -4,7 +4,6 @@ configstore
 gh
 iterm2
 karabiner
-nvim-old
 nvim/plugin
 verdaccio
 yarn
