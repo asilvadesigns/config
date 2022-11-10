@@ -31,6 +31,12 @@ packer.startup(function(use)
     config = require('plugins.autopairs').setup,
   })
 
+  use({
+    'max397574/better-escape.nvim',
+    event = { 'User Defer' },
+    config = require('plugins.better_escape').setup,
+  })
+
   -- comments
   use({
     'numToStr/Comment.nvim',

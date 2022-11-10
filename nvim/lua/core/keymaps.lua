@@ -9,8 +9,8 @@ vim.keymap.set('i', '<c-l>', '<END>', defaults)
 vim.keymap.set('i', '<c-h>', '<HOME>', defaults)
 
 -- better escape using jk in insert and terminal mode
-vim.keymap.set('i', 'kj', '<ESC>', defaults)
-vim.keymap.set('t', 'kj', '<C-\\><C-n>', defaults)
+-- vim.keymap.set('i', 'kj', '<ESC>', defaults)
+-- vim.keymap.set('t', 'kj', '<C-\\><C-n>', defaults)
 
 -- better navigation in windows
 vim.keymap.set('n', '<C-h>', '<C-w>h', defaults)
