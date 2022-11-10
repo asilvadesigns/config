@@ -116,6 +116,13 @@ packer.startup(function(use)
     config = require('plugins.gitsigns').setup,
   })
 
+  -- indentline
+  use({
+    'lukas-reineke/indent-blankline.nvim',
+    event = { 'User Defer' },
+    config = require('plugins.indent').setup,
+  })
+
   -- leap
   use({
     'ggandor/leap.nvim',
