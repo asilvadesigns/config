@@ -3,6 +3,7 @@ local is_init, packer = require('plugins.packer').setup()
 require('plugins.escape').setup()
 
 packer.startup(function(use)
+  use('kevinhwang91/promise-async')
   use('nathom/filetype.nvim')
   use('nvim-tree/nvim-web-devicons')
   use('wbthomason/packer.nvim')
@@ -28,6 +29,13 @@ packer.startup(function(use)
     'windwp/nvim-autopairs',
     event = { 'User Defer' },
     config = require('plugins.autopairs').setup,
+  })
+
+  -- comments
+  use({
+    'numToStr/Comment.nvim',
+    event = { 'User Defer' },
+    config = require('plugins.comment').setup,
   })
 
   -- completion engine
@@ -62,13 +70,6 @@ packer.startup(function(use)
     event = { 'User Defer' },
     config = require('plugins.trouble').setup,
   })
-
-  -- completion linters and formatters
-  -- use({
-  --   "jose-elias-alvarez/null-ls.nvim",
-  --   event = { 'User Defer' },
-  --   config = require('plugins.null').setup
-  -- })
 
   -- colorizer
   use({
@@ -108,6 +109,33 @@ packer.startup(function(use)
     event = { 'User Defer' },
   })
 
+  -- git signs
+  use({
+    'lewis6991/gitsigns.nvim',
+    event = { 'User Defer' },
+    config = require('plugins.gitsigns').setup,
+  })
+
+  -- leap
+  use({
+    'ggandor/leap.nvim',
+    event = { 'User Defer' },
+    config = require('plugins.leap').setup,
+  })
+
+  -- matchup
+  use({
+    'andymass/vim-matchup',
+    event = { 'User Defer' },
+  })
+
+  -- scrolling
+  use({
+    'karb94/neoscroll.nvim',
+    event = { 'User Defer' },
+    config = require('plugins.neoscroll').setup,
+  })
+
   -- statusline
   use({
     'nvim-lualine/lualine.nvim',
@@ -122,21 +150,46 @@ packer.startup(function(use)
     config = require('plugins.surround').setup,
   })
 
+  -- treesitter
+  use({
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+    event = { 'User Defer' },
+    config = require('plugins.treesitter').setup,
+  })
+
   if is_init then
     packer.sync()
   end
 end)
 
 -- NOTE: attempted to use these plugins
+
+-- -- completion linters and formatters
+-- use({
+--   "jose-elias-alvarez/null-ls.nvim",
+--   event = { 'User Defer' },
+--   config = require('plugins.null').setup
+-- })
+
+-- -- git
+-- use({
+--   'TimUntersberger/neogit',
+--   event = { 'User Defer' },
+--   config = require('plugins.neogit').setup
+-- })
+
+-- -- folds
+-- use({
+--   'kevinhwang91/nvim-ufo',
+--   module = 'ufo',
+--   config = require('plugins.ufo').setup,
+-- })
+
+-- tree
 -- use('MunifTanjim/nui.nvim')
 -- use({
 --   'nvim-neo-tree/neo-tree.nvim',
 --   event = { 'User Defer' },
 --   config = require('plugins.neotree').setup
--- })
---
--- use({
---   'TimUntersberger/neogit',
---   event = { 'User Defer' },
---   config = require('plugins.neogit').setup
 -- })

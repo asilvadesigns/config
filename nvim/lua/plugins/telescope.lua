@@ -1,5 +1,4 @@
 local M = {}
-
 M.setup = function()
   require('telescope').setup({
     defaults = require('telescope.themes').get_dropdown({

@@ -25,7 +25,14 @@ vim.opt.conceallevel = 0
 vim.opt.cursorline = true
 vim.opt.expandtab = true
 vim.opt.fileencoding = 'utf-8'
-vim.opt.fillchars = 'eob: '
+
+vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.opt.foldcolumn = '3'
+vim.opt.foldenable = false
+vim.opt.foldlevel = 20
+vim.opt.foldmethod = 'indent'
+vim.opt.foldnestmax = 3
+
 vim.opt.grepformat = '%f:%l:%c:%m'
 vim.opt.grepprg = 'rg --hidden --vimgrep --smart-case --'
 vim.opt.hlsearch = true

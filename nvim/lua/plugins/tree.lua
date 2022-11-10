@@ -38,10 +38,10 @@ M.setup = function()
         },
       },
     },
-    -- view = {
-    --   hide_root_folder = true,
-    --   width = 40
-    -- },
+    view = {
+      -- hide_root_folder = true,
+      width = 40
+    },
   })
 
   -- enable easier jumping

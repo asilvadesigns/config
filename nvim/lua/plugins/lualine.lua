@@ -1,5 +1,8 @@
 local M = {}
 
+-- NOTE: use for icon_only section
+-- { 'filetype', icon_only = true },
+
 M.setup = function()
   require('lualine').setup({
     options = {
@@ -13,10 +16,17 @@ M.setup = function()
       section_separators = { left = '', right = '' },
       theme = 'auto',
     },
-    sections = {},
+    sections = {
+      lualine_a = {},
+      lualine_b = { 'branch', 'diff', 'diagnostics' },
+      lualine_c = {},
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {},
+    },
     winbar = {
       lualine_a = {},
-      lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 3, color = 'LineNr' } },
+      lualine_b = { { 'filename', path = 3, color = 'LineNr' } },
       lualine_c = {},
       lualine_x = {},
       lualine_y = {},
@@ -25,7 +35,7 @@ M.setup = function()
     inactive_sections = {},
     inactive_winbar = {
       lualine_a = {},
-      lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 3 } },
+      lualine_b = { { 'filename', path = 3 } },
       lualine_c = {},
       lualine_x = {},
       lualine_y = {},

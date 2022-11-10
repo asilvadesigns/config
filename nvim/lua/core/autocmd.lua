@@ -1,6 +1,7 @@
-local helpGroup = vim.api.nvim_create_augroup('HelpDocs', { clear = true })
-local lineGroup = vim.api.nvim_create_augroup('lineDocs', { clear = true })
-local loadGroup = vim.api.nvim_create_augroup('loadDocs', { clear = true })
+local copyGroup = vim.api.nvim_create_augroup('YankGroup', { clear = true })
+local helpGroup = vim.api.nvim_create_augroup('HelpGroup', { clear = true })
+local lineGroup = vim.api.nvim_create_augroup('lineGroup', { clear = true })
+local loadGroup = vim.api.nvim_create_augroup('loadGroup', { clear = true })
 
 -- enable deferred loading
 vim.api.nvim_create_autocmd({ 'User' }, { pattern = 'Defer', command = '', group = loadGroup })
@@ -66,3 +67,9 @@ vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, {
   end,
   group = helpGroup,
 })
+
+-- NOTE: enable highlight on copy
+vim.api.nvim_create_autocmd(
+  { 'TextYankPost' },
+  { command = 'silent! lua vim.highlight.on_yank()', group = copyGroup }
+)

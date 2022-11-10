@@ -43,10 +43,10 @@ M.setup = function()
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
     sources = cmp.config.sources({
-      { name = 'buffer' },
-      { name = 'luasnip' },
       { name = 'nvim_lsp' },
+      { name = 'luasnip' },
       { name = 'path' },
+      { name = 'buffer', keyword_length = 4 },
     }),
     formatting = {
       format = require('lspkind').cmp_format({
