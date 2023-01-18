@@ -3,7 +3,7 @@ local M = {}
 M.setup = function()
   local defaults = { silent = true }
 
-  require('lspsaga').init_lsp_saga({
+  require('lspsaga').setup({
     code_action_icon = '',
     -- if true can press number to execute the codeaction in codeaction window
     code_action_num_shortcut = true,

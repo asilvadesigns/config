@@ -1,3 +1,4 @@
+-- helper
 local switch = function(element)
   local Table = {
     ['Value'] = element,
@@ -27,6 +28,7 @@ local switch = function(element)
   return Table
 end
 
+-- plugin
 local M = {}
 
 local state = {
