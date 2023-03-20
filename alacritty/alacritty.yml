@@ -31,13 +31,13 @@ font:
   bold_italic:
     family: JetBrainsMono Nerd Font Mono
     style: Bold Italic
-  size: 14.0
+  size: 15.0
   offset:
     x: 0
     y: 8
   glyph_offset:
     x: 0
-    y: 4
+    y: 0
 draw_bold_text_with_bright_colors: false
 
 # Bell

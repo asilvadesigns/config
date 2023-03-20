@@ -15,9 +15,11 @@ require('plugins.escape').setup()
 
 local plugins = {
   'kevinhwang91/promise-async',
-  'nathom/filetype.nvim',
   'nvim-tree/nvim-web-devicons',
   'wbthomason/packer.nvim',
+
+  -- better filetyp
+  { 'nathom/filetype.nvim', config = require('plugins.filetype').setup },
 
   -- lua utility
   { 'nvim-lua/plenary.nvim' },
@@ -121,11 +123,11 @@ local plugins = {
     config = require('plugins.gitsigns').setup,
   },
 
-  -- indentline
-  {
-    'lukas-reineke/indent-blankline.nvim',
-    config = require('plugins.indent').setup,
-  },
+  -- -- indentline
+  -- {
+  --   'lukas-reineke/indent-blankline.nvim',
+  --   config = require('plugins.indent').setup,
+  -- },
 
   -- leap
   {
@@ -136,15 +138,13 @@ local plugins = {
   -- matchup
   {
     'andymass/vim-matchup',
-    event = { 'User Defer' },
   },
 
-  -- scrolling
-  {
-    'karb94/neoscroll.nvim',
-    event = { 'User Defer' },
-    config = require('plugins.neoscroll').setup,
-  },
+  -- -- scrolling
+  -- {
+  --   'karb94/neoscroll.nvim',
+  --   config = require('plugins.neoscroll').setup,
+  -- },
 
   -- statusline
   {
@@ -164,6 +164,12 @@ local plugins = {
     build = ':TSUpdate',
     config = require('plugins.treesitter').setup,
   },
+
+  -- treesitter autotags
+  {
+    'https://github.com/windwp/nvim-ts-autotag',
+    config = require('plugins.treesitter_autotag').setup,
+  }
 }
 
 require('lazy').setup(plugins)

@@ -20,8 +20,8 @@ M.setup = function()
       'eslint',
       'html',
       'jsonls',
+      'lua_ls',
       'pyright',
-      'sumneko_lua',
       'tsserver',
       'yamlls',
     },
@@ -103,7 +103,7 @@ M.setup = function()
 
   -- NOTE: see all servers!
   -- @see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-  require('lspconfig')['sumneko_lua'].setup({
+  require('lspconfig')['lua_ls'].setup({
     capabilities = capabilities,
     on_attach = on_attach,
     root_dir = root_dir,
