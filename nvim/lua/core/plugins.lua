@@ -1,11 +1,11 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
     lazypath,
   })
 end
@@ -28,14 +28,40 @@ local plugins = {
   { 'rmagatti/auto-session', config = require('plugins.session').setup },
 
   -- colorscheme
-  { 'navarasu/onedark.nvim', config = require('plugins.onedark').setup },
+  { 'navarasu/onedark.nvim', config = require('plugins.colors').setup },
 
   -- language server
-  { 'neovim/nvim-lspconfig' },
+  {
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      -- automatically install LSPs to stdpath for neovim
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      -- useful status updates
+      { 'j-hui/fidget.nvim', config = require('plugins.fidget').setup },
+      -- Additional lua configuration, makes nvim stuff amazing!
+      'folke/neodev.nvim',
+    },
+  },
 
-  -- language server package manager
-  { 'williamboman/mason.nvim' },
-  { 'williamboman/mason-lspconfig.nvim' },
+  -- completion
+  {
+    'hrsh7th/nvim-cmp',
+    config = require('plugins.completion').setup,
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'saadparwaiz1/cmp_luasnip',
+      'L3MON4D3/LuaSnip',
+    },
+  },
+
+  -- completion
+  {
+    'jose-elias-alvarez/null-ls.nvim',
+    config = require('plugins.null').setup,
+  },
 
   -- autopairs
   {
@@ -54,23 +80,8 @@ local plugins = {
     config = require('plugins.comment').setup,
   },
 
-  -- completion engine
-  {
-    'hrsh7th/nvim-cmp',
-    config = require('plugins.completion').setup,
-  },
-
   -- completion icons
   { 'onsails/lspkind.nvim' },
-
-  -- completion snippets
-  { 'L3MON4D3/LuaSnip' },
-
-  -- completion sources
-  { 'hrsh7th/cmp-nvim-lsp', module = 'cmp_nvim_lsp' },
-  { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
-  { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
-  { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },
 
   -- completion views
   -- {
@@ -96,12 +107,6 @@ local plugins = {
     config = require('plugins.tree').setup,
   },
 
-  -- formatter
-  {
-    'sbdchd/neoformat',
-    config = require('plugins.neoformat').setup,
-  },
-
   -- fuzzy
   {
     'nvim-telescope/telescope.nvim',
@@ -117,11 +122,11 @@ local plugins = {
     'tpope/vim-fugitive',
   },
 
-  -- git signs
-  {
-    'lewis6991/gitsigns.nvim',
-    config = require('plugins.gitsigns').setup,
-  },
+  -- -- git signs
+  -- {
+  --   'lewis6991/gitsigns.nvim',
+  --   config = require('plugins.gitsigns').setup,
+  -- },
 
   -- -- indentline
   -- {
@@ -140,7 +145,13 @@ local plugins = {
     'andymass/vim-matchup',
   },
 
-  -- -- scrolling
+  -- scroll bar
+  {
+    'dstein64/nvim-scrollview',
+    config = require('plugins.scrollview').setup,
+  },
+
+  -- scrolling
   -- {
   --   'karb94/neoscroll.nvim',
   --   config = require('plugins.neoscroll').setup,
@@ -169,7 +180,7 @@ local plugins = {
   {
     'https://github.com/windwp/nvim-ts-autotag',
     config = require('plugins.treesitter_autotag').setup,
-  }
+  },
 }
 
 require('lazy').setup(plugins)

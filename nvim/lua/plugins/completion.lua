@@ -87,8 +87,13 @@ M.setup = function()
     -- vim.keymap.set('n', '<leader>ne', vim.diagnostic.goto_next)
     -- vim.keymap.set('n', '<leader>np', vim.diagnostic.goto_prev)
     -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    -- vim.keymap.set('n', '<leader>m', vim.lsp.buf.format, opts)
 
+    -- NOTE: using null-ls
+    local formatLsp = function()
+      vim.lsp.buf.format({ async = true })
+    end
+
+    vim.keymap.set('n', '<leader>m', formatLsp, opts)
     vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -109,14 +114,15 @@ M.setup = function()
     root_dir = root_dir,
     settings = {
       Lua = {
-        diagnostics = {
-          globals = { 'vim' },
+        runtime = {
+          version = 'LuaJIT',
         },
         workspace = {
-          library = {
-            [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-            [vim.fn.stdpath('config') .. '/lua'] = true,
-          },
+          library = vim.api.nvim_get_runtime_file('', true),
+          checkThirdParty = false,
+        },
+        telemetry = {
+          enable = false,
         },
       },
     },
