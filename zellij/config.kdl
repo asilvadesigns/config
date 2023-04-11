@@ -300,7 +300,6 @@ pane_frames false
 // or should each user have their own cursor (false)
 // Default: false
 //
-// mirror_session true
 
 // The folder in which Zellij will look for layouts
 //
