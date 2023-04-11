@@ -60,6 +60,7 @@ vim.keymap.set('n', '<C-h>', '<C-w>h', keymap_opts)
 vim.keymap.set('n', '<C-j>', '<C-w>j', keymap_opts)
 vim.keymap.set('n', '<C-k>', '<C-w>k', keymap_opts)
 vim.keymap.set('n', '<C-l>', '<C-w>l', keymap_opts)
+vim.keymap.set('n', '<leader>q', '<C-w>q', keymap_opts)
 
 -- better navigation with mouse
 vim.keymap.set('n', '<ScrollWheelUp>', '<C-y>', keymap_opts)
@@ -143,7 +144,7 @@ vim.opt.grepformat = '%f:%l:%c:%m'
 vim.opt.grepprg = 'rg --hidden --vimgrep --smart-case --'
 vim.opt.hlsearch = true
 vim.opt.ignorecase = true
-vim.opt.laststatus = 3
+vim.opt.laststatus = 0
 vim.opt.list = true
 vim.opt.listchars = 'tab:»·,nbsp:+,trail:·,extends:→,precedes:←'
 vim.opt.mouse = 'a'
@@ -299,15 +300,17 @@ local plugins = {
         },
         sections = {
           lualine_a = {},
-          lualine_b = { 'branch', 'diff', 'diagnostics' },
+          -- lualine_b = { 'branch', 'diff', 'diagnostics' },
+          lualine_b = {},
           lualine_c = {},
           lualine_x = {},
           lualine_y = {},
           lualine_z = {},
         },
+        -- , color = 'LineNr'
         winbar = {
           lualine_a = {},
-          lualine_b = { { 'filename', path = 3, color = 'LineNr' } },
+          lualine_b = { { 'filename', path = 3 } },
           lualine_c = {},
           lualine_x = {},
           lualine_y = {},
@@ -437,9 +440,30 @@ local plugins = {
     'olimorris/onedarkpro.nvim',
     priority = 1000, -- Ensure it loads first
     config = function()
-      require('onedarkpro').setup({
+      local theme = require('onedarkpro')
+      local color = require('onedarkpro.helpers')
+
+      theme.setup({
+        highlights = {
+          CursorLineNr = { fg = '${fg}' },
+        },
         options = {
           cursorline = true,
+        },
+        styles = {
+          comments = 'italic',
+          conditionals = 'NONE',
+          constants = 'NONE',
+          functions = 'NONE',
+          keywords = 'NONE',
+          methods = 'NONE',
+          numbers = 'NONE',
+          operators = 'NONE',
+          parameters = 'NONE',
+          strings = 'NONE',
+          types = 'NONE',
+          variables = 'NONE',
+          virtual_text = 'NONE',
         },
       })
       vim.cmd('colorscheme onedark')
@@ -710,7 +734,7 @@ require('lazy').setup({
   plugins.filetype,
   plugins.fugitive,
   plugins.leap,
-  plugins.lualine,
+  -- plugins.lualine,
   plugins.multiple_cursors,
   plugins.null,
   plugins.nvimtree,
