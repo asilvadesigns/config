@@ -271,9 +271,9 @@ local plugins = {
   leap = {
     'ggandor/leap.nvim',
     config = function()
-      vim.api.nvim_set_hl(0, 'LeapBackdrop', { link = 'WinSeparator' })
+      vim.api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
       vim.api.nvim_set_hl(0, 'LeapMatch', {
-        fg = 'white', -- for light themes, set to 'black' or similar
+        fg = 'white', -- set to black for light themes
         bold = true,
         nocombine = true,
       })
@@ -349,8 +349,8 @@ local plugins = {
     config = function()
       require('null-ls').setup({
         sources = {
-          -- eslint
-          require('null-ls').builtins.code_actions.eslint,
+          -- -- eslint
+          -- require('null-ls').builtins.code_actions.eslint,
           -- lua
           require('null-ls').builtins.formatting.stylua,
           -- prettier
@@ -377,6 +377,7 @@ local plugins = {
         update_cwd = false,
         respect_buf_cwd = true,
         update_focused_file = {
+          enable = true,
           update_cwd = false,
         },
         renderer = {
@@ -444,8 +445,65 @@ local plugins = {
       local color = require('onedarkpro.helpers')
 
       theme.setup({
+        colors = {
+          dark = {
+            telescope_prompt = "require('onedarkpro.helpers').darken('bg', 1, 'onedark')",
+            telescope_results = "require('onedarkpro.helpers').darken('bg', 4, 'onedark')",
+            telescope_preview = "require('onedarkpro.helpers').darken('bg', 6, 'onedark')",
+            telescope_selection = "require('onedarkpro.helpers').darken('bg', 8, 'onedark')",
+          },
+          light = {
+            telescope_prompt = "require('onedarkpro.helpers').darken('bg', 2, 'onelight')",
+            telescope_results = "require('onedarkpro.helpers').darken('bg', 5, 'onelight')",
+            telescope_preview = "require('onedarkpro.helpers').darken('bg', 7, 'onelight')",
+            telescope_selection = "require('onedarkpro.helpers').darken('bg', 9, 'onelight')",
+          },
+        },
         highlights = {
-          CursorLineNr = { fg = '${fg}' },
+          TelescopeBorder = {
+            fg = '${telescope_results}',
+            bg = '${telescope_results}',
+          },
+          TelescopePromptBorder = {
+            fg = '${telescope_prompt}',
+            bg = '${telescope_prompt}',
+          },
+          TelescopePromptCounter = { fg = '${fg}' },
+          TelescopePromptNormal = { fg = '${fg}', bg = '${telescope_prompt}' },
+          TelescopePromptPrefix = {
+            fg = '${purple}',
+            bg = '${telescope_prompt}',
+          },
+          TelescopePromptTitle = {
+            fg = '${telescope_prompt}',
+            bg = '${purple}',
+          },
+          TelescopePreviewTitle = {
+            fg = '${telescope_results}',
+            bg = '${green}',
+          },
+          TelescopeResultsTitle = {
+            fg = '${telescope_results}',
+            bg = '${telescope_results}',
+          },
+          TelescopeMatching = { fg = '${blue}' },
+          TelescopeNormal = { bg = '${telescope_results}' },
+          TelescopeSelection = { bg = '${telescope_selection}' },
+          TelescopePreviewNormal = { bg = '${telescope_preview}' },
+          TelescopePreviewBorder = { fg = '${telescope_preview}', bg = '${telescope_preview}' },
+          -- custom
+          CursorLineNr = { fg = '${fg}', bg = '${cursorline}' },
+          WinSeparator = { fg = '${bg}' },
+          -- colors used in hover
+          DiagnosticError = { fg = '${fg}' },
+          DiagnosticHint = { fg = '${fg}' },
+          DiagnosticInfo = { fg = '${fg}' },
+          DiagnosticWarn = { fg = '${fg}' },
+          -- colors used in number sign
+          DiagnosticSignError = { fg = '${fg}' },
+          DiagnosticSignHint = { fg = '${fg}' },
+          DiagnosticSignInfo = { fg = '${fg}' },
+          DiagnosticSignWarn = { fg = '${fg}' },
         },
         options = {
           cursorline = true,
@@ -557,6 +615,7 @@ local plugins = {
               results = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
               preview = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
             },
+            display_stat = false,
             preview = false,
             mappings = {
               i = {
@@ -625,6 +684,14 @@ local plugins = {
       vim.keymap.set('n', '<C-Space>', nvim_tmux_nav.NvimTmuxNavigateNext, keymap_opts)
     end,
   },
+  toggleterm = {
+    'akinsho/toggleterm.nvim',
+    config = function()
+      require('toggleterm').setup()
+
+      vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], keymap_opts)
+    end,
+  },
   treesitter = {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
@@ -632,6 +699,12 @@ local plugins = {
     },
     config = function()
       pcall(require('nvim-treesitter.install').update({ with_sync = true }))
+    end,
+  },
+  treesitter_autopairs = {
+    'windwp/nvim-ts-autotag',
+    config = function()
+      require('nvim-ts-autotag').setup()
     end,
   },
   treesitter_context = {
@@ -746,7 +819,9 @@ require('lazy').setup({
   plugins.telescope_browser,
   plugins.telescope_fzf,
   plugins.tmux,
+  plugins.toggleterm,
   plugins.treesitter,
+  plugins.treesitter_autopairs,
   plugins.treesitter_context,
   plugins.treesitter_playground,
   plugins.trouble,
