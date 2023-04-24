@@ -207,6 +207,13 @@ default_shell "/usr/local/bin/fish"
 //
 pane_frames false
 
+ui {
+  pane_frames {
+    hide_session_name true
+  }
+}
+
+
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
 //   - true (default)
