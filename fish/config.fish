@@ -13,4 +13,6 @@ function go
   cd ~/dev/$directory/
 end
 
+set -gx EDITOR nvim
+
 starship init fish | source

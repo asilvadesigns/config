@@ -25,6 +25,10 @@
 #:     bold_italic_font Operator Mono Medium Italic
 
 font_size 15.0
+font_family JetBrainsMono Nerd Font Mono
+
+modify_font cell_height 10px
+# modify_font baseline 2
 
 #: Font size (in pts)
 
@@ -784,7 +788,7 @@ font_size 15.0
 #: set the vertical and horizontal sides. Three values set top,
 #: horizontal and bottom. Four values set top, right, bottom and left.
 
-# window_padding_width 0
+window_padding_width 0
 
 #: The window padding (in pts) (blank area between the text and the
 #: window border). A single value sets all four sides. Two values set
@@ -2344,6 +2348,6 @@ hide_window_decorations titlebar-only
 
 
 # BEGIN_KITTY_THEME
-# One Dark
+# Solarized Dark
 include current-theme.conf
 # END_KITTY_THEME

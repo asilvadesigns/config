@@ -8,7 +8,7 @@ M.setup = function()
     show_end_of_line = false,
   })
 
-  vim.cmd('highlight! link IndentBlanklineChar VertSplit')
+  vim.cmd('hi! link IndentBlanklineChar Comment')
 end
 
 return M
