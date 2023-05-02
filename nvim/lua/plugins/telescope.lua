@@ -2,7 +2,8 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     enabled = true,
-    cmd = 'Telescope',
+    -- cmd = 'Telescope',
+    event = { 'VeryLazy' },
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-fzf-native.nvim',
@@ -82,7 +83,7 @@ return {
     'nvim-telescope/telescope-fzf-native.nvim',
     enabled = true,
     build = 'make',
-    cmd = 'Telescope',
+    event = { 'VeryLazy' },
     config = function()
       require("telescope").load_extension("fzf")
     end,
