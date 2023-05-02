@@ -16,4 +16,14 @@ return {
     'NvChad/nvim-colorizer.lua',
     event = { 'BufReadPost', 'BufNewFile' },
   },
+  -- NOTE: been prefering solarized nowadays
+  -- {
+  --   'olimorris/onedarkpro.nvim',
+  --   priority = 1000,
+  --   config = function()
+  --     local theme = require('onedarkpro')
+  --     theme.setup()
+  --     vim.cmd('colorscheme onedark')
+  --   end
+  -- },
 }

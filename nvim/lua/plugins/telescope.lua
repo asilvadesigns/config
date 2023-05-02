@@ -3,13 +3,19 @@ return {
     'nvim-telescope/telescope.nvim',
     enabled = true,
     cmd = 'Telescope',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-fzf-native.nvim',
+    },
     config = function()
       require('telescope').setup({
         defaults = {
           layout_config = { prompt_position = 'top' },
           layout_strategy = 'horizontal',
           preview = false,
+          prompt_prefix = " ",
+          selection_caret = " ",
+          sorting_strategy = "ascending",
           winblend = 0,
           mappings = {
             i = {
@@ -36,9 +42,7 @@ return {
         },
       })
 
-      pcall(require('telescope').load_extension, 'file_browser')
       pcall(require('telescope').load_extension, 'fzf')
-      pcall(require('telescope').load_extension, 'persisted')
 
       local function get_commands()
         require('telescope.builtin').commands()
@@ -72,27 +76,15 @@ return {
       vim.keymap.set('n', '<leader>e', get_old_files)
       vim.keymap.set('n', '<leader>f', get_find_files)
       vim.keymap.set('n', '<leader>g', get_git_files)
-
-      vim.api.nvim_set_keymap(
-      'n',
-      '<leader>x',
-      ':Telescope file_browser path=%:p:h select_buffer=true<CR>',
-      { noremap = true }
-      )
     end
   },
   {
-    'nvim-telescope/telescope-file-browser.nvim',
-    event = { 'BufReadPost', 'BufNewFile' },
-    dependencies = { 'nvim-telescope/telescope.nvim' },
-  },
-  {
     'nvim-telescope/telescope-fzf-native.nvim',
-    event = { 'BufReadPost', 'BufNewFile' },
-    dependencies = { 'nvim-telescope/telescope.nvim' },
+    enabled = true,
     build = 'make',
-    cond = function()
-      return vim.fn.executable('make') == 1
+    cmd = 'Telescope',
+    config = function()
+      require("telescope").load_extension("fzf")
     end,
   },
 }
