@@ -2,11 +2,10 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     enabled = true,
-    -- cmd = 'Telescope',
     event = { 'VeryLazy' },
     dependencies = {
       'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope-fzf-native.nvim',
+      { 'nvim-telescope/telescope-fzf-native.nvim' },
     },
     config = function()
       require('telescope').setup({
@@ -46,7 +45,9 @@ return {
       pcall(require('telescope').load_extension, 'fzf')
 
       local function get_commands()
-        require('telescope.builtin').commands()
+        require('telescope.builtin').commands({
+          sort_mru = true
+        })
       end
 
       local function get_buffers()

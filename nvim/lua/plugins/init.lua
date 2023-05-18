@@ -1,23 +1,64 @@
 return {
-  -- {
-  --   'j-hui/fidget.nvim',
-  --   dependencies = {
-  --     'neovim/nvim-lspconfig',
-  --   },
-  --   config = function()
-  --     require('fidget').setup()
-  --   end,
-  -- },
+  {
+    'williamboman/mason.nvim',
+    cmd = 'Mason',
+    enabled = true,
+    config = function()
+      require('mason').setup({
+        ensure_installed = {
+          'angularls',
+          'cssls',
+          'lua_ls',
+          'tsserver',
+        }
+      })
+    end
+  },
   {
     'neovim/nvim-lspconfig',
     enabled = true,
     event = { 'BufReadPost', 'BufNewFile' },
-    dependencies = {
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-      'folke/neodev.nvim',
+    dependencies = { 'folke/neodev.nvim' },
+    opts = {
+      servers = {
+        lua_ls = {
+          Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+          },
+        },
+        angularls = {},
+        cssls = {},
+        tsserver = {},
+      }
     },
-    config = function()
+    config = function(_, opts)
+      -- Diagnostic config
+      vim.diagnostic.config({
+        underline = false,
+        virtual_text = false,
+      })
+
+      -- Diagnostic keymaps
+      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+      vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+
+      -- Diagnostics in gutter
+      -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
+      local icons = require('config.options').icons
+
+      local signs = {
+        Error = icons.error,
+        Hint = icons.hint,
+        Info = icons.info,
+        Warn = icons.warn,
+      }
+
+      for type, icon in pairs(signs) do
+        local hl = 'DiagnosticSign' .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      end
+
       -- LSP settings.
       --  This function gets run when an LSP connects to a particular buffer.
       local lsp_on_attach = function(_, bufnr)
@@ -35,9 +76,17 @@ return {
           vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
         end
 
+        local vmap = function(keys, func, desc)
+          if desc then
+            desc = 'LSP: ' .. desc
+          end
+
+          vim.keymap.set('v', keys, func, { buffer = bufnr, desc = desc })
+        end
+
         nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
         -- was <leader>ca
-        nmap('<C-.>', vim.lsp.buf.code_action, '[C]ode [A]ction')
+        nmap('<c-.>', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
         nmap('<leader>m', vim.lsp.buf.format, 'For[m]at')
         nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
@@ -48,7 +97,8 @@ return {
         -- nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
         --
         -- -- See `:help K` for why this keymap
-        -- nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+        nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+        vmap('i', '<c-s>', vim.lsp.buf.signature_help, 'Signature Documentation')
         -- nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
         --
         -- -- Lesser used LSP functionality
@@ -69,38 +119,51 @@ return {
       -- TODO: add when I get cmp setup
       lsp_capabilities = require('cmp_nvim_lsp').default_capabilities(lsp_capabilities)
 
-      local lsp_servers = {
-        lua_ls = {
-          Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-          },
-        },
-        tsserver = {},
-      }
-
       require('neodev').setup()
 
-      require('mason').setup()
-
-      require('mason-lspconfig').setup({
-        ensure_installed = vim.tbl_keys(lsp_servers)
-      })
-
-      require('mason-lspconfig').setup_handlers({
-        function(server_name)
-          require('lspconfig')[server_name].setup({
-            capabilities = lsp_capabilities,
-            on_attach = lsp_on_attach,
-            settings = lsp_servers[server_name]
-          })
-        end
-      })
+      for server, server_opts in pairs(opts.servers) do
+        require('lspconfig')[server].setup({
+          capabilities = lsp_capabilities,
+          on_attach = lsp_on_attach,
+          settings = server_opts,
+        })
+      end
+      -- local lsp_server_settings = {
+      --   lua_ls = {
+      --     Lua = {
+      --       workspace = { checkThirdParty = false },
+      --       telemetry = { enable = false },
+      --     },
+      --   },
+      --   angularls = {
+      --     single_file_support = false,
+      --     root_dir = lsp_config.util.find_git_ancestor(filename)
+      --   },
+      --   tsserver = {
+      --     single_file_support = false,
+      --     -- root_dir = function(filename, bufnr)
+      --     --   return lsp_config.util.find_git_ancestor(filename)
+      --     -- end
+      --   },
+      -- }
+      -- require('mason').setup()
+      -- require('mason-lspconfig').setup({
+      --   ensure_installed = vim.tbl_keys(lsp_server_settings)
+      -- })
+      -- require('mason-lspconfig').setup_handlers({
+      --   function(server_name)
+      --     require('lspconfig')[server_name].setup({
+      --       capabilities = lsp_capabilities,
+      --       on_attach = lsp_on_attach,
+      --       settings = lsp_server_settings[server_name]
+      --     })
+      --   end
+      -- })
     end
   },
   {
     'lukas-reineke/indent-blankline.nvim',
-    enabled = true,
+    enabled = false,
     event = { 'BufReadPost', 'BufNewFile' },
     config = function()
       vim.opt.list = true
@@ -130,11 +193,11 @@ return {
         },
         -- you can enable a preset for easier configuration
         presets = {
-          bottom_search = true,         -- use a classic bottom cmdline for search
-          command_palette = true,       -- position the cmdline and popupmenu together
+          bottom_search = true, -- use a classic bottom cmdline for search
+          command_palette = true, -- position the cmdline and popupmenu together
           long_message_to_split = true, -- long messages will be sent to a split
-          inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = false,       -- add a border to hover docs and signature help
+          inc_rename = false, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false, -- add a border to hover docs and signature help
         },
       })
     end,
@@ -143,6 +206,31 @@ return {
       'rcarriga/nvim-notify'
     }
   },
+  {
+    "RRethy/vim-illuminate",
+    event = { 'CursorMoved' },
+    opts = { delay = 100 },
+    config = function(_, opts)
+      require("illuminate").configure(opts)
+
+      vim.cmd('hi! link IlluminatedWordRead Visual')
+      vim.cmd('hi! link IlluminatedWordText Visual')
+      vim.cmd('hi! link IlluminatedWordWrite Visual')
+    end,
+    keys = {
+      { "]]", function() require("illuminate").goto_next_reference(false) end, desc = "Next Reference", },
+      { "[[", function() require("illuminate").goto_prev_reference(false) end, desc = "Prev Reference" },
+    },
+  },
+  -- {
+  --   'j-hui/fidget.nvim',
+  --   dependencies = {
+  --     'neovim/nvim-lspconfig',
+  --   },
+  --   config = function()
+  --     require('fidget').setup()
+  --   end,
+  -- },
   -- {
   --   "glepnir/lspsaga.nvim",
   --   event = { "LspAttach" },

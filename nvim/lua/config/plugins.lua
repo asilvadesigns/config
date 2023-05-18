@@ -1,14 +1,14 @@
 require('lazy').setup({
   checker = { enabled = false, },
   defaults = { lazy = true, },
-  install = { colorscheme = { "solarized-flat" } },
+  install = { colorscheme = { "onedark" } },
   spec = { import = 'plugins' },
   performance = {
     rtp = {
       disabled_plugins = {
         "gzip",
-        "matchit",
-        "matchparen",
+        -- "matchit",
+        -- "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
@@ -18,4 +18,3 @@ require('lazy').setup({
     }
   },
 })
-

@@ -1,67 +1,65 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
     enabled = true,
-    event = { 'BufReadPost', 'BufNewFile' },
+    event = { 'VeryLazy' },
     dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring',
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
-    config = function()
-      pcall(require('nvim-treesitter.install').update({ with_sync = true }))
-
-      require('nvim-treesitter.configs').setup({
-        ensure_installed = {
-          'bash',
-          'css',
-          'dockerfile',
-          'gitignore',
-          'html',
-          'javascript',
-          'jsdoc',
-          'json',
-          'lua',
-          'luadoc',
-          'markdown',
-          'markdown_inline',
-          'prisma',
-          'python',
-          'scss',
-          'tsx',
-          'typescript',
-          'vim',
-          'yaml',
-        },
-        highlight = {
-          enable = true,
-        },
-        -- JoosepAlviste/nvim-ts-context-commentstring
-        context_commentstring = {
-          enable = true,
-        },
-        -- andymass/vim-matchup
-        matchup = {
-          enable = true,
-        },
-      })
-    end,
+    opts = {
+      ensure_installed = {
+        'bash',
+        'css',
+        'dockerfile',
+        'gitignore',
+        'html',
+        'javascript',
+        'jsdoc',
+        'json',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'prisma',
+        'python',
+        'scss',
+        'tsx',
+        'typescript',
+        'vim',
+        'yaml',
+      },
+      highlight = {
+        enable = true,
+      },
+      context_commentstring = {
+        enable = true,
+      },
+      -- matchup = {
+      --   enable = true,
+      -- },
+    },
+    config = function (_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end
   },
   {
     'windwp/nvim-ts-autotag',
     enabled = true,
-    event = { 'BufReadPost', 'BufNewFile' },
+    event = { 'VeryLazy' },
     config = function()
       require('nvim-ts-autotag').setup()
     end,
   },
-  {
-    'andymass/vim-matchup',
-    enabled = true,
-    event = { 'BufReadPost', 'BufNewFile' },
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-    }
-  },
+  -- {
+  --   'andymass/vim-matchup',
+  --   enabled = true,
+  --   name = 'matchup',
+  --   dependencies = {
+  --     'nvim-treesitter/nvim-treesitter',
+  --   }
+  -- },
   -- NOTE: this isnt very useful atm
   -- {
   --   'nvim-treesitter/playground',
@@ -77,7 +75,7 @@ return {
   {
     'numToStr/Comment.nvim',
     enabled = true,
-    event = { 'BufReadPost', 'BufNewFile' },
+    event = { 'VeryLazy' },
     dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring',
       'nvim-treesitter/nvim-treesitter',

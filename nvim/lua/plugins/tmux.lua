@@ -1,7 +1,7 @@
 return {
   {
     'alexghergh/nvim-tmux-navigation',
-    enabled = true,
+    enabled = false,
     event = { 'VeryLazy' },
     config = function()
       local nvim_tmux_nav = require('nvim-tmux-navigation')
