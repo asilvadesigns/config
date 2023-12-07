@@ -5,10 +5,6 @@ local keymap_opts_with_expr = { noremap = true, expr = true }
 vim.keymap.set('i', '<c-l>', '<END>', keymap_opts)
 vim.keymap.set('i', '<c-h>', '<HOME>', keymap_opts)
 
--- better escape using jk in insert and terminal mode
--- vim.keymap.set('i', 'kj', '<ESC>', defaults)
--- vim.keymap.set('t', 'kj', '<C-\\><C-n>', defaults)
-
 -- better mouse navigation
 vim.keymap.set('n', '<ScrollWheelUp>', '<C-y>', keymap_opts)
 vim.keymap.set('n', '<ScrollWheelDown>', '<C-e>', keymap_opts)

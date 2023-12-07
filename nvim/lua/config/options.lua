@@ -5,6 +5,7 @@ vim.opt.writebackup = false
 
 -- buffers
 vim.opt.splitbelow = true
+vim.opt.splitkeep = 'screen'
 vim.opt.splitright = true
 
 -- clipboard
@@ -15,6 +16,10 @@ vim.opt.cursorline = true
 
 -- folding
 vim.opt.conceallevel = 0
+vim.opt.foldcolumn = '1' -- '0' is not bad
+vim.opt.foldenable = true
+vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.opt.foldlevelstart = 99
 
 -- gutters
 vim.opt.signcolumn = 'yes'
@@ -78,6 +83,8 @@ vim.g.loaded_vimballPlugin = 1
 vim.g.loaded_zip = 1
 vim.g.loaded_zipPlugin = 1
 
+vim.g.skip_ts_context_commentstring_module = true
+
 -- icons
 local M = {}
 
@@ -91,3 +98,4 @@ M.icons = {
 }
 
 return M
+

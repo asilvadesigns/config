@@ -1,5 +1,97 @@
 return {
   {
+    "folke/flash.nvim",
+    enabled = true,
+    event = { 'VeryLazy' },
+    opts = {},
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      { ";", mode = { "n" }, function() require("flash").jump() end, desc = "Toggle Flash Jump" }
+    },
+  },
+  {
+    'NvChad/nvim-colorizer.lua',
+    enabled = true,
+    event = { 'VeryLazy' },
+  },
+  {
+    'folke/edgy.nvim',
+    enabled = false,
+    event = { 'VeryLazy' },
+    init = function()
+      vim.opt.laststatus = 3
+      vim.opt.splitkeep = "screen"
+    end,
+    opts = {
+      animate = {
+        enabled = false,
+      },
+      bottom = {
+        { title = 'Trouble', ft = 'Trouble' },
+        {
+          ft = "help",
+          size = { height = 20 },
+          -- only show help buffers
+          filter = function(buf)
+            return vim.bo[buf].buftype == "help"
+          end,
+        },
+      },
+      left = {
+        { title = 'Neotree', ft = 'neo-tree' },
+      },
+    },
+  },
+  {
+    'max397574/better-escape.nvim',
+    enabled = true,
+    event = { 'InsertEnter' },
+    config = function()
+      require('better_escape').setup({
+        clear_empty_lines = false, -- clear line after escaping if there is only whitespace
+        keys = '<Esc>', -- keys used for escaping, if it is a function will use the result everytime
+        mapping = { 'kj' }, -- a table with mappings to use
+        timeout = vim.o.timeoutlen, -- the time in which the keys must be hit in ms. Use option timeoutlen by default
+      })
+    end,
+  },
+  {
+    'kylechui/nvim-surround',
+    enabled = true,
+    event = { 'CursorMoved' },
+    keys = {
+      {
+        'ds',
+        'cs',
+      }
+    },
+    opts = {},
+  },
+  {
+    "gbprod/substitute.nvim",
+    enabled = true,
+    event = { 'CursorMoved' },
+    opts = {},
+    config = function()
+      vim.keymap.set("x", "X", require('substitute.exchange').visual, { noremap = true })
+    end
+  },
+  {
+    'stevearc/oil.nvim',
+    cmd = 'Oil',
+    enabled = true,
+    dependencies = {
+      'nvim-tree/nvim-web-devicons'
+    },
+    opts = {
+      delete_to_trash = false,
+    },
+  },
+  {
     'williamboman/mason.nvim',
     cmd = 'Mason',
     enabled = true,
@@ -35,7 +127,7 @@ return {
     config = function(_, opts)
       -- Diagnostic config
       vim.diagnostic.config({
-        underline = false,
+        underline = true,
         virtual_text = false,
       })
 
@@ -56,7 +148,12 @@ return {
 
       for type, icon in pairs(signs) do
         local hl = 'DiagnosticSign' .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+        vim.fn.sign_define(hl, {
+          linehl = "",
+          numhl = "",
+          text = icon,
+          texthl = hl,
+        })
       end
 
       -- LSP settings.
@@ -162,6 +259,135 @@ return {
     end
   },
   {
+    "hrsh7th/nvim-cmp",
+    enabled = true,
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/cmp-path",
+      "saadparwaiz1/cmp_luasnip",
+      'L3MON4D3/LuaSnip',
+      -- "f3fora/cmp-spell",
+      -- "hrsh7th/cmp-buffer",
+      -- "hrsh7th/cmp-calc",
+      -- "hrsh7th/cmp-cmdline",
+      -- "hrsh7th/cmp-nvim-lsp-document-symbol",
+    },
+    config = function()
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
+
+      luasnip.config.setup()
+
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert {
+          ['<C-n>'] = cmp.mapping.select_next_item(),
+          ['<C-p>'] = cmp.mapping.select_prev_item(),
+          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete {},
+          ['<CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+          },
+          ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            else
+              fallback()
+            end
+          end, { 'i', 's' }),
+          ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { 'i', 's' }),
+        },
+        sources = {
+          { name = 'luasnip' },
+          { name = 'nvim_lsp' },
+          { name = 'nvim_lua' },
+          { name = 'path' },
+        },
+      })
+    end
+  },
+  {
+    'kevinhwang91/nvim-ufo',
+    enabled = true,
+    event = { 'BufReadPost', 'BufNewFile' },
+    keys = {
+      { 'zR', function() require('ufo').openAllFolds() end },
+      { 'zM', function() require('ufo').closeAllFolds() end },
+    },
+    dependencies = {
+      'kevinhwang91/promise-async',
+      'luukvbaal/statuscol.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    opts = {
+      open_fold_hl_timeout = 0,
+      fold_virt_text_handler = function(text, lnum, endLnum, width)
+        local suffix = "  "
+        local lines  = ('[%d lines] '):format(endLnum - lnum)
+
+        local cur_width = 0
+        for _, section in ipairs(text) do
+          cur_width = cur_width + vim.fn.strdisplaywidth(section[1])
+        end
+
+        suffix = suffix .. (' '):rep(width - cur_width - vim.fn.strdisplaywidth(lines) - 3)
+
+        table.insert(text, { suffix, 'Comment' })
+        table.insert(text, { lines, 'Todo' })
+        return text
+      end,
+      preview = {
+        win_config = {
+          border       = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+          winblend     = 0,
+          winhighlight = "Normal:LazyNormal",
+        }
+      },
+      provider_selector = function(bufnr, filetype, buftype)
+        return { 'treesitter', 'indent' }
+      end,
+    },
+    config = function(_, opts)
+      -- TODO: move to config.icons
+      --      
+
+      -- NOTE: small icons
+      vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+
+      -- NOTE: large icons
+      -- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+
+      require('statuscol').setup({
+        relculright = true,
+        segments = {
+          { text = { '%s' }, click = 'v:lua.ScSa' },
+          { text = { require('statuscol.builtin').lnumfunc, ' ' }, click = 'v:lua.ScLa' },
+          { text = { require('statuscol.builtin').foldfunc, ' ' }, click = 'v:lua.ScFa' },
+        },
+      })
+
+      require('ufo').setup(opts)
+    end,
+  },
+  {
     'lukas-reineke/indent-blankline.nvim',
     enabled = false,
     event = { 'BufReadPost', 'BufNewFile' },
@@ -178,78 +404,564 @@ return {
     end
   },
   {
-    'folke/noice.nvim',
-    enabled = true,
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    keys = {
+      {
+        '<leader>j',
+        '<CMD>NeoTreeReveal<CR>',
+        desc = 'reveal file in explorer'
+      },
+      {
+        '<leader>x',
+        -- '<CMD>Neotree position=current reveal_path=%:p:h reveal_file=%:p<CR>',
+        '<CMD>Neotree position=current reveal_file=%:p<CR>',
+        desc = 'reveal file in current buffer'
+      }
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require('neo-tree').setup({
+        enable_diagnostics = true,
+        enable_git_status = false,
+        enable_modified_markers = false,
+        buffers = {
+          follow_current_file = false,
+        },
+        filesystem = {
+          filtered_items = {
+            hide_dotfiles = false,
+            hide_gitignored = false,
+          },
+          follow_current_file = false,
+          renderers = {
+            file = {
+              { "indent" },
+              { "name" },
+            }
+          }
+        },
+        default_component_configs = {
+          indent = {
+            indent_marker = "│",
+            indent_size = 2,
+            last_indent_marker = "└",
+            with_markers = true,
+          },
+          icon = {
+            -- NOTE: large icons
+            -- folder_closed = '',
+            -- folder_open = '',
+            -- NOTE: small icons
+            folder_closed = '',
+            folder_open = '',
+          }
+        },
+        use_default_mappings = false,
+        window = {
+          mappings = {
+            -- operations
+            ["<cr>"] = "open",
+            ["<space>"] = "toggle_node",
+            ["A"] = "add_directory",
+            ["a"] = "add",
+            ["d"] = "delete",
+            ["r"] = "rename",
+            -- movements
+            ["<bs>"] = "navigate_up",
+            -- searching
+            ["#"] = "fuzzy_sorter",
+            ["<c-x>"] = "clear_filter",
+            ["D"] = "fuzzy_finder_directory",
+            ["f"] = "filter_on_submit",
+            -- splits
+            ["S"] = "open_split",
+            ["s"] = "open_vsplit",
+            -- toggle
+            ["H"] = "toggle_hidden",
+            ["R"] = "refresh",
+          }
+        }
+      })
+    end
+  },
+  {
+    'dstein64/nvim-scrollview',
+    enabled = false,
     event = { 'VeryLazy' },
     config = function()
-      require("noice").setup({
-        lsp = {
-          -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-          override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = true,
-          },
-        },
-        -- you can enable a preset for easier configuration
-        presets = {
-          bottom_search = true, -- use a classic bottom cmdline for search
-          command_palette = true, -- position the cmdline and popupmenu together
-          long_message_to_split = true, -- long messages will be sent to a split
-          inc_rename = false, -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = false, -- add a border to hover docs and signature help
-        },
+      require('scrollview').setup({
+        excluded_filetypes = { 'NvimTree' },
+        current_only = false,
+        winblend = 75,
+        base = 'buffer',
+        column = 80,
       })
     end,
+  },
+  {
+    'nvim-telescope/telescope.nvim',
+    enabled = true,
+    event = { 'VeryLazy' },
     dependencies = {
-      'MunifTanjim/nui.nvim',
-      'rcarriga/nvim-notify'
+      'nvim-lua/plenary.nvim',
+      { 'nvim-telescope/telescope-fzf-native.nvim' },
+    },
+    config = function()
+      require('telescope').setup({
+        defaults = {
+          layout_config = { prompt_position = 'top' },
+          layout_strategy = 'horizontal',
+          preview = false,
+          prompt_prefix = " ",
+          selection_caret = " ",
+          sorting_strategy = "ascending",
+          winblend = 0,
+          mappings = {
+            i = {
+              ['<C-u>'] = false,
+              ['<esc>'] = require('telescope.actions').close,
+            },
+          },
+        },
+        extensions = {
+          fzf = {
+            case_mode = 'smart_case', -- or 'ignore_case', 'respect_case'
+            fuzzy = true, -- false will only do exact matching
+            override_file_sorter = true, -- override the file sorter
+            override_generic_sorter = true, -- override the generic sorter
+          },
+        },
+        pickers = {
+          colorscheme = {
+            enable_preview = true,
+          },
+          oldfiles = {
+            only_cwd = true,
+          },
+        },
+      })
+
+      pcall(require('telescope').load_extension, 'fzf')
+
+      local function get_commands()
+        require('telescope.builtin').commands({
+          sort_mru = true
+        })
+      end
+
+      local function get_buffers()
+        require('telescope.builtin').buffers({
+          ignore_current_buffer = true,
+          only_cwd = true,
+          sort_mru = true
+        })
+      end
+
+      local function get_old_files()
+        require('telescope.builtin').oldfiles({
+          only_cwd = true,
+        })
+      end
+
+      local function get_find_files()
+        require('telescope.builtin').find_files()
+      end
+
+      local function get_git_files()
+        require('telescope.builtin').git_files()
+      end
+
+      -- NOTE: needs DESC
+      vim.keymap.set('n', '<leader>a', get_commands)
+      vim.keymap.set('n', '<leader>b', get_buffers)
+      vim.keymap.set('n', '<leader>e', get_old_files)
+      vim.keymap.set('n', '<leader>f', get_find_files)
+      vim.keymap.set('n', '<leader>g', get_git_files)
+    end
+  },
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    enabled = true,
+    build = 'make',
+    event = { 'VeryLazy' },
+    config = function()
+      require("telescope").load_extension("fzf")
+    end,
+  },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    enabled = true,
+    event = { 'VeryLazy' },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    opts = {
+      ensure_installed = {
+        'bash',
+        'css',
+        'dockerfile',
+        'gitignore',
+        'html',
+        'javascript',
+        'jsdoc',
+        'json',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'prisma',
+        'python',
+        'scss',
+        'tsx',
+        'typescript',
+        'vim',
+        'yaml',
+      },
+      indent = {
+        enable = true,
+      },
+      highlight = {
+        enable = true,
+      },
+    },
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end
+  },
+  {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    enabled = true,
+    event = { 'VeryLazy' },
+    opts = {}
+  },
+  {
+    'numToStr/Comment.nvim',
+    enabled = true,
+    event = { 'VeryLazy' },
+    dependencies = {
+      'JoosepAlviste/nvim-ts-context-commentstring',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      require('Comment').setup({
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      })
+    end,
+  },
+  {
+    'folke/trouble.nvim',
+    enabled = true,
+    cmd = { 'ToggleTrouble', 'Trouble' },
+    dependencies = {
+      'nvim-tree/nvim-web-devicons'
+    },
+    opts = {
+      fold_closed = "", -- icon used for closed folds
+      fold_open = "", -- icon used for open folds
+      use_diagnostic_signs = true
     }
   },
   {
-    "RRethy/vim-illuminate",
-    event = { 'CursorMoved' },
-    opts = { delay = 100 },
-    config = function(_, opts)
-      require("illuminate").configure(opts)
-
-      vim.cmd('hi! link IlluminatedWordRead Visual')
-      vim.cmd('hi! link IlluminatedWordText Visual')
-      vim.cmd('hi! link IlluminatedWordWrite Visual')
-    end,
-    keys = {
-      { "]]", function() require("illuminate").goto_next_reference(false) end, desc = "Next Reference", },
-      { "[[", function() require("illuminate").goto_prev_reference(false) end, desc = "Prev Reference" },
+    'rebelot/heirline.nvim',
+    enabled = false,
+    event = { 'UIEnter' },
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
     },
+    config = function()
+      local icons = require('config.options').icons
+
+      local conditions = require("heirline.conditions")
+      local utils = require("heirline.utils")
+
+      local DiagnosticsBlock = {
+        -- condition = conditions.has_diagnostics,
+
+        static = {
+          error_icon = icons.error,
+          hint_icon = icons.hint,
+          info_icon = icons.info,
+          warn_icon = icons.warn,
+        },
+
+        init = function(self)
+          -- instead of nil, can use 0 for current buffer
+          self.errors = #vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
+          self.warnings = #vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.WARN })
+          self.hints = #vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.HINT })
+          self.info = #vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.INFO })
+        end,
+
+        update = { "DiagnosticChanged", "BufEnter" },
+
+        on_click = {
+          callback = function()
+            require("trouble").toggle({ mode = "document_diagnostics" })
+            -- or
+            -- vim.diagnostic.setqflist()
+          end,
+          name = "heirline_diagnostics",
+        },
+        -- Error
+        {
+          provider = function(self)
+            return ("  " .. self.error_icon)
+          end,
+          hl = "DiagnosticError",
+        },
+        {
+          provider = function(self)
+            return (" " .. self.errors .. " ")
+          end,
+          hl = "Comment",
+        },
+        -- Warnings
+        {
+          provider = function(self)
+            return self.warn_icon
+          end,
+          hl = "DiagnosticWarn",
+        },
+        {
+          provider = function(self)
+            return (" " .. self.warnings .. " ")
+          end,
+          hl = "Comment",
+        },
+        -- Info
+        {
+          provider = function(self)
+            return self.info_icon
+          end,
+          hl = "DiagnosticInfo",
+        },
+        {
+          provider = function(self)
+            return (" " .. self.info .. " ")
+          end,
+          hl = "Comment",
+        },
+        -- Hints
+        {
+          provider = function(self)
+            return self.hint_icon
+          end,
+          hl = "DiagnosticHint",
+        },
+        {
+          provider = function(self)
+            return (" " .. self.hints .. " ")
+          end,
+          hl = "Comment",
+        },
+      }
+
+      local FileNameBlock = {
+        -- let's first set up some attributes needed by this component and it's children
+        init = function(self)
+          self.filename = vim.api.nvim_buf_get_name(0)
+        end,
+      }
+
+      local FileIcon = {
+        init = function(self)
+          local filename = self.filename
+          local extension = vim.fn.fnamemodify(filename, ":e")
+          self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(filename, extension,
+            { default = true })
+        end,
+        provider = function(self)
+          return self.icon and ("  " .. self.icon .. " ")
+        end,
+        hl = function(self)
+          return { fg = self.icon_color }
+        end
+      }
+
+      local FileName = {
+        provider = function(self)
+          -- first, trim the pattern relative to the current directory. For other
+          -- options, see :h filename-modifers
+          local filename = vim.fn.fnamemodify(self.filename, ":.")
+          if filename == "" then return "[No Name]" end
+          -- now, if the filename would occupy more than 1/4th of the available
+          -- space, we trim the file path to its initials
+          -- See Flexible Components section below for dynamic truncation
+          if not conditions.width_percent_below(#filename, 0.25) then
+            filename = vim.fn.pathshorten(filename)
+          end
+          return filename
+        end,
+        -- hl = { fg = utils.get_highlight("Directory").fg },
+      }
+
+      local FileFlags = {
+        {
+          condition = function()
+            return vim.bo.modified
+          end,
+          provider = "[+]",
+          -- hl = { fg = "green" },
+        },
+        {
+          condition = function()
+            return not vim.bo.modifiable or vim.bo.readonly
+          end,
+          provider = "",
+          -- hl = { fg = "orange" },
+        },
+      }
+
+      -- Now, let's say that we want the filename color to change if the buffer is
+      -- modified. Of course, we could do that directly using the FileName.hl field,
+      -- but we'll see how easy it is to alter existing components using a "modifier"
+      -- component
+      local FileNameModifer = {
+        hl = function()
+          if vim.bo.modified then
+            -- use `force` because we need to override the child's hl foreground
+            return { fg = "cyan", bold = true, force = true }
+          end
+        end,
+      }
+      -- NOTE: use with...
+      utils.insert(FileNameModifer, FileName) -- a new table where FileName is a child of FileNameModifier
+
+      FileNameBlock = utils.insert(FileNameBlock,
+        FileIcon,
+        FileName, -- a new table where FileName is a child of FileNameModifier
+        FileFlags,
+        { provider = '%<' }-- this means that the statusline is cut here when there's not enough space
+      )
+
+      require('heirline').setup({
+        statusline = {
+          DiagnosticsBlock
+        },
+        winbar = {
+          FileNameBlock
+        },
+        opts = {
+          -- if the callback returns true, the winbar will be disabled for that window
+          -- the args parameter corresponds to the table argument passed to autocommand callbacks. :h nvim_lua_create_autocmd()
+          disable_winbar_cb = function(args)
+            return conditions.buffer_matches({
+              buftype = { "nofile", "prompt", "help", "quickfix" },
+              filetype = { "^git.*", "fugitive", "Trouble", "dashboard" },
+            }, args.buf)
+          end,
+        },
+      })
+    end
   },
-  -- {
-  --   'j-hui/fidget.nvim',
-  --   dependencies = {
-  --     'neovim/nvim-lspconfig',
-  --   },
-  --   config = function()
-  --     require('fidget').setup()
-  --   end,
-  -- },
-  -- {
-  --   "glepnir/lspsaga.nvim",
-  --   event = { "LspAttach" },
-  --   config = function()
-  --     require("lspsaga").setup({
-  --       symbol_in_winbar = {
-  --         enable = true,
-  --         separator = "  ",
-  --         hide_keyword = true,
-  --         show_file = false,
-  --         folder_level = 2,
-  --         respect_root = false,
-  --         color_mode = false,
-  --       }
-  --     })
-  --   end,
-  --   dependencies = {
-  --     {"nvim-tree/nvim-web-devicons"},
-  --     {"nvim-treesitter/nvim-treesitter"}
-  --   }
-  -- }
+  {
+    'alexghergh/nvim-tmux-navigation',
+    enabled = false,
+    event = { 'VeryLazy' },
+    config = function()
+      local nvim_tmux_nav = require('nvim-tmux-navigation')
+
+      nvim_tmux_nav.setup({
+        disable_when_zoomed = true, -- defaults to false
+      })
+
+      local opts = { noremap = true, silent = true }
+      vim.keymap.set('n', '<C-h>', nvim_tmux_nav.NvimTmuxNavigateLeft, opts)
+      vim.keymap.set('n', '<C-j>', nvim_tmux_nav.NvimTmuxNavigateDown, opts)
+      vim.keymap.set('n', '<C-k>', nvim_tmux_nav.NvimTmuxNavigateUp, opts)
+      vim.keymap.set('n', '<C-l>', nvim_tmux_nav.NvimTmuxNavigateRight, opts)
+      vim.keymap.set('n', '<C-\\>', nvim_tmux_nav.NvimTmuxNavigateLastActive, opts)
+      vim.keymap.set('n', '<C-Space>', nvim_tmux_nav.NvimTmuxNavigateNext, opts)
+    end,
+  },
+  {
+    'ishan9299/nvim-solarized-lua',
+    enabled = false,
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd('colorscheme solarized-flat')
+      vim.cmd('hi EndOfBuffer guifg=bg')
+      vim.cmd('hi WinSeparator guifg=bg')
+
+      vim.cmd('hi! link SignColumn Comment')
+      vim.cmd('hi! link FoldColumn LineNr')
+    end
+  },
+  {
+    'olimorris/onedarkpro.nvim',
+    enabled = true,
+    lazy = false,
+    priority = 1000,
+    config = function()
+      local theme = require('onedarkpro')
+      -- local colors = require("onedarkpro.helpers").get_colors()
+
+      theme.setup({
+        options = {
+          cursorline = true, -- Use cursorline highlighting?
+          terminal_colors = true, -- Use the theme's colors for Neovim's :terminal?
+          transparency = false, -- Use a transparent background?
+        }
+      })
+
+      vim.cmd('colorscheme onedark')
+
+      vim.cmd('hi! EndOfBuffer guifg=bg')
+      vim.cmd('hi! SignColumn guibg=bg')
+      vim.cmd('hi! WinSeparator guifg=bg')
+      vim.cmd('hi! WinSeparator guifg=bg')
+
+      vim.cmd('hi! link CursorLineNr Comment')
+      vim.cmd('hi! link FoldColumn LineNr')
+      vim.cmd('hi! link SignColumn Comment')
+      vim.cmd('hi! link SignColumn Comment')
+
+      vim.cmd('hi! link NeoTreeDirectoryIcon Comment')
+    end
+  },
+  {
+    'windwp/nvim-autopairs',
+    enabled = true,
+    event = { 'InsertEnter' },
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    config = function()
+      require('nvim-autopairs').setup()
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp = require('cmp')
+      cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+      )
+    end
+  },
+  {
+    'folke/zen-mode.nvim',
+    enabled = false,
+    event = { 'verylazy' },
+    opts = {},
+  },
+  {
+    'Wansmer/treesj',
+    enabled = true,
+    keys = { '<space>m', '<space>j', '<space>s' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    opts = {},
+  },
+  {
+    "folke/which-key.nvim",
+    enabled = false,
+    event = { 'VeryLazy' },
+    config = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+      require("which-key").setup()
+    end,
+  },
 }

@@ -25,4 +25,4 @@ stashed=''
 disabled = true
 
 [nodejs]
-disabled = true
+disabled = false

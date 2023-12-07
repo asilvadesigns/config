@@ -21,6 +21,3 @@ starship init fish | source
 set -gx PNPM_HOME "/Users/albertos/Library/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end
-# Setting PATH for Python 3.11
-# The original version is saved in /Users/albertos/.config/fish/config.fish.pysave
-set -x PATH "/Library/Frameworks/Python.framework/Versions/3.11/bin" "$PATH"
