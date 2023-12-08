@@ -46,10 +46,14 @@ vim.keymap.set('x', 'K', ":move '<-2<CR>gv-gv", keymap_opts)
 vim.keymap.set('x', 'J', ":move '>+1<CR>gv-gv", keymap_opts)
 
 -- resizing panes
+vim.keymap.set('n', '<C-S-H>', ':vertical resize +3<CR>', keymap_opts)
+vim.keymap.set('n', '<C-S-L>', ':vertical resize -3<CR>', keymap_opts)
+vim.keymap.set('n', '<C-S-J>', ':resize +3<CR>', keymap_opts)
+vim.keymap.set('n', '<C-S-K>', ':resize -3<CR>', keymap_opts)
+vim.keymap.set('n', '<Down>', ':resize +1<CR>', keymap_opts)
 vim.keymap.set('n', '<Left>', ':vertical resize +1<CR>', keymap_opts)
 vim.keymap.set('n', '<Right>', ':vertical resize -1<CR>', keymap_opts)
 vim.keymap.set('n', '<Up>', ':resize -1<CR>', keymap_opts)
-vim.keymap.set('n', '<Down>', ':resize +1<CR>', keymap_opts)
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 vim.keymap.set("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })

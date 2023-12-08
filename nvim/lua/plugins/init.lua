@@ -542,87 +542,6 @@ return {
     end,
   },
   {
-    'nvim-telescope/telescope.nvim',
-    enabled = true,
-    event = { 'VeryLazy' },
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      { 'nvim-telescope/telescope-fzf-native.nvim' },
-    },
-    config = function()
-      require('telescope').setup({
-        defaults = {
-          layout_config = { prompt_position = 'top' },
-          layout_strategy = 'horizontal',
-          preview = false,
-          prompt_prefix = " ",
-          selection_caret = " ",
-          sorting_strategy = "ascending",
-          winblend = 0,
-          mappings = {
-            i = {
-              ['<C-u>'] = false,
-              ['<esc>'] = require('telescope.actions').close,
-            },
-          },
-        },
-        extensions = {
-          fzf = {
-            case_mode = 'smart_case', -- or 'ignore_case', 'respect_case'
-            fuzzy = true, -- false will only do exact matching
-            override_file_sorter = true, -- override the file sorter
-            override_generic_sorter = true, -- override the generic sorter
-          },
-        },
-        pickers = {
-          colorscheme = {
-            enable_preview = true,
-          },
-          oldfiles = {
-            only_cwd = true,
-          },
-        },
-      })
-
-      pcall(require('telescope').load_extension, 'fzf')
-
-      local function get_commands()
-        require('telescope.builtin').commands({
-          sort_mru = true
-        })
-      end
-
-      local function get_buffers()
-        require('telescope.builtin').buffers({
-          ignore_current_buffer = true,
-          only_cwd = true,
-          sort_mru = true
-        })
-      end
-
-      local function get_old_files()
-        require('telescope.builtin').oldfiles({
-          only_cwd = true,
-        })
-      end
-
-      local function get_find_files()
-        require('telescope.builtin').find_files()
-      end
-
-      local function get_git_files()
-        require('telescope.builtin').git_files()
-      end
-
-      -- NOTE: needs DESC
-      vim.keymap.set('n', '<leader>a', get_commands)
-      vim.keymap.set('n', '<leader>b', get_buffers)
-      vim.keymap.set('n', '<leader>e', get_old_files)
-      vim.keymap.set('n', '<leader>f', get_find_files)
-      vim.keymap.set('n', '<leader>g', get_git_files)
-    end
-  },
-  {
     'nvim-telescope/telescope-fzf-native.nvim',
     enabled = true,
     build = 'make',
@@ -943,23 +862,23 @@ return {
 
       theme.setup({
         options = {
-          cursorline = true, -- Use cursorline highlighting?
-          terminal_colors = true, -- Use the theme's colors for Neovim's :terminal?
-          transparency = false, -- Use a transparent background?
+          cursorline = true,
+          terminal_colors = true,
+          transparency = false,
+        },
+        highlights = {
+          --
+          CursorLineNr = { link = "Comment" },
+          EndOfBuffer = { fg = 'bg' },
+          FoldColumn = { link = "LineNr" },
+          SignColumn = { link = "Comment" },
+          WinSeparator = { fg = 'bg' },
+          --
+          NeoTreeDirectoryIcon = { link = "Comment" },
         }
       })
 
-      vim.cmd('colorscheme onedark')
-
-      vim.cmd('hi! EndOfBuffer guifg=bg')
-      vim.cmd('hi! SignColumn guibg=bg')
-      vim.cmd('hi! WinSeparator guifg=bg')
-
-      vim.cmd('hi! link CursorLineNr Comment')
-      vim.cmd('hi! link FoldColumn LineNr')
-      vim.cmd('hi! link SignColumn Comment')
-
-      vim.cmd('hi! link NeoTreeDirectoryIcon Comment')
+      vim.cmd("colorscheme onedark")
     end
   },
   {
@@ -999,69 +918,6 @@ return {
       vim.o.timeoutlen = 300
       require("which-key").setup()
     end,
-  },
-  {
-    'gnikdroy/projections.nvim',
-    enabled = true,
-    branch = 'pre_release',
-    event = { 'VeryLazy' },
-    dependencies = {
-      'nvim-telescope/telescope.nvim'
-    },
-    opts = {
-      workspaces = {
-        "~/dev/"
-      },
-      store_hooks = {
-        pre = function()
-          -- nvim-tree
-          local nvim_tree_present, api = pcall(require, "nvim-tree.api")
-          if nvim_tree_present then api.tree.close() end
-
-          -- neo-tree
-          if pcall(require, "neo-tree") then vim.cmd [[Neotree action=close]] end
-        end
-      }
-    },
-    config = function(_, opts)
-      require('projections').setup(opts)
-
-      local Session = require("projections.session")
-      local Switcher = require("projections.switcher")
-      local Telescope = require('telescope')
-      local Workspace = require("projections.workspace")
-
-      -- Bind <leader>fp to Telescope projections
-      Telescope.load_extension('projections')
-      vim.keymap.set("n", "<leader>p", function() vim.cmd("Telescope projections") end)
-
-      -- Add workspace command
-      vim.api.nvim_create_user_command("AddWorkspace", function()
-        Workspace.add(vim.loop.cwd())
-      end, {})
-
-      -- Switch to project if vim was started in a project dir
-      vim.api.nvim_create_autocmd({ "VimEnter" }, {
-        callback = function()
-          if vim.fn.argc() == 0 then Switcher.switch(vim.loop.cwd()) end
-        end,
-      })
-
-      -- Autostore session on VimExit
-      vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
-        callback = function() Session.store(vim.loop.cwd()) end,
-      })
-
-      -- Store session command
-      vim.api.nvim_create_user_command("StoreProjectSession", function()
-        Session.store(vim.loop.cwd())
-      end, {})
-
-      -- Restore session command
-      vim.api.nvim_create_user_command("RestoreProjectSession", function()
-        Session.restore(vim.loop.cwd())
-      end, {})
-    end
   },
   {
     'nvim-lualine/lualine.nvim',
@@ -1153,5 +1009,11 @@ return {
         },
       })
     end
+  },
+  {
+    'nvim-pack/nvim-spectre',
+    enabled = true,
+    event = { 'VeryLazy' },
+    opts = {}
   }
 }
