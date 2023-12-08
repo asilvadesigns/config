@@ -337,35 +337,39 @@ return {
       'luukvbaal/statuscol.nvim',
       'nvim-treesitter/nvim-treesitter',
     },
-    opts = {
-      open_fold_hl_timeout = 0,
-      fold_virt_text_handler = function(text, lnum, endLnum, width)
-        local suffix = "  "
-        local lines  = ('[%d lines] '):format(endLnum - lnum)
+    -- opts = {
+    --   open_fold_hl_timeout = 0,
+    --   fold_virt_text_handler = function(text, lnum, endLnum, width)
+    --     local suffix = "  "
+    --     local lines  = ('[%d lines] '):format(endLnum - lnum)
+    --
+    --     local cur_width = 0
+    --     for _, section in ipairs(text) do
+    --       cur_width = cur_width + vim.fn.strdisplaywidth(section[1])
+    --     end
+    --
+    --     suffix = suffix .. (' '):rep(width - cur_width - vim.fn.strdisplaywidth(lines) - 3)
+    --
+    --     table.insert(text, { suffix, 'Comment' })
+    --     table.insert(text, { lines, 'Todo' })
+    --     return text
+    --   end,
+    --   preview = {
+    --     win_config = {
+    --       border       = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
+    --       winblend     = 0,
+    --       winhighlight = "Normal:LazyNormal",
+    --     }
+    --   },
+    -- },
+    config = function()
+      require('ufo').setup({
+        open_fold_hl_timeout = 0,
+        provider_selector = function(bufnr, filetype, buftype)
+          return { 'treesitter', 'indent' }
+        end,
+      })
 
-        local cur_width = 0
-        for _, section in ipairs(text) do
-          cur_width = cur_width + vim.fn.strdisplaywidth(section[1])
-        end
-
-        suffix = suffix .. (' '):rep(width - cur_width - vim.fn.strdisplaywidth(lines) - 3)
-
-        table.insert(text, { suffix, 'Comment' })
-        table.insert(text, { lines, 'Todo' })
-        return text
-      end,
-      preview = {
-        win_config = {
-          border       = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
-          winblend     = 0,
-          winhighlight = "Normal:LazyNormal",
-        }
-      },
-      provider_selector = function(bufnr, filetype, buftype)
-        return { 'treesitter', 'indent' }
-      end,
-    },
-    config = function(_, opts)
       -- TODO: move to config.icons
       --      
 
@@ -383,8 +387,6 @@ return {
           { text = { require('statuscol.builtin').foldfunc, ' ' }, click = 'v:lua.ScFa' },
         },
       })
-
-      require('ufo').setup(opts)
     end,
   },
   {
@@ -1069,11 +1071,25 @@ return {
       'nvim-tree/nvim-web-devicons'
     },
     config = function()
-      local filename = function()
+      local filenameIcon = function(color, colored)
+        return {
+          {
+            'filetype',
+            color = color,
+            colored = colored, -- Displays filetype icon in color if set to true
+            icon_only = true, -- Display only an icon for filetype
+            icon = { align = 'right' }, -- Display filetype icon on the right hand side
+            -- icon =    {'X', align='right'}
+            -- Icon string ^ in table is ignored in filetype component
+          }
+        }
+      end
+
+      local filenameText = function(color)
         return {
           {
             'filename',
-            color = { bg = "" },
+            color = color,
             file_status = true, -- Displays file status (readonly status, modified status)
             newfile_status = false, -- Display new file status (new file means no write after created)
             path = 3,
@@ -1097,10 +1113,11 @@ return {
 
       require('lualine').setup({
         options = {
-          icons_enabled = false,
-          theme = 'onedark',
           component_separators = '|',
+          disabled_filetypes = { 'neo-tree', 'Trouble' },
+          icons_enabled = true,
           section_separators = '',
+          theme = 'onedark',
         },
         sections = {
           lualine_a = {},
@@ -1120,16 +1137,16 @@ return {
         },
         winbar = {
           lualine_a = {},
-          lualine_b = {},
-          lualine_c = filename(),
+          lualine_b = filenameIcon({ bg = "" }, true),
+          lualine_c = filenameText(''),
           lualine_x = {},
           lualine_y = {},
           lualine_z = {}
         },
         inactive_winbar = {
           lualine_a = {},
-          lualine_b = {},
-          lualine_c = filename(),
+          lualine_b = filenameIcon('Comment', false),
+          lualine_c = filenameText('Comment'),
           lualine_x = {},
           lualine_y = {},
           lualine_z = {}
