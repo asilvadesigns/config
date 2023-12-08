@@ -404,7 +404,43 @@ return {
     end
   },
   {
+    'nvim-treesitter/nvim-treesitter-context',
+    event = { "BufReadPost" },
+    cmds = { "TSContextToggle" },
+    keys = {
+      {
+        "<leader>uC", "<cmd>TSContextToggle<cr>",
+        desc = "Toggle TS Context"
+      },
+      {
+        "gC",
+        function()
+          require("treesitter-context").go_to_context()
+        end,
+        desc = "Go to treesitter context",
+      },
+    },
+    opts = {
+      mode = "topline",
+      enable = false
+    },
+  },
+  {
+    "simrat39/symbols-outline.nvim",
+    cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
+    event = { "VeryLazy" },
+    keys = {
+      {
+        "<leader>s",
+        "<cmd>SymbolsOutline<cr>",
+        desc = "Symbols outline",
+      },
+    },
+    opts = {},
+  },
+  {
     "nvim-neo-tree/neo-tree.nvim",
+    enabled = true,
     branch = "v2.x",
     keys = {
       {
@@ -916,11 +952,9 @@ return {
       vim.cmd('hi! EndOfBuffer guifg=bg')
       vim.cmd('hi! SignColumn guibg=bg')
       vim.cmd('hi! WinSeparator guifg=bg')
-      vim.cmd('hi! WinSeparator guifg=bg')
 
       vim.cmd('hi! link CursorLineNr Comment')
       vim.cmd('hi! link FoldColumn LineNr')
-      vim.cmd('hi! link SignColumn Comment')
       vim.cmd('hi! link SignColumn Comment')
 
       vim.cmd('hi! link NeoTreeDirectoryIcon Comment')
@@ -944,7 +978,7 @@ return {
   {
     'folke/zen-mode.nvim',
     enabled = false,
-    event = { 'verylazy' },
+    event = { 'VeryLazy' },
     opts = {},
   },
   {
@@ -964,4 +998,143 @@ return {
       require("which-key").setup()
     end,
   },
+  {
+    'gnikdroy/projections.nvim',
+    enabled = true,
+    branch = 'pre_release',
+    event = { 'VeryLazy' },
+    dependencies = {
+      'nvim-telescope/telescope.nvim'
+    },
+    opts = {
+      workspaces = {
+        "~/dev/"
+      },
+      store_hooks = {
+        pre = function()
+          -- nvim-tree
+          local nvim_tree_present, api = pcall(require, "nvim-tree.api")
+          if nvim_tree_present then api.tree.close() end
+
+          -- neo-tree
+          if pcall(require, "neo-tree") then vim.cmd [[Neotree action=close]] end
+        end
+      }
+    },
+    config = function(_, opts)
+      require('projections').setup(opts)
+
+      local Session = require("projections.session")
+      local Switcher = require("projections.switcher")
+      local Telescope = require('telescope')
+      local Workspace = require("projections.workspace")
+
+      -- Bind <leader>fp to Telescope projections
+      Telescope.load_extension('projections')
+      vim.keymap.set("n", "<leader>p", function() vim.cmd("Telescope projections") end)
+
+      -- Add workspace command
+      vim.api.nvim_create_user_command("AddWorkspace", function()
+        Workspace.add(vim.loop.cwd())
+      end, {})
+
+      -- Switch to project if vim was started in a project dir
+      vim.api.nvim_create_autocmd({ "VimEnter" }, {
+        callback = function()
+          if vim.fn.argc() == 0 then Switcher.switch(vim.loop.cwd()) end
+        end,
+      })
+
+      -- Autostore session on VimExit
+      vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
+        callback = function() Session.store(vim.loop.cwd()) end,
+      })
+
+      -- Store session command
+      vim.api.nvim_create_user_command("StoreProjectSession", function()
+        Session.store(vim.loop.cwd())
+      end, {})
+
+      -- Restore session command
+      vim.api.nvim_create_user_command("RestoreProjectSession", function()
+        Session.restore(vim.loop.cwd())
+      end, {})
+    end
+  },
+  {
+    'nvim-lualine/lualine.nvim',
+    enabled = true,
+    event = { 'VeryLazy' },
+    dependencies = {
+      'nvim-tree/nvim-web-devicons'
+    },
+    config = function()
+      local filename = function()
+        return {
+          {
+            'filename',
+            color = { bg = "" },
+            file_status = true, -- Displays file status (readonly status, modified status)
+            newfile_status = false, -- Display new file status (new file means no write after created)
+            path = 3,
+            -- 0: Just the filename
+            -- 1: Relative path
+            -- 2: Absolute path
+            -- 3: Absolute path, with tilde as the home directory
+            -- 4: Filename and parent dir, with tilde as the home directory
+
+            shorting_target = 40, -- Shortens path to leave 40 spaces in the window
+            -- for other components. (terrible name, any suggestions?)
+            symbols = {
+              modified = '[+]', -- Text to show when the file is modified.
+              readonly = '[-]', -- Text to show when the file is non-modifiable or readonly.
+              unnamed = '[No Name]', -- Text to show for unnamed buffers.
+              newfile = '[New]', -- Text to show for newly created file before first write
+            }
+          }
+        }
+      end
+
+      require('lualine').setup({
+        options = {
+          icons_enabled = false,
+          theme = 'onedark',
+          component_separators = '|',
+          section_separators = '',
+        },
+        sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        },
+        winbar = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = filename(),
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        },
+        inactive_winbar = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = filename(),
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        },
+      })
+    end
+  }
 }
