@@ -3,14 +3,14 @@ return {
     "folke/flash.nvim",
     enabled = true,
     event = { 'VeryLazy' },
-    opts = {},
+    opts = { },
     keys = {
       { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
       { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
       { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
       { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-      { ";", mode = { "n" }, function() require("flash").jump() end, desc = "Toggle Flash Jump" }
+      { "<c-;>", mode = { "n" }, function() require("flash").jump() end, desc = "Toggle Flash Jump" }
     },
   },
   {
@@ -623,199 +623,6 @@ return {
       fold_open = "", -- icon used for open folds
       use_diagnostic_signs = true
     }
-  },
-  {
-    'rebelot/heirline.nvim',
-    enabled = false,
-    event = { 'UIEnter' },
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      local icons = require('config.options').icons
-
-      local conditions = require("heirline.conditions")
-      local utils = require("heirline.utils")
-
-      local DiagnosticsBlock = {
-        -- condition = conditions.has_diagnostics,
-
-        static = {
-          error_icon = icons.error,
-          hint_icon = icons.hint,
-          info_icon = icons.info,
-          warn_icon = icons.warn,
-        },
-
-        init = function(self)
-          -- instead of nil, can use 0 for current buffer
-          self.errors = #vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
-          self.warnings = #vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.WARN })
-          self.hints = #vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.HINT })
-          self.info = #vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.INFO })
-        end,
-
-        update = { "DiagnosticChanged", "BufEnter" },
-
-        on_click = {
-          callback = function()
-            require("trouble").toggle({ mode = "document_diagnostics" })
-            -- or
-            -- vim.diagnostic.setqflist()
-          end,
-          name = "heirline_diagnostics",
-        },
-        -- Error
-        {
-          provider = function(self)
-            return ("  " .. self.error_icon)
-          end,
-          hl = "DiagnosticError",
-        },
-        {
-          provider = function(self)
-            return (" " .. self.errors .. " ")
-          end,
-          hl = "Comment",
-        },
-        -- Warnings
-        {
-          provider = function(self)
-            return self.warn_icon
-          end,
-          hl = "DiagnosticWarn",
-        },
-        {
-          provider = function(self)
-            return (" " .. self.warnings .. " ")
-          end,
-          hl = "Comment",
-        },
-        -- Info
-        {
-          provider = function(self)
-            return self.info_icon
-          end,
-          hl = "DiagnosticInfo",
-        },
-        {
-          provider = function(self)
-            return (" " .. self.info .. " ")
-          end,
-          hl = "Comment",
-        },
-        -- Hints
-        {
-          provider = function(self)
-            return self.hint_icon
-          end,
-          hl = "DiagnosticHint",
-        },
-        {
-          provider = function(self)
-            return (" " .. self.hints .. " ")
-          end,
-          hl = "Comment",
-        },
-      }
-
-      local FileNameBlock = {
-        -- let's first set up some attributes needed by this component and it's children
-        init = function(self)
-          self.filename = vim.api.nvim_buf_get_name(0)
-        end,
-      }
-
-      local FileIcon = {
-        init = function(self)
-          local filename = self.filename
-          local extension = vim.fn.fnamemodify(filename, ":e")
-          self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(filename, extension,
-            { default = true })
-        end,
-        provider = function(self)
-          return self.icon and ("  " .. self.icon .. " ")
-        end,
-        hl = function(self)
-          return { fg = self.icon_color }
-        end
-      }
-
-      local FileName = {
-        provider = function(self)
-          -- first, trim the pattern relative to the current directory. For other
-          -- options, see :h filename-modifers
-          local filename = vim.fn.fnamemodify(self.filename, ":.")
-          if filename == "" then return "[No Name]" end
-          -- now, if the filename would occupy more than 1/4th of the available
-          -- space, we trim the file path to its initials
-          -- See Flexible Components section below for dynamic truncation
-          if not conditions.width_percent_below(#filename, 0.25) then
-            filename = vim.fn.pathshorten(filename)
-          end
-          return filename
-        end,
-        -- hl = { fg = utils.get_highlight("Directory").fg },
-      }
-
-      local FileFlags = {
-        {
-          condition = function()
-            return vim.bo.modified
-          end,
-          provider = "[+]",
-          -- hl = { fg = "green" },
-        },
-        {
-          condition = function()
-            return not vim.bo.modifiable or vim.bo.readonly
-          end,
-          provider = "",
-          -- hl = { fg = "orange" },
-        },
-      }
-
-      -- Now, let's say that we want the filename color to change if the buffer is
-      -- modified. Of course, we could do that directly using the FileName.hl field,
-      -- but we'll see how easy it is to alter existing components using a "modifier"
-      -- component
-      local FileNameModifer = {
-        hl = function()
-          if vim.bo.modified then
-            -- use `force` because we need to override the child's hl foreground
-            return { fg = "cyan", bold = true, force = true }
-          end
-        end,
-      }
-      -- NOTE: use with...
-      utils.insert(FileNameModifer, FileName) -- a new table where FileName is a child of FileNameModifier
-
-      FileNameBlock = utils.insert(FileNameBlock,
-        FileIcon,
-        FileName, -- a new table where FileName is a child of FileNameModifier
-        FileFlags,
-        { provider = '%<' }-- this means that the statusline is cut here when there's not enough space
-      )
-
-      require('heirline').setup({
-        statusline = {
-          DiagnosticsBlock
-        },
-        winbar = {
-          FileNameBlock
-        },
-        opts = {
-          -- if the callback returns true, the winbar will be disabled for that window
-          -- the args parameter corresponds to the table argument passed to autocommand callbacks. :h nvim_lua_create_autocmd()
-          disable_winbar_cb = function(args)
-            return conditions.buffer_matches({
-              buftype = { "nofile", "prompt", "help", "quickfix" },
-              filetype = { "^git.*", "fugitive", "Trouble", "dashboard" },
-            }, args.buf)
-          end,
-        },
-      })
-    end
   },
   {
     'alexghergh/nvim-tmux-navigation',

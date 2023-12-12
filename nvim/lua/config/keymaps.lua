@@ -27,12 +27,16 @@ vim.keymap.set('n', '<C-l>', '<C-w>l', keymap_opts)
 vim.keymap.set('n', '<leader>c', '<C-w>q', { noremap = true, desc = '[c]lose buffer'})
 
 -- better navigation in line wraps
---vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)
---vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", keymap_opts_with_expr)
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", keymap_opts_with_expr)
+
 
 -- better indent
-vim.keymap.set('v', '<', '<gv', keymap_opts)
-vim.keymap.set('v', '>', '>gv', keymap_opts)
+vim.keymap.set('v', '<Tab>', '>gv', keymap_opts)
+vim.keymap.set('v', '<S-Tab>', '<gv', keymap_opts)
+--
+-- vim.keymap.set('n', '>', [[<Cmd>echoe "Use [count]> instead"<CR>]])
+-- vim.keymap.set('n', '<', [[<Cmd>echoe "Use [count]< instead"<CR>]])
 
 -- paste over currently selected text without yanking it
 vim.keymap.set('v', 'p', '"_dP', keymap_opts)
