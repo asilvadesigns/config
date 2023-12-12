@@ -2,21 +2,31 @@ return {
   {
     "folke/flash.nvim",
     enabled = true,
-    event = { 'VeryLazy' },
-    opts = { },
+    opts = {
+      modes = {
+        char = {
+          keys = { "f", "F", "t", "T", [";"] = ";", [","] = "<c-;>" }
+        }
+      }
+    },
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-      { "<c-;>", mode = { "n" }, function() require("flash").jump() end, desc = "Toggle Flash Jump" }
+      { "f",     mode = 'n' },
+      { "F",     mode = 'n' },
+      { "t",     mode = 'n' },
+      { "T",     mode = 'n' },
+      { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+      -- { "<c-;>", mode = { "n" }, function() require("flash").jump() end, desc = "Toggle Flash Jump" }
     },
   },
   {
     'NvChad/nvim-colorizer.lua',
     enabled = true,
-    event = { 'VeryLazy' },
+    event = { 'BufReadPost', 'BufNewFile' },
+    opts = {},
   },
   {
     'folke/edgy.nvim',
@@ -52,9 +62,9 @@ return {
     event = { 'InsertEnter' },
     config = function()
       require('better_escape').setup({
-        clear_empty_lines = false, -- clear line after escaping if there is only whitespace
-        keys = '<Esc>', -- keys used for escaping, if it is a function will use the result everytime
-        mapping = { 'kj' }, -- a table with mappings to use
+        clear_empty_lines = false,  -- clear line after escaping if there is only whitespace
+        keys = '<Esc>',             -- keys used for escaping, if it is a function will use the result everytime
+        mapping = { 'kj' },         -- a table with mappings to use
         timeout = vim.o.timeoutlen, -- the time in which the keys must be hit in ms. Use option timeoutlen by default
       })
     end,
@@ -92,25 +102,15 @@ return {
     },
   },
   {
-    'williamboman/mason.nvim',
-    cmd = 'Mason',
-    enabled = true,
-    config = function()
-      require('mason').setup({
-        ensure_installed = {
-          'angularls',
-          'cssls',
-          'lua_ls',
-          'tsserver',
-        }
-      })
-    end
-  },
-  {
     'neovim/nvim-lspconfig',
     enabled = true,
     event = { 'BufReadPost', 'BufNewFile' },
-    dependencies = { 'folke/neodev.nvim' },
+    dependencies = {
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      'folke/neodev.nvim',
+      { "j-hui/fidget.nvim", opts = {} },
+    },
     opts = {
       servers = {
         lua_ls = {
@@ -125,6 +125,8 @@ return {
       }
     },
     config = function(_, opts)
+      require('neodev').setup()
+
       -- Diagnostic config
       vim.diagnostic.config({
         underline = true,
@@ -156,15 +158,7 @@ return {
         })
       end
 
-      -- LSP settings.
-      --  This function gets run when an LSP connects to a particular buffer.
       local lsp_on_attach = function(_, bufnr)
-        -- NOTE: Remember that lua is a real programming language, and as such it is possible
-        -- to define small helper and utility functions so you don't have to repeat yourself
-        -- many times.
-        --
-        -- In this case, we create a function that lets us more easily define mappings specific
-        -- for LSP related items. It sets the mode, buffer and description for us each time.
         local nmap = function(keys, func, desc)
           if desc then
             desc = 'LSP: ' .. desc
@@ -182,7 +176,6 @@ return {
         end
 
         nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-        -- was <leader>ca
         nmap('<c-.>', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
         nmap('<leader>m', vim.lsp.buf.format, 'For[m]at')
@@ -213,18 +206,16 @@ return {
       end
 
       local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-      -- TODO: add when I get cmp setup
       lsp_capabilities = require('cmp_nvim_lsp').default_capabilities(lsp_capabilities)
 
-      require('neodev').setup()
+      -- for server, server_opts in pairs(opts.servers) do
+      --   require('lspconfig')[server].setup({
+      --     capabilities = lsp_capabilities,
+      --     on_attach = lsp_on_attach,
+      --     settings = server_opts,
+      --   })
+      -- end
 
-      for server, server_opts in pairs(opts.servers) do
-        require('lspconfig')[server].setup({
-          capabilities = lsp_capabilities,
-          on_attach = lsp_on_attach,
-          settings = server_opts,
-        })
-      end
       -- local lsp_server_settings = {
       --   lua_ls = {
       --     Lua = {
@@ -243,25 +234,27 @@ return {
       --     -- end
       --   },
       -- }
-      -- require('mason').setup()
-      -- require('mason-lspconfig').setup({
-      --   ensure_installed = vim.tbl_keys(lsp_server_settings)
-      -- })
-      -- require('mason-lspconfig').setup_handlers({
-      --   function(server_name)
-      --     require('lspconfig')[server_name].setup({
-      --       capabilities = lsp_capabilities,
-      --       on_attach = lsp_on_attach,
-      --       settings = lsp_server_settings[server_name]
-      --     })
-      --   end
-      -- })
+
+      require('mason').setup()
+      require('mason-lspconfig').setup({
+        ensure_installed = vim.tbl_keys(opts.servers)
+      })
+
+      require('mason-lspconfig').setup_handlers({
+        function(server_name)
+          require('lspconfig')[server_name].setup({
+            capabilities = lsp_capabilities,
+            on_attach = lsp_on_attach,
+            settings = opts.servers[server_name]
+          })
+        end
+      })
     end
   },
   {
     "hrsh7th/nvim-cmp",
     enabled = true,
-    event = "InsertEnter",
+    event = { "InsertEnter" },
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lua",
@@ -382,7 +375,7 @@ return {
       require('statuscol').setup({
         relculright = true,
         segments = {
-          { text = { '%s' }, click = 'v:lua.ScSa' },
+          { text = { '%s' },                                       click = 'v:lua.ScSa' },
           { text = { require('statuscol.builtin').lnumfunc, ' ' }, click = 'v:lua.ScLa' },
           { text = { require('statuscol.builtin').foldfunc, ' ' }, click = 'v:lua.ScFa' },
         },
@@ -411,7 +404,8 @@ return {
     cmds = { "TSContextToggle" },
     keys = {
       {
-        "<leader>uC", "<cmd>TSContextToggle<cr>",
+        "<leader>uC",
+        "<cmd>TSContextToggle<cr>",
         desc = "Toggle TS Context"
       },
       {
@@ -659,32 +653,46 @@ return {
     end
   },
   {
-    'olimorris/onedarkpro.nvim',
+    'navarasu/onedark.nvim',
     enabled = true,
-    lazy = false,
     priority = 1000,
     config = function()
-      local theme = require('onedarkpro')
-      -- local colors = require("onedarkpro.helpers").get_colors()
-
-      theme.setup({
-        options = {
-          cursorline = true,
-          terminal_colors = true,
-          transparency = false,
-        },
+      require('onedark').setup({
         highlights = {
-          --
-          CursorLineNr = { link = "Comment" },
-          EndOfBuffer = { fg = 'bg' },
-          FoldColumn = { link = "LineNr" },
-          SignColumn = { link = "Comment" },
-          WinSeparator = { fg = 'bg' },
-          --
-          NeoTreeDirectoryIcon = { link = "Comment" },
+          FoldColumn = { fg = '$fg', bg = '$bg0' },
+          -- StatusLine = { fg = '$fg', bg = '$bg0' },
+          -- StatusLineTerm = { fg = '$fg', bg = '$bg0' },
+          -- StatusLineNC = { fg = '$grey', bg = '$bg0' },
+          -- StatusLineTermNC = { fg = '$grey', bg = '$bg0' },
         }
       })
 
+      vim.cmd('colorscheme onedark')
+    end
+  },
+  {
+    'olimorris/onedarkpro.nvim',
+    enabled = false,
+    priority = 1000,
+    opts = {
+      options = {
+        cursorline = true,
+        terminal_colors = true,
+        transparency = false,
+      },
+      highlights = {
+        --
+        CursorLineNr = { link = "Comment" },
+        EndOfBuffer = { fg = 'bg' },
+        FoldColumn = { link = "LineNr" },
+        SignColumn = { link = "Comment" },
+        WinSeparator = { fg = 'bg' },
+        --
+        NeoTreeDirectoryIcon = { link = "Comment" },
+      }
+    },
+    config = function(_, opts)
+      require('onedarkpro').setup(opts)
       vim.cmd("colorscheme onedark")
     end
   },
@@ -739,8 +747,8 @@ return {
           {
             'filetype',
             color = color,
-            colored = colored, -- Displays filetype icon in color if set to true
-            icon_only = true, -- Display only an icon for filetype
+            colored = colored,          -- Displays filetype icon in color if set to true
+            icon_only = true,           -- Display only an icon for filetype
             icon = { align = 'right' }, -- Display filetype icon on the right hand side
             -- icon =    {'X', align='right'}
             -- Icon string ^ in table is ignored in filetype component
@@ -753,7 +761,7 @@ return {
           {
             'filename',
             color = color,
-            file_status = true, -- Displays file status (readonly status, modified status)
+            file_status = true,     -- Displays file status (readonly status, modified status)
             newfile_status = false, -- Display new file status (new file means no write after created)
             path = 3,
             -- 0: Just the filename
@@ -765,10 +773,10 @@ return {
             shorting_target = 40, -- Shortens path to leave 40 spaces in the window
             -- for other components. (terrible name, any suggestions?)
             symbols = {
-              modified = '[+]', -- Text to show when the file is modified.
-              readonly = '[-]', -- Text to show when the file is non-modifiable or readonly.
+              modified = '[+]',      -- Text to show when the file is modified.
+              readonly = '[-]',      -- Text to show when the file is non-modifiable or readonly.
               unnamed = '[No Name]', -- Text to show for unnamed buffers.
-              newfile = '[New]', -- Text to show for newly created file before first write
+              newfile = '[New]',     -- Text to show for newly created file before first write
             }
           }
         }
@@ -820,7 +828,7 @@ return {
   {
     'nvim-pack/nvim-spectre',
     enabled = true,
-    event = { 'VeryLazy' },
+    cmds = { 'Spectre' },
     opts = {}
-  }
+  },
 }

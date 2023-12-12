@@ -1,7 +1,7 @@
 require('lazy').setup({
-  checker = { enabled = false, },
-  defaults = { lazy = true, },
-  install = { colorscheme = { "onedark" } },
+  -- checker = { enabled = false, },
+  -- defaults = { lazy = true, },
+  -- install = { colorscheme = { "onedark" } },
   spec = { import = 'plugins' },
   performance = {
     rtp = {
