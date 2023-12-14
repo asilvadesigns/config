@@ -1,5 +1,9 @@
 -- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, { command = "checktime" })
+vim.api.nvim_create_autocmd({
+  "FocusGained",
+  "TermClose",
+  "TermLeave",
+}, { command = "checktime" })
 
 -- highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {

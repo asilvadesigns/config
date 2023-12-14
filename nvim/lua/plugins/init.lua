@@ -10,15 +10,15 @@ return {
       }
     },
     keys = {
-      { "f",     mode = 'n' },
-      { "F",     mode = 'n' },
-      { "t",     mode = 'n' },
-      { "T",     mode = 'n' },
-      { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-      { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
-      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
-      { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+      { "f", mode = 'n' },
+      { "F", mode = 'n' },
+      { "t", mode = 'n' },
+      { "T", mode = 'n' },
+      -- { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      -- { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      -- { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      -- { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      -- { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
       -- { "<c-;>", mode = { "n" }, function() require("flash").jump() end, desc = "Toggle Flash Jump" }
     },
   },
@@ -111,26 +111,29 @@ return {
       'folke/neodev.nvim',
       { "j-hui/fidget.nvim", opts = {} },
     },
-    opts = {
-      servers = {
+    opts = {},
+    config = function()
+      local lsp_servers = {
         lua_ls = {
-          Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-          },
+          settings = {
+            Lua = {
+              diagnostics = { globals = 'vim' },
+              telemetry = { enable = false },
+              workspace = { checkThirdParty = false },
+            },
+          }
         },
         angularls = {},
         cssls = {},
         tsserver = {},
       }
-    },
-    config = function(_, opts)
+
       require('neodev').setup()
 
       -- Diagnostic config
       vim.diagnostic.config({
         underline = true,
-        virtual_text = false,
+        virtual_text = true,
       })
 
       -- Diagnostic keymaps
@@ -208,7 +211,7 @@ return {
       local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
       lsp_capabilities = require('cmp_nvim_lsp').default_capabilities(lsp_capabilities)
 
-      -- for server, server_opts in pairs(opts.servers) do
+      -- for server, server_opts in pairs(server_settings) do
       --   require('lspconfig')[server].setup({
       --     capabilities = lsp_capabilities,
       --     on_attach = lsp_on_attach,
@@ -237,15 +240,27 @@ return {
 
       require('mason').setup()
       require('mason-lspconfig').setup({
-        ensure_installed = vim.tbl_keys(opts.servers)
+        ensure_installed = vim.tbl_keys(lsp_servers),
+        automatic_installation = true
       })
+
+      -- name::prismals
+      -- name::cssls
+      -- name::lua_ls
+      -- name::jsonls
+      -- name::yamlls
+      -- name::html
+      -- name::pyright
+      -- name::tsserver
+      -- name::angularls
+      -- name::eslint
 
       require('mason-lspconfig').setup_handlers({
         function(server_name)
           require('lspconfig')[server_name].setup({
             capabilities = lsp_capabilities,
             on_attach = lsp_on_attach,
-            settings = opts.servers[server_name]
+            settings = lsp_servers[server_name]
           })
         end
       })
@@ -261,11 +276,6 @@ return {
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
       'L3MON4D3/LuaSnip',
-      -- "f3fora/cmp-spell",
-      -- "hrsh7th/cmp-buffer",
-      -- "hrsh7th/cmp-calc",
-      -- "hrsh7th/cmp-cmdline",
-      -- "hrsh7th/cmp-nvim-lsp-document-symbol",
     },
     config = function()
       local cmp = require("cmp")
@@ -423,8 +433,10 @@ return {
   },
   {
     "simrat39/symbols-outline.nvim",
-    cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
-    event = { "VeryLazy" },
+    cmd = {
+      "SymbolsOutline",
+      "SymbolsOutlineOpen"
+    },
     keys = {
       {
         "<leader>s",
@@ -536,15 +548,6 @@ return {
     end,
   },
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    enabled = true,
-    build = 'make',
-    event = { 'VeryLazy' },
-    config = function()
-      require("telescope").load_extension("fzf")
-    end,
-  },
-  {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     enabled = true,
@@ -594,7 +597,14 @@ return {
   {
     'numToStr/Comment.nvim',
     enabled = true,
-    event = { 'VeryLazy' },
+    keys = {
+      { "gcc", mode = "n", desc = "Comment toggle current line" },
+      { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
+      { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
+      { "gbc", mode = "n", desc = "Comment toggle current block" },
+      { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
+      { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
+    },
     dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring',
       'nvim-treesitter/nvim-treesitter',
@@ -658,12 +668,23 @@ return {
     priority = 1000,
     config = function()
       require('onedark').setup({
+        lualine = {
+          transparent = true,
+        },
         highlights = {
+          -- common
           FoldColumn = { fg = '$fg', bg = '$bg0' },
-          -- StatusLine = { fg = '$fg', bg = '$bg0' },
-          -- StatusLineTerm = { fg = '$fg', bg = '$bg0' },
-          -- StatusLineNC = { fg = '$grey', bg = '$bg0' },
-          -- StatusLineTermNC = { fg = '$grey', bg = '$bg0' },
+          SignColumn = { fg = '$fg', bg = '$bg0' },
+          -- neotree
+          NeoTreeEndOfBuffer = { fg = '$bg0', bg = '$bg0' },
+          NeoTreeNormal = { bg = '$bg0' },
+          NeoTreeNormalNC = { bg = '$bg0' },
+          NeoTreeNormalVertSplit = { fg = '$bg0', bg = '$bg0' },
+          -- lualine
+          StatusLine = { fg = '$fg', bg = '$bg0' },
+          StatusLineTerm = { fg = '$fg', bg = '$bg0' },
+          StatusLineNC = { fg = '$grey', bg = '$bg0' },
+          StatusLineTermNC = { fg = '$grey', bg = '$bg0' },
         }
       })
 
@@ -828,7 +849,7 @@ return {
   {
     'nvim-pack/nvim-spectre',
     enabled = true,
-    cmds = { 'Spectre' },
+    cmd = { 'Spectre' },
     opts = {}
   },
 }
