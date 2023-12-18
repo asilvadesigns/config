@@ -5,25 +5,26 @@ vim.opt.writebackup = false
 
 -- buffers
 vim.opt.splitbelow = true
-vim.opt.splitkeep = 'screen'
+vim.opt.splitkeep = "cursor"
 vim.opt.splitright = true
 
 -- clipboard
-vim.opt.clipboard = 'unnamedplus'
+vim.opt.clipboard = "unnamedplus"
 
 -- cursorline
 vim.opt.cursorline = true
 
 -- folding
 vim.opt.conceallevel = 0
-vim.opt.foldcolumn = '1' -- '0' is not bad
+vim.opt.foldcolumn = "1" -- '0' is not bad
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.opt.foldlevelstart = 99
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 -- gutters
-vim.opt.signcolumn = 'yes'
-vim.opt.statuscolumn = ''
+vim.opt.signcolumn = "yes"
+vim.opt.statuscolumn = ""
 
 -- indenting
 vim.opt.expandtab = true
@@ -33,16 +34,16 @@ vim.opt.tabstop = 2
 
 -- invisible chars
 vim.opt.list = true
-vim.opt.listchars = 'tab:»·,nbsp:+,trail:·,extends:→,precedes:←'
-vim.opt.showbreak = '↳  '
+vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
+vim.opt.showbreak = "↳  "
 
 -- numberline
 vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- searching
-vim.opt.grepformat = '%f:%l:%c:%m'
-vim.opt.grepprg = 'rg --hidden --vimgrep --smart-case --'
+vim.opt.grepformat = "%f:%l:%c:%m"
+vim.opt.grepprg = "rg --hidden --vimgrep --smart-case --"
 vim.opt.hlsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -54,8 +55,8 @@ vim.opt.sidescrolloff = 0
 -- statusline
 vim.opt.laststatus = 3
 vim.opt.showmode = false
-vim.opt.statusline = ' '
-vim.opt.winbar = ' '
+vim.opt.statusline = " "
+vim.opt.winbar = " "
 
 -- terminal
 vim.opt.termguicolors = true
@@ -82,20 +83,55 @@ vim.g.loaded_vimball = 1
 vim.g.loaded_vimballPlugin = 1
 vim.g.loaded_zip = 1
 vim.g.loaded_zipPlugin = 1
-
 vim.g.skip_ts_context_commentstring_module = true
 
 -- icons
-local M = {}
-
-M.icons = {
-  error = '',
-  hint = '',
-  info = '',
-  warn = '',
-  accordion_open = '',
-  accordion_closed = '',
+local icons = {
+  error = "",
+  hint = "",
+  info = "",
+  warn = "",
+  accordion_open = "",
+  accordion_closed = "",
 }
 
-return M
+-- diagnostic config
+vim.diagnostic.config({
+  underline = true,
+  virtual_text = true,
+})
 
+-- diagnostic keymaps
+vim.keymap.set(
+  "n",
+  "[d",
+  vim.diagnostic.goto_prev,
+  { desc = "Go to previous diagnostic message" }
+)
+
+vim.keymap.set(
+  "n",
+  "]d",
+  vim.diagnostic.goto_next,
+  { desc = "Go to next diagnostic message" }
+)
+
+-- diagnostics in gutter
+-- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
+
+local signs = {
+  Error = icons.error,
+  Hint = icons.hint,
+  Info = icons.info,
+  Warn = icons.warn,
+}
+
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, {
+    linehl = "",
+    numhl = "",
+    text = icon,
+    texthl = hl,
+  })
+end
