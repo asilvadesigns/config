@@ -1,22 +1,23 @@
 {
-    "workspace.library": [
-        "/Users/albertos/.config/nvim",
-        "/Users/albertos/.local/share/nvim/lazy/lazy.nvim",
-        "/Users/albertos/.local/share/nvim/lazy/cmp-nvim-lsp",
-        "/Users/albertos/.local/share/nvim/lazy/lspkind.nvim",
-        "/Users/albertos/.local/share/nvim/lazy/mason-lspconfig.nvim",
-        "/Users/albertos/.local/share/nvim/lazy/nvim-cmp",
-        "/Users/albertos/.local/share/nvim/lazy/trouble.nvim",
-        "/Users/albertos/.local/share/nvim/lazy/nvim-colorizer.lua",
-        "/Users/albertos/.local/share/nvim/lazy/mason.nvim",
-        "/Users/albertos/.local/share/nvim/lazy/nvim-web-devicons",
-        "/Users/albertos/.local/share/nvim/lazy/nvim-tree.lua",
-        "/Users/albertos/.local/share/nvim/lazy/nvim-lspconfig",
-        "/Users/albertos/.local/share/nvim/lazy/auto-session",
-        "/usr/local/share/nvim/runtime",
-        "/usr/local/lib/nvim",
-        "/Users/albertos/.local/state/nvim/lazy/readme",
-        "/Users/albertos/.local/share/nvim/lazy/cmp-nvim-lsp/after",
-        "${3rd}/luassert/library"
-    ]
+  "workspace.library": [
+    "/Users/albertos/.config/nvim",
+    "/Users/albertos/.local/share/nvim/lazy/lazy.nvim",
+    "/Users/albertos/.local/share/nvim/lazy/cmp-nvim-lsp",
+    "/Users/albertos/.local/share/nvim/lazy/lspkind.nvim",
+    "/Users/albertos/.local/share/nvim/lazy/mason-lspconfig.nvim",
+    "/Users/albertos/.local/share/nvim/lazy/nvim-cmp",
+    "/Users/albertos/.local/share/nvim/lazy/trouble.nvim",
+    "/Users/albertos/.local/share/nvim/lazy/nvim-colorizer.lua",
+    "/Users/albertos/.local/share/nvim/lazy/mason.nvim",
+    "/Users/albertos/.local/share/nvim/lazy/nvim-web-devicons",
+    "/Users/albertos/.local/share/nvim/lazy/nvim-tree.lua",
+    "/Users/albertos/.local/share/nvim/lazy/nvim-lspconfig",
+    "/Users/albertos/.local/share/nvim/lazy/auto-session",
+    "/usr/local/share/nvim/runtime",
+    "/usr/local/lib/nvim",
+    "/Users/albertos/.local/state/nvim/lazy/readme",
+    "/Users/albertos/.local/share/nvim/lazy/cmp-nvim-lsp/after",
+    "${3rd}/luassert/library"
+  ]
 }
+

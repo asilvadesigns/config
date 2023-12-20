@@ -41,6 +41,32 @@ return {
       highlight = {
         enable = true,
       },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "gsl",
+          node_incremental = "gsi",
+          node_decremental = "gsd",
+          scope_incremental = "gss",
+        },
+      },
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true,
+          keymaps = {
+            ["af"] = { query = "@function.outer" },
+            ["if"] = { query = "@function.inner" },
+            ["ac"] = { query = "@class.outer" },
+            ["ic"] = { query = "@class.inner" },
+            ["as"] = {
+              query = "@scope",
+              query_group = "locals",
+              desc = "Select language scope",
+            },
+          },
+        },
+      },
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)

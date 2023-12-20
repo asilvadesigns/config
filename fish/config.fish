@@ -18,7 +18,7 @@ set -gx EDITOR nvim
 starship init fish | source
 
 # pnpm
-set -gx PNPM_HOME "/Users/albertos/Library/pnpm"
+set -gx PNPM_HOME "~/Library/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end
 # Setting PATH for Python 3.11
