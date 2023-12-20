@@ -8,6 +8,7 @@ return {
         column = 80,
         current_only = false,
         excluded_filetypes = { "NvimTree" },
+        signs_on_startup = {},
         winblend = 75,
       })
     end,
