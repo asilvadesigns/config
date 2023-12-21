@@ -18,6 +18,9 @@
     "/Users/albertos/.local/state/nvim/lazy/readme",
     "/Users/albertos/.local/share/nvim/lazy/cmp-nvim-lsp/after",
     "${3rd}/luassert/library"
-  ]
+  ],
+    "diagnostics.disable": [
+        "unused-local"
+    ]
 }
 

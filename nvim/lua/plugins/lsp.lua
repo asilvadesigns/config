@@ -1,16 +1,3 @@
-local servers = {
-  lua_ls = {
-    Lua = {
-      diagnostics = { globals = { "vim" } },
-      telemetry = { enable = false },
-      workspace = { checkThirdParty = false },
-    },
-  },
-  angularls = {},
-  cssls = {},
-  tsserver = {},
-}
-
 return {
   {
     "hrsh7th/nvim-cmp",
@@ -81,56 +68,26 @@ return {
       "williamboman/mason.nvim",
     },
     config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities(
-        vim.lsp.protocol.make_client_capabilities()
-      )
-
-      local on_attach = function(_, bufnr)
-        local nmap = function(keys, func, desc)
-          if desc then
-            desc = "LSP: " .. desc
-          end
-
-          vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-        end
-
-        nmap("<c-.>", vim.lsp.buf.code_action, "[C]ode [A]ction")
-        nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-        nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-        nmap(
-          "gi",
-          require("telescope.builtin").lsp_implementations,
-          "[G]oto [I]mplementation"
-        )
-        nmap(
-          "gd",
-          require("telescope.builtin").lsp_definitions,
-          "[G]oto [D]efinition"
-        )
-        nmap(
-          "gr",
-          require("telescope.builtin").lsp_references,
-          "[G]oto [R]eferences"
-        )
-      end
-
       require("neodev").setup()
 
       require("mason").setup()
 
       require("mason-lspconfig").setup({
-        ensure_installed = vim.tbl_keys(servers),
+        automatic_installation = true,
       })
 
-      require("mason-lspconfig").setup_handlers({
-        function(server_name)
-          require("lspconfig")[server_name].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = servers[server_name],
-          })
-        end,
-      })
+      require("lspconfig")["eslint"].setup({})
+      require("lspconfig")["lua_ls"].setup({})
+      require("lspconfig")["tailwindcss"].setup({})
+      require("lspconfig")["tsserver"].setup({})
+
+      local telescope = require("telescope.builtin")
+
+      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+      vim.keymap.set("n", "gd", telescope.lsp_definitions, {})
+      vim.keymap.set("n", "gr", telescope.lsp_references, {})
     end,
   },
 }

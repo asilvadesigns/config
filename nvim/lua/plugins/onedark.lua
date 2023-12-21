@@ -1,7 +1,7 @@
 return {
   {
     "navarasu/onedark.nvim",
-    priority = 1000,
+    event = { "VimEnter" },
     config = function()
       require("onedark").setup({
         lualine = {

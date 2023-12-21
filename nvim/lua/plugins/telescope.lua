@@ -9,9 +9,9 @@ return {
     },
     dependencies = {
       { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope-fzf-native.nvim" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "octarect/telescope-menu.nvim" },
+      { "nvim-telescope/telescope-ui-select.nvim" },
     },
     config = function()
       local function get_commands()
@@ -28,6 +28,10 @@ return {
 
       local function get_help()
         require("telescope.builtin").help_tags({})
+      end
+
+      local function get_projects()
+        vim.cmd("Telescope projections")
       end
 
       local function get_lsp_workspace_symbols()
@@ -67,6 +71,7 @@ return {
                 { display = "Commands", value = get_commands },
                 { display = "Find", value = get_buffer_fuzzy_find },
                 { display = "Help", value = get_help },
+                { display = "Projects", value = get_projects },
                 { display = "Search", value = get_search },
                 {
                   display = "Symbols (Document)",
@@ -91,6 +96,7 @@ return {
       })
 
       require("telescope").load_extension("menu")
+      require("telescope").load_extension("ui-select")
 
       local function get_buffers()
         require("telescope.builtin").buffers({
@@ -131,12 +137,8 @@ return {
   {
     "gnikdroy/projections.nvim",
     branch = "pre_release",
-    keys = {
-      "<leader>p",
-    },
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-    },
+    event = { "VeryLazy" },
+    dependencies = { "nvim-telescope/telescope.nvim" },
     config = function()
       require("projections").setup({
         workspaces = {
