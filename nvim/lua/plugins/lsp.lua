@@ -76,10 +76,11 @@ return {
         automatic_installation = true,
       })
 
-      require("lspconfig")["eslint"].setup({})
-      require("lspconfig")["lua_ls"].setup({})
-      require("lspconfig")["tailwindcss"].setup({})
-      require("lspconfig")["tsserver"].setup({})
+      require("lspconfig").angularls.setup({})
+      require("lspconfig").eslint.setup({})
+      require("lspconfig").lua_ls.setup({})
+      require("lspconfig").tailwindcss.setup({})
+      require("lspconfig").tsserver.setup({})
 
       local telescope = require("telescope.builtin")
 
