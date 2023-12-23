@@ -85,6 +85,7 @@ return {
       })
 
       require("lspconfig").lua_ls.setup({
+        settings = { Lua = { workspace = { checkThirdParty = false } } },
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
