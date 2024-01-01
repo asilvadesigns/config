@@ -32,7 +32,10 @@ end
 return {
   {
     "nvim-lualine/lualine.nvim",
-    event = { "VeryLazy" },
+    event = {
+      "BufNewFile",
+      "BufReadPre",
+    },
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },

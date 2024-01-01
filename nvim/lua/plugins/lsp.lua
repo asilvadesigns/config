@@ -1,7 +1,7 @@
 return {
   {
     "hrsh7th/nvim-cmp",
-    event = { "CursorMoved", "InsertEnter" },
+    event = { "InsertEnter" },
     dependencies = {
       "L3MON4D3/LuaSnip",
       "hrsh7th/cmp-nvim-lsp",
@@ -64,36 +64,46 @@ return {
     event = { "VeryLazy" },
     dependencies = {
       "folke/neodev.nvim",
+      "hrsh7th/cmp-nvim-lsp",
       "williamboman/mason-lspconfig.nvim",
       "williamboman/mason.nvim",
     },
     config = function()
       require("neodev").setup()
 
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
       require("mason").setup()
 
       require("mason-lspconfig").setup({
+        capabilities = capabilities,
         automatic_installation = true,
       })
 
       require("lspconfig").angularls.setup({
+        capabilities = capabilities,
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       require("lspconfig").eslint.setup({
+        capabilities = capabilities,
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       require("lspconfig").lua_ls.setup({
+        capabilities = capabilities,
         settings = { Lua = { workspace = { checkThirdParty = false } } },
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       require("lspconfig").tailwindcss.setup({
+        capabilities = capabilities,
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       require("lspconfig").tsserver.setup({
+        capabilities = capabilities,
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
