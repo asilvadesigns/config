@@ -11,11 +11,11 @@ window:
   # - none: Neither borders nor title bar
   # - transparent: Title bar, transparent background and title bar buttons
   # - buttonless: Title bar, transparent background and no title bar buttons
-  decorations: none
+  decorations: buttonless
   dynamic_title: true
   padding:
     x: 10
-    y: 16
+    y: 10
 
 font:
   normal:
