@@ -22,37 +22,9 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     event = { "VeryLazy" },
-    init = function()
-      vim.g.matchup_matchparen_offscreen = {
-        fullwidth = 1,
-        highlight = "Normal",
-        method = "popup",
-        syntax_hl = 1,
-      }
-    end,
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "bash",
-          "css",
-          "dockerfile",
-          "gitignore",
-          "html",
-          "javascript",
-          "jsdoc",
-          "json",
-          "lua",
-          "luadoc",
-          "markdown",
-          "markdown_inline",
-          "prisma",
-          "python",
-          "scss",
-          "tsx",
-          "typescript",
-          "vim",
-          "yaml",
-        },
+        auto_install = true,
         highlight = {
           enable = true,
         },
