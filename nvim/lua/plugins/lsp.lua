@@ -122,6 +122,7 @@ return {
             },
           },
         }),
+        filetypes = { "yaml", "yaml.docker-compose", "yml" },
         -- settings = {
         --   yaml = {
         --     schemaStore = {
