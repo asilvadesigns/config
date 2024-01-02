@@ -81,29 +81,55 @@ return {
         automatic_installation = true,
       })
 
+      -- Angular
       require("lspconfig").angularls.setup({
         capabilities = capabilities,
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
+      -- Eslint
       require("lspconfig").eslint.setup({
         capabilities = capabilities,
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
+      -- Lua
       require("lspconfig").lua_ls.setup({
         capabilities = capabilities,
         settings = { Lua = { workspace = { checkThirdParty = false } } },
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
+      -- Tailwind
       require("lspconfig").tailwindcss.setup({
         capabilities = capabilities,
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
+      -- TypeScript
       require("lspconfig").tsserver.setup({
         capabilities = capabilities,
+        root_dir = require("lspconfig.util").root_pattern(".git"),
+      })
+
+      -- Yaml
+      require("lspconfig").yamlls.setup({
+        capabilities = vim.tbl_extend("force", capabilities, {
+          textDocument = {
+            foldingRange = {
+              dynamicRegistration = false,
+              lineFoldingOnly = true,
+            },
+          },
+        }),
+        -- settings = {
+        --   yaml = {
+        --     schemaStore = {
+        --       enable = true,
+        --       url = "https://www.schemastore.org/api/json/catalog.json",
+        --     }
+        --   }
+        -- },
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
