@@ -5,13 +5,6 @@ return {
       "SymbolsOutline",
       "SymbolsOutlineOpen",
     },
-    keys = {
-      {
-        "<leader>s",
-        "<cmd>SymbolsOutline<cr>",
-        desc = "Symbols outline",
-      },
-    },
     opts = {},
   },
 }

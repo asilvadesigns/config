@@ -1,10 +1,11 @@
-require("lazy").setup({
+require("lazy").setup("plugins", {
   change_detection = {
     enable = true,
     notify = false,
   },
   checker = {
     enabled = true,
+    notify = false,
   },
   defaults = {
     autocmds = false,
@@ -15,9 +16,6 @@ require("lazy").setup({
   install = {
     colorscheme = { "onedark" },
   },
-  spec = {
-    import = "plugins",
-  },
   performance = {
     cache = {
       enabled = true,
@@ -25,7 +23,7 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
-        -- "matchit",
+        -- "matchit", | 
         -- "matchparen",
         "netrwPlugin",
         "tarPlugin",

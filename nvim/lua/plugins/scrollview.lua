@@ -1,6 +1,7 @@
 return {
   {
     "dstein64/nvim-scrollview",
+    enabled = false,
     event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("scrollview").setup({

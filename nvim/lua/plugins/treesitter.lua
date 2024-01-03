@@ -24,7 +24,27 @@ return {
     event = { "VeryLazy" },
     config = function()
       require("nvim-treesitter.configs").setup({
-        auto_install = true,
+        ensure_installed = {
+          "bash",
+          "css",
+          "dockerfile",
+          "gitignore",
+          "html",
+          "javascript",
+          "jsdoc",
+          "json",
+          "lua",
+          "luadoc",
+          "markdown",
+          "markdown_inline",
+          "prisma",
+          "python",
+          "scss",
+          "tsx",
+          "typescript",
+          "vim",
+          "yaml",
+        },
         highlight = {
           enable = true,
         },

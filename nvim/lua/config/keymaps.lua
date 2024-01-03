@@ -43,10 +43,10 @@ vim.keymap.set(
 )
 
 -- better window navigation
--- vim.keymap.set('n', '<C-h>', '<C-w>h', keymap_opts)
--- vim.keymap.set('n', '<C-j>', '<C-w>j', keymap_opts)
--- vim.keymap.set('n', '<C-k>', '<C-w>k', keymap_opts)
--- vim.keymap.set('n', '<C-l>', '<C-w>l', keymap_opts)
+vim.keymap.set('n', '<C-h>', '<C-w>h', keymap_opts)
+vim.keymap.set('n', '<C-j>', '<C-w>j', keymap_opts)
+vim.keymap.set('n', '<C-k>', '<C-w>k', keymap_opts)
+vim.keymap.set('n', '<C-l>', '<C-w>l', keymap_opts)
 vim.keymap.set(
   "n",
   "<leader>c",
@@ -85,6 +85,9 @@ vim.keymap.set("n", "<Down>", ":resize +1<CR>", keymap_opts)
 vim.keymap.set("n", "<Left>", ":vertical resize +1<CR>", keymap_opts)
 vim.keymap.set("n", "<Right>", ":vertical resize -1<CR>", keymap_opts)
 vim.keymap.set("n", "<Up>", ":resize -1<CR>", keymap_opts)
+
+-- easily exit insert mode in terminal
+vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 vim.keymap.set(

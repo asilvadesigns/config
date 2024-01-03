@@ -1,6 +1,7 @@
 return {
   {
     "aserowy/tmux.nvim",
+    enabled = false,
     keys = {
       { "<C-h>", mode = { "n" } },
       { "<C-j>", mode = { "n" } },

@@ -21,9 +21,18 @@ return {
     },
     config = function()
       require("neo-tree").setup({
-        enable_diagnostics = true,
+        enable_diagnostics = false,
         enable_git_status = false,
         enable_modified_markers = false,
+        open_files_do_not_replace_types = {
+          "Mason",
+          "Outline",
+          "Telescope",
+          "Trouble",
+          "qf",
+          "terminal",
+          "trouble",
+        },
         buffers = {
           follow_current_file = false,
         },
@@ -36,9 +45,11 @@ return {
           renderers = {
             file = {
               { "indent" },
+              { "icon" },
               { "name" },
             },
           },
+          use_libuv_file_watcher = true,
         },
         default_component_configs = {
           indent = {
@@ -78,6 +89,13 @@ return {
           },
         },
       })
+
+      vim.keymap.set(
+        "n",
+        "<S-Esc>",
+        "<cmd>NeoTreeClose<cr>",
+        { desc = "Close NeoTree" }
+      )
     end,
   },
 }
