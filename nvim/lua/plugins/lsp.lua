@@ -105,6 +105,12 @@ return {
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
+      -- Go
+      require("lspconfig").gopls.setup({
+        capabilities = capabilities,
+        root_dir = require("lspconfig.util").root_pattern(".git"),
+      })
+
       -- Lua
       require("lspconfig").lua_ls.setup({
         capabilities = capabilities,

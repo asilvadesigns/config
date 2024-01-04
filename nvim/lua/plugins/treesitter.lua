@@ -5,11 +5,13 @@ return {
   dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
   config = function()
     require("nvim-treesitter.configs").setup({
+      auto_install = true,
       ensure_installed = {
         "bash",
         "css",
         "dockerfile",
         "gitignore",
+        "go",
         "html",
         "javascript",
         "jsdoc",
