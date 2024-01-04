@@ -1,7 +1,25 @@
 return {
   {
+    "catppuccin/nvim",
+    enabled = false,
+    lazy = false,
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      vim.cmd("colorscheme catppuccin-frappe")
+    end,
+  },
+  {
+    "folke/tokyonight.nvim",
+    enabled = false,
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     "navarasu/onedark.nvim",
-    event = { "VimEnter" },
+    lazy = false,
+    priority = 1000,
     config = function()
       require("onedark").setup({
         lualine = {
@@ -26,8 +44,7 @@ return {
           StatusLineTermNC = { fg = "$grey", bg = "$bg0" },
         },
       })
-
-      vim.cmd("colorscheme onedark")
+      require("onedark").load()
     end,
   },
 }

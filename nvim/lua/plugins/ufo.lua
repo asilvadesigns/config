@@ -1,28 +1,25 @@
 return {
-  {
-    "kevinhwang91/nvim-ufo",
-    event = { "VeryLazy" },
-    dependencies = {
-      "kevinhwang91/promise-async",
-      "nvim-treesitter/nvim-treesitter",
-      {
-        "luukvbaal/statuscol.nvim",
-        config = function()
-          local builtin = require("statuscol.builtin")
-          require("statuscol").setup({
-            relculright = true,
-            segments = {
-              { text = { "%s" }, click = "v:lua.ScSa" },
-              { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
-              { text = { builtin.foldfunc, " " }, click = "v:lua.ScFa" },
-            },
-          })
-        end,
-      },
+  "kevinhwang91/nvim-ufo",
+  event = { "VeryLazy" },
+  dependencies = {
+    "kevinhwang91/promise-async",
+    {
+      "luukvbaal/statuscol.nvim",
+      config = function()
+        local builtin = require("statuscol.builtin")
+        require("statuscol").setup({
+          relculright = true,
+          segments = {
+            { text = { "%s" }, click = "v:lua.ScSa" },
+            { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+            { text = { builtin.foldfunc, " " }, click = "v:lua.ScFa" },
+          },
+        })
+      end,
     },
-    opts = {
-      open_fold_hl_timeout = 0,
-    },
+  },
+  opts = {
+    open_fold_hl_timeout = 0,
     provider_selector = function(_, filetype, buftype)
       local function handleFallbackException(bufnr, err, providerName)
         if type(err) == "string" and err:match("UfoFallbackException") then

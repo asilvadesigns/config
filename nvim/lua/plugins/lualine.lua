@@ -30,57 +30,52 @@ local filenameText = function(color)
 end
 
 return {
-  {
-    "nvim-lualine/lualine.nvim",
-    event = {
-      "BufNewFile",
-      "BufReadPre",
-    },
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require("lualine").setup({
-        options = {
-          component_separators = "|",
-          disabled_filetypes = { "neo-tree", "Trouble" },
-          icons_enabled = true,
-          section_separators = "",
-          theme = "onedark",
-        },
-        sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = {},
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = {},
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
-        },
-        winbar = {
-          lualine_a = {},
-          lualine_b = filenameIcon({ bg = "" }, true),
-          lualine_c = filenameText(""),
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
-        },
-        inactive_winbar = {
-          lualine_a = {},
-          lualine_b = filenameIcon("Comment", false),
-          lualine_c = filenameText("Comment"),
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
-        },
-      })
-    end,
+  "nvim-lualine/lualine.nvim",
+  event = { "BufNewFile", "BufReadPre" },
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
   },
+  config = function()
+    require("lualine").setup({
+      options = {
+        component_separators = "|",
+        disabled_filetypes = { "neo-tree", "Trouble" },
+        icons_enabled = true,
+        section_separators = "",
+        theme = "auto",
+      },
+      sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+      winbar = {
+        lualine_a = {},
+        lualine_b = filenameIcon({ bg = "" }, true),
+        lualine_c = filenameText(""),
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+      inactive_winbar = {
+        lualine_a = {},
+        lualine_b = filenameIcon("Comment", false),
+        lualine_c = filenameText("Comment"),
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+    })
+  end,
 }

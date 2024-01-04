@@ -1,207 +1,197 @@
 return {
-  {
-    "nvim-telescope/telescope.nvim",
-    keys = {
-      "<leader>a",
-      "<leader>e",
-      "<leader>f",
-      "<leader>l",
-    },
-    dependencies = {
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      { "octarect/telescope-menu.nvim" },
-      { "nvim-telescope/telescope-ui-select.nvim" },
-    },
-    config = function()
-      local function get_commands()
-        require("telescope.builtin").commands({ sort_mru = true })
-      end
+  "nvim-telescope/telescope.nvim",
+  keys = {
+    "<leader>a",
+    "<leader>e",
+    "<leader>f",
+    "<leader>l",
+  },
+  dependencies = {
+    { "nvim-lua/plenary.nvim" },
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    { "octarect/telescope-menu.nvim" },
+    { "nvim-telescope/telescope-ui-select.nvim" },
+  },
+  config = function()
+    local actions = require("telescope.actions")
+    local builtin = require("telescope.builtin")
+    local telescope = require("telescope")
 
-      local function get_buffer_fuzzy_find()
-        require("telescope.builtin").current_buffer_fuzzy_find({})
-      end
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "TelescopeResults",
+      callback = function(ctx)
+        vim.api.nvim_buf_call(ctx.buf, function()
+          vim.fn.matchadd("TelescopeParent", "\t\t.*$")
+          vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
+        end)
+      end,
+    })
 
-      local function get_lsp_document_symbols()
-        require("telescope.builtin").lsp_document_symbols({})
+    local function formattedName(_, path)
+      local tail = vim.fs.basename(path)
+      local parent = vim.fs.dirname(path)
+      if parent == "." then
+        return tail
       end
+      return string.format("%s\t\t%s", tail, parent)
+    end
 
-      local function get_help()
-        require("telescope.builtin").help_tags({})
-      end
-
-      local function get_projects()
-        vim.cmd("Telescope projections")
-      end
-
-      local function get_lsp_workspace_symbols()
-        require("telescope.builtin").lsp_workspace_symbols({})
-      end
-
-      local function get_search()
-        vim.cmd("Spectre")
-      end
-
-      require("telescope").setup({
-        defaults = {
-          layout_config = { prompt_position = "top" },
-          layout_strategy = "horizontal",
-          preview = true,
-          prompt_prefix = " ",
-          selection_caret = " ",
-          sorting_strategy = "ascending",
-          winblend = 0,
-          mappings = {
-            i = {
-              ["<C-u>"] = false,
-              ["<esc>"] = require("telescope.actions").close,
-            },
+    telescope.setup({
+      defaults = {
+        file_ignore_patterns = {
+          "%.git/.",
+          "node_modules",
+          "package-lock.json",
+        },
+        layout_config = {
+          prompt_position = "top",
+          preview_cutoff = 120,
+        },
+        preview = true,
+        sorting_strategy = "ascending",
+        mappings = {
+          i = {
+            ["<C-u>"] = false,
+            ["<esc>"] = actions.close,
           },
         },
-        extensions = {
-          fzf = {
-            case_mode = "smart_case", -- or 'ignore_case', 'respect_case'
-            fuzzy = true, -- false will only do exact matching
-            override_file_sorter = true, -- override the file sorter
-            override_generic_sorter = true, -- override the generic sorter
-          },
-          menu = {
-            default = {
-              items = {
-                { display = "Commands", value = get_commands },
-                { display = "Find", value = get_buffer_fuzzy_find },
-                { display = "Help", value = get_help },
-                { display = "Projects", value = get_projects },
-                { display = "Search", value = get_search },
-                {
-                  display = "Symbols (Document)",
-                  value = get_lsp_document_symbols,
-                },
-                {
-                  display = "Symbols (Workspace)",
-                  value = get_lsp_workspace_symbols,
-                },
+      },
+      extensions = {
+        fzf = {
+          case_mode = "smart_case", -- or 'ignore_case', 'respect_case'
+          fuzzy = true, -- false will only do exact matching
+          override_file_sorter = true, -- override the file sorter
+          override_generic_sorter = true, -- override the generic sorter
+        },
+        menu = {
+          default = {
+            items = {
+              { display = "Commands", value = builtin.commands },
+              { display = "Find", value = builtin.current_buffer_fuzzy_find },
+              { display = "Help", value = builtin.help_tags },
+              { display = "Projects", value = "Telescope projections" },
+              { display = "Search", value = "Spectre" },
+              {
+                display = "Symbols (Document)",
+                value = builtin.lsp_document_symbols,
+              },
+              {
+                display = "Symbols (Workspace)",
+                value = builtin.lsp_workspace_symbols,
               },
             },
           },
         },
-        pickers = {
-          colorscheme = {
-            enable_preview = true,
-          },
-          oldfiles = {
-            only_cwd = true,
-          },
-        },
-      })
-
-      require("telescope").load_extension("menu")
-      require("telescope").load_extension("ui-select")
-
-      local function get_buffers()
-        require("telescope.builtin").buffers({
+      },
+      pickers = {
+        buffers = {
           ignore_current_buffer = true,
           only_cwd = true,
+          path_display = formattedName,
           sort_mru = true,
-        })
-      end
-
-      local function get_old_files()
-        require("telescope.builtin").oldfiles({
+        },
+        colorscheme = {
+          enable_preview = true,
+        },
+        commands = {
+          sort_mru = true,
+        },
+        find_files = {
+          hidden = true,
+          path_display = formattedName,
+        },
+        git_files = {
+          path_display = formattedName,
+        },
+        oldfiles = {
           only_cwd = true,
-        })
-      end
-
-      local function get_find_files()
-        require("telescope.builtin").find_files()
-      end
-
-      local function get_git_files()
-        require("telescope.builtin").git_files()
-      end
-
-      local function get_menu()
-        vim.cmd("Telescope menu")
-      end
-
-      -- NOTE: needs DESC
-      vim.keymap.set("n", "<leader>a", get_menu)
-      -- vim.keymap.set('n', '<leader>a', get_commands)
-      vim.keymap.set("n", "<leader>b", get_buffers)
-      vim.keymap.set("n", "<leader>e", get_old_files)
-      vim.keymap.set("n", "<leader>f", get_find_files)
-      vim.keymap.set("n", "<leader>g", get_git_files)
-      vim.keymap.set("n", "<leader>l", get_buffer_fuzzy_find)
-    end,
-  },
-  {
-    "gnikdroy/projections.nvim",
-    branch = "pre_release",
-    event = { "VeryLazy" },
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    config = function()
-      require("projections").setup({
-        workspaces = {
-          "~/.config",
-          "~/dev/",
+          path_display = formattedName,
+          sort_mru = true,
         },
-        workspaces_file = "~/.config/nvim/workspaces.json",
-        store_hooks = {
-          pre = function()
-            -- nvim-tree
-            local nvim_tree_present, api = pcall(require, "nvim-tree.api")
-            if nvim_tree_present then
-              api.tree.close()
-            end
+        help_tags = {},
+      },
+    })
 
-            -- neo-tree
-            if pcall(require, "neo-tree") then
-              vim.cmd([[Neotree action=close]])
-            end
-          end,
-        },
-      })
+    vim.keymap.set("n", "<leader>a", function()
+      vim.cmd("Telescope menu")
+    end)
 
-      local session = require("projections.session")
-      local switcher = require("projections.switcher")
-      local telescope = require("telescope")
-      local workspace = require("projections.workspace")
+    vim.keymap.set("n", "<leader>b", builtin.buffers)
+    vim.keymap.set("n", "<leader>e", builtin.oldfiles)
+    vim.keymap.set("n", "<leader>f", builtin.find_files)
+    vim.keymap.set("n", "<leader>g", builtin.git_files)
+    vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)
 
-      telescope.load_extension("projections")
-      vim.keymap.set("n", "<leader>p", function()
-        vim.cmd("Telescope projections")
-      end)
+    telescope.load_extension("menu")
+    telescope.load_extension("ui-select")
+  end,
+}, {
+  "gnikdroy/projections.nvim",
+  branch = "pre_release",
+  event = { "VeryLazy" },
+  dependencies = { "nvim-telescope/telescope.nvim" },
+  config = function()
+    require("projections").setup({
+      workspaces = {
+        "~/.config",
+        "~/dev/",
+      },
+      workspaces_file = "~/.config/nvim/workspaces.json",
+      store_hooks = {
+        pre = function()
+          -- nvim-tree
+          local nvim_tree_present, api = pcall(require, "nvim-tree.api")
+          if nvim_tree_present then
+            api.tree.close()
+          end
 
-      -- Add workspace command
-      vim.api.nvim_create_user_command("AddWorkspace", function()
-        workspace.add(vim.loop.cwd())
-      end, {})
-
-      -- Switch to project if vim was started in a project dir
-      vim.api.nvim_create_autocmd({ "VimEnter" }, {
-        callback = function()
-          if vim.fn.argc() == 0 then
-            switcher.switch(vim.loop.cwd())
+          -- neo-tree
+          if pcall(require, "neo-tree") then
+            vim.cmd([[Neotree action=close]])
           end
         end,
-      })
+      },
+    })
 
-      -- Autostore session on VimExit
-      vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
-        callback = function()
-          session.store(vim.loop.cwd())
-        end,
-      })
+    local session = require("projections.session")
+    local switcher = require("projections.switcher")
+    local telescope = require("telescope")
+    local workspace = require("projections.workspace")
 
-      -- Store session command
-      vim.api.nvim_create_user_command("StoreProjectSession", function()
+    telescope.load_extension("projections")
+    vim.keymap.set("n", "<leader>p", function()
+      vim.cmd("Telescope projections")
+    end)
+
+    -- Add workspace command
+    vim.api.nvim_create_user_command("AddWorkspace", function()
+      workspace.add(vim.loop.cwd())
+    end, {})
+
+    -- Switch to project if vim was started in a project dir
+    vim.api.nvim_create_autocmd({ "VimEnter" }, {
+      callback = function()
+        if vim.fn.argc() == 0 then
+          switcher.switch(vim.loop.cwd())
+        end
+      end,
+    })
+
+    -- Autostore session on VimExit
+    vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+      callback = function()
         session.store(vim.loop.cwd())
-      end, {})
+      end,
+    })
 
-      -- Restore session command
-      vim.api.nvim_create_user_command("RestoreProjectSession", function()
-        session.restore(vim.loop.cwd())
-      end, {})
-    end,
-  },
+    -- Store session command
+    vim.api.nvim_create_user_command("StoreProjectSession", function()
+      session.store(vim.loop.cwd())
+    end, {})
+
+    -- Restore session command
+    vim.api.nvim_create_user_command("RestoreProjectSession", function()
+      session.restore(vim.loop.cwd())
+    end, {})
+  end,
 }

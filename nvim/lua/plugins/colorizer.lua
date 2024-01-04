@@ -1,7 +1,5 @@
 return {
-  {
-    "NvChad/nvim-colorizer.lua",
-    event = { "BufReadPost", "BufNewFile" },
-    opts = {},
-  },
+  "NvChad/nvim-colorizer.lua",
+  event = { "VeryLazy" },
+  opts = {},
 }

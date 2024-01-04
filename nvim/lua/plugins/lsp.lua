@@ -93,6 +93,12 @@ return {
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
+      -- CSS Modules
+      require("lspconfig").cssmodules_ls.setup({
+        capabilities = capabilities,
+        root_dir = require("lspconfig.util").root_pattern(".git"),
+      })
+
       -- Eslint
       require("lspconfig").eslint.setup({
         capabilities = capabilities,
