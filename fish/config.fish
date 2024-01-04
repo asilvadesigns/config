@@ -8,7 +8,7 @@ function gch
   git checkout $branch
 end
 
-function go
+function gg
   set -l directory (ls -1 ~/dev | fzf --reverse)
   cd ~/dev/$directory/
 end
