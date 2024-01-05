@@ -1,5 +1,8 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
+  cmd = {
+    "Neotree",
+  },
   keys = {
     {
       "<leader>j",
@@ -40,6 +43,7 @@ return {
           hide_gitignored = false,
         },
         follow_current_file = false,
+        hijack_netrw_behavior = "open_current",
         renderers = {
           file = {
             { "indent" },

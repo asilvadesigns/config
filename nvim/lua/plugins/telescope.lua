@@ -1,5 +1,8 @@
 return {
   "nvim-telescope/telescope.nvim",
+  cmd = {
+    "Telescope",
+  },
   keys = {
     "<leader>a",
     "<leader>e",
@@ -16,6 +19,7 @@ return {
     local actions = require("telescope.actions")
     local builtin = require("telescope.builtin")
     local telescope = require("telescope")
+    local themes = require("telescope.themes")
 
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "TelescopeResults",
@@ -37,15 +41,12 @@ return {
     end
 
     telescope.setup({
-      defaults = {
+      -- @see: https://github.com/nvim-telescope/telescope.nvim/issues/848#issuecomment-1584291014
+      defaults = vim.tbl_extend("force", themes.get_dropdown(), {
         file_ignore_patterns = {
           "%.git/.",
           "node_modules",
           "package-lock.json",
-        },
-        layout_config = {
-          prompt_position = "top",
-          preview_cutoff = 120,
         },
         preview = true,
         sorting_strategy = "ascending",
@@ -55,7 +56,7 @@ return {
             ["<esc>"] = actions.close,
           },
         },
-      },
+      }),
       extensions = {
         fzf = {
           case_mode = "smart_case", -- or 'ignore_case', 'respect_case'

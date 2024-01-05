@@ -29,3 +29,14 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end
   end,
 })
+
+-- open tree
+vim.api.nvim_create_autocmd("VimEnter", {
+  pattern = { "*" },
+  nested = true,
+  callback = function()
+    if vim.fn.argv(0) == "" then
+      vim.cmd("Telescope find_files")
+    end
+  end,
+})
