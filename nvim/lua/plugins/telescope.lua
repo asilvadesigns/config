@@ -68,6 +68,8 @@ return {
             items = {
               { display = "Commands", value = builtin.commands },
               { display = "Find", value = builtin.current_buffer_fuzzy_find },
+              { display = "Format (Conform)", value = "Format" },
+              { display = "Format (LSP)", value = "lua vim.lsp.buf.format()" },
               { display = "Help", value = builtin.help_tags },
               { display = "Projects", value = "Telescope projections" },
               { display = "Search", value = "Spectre" },

@@ -98,7 +98,12 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnos
 
 -- diagnostics in gutter
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
-local signs = { Error = " 󰅚", Warn = " 󰀪", Hint = " 󰌶", Info = " " }
+local signs = {
+  Error = " 󰅚",
+  Warn = " 󰀪",
+  Hint = " 󰌶",
+  Info = " ",
+}
 
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type

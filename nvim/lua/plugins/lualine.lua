@@ -1,4 +1,4 @@
-local filenameIcon = function(color, colored)
+local function filenameIcon(color, colored)
   return {
     {
       "filetype",
@@ -10,7 +10,7 @@ local filenameIcon = function(color, colored)
   }
 end
 
-local filenameText = function(color)
+local function filenameText(color)
   return {
     {
       "filename",
@@ -29,6 +29,16 @@ local filenameText = function(color)
   }
 end
 
+local function gitBranch(color)
+  return {
+    {
+      "branch",
+      color = color,
+      icon = "",
+    },
+  }
+end
+
 return {
   "nvim-lualine/lualine.nvim",
   event = { "BufNewFile", "BufReadPre" },
@@ -39,21 +49,25 @@ return {
     require("lualine").setup({
       options = {
         component_separators = "|",
-        disabled_filetypes = { "neo-tree", "Trouble" },
+        disabled_filetypes = {
+          statusline = { "" },
+          winbar = { "neo-tree" },
+        },
+        globalstatus = true,
         icons_enabled = true,
         section_separators = "",
         theme = "auto",
       },
       sections = {
         lualine_a = {},
-        lualine_b = {},
+        lualine_b = gitBranch({ bg = "" }),
         lualine_c = {},
         lualine_x = {},
         lualine_y = {},
         lualine_z = {},
       },
       inactive_sections = {
-        lualine_a = {},
+        lualine_a = gitBranch({ bg = "" }),
         lualine_b = {},
         lualine_c = {},
         lualine_x = {},
@@ -63,7 +77,7 @@ return {
       winbar = {
         lualine_a = {},
         lualine_b = filenameIcon({ bg = "" }, true),
-        lualine_c = filenameText(""),
+        lualine_c = filenameText("Comment"),
         lualine_x = {},
         lualine_y = {},
         lualine_z = {},
@@ -71,7 +85,7 @@ return {
       inactive_winbar = {
         lualine_a = {},
         lualine_b = filenameIcon("Comment", false),
-        lualine_c = filenameText("Comment"),
+        lualine_c = filenameText("LineNr"),
         lualine_x = {},
         lualine_y = {},
         lualine_z = {},

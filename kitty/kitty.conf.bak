@@ -5,8 +5,8 @@
 # See `kitty list-fonts --psnames`
 font_size 14.0
 font_family JetBrainsMono Nerd Font Mono
-# modify_font cell_height 8px
-# modify_font baseline 2
+modify_font cell_height 8px
+modify_font baseline 2
 
 # General Settings
 # --------------
@@ -34,7 +34,7 @@ tab_bar_edge                    top
 tab_bar_margin_width            0.0
 tab_bar_margin_height           0.0 0.0
 tab_bar_style                   separator
-tab_separator                   "  "
+tab_separator                   ""
 tab_bar_align                   left
 tab_bar_min_tabs                2
 tab_switch_strategy             left
@@ -42,6 +42,8 @@ tab_title_template              " {fmt.fg.tab} {title} "
 tab_activity_symbol             ""
 # active_tab_title_template       " {fmt.fg.cyan} {fmt.fg.tab}{title} "
 active_tab_title_template       "  {fmt.fg.tab}{title} "
+active_tab_background #282c34
+inactive_tab_background #282c34
 active_tab_font_style           bold
 inactive_tab_font_style         italic
 
@@ -55,6 +57,7 @@ inactive_tab_font_style         italic
 # tall -- One (or optionally more) windows are shown full height on the left, the rest of the windows are shown one below the other on the right
 # vertical -- All windows are shown one below the other
 enabled_layouts splits
+window_border_width 0
 
 # Key Bindings
 # -------------
@@ -79,6 +82,6 @@ map opt+cmd+d debug_config
 
 
 # BEGIN_KITTY_THEME
-# One Half Dark
+# Dark One Nuanced
 include current-theme.conf
 # END_KITTY_THEME

@@ -54,7 +54,7 @@ return {
           indent_marker = "│",
           indent_size = 2,
           last_indent_marker = "└",
-          with_markers = true,
+          with_markers = false,
         },
         icon = {
           folder_closed = "",
