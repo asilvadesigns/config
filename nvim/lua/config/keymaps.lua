@@ -17,42 +17,17 @@ vim.keymap.set("v", "<ScrollWheelUp>", "<C-y>", keymap_opts)
 vim.keymap.set("v", "<ScrollWheelDown>", "<C-e>", keymap_opts)
 
 -- better window resize
-vim.keymap.set(
-  "n",
-  "<C-Up>",
-  "<cmd>resize +2<cr>",
-  { desc = "Increase window height" }
-)
-vim.keymap.set(
-  "n",
-  "<C-Down>",
-  "<cmd>resize -2<cr>",
-  { desc = "Decrease window height" }
-)
-vim.keymap.set(
-  "n",
-  "<C-Left>",
-  "<cmd>vertical resize -2<cr>",
-  { desc = "Decrease window width" }
-)
-vim.keymap.set(
-  "n",
-  "<C-Right>",
-  "<cmd>vertical resize +2<cr>",
-  { desc = "Increase window width" }
-)
+vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
+vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
+vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
+vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
 -- better window navigation
-vim.keymap.set('n', '<C-h>', '<C-w>h', keymap_opts)
-vim.keymap.set('n', '<C-j>', '<C-w>j', keymap_opts)
-vim.keymap.set('n', '<C-k>', '<C-w>k', keymap_opts)
-vim.keymap.set('n', '<C-l>', '<C-w>l', keymap_opts)
-vim.keymap.set(
-  "n",
-  "<leader>c",
-  "<C-w>q",
-  { noremap = true, desc = "[c]lose buffer" }
-)
+vim.keymap.set("n", "<C-h>", "<C-w>h", keymap_opts)
+vim.keymap.set("n", "<C-j>", "<C-w>j", keymap_opts)
+vim.keymap.set("n", "<C-k>", "<C-w>k", keymap_opts)
+vim.keymap.set("n", "<C-l>", "<C-w>l", keymap_opts)
+vim.keymap.set("n", "<leader>c", "<C-w>q", { noremap = true, desc = "[c]lose buffer" })
 
 -- better navigation in line wraps
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)
@@ -75,6 +50,7 @@ vim.keymap.set("v", "p", '"_dP', keymap_opts)
 -- move selected line / block of text in visual mode
 vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", keymap_opts)
 vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv", keymap_opts)
+-- vim.keymap.set("n", "<leader>x", "<C-W>q", keymap_opts)
 
 -- resizing panes
 vim.keymap.set("n", "<C-S-H>", ":vertical resize +3<CR>", keymap_opts)
@@ -90,39 +66,9 @@ vim.keymap.set("n", "<Up>", ":resize -1<CR>", keymap_opts)
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-vim.keymap.set(
-  "n",
-  "n",
-  "'Nn'[v:searchforward]",
-  { expr = true, desc = "Next search result" }
-)
-vim.keymap.set(
-  "x",
-  "n",
-  "'Nn'[v:searchforward]",
-  { expr = true, desc = "Next search result" }
-)
-vim.keymap.set(
-  "o",
-  "n",
-  "'Nn'[v:searchforward]",
-  { expr = true, desc = "Next search result" }
-)
-vim.keymap.set(
-  "n",
-  "N",
-  "'nN'[v:searchforward]",
-  { expr = true, desc = "Prev search result" }
-)
-vim.keymap.set(
-  "x",
-  "N",
-  "'nN'[v:searchforward]",
-  { expr = true, desc = "Prev search result" }
-)
-vim.keymap.set(
-  "o",
-  "N",
-  "'nN'[v:searchforward]",
-  { expr = true, desc = "Prev search result" }
-)
+vim.keymap.set("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+vim.keymap.set("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+vim.keymap.set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+vim.keymap.set("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+vim.keymap.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+vim.keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })

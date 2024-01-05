@@ -33,8 +33,8 @@ local function gitBranch(color)
   return {
     {
       "branch",
-      color = color,
-      icon = "",
+      -- color = color,
+      icon = "",
     },
   }
 end
@@ -60,16 +60,16 @@ return {
       },
       sections = {
         lualine_a = {},
-        lualine_b = gitBranch({ bg = "" }),
-        lualine_c = {},
+        lualine_b = {},
+        lualine_c = gitBranch(),
         lualine_x = {},
         lualine_y = {},
         lualine_z = {},
       },
       inactive_sections = {
-        lualine_a = gitBranch({ bg = "" }),
+        lualine_a = {},
         lualine_b = {},
-        lualine_c = {},
+        lualine_c = gitBranch(),
         lualine_x = {},
         lualine_y = {},
         lualine_z = {},
