@@ -77,14 +77,14 @@ return {
       winbar = {
         lualine_a = {},
         lualine_b = filenameIcon({ bg = "" }, true),
-        lualine_c = filenameText("Comment"),
+        lualine_c = filenameText("Normal"),
         lualine_x = {},
         lualine_y = {},
         lualine_z = {},
       },
       inactive_winbar = {
         lualine_a = {},
-        lualine_b = filenameIcon("Comment", false),
+        lualine_b = filenameIcon("LineNr", false),
         lualine_c = filenameText("LineNr"),
         lualine_x = {},
         lualine_y = {},
