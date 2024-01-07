@@ -38,9 +38,9 @@ style = "Italic"
 family = "JetBrainsMono Nerd Font Mono"
 style = "Regular"
 
-[shell]
-program = "/usr/local/bin/fish"
-args = ["-l"]
+# [shell]
+# program = "/usr/local/bin/fish"
+# args = ["-l"]
 
 [font.offset]
 x = 0
