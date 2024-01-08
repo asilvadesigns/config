@@ -69,17 +69,17 @@ return {
       "williamboman/mason.nvim",
     },
     config = function()
-      require("neodev").setup()
-
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
       require("mason").setup()
 
       require("mason-lspconfig").setup({
-        capabilities = capabilities,
         automatic_installation = true,
+        capabilities = capabilities,
       })
+
+      require("neodev").setup()
 
       -- Angular
       require("lspconfig").angularls.setup({
@@ -99,9 +99,37 @@ return {
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
+      -- Docker
+      require("lspconfig").dockerls.setup({
+        capabilities = capabilities,
+        root_dir = require("lspconfig.util").root_pattern(".git"),
+      })
+
       -- Eslint
       require("lspconfig").eslint.setup({
         capabilities = capabilities,
+        root_dir = require("lspconfig.util").root_pattern(".git"),
+      })
+
+      -- JSON
+      -- NOTE: to aadd new schemas, find url here https://www.schemastore.org/json/
+      require("lspconfig").jsonls.setup({
+        capabilities = capabilities,
+        settings = {
+          json = {
+            schemas = {
+              { fileMatch = { "jsconfig.json" }, url = "https://json.schemastore.org/jsconfig" },
+              { fileMatch = { "tsconfig.json" }, url = "https://json.schemastore.org/tsconfig" },
+              { fileMatch = { "turbo.json" }, url = "https://turbo.build/schema.json" },
+              { fileMatch = { "package.json" }, url = "https://json.schemastore.org/package" },
+              {
+                fileMatch = { ".prettierrc.json", ".prettierrc" },
+                url = "https://json.schemastore.org/prettierrc.json",
+              },
+              { fileMatch = { ".eslintrc.json" }, url = "https://json.schemastore.org/eslintrc.json" },
+            },
+          },
+        },
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
@@ -131,6 +159,14 @@ return {
       -- Tailwind
       require("lspconfig").tailwindcss.setup({
         capabilities = capabilities,
+        settings = {
+          tailwindCSS = {
+            classAttributes = {
+              "class",
+              "className",
+            },
+          },
+        },
         root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
