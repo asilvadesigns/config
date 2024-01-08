@@ -45,8 +45,8 @@ return {
       defaults = vim.tbl_extend("force", themes.get_dropdown(), {
         file_ignore_patterns = {
           "%.git/.",
-          "node_modules",
-          "package-lock.json",
+          -- "node_modules",
+          -- "package-lock.json",
         },
         preview = true,
         sorting_strategy = "ascending",

@@ -84,31 +84,31 @@ return {
       -- Angular
       require("lspconfig").angularls.setup({
         capabilities = capabilities,
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        -- root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       -- CSS
       require("lspconfig").cssls.setup({
         capabilities = capabilities,
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        -- root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       -- CSS Modules
       require("lspconfig").cssmodules_ls.setup({
         capabilities = capabilities,
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        -- root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       -- Docker
       require("lspconfig").dockerls.setup({
         capabilities = capabilities,
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        -- root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       -- Eslint
       require("lspconfig").eslint.setup({
         capabilities = capabilities,
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        -- root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       -- JSON
@@ -130,7 +130,7 @@ return {
             },
           },
         },
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        -- root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       -- Go
@@ -153,7 +153,7 @@ return {
       require("lspconfig").lua_ls.setup({
         capabilities = capabilities,
         settings = { Lua = { workspace = { checkThirdParty = false } } },
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        -- root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       -- Tailwind
@@ -167,7 +167,7 @@ return {
             },
           },
         },
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        -- root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       -- TypeScript
@@ -195,7 +195,7 @@ return {
         --     }
         --   }
         -- },
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        -- root_dir = require("lspconfig.util").root_pattern(".git"),
       })
 
       local telescope = require("telescope.builtin")
