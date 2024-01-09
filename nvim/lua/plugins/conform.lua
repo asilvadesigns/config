@@ -1,18 +1,13 @@
 return {
   "stevearc/conform.nvim",
-  enabled = false,
   event = { "VeryLazy" },
   keys = {
     {
       "<leader>m",
       function()
-        require("conform").format({
-          async = true,
-          lsp_fallback = "always",
-        })
+        require("conform").format({ async = true, lsp_fallback = "always" })
       end,
       mode = "n",
-      desc = "For[m]at",
     },
   },
   config = function()
@@ -26,14 +21,16 @@ return {
         jsonc = { "prettier" },
         lua = { "stylua" },
         sh = { "shellcheck", "shfmt" },
+        svelte = { "prettier" },
         typescript = { "prettier" },
         typescriptreact = { "prettier" },
+        vue = { "prettier" },
         yaml = { "prettier" },
       },
     })
 
     vim.api.nvim_create_user_command("Format", function()
-      require("conform").format({ async = true })
+      require("conform").format({ async = true, lsp_fallback = "always" })
     end, {})
   end,
 }

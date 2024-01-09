@@ -1,8 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
-  cmd = {
-    "Telescope",
-  },
+  cmd = { "Telescope" },
   keys = {
     "<leader>a",
     "<leader>e",
@@ -59,18 +57,17 @@ return {
       }),
       extensions = {
         fzf = {
-          case_mode = "smart_case", -- or 'ignore_case', 'respect_case'
-          fuzzy = true, -- false will only do exact matching
-          override_file_sorter = true, -- override the file sorter
-          override_generic_sorter = true, -- override the generic sorter
+          case_mode = "smart_case",
+          fuzzy = true,
+          override_file_sorter = true,
+          override_generic_sorter = true,
         },
         menu = {
           default = {
             items = {
               { display = "Commands", value = builtin.commands },
               { display = "Find", value = builtin.current_buffer_fuzzy_find },
-              { display = "Format (Conform)", value = "Format" },
-              { display = "Format (LSP)", value = "lua vim.lsp.buf.format()" },
+              { display = "Format", value = "Format" },
               { display = "Help", value = builtin.help_tags },
               { display = "Projects", value = "Telescope projections" },
               { display = "Search", value = "Spectre" },

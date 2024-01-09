@@ -1,8 +1,6 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  cmd = {
-    "Neotree",
-  },
+  cmd = { "Neotree" },
   keys = {
     {
       "<leader>j",
