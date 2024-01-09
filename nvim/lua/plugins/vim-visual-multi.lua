@@ -6,6 +6,6 @@ return {
     vim.g.VM_mouse_mappings = 1
     vim.g.VM_show_warnings = 1
     vim.g.VM_silent_exit = 0
-    vim.keymap.set("x", "A", "<Plug>(VM-Visual-Cursor)", {})
+    vim.keymap.set("x", "A", "<Plug>(VM-Visual-Cursors)", {})
   end,
 }
