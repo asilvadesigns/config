@@ -86,126 +86,109 @@ return {
 
       require("mason-lspconfig").setup({
         automatic_installation = true,
-        capabilities = capabilities,
+        ensure_installed = {
+          "angularls",
+          "cssls",
+          "cssmodules_ls",
+          "dockerls",
+          "eslint",
+          "gopls",
+          "html",
+          "jsonls",
+          "lua_ls",
+          "prismals",
+          "pyright",
+          "tailwindcss",
+          "tsserver",
+          "yamlls",
+        },
       })
 
-      require("neodev").setup()
+      require("mason-lspconfig").setup_handlers({
+        -- server defaults
+        function(server_name)
+          require("lspconfig")[server_name].setup({
+            capabilities = capabilities,
+          })
+        end,
 
-      -- Angular
-      require("lspconfig").angularls.setup({
-        capabilities = capabilities,
-        -- root_dir = require("lspconfig.util").root_pattern(".git"),
-      })
-
-      -- CSS
-      require("lspconfig").cssls.setup({
-        capabilities = capabilities,
-        -- root_dir = require("lspconfig.util").root_pattern(".git"),
-      })
-
-      -- CSS Modules
-      require("lspconfig").cssmodules_ls.setup({
-        capabilities = capabilities,
-        -- root_dir = require("lspconfig.util").root_pattern(".git"),
-      })
-
-      -- Docker
-      require("lspconfig").dockerls.setup({
-        capabilities = capabilities,
-        -- root_dir = require("lspconfig.util").root_pattern(".git"),
-      })
-
-      -- Eslint
-      require("lspconfig").eslint.setup({
-        capabilities = capabilities,
-        -- root_dir = require("lspconfig.util").root_pattern(".git"),
-      })
-
-      -- JSON
-      -- NOTE: to aadd new schemas, find url here https://www.schemastore.org/json/
-      require("lspconfig").jsonls.setup({
-        capabilities = capabilities,
-        settings = {
-          json = {
-            schemas = {
-              { fileMatch = { "jsconfig.json" }, url = "https://json.schemastore.org/jsconfig" },
-              { fileMatch = { "tsconfig.json" }, url = "https://json.schemastore.org/tsconfig" },
-              { fileMatch = { "turbo.json" }, url = "https://turbo.build/schema.json" },
-              { fileMatch = { "package.json" }, url = "https://json.schemastore.org/package" },
-              {
-                fileMatch = { ".prettierrc.json", ".prettierrc" },
-                url = "https://json.schemastore.org/prettierrc.json",
+        -- server overrides
+        ["jsonls"] = function()
+          -- NOTE: to add new schemas, find url here https://www.schemastore.org/json/
+          require("lspconfig").jsonls.setup({
+            capabilities = capabilities,
+            settings = {
+              json = {
+                schemas = {
+                  { fileMatch = { "jsconfig.json" }, url = "https://json.schemastore.org/jsconfig" },
+                  { fileMatch = { "tsconfig.json" }, url = "https://json.schemastore.org/tsconfig" },
+                  { fileMatch = { "turbo.json" }, url = "https://turbo.build/schema.json" },
+                  { fileMatch = { "package.json" }, url = "https://json.schemastore.org/package" },
+                  {
+                    fileMatch = { ".prettierrc.json", ".prettierrc" },
+                    url = "https://json.schemastore.org/prettierrc.json",
+                  },
+                  { fileMatch = { ".eslintrc.json" }, url = "https://json.schemastore.org/eslintrc.json" },
+                },
               },
-              { fileMatch = { ".eslintrc.json" }, url = "https://json.schemastore.org/eslintrc.json" },
             },
-          },
-        },
-        -- root_dir = require("lspconfig.util").root_pattern(".git"),
-      })
-
-      -- Go
-      require("lspconfig").gopls.setup({
-        capabilities = capabilities,
-        filetypes = { "go", "gomod", "gowork", "gotmpl" },
-        root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
-        settings = {
-          gopls = {
-            completeUnimported = true,
-            usePlaceholders = true,
-            analyses = {
-              unusedparams = true,
+          })
+        end,
+        ["gopls"] = function()
+          require("lspconfig").gopls.setup({
+            capabilities = capabilities,
+            filetypes = { "go", "gomod", "gowork", "gotmpl" },
+            root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
+            settings = {
+              gopls = {
+                completeUnimported = true,
+                usePlaceholders = true,
+                analyses = {
+                  unusedparams = true,
+                },
+              },
             },
-          },
-        },
-      })
-
-      -- Lua
-      require("lspconfig").lua_ls.setup({
-        capabilities = capabilities,
-        settings = { Lua = { workspace = { checkThirdParty = false } } },
-        -- root_dir = require("lspconfig.util").root_pattern(".git"),
-      })
-
-      -- Tailwind
-      require("lspconfig").tailwindcss.setup({
-        capabilities = capabilities,
-        settings = {
-          tailwindCSS = {
-            classAttributes = {
-              "class",
-              "className",
+          })
+        end,
+        ["lua_ls"] = function()
+          require("neodev").setup({})
+          require("lspconfig").lua_ls.setup({
+            capabilities = capabilities,
+            settings = { Lua = { workspace = { checkThirdParty = false } } },
+          })
+        end,
+        ["tailwindcss"] = function()
+          require("lspconfig").tailwindcss.setup({
+            capabilities = capabilities,
+            settings = {
+              tailwindCSS = {
+                classAttributes = {
+                  "class",
+                  "className",
+                },
+              },
             },
-          },
-        },
-        -- root_dir = require("lspconfig.util").root_pattern(".git"),
-      })
-
-      -- TypeScript
-      require("lspconfig").tsserver.setup({
-        capabilities = capabilities,
-        root_dir = require("lspconfig.util").root_pattern(".git"),
-      })
-
-      -- Yaml
-      require("lspconfig").yamlls.setup({
-        capabilities = vim.tbl_extend("force", capabilities, {
-          textDocument = {
-            foldingRange = {
-              dynamicRegistration = false,
-              lineFoldingOnly = true,
-            },
-          },
-        }),
-        filetypes = { "yaml", "yaml.docker-compose", "yml" },
-        -- settings = {
-        --   yaml = {
-        --     schemaStore = {
-        --       enable = true,
-        --       url = "https://www.schemastore.org/api/json/catalog.json",
-        --     }
-        --   }
-        -- },
-        -- root_dir = require("lspconfig.util").root_pattern(".git"),
+          })
+        end,
+        ["tsserver"] = function()
+          require("lspconfig").tsserver.setup({
+            capabilities = capabilities,
+            root_dir = require("lspconfig.util").root_pattern(".git"),
+          })
+        end,
+        ["yamlls"] = function()
+          require("lspconfig").yamlls.setup({
+            capabilities = vim.tbl_extend("force", capabilities, {
+              textDocument = {
+                foldingRange = {
+                  dynamicRegistration = false,
+                  lineFoldingOnly = true,
+                },
+              },
+            }),
+            filetypes = { "yaml", "yaml.docker-compose", "yml" },
+          })
+        end,
       })
 
       local telescope = require("telescope.builtin")
