@@ -3,15 +3,46 @@ return {
     "hrsh7th/nvim-cmp",
     event = { "InsertEnter" },
     dependencies = {
+      -- Snippet Engine
       "L3MON4D3/LuaSnip",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
+      -- LSP completion
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-path",
+      -- LSP kind
+      "onsails/lspkind.nvim",
     },
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
+
+      local kind_icons = {
+        Class = "󰠱",
+        Color = "󰏘",
+        Constant = "󰏿",
+        Constructor = "",
+        Enum = "",
+        EnumMember = "",
+        Event = "",
+        Field = "󰇽",
+        File = "󰈙",
+        Folder = "󰉋",
+        Function = "󰊕",
+        Interface = "",
+        Keyword = "󰌋",
+        Method = "󰆧",
+        Module = "",
+        Operator = "󰆕",
+        Property = "󰜢",
+        Reference = "",
+        Snippet = "",
+        Struct = "",
+        Text = "",
+        TypeParameter = "󰅲",
+        Unit = "",
+        Value = "󰎠",
+        Variable = "󰂡",
+      }
 
       luasnip.config.setup()
 
@@ -51,17 +82,38 @@ return {
           end, { "i", "s" }),
         }),
         sources = {
-          { name = "luasnip" },
           { name = "nvim_lsp" },
           { name = "nvim_lua" },
+          { name = "luasnip" },
+          { name = "buffer" },
           { name = "path" },
+        },
+        formatting = {
+          format = function(entry, vim_item)
+            local lspkind_ok, lspkind = pcall(require, "lspkind")
+            if not lspkind_ok then
+              -- From kind_icons array
+              vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
+              -- Source
+              vim_item.menu = ({
+                buffer = "[Buffer]",
+                luasnip = "[LuaSnip]",
+                nvim_lsp = "[LSP]",
+                nvim_lua = "[Lua]",
+              })[entry.source.name]
+              return vim_item
+            else
+              -- From lspkind
+              return lspkind.cmp_format()(entry, vim_item)
+            end
+          end,
         },
       })
     end,
   },
   {
     "neovim/nvim-lspconfig",
-    event = { "VeryLazy" },
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
