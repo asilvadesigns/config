@@ -1,11 +1,15 @@
 return {
   "stevearc/conform.nvim",
+  enabled = false,
   event = { "VeryLazy" },
   keys = {
     {
       "<leader>m",
       function()
-        require("conform").format({ async = true })
+        require("conform").format({
+          async = true,
+          lsp_fallback = "always",
+        })
       end,
       mode = "n",
       desc = "For[m]at",
@@ -13,10 +17,6 @@ return {
   },
   config = function()
     require("conform").setup({
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = false,
-      },
       formatters_by_ft = {
         css = { "stylelint", "prettier" },
         html = { "prettier" },
