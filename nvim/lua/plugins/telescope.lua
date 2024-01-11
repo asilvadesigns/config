@@ -66,11 +66,11 @@ return {
           default = {
             items = {
               { display = "Commands", value = builtin.commands },
-              { display = "Find", value = builtin.current_buffer_fuzzy_find },
-              { display = "Format", value = "Format" },
-              { display = "Help", value = builtin.help_tags },
+              { display = "Find",     value = builtin.current_buffer_fuzzy_find },
+              { display = "Format",   value = "Telescope menu format" },
+              { display = "Help",     value = builtin.help_tags },
               { display = "Projects", value = "Telescope projections" },
-              { display = "Search", value = "Spectre" },
+              { display = "Search",   value = "Spectre" },
               {
                 display = "Symbols (Document)",
                 value = builtin.lsp_document_symbols,
@@ -79,6 +79,13 @@ return {
                 display = "Symbols (Workspace)",
                 value = builtin.lsp_workspace_symbols,
               },
+            },
+          },
+          format = {
+            items = {
+              { display = "Format",                 value = "Format" },
+              { display = "Format (with Biome)",    value = "FormatWithBiome" },
+              { display = "Format (with Prettier)", value = "FormatWithPrettier" },
             },
           },
         },

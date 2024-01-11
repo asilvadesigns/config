@@ -3,8 +3,8 @@ local function filenameIcon(color, colored)
     {
       "filetype",
       color = color,
-      colored = colored, -- Displays filetype icon in color if set to true
-      icon_only = true, -- Display only an icon for filetype
+      colored = colored,          -- Displays filetype icon in color if set to true
+      icon_only = true,           -- Display only an icon for filetype
       icon = { align = "right" }, -- Display filetype icon on the right hand side
     },
   }
@@ -15,26 +15,35 @@ local function filenameText(color)
     {
       "filename",
       color = color,
-      file_status = true, -- Displays file status (readonly status, modified status)
-      newfile_status = false, -- Display new file status (new file means no write after created)
+      file_status = true,      -- Displays file status (readonly status, modified status)
+      newfile_status = false,  -- Display new file status (new file means no write after created)
       path = 3,
-      shorting_target = 40, -- Shortens path to leave 40 spaces in the window
+      shorting_target = 40,    -- Shortens path to leave 40 spaces in the window
       symbols = {
-        modified = "[+]", -- Text to show when the file is modified.
-        readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
+        modified = "[+]",      -- Text to show when the file is modified.
+        readonly = "[-]",      -- Text to show when the file is non-modifiable or readonly.
         unnamed = "[No Name]", -- Text to show for unnamed buffers.
-        newfile = "[New]", -- Text to show for newly created file before first write
+        newfile = "[New]",     -- Text to show for newly created file before first write
       },
     },
   }
 end
 
-local function gitBranch(color)
+local function gitBranch()
   return {
     {
       "branch",
-      -- color = color,
       icon = "",
+      on_click = function()
+        vim.cmd("Git")
+      end,
+    },
+    {
+      "diagnostics",
+      always_visible = true,
+      on_click = function()
+        vim.cmd("Trouble")
+      end,
     },
   }
 end
@@ -47,8 +56,9 @@ return {
   },
   config = function()
     require("lualine").setup({
+      extensions = { "trouble" },
       options = {
-        component_separators = "|",
+        component_separators = " ",
         disabled_filetypes = {
           statusline = { "" },
           winbar = { "neo-tree" },
