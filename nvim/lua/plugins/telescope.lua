@@ -66,12 +66,14 @@ return {
           menu = {
             default = {
               items = {
-                { display = "Commands", value = builtin.commands },
-                { display = "Find",     value = builtin.current_buffer_fuzzy_find },
-                { display = "Format",   value = "Telescope menu format" },
-                { display = "Help",     value = builtin.help_tags },
-                { display = "Projects", value = "Telescope neovim-project discover" },
-                { display = "Search",   value = "Spectre" },
+                { display = "Commands",          value = builtin.commands },
+                { display = "Find",              value = builtin.current_buffer_fuzzy_find },
+                { display = "Format (Biome)",    value = "FormatWithBiome" },
+                { display = "Format (Prettier)", value = "FormatWithPrettier" },
+                { display = "Format (lsp)",      value = "Format" },
+                { display = "Help",              value = builtin.help_tags },
+                { display = "Projects",          value = "Telescope neovim-project discover" },
+                { display = "Search",            value = "Spectre" },
                 {
                   display = "Symbols (Document)",
                   value = builtin.lsp_document_symbols,
@@ -82,13 +84,13 @@ return {
                 },
               },
             },
-            format = {
-              items = {
-                { display = "Format",                 value = "Format" },
-                { display = "Format (with Biome)",    value = "FormatWithBiome" },
-                { display = "Format (with Prettier)", value = "FormatWithPrettier" },
-              },
-            },
+            -- format = {
+            --   items = {
+            --     { display = "Format (with Biome)",    value = "FormatWithBiome" },
+            --     { display = "Format (with LSP)",                 value = "Format" },
+            --     { display = "Format (with Prettier)", value = "FormatWithPrettier" },
+            --   },
+            -- },
           },
         },
         pickers = {
