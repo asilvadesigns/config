@@ -17,10 +17,12 @@ set -gx EDITOR nvim
 
 starship init fish | source
 
-# pnpm
+# fish
 set -gx PNPM_HOME "~/Library/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
-# pnpm end
-# Setting PATH for Python 3.11
-# The original version is saved in /Users/albertos/.config/fish/config.fish.pysave
+
+# python
 set -x PATH "/Library/Frameworks/Python.framework/Versions/3.11/bin" "$PATH"
+
+# smart tmux session
+fish_add_path $HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin
