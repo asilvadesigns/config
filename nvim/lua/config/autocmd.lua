@@ -30,16 +30,31 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- open tree
-vim.api.nvim_create_autocmd("VimEnter", {
-  pattern = { "*" },
-  nested = true,
-  callback = function()
-    if vim.fn.argv(0) == "" then
-      vim.cmd("Telescope find_files")
-    end
-  end,
-})
+-- -- open tree
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   pattern = { "*" },
+--   nested = true,
+--   callback = function()
+--     if vim.fn.argv(0) == "" then
+--       vim.cmd("Telescope find_files")
+--     end
+--   end,
+-- })
+
+-- --- @class DirChangedCallbackCwd
+-- --- @field buf number
+-- --- @field event string
+-- --- @field file string 
+-- --- @field id number 
+-- --- @field match string
+-- vim.api.nvim_create_autocmd("DirChanged", {
+--   pattern = { "*" },
+--   desc = "Update git env for dotfiles after changing directory",
+--   --- @param cwd DirChangedCallbackCwd
+--   callback = function(cwd, scope, changed_window)
+--     print(vim.inspect(cwd))
+--   end,
+-- })
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command
