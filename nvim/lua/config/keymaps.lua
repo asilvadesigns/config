@@ -1,5 +1,5 @@
-local keymap_opts = { noremap = true }
-local keymap_opts_with_expr = { noremap = true, expr = true }
+local keymap_opts = { noremap = true, silent = true }
+local keymap_opts_with_expr = { expr = true, noremap = true, silent = true }
 
 -- kill search highlight
 vim.keymap.set("n", "<Esc>", "<cmd>noh<cr>", { desc = "Clear highlight" })

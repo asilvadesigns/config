@@ -3,16 +3,21 @@ return {
   event = { "VeryLazy" },
   config = function()
     require("noice").setup({
+      views = {
+        split = {
+          enter = false,
+        },
+      },
       cmdline = {
         enabled = true,
       },
       messages = {
         enabled = true,
-        view = "messages",           -- default view for messages
-        view_error = "messages",     -- view for errors
-        view_warn = "messages",      -- view for warnings
+        view = "notify",           -- default view for messages
+        view_error = "notify",     -- view for errors
         view_history = "messages",   -- view for :messages
         view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+        view_warn = "notify",      -- view for warnings
       },
       notify = {
         enabled = false,
