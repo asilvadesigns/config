@@ -18,6 +18,9 @@ set -gx EDITOR nvim
 starship init fish | source
 
 # fish
+set -g fish_greeting
+
+# pnpm
 set -gx PNPM_HOME "~/Library/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 

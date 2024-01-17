@@ -24,8 +24,11 @@ modified=''
 renamed=''
 stashed=''
 
+[lua]
+disabled = true
+
 [python]
 disabled = true
 
 [nodejs]
-disabled = false
+disabled = true
