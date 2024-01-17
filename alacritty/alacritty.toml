@@ -12,6 +12,12 @@ draw_bold_text_with_bright_colors = false
 cursor = "0x268bd2"
 text = "0xeee8d5"
 
+# [keyboard]
+# bindings = [
+#   # tmux refresh
+#   { key = "L", mods = "Control", chars = "\u0001V" },
+# ]
+
 [env]
 TERM = "xterm-256color"
 
