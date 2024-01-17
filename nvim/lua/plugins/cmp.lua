@@ -6,6 +6,7 @@ return {
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
     -- LSP completion
+    "David-Kunz/cmp-npm",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-path",
     -- LSP kind
@@ -14,6 +15,12 @@ return {
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
+
+    require("cmp-npm").setup({
+      ignore = {},
+      only_semantic_versions = false,
+      only_latest_version = false,
+    })
 
     local kind_icons = {
       Class = "󰠱",
@@ -86,6 +93,7 @@ return {
         { name = "luasnip" },
         { name = "buffer" },
         { name = "path" },
+        { name = "npm" },
       },
       formatting = {
         format = function(entry, vim_item)
@@ -95,10 +103,10 @@ return {
             vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
             -- Source
             vim_item.menu = ({
-              buffer = "[Buffer]",
-              luasnip = "[LuaSnip]",
               nvim_lsp = "[LSP]",
               nvim_lua = "[Lua]",
+              buffer = "[Buffer]",
+              luasnip = "[LuaSnip]",
             })[entry.source.name]
             return vim_item
           else
