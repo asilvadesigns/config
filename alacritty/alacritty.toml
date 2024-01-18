@@ -44,10 +44,6 @@ style = "Italic"
 family = "JetBrainsMono Nerd Font Mono"
 style = "Regular"
 
-# [shell]
-# program = "/usr/local/bin/fish"
-# args = ["-l"]
-
 [font.offset]
 x = 0
 y = 8
@@ -55,6 +51,7 @@ y = 8
 [window]
 decorations = "buttonless"
 dynamic_title = true
+dynamic_padding = false
 
 [window.padding]
 x = 0
