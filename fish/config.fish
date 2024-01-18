@@ -1,7 +1,3 @@
-if status is-interactive
-    # Commands to run in interactive sessions can go here
-end
-
 function bb
   set -l branch (git branch --all | fzf --reverse | tr -d `[:space:]`) 
   echo "checking out... $branch"
@@ -26,6 +22,3 @@ set -gx PATH "$PNPM_HOME" $PATH
 
 # python
 set -x PATH "/Library/Frameworks/Python.framework/Versions/3.11/bin" "$PATH"
-
-# smart tmux session
-fish_add_path $HOME/.tmux/plugins/t-smart-tmux-session-manager/bin
