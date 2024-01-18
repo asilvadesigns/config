@@ -82,6 +82,10 @@ return {
                   display = "Symbols (Workspace)",
                   value = builtin.lsp_workspace_symbols,
                 },
+                {
+                  display = "Telescope",
+                  value = "Telescope",
+                },
               },
             },
             -- format = {

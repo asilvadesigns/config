@@ -4,7 +4,7 @@ return {
   keys = {
     {
       "<leader>j",
-      "<CMD>NeoTreeReveal<CR>",
+      "<CMD>Neotree reveal<CR>",
       desc = "reveal file in explorer",
     },
     {
