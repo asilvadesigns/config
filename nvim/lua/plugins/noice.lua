@@ -16,6 +16,20 @@ return {
       },
       cmdline = {
         enabled = true,
+        format = {
+          search_down = {
+            icon = "  ",
+            kind = "search",
+            lang = "regex",
+            pattern = "^/",
+          },
+          search_up = {
+            icon = "  ",
+            kind = "search",
+            lang = "regex",
+            pattern = "^%?",
+          },
+        },
       },
       messages = {
         enabled = true,

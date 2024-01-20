@@ -25,7 +25,13 @@ return {
       ";",
       mode = { "n" },
       function()
-        require("flash").jump()
+        require("flash").jump({
+          search = {
+            forward = true,
+            multi_window = false,
+            wrap = true,
+          },
+        })
       end,
       desc = "Toggle Flash Jump",
     },

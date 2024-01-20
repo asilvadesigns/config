@@ -2,7 +2,11 @@ return {
   "nvim-treesitter/nvim-treesitter",
   event = { "BufNewFile", "BufReadPre" },
   build = ":TSUpdate",
-  dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    "windwp/nvim-ts-autotag",
+    "windwp/nvim-autopairs",
+  },
   config = function()
     require("nvim-treesitter.configs").setup({
       auto_install = true,
@@ -79,5 +83,14 @@ return {
         },
       },
     })
+
+    require("nvim-ts-autotag").setup({
+      enable = true,
+      enable_rename = true,
+      enable_close = true,
+      enable_close_on_slash = true,
+    })
+
+    require("nvim-autopairs").setup({})
   end,
 }

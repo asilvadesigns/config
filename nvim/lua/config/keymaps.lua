@@ -16,18 +16,19 @@ vim.keymap.set("i", "<ScrollWheelDown>", "<C-e>", keymap_opts)
 vim.keymap.set("v", "<ScrollWheelUp>", "<C-y>", keymap_opts)
 vim.keymap.set("v", "<ScrollWheelDown>", "<C-e>", keymap_opts)
 
--- better window resize
-vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
-vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
-vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
-vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
-
--- better window navigation
-vim.keymap.set("n", "<C-h>", "<C-w>h", keymap_opts)
-vim.keymap.set("n", "<C-j>", "<C-w>j", keymap_opts)
-vim.keymap.set("n", "<C-k>", "<C-w>k", keymap_opts)
-vim.keymap.set("n", "<C-l>", "<C-w>l", keymap_opts)
-vim.keymap.set("n", "<leader>c", "<C-w>q", { noremap = true, desc = "[c]lose buffer" })
+-- NOTE: using smart splits
+-- -- better window resize
+-- vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
+-- vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
+-- vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
+-- vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
+--
+-- -- better window navigation
+-- vim.keymap.set("n", "<C-h>", "<C-w>h", keymap_opts)
+-- vim.keymap.set("n", "<C-j>", "<C-w>j", keymap_opts)
+-- vim.keymap.set("n", "<C-k>", "<C-w>k", keymap_opts)
+-- vim.keymap.set("n", "<C-l>", "<C-w>l", keymap_opts)
+-- vim.keymap.set("n", "<leader>c", "<C-w>q", { noremap = true, desc = "[c]lose buffer" })
 
 -- better navigation in line wraps
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)

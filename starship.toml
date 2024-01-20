@@ -25,10 +25,10 @@ renamed=''
 stashed=''
 
 [lua]
-disabled = true
+disabled = false
 
 [python]
-disabled = true
+disabled = false
 
 [nodejs]
-disabled = true
+disabled = false

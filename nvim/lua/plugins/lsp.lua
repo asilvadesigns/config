@@ -109,12 +109,12 @@ return {
           },
         })
       end,
-      ["tsserver"] = function()
-        require("lspconfig").tsserver.setup({
-          capabilities = capabilities,
-          root_dir = require("lspconfig.util").root_pattern(".git"),
-        })
-      end,
+      -- ["tsserver"] = function()
+      --   require("lspconfig").tsserver.setup({
+      --     capabilities = capabilities,
+      --     root_dir = require("lspconfig.util").root_pattern(".git"),
+      --   })
+      -- end,
       ["yamlls"] = function()
         require("lspconfig").yamlls.setup({
           capabilities = vim.tbl_extend("force", capabilities, {
