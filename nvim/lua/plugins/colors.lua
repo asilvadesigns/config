@@ -9,13 +9,6 @@ return {
     end,
   },
   {
-    "folke/tokyonight.nvim",
-    enabled = false,
-    lazy = false,
-    priority = 1000,
-    opts = {},
-  },
-  {
     "navarasu/onedark.nvim",
     enabled = false,
     lazy = false,
