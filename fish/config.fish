@@ -1,3 +1,6 @@
+export XDG_CONFIG_HOME="$HOME/.config"
+export EDITOR=nvim
+
 function bb
   set -l branch (git branch --all | fzf --reverse | tr -d `[:space:]`) 
   echo "checking out... $branch"
@@ -8,8 +11,6 @@ function gg
   set -l directory (ls -1 ~/dev | fzf --reverse)
   cd ~/dev/$directory/
 end
-
-set -gx EDITOR nvim
 
 starship init fish | source
 

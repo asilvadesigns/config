@@ -96,8 +96,8 @@ vim.diagnostic.config({
 
 -- diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic message" })
 
 -- diagnostics in gutter
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter

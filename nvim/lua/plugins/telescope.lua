@@ -47,7 +47,7 @@ return {
             -- "node_modules",
             -- "package-lock.json",
           },
-          preview = true,
+          preview = false,
           sorting_strategy = "ascending",
           mappings = {
             i = {
@@ -126,6 +126,10 @@ return {
         },
       })
 
+      telescope.load_extension("fzf")
+      telescope.load_extension("menu")
+      telescope.load_extension("ui-select")
+
       vim.keymap.set("n", "<leader>a", function()
         vim.cmd("Telescope menu")
       end)
@@ -135,9 +139,6 @@ return {
       vim.keymap.set("n", "<leader>f", builtin.find_files)
       vim.keymap.set("n", "<leader>g", builtin.git_files)
       vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)
-
-      telescope.load_extension("menu")
-      telescope.load_extension("ui-select")
     end,
   },
   {

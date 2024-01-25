@@ -73,6 +73,9 @@ return {
           ["a"] = "add",
           ["d"] = "delete",
           ["r"] = "rename",
+          ["c"] = "copy",
+          ["p"] = "paste_from_clipboard",
+          ["m"] = "move",
           -- movements
           ["<bs>"] = "navigate_up",
           -- searching

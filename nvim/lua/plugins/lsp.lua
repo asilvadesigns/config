@@ -61,8 +61,8 @@ return {
               schemas = {
                 { fileMatch = { "jsconfig.json" }, url = "https://json.schemastore.org/jsconfig" },
                 { fileMatch = { "tsconfig.json" }, url = "https://json.schemastore.org/tsconfig" },
-                { fileMatch = { "turbo.json" }, url = "https://turbo.build/schema.json" },
-                { fileMatch = { "package.json" }, url = "https://json.schemastore.org/package" },
+                { fileMatch = { "turbo.json" },    url = "https://turbo.build/schema.json" },
+                { fileMatch = { "package.json" },  url = "https://json.schemastore.org/package" },
                 {
                   fileMatch = { ".prettierrc.json", ".prettierrc" },
                   url = "https://json.schemastore.org/prettierrc.json",
@@ -99,6 +99,11 @@ return {
       ["tailwindcss"] = function()
         require("lspconfig").tailwindcss.setup({
           capabilities = capabilities,
+          root_dir = require("lspconfig.util").root_pattern(
+            "tailwind.config.js",
+            "tailwind.config.ts",
+            "tailwind.config.cjs"
+          ),
           settings = {
             tailwindCSS = {
               classAttributes = {
@@ -109,12 +114,12 @@ return {
           },
         })
       end,
-      -- ["tsserver"] = function()
-      --   require("lspconfig").tsserver.setup({
-      --     capabilities = capabilities,
-      --     root_dir = require("lspconfig.util").root_pattern(".git"),
-      --   })
-      -- end,
+      ["tsserver"] = function()
+        require("lspconfig").tsserver.setup({
+          capabilities = capabilities,
+          root_dir = require("lspconfig.util").root_pattern(".git"),
+        })
+      end,
       ["yamlls"] = function()
         require("lspconfig").yamlls.setup({
           capabilities = vim.tbl_extend("force", capabilities, {
