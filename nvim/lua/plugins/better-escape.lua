@@ -1,6 +1,6 @@
 return {
   "max397574/better-escape.nvim",
-  event = { "VeryLazy" },
+  event = { "InsertEnter" },
   opts = {
     clear_empty_lines = false,
     keys = "<Esc>",

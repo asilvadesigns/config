@@ -88,12 +88,12 @@ return {
         end, { "i", "s" }),
       }),
       sources = {
+        { name = "buffer" },
+        { name = "luasnip" },
+        { name = "npm" },
         { name = "nvim_lsp" },
         { name = "nvim_lua" },
-        { name = "luasnip" },
-        { name = "buffer" },
         { name = "path" },
-        { name = "npm" },
       },
       formatting = {
         format = function(entry, vim_item)

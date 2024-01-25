@@ -10,9 +10,10 @@ return {
     },
     dependencies = {
       { "nvim-lua/plenary.nvim" },
+      { "nvim-telescope/telescope-frecency.nvim" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      { "octarect/telescope-menu.nvim" },
       { "nvim-telescope/telescope-ui-select.nvim" },
+      { "octarect/telescope-menu.nvim" },
     },
     config = function()
       local actions = require("telescope.actions")
@@ -126,6 +127,7 @@ return {
         },
       })
 
+      telescope.load_extension("frecency")
       telescope.load_extension("fzf")
       telescope.load_extension("menu")
       telescope.load_extension("ui-select")
@@ -134,8 +136,13 @@ return {
         vim.cmd("Telescope menu")
       end)
 
+      -- prevoiusly used "builtin.buffers"
+      local oldfiles = function()
+        vim.cmd("Telescope frecency")
+      end
+
       vim.keymap.set("n", "<leader>b", builtin.buffers)
-      vim.keymap.set("n", "<leader>e", builtin.oldfiles)
+      vim.keymap.set("n", "<leader>e", oldfiles)
       vim.keymap.set("n", "<leader>f", builtin.find_files)
       vim.keymap.set("n", "<leader>g", builtin.git_files)
       vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)
