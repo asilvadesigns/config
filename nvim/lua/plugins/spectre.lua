@@ -3,7 +3,7 @@ return {
   cmd = { "Spectre" },
   keys = {
     {
-      "<leader>s",
+      "<c-s>",
       "<cmd>Spectre<cr>",
       desc = "Search",
     },

@@ -8,7 +8,7 @@ return {
       desc = "reveal file in explorer",
     },
     {
-      "<leader>x",
+      "<leader><space>",
       "<CMD>Neotree position=current reveal_file=%:p<CR>",
       desc = "reveal file in current buffer",
     },

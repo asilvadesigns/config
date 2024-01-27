@@ -42,13 +42,18 @@ return {
 
       telescope.setup({
         -- @see: https://github.com/nvim-telescope/telescope.nvim/issues/848#issuecomment-1584291014
-        defaults = vim.tbl_extend("force", themes.get_dropdown(), {
+        defaults = vim.tbl_extend("force", themes.get_dropdown({
+          layout_config = {
+            width = 0.8
+          }
+        }), {
           file_ignore_patterns = {
             "%.git/.",
             -- "node_modules",
             -- "package-lock.json",
           },
           preview = false,
+          path_display = { "truncate" },
           sorting_strategy = "ascending",
           mappings = {
             i = {
@@ -58,6 +63,13 @@ return {
           },
         }),
         extensions = {
+          frecency = {
+            default_workspace = "CWD",
+            disable_devicons = false,
+            ignore_patterns = { "*.git/*", "*/tmp/*", "*/lua-language-server/*" },
+            show_scores = false,
+            show_unindexed = true,
+          },
           fzf = {
             case_mode = "smart_case",
             fuzzy = true,
@@ -102,7 +114,7 @@ return {
           buffers = {
             ignore_current_buffer = true,
             only_cwd = true,
-            path_display = formattedName,
+            -- path_display = formattedName,
             sort_mru = true,
           },
           colorscheme = {
@@ -113,14 +125,14 @@ return {
           },
           find_files = {
             hidden = true,
-            path_display = formattedName,
+            -- path_display = formattedName,
           },
           git_files = {
-            path_display = formattedName,
+            -- path_display = formattedName,
           },
           oldfiles = {
             only_cwd = true,
-            path_display = formattedName,
+            -- path_display = formattedName,
             sort_mru = true,
           },
           help_tags = {},
@@ -136,13 +148,13 @@ return {
         vim.cmd("Telescope menu")
       end)
 
-      -- prevoiusly used "builtin.buffers"
-      local oldfiles = function()
+      -- prevoiusly used "builtin.oldfiles"
+      local frecency = function()
         vim.cmd("Telescope frecency")
       end
 
       vim.keymap.set("n", "<leader>b", builtin.buffers)
-      vim.keymap.set("n", "<leader>e", oldfiles)
+      vim.keymap.set("n", "<leader>e", builtin.oldfiles)
       vim.keymap.set("n", "<leader>f", builtin.find_files)
       vim.keymap.set("n", "<leader>g", builtin.git_files)
       vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)

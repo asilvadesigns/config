@@ -29,6 +29,7 @@ vim.keymap.set("v", "<ScrollWheelDown>", "<C-e>", keymap_opts)
 -- vim.keymap.set("n", "<C-k>", "<C-w>k", keymap_opts)
 -- vim.keymap.set("n", "<C-l>", "<C-w>l", keymap_opts)
 -- vim.keymap.set("n", "<leader>c", "<C-w>q", { noremap = true, desc = "[c]lose buffer" })
+vim.keymap.set("n", "<leader>s", ":wa<CR>", keymap_opts)
 
 -- better navigation in line wraps
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)
