@@ -1,7 +1,7 @@
 import = [
   # "~/.config/alacritty/catppuccin-mocha.toml"
   # "~/.config/alacritty/catppuccin-macchiato.toml"
-  "~/.config/alacritty/catppuccin-frappe.toml"
+  "~/.config/alacritty/catppuccin-frappe.toml",
   # "~/.config/alacritty/catppuccin-latte.toml"
 ]
 
@@ -12,11 +12,35 @@ draw_bold_text_with_bright_colors = false
 cursor = "0x268bd2"
 text = "0xeee8d5"
 
-# [keyboard]
-# bindings = [
-#   # tmux refresh
-#   { key = "L", mods = "Control", chars = "\u0001V" },
-# ]
+[keyboard]
+bindings = [
+  # tmux session picker (sesh)
+  { key = "K", mods = "Command|Shift", chars = "\u0000k" },
+  # tmux split vertically
+  { key = "D", mods = "Command", chars = "\u0000v" },
+  # tmux split horizontally
+  { key = "D", mods = "Command|Shift", chars = "\u0000s" },
+  # tmux pane new
+  { key = "N", mods = "Command|Shift", chars = "\u0000c" },
+  # tmux pane prev
+  { key = "[", mods = "Command", chars = "\u0000\f702" },
+  # tmux pane next
+  { key = "]", mods = "Command", chars = "\u0000\f703" },
+  # tmux window prev
+  { key = "[", mods = "Command|Shift", chars = "\u0000p" },
+  # tmux window next
+  { key = "]", mods = "Command|Shift", chars = "\u0000n" },
+  # tmux window select by number
+  { key = "1", mods = "Command", chars = "\u00001" },
+  { key = "2", mods = "Command", chars = "\u00002" },
+  { key = "3", mods = "Command", chars = "\u00003" },
+  { key = "4", mods = "Command", chars = "\u00004" },
+  { key = "5", mods = "Command", chars = "\u00005" },
+  { key = "6", mods = "Command", chars = "\u00006" },
+  { key = "7", mods = "Command", chars = "\u00007" },
+  { key = "8", mods = "Command", chars = "\u00008" },
+  { key = "9", mods = "Command", chars = "\u00009" },
+]
 
 [env]
 TERM = "xterm-256color"
@@ -34,7 +58,7 @@ style = "Bold Italic"
 
 [font.glyph_offset]
 x = 0
-y = 4
+y = 6
 
 [font.italic]
 family = "JetBrainsMono Nerd Font Mono"
@@ -46,7 +70,7 @@ style = "Regular"
 
 [font.offset]
 x = 0
-y = 8
+y = 12
 
 [window]
 decorations = "buttonless"

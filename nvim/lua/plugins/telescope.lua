@@ -10,7 +10,6 @@ return {
     },
     dependencies = {
       { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope-frecency.nvim" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "nvim-telescope/telescope-ui-select.nvim" },
       { "octarect/telescope-menu.nvim" },
@@ -42,34 +41,31 @@ return {
 
       telescope.setup({
         -- @see: https://github.com/nvim-telescope/telescope.nvim/issues/848#issuecomment-1584291014
-        defaults = vim.tbl_extend("force", themes.get_dropdown({
-          layout_config = {
-            width = 0.8
-          }
-        }), {
-          file_ignore_patterns = {
-            "%.git/.",
-            -- "node_modules",
-            -- "package-lock.json",
-          },
-          preview = false,
-          path_display = { "truncate" },
-          sorting_strategy = "ascending",
-          mappings = {
-            i = {
-              ["<C-u>"] = false,
-              ["<esc>"] = actions.close,
+        defaults = vim.tbl_extend(
+          "force",
+          themes.get_dropdown({
+            layout_config = {
+              width = 0.8,
             },
-          },
-        }),
+          }),
+          {
+            file_ignore_patterns = {
+              "%.git/.",
+              -- "node_modules",
+              -- "package-lock.json",
+            },
+            preview = false,
+            path_display = { "truncate" },
+            sorting_strategy = "ascending",
+            mappings = {
+              i = {
+                ["<C-u>"] = false,
+                ["<esc>"] = actions.close,
+              },
+            },
+          }
+        ),
         extensions = {
-          frecency = {
-            default_workspace = "CWD",
-            disable_devicons = false,
-            ignore_patterns = { "*.git/*", "*/tmp/*", "*/lua-language-server/*" },
-            show_scores = false,
-            show_unindexed = true,
-          },
           fzf = {
             case_mode = "smart_case",
             fuzzy = true,
@@ -83,8 +79,11 @@ return {
                 { display = "Find",              value = builtin.current_buffer_fuzzy_find },
                 { display = "Format (Biome)",    value = "FormatWithBiome" },
                 { display = "Format (Prettier)", value = "FormatWithPrettier" },
-                { display = "Format (lsp)",      value = "Format" },
+                { display = "Format (default)",  value = "Format" },
                 { display = "Help",              value = builtin.help_tags },
+                { display = "Lint (Biome)",      value = "LintWithBiome" },
+                { display = "Lint (EsLint)",     value = "LintWithPrettier" },
+                { display = "Lint (default)",    value = "Lint" },
                 { display = "Projects",          value = "Telescope neovim-project discover" },
                 { display = "Search",            value = "Spectre" },
                 {
@@ -139,7 +138,6 @@ return {
         },
       })
 
-      telescope.load_extension("frecency")
       telescope.load_extension("fzf")
       telescope.load_extension("menu")
       telescope.load_extension("ui-select")
@@ -147,11 +145,6 @@ return {
       vim.keymap.set("n", "<leader>a", function()
         vim.cmd("Telescope menu")
       end)
-
-      -- prevoiusly used "builtin.oldfiles"
-      local frecency = function()
-        vim.cmd("Telescope frecency")
-      end
 
       vim.keymap.set("n", "<leader>b", builtin.buffers)
       vim.keymap.set("n", "<leader>e", builtin.oldfiles)

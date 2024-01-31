@@ -1,8 +1,8 @@
 lastupdatecheck: 0
 recentrepos:
-- /Users/albertos/dev/kaizen-ui-new-documentation
-- /Users/albertos/dev/kaizen-ui
 - /Users/albertos/.config
+- /Users/albertos/dev/kaizen-ui
+- /Users/albertos/dev/kaizen-ui-new-documentation
 startuppopupversion: 5
 customcommandshistory: []
 hidecommandlog: false
