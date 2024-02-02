@@ -12,6 +12,11 @@ function gg
   cd ~/dev/$directory/
 end
 
+# npm run $(fp)
+function fp
+  echo $(cat package.json | jq '.scripts | keys[]' | fzf | sed 's/"//g')
+end
+
 starship init fish | source
 
 # fish

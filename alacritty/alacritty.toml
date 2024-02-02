@@ -1,8 +1,8 @@
 import = [
   # "~/.config/alacritty/catppuccin-mocha.toml"
   # "~/.config/alacritty/catppuccin-macchiato.toml"
-  "~/.config/alacritty/catppuccin-frappe.toml",
-  # "~/.config/alacritty/catppuccin-latte.toml"
+  # "~/.config/alacritty/catppuccin-frappe.toml",
+  "~/.config/alacritty/catppuccin-latte.toml"
 ]
 
 [colors]
@@ -14,23 +14,29 @@ text = "0xeee8d5"
 
 [keyboard]
 bindings = [
-  # tmux session picker (sesh)
+  # tmux session | picker (sesh)
   { key = "K", mods = "Command|Shift", chars = "\u0000k" },
-  # tmux split vertically
+  # tmux | command
+  { key = ";", mods = "Command", chars = "\u0000:" },
+  # tmux | refresh
+  { key = "R", mods = "Command", chars = "\u0000r" },
+  # tmux split | vertically
   { key = "D", mods = "Command", chars = "\u0000v" },
-  # tmux split horizontally
+  # tmux split | horizontally
   { key = "D", mods = "Command|Shift", chars = "\u0000s" },
-  # tmux pane new
-  { key = "N", mods = "Command|Shift", chars = "\u0000c" },
-  # tmux pane prev
-  { key = "[", mods = "Command", chars = "\u0000\f702" },
-  # tmux pane next
-  { key = "]", mods = "Command", chars = "\u0000\f703" },
-  # tmux window prev
+  # tmux pane | new
+  { key = "T", mods = "Command", chars = "\u0000c" },
+  # tmux pane | last
+  { key = "L", mods = "Command", chars = "\u0000l" },
+  # tmux pane | last session
+  { key = "L", mods = "Command|Shift", chars = "\u0000L" },
+  # tmux window | prev
+  { key = "Tab", mods = "Control|Shift", chars = "\u0000p" },
   { key = "[", mods = "Command|Shift", chars = "\u0000p" },
-  # tmux window next
+  # tmux window | next
+  { key = "Tab", mods = "Control", chars = "\u0000n" },
   { key = "]", mods = "Command|Shift", chars = "\u0000n" },
-  # tmux window select by number
+  # tmux window | select by number
   { key = "1", mods = "Command", chars = "\u00001" },
   { key = "2", mods = "Command", chars = "\u00002" },
   { key = "3", mods = "Command", chars = "\u00003" },
@@ -58,7 +64,7 @@ style = "Bold Italic"
 
 [font.glyph_offset]
 x = 0
-y = 6
+y = 5
 
 [font.italic]
 family = "JetBrainsMono Nerd Font Mono"
@@ -70,7 +76,7 @@ style = "Regular"
 
 [font.offset]
 x = 0
-y = 12
+y = 10
 
 [window]
 decorations = "buttonless"

@@ -11,10 +11,13 @@ return {
     dependencies = {
       "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
+      "nvim-telescope/telescope.nvim",
       "williamboman/mason-lspconfig.nvim",
       "williamboman/mason.nvim",
     },
     config = function()
+      local telescope = require("telescope.builtin")
+
       local capabilities = vim.tbl_deep_extend(
         "force",
         vim.lsp.protocol.make_client_capabilities(),
@@ -27,6 +30,16 @@ return {
           },
         }
       )
+
+      local opts = { noremap = true, silent = true }
+      local on_attach = function(client, bufnr)
+        opts.buffer = bufnr
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "gd", telescope.lsp_definitions, opts)
+        vim.keymap.set("n", "gr", telescope.lsp_references, opts)
+      end
 
       require("mason").setup()
 
@@ -55,6 +68,7 @@ return {
         function(server_name)
           require("lspconfig")[server_name].setup({
             capabilities = capabilities,
+            on_attach = on_attach,
           })
         end,
 
@@ -63,13 +77,14 @@ return {
           -- NOTE: to add new schemas, find url here https://www.schemastore.org/json/
           require("lspconfig").jsonls.setup({
             capabilities = capabilities,
+            on_attach = on_attach,
             settings = {
               json = {
                 schemas = {
                   { fileMatch = { "jsconfig.json" }, url = "https://json.schemastore.org/jsconfig" },
                   { fileMatch = { "tsconfig.json" }, url = "https://json.schemastore.org/tsconfig" },
-                  { fileMatch = { "turbo.json" },    url = "https://turbo.build/schema.json" },
-                  { fileMatch = { "package.json" },  url = "https://json.schemastore.org/package" },
+                  { fileMatch = { "turbo.json" }, url = "https://turbo.build/schema.json" },
+                  { fileMatch = { "package.json" }, url = "https://json.schemastore.org/package" },
                   {
                     fileMatch = { ".prettierrc.json", ".prettierrc" },
                     url = "https://json.schemastore.org/prettierrc.json",
@@ -84,6 +99,7 @@ return {
           require("lspconfig").gopls.setup({
             capabilities = capabilities,
             filetypes = { "go", "gomod", "gowork", "gotmpl" },
+            on_attach = on_attach,
             root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
             settings = {
               gopls = {
@@ -100,12 +116,14 @@ return {
           require("neodev").setup({})
           require("lspconfig").lua_ls.setup({
             capabilities = capabilities,
+            on_attach = on_attach,
             settings = { Lua = { workspace = { checkThirdParty = false } } },
           })
         end,
         ["tailwindcss"] = function()
           require("lspconfig").tailwindcss.setup({
             capabilities = capabilities,
+            on_attach = on_attach,
             root_dir = require("lspconfig.util").root_pattern(
               "tailwind.config.js",
               "tailwind.config.ts",
@@ -124,6 +142,7 @@ return {
         ["tsserver"] = function()
           require("lspconfig").tsserver.setup({
             capabilities = capabilities,
+            on_attach = on_attach,
             root_dir = require("lspconfig.util").root_pattern(".git"),
           })
         end,
@@ -138,17 +157,10 @@ return {
               },
             }),
             filetypes = { "yaml", "yaml.docker-compose", "yml" },
+            on_attach = on_attach,
           })
         end,
       })
-
-      local telescope = require("telescope.builtin")
-
-      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
-      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-      vim.keymap.set("n", "gd", telescope.lsp_definitions, {})
-      vim.keymap.set("n", "gr", telescope.lsp_references, {})
     end,
   },
 }
