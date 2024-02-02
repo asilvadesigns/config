@@ -56,7 +56,7 @@ return {
   },
   config = function()
     require("lualine").setup({
-      extensions = { "trouble" },
+      extensions = { "oil" },
       options = {
         component_separators = " ",
         disabled_filetypes = {
