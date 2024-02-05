@@ -1,4 +1,6 @@
 tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
 tap "joshmedeski/sesh"
 tap "planetscale/tap"
 brew "fish"
