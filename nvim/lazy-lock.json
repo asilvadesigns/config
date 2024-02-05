@@ -11,7 +11,7 @@
   "flash.nvim": { "branch": "main", "commit": "48817af25f51c0590653bbc290866e4890fe1cbe" },
   "garbage-day.nvim": { "branch": "main", "commit": "957499b8a493974bd7002b68b1f15f7d285e0dd1" },
   "incline.nvim": { "branch": "main", "commit": "e3a1b3c87a98c0dbdeb63ca9a17003127f600d7e" },
-  "lazy.nvim": { "branch": "main", "commit": "aedcd79811d491b60d0a6577a9c1701063c2a609" },
+  "lazy.nvim": { "branch": "main", "commit": "28126922c9b54e35a192ac415788f202c3944c9f" },
   "lspkind.nvim": { "branch": "master", "commit": "1735dd5a5054c1fb7feaf8e8658dbab925f4f0cf" },
   "lualine.nvim": { "branch": "master", "commit": "7d131a8d3ba5016229e8a1d08bf8782acea98852" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "2b3d247fce06f53934174f5dfe0362c42d65c00c" },
