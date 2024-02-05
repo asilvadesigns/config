@@ -1,6 +1,7 @@
 tap "homebrew/bundle"
 tap "joshmedeski/sesh"
 tap "planetscale/tap"
+brew "fd"
 brew "fish"
 brew "fnm"
 brew "fzf"
