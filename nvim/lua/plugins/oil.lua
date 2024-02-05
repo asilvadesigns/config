@@ -7,7 +7,12 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
-  opts = {
-    delete_to_trash = true,
-  },
+  config = function()
+    require('oil').setup({
+      delete_to_trash = true,
+      view_options = {
+        show_hidden = true,
+      }
+    })
+  end,
 }
