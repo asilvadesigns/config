@@ -14,7 +14,7 @@ end
 
 # npm run $(fp)
 function fp
-  echo $(cat package.json | jq '.scripts | keys[]' | fzf | sed 's/"//g')
+  echo $(cat package.json | jq '.scripts | keys[]' | fzf --reverse | sed 's/"//g')
 end
 
 starship init fish | source
