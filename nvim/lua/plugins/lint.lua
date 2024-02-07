@@ -2,18 +2,8 @@ return {
   "mfussenegger/nvim-lint",
   lazy = false,
   cmd = { "Lint" },
-  config = function()
-    require("lint").linters_by_ft = {
-      javascript = { "biomejs", "eslint_d" },
-      javascriptreact = { "biomejs", "eslint_d" },
-      lua = { "luacheck" },
-      typescript = { "biomejs", "eslint_d" },
-      typescriptreact = { "biomejs", "eslint_d" },
-      svelte = { "biomejs", "eslint_d" },
-      vue = { "biomejs", "eslint_d" },
-    }
-
-    require("lint").linters = {
+  opts = {
+    linters = {
       biomejs = {
         condition = function(ctx)
           return vim.fs.find({ "biome.json" }, { path = ctx.filename, updward = true })[1]
@@ -32,20 +22,30 @@ return {
           return vim.fs.find({ ".luacheckrc" }, { path = ctx.filename, updward = true })[1]
         end,
       },
+    },
+    linters_by_ft = {
+      javascript = { "biomejs", "eslint_d" },
+      javascriptreact = { "biomejs", "eslint_d" },
+      lua = { "luacheck" },
+      typescript = { "biomejs", "eslint_d" },
+      typescriptreact = { "biomejs", "eslint_d" },
+      svelte = { "biomejs", "eslint_d" },
+      vue = { "biomejs", "eslint_d" },
     }
-
-    local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-
-    vim.api.nvim_create_autocmd({
-      "BufReadPost",
-      "BufWritePost",
-      "InsertLeave",
-    }, {
-      group = lint_augroup,
-      callback = function()
-        require("lint").try_lint()
-      end,
-    })
+  },
+  config = function()
+    -- local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+    --
+    -- vim.api.nvim_create_autocmd({
+    --   "BufReadPost",
+    --   "BufWritePost",
+    --   "InsertLeave",
+    -- }, {
+    --   group = lint_augroup,
+    --   callback = function()
+    --     require("lint").try_lint()
+    --   end,
+    -- })
 
     vim.api.nvim_create_user_command("Lint", function()
       require("lint").try_lint()
