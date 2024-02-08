@@ -7,17 +7,6 @@ return {
   event = { "VeryLazy" },
   config = function()
     require("noice").setup({
-      routes = {
-        {
-          view = "notify",
-          filter = { event = "msg_showmode" },
-        },
-      },
-      views = {
-        split = {
-          enter = false,
-        },
-      },
       cmdline = {
         enabled = true,
         format = {
@@ -37,26 +26,40 @@ return {
       },
       messages = {
         enabled = true,
-        view = "notify",             -- default view for messages
-        view_error = "notify",       -- view for errors
-        view_history = "messages",   -- view for :messages
-        view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
-        view_warn = "notify",        -- view for warnings
       },
       notify = {
-        enabled = false,
+        enabled = true,
       },
       popupmenu = {
         enabled = true,
       },
       lsp = {
-        progress = {
-          enabled = true,
-        },
+        progress = { enabled = true },
       },
       presets = {
         bottom_search = true,
       },
+      routes = {
+        --- show "@recording" messages
+        {
+          view = "notify",
+          filter = {
+            event = "msg_showmode",
+          },
+        },
+        --- hide "written" messages
+        {
+          view = "notify",
+          filter = {
+            event = "msg_show",
+            kind = "",
+            find = "written",
+          },
+          opts = {
+            skip = true,
+          },
+        }
+      }
     })
   end,
 }

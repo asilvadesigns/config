@@ -20,7 +20,7 @@ return {
     cmd = { "Neotree" },
     keys = {
       { "<leader>j", "<CMD>Neotree reveal<CR>" },
-      { "<leader>x", "<CMD>Neotree position=current reveal_file=%:p<CR>" },
+      { "<leader><space>", "<CMD>Neotree position=current reveal_file=%:p<CR>" },
     },
     dependencies = {
       "MunifTanjim/nui.nvim",

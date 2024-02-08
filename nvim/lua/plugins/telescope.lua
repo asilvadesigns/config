@@ -4,6 +4,7 @@ return {
     cmd = { "Telescope" },
     keys = {
       "<leader>a",
+      "<leader>c",
       "<leader>e",
       "<leader>f",
       "<leader>l",
@@ -45,7 +46,9 @@ return {
           "force",
           themes.get_dropdown({
             layout_config = {
-              width = 0.8,
+              width = function(_, max_columns, _)
+                return math.min(max_columns, 100)
+              end
             },
           }),
           {
@@ -85,6 +88,8 @@ return {
                 { display = "Lint (Biome)",           value = "LintWithBiome" },
                 { display = "Lint (EsLint)",          value = "LintWithPrettier" },
                 { display = "Lint (default)",         value = "Lint" },
+                { display = "Noice dismiss",          value = "Noice dismiss" },
+                { display = "Noice messages",         value = "Noice telescope" },
                 { display = "Projects",               value = "Telescope neovim-project discover" },
                 { display = "Quit (Force)",           value = "qa!" },
                 { display = "Quit (Save All, Force)", value = "wqa!" },
@@ -148,6 +153,10 @@ return {
       telescope.load_extension("ui-select")
 
       vim.keymap.set("n", "<leader>a", function()
+        vim.cmd("Telescope menu")
+      end)
+
+      vim.keymap.set("n", "<leader>c", function()
         vim.cmd("Telescope menu")
       end)
 

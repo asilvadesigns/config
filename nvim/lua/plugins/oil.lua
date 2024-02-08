@@ -2,7 +2,7 @@ return {
   "stevearc/oil.nvim",
   cmd = "Oil",
   keys = {
-    { "<leader><space>", "<CMD>Oil<CR>" },
+    { "<leader>x", "<CMD>Oil<CR>" },
   },
   dependencies = {
     "nvim-tree/nvim-web-devicons",
