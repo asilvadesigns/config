@@ -34,10 +34,12 @@ bindings = [
   { key = "L", mods = "Command|Shift", chars = "\u0000L" },
   # tmux window | prev
   { key = "Tab", mods = "Control|Shift", chars = "\u0000p" },
-  { key = "{", mods = "Command|Shift", chars = "\u0000p" },
+  { key = "[", mods = "Command|Shift", chars = "\u0000p" },
+  { key = "[", mods = "Command", chars = "\u0000p" },
   # tmux window | next
   { key = "Tab", mods = "Control", chars = "\u0000n" },
-  { key = "}", mods = "Command|Shift", chars = "\u0000n" },
+  { key = "]", mods = "Command|Shift", chars = "\u0000n" },
+  { key = "]", mods = "Command", chars = "\u0000n" },
   # tmux window | select by number
   { key = "1", mods = "Command", chars = "\u00001" },
   { key = "2", mods = "Command", chars = "\u00002" },
