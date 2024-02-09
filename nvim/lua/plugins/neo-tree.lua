@@ -1,25 +1,38 @@
 return {
   {
     "nvim-tree/nvim-tree.lua",
-    enabled = false,
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
-    keys = {
-      { "<leader>j", "<CMD>NvimTreeFocus<CR>" },
+    event = {
+      "VeryLazy"
     },
+    keys = {
+      { "<leader>j", "<CMD>NvimTreeFindFile<CR>" },
+    },
+    -- no idea why this doesn't work, w/e
+    lazy = false,
     config = function()
       require("nvim-tree").setup({
-        disable_netrw = true,
-        hijack_netrw = true,
+        view = {
+          width = 40
+        }
       })
-    end,
+
+      -- @see: https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close#eliasa5
+      vim.api.nvim_create_autocmd({ "QuitPre" }, {
+        callback = function() vim.cmd("NvimTreeClose") end,
+      })
+    end
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
-    cmd = { "Neotree" },
+    enabled = false,
+    cmd = {
+      "Neotree",
+    },
     keys = {
-      { "<leader>j", "<CMD>Neotree reveal<CR>" },
+      { "<leader>j",       "<CMD>Neotree reveal<CR>" },
       { "<leader><space>", "<CMD>Neotree position=current reveal_file=%:p<CR>" },
     },
     dependencies = {
