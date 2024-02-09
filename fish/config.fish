@@ -34,9 +34,9 @@ set -gx PATH "/Library/Frameworks/Python.framework/Versions/3.11/bin" $PATH;
 
 # fnm
 set -gx PATH "$HOME/Library/Caches/fnm_multishells/39562_1707258676146/bin" $PATH;
-set -gx FNM_DIR "/Users/albertos/Library/Application Support/fnm";
+set -gx FNM_DIR "$HOME/Library/Application Support/fnm";
 set -gx FNM_RESOLVE_ENGINES "false";
-set -gx FNM_MULTISHELL_PATH "/Users/albertos/Library/Caches/fnm_multishells/39562_1707258676146";
+set -gx FNM_MULTISHELL_PATH "$HOME/Library/Caches/fnm_multishells/39562_1707258676146";
 set -gx FNM_LOGLEVEL "info";
 set -gx FNM_VERSION_FILE_STRATEGY "local";
 set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist";
