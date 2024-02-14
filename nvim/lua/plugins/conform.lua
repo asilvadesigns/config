@@ -1,3 +1,85 @@
+--- @param path_one string
+--- @param current_buffer string
+local get_distance_to = function(path_one, current_buffer)
+  if path_one == nil then
+    return math.huge
+  end
+
+  local common_prefix = ""
+  local current_remaining = ""
+  local other_remaining = ""
+
+  for i = 1, math.min(#current_buffer, #path_one) do
+    if current_buffer:sub(i, i) == path_one:sub(i, i) then
+      common_prefix = common_prefix .. current_buffer:sub(i, i)
+    else
+      current_remaining = current_buffer:sub(i)
+      other_remaining = path_one:sub(i)
+      break
+    end
+  end
+
+  -- Calculate the distance by counting directory separators
+  local distance = 0
+
+  for _ in current_remaining:gmatch("/") do
+    distance = distance + 1
+  end
+
+  for _ in other_remaining:gmatch("/") do
+    distance = distance + 1
+  end
+
+  return distance
+end
+
+--- @param _formatters table<string, string[]>
+--- @return string[] | nil
+local get_closest_formatter = function(_formatters)
+  --- @type string
+  local current_buffer_path = vim.api.nvim_buf_get_name(0)
+  print("current buffer path::" .. vim.inspect(current_buffer_path))
+
+  --- @type table<string, number>
+  local distance = {}
+
+  --- NOTE: iterate over formatters, and collect their config paths.
+  --- We are assuming that there will not be multiple formatters in one directory,
+  --- and that there will not be multiple formatter configurations in on directory.
+  for formatter_name, formatter_configs in pairs(_formatters) do
+    --- @type table<string, string>
+    local formatter_config_path = vim.fs.find(formatter_configs, {
+      path = current_buffer_path,
+      stop = vim.loop.os_homedir(),
+      upward = true,
+    })
+
+    if formatter_config_path[1] ~= nil then
+      distance[formatter_name] = get_distance_to(formatter_config_path[1], current_buffer_path)
+    end
+  end
+
+  print("distance table::" .. vim.inspect(distance))
+
+  --- @type string
+  local shortest_path_key = nil
+  --- @type number
+  local shortest_path_val = math.huge
+
+  for formatter_name, formatter_distance in pairs(distance) do
+    if formatter_distance < shortest_path_val then
+      shortest_path_key = formatter_name
+      shortest_path_val = formatter_distance
+    end
+  end
+
+  if shortest_path_key == nil then
+    return nil
+  end
+
+  return { shortest_path_key }
+end
+
 return {
   "stevearc/conform.nvim",
   event = { "VeryLazy" },
@@ -31,96 +113,23 @@ return {
     })
 
     vim.api.nvim_create_user_command("Format", function()
-      local current_buffer_path = vim.api.nvim_buf_get_name(0)
-
-      local path_to_biome = vim.fs.find({ "biome.json" }, {
-        path = current_buffer_path,
-        stop = vim.loop.os_homedir(),
-        upward = true,
+      local formatter = get_closest_formatter({
+        biome = { "biome.json" },
+        prettier = { ".prettierrc" },
+        stylua = { "stylua.toml" },
       })
 
-      local path_to_prettier = vim.fs.find({ ".prettierrc" }, {
-        path = current_buffer_path,
-        stop = vim.loop.os_homedir(),
-        upward = true,
-      })
-
-      local get_distance_to = function(path_one, current_buffer)
-        if (path_one == nil) then
-          return math.huge
-        end
-
-        local common_prefix = ''
-        local current_remaining = ''
-        local other_remaining = ''
-
-        for i = 1, math.min(#current_buffer, #path_one) do
-          if current_buffer:sub(i, i) == path_one:sub(i, i) then
-            common_prefix = common_prefix .. current_buffer:sub(i, i)
-          else
-            current_remaining = current_buffer:sub(i)
-            other_remaining = path_one:sub(i)
-            break
-          end
-        end
-
-        -- Calculate the distance by counting directory separators
-        local distance = 0
-
-        for _ in current_remaining:gmatch('/') do
-          distance = distance + 1
-        end
-
-        for _ in other_remaining:gmatch('/') do
-          distance = distance + 1
-        end
-
-        return distance
-      end
-
-      local get_formatters_found = function(table)
-        for _, value in pairs(table) do
-          if value ~= math.huge then
-            return true
-          end
-        end
-
-        return false
-      end
-
-      local get_formatters_key = function(table)
-        local smallest_key = nil
-
-        for key, _ in pairs(table) do
-          if smallest_key == nil or key < smallest_key then
-            smallest_key = key
-          end
-        end
-
-        return smallest_key
-      end
-
-      local distance = {}
-
-      distance[get_distance_to(path_to_biome[1], current_buffer_path)] = { "biome" }
-      distance[get_distance_to(path_to_prettier[1], current_buffer_path)] = { "prettier" }
-
-      local formatter_found = get_formatters_found(distance)
-
-      if (not formatter_found) then
-        print('formatter not found, using lsp')
+      if not formatter then
+        print("formatter not found, using lsp")
         require("conform").format({ async = true, lsp_fallback = true })
-        return
+      else
+        print("formatting with " .. vim.inspect(formatter))
+        require("conform").format({
+          async = true,
+          formatters = formatter,
+          lsp_fallback = false,
+        })
       end
-
-      local formatters = distance[get_formatters_key(distance)]
-
-      print('formatting with...' .. formatters[1])
-      require("conform").format({
-        async = true,
-        formatters = formatters,
-        lsp_fallback = false,
-      })
     end, {})
 
     vim.api.nvim_create_user_command("FormatWithBiome", function()
