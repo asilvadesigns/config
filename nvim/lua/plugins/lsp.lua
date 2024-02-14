@@ -57,6 +57,7 @@ return {
           "lua_ls",
           "prismals",
           "pyright",
+          "stylua",
           "tailwindcss",
           "tsserver",
           "yamlls",

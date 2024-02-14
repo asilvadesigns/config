@@ -123,7 +123,7 @@ return {
         print("formatter not found, using lsp")
         require("conform").format({ async = true, lsp_fallback = true })
       else
-        print("formatting with " .. vim.inspect(formatter))
+        print("formatting with " .. formatter[1])
         require("conform").format({
           async = true,
           formatters = formatter,
