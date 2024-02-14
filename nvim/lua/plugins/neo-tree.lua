@@ -14,6 +14,20 @@ return {
     lazy = false,
     config = function()
       require("nvim-tree").setup({
+        actions = {
+          open_file = {
+            window_picker = {
+              enable = false
+            }
+          }
+        },
+        filters = {
+          dotfiles = false
+        },
+        git = {
+          enable = false,
+          ignore = false,
+        },
         view = {
           width = 40
         }

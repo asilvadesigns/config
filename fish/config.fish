@@ -42,3 +42,7 @@ set -gx FNM_VERSION_FILE_STRATEGY "local";
 set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist";
 set -gx FNM_COREPACK_ENABLED "false";
 set -gx FNM_ARCH "arm64";
+
+# yarn
+set -gx YARN_GLOBAL_FOLDER "$FNM_MULTISHELL_PATH/yarn-global"
+set -gx YARN_PREFIX "$FNM_MULTISHELL_PATH"

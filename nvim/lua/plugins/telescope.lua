@@ -40,6 +40,11 @@ return {
         return string.format("%s\t\t%s", tail, parent)
       end
 
+      local function refresh()
+        vim.cmd("GitConflictRefresh")
+        vim.cmd("GitConflictListQf")
+      end
+
       telescope.setup({
         -- @see: https://github.com/nvim-telescope/telescope.nvim/issues/848#issuecomment-1584291014
         defaults = vim.tbl_extend(
@@ -85,7 +90,8 @@ return {
                 { display = "Format (Biome)",            value = "FormatWithBiome" },
                 { display = "Format (Prettier)",         value = "FormatWithPrettier" },
                 { display = "Format (default)",          value = "Format" },
-                { display = "Git (Fugitive)",            value = "Git" },
+                { display = "Git (conflict)",            value = refresh },
+                { display = "Git (fugitive)",            value = "Git" },
                 { display = "Help",                      value = builtin.help_tags },
                 { display = "Lint (Biome)",              value = "LintWithBiome" },
                 { display = "Lint (EsLint)",             value = "LintWithPrettier" },
@@ -93,10 +99,9 @@ return {
                 { display = "Noice dismiss",             value = "Noice dismiss" },
                 { display = "Noice messages",            value = "Noice telescope" },
                 { display = "Projects",                  value = "Telescope neovim-project discover" },
-                { display = "Quit (Force)",              value = "qa!" },
-                { display = "Quit (Save All, Force)",    value = "wqa!" },
-                { display = "Save (All)",                value = "wa" },
-                { display = "Save",                      value = "w" },
+                { display = "Quit force",                value = "qa!" },
+                { display = "Save",                      value = "wa" },
+                { display = "Save and quit force",       value = "wqa!" },
                 { display = "Search",                    value = "Spectre" },
                 {
                   display = "Symbols (Document)",
@@ -106,10 +111,10 @@ return {
                   display = "Symbols (Workspace)",
                   value = builtin.lsp_workspace_symbols,
                 },
-                { display = "Telescope", value = "Telescope" },
-                { display = "Zen Mode",  value = "NoNeckPain" },
-                { display = "Zen Mode (decrease)",  value = "NoNeckPainWidthDown" },
-                { display = "Zen Mode (increase)",  value = "NoNeckPainWidthUp" },
+                { display = "Telescope",           value = "Telescope" },
+                { display = "Zen Mode",            value = "NoNeckPain" },
+                { display = "Zen Mode (decrease)", value = "NoNeckPainWidthDown" },
+                { display = "Zen Mode (increase)", value = "NoNeckPainWidthUp" },
               },
             },
             -- format = {
