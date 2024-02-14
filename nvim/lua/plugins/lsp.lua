@@ -41,7 +41,31 @@ return {
         vim.keymap.set("n", "gr", telescope.lsp_references, opts)
       end
 
-      require("mason").setup()
+      -- NOTE: some of these are listed below but... getting there.
+      local ensure_installed = {
+        "angularls",
+        "cssls",
+        "cssmodules_ls",
+        "dockerls",
+        "eslint",
+        "gopls",
+        "html",
+        "jsonls",
+        "lua_ls",
+        "prismals",
+        "pyright",
+        "stylelua",
+        "stylua",
+        "tailwindcss",
+        "tsserver",
+        "yamlls",
+      }
+
+      require("mason").setup({})
+
+      vim.api.nvim_create_user_command("MasonInstallAll", function()
+        vim.cmd("MasonInstall " .. table.concat(ensure_installed, " "))
+      end, {})
 
       require("mason-lspconfig").setup({
         automatic_installation = true,
@@ -57,7 +81,6 @@ return {
           "lua_ls",
           "prismals",
           "pyright",
-          "stylua",
           "tailwindcss",
           "tsserver",
           "yamlls",
