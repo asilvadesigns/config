@@ -1,3 +1,5 @@
+---@param originalTable table<string, string>
+---@param keysToInclude string[]
 local filter_table = function(originalTable, keysToInclude)
   local resultTable = {}
 
@@ -11,8 +13,8 @@ local filter_table = function(originalTable, keysToInclude)
   return resultTable
 end
 
---- @param path_one string
---- @param current_buffer string
+---@param path_one string
+---@param current_buffer string
 local get_distance_to = function(path_one, current_buffer)
   if path_one == nil then
     return math.huge
@@ -56,10 +58,10 @@ local get_active_lsp = function()
   return clients_list
 end
 
---- @param _formatters table<string, string[]>
---- @return string[] | nil
+---@param _formatters table<string, string[]>
+---@return string[] | nil
 local get_closest_formatter = function(_formatters)
-  --- @type string
+  ---@type string
   local current_buffer_path = vim.api.nvim_buf_get_name(0)
   print("current buffer path::" .. vim.inspect(current_buffer_path))
 
@@ -70,14 +72,14 @@ local get_closest_formatter = function(_formatters)
   end
   _formatters = filter_table(_formatters, keys_to_include)
 
-  --- @type table<string, number>
+  ---@type table<string, number>
   local distance = {}
 
   --- NOTE: iterate over formatters, and collect their config paths.
   --- We are assuming that there will not be multiple formatters in one directory,
   --- and that there will not be multiple formatter configurations in on directory.
   for formatter_name, formatter_configs in pairs(_formatters) do
-    --- @type table<string, string>
+    ---@type table<string, string>
     local formatter_config_path = vim.fs.find(formatter_configs, {
       path = current_buffer_path,
       stop = vim.loop.os_homedir(),
@@ -89,9 +91,9 @@ local get_closest_formatter = function(_formatters)
     end
   end
 
-  --- @type string
+  ---@type string
   local shortest_path_key = nil
-  --- @type number
+  ---@type number
   local shortest_path_val = math.huge
 
   for formatter_name, formatter_distance in pairs(distance) do
@@ -141,24 +143,18 @@ return {
     })
 
     vim.api.nvim_create_user_command("Format", function()
-      local formatter = get_closest_formatter({
+      local formatters = get_closest_formatter({
         biome = { "biome.json" },
         prettier = { ".prettierrc", "prettier.config.js" },
         stylua = { "stylua.toml" },
       })
 
-      if not formatter then
-        -- NOTE: maybe not a good idea
-        -- local active_lsp = get_active_lsp()
+      if not formatters then
         print("formatter not found, using lsp")
         require("conform").format({ async = true, lsp_fallback = true })
       else
-        print("formatting with " .. formatter[1])
-        require("conform").format({
-          async = true,
-          formatters = formatter,
-          lsp_fallback = false,
-        })
+        print("formatting with " .. formatters[1])
+        require("conform").format({ async = true, formatters, lsp_fallback = false })
       end
     end, {})
 
