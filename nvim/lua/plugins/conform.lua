@@ -46,6 +46,16 @@ local get_distance_to = function(path_one, current_buffer)
   return distance
 end
 
+local get_active_lsp = function()
+  local clients = vim.lsp.get_active_clients()
+  local clients_list = {}
+  for _, client in pairs(clients) do
+    table.insert(clients_list, client.name)
+  end
+
+  return clients_list
+end
+
 --- @param _formatters table<string, string[]>
 --- @return string[] | nil
 local get_closest_formatter = function(_formatters)
@@ -138,6 +148,8 @@ return {
       })
 
       if not formatter then
+        -- NOTE: maybe not a good idea
+        -- local active_lsp = get_active_lsp()
         print("formatter not found, using lsp")
         require("conform").format({ async = true, lsp_fallback = true })
       else

@@ -185,6 +185,18 @@ return {
           })
         end,
       })
+
+      -- TODO: make
+      vim.api.nvim_create_user_command("GetActiveLSPs", function()
+        local clients = vim.lsp.get_active_clients()
+        local clients_list = {}
+        for _, client in pairs(clients) do
+          table.insert(clients_list, client.name)
+        end
+
+        print("active lsps")
+        print(vim.inspect(clients_list))
+      end, {})
     end,
   },
 }
