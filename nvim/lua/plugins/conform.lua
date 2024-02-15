@@ -79,8 +79,6 @@ local get_closest_formatter = function(_formatters)
     end
   end
 
-  print("distance table::" .. vim.inspect(distance))
-
   --- @type string
   local shortest_path_key = nil
   --- @type number
@@ -133,9 +131,6 @@ return {
     })
 
     vim.api.nvim_create_user_command("Format", function()
-      -- TODO: this algorithm is incorrect, we should grab the formatters availble for the file type,
-      -- then merge those with the config files that are passed in... then we can continue with the
-      -- existing logic.
       local formatter = get_closest_formatter({
         biome = { "biome.json" },
         prettier = { ".prettierrc", "prettier.config.js" },
