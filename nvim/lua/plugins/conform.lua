@@ -1,3 +1,16 @@
+local filter_table = function(originalTable, keysToInclude)
+  local resultTable = {}
+
+  for _, key in ipairs(keysToInclude) do
+    local value = originalTable[key]
+    if value then
+      resultTable[key] = value
+    end
+  end
+
+  return resultTable
+end
+
 --- @param path_one string
 --- @param current_buffer string
 local get_distance_to = function(path_one, current_buffer)
@@ -39,6 +52,13 @@ local get_closest_formatter = function(_formatters)
   --- @type string
   local current_buffer_path = vim.api.nvim_buf_get_name(0)
   print("current buffer path::" .. vim.inspect(current_buffer_path))
+
+  local available_formatters = require("conform").list_formatters(0)
+  local keys_to_include = {}
+  for _, value in ipairs(available_formatters) do
+    table.insert(keys_to_include, value.name)
+  end
+  _formatters = filter_table(_formatters, keys_to_include)
 
   --- @type table<string, number>
   local distance = {}
@@ -113,9 +133,12 @@ return {
     })
 
     vim.api.nvim_create_user_command("Format", function()
+      -- TODO: this algorithm is incorrect, we should grab the formatters availble for the file type,
+      -- then merge those with the config files that are passed in... then we can continue with the
+      -- existing logic.
       local formatter = get_closest_formatter({
         biome = { "biome.json" },
-        prettier = { ".prettierrc" },
+        prettier = { ".prettierrc", "prettier.config.js" },
         stylua = { "stylua.toml" },
       })
 
