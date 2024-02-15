@@ -163,10 +163,6 @@ return {
         vim.cmd("Telescope menu")
       end)
 
-      vim.keymap.set("n", "<leader>c", function()
-        vim.cmd("Telescope menu")
-      end)
-
       vim.keymap.set("n", "<leader>b", builtin.buffers)
       vim.keymap.set("n", "<leader>e", builtin.oldfiles)
       vim.keymap.set("n", "<leader>f", builtin.find_files)

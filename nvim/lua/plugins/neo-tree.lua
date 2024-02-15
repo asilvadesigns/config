@@ -5,7 +5,7 @@ return {
       "nvim-tree/nvim-web-devicons",
     },
     event = {
-      "VeryLazy"
+      "VeryLazy",
     },
     keys = {
       { "<leader>j", "<CMD>NvimTreeFindFile<CR>" },
@@ -17,27 +17,34 @@ return {
         actions = {
           open_file = {
             window_picker = {
-              enable = false
-            }
-          }
+              enable = false,
+            },
+          },
+        },
+        filesystem_watchers = {
+          enable = true,
+          debounce_delay = 50,
+          ignore_dirs = { "node_modules" },
         },
         filters = {
-          dotfiles = false
+          dotfiles = false,
         },
         git = {
           enable = false,
           ignore = false,
         },
         view = {
-          width = 40
-        }
+          width = 40,
+        },
       })
 
       -- @see: https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close#eliasa5
       vim.api.nvim_create_autocmd({ "QuitPre" }, {
-        callback = function() vim.cmd("NvimTreeClose") end,
+        callback = function()
+          vim.cmd("NvimTreeClose")
+        end,
       })
-    end
+    end,
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -46,7 +53,7 @@ return {
       "Neotree",
     },
     keys = {
-      { "<leader>j",       "<CMD>Neotree reveal<CR>" },
+      { "<leader>j", "<CMD>Neotree reveal<CR>" },
       { "<leader><space>", "<CMD>Neotree position=current reveal_file=%:p<CR>" },
     },
     dependencies = {
