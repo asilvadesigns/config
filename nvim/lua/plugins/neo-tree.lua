@@ -1,16 +1,7 @@
 return {
   {
     "nvim-tree/nvim-tree.lua",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    event = {
-      "VeryLazy",
-    },
-    keys = {
-      { "<leader>j", "<CMD>NvimTreeFindFile<CR>" },
-    },
-    -- no idea why this doesn't work, w/e
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
     config = function()
       require("nvim-tree").setup({
@@ -44,6 +35,16 @@ return {
           vim.cmd("NvimTreeClose")
         end,
       })
+
+      vim.keymap.set("n", "<leader>j", function()
+        local filetype = vim.bo.filetype
+
+        if filetype == "NvimTree" then
+          vim.cmd("NvimTreeClose")
+        else
+          vim.cmd("NvimTreeFindFile")
+        end
+      end, {})
     end,
   },
   {

@@ -22,7 +22,7 @@ vim.keymap.set("v", "<ScrollWheelDown>", "<C-e>", keymap_opts)
 -- vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
 -- vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 -- vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
---
+
 -- -- better window navigation
 -- vim.keymap.set("n", "<C-h>", "<C-w>h", keymap_opts)
 -- vim.keymap.set("n", "<C-j>", "<C-w>j", keymap_opts)
@@ -30,6 +30,13 @@ vim.keymap.set("v", "<ScrollWheelDown>", "<C-e>", keymap_opts)
 -- vim.keymap.set("n", "<C-l>", "<C-w>l", keymap_opts)
 -- vim.keymap.set("n", "<leader>c", "<C-w>q", { noremap = true, desc = "[c]lose buffer" })
 vim.keymap.set("n", "<leader>s", ":wa<CR>", keymap_opts)
+vim.keymap.set("n", "<leader>wh", "<C-w>h", keymap_opts)
+vim.keymap.set("n", "<leader>wj", "<C-w>j", keymap_opts)
+vim.keymap.set("n", "<leader>wk", "<C-w>k", keymap_opts)
+vim.keymap.set("n", "<leader>wl", "<C-w>l", keymap_opts)
+vim.keymap.set("n", "<leader>wo", "<C-w>o", keymap_opts)
+vim.keymap.set("n", "<leader>ws", "<C-w>s", keymap_opts)
+vim.keymap.set("n", "<leader>wv", "<C-w>v", keymap_opts)
 
 -- better navigation in line wraps
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)
