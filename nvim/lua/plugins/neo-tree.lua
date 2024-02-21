@@ -24,10 +24,17 @@ return {
           enable = false,
           ignore = false,
         },
+        renderer = {
+          indent_markers = {
+            enable = true,
+          },
+        },
         view = {
           width = 40,
         },
       })
+
+      vim.cmd('highlight link NvimTreeIndentMarker LineNr')
 
       -- @see: https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close#eliasa5
       vim.api.nvim_create_autocmd({ "QuitPre" }, {
@@ -104,7 +111,7 @@ return {
             indent_marker = "│",
             indent_size = 2,
             last_indent_marker = "└",
-            with_markers = false,
+            with_markers = true,
           },
           icon = {
             folder_closed = "",

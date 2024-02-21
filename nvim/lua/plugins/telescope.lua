@@ -34,9 +34,13 @@ return {
       local function formattedName(_, path)
         local tail = vim.fs.basename(path)
         local parent = vim.fs.dirname(path)
+
         if parent == "." then
           return tail
         end
+
+        parent = string.gsub(parent, vim.loop.cwd(), "")
+
         return string.format("%s\t\t%s", tail, parent)
       end
 
@@ -53,7 +57,7 @@ return {
             layout_config = {
               width = function(_, max_columns, _)
                 return math.min(max_columns, 100)
-              end
+              end,
             },
           }),
           {
@@ -63,7 +67,6 @@ return {
               -- "package-lock.json",
             },
             preview = false,
-            path_display = { "truncate" },
             sorting_strategy = "ascending",
             mappings = {
               i = {
@@ -83,26 +86,26 @@ return {
           menu = {
             default = {
               items = {
-                { display = "Commands",                  value = builtin.commands },
+                { display = "Commands", value = builtin.commands },
                 { display = "Copy file path (Absolute)", value = "CopyAbsolutePath" },
                 { display = "Copy file path (Relative)", value = "CopyRelativePath" },
-                { display = "Find",                      value = builtin.current_buffer_fuzzy_find },
-                { display = "Format (Biome)",            value = "FormatWithBiome" },
-                { display = "Format (Prettier)",         value = "FormatWithPrettier" },
-                { display = "Format (default)",          value = "Format" },
-                { display = "Git (conflict)",            value = refresh },
-                { display = "Git (fugitive)",            value = "Git" },
-                { display = "Help",                      value = builtin.help_tags },
-                { display = "Lint (Biome)",              value = "LintWithBiome" },
-                { display = "Lint (EsLint)",             value = "LintWithPrettier" },
-                { display = "Lint (default)",            value = "Lint" },
-                { display = "Noice dismiss",             value = "Noice dismiss" },
-                { display = "Noice messages",            value = "Noice telescope" },
-                { display = "Projects",                  value = "Telescope neovim-project discover" },
-                { display = "Quit force",                value = "qa!" },
-                { display = "Save",                      value = "wa" },
-                { display = "Save and quit force",       value = "wqa!" },
-                { display = "Search",                    value = "Spectre" },
+                { display = "Find", value = builtin.current_buffer_fuzzy_find },
+                { display = "Format (Biome)", value = "FormatWithBiome" },
+                { display = "Format (Prettier)", value = "FormatWithPrettier" },
+                { display = "Format (default)", value = "Format" },
+                { display = "Git (conflict)", value = refresh },
+                { display = "Git (fugitive)", value = "Git" },
+                { display = "Help", value = builtin.help_tags },
+                { display = "Lint (Biome)", value = "LintWithBiome" },
+                { display = "Lint (EsLint)", value = "LintWithPrettier" },
+                { display = "Lint (default)", value = "Lint" },
+                { display = "Noice dismiss", value = "Noice dismiss" },
+                { display = "Noice messages", value = "Noice telescope" },
+                { display = "Projects", value = "Telescope neovim-project discover" },
+                { display = "Quit force", value = "qa!" },
+                { display = "Save", value = "wa" },
+                { display = "Save and quit force", value = "wqa!" },
+                { display = "Search", value = "Spectre" },
                 {
                   display = "Symbols (Document)",
                   value = builtin.lsp_document_symbols,
@@ -111,8 +114,8 @@ return {
                   display = "Symbols (Workspace)",
                   value = builtin.lsp_workspace_symbols,
                 },
-                { display = "Telescope",           value = "Telescope" },
-                { display = "Zen Mode",            value = "NoNeckPain" },
+                { display = "Telescope", value = "Telescope" },
+                { display = "Zen Mode", value = "NoNeckPain" },
                 { display = "Zen Mode (decrease)", value = "NoNeckPainWidthDown" },
                 { display = "Zen Mode (increase)", value = "NoNeckPainWidthUp" },
               },
@@ -130,7 +133,7 @@ return {
           buffers = {
             ignore_current_buffer = true,
             only_cwd = true,
-            -- path_display = formattedName,
+            path_display = formattedName,
             sort_mru = true,
           },
           colorscheme = {
@@ -141,14 +144,14 @@ return {
           },
           find_files = {
             hidden = true,
-            -- path_display = formattedName,
+            path_display = formattedName,
           },
           git_files = {
-            -- path_display = formattedName,
+            path_display = formattedName,
           },
           oldfiles = {
             only_cwd = true,
-            -- path_display = formattedName,
+            path_display = formattedName,
             sort_mru = true,
           },
           help_tags = {},

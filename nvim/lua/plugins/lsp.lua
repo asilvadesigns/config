@@ -141,7 +141,12 @@ return {
           require("lspconfig").lua_ls.setup({
             capabilities = capabilities,
             on_attach = on_attach,
-            settings = { Lua = { workspace = { checkThirdParty = false } } },
+            settings = {
+              Lua = {
+                workspace = { checkThirdParty = false },
+                telemetry = { enable = false },
+              },
+            },
           })
         end,
         ["tailwindcss"] = function()
