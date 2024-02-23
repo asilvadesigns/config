@@ -126,25 +126,25 @@ return {
   config = function()
     require("conform").setup({
       formatters_by_ft = {
-        css = { "biome", "prettier", "stylelint" },
-        html = { "biome", "prettier" },
-        javascript = { "biome", "prettier" },
-        javascriptreact = { "biome", "prettier" },
-        json = { "biome", "prettier" },
-        jsonc = { "biome", "prettier" },
+        css = { "biome-check", "prettier", "stylelint" },
+        html = { "biome-check", "prettier" },
+        javascript = { "biome-check", "prettier" },
+        javascriptreact = { "biome-check", "prettier" },
+        json = { "biome-check", "prettier" },
+        jsonc = { "biome-check", "prettier" },
         lua = { "stylua" },
         sh = { "shellcheck", "shfmt" },
-        svelte = { "biome", "prettier" },
-        typescript = { "biome", "prettier" },
-        typescriptreact = { "biome", "prettier" },
-        vue = { "biome", "prettier" },
-        yaml = { "biome", "prettier" },
+        svelte = { "biome-check", "prettier" },
+        typescript = { "biome-check", "prettier" },
+        typescriptreact = { "biome-check", "prettier" },
+        vue = { "biome-check", "prettier" },
+        yaml = { "biome-check", "prettier" },
       },
     })
 
     vim.api.nvim_create_user_command("Format", function()
       local formatters = get_closest_formatter({
-        biome = { "biome.json" },
+        ["biome-check"] = { "biome.json" },
         prettier = { ".prettierrc", "prettier.config.js" },
         stylua = { "stylua.toml" },
       })
@@ -161,7 +161,7 @@ return {
     vim.api.nvim_create_user_command("FormatWithBiome", function()
       require("conform").format({
         async = true,
-        formatters = { "biome" },
+        formatters = { "biome-check" },
         lsp_fallback = false,
       })
     end, {})
