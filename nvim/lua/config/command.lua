@@ -23,13 +23,16 @@ vim.api.nvim_create_user_command("RenameFile", function()
       return
     end
 
-    local success, err = os.rename(old_path .. old_name, old_path .. new_name)
+    local old = old_path .. old_name
+    local new = old_path .. new_name
+
+    local success, err = os.rename(old, new)
 
     if not success then
       print("Could not update!", err)
       return
     end
 
-    vim.cmd("e " .. new_name)
+    vim.cmd("e! " .. new)
   end)
 end, {})
