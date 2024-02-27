@@ -153,7 +153,7 @@ return {
         print("formatter not found, using lsp")
         require("conform").format({ async = true, lsp_fallback = true })
       else
-        print("formatting with " .. formatters[1])
+        print("formatted with " .. formatters[1])
         require("conform").format({ async = true, formatters, lsp_fallback = false })
       end
     end, {})

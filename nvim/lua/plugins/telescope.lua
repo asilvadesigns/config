@@ -103,6 +103,12 @@ return {
                 { display = "Noice messages", value = "Noice telescope" },
                 { display = "Projects", value = "Telescope neovim-project discover" },
                 { display = "Quit force", value = "qa!" },
+                {
+                  display = "Rename File",
+                  value = function()
+                    vim.cmd("RenameFile")
+                  end,
+                },
                 { display = "Save", value = "wa" },
                 { display = "Save and quit force", value = "wqa!" },
                 { display = "Search", value = "Spectre" },

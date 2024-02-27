@@ -2,7 +2,13 @@ return {
   "folke/noice.nvim",
   dependencies = {
     "MunifTanjim/nui.nvim",
-    "rcarriga/nvim-notify",
+    {
+      "rcarriga/nvim-notify",
+      opts = {
+        render = "minimal",
+        top_down = false,
+      },
+    },
   },
   event = { "VeryLazy" },
   config = function()
@@ -26,14 +32,9 @@ return {
       },
       messages = {
         enabled = true,
-        view = "mini", -- default view for messages
-        view_error = "mini", -- view for errors
-        view_history = "messages", -- view for :messages
-        view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
-        view_warn = "mini", -- view for warnings
       },
       notify = {
-        enabled = true,
+        enabled = false,
       },
       popupmenu = {
         enabled = true,
@@ -45,31 +46,10 @@ return {
         bottom_search = true,
       },
       routes = {
-        -- --
-        -- {
-        --   filter = {
-        --     event = "msg_show",
-        --     kind = "",
-        --   },
-        --   opts = { skip = true },
-        -- },
-        -- show "@recording" messages
-        {
-          view = "notify",
-          filter = {
-            event = "msg_showmode",
-          },
-        },
-        -- hide "written" messages
-        {
-          view = "notify",
-          filter = {
-            event = "msg_show",
-            kind = "",
-            find = "written",
-          },
-          opts = { skip = true },
-        },
+        -- -- show "@recording" messages
+        -- { view = "notify", filter = { event = "msg_showmode" } },
+        { view = "notify", filter = { event = "msg_show", find = "No information available" }, opts = { skip = true } },
+        { view = "notify", filter = { event = "msg_show", find = "written" }, opts = { skip = true } },
       },
     })
 
