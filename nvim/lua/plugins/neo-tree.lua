@@ -34,7 +34,7 @@ return {
         },
       })
 
-      vim.cmd('highlight link NvimTreeIndentMarker LineNr')
+      vim.cmd("highlight link NvimTreeIndentMarker LineNr")
 
       -- @see: https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close#eliasa5
       vim.api.nvim_create_autocmd({ "QuitPre" }, {
