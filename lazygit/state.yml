@@ -1,8 +1,11 @@
 lastupdatecheck: 0
 recentrepos:
+- /Users/albertos/dev/kaizen-ui-new-documentation
+- /Users/albertos/dev/picasso-web-ui
 - /Users/albertos/.config
 - /Users/albertos/dev/kaizen-ui-banner-button-styles
 startuppopupversion: 5
-customcommandshistory: []
+customcommandshistory:
+- qa
 hidecommandlog: false
 ignorewhitespaceindiffview: false
