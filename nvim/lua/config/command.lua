@@ -2,6 +2,10 @@ vim.api.nvim_create_user_command("GetFiletype", function()
   print("Filetype is ::'" .. vim.bo.filetype .. "'")
 end, {})
 
+vim.api.nvim_create_user_command("CopyAbsolutePath", function()
+  vim.cmd("call setreg('+', expand('%:p'))")
+end, {})
+
 vim.api.nvim_create_user_command("CopyRelativePath", function()
   vim.cmd("call setreg('+', expand('%'))")
 end, {})

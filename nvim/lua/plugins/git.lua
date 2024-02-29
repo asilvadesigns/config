@@ -35,13 +35,14 @@ return {
         },
       })
 
-      vim.keymap.set('n', '[x', '<CMD>GitConflictNextConflict<CR>')
-      vim.keymap.set('n', ']x', '<CMD>GitConflictPrevConflict<CR>')
-      vim.keymap.set('n', 'c0', '<CMD>GitConflictChooseNone<CR>')
-      vim.keymap.set('n', 'cb', '<CMD>GitConflictChooseBoth<CR>')
-      vim.keymap.set('n', 'cf', '<CMD>GitConflictListQf<CR>')
-      vim.keymap.set('n', 'co', '<CMD>GitConflictChooseOurs<CR>')
-      vim.keymap.set('n', 'ct', '<CMD>GitConflictChooseTheirs<CR>')
+      -- TODO revisit.
+      -- vim.keymap.set('n', '[x', '<CMD>GitConflictNextConflict<CR>')
+      -- vim.keymap.set('n', ']x', '<CMD>GitConflictPrevConflict<CR>')
+      -- vim.keymap.set('n', 'c0', '<CMD>GitConflictChooseNone<CR>')
+      -- vim.keymap.set('n', 'cb', '<CMD>GitConflictChooseBoth<CR>')
+      -- vim.keymap.set('n', 'cf', '<CMD>GitConflictListQf<CR>')
+      -- vim.keymap.set('n', 'co', '<CMD>GitConflictChooseOurs<CR>')
+      -- vim.keymap.set('n', 'ct', '<CMD>GitConflictChooseTheirs<CR>')
     end
   }
 }

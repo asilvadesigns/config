@@ -21,6 +21,9 @@ end
 
 starship init fish | source
 
+# bat
+set -gx BAT_CONFIG_PATH "$HOME/.config/bat/bat.conf"
+
 # fish
 set -g fish_greeting;
 
@@ -46,3 +49,6 @@ set -gx FNM_ARCH "arm64";
 # yarn
 set -gx YARN_GLOBAL_FOLDER "$FNM_MULTISHELL_PATH/yarn-global"
 set -gx YARN_PREFIX "$FNM_MULTISHELL_PATH"
+
+# Created by `pipx` on 2024-02-28 18:49:16
+set PATH $PATH /Users/albertos/.local/bin

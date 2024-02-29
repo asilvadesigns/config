@@ -1,7 +1,6 @@
 return {
   "mfussenegger/nvim-lint",
-  lazy = false,
-  cmd = { "Lint" },
+  event = { "VeryLazy" },
   opts = {
     linters = {
       biomejs = {
@@ -31,7 +30,7 @@ return {
       typescriptreact = { "biomejs", "eslint_d" },
       svelte = { "biomejs", "eslint_d" },
       vue = { "biomejs", "eslint_d" },
-    }
+    },
   },
   config = function()
     -- local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

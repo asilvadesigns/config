@@ -30,31 +30,38 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- -- open tree
--- vim.api.nvim_create_autocmd("VimEnter", {
---   pattern = { "*" },
---   nested = true,
---   callback = function()
---     if vim.fn.argv(0) == "" then
---       vim.cmd("Telescope find_files")
---     end
---   end,
--- })
+local winbar_exclude_filetypes = {
+  "NvimTree",
+  "Outline",
+  "Trouble",
+  "alpha",
+  "dashboard",
+  "help",
+  "lir",
+  "neogitstatus",
+  "packer",
+  "qf",
+  "spectre_panel",
+  "startify",
+  "toggleterm",
+}
 
--- --- @class DirChangedCallbackCwd
--- --- @field buf number
--- --- @field event string
--- --- @field file string 
--- --- @field id number 
--- --- @field match string
--- vim.api.nvim_create_autocmd("DirChanged", {
---   pattern = { "*" },
---   desc = "Update git env for dotfiles after changing directory",
---   --- @param cwd DirChangedCallbackCwd
---   callback = function(cwd, scope, changed_window)
---     print(vim.inspect(cwd))
---   end,
--- })
+vim.api.nvim_create_autocmd({ "BufFilePost", "BufReadPre" }, {
+  callback = function()
+    if vim.tbl_contains(winbar_exclude_filetypes, vim.bo.filetype) then
+      vim.opt_local.winbar = nil
+      return
+    end
+
+    local sep = "  "
+    local name = vim.fn.expand("%:t")
+    local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
+
+    local value = "%#Comment#" .. path .. "%*" .. "%#Bold#" .. name .. "%*"
+
+    vim.api.nvim_set_option_value("winbar", value, { scope = "local" })
+  end,
+})
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command

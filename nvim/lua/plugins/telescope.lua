@@ -101,7 +101,6 @@ return {
                 { display = "Lint (default)", value = "Lint" },
                 { display = "Noice dismiss", value = "Noice dismiss" },
                 { display = "Noice messages", value = "Noice telescope" },
-                { display = "Projects", value = "Telescope neovim-project discover" },
                 { display = "Quit force", value = "qa!" },
                 {
                   display = "Rename File",
@@ -126,13 +125,6 @@ return {
                 { display = "Zen Mode (increase)", value = "NoNeckPainWidthUp" },
               },
             },
-            -- format = {
-            --   items = {
-            --     { display = "Format (with Biome)",    value = "FormatWithBiome" },
-            --     { display = "Format (with LSP)",                 value = "Format" },
-            --     { display = "Format (with Prettier)", value = "FormatWithPrettier" },
-            --   },
-            -- },
           },
         },
         pickers = {
@@ -178,30 +170,5 @@ return {
       vim.keymap.set("n", "<leader>g", builtin.git_files)
       vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)
     end,
-  },
-  {
-    "coffebar/neovim-project",
-    dependencies = {
-      { "Shatur/neovim-session-manager" },
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope.nvim" },
-    },
-    config = function()
-      vim.opt.sessionoptions:append("globals")
-
-      require("neovim-project").setup({
-        last_session_on_startup = false,
-        projects = {
-          "~/.config",
-          "~/dev/*",
-        },
-      })
-
-      vim.keymap.set("n", "<leader>p", function()
-        vim.cmd("Telescope neovim-project discover")
-      end)
-    end,
-    lazy = false,
-    priority = 100,
   },
 }

@@ -1,18 +1,13 @@
-[include]
-  path = ../delta/themes/frappe.gitconfig
-
 [core]
+  editor = nvim
   pager = delta
 
 [interactive]
   diffFilter = delta --color-only
 
 [delta]
-  decorations = true
   line-numbers = true
-  light = false
   navigate = true
   side-by-side = true
-  ; syntax-theme = catppuccin-frappe
-  ; true-color = always
-
+  syntax-theme = base16
+  true-color = always
