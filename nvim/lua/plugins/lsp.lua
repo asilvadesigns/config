@@ -35,7 +35,7 @@ return {
       local opts = { noremap = true, silent = true }
       local on_attach = function(client, bufnr)
         opts.buffer = bufnr
-        vim.keymap.set("n", "<leader>c", vim.lsp.buf.code_action, opts)
+        vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set("n", "gd", telescope.lsp_definitions, opts)

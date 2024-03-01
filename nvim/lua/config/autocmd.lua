@@ -46,7 +46,7 @@ local winbar_exclude_filetypes = {
   "toggleterm",
 }
 
-vim.api.nvim_create_autocmd({ "BufFilePost", "BufReadPre" }, {
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
   callback = function()
     if vim.tbl_contains(winbar_exclude_filetypes, vim.bo.filetype) then
       vim.opt_local.winbar = nil

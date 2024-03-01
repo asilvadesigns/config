@@ -67,6 +67,7 @@ return {
               -- "package-lock.json",
             },
             preview = false,
+            path_display = formattedName,
             sorting_strategy = "ascending",
             mappings = {
               i = {
