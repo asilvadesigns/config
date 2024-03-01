@@ -19,17 +19,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
--- go to last location when opening a buffer
-vim.api.nvim_create_autocmd("BufReadPost", {
-  callback = function()
-    local mark = vim.api.nvim_buf_get_mark(0, '"')
-    local lcount = vim.api.nvim_buf_line_count(0)
-    if mark[1] > 0 and mark[1] <= lcount then
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
-    end
-  end,
-})
-
 local winbar_exclude_filetypes = {
   "NvimTree",
   "Outline",
@@ -46,12 +35,7 @@ local winbar_exclude_filetypes = {
   "toggleterm",
 }
 
-vim.api.nvim_create_autocmd({
-  "BufNewFile",
-  "BufReadPre",
-  "WinEnter",
-  "WinResized",
-}, {
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
   callback = function()
     local win_config = vim.api.nvim_win_get_config(0)
     local win_filetype = vim.bo.filetype
