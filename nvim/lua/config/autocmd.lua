@@ -46,9 +46,21 @@ local winbar_exclude_filetypes = {
   "toggleterm",
 }
 
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
+vim.api.nvim_create_autocmd({
+  "BufNewFile",
+  "BufReadPre",
+  "WinEnter",
+  "WinResized",
+}, {
   callback = function()
-    if vim.tbl_contains(winbar_exclude_filetypes, vim.bo.filetype) then
+    local win_config = vim.api.nvim_win_get_config(0)
+    local win_filetype = vim.bo.filetype
+
+    if win_config.relative ~= "" or win_filetype == "telescope" then
+      return
+    end
+
+    if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
       vim.opt_local.winbar = nil
       return
     end
