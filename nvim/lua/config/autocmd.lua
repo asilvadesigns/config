@@ -75,6 +75,22 @@ vim.api.nvim_create_autocmd({
   end,
 })
 
+-- vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+--   callback = function()
+--     local value = " ...nothing..."
+--
+--     -- If the buffer is under Git version control, append the current branch
+--     -- if vim.fn.exists(":Git") == 2 and vim.bo.filetype ~= "help" then
+--     --   local branch = vim.fn["fugitive#statusline"]()
+--     --   if branch ~= "" then
+--     --     value = value .. " | Branch: " .. branch
+--     --   end
+--     -- end
+--
+--     vim.api.nvim_set_option_value("statusline", value, {})
+--   end,
+-- })
+
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command
 -- line before executing this command, see also https://vi.stackexchange.com/a/20397/15292 .

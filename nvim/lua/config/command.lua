@@ -1,13 +1,19 @@
-vim.api.nvim_create_user_command("GetFiletype", function()
-  print("Filetype is ::'" .. vim.bo.filetype .. "'")
+--- @param value string
+local function print_and_copy(value)
+  vim.cmd("call setreg('+', '" .. vim.fn.escape(value, "'") .. "')")
+  print("Copied: " .. value)
+end
+
+vim.api.nvim_create_user_command("CopyFiletype", function()
+  print_and_copy(vim.bo.filetype)
 end, {})
 
 vim.api.nvim_create_user_command("CopyAbsolutePath", function()
-  vim.cmd("call setreg('+', expand('%:p'))")
+  print_and_copy(vim.fn.expand("%:~p"))
 end, {})
 
 vim.api.nvim_create_user_command("CopyRelativePath", function()
-  vim.cmd("call setreg('+', expand('%'))")
+  print_and_copy(vim.fn.fnamemodify(vim.fn.expand("%"), ":~:."))
 end, {})
 
 vim.api.nvim_create_user_command("RenameFile", function()

@@ -88,8 +88,24 @@ return {
             default = {
               items = {
                 { display = "Commands", value = builtin.commands },
-                { display = "Copy file path (Absolute)", value = "CopyAbsolutePath" },
-                { display = "Copy file path (Relative)", value = "CopyRelativePath" },
+                {
+                  display = "Copy file path (Absolute)",
+                  value = function()
+                    vim.cmd("CopyAbsolutePath")
+                  end,
+                },
+                {
+                  display = "Copy file path (Relative)",
+                  value = function()
+                    vim.cmd("CopyRelativePath")
+                  end,
+                },
+                {
+                  display = "Copy filetype",
+                  value = function()
+                    vim.cmd("CopyFiletype")
+                  end,
+                },
                 { display = "Find", value = builtin.current_buffer_fuzzy_find },
                 { display = "Format (Biome)", value = "FormatWithBiome" },
                 { display = "Format (Prettier)", value = "FormatWithPrettier" },
@@ -105,9 +121,7 @@ return {
                 { display = "Quit force", value = "qa!" },
                 {
                   display = "Rename File",
-                  value = function()
-                    vim.cmd("RenameFile")
-                  end,
+                  value = "RenameFile",
                 },
                 { display = "Save", value = "wa" },
                 { display = "Save and quit force", value = "wqa!" },
