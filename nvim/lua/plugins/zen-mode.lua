@@ -3,7 +3,7 @@ return {
     "folke/zen-mode.nvim",
     cmd = { "ZenMode" },
     enabled = false,
-    opts = {}
+    opts = {},
   },
   {
     "shortcuts/no-neck-pain.nvim",
@@ -15,8 +15,8 @@ return {
     version = "*",
     config = function()
       require("no-neck-pain").setup({
-        width = 120
+        width = 120,
       })
-    end
-  }
+    end,
+  },
 }

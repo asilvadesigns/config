@@ -1,5 +1,6 @@
 return {
   "folke/noice.nvim",
+  lazy = false,
   dependencies = {
     "MunifTanjim/nui.nvim",
     {
@@ -10,7 +11,6 @@ return {
       },
     },
   },
-  event = { "VeryLazy" },
   config = function()
     require("noice").setup({
       cmdline = {

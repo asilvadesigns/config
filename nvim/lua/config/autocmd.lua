@@ -35,7 +35,10 @@ local winbar_exclude_filetypes = {
   "toggleterm",
 }
 
+vim.api.nvim_create_augroup("status_and_winbar", { clear = true })
+
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
+  group = "status_and_winbar",
   callback = function()
     local win_config = vim.api.nvim_win_get_config(0)
     local win_filetype = vim.bo.filetype
@@ -59,17 +62,76 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
   end,
 })
 
--- vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+-- vim.api.nvim_create_autocmd({
+--   "BufEnter",
+--   "CursorMoved",
+--   "CursorMovedI",
+--   "FileChangedShellPost",
+--   "Filetype",
+--   "ModeChanged",
+--   "SessionLoadPost",
+--   "VimResized",
+--   "WinEnter",
+-- }, {
+--   group = "status_and_winbar",
 --   callback = function()
---     local value = " ...nothing..."
+--     local value = " "
 --
---     -- If the buffer is under Git version control, append the current branch
---     -- if vim.fn.exists(":Git") == 2 and vim.bo.filetype ~= "help" then
---     --   local branch = vim.fn["fugitive#statusline"]()
---     --   if branch ~= "" then
---     --     value = value .. " | Branch: " .. branch
+--     -- local git_ready = vim.fn.system("git rev-parse --is-inside-work-tree")
+--     -- git_ready = string.gsub(git_ready, "%s+", "")
+--     --
+--     -- if git_ready == "true" then
+--     --   local branch = vim.fn.system("git symbolic-ref --short HEAD 2>/dev/null")
+--     --   if vim.v.shell_error == 0 then
+--     --     branch = string.gsub(branch, "%s+", "")
+--     --     value = "  " .. branch
 --     --   end
 --     -- end
+--
+--     local lsp_ready = vim.lsp.buf.server_ready()
+--
+--     if lsp_ready then
+--       local diagnostics = vim.diagnostic.get(0)
+--
+--       local error_count = 0
+--       local warning_count = 0
+--       local information_count = 0
+--       local hint_count = 0
+--
+--       for _, diagnostic in ipairs(diagnostics) do
+--         if diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
+--           error_count = error_count + 1
+--         elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Warning then
+--           warning_count = warning_count + 1
+--         elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Information then
+--           information_count = information_count + 1
+--         elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Hint then
+--           hint_count = hint_count + 1
+--         end
+--       end
+--
+--       -- Format diagnostics for display in the statusline
+--       local diagnostic_string = ""
+--       if error_count > 0 then
+--         diagnostic_string = diagnostic_string .. "Errors: " .. error_count .. " "
+--       end
+--       if warning_count > 0 then
+--         diagnostic_string = diagnostic_string .. "Warnings: " .. warning_count .. " "
+--       end
+--       if information_count > 0 then
+--         diagnostic_string = diagnostic_string .. "Info: " .. information_count .. " "
+--       end
+--       if hint_count > 0 then
+--         diagnostic_string = diagnostic_string .. "Hints: " .. hint_count .. " "
+--       end
+--
+--       -- Update the value for the statusline
+--       if diagnostic_string ~= "" then
+--         value = value .. " | " .. diagnostic_string
+--       else
+--         value = value .. " | no diagnostics"
+--       end
+--     end
 --
 --     vim.api.nvim_set_option_value("statusline", value, {})
 --   end,

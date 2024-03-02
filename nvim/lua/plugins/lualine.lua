@@ -50,7 +50,8 @@ end
 
 return {
   "nvim-lualine/lualine.nvim",
-  event = { "BufNewFile", "BufReadPre" },
+  -- event = { "BufNewFile", "BufReadPre" },
+  lazy = false,
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
@@ -84,22 +85,8 @@ return {
         lualine_y = {},
         lualine_z = {},
       },
-      winbar = {
-        -- lualine_a = {},
-        -- lualine_b = filenameIcon({ bg = "" }, true),
-        -- lualine_c = filenameText("Normal"),
-        -- lualine_x = {},
-        -- lualine_y = {},
-        -- lualine_z = {},
-      },
-      inactive_winbar = {
-        -- lualine_a = {},
-        -- lualine_b = filenameIcon("LineNr", false),
-        -- lualine_c = filenameText("LineNr"),
-        -- lualine_x = {},
-        -- lualine_y = {},
-        -- lualine_z = {},
-      },
+      winbar = {},
+      inactive_winbar = {},
     })
   end,
 }
