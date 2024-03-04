@@ -127,7 +127,7 @@ local timer = vim.loop.new_timer()
 
 timer:start(
   0, -- initial delay
-  1000, -- 1000 / 250 === 4fps
+  500, -- 1000 / 500 === 2fps
   vim.schedule_wrap(function()
     vim.schedule(function()
       local status_line = renderStatusLine()
