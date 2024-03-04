@@ -2,6 +2,7 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     cmd = { "Telescope" },
+    event = { "VeryLazy" },
     keys = {
       "<leader>a",
       "<leader>c",

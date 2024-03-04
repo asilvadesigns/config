@@ -4,12 +4,11 @@ return {
   dependencies = {
     "folke/neodev.nvim",
     "hrsh7th/cmp-nvim-lsp",
-    "nvim-telescope/telescope.nvim",
     "williamboman/mason-lspconfig.nvim",
     "williamboman/mason.nvim",
   },
   config = function()
-    local telescope = require("telescope.builtin")
+    -- local telescope = require("telescope.builtin")
 
     local capabilities = vim.tbl_deep_extend(
       "force",
@@ -30,8 +29,8 @@ return {
       vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
       vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
       vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-      vim.keymap.set("n", "gd", telescope.lsp_definitions, opts)
-      vim.keymap.set("n", "gr", telescope.lsp_references, opts)
+      vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
+      vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
     end
 
     -- NOTE: some of these are listed below but... getting there.

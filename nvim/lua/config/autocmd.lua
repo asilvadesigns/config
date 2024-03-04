@@ -22,6 +22,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 local winbar_exclude_filetypes = {
   "NvimTree",
   "Outline",
+  "TelescopePrompt",
   "Trouble",
   "alpha",
   "dashboard",
@@ -93,21 +94,23 @@ local function lsp()
   local info = signs["Info"] .. count["Info"] .. " "
   local warnings = signs["Warn"] .. count["Warn"] .. " "
 
-  -- return errors .. warnings .. hints .. info .. "%#StatusLine#"
   return errors .. warnings .. hints .. info
 end
 
-local function myAsyncFunction()
-  local win_config = vim.api.nvim_win_get_config(0)
-  local win_filetype = vim.bo.filetype
 
-  if win_config.relative ~= "" or win_filetype == "telescope" then
-    return
-  end
 
-  if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
-    vim.opt_local.winbar = nil
-    return
+
+
+
+
+local cached_status_line = ""
+
+local function renderStatusLine()
+  local is_excluded = vim.tbl_contains(winbar_exclude_filetypes, vim.bo.filetype)
+  local is_floating = vim.api.nvim_win_get_config(0).relative ~= ""
+
+  if is_excluded or is_floating then
+    return cached_status_line
   end
 
   local value = " "
@@ -115,8 +118,6 @@ local function myAsyncFunction()
   local git_info = vim.b.gitsigns_status_dict
   if git_info ~= nil and git_info.head ~= "" then
     value = "  " .. git_info.head .. "  "
-  else
-    value = "   ...    "
   end
 
   local lsp_info = lsp()
@@ -124,20 +125,33 @@ local function myAsyncFunction()
     value = value .. "  " .. lsp_info
   end
 
-  vim.api.nvim_set_option_value("statusline", value, {})
+  cached_status_line = value
+  return cached_status_line
 end
 
 local timer = vim.loop.new_timer()
 
 timer:start(
-  0, -- initial timeout
+  0, -- initial delay
   1000, -- interval
   vim.schedule_wrap(function()
     vim.schedule(function()
-      myAsyncFunction()
+      local status_line = renderStatusLine()
+      if cached_status_line == status_line then
+        vim.api.nvim_set_option_value("statusline", status_line, {})
+      end
     end)
   end)
 )
+
+
+
+
+
+
+
+
+
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command
