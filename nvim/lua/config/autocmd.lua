@@ -97,12 +97,6 @@ local function lsp()
   return errors .. warnings .. hints .. info
 end
 
-
-
-
-
-
-
 local cached_status_line = ""
 
 local function renderStatusLine()
@@ -133,7 +127,7 @@ local timer = vim.loop.new_timer()
 
 timer:start(
   0, -- initial delay
-  1000, -- interval
+  1000, -- 1000 / 250 === 4fps
   vim.schedule_wrap(function()
     vim.schedule(function()
       local status_line = renderStatusLine()
@@ -143,15 +137,6 @@ timer:start(
     end)
   end)
 )
-
-
-
-
-
-
-
-
-
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command

@@ -1,6 +1,6 @@
 return {
   "neovim/nvim-lspconfig",
-  event = { "BufReadPre", "BufNewFile" },
+  event = { "BufReadPost", "BufNewFile" },
   dependencies = {
     "folke/neodev.nvim",
     "hrsh7th/cmp-nvim-lsp",
@@ -8,8 +8,6 @@ return {
     "williamboman/mason.nvim",
   },
   config = function()
-    -- local telescope = require("telescope.builtin")
-
     local capabilities = vim.tbl_deep_extend(
       "force",
       vim.lsp.protocol.make_client_capabilities(),

@@ -10,10 +10,15 @@ return {
     name = "catppuccin",
     priority = 1000,
     config = function()
-      require('catppuccin').setup({
+      require("catppuccin").setup({
         integrations = {
-          nvimtree = false
-        }
+          nvimtree = false,
+        },
+        custom_highlights = function(colors)
+          return {
+            StatusLine = { fg = colors.overlay0 },
+          }
+        end,
       })
 
       vim.cmd("colorscheme catppuccin-frappe")

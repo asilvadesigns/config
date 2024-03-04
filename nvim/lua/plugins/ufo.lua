@@ -1,6 +1,6 @@
 return {
   "kevinhwang91/nvim-ufo",
-  event = { "BufReadPre" },
+  event = { "BufReadPre" }, -- was bufreadpre
   dependencies = {
     "kevinhwang91/promise-async",
     "luukvbaal/statuscol.nvim",
