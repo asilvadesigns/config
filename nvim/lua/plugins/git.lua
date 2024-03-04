@@ -1,5 +1,12 @@
 return {
   {
+    "lewis6991/gitsigns.nvim",
+    event = { "VeryLazy" },
+    opts = {
+      signcolumn = false,
+    },
+  },
+  {
     "tpope/vim-fugitive",
     cmd = {
       "Gdiffsplit",
@@ -20,18 +27,18 @@ return {
     opts = {},
   },
   {
-    'akinsho/git-conflict.nvim',
+    "akinsho/git-conflict.nvim",
     version = "*",
     lazy = false,
     config = function()
-      require('git-conflict').setup({
+      require("git-conflict").setup({
         default_commands = true,
         default_mappings = false,
         disable_diagnostics = true,
-        list_opener = 'copen', -- command or function to open the conflicts list
-        highlights = {         -- They must have background color, otherwise the default color will be used
-          current = 'DiffText',
-          incoming = 'DiffAdd',
+        list_opener = "copen", -- command or function to open the conflicts list
+        highlights = { -- They must have background color, otherwise the default color will be used
+          current = "DiffText",
+          incoming = "DiffAdd",
         },
       })
 
@@ -43,6 +50,6 @@ return {
       -- vim.keymap.set('n', 'cf', '<CMD>GitConflictListQf<CR>')
       -- vim.keymap.set('n', 'co', '<CMD>GitConflictChooseOurs<CR>')
       -- vim.keymap.set('n', 'ct', '<CMD>GitConflictChooseTheirs<CR>')
-    end
-  }
+    end,
+  },
 }

@@ -62,80 +62,82 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
   end,
 })
 
--- vim.api.nvim_create_autocmd({
---   "BufEnter",
---   "CursorMoved",
---   "CursorMovedI",
---   "FileChangedShellPost",
---   "Filetype",
---   "ModeChanged",
---   "SessionLoadPost",
---   "VimResized",
---   "WinEnter",
--- }, {
---   group = "status_and_winbar",
---   callback = function()
---     local value = " "
---
---     -- local git_ready = vim.fn.system("git rev-parse --is-inside-work-tree")
---     -- git_ready = string.gsub(git_ready, "%s+", "")
---     --
---     -- if git_ready == "true" then
---     --   local branch = vim.fn.system("git symbolic-ref --short HEAD 2>/dev/null")
---     --   if vim.v.shell_error == 0 then
---     --     branch = string.gsub(branch, "%s+", "")
---     --     value = "  " .. branch
---     --   end
---     -- end
---
---     local lsp_ready = vim.lsp.buf.server_ready()
---
---     if lsp_ready then
---       local diagnostics = vim.diagnostic.get(0)
---
---       local error_count = 0
---       local warning_count = 0
---       local information_count = 0
---       local hint_count = 0
---
---       for _, diagnostic in ipairs(diagnostics) do
---         if diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
---           error_count = error_count + 1
---         elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Warning then
---           warning_count = warning_count + 1
---         elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Information then
---           information_count = information_count + 1
---         elseif diagnostic.severity == vim.lsp.protocol.DiagnosticSeverity.Hint then
---           hint_count = hint_count + 1
---         end
---       end
---
---       -- Format diagnostics for display in the statusline
---       local diagnostic_string = ""
---       if error_count > 0 then
---         diagnostic_string = diagnostic_string .. "Errors: " .. error_count .. " "
---       end
---       if warning_count > 0 then
---         diagnostic_string = diagnostic_string .. "Warnings: " .. warning_count .. " "
---       end
---       if information_count > 0 then
---         diagnostic_string = diagnostic_string .. "Info: " .. information_count .. " "
---       end
---       if hint_count > 0 then
---         diagnostic_string = diagnostic_string .. "Hints: " .. hint_count .. " "
---       end
---
---       -- Update the value for the statusline
---       if diagnostic_string ~= "" then
---         value = value .. " | " .. diagnostic_string
---       else
---         value = value .. " | no diagnostics"
---       end
---     end
---
---     vim.api.nvim_set_option_value("statusline", value, {})
---   end,
--- })
+local function lsp()
+  local count = {
+    Error = 0,
+    Hint = 0,
+    Info = 0,
+    Warn = 0,
+  }
+
+  local signs = {
+    Error = "󰅚 ",
+    Hint = "󰌶 ",
+    Info = " ",
+    Warn = "󰀪 ",
+  }
+
+  local levels = {
+    errors = "Error",
+    hints = "Hint",
+    info = "Info",
+    warnings = "Warn",
+  }
+
+  for _, level in pairs(levels) do
+    count[level] = vim.tbl_count(vim.diagnostic.get(0, { severity = level }))
+  end
+
+  local errors = signs["Error"] .. count["Error"] .. " "
+  local hints = signs["Hint"] .. count["Hint"] .. " "
+  local info = signs["Info"] .. count["Info"] .. " "
+  local warnings = signs["Warn"] .. count["Warn"] .. " "
+
+  -- return errors .. warnings .. hints .. info .. "%#StatusLine#"
+  return errors .. warnings .. hints .. info
+end
+
+local function myAsyncFunction()
+  local win_config = vim.api.nvim_win_get_config(0)
+  local win_filetype = vim.bo.filetype
+
+  if win_config.relative ~= "" or win_filetype == "telescope" then
+    return
+  end
+
+  if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
+    vim.opt_local.winbar = nil
+    return
+  end
+
+  local value = " "
+
+  local git_info = vim.b.gitsigns_status_dict
+  if git_info ~= nil and git_info.head ~= "" then
+    value = "  " .. git_info.head .. "  "
+  else
+    value = "   ...    "
+  end
+
+  local lsp_info = lsp()
+  if lsp_info ~= "" then
+    value = value .. "  " .. lsp_info
+  end
+
+  vim.api.nvim_set_option_value("statusline", value, {})
+end
+
+local timer = vim.loop.new_timer()
+
+timer:start(
+  0, -- initial timeout
+  1000, -- interval
+  vim.schedule_wrap(function()
+    vim.schedule(function()
+      myAsyncFunction()
+    end)
+  end)
+)
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command

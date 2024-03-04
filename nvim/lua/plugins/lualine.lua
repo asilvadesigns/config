@@ -51,7 +51,8 @@ end
 return {
   "nvim-lualine/lualine.nvim",
   -- event = { "BufNewFile", "BufReadPre" },
-  lazy = false,
+  enabled = false,
+  -- lazy = false,
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
