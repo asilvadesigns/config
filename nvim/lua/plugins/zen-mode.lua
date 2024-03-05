@@ -1,11 +1,5 @@
 return {
   {
-    "folke/zen-mode.nvim",
-    cmd = { "ZenMode" },
-    enabled = false,
-    opts = {},
-  },
-  {
     "shortcuts/no-neck-pain.nvim",
     cmd = {
       "NoNeckPain",

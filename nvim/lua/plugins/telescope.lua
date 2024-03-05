@@ -11,10 +11,11 @@ return {
       "<leader>l",
     },
     dependencies = {
-      { "nvim-lua/plenary.nvim" },
+      "catppuccin/nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope-ui-select.nvim",
+      "octarect/telescope-menu.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      { "nvim-telescope/telescope-ui-select.nvim" },
-      { "octarect/telescope-menu.nvim" },
     },
     config = function()
       local actions = require("telescope.actions")
@@ -55,6 +56,12 @@ return {
         defaults = vim.tbl_extend(
           "force",
           themes.get_dropdown({
+            borderchars = {
+              { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+              prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+              results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+              preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+            },
             layout_config = {
               width = function(_, max_columns, _)
                 return math.min(max_columns, 100)
@@ -136,6 +143,7 @@ return {
                   value = builtin.lsp_workspace_symbols,
                 },
                 { display = "Telescope", value = "Telescope" },
+                { display = "Trouble", value = "Trouble" },
                 { display = "Zen Mode", value = "NoNeckPain" },
                 { display = "Zen Mode (decrease)", value = "NoNeckPainWidthDown" },
                 { display = "Zen Mode (increase)", value = "NoNeckPainWidthUp" },
@@ -185,6 +193,41 @@ return {
       vim.keymap.set("n", "<leader>f", builtin.find_files)
       vim.keymap.set("n", "<leader>g", builtin.git_files)
       vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)
+
+      local colors = require("catppuccin.palettes").get_palette()
+
+      local TelescopePrompt = {
+        TelescopePromptNormal = {
+          bg = colors.mantle,
+        },
+        TelescopePromptBorder = {
+          fg = colors.mantle,
+          bg = colors.mantle,
+        },
+        TelescopePromptTitle = {
+          fg = colors.mantle,
+          bg = colors.blue,
+        },
+        TelescopePreviewTitle = {
+          fg = colors.mantle,
+          bg = colors.mantle,
+        },
+        TelescopeResultsTitle = {
+          fg = colors.mantle,
+          bg = colors.mantle,
+        },
+        TelescopeResultsNormal = {
+          bg = colors.mantle,
+        },
+        TelescopeResultsBorder = {
+          fg = colors.mantle,
+          bg = colors.mantle,
+        },
+      }
+
+      for hl, col in pairs(TelescopePrompt) do
+        vim.api.nvim_set_hl(0, hl, col)
+      end
     end,
   },
 }

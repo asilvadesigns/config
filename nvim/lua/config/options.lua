@@ -12,7 +12,7 @@ vim.opt.splitright = true
 vim.opt.clipboard = "unnamedplus"
 
 -- cursorline
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 -- folding
 vim.opt.conceallevel = 0
@@ -36,13 +36,14 @@ vim.opt.smartindent = true
 vim.opt.tabstop = 2
 
 -- invisible chars
-vim.opt.list = true
+vim.opt.list = false -- UI
+
 vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 
 -- numberline
-vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.number = false -- UI
+vim.opt.relativenumber = false -- UI
 
 -- searching
 vim.opt.grepformat = "%f:%l:%c:%m"

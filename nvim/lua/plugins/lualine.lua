@@ -26,14 +26,19 @@ local function filenameText(color)
         newfile = "[New]",     -- Text to show for newly created file before first write
       },
     },
+    {
+      "encoding",
+      color = color,
+    },
   }
 end
 
-local function gitBranch()
+local function gitBranch(color)
   return {
     {
       "branch",
       icon = "",
+      color = color,
       on_click = function()
         vim.cmd("Git")
       end,
@@ -50,13 +55,15 @@ end
 
 return {
   "nvim-lualine/lualine.nvim",
-  -- event = { "BufNewFile", "BufReadPre" },
   enabled = false,
-  -- lazy = false,
+  event = { "BufNewFile", "BufReadPre" },
   dependencies = {
+    "catppuccin/nvim",
     "nvim-tree/nvim-web-devicons",
   },
   config = function()
+    local colors = require("catppuccin.palettes").get_palette()
+
     require("lualine").setup({
       extensions = { "oil" },
       options = {
@@ -73,8 +80,8 @@ return {
       sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = gitBranch(),
-        lualine_x = filenameText(),
+        lualine_c = gitBranch({ fg = colors.overlay2 }),
+        lualine_x = filenameText({ fg = colors.overlay2 }),
         lualine_y = {},
         lualine_z = {},
       },

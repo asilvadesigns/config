@@ -12,6 +12,26 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+-- -- cursorline for active buffers
+-- vim.api.nvim_create_autocmd("WinEnter", {
+--   callback = function()
+--     vim.cmd("setlocal cursorline")
+--   end,
+-- })
+--
+-- -- no cursor for inactive buffers
+-- vim.api.nvim_create_autocmd("WinLeave", {
+--   callback = function()
+--     vim.cmd("setlocal nocursorline")
+--   end,
+-- })
+
+-- -- show numbers in help
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "help",
+--   command = "setlocal number",
+-- })
+
 -- resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
   callback = function()
@@ -56,8 +76,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
     local sep = "  "
     local name = vim.fn.expand("%:t")
     local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
-
-    local value = "%#Comment#" .. path .. "%*" .. "%#Bold#" .. name .. "%*"
+    local value = "%#Comment#" .. path .. name .. "%*"
 
     vim.api.nvim_set_option_value("winbar", value, { scope = "local" })
   end,
@@ -123,20 +142,20 @@ local function renderStatusLine()
   return cached_status_line
 end
 
-local timer = vim.loop.new_timer()
-
-timer:start(
-  0, -- initial delay
-  500, -- 1000 / 500 === 2fps
-  vim.schedule_wrap(function()
-    vim.schedule(function()
-      local status_line = renderStatusLine()
-      if cached_status_line == status_line then
-        vim.api.nvim_set_option_value("statusline", status_line, {})
-      end
-    end)
-  end)
-)
+-- local timer = vim.loop.new_timer()
+--
+-- timer:start(
+--   0, -- initial delay
+--   500, -- 1000 / 500 === 2fps
+--   vim.schedule_wrap(function()
+--     vim.schedule(function()
+--       local status_line = renderStatusLine()
+--       if cached_status_line == status_line then
+--         vim.api.nvim_set_option_value("statusline", status_line, {})
+--       end
+--     end)
+--   end)
+-- )
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command
