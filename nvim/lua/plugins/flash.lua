@@ -9,7 +9,7 @@ return {
     },
   },
   keys = {
-    -- I use these...
+    -- -- I use these...
     -- { "f", mode = "n" },
     -- { "F", mode = "n" },
     -- { "t", mode = "n" },
@@ -30,6 +30,11 @@ return {
             forward = true,
             multi_window = false,
             wrap = true,
+          },
+          modes = {
+            char = {
+              jump_labels = true,
+            },
           },
         })
       end,

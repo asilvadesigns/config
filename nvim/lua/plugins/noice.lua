@@ -10,6 +10,7 @@ return {
         -- local colors = require("catppuccin.palettes").get_palette()
         require("notify").setup({
           render = "minimal",
+          timeout = 1000,
           top_down = false,
         })
       end,
@@ -35,7 +36,7 @@ return {
         },
       },
       messages = {
-        enabled = false,
+        enabled = true,
       },
       notify = {
         enabled = false,

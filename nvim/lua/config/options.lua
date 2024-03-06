@@ -42,8 +42,8 @@ vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 
 -- numberline
-vim.opt.number = false -- UI
-vim.opt.relativenumber = false -- UI
+vim.opt.number = true -- UI
+vim.opt.relativenumber = true -- UI
 
 -- searching
 vim.opt.grepformat = "%f:%l:%c:%m"

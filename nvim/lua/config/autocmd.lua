@@ -34,10 +34,14 @@ vim.api.nvim_create_autocmd("WinEnter", {
 --   end,
 -- })
 
--- -- show numbers in help
+-- show numbers in help
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "help",
+  command = "setlocal number relativenumber",
+})
 -- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "help",
---   command = "setlocal number",
+--   pattern = "NvimTree",
+--   command = "setlocal winhighlight=Winbar:DiagnosticVirtualTextError",
 -- })
 
 -- resize splits if window got resized

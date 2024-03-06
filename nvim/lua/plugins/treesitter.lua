@@ -98,7 +98,7 @@ return {
   {
     "Wansmer/treesj",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
-    keys = { "<space>m", "<space>j", "<space>s" },
+    keys = { "<leader>tm", "<leader>tj", "<leader>ts" },
     opts = {},
   },
 }

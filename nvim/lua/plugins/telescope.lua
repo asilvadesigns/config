@@ -65,6 +65,9 @@ return {
               width = function(_, max_columns, _)
                 return math.min(max_columns, 100)
               end,
+              height = function(_, _, max_lines)
+                return math.min(max_lines, 40)
+              end,
             },
           }),
           {
@@ -133,6 +136,7 @@ return {
                 { display = "Save", value = "wa" },
                 { display = "Save and quit force", value = "wqa!" },
                 { display = "Search", value = "Spectre" },
+                { display = "Symbols", value = "AerialOpen" },
                 {
                   display = "Symbols (Document)",
                   value = builtin.lsp_document_symbols,
@@ -197,30 +201,30 @@ return {
 
       local TelescopePrompt = {
         TelescopePromptNormal = {
-          bg = colors.mantle,
+          bg = colors.surface0,
         },
         TelescopePromptBorder = {
-          fg = colors.mantle,
-          bg = colors.mantle,
+          fg = colors.surface0,
+          bg = colors.surface0,
         },
         TelescopePromptTitle = {
-          fg = colors.mantle,
+          fg = colors.surface0,
           bg = colors.blue,
         },
         TelescopePreviewTitle = {
-          fg = colors.mantle,
-          bg = colors.mantle,
+          fg = colors.surface0,
+          bg = colors.surface0,
         },
         TelescopeResultsTitle = {
-          fg = colors.mantle,
-          bg = colors.mantle,
+          fg = colors.surface0,
+          bg = colors.surface0,
         },
         TelescopeResultsNormal = {
-          bg = colors.mantle,
+          bg = colors.surface0,
         },
         TelescopeResultsBorder = {
-          fg = colors.mantle,
-          bg = colors.mantle,
+          fg = colors.surface0,
+          bg = colors.surface0,
         },
       }
 

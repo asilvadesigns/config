@@ -20,7 +20,8 @@ return {
             CursorLine = { bg = colors.surface },
             CursorLineNr = { fg = colors.blue },
             StatusLine = { bg = colors.base },
-            WinSeparator = { fg = colors.base },
+            -- WinSeparator = { fg = colors.base },
+            -- WinBar = { bg = colors.mantle },
             --
             Folded = { bg = colors.none },
             UfoFoldedEllipsis = { fg = colors.mauve, bg = colors.none },
