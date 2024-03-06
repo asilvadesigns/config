@@ -13,7 +13,7 @@ return {
       require("catppuccin").setup({
         integrations = {
           nvimtree = false,
-          ufo = false,
+          ufo = true,
         },
         custom_highlights = function(colors)
           return {
@@ -21,6 +21,9 @@ return {
             CursorLineNr = { fg = colors.blue },
             StatusLine = { bg = colors.base },
             WinSeparator = { fg = colors.base },
+            --
+            Folded = { bg = colors.none },
+            UfoFoldedEllipsis = { fg = colors.mauve, bg = colors.none },
           }
         end,
       })

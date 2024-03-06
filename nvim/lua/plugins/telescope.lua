@@ -197,30 +197,30 @@ return {
 
       local TelescopePrompt = {
         TelescopePromptNormal = {
-          bg = colors.surface0,
+          bg = colors.mantle,
         },
         TelescopePromptBorder = {
-          fg = colors.surface0,
-          bg = colors.surface0,
+          fg = colors.mantle,
+          bg = colors.mantle,
         },
         TelescopePromptTitle = {
-          fg = colors.surface0,
+          fg = colors.mantle,
           bg = colors.blue,
         },
         TelescopePreviewTitle = {
-          fg = colors.surface0,
-          bg = colors.surface0,
+          fg = colors.mantle,
+          bg = colors.mantle,
         },
         TelescopeResultsTitle = {
-          fg = colors.surface0,
-          bg = colors.surface0,
+          fg = colors.mantle,
+          bg = colors.mantle,
         },
         TelescopeResultsNormal = {
-          bg = colors.surface0,
+          bg = colors.mantle,
         },
         TelescopeResultsBorder = {
-          fg = colors.surface0,
-          bg = colors.surface0,
+          fg = colors.mantle,
+          bg = colors.mantle,
         },
       }
 

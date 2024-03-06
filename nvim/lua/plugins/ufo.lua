@@ -28,14 +28,5 @@ return {
 
     vim.keymap.set("n", "zR", require("ufo").openAllFolds)
     vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-
-    -- vim.cmd("hi! link MoreMsg DiagnosticVirtualTextHint")
-    -- vim.cmd("hi! link Folded DiagnosticVirtualTextHint")
-
-    -- vim.cmd("hi! link UfoPreviewCursorLine DiagnosticVirtualTextHint")
-    -- no idea how to modify the folded highlight
-
-    -- this works... but no others?
-    vim.cmd("hi! link UfoFoldedEllipsis DiagnosticVirtualTextHint")
   end,
 }
