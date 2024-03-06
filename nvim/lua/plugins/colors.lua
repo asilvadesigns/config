@@ -13,6 +13,7 @@ return {
       require("catppuccin").setup({
         integrations = {
           nvimtree = false,
+          ufo = false,
         },
         custom_highlights = function(colors)
           return {

@@ -1,14 +1,18 @@
 return {
   "folke/noice.nvim",
-  lazy = false,
+  event = { "VeryLazy" },
   dependencies = {
     "MunifTanjim/nui.nvim",
     {
       "rcarriga/nvim-notify",
-      opts = {
-        render = "minimal",
-        top_down = false,
-      },
+      -- dependencies = { "catppuccin/nvim" },
+      config = function()
+        -- local colors = require("catppuccin.palettes").get_palette()
+        require("notify").setup({
+          render = "minimal",
+          top_down = false,
+        })
+      end,
     },
   },
   config = function()
@@ -31,7 +35,7 @@ return {
         },
       },
       messages = {
-        enabled = true,
+        enabled = false,
       },
       notify = {
         enabled = false,

@@ -60,7 +60,7 @@ vim.opt.sidescrolloff = 0
 vim.opt.laststatus = 3
 vim.opt.showmode = false
 vim.opt.statusline = " "
--- vim.opt.winbar = " " -- doing to avoid flash b/c winbar
+vim.opt.winbar = " " -- doing to avoid flash b/c winbar
 
 -- terminal
 vim.opt.termguicolors = true

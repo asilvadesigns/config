@@ -1,6 +1,7 @@
 return {
   "kevinhwang91/nvim-ufo",
-  event = { "BufReadPost" },
+  -- event = { "VeryLazy" },
+  lazy = false,
   dependencies = {
     "kevinhwang91/promise-async",
     {
@@ -17,14 +18,24 @@ return {
       end,
     },
   },
-  opts = {
-    open_fold_hl_timeout = 0,
-    provider_selector = function(bufnr, filetype, buftype)
-      return { "treesitter", "indent" }
-    end,
-  },
-  init = function()
+  config = function()
+    require("ufo").setup({
+      open_fold_hl_timeout = 0,
+      provider_selector = function(bufnr, filetype, buftype)
+        return { "treesitter", "indent" }
+      end,
+    })
+
     vim.keymap.set("n", "zR", require("ufo").openAllFolds)
     vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
+
+    -- vim.cmd("hi! link MoreMsg DiagnosticVirtualTextHint")
+    -- vim.cmd("hi! link Folded DiagnosticVirtualTextHint")
+
+    -- vim.cmd("hi! link UfoPreviewCursorLine DiagnosticVirtualTextHint")
+    -- no idea how to modify the folded highlight
+
+    -- this works... but no others?
+    vim.cmd("hi! link UfoFoldedEllipsis DiagnosticVirtualTextHint")
   end,
 }

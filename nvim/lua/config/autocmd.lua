@@ -39,6 +39,8 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
+local cached_status_line = ""
+
 local winbar_exclude_filetypes = {
   "NvimTree",
   "Outline",
@@ -56,31 +58,26 @@ local winbar_exclude_filetypes = {
   "toggleterm",
 }
 
-vim.api.nvim_create_augroup("status_and_winbar", { clear = true })
+local function renderWinbar()
+  local win_config = vim.api.nvim_win_get_config(0)
+  local win_filetype = vim.bo.filetype
 
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
-  group = "status_and_winbar",
-  callback = function()
-    local win_config = vim.api.nvim_win_get_config(0)
-    local win_filetype = vim.bo.filetype
+  if win_config.relative ~= "" or win_filetype == "telescope" then
+    return
+  end
 
-    if win_config.relative ~= "" or win_filetype == "telescope" then
-      return
-    end
+  if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
+    vim.opt_local.winbar = nil
+    return
+  end
 
-    if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
-      vim.opt_local.winbar = nil
-      return
-    end
+  local sep = "  "
+  local name = vim.fn.expand("%:t")
+  local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
+  local value = "%#Comment#" .. path .. name .. "%*"
 
-    local sep = "  "
-    local name = vim.fn.expand("%:t")
-    local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
-    local value = "%#Comment#" .. path .. name .. "%*"
-
-    vim.api.nvim_set_option_value("winbar", value, { scope = "local" })
-  end,
-})
+  return value
+end
 
 local function lsp()
   local count = {
@@ -116,8 +113,6 @@ local function lsp()
   return errors .. warnings .. hints .. info
 end
 
-local cached_status_line = ""
-
 local function renderStatusLine()
   local is_excluded = vim.tbl_contains(winbar_exclude_filetypes, vim.bo.filetype)
   local is_floating = vim.api.nvim_win_get_config(0).relative ~= ""
@@ -142,6 +137,15 @@ local function renderStatusLine()
   return cached_status_line
 end
 
+vim.api.nvim_create_augroup("winbar", { clear = true })
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
+  group = "winbar",
+  callback = function()
+    local winbar = renderWinbar()
+    vim.api.nvim_set_option_value("winbar", winbar, { scope = "local" })
+  end,
+})
+
 -- local timer = vim.loop.new_timer()
 --
 -- timer:start(
@@ -149,9 +153,14 @@ end
 --   500, -- 1000 / 500 === 2fps
 --   vim.schedule_wrap(function()
 --     vim.schedule(function()
---       local status_line = renderStatusLine()
---       if cached_status_line == status_line then
---         vim.api.nvim_set_option_value("statusline", status_line, {})
+--       -- local status_line = renderStatusLine()
+--       -- if cached_status_line ~= status_line then
+--       --   vim.api.nvim_set_option_value("statusline", status_line, {})
+--       -- end
+--
+--       local winbar = renderWinbar()
+--       if cached_winbar ~= winbar then
+--         vim.api.nvim_set_option_value("winbar", winbar, { scope = "local" })
 --       end
 --     end)
 --   end)

@@ -1,12 +1,21 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufNewFile", "BufReadPost" },
+    -- event = { "BufNewFile", "BufReadPost" },
+    event = { "VeryLazy" },
     build = ":TSUpdate",
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      "windwp/nvim-autopairs",
-      "windwp/nvim-ts-autotag",
+      { "windwp/nvim-autopairs", opts = {} },
+      {
+        "windwp/nvim-ts-autotag",
+        opts = {
+          enable = true,
+          enable_rename = true,
+          enable_close = true,
+          enable_close_on_slash = true,
+        },
+      },
     },
     config = function()
       require("nvim-treesitter.configs").setup({
@@ -84,21 +93,12 @@ return {
           },
         },
       })
-
-      require("nvim-ts-autotag").setup({
-        enable = true,
-        enable_rename = true,
-        enable_close = true,
-        enable_close_on_slash = true,
-      })
-
-      require("nvim-autopairs").setup({})
     end,
   },
   {
     "Wansmer/treesj",
-    keys = { "<space>m", "<space>j", "<space>s" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
+    keys = { "<space>m", "<space>j", "<space>s" },
     opts = {},
   },
 }

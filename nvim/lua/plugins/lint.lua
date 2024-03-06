@@ -1,6 +1,10 @@
 return {
   "mfussenegger/nvim-lint",
-  event = { "VeryLazy" },
+  cmd = {
+    "Lint",
+    "LintWithBiome",
+    "LintWithEslint",
+  },
   opts = {
     linters = {
       biomejs = {

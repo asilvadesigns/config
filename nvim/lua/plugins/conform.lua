@@ -112,7 +112,6 @@ end
 
 return {
   "stevearc/conform.nvim",
-  event = { "VeryLazy" },
   cmd = { "Format" },
   keys = {
     {

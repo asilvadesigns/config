@@ -2,7 +2,6 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     cmd = { "Telescope" },
-    event = { "VeryLazy" },
     keys = {
       "<leader>a",
       "<leader>c",
@@ -198,30 +197,30 @@ return {
 
       local TelescopePrompt = {
         TelescopePromptNormal = {
-          bg = colors.mantle,
+          bg = colors.surface0,
         },
         TelescopePromptBorder = {
-          fg = colors.mantle,
-          bg = colors.mantle,
+          fg = colors.surface0,
+          bg = colors.surface0,
         },
         TelescopePromptTitle = {
-          fg = colors.mantle,
+          fg = colors.surface0,
           bg = colors.blue,
         },
         TelescopePreviewTitle = {
-          fg = colors.mantle,
-          bg = colors.mantle,
+          fg = colors.surface0,
+          bg = colors.surface0,
         },
         TelescopeResultsTitle = {
-          fg = colors.mantle,
-          bg = colors.mantle,
+          fg = colors.surface0,
+          bg = colors.surface0,
         },
         TelescopeResultsNormal = {
-          bg = colors.mantle,
+          bg = colors.surface0,
         },
         TelescopeResultsBorder = {
-          fg = colors.mantle,
-          bg = colors.mantle,
+          fg = colors.surface0,
+          bg = colors.surface0,
         },
       }
 

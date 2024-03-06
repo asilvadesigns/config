@@ -13,7 +13,6 @@ return {
       "Git",
       "Gvdiffsplit",
     },
-    event = { "VeryLazy" },
   },
   {
     "sindrets/diffview.nvim",
@@ -23,13 +22,20 @@ return {
       "DiffviewOpen",
       "DiffviewToggleFiles",
     },
-    event = { "VeryLazy" },
     opts = {},
   },
   {
     "akinsho/git-conflict.nvim",
+    cmd = {
+      "GitConflictChooseBoth",
+      "GitConflictChooseNone",
+      "GitConflictChooseOurs",
+      "GitConflictChooseTheirs",
+      "GitConflictListQf",
+      "GitConflictNextConflict",
+      "GitConflictPrevConflict",
+    },
     version = "*",
-    lazy = false,
     config = function()
       require("git-conflict").setup({
         default_commands = true,

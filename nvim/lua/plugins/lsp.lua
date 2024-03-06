@@ -1,6 +1,7 @@
 return {
   "neovim/nvim-lspconfig",
-  event = { "BufReadPost", "BufNewFile" },
+  -- event = { "BufReadPre", "BufNewFile" },
+  event = { "VeryLazy" },
   dependencies = {
     "folke/neodev.nvim",
     "hrsh7th/cmp-nvim-lsp",
@@ -181,7 +182,6 @@ return {
       end,
     })
 
-    -- TODO: make
     vim.api.nvim_create_user_command("GetActiveLSPs", function()
       local clients = vim.lsp.get_active_clients()
       local clients_list = {}
@@ -192,5 +192,18 @@ return {
       print("active lsps")
       print(vim.inspect(clients_list))
     end, {})
+
+    ---https://github.com/wookayin/dotfiles/blob/f2c7b0944135f33db83b218afa2da89fb4b3ef1c/nvim/lua/config/lsp.lua#L318
+    local attach_lsp_to_existing_buffers = vim.schedule_wrap(function()
+      for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+        local valid = vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_buf_get_option(bufnr, "buflisted")
+        if valid and vim.bo[bufnr].buftype == "" then
+          local augroup_lspconfig = vim.api.nvim_create_augroup("lspconfig", { clear = false })
+          vim.api.nvim_exec_autocmds("FileType", { group = augroup_lspconfig, buffer = bufnr })
+        end
+      end
+    end)
+
+    attach_lsp_to_existing_buffers()
   end,
 }

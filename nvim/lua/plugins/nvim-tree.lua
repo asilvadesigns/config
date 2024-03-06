@@ -1,6 +1,19 @@
 return {
   "nvim-tree/nvim-tree.lua",
-  event = { "VeryLazy" },
+  keys = {
+    {
+      "<leader>j",
+      function()
+        local filetype = vim.bo.filetype
+
+        if filetype == "NvimTree" then
+          vim.cmd("NvimTreeClose")
+        else
+          vim.cmd("NvimTreeFindFile")
+        end
+      end,
+    },
+  },
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     require("nvim-tree").setup({
