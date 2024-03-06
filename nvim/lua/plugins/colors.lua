@@ -17,7 +17,7 @@ return {
         },
         custom_highlights = function(colors)
           return {
-            CursorLine = { bg = colors.base },
+            CursorLine = { bg = colors.surface },
             CursorLineNr = { fg = colors.blue },
             StatusLine = { bg = colors.base },
             WinSeparator = { fg = colors.base },

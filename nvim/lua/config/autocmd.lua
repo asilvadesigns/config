@@ -12,13 +12,21 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- -- cursorline for active buffers
--- vim.api.nvim_create_autocmd("WinEnter", {
---   callback = function()
---     vim.cmd("setlocal cursorline")
---   end,
--- })
---
+local cursorline_include_filetypes = {
+  "NvimTree",
+}
+
+-- cursorline for certain filetypes
+vim.api.nvim_create_autocmd("WinEnter", {
+  callback = function()
+    if vim.tbl_contains(cursorline_include_filetypes, vim.bo.filetype) then
+      vim.cmd("setlocal cursorline")
+    else
+      vim.cmd("setlocal nocursorline")
+    end
+  end,
+})
+
 -- -- no cursor for inactive buffers
 -- vim.api.nvim_create_autocmd("WinLeave", {
 --   callback = function()
