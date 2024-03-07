@@ -36,14 +36,14 @@ vim.opt.smartindent = true
 vim.opt.tabstop = 2
 
 -- invisible chars
-vim.opt.list = false -- UI
+vim.opt.list = true -- UI
 
 vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 
 -- numberline
-vim.opt.number = true -- UI
-vim.opt.relativenumber = true -- UI
+vim.opt.number = false -- UI
+vim.opt.relativenumber = false -- UI
 
 -- searching
 vim.opt.grepformat = "%f:%l:%c:%m"

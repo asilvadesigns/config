@@ -1,10 +1,3 @@
--- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({
-  "FocusGained",
-  "TermClose",
-  "TermLeave",
-}, { command = "checktime" })
-
 -- highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
@@ -16,7 +9,7 @@ local cursorline_include_filetypes = {
   "NvimTree",
 }
 
--- cursorline for certain filetypes
+-- show cursorline for certain filetypes
 vim.api.nvim_create_autocmd("WinEnter", {
   callback = function()
     if vim.tbl_contains(cursorline_include_filetypes, vim.bo.filetype) then
@@ -27,22 +20,11 @@ vim.api.nvim_create_autocmd("WinEnter", {
   end,
 })
 
--- -- no cursor for inactive buffers
--- vim.api.nvim_create_autocmd("WinLeave", {
---   callback = function()
---     vim.cmd("setlocal nocursorline")
---   end,
--- })
-
 -- show numbers in help
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "help",
   command = "setlocal number relativenumber",
 })
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "NvimTree",
---   command = "setlocal winhighlight=Winbar:DiagnosticVirtualTextError",
--- })
 
 -- resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
@@ -50,8 +32,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
     vim.cmd("tabdo wincmd =")
   end,
 })
-
-local cached_status_line = ""
 
 local winbar_exclude_filetypes = {
   "NvimTree",
@@ -75,20 +55,23 @@ local function renderWinbar()
   local win_filetype = vim.bo.filetype
 
   if win_config.relative ~= "" or win_filetype == "telescope" then
-    return
+    return ""
   end
 
   if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
     vim.opt_local.winbar = nil
-    return
+    return ""
   end
 
   local sep = "  "
   local name = vim.fn.expand("%:t")
   local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
-  local value = "%#Comment#" .. path .. name .. "%*"
 
-  return value
+  local buf = vim.api.nvim_get_current_buf()
+  local buf_modified = vim.api.nvim_buf_get_option(buf, "modified")
+  local flag = buf_modified and " +" or ""
+
+  return "%#Comment#" .. path .. name .. flag .. "%*"
 end
 
 local function lsp()
@@ -150,6 +133,7 @@ local function renderStatusLine()
 end
 
 vim.api.nvim_create_augroup("winbar", { clear = true })
+
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
   group = "winbar",
   callback = function()
@@ -158,30 +142,37 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
   end,
 })
 
--- local timer = vim.loop.new_timer()
---
--- timer:start(
---   0, -- initial delay
---   500, -- 1000 / 500 === 2fps
---   vim.schedule_wrap(function()
---     vim.schedule(function()
---       -- local status_line = renderStatusLine()
---       -- if cached_status_line ~= status_line then
---       --   vim.api.nvim_set_option_value("statusline", status_line, {})
---       -- end
---
---       local winbar = renderWinbar()
---       if cached_winbar ~= winbar then
---         vim.api.nvim_set_option_value("winbar", winbar, { scope = "local" })
---       end
---     end)
---   end)
--- )
+local render_winbar_cache = ""
+local render_winbar_time = 100
+local render_winbar_timer = vim.fn.timer_start(render_winbar_time, function() end)
+vim.api.nvim_create_autocmd({ "BufWritePost", "TextChanged", "TextChangedI" }, {
+  group = "winbar",
+  callback = function()
+    if render_winbar_timer ~= nil and vim.fn.timer_stop(render_winbar_timer) ~= -1 then
+      render_winbar_timer = nil
+    end
+
+    render_winbar_timer = vim.fn.timer_start(render_winbar_time, function()
+      local winbar = renderWinbar()
+      if render_winbar_cache ~= winbar then
+        render_winbar_cache = winbar
+        vim.api.nvim_set_option_value("winbar", winbar, { scope = "local" })
+      end
+    end)
+  end,
+})
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command
 -- line before executing this command, see also https://vi.stackexchange.com/a/20397/15292 .
 vim.api.nvim_create_augroup("auto_read", { clear = true })
+
+-- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd({
+  "FocusGained",
+  "TermClose",
+  "TermLeave",
+}, { command = "checktime" })
 
 vim.api.nvim_create_autocmd({ "FileChangedShellPost" }, {
   pattern = "*",
@@ -200,3 +191,4 @@ vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold" }, {
     end
   end,
 })
+

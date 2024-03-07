@@ -17,12 +17,22 @@ return {
         },
         custom_highlights = function(colors)
           return {
+            --
+            -- custom DEFAULTS
             CursorLine = { bg = colors.surface },
             CursorLineNr = { fg = colors.blue },
             StatusLine = { bg = colors.base },
             -- WinSeparator = { fg = colors.base },
             -- WinBar = { bg = colors.mantle },
             --
+            -- custom FLASH
+            FlashBackdrop = { fg = colors.overlay0 },
+            FlashLabel = { fg = colors.red, bg = colors.crust }, -- , style = { "bold" } },
+            FlashMatch = { fg = colors.lavender, bg = colors.base },
+            FlashCurrent = { fg = colors.sky, bg = colors.base },
+            FlashPrompt = { link = "NormalFloat" },
+            --
+            -- custom UFO
             Folded = { bg = colors.none },
             UfoFoldedEllipsis = { fg = colors.mauve, bg = colors.none },
           }
