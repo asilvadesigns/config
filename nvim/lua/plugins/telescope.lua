@@ -17,7 +17,50 @@ return {
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     config = function()
+      local conf = require("telescope.config").values
+      local finders = require("telescope.finders")
+      local pickers = require("telescope.pickers")
       local actions = require("telescope.actions")
+      local action_state = require("telescope.actions.state")
+
+      local command_palette = function(opts)
+        opts = opts or {}
+        pickers
+          .new(opts, {
+            prompt_title = "colors",
+            finder = finders.new_table({
+              results = {
+                { "red", function() print("chosen Red!!") end },
+                { "green", function() print("got green") end },
+                { "blue", function() print("selected blue!") end },
+              },
+              entry_maker = function(entry)
+                return {
+                  value = entry,
+                  display = function()
+                    -- TODO: for certain toggle functions, I'd like to display some switches.
+                    -- some custom logic here...
+                    return entry[1]
+                  end,
+                  ordinal = entry[1],
+                }
+              end,
+            }),
+            sorter = conf.generic_sorter(opts),
+            attach_mappings = function(prompt_bufnr, map)
+              actions.select_default:replace(function()
+                actions.close(prompt_bufnr)
+                local selection = action_state.get_selected_entry()
+                selection.value[2]()
+                -- vim.api.nvim_put({ selection[1] }, "", false, true)
+              end)
+              return true
+            end,
+          })
+          :find()
+      end
+
+      --
       local builtin = require("telescope.builtin")
       local telescope = require("telescope")
       local themes = require("telescope.themes")
@@ -134,6 +177,12 @@ return {
                   value = "RenameFile",
                 },
                 { display = "Save", value = "wa" },
+                {
+                  display = "Command Palette",
+                  value = function()
+                    command_palette()
+                  end,
+                },
                 { display = "Save and quit force", value = "wqa!" },
                 { display = "Search", value = "Spectre" },
                 { display = "Symbols", value = "Outline" },
