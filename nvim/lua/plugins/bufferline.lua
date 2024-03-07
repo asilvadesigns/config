@@ -5,7 +5,6 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   event = { "VeryLazy" },
-  -- event = { "BufReadPost", "BufAdd", "BufNewFile" },
   config = function()
     local colors = require("catppuccin.palettes").get_palette()
 

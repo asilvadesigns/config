@@ -2,15 +2,19 @@ return {
   "folke/flash.nvim",
   event = "VeryLazy",
   opts = {
+    search = {
+      multi_window = false,
+    },
     modes = {
       char = {
+        keys = { "s" },
         jump_labels = true,
       },
     },
   },
   keys = {
     {
-      "s",
+      ";",
       mode = { "n", "x", "o" },
       function()
         require("flash").jump()
@@ -18,55 +22,46 @@ return {
       desc = "Flash",
     },
     {
-      "S",
+      "s",
       mode = { "n", "x", "o" },
       function()
-        require("flash").treesitter()
-      end,
-      desc = "Flash Treesitter",
-    },
-    {
-      "r",
-      mode = "o",
-      function()
-        require("flash").remote()
-      end,
-      desc = "Remote Flash",
-    },
-    {
-      "R",
-      mode = { "o", "x" },
-      function()
-        require("flash").treesitter_search()
-      end,
-      desc = "Treesitter Search",
-    },
-    {
-      "<c-s>",
-      mode = { "c" },
-      function()
-        require("flash").toggle()
-      end,
-      desc = "Toggle Flash Search",
-    },
-    {
-      ";",
-      mode = { "n" },
-      function()
         require("flash").jump({
-          search = {
-            forward = true,
-            multi_window = false,
-            wrap = true,
-          },
-          modes = {
-            char = {
-              jump_labels = true,
-            },
-          },
+
         })
       end,
-      desc = "Toggle Flash Jump",
+      desc = "Flash",
     },
+    -- {
+    --   "S",
+    --   mode = { "n", "x", "o" },
+    --   function()
+    --     require("flash").treesitter()
+    --   end,
+    --   desc = "Flash Treesitter",
+    -- },
+    -- {
+    --   "r",
+    --   mode = "o",
+    --   function()
+    --     require("flash").remote()
+    --   end,
+    --   desc = "Remote Flash",
+    -- },
+    -- {
+    --   "R",
+    --   mode = { "o", "x" },
+    --   function()
+    --     require("flash").treesitter_search()
+    --   end,
+    --   desc = "Treesitter Search",
+    -- },
+    -- {
+    --   "<c-s>",
+    --   mode = { "c" },
+    --   function()
+    --     require("flash").toggle()
+    --   end,
+    --   desc = "Toggle Flash Search",
+    -- },
   },
 }

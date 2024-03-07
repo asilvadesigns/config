@@ -44,7 +44,7 @@ local winbar_exclude_filetypes = {
   "lir",
   "neogitstatus",
   "packer",
-  "qf",
+  -- "qf",
   "spectre_panel",
   "startify",
   "toggleterm",

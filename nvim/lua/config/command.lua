@@ -16,6 +16,19 @@ vim.api.nvim_create_user_command("CopyRelativePath", function()
   print_and_copy(vim.fn.fnamemodify(vim.fn.expand("%"), ":~:."))
 end, {})
 
+vim.api.nvim_create_user_command("CopySelection", function()
+  local old_reg = vim.fn.getreg("v")
+  vim.api.nvim_exec('normal! gv"vy', false)
+
+  local raw_search = vim.fn.getreg("v")
+  vim.fn.setreg("v", old_reg)
+
+  local text = vim.fn.escape(raw_search, "/\\.*$^~[]")
+  vim.cmd("normal! /\\<" .. text .. "\\>\r")
+end, {})
+
+vim.keymap.set("v", "<c-s>", ":<C-U>CopySelection<CR>", { noremap = true, silent = true })
+
 vim.api.nvim_create_user_command("RenameFile", function()
   local old_path = vim.fn.expand("%:p:h") .. "/"
   local old_name = vim.fn.expand("%:t")
@@ -42,6 +55,7 @@ vim.api.nvim_create_user_command("RenameFile", function()
       print("Could not update!", err)
       return
     end
+
 
     vim.cmd("e! " .. new)
   end)

@@ -2,7 +2,11 @@ return {
   {
     "NvChad/nvim-colorizer.lua",
     event = { "VeryLazy" },
-    opts = {},
+    config = function()
+      require("colorizer").setup({})
+
+      vim.cmd("ColorizerAttachToBuffer")
+    end,
   },
   {
     "catppuccin/nvim",
