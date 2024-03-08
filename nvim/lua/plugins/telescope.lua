@@ -1,3 +1,30 @@
+local function get_keys(tbl)
+  local keys = {}
+  for key in pairs(tbl) do
+    table.insert(keys, key)
+  end
+  table.sort(keys)
+
+  local sorted_keys = {}
+  for _, key in ipairs(keys) do
+    table.insert(sorted_keys, { key })
+  end
+  return sorted_keys
+end
+
+local function formatted_name(_, path)
+  local tail = vim.fs.basename(path)
+  local parent = vim.fs.dirname(path)
+
+  if parent == "." then
+    return tail
+  end
+
+  parent = string.gsub(parent, vim.loop.cwd(), "")
+
+  return string.format("%s\t\t%s", tail, parent)
+end
+
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -13,7 +40,6 @@ return {
       "catppuccin/nvim",
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
-      "octarect/telescope-menu.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     config = function()
@@ -22,27 +48,86 @@ return {
       local pickers = require("telescope.pickers")
       local actions = require("telescope.actions")
       local action_state = require("telescope.actions.state")
+      --
+      local builtin = require("telescope.builtin")
+      local telescope = require("telescope")
+      local themes = require("telescope.themes")
 
-      local command_palette = function(opts)
+      ---@class CommandPaletteEntry
+      ---@field cmd string | fun(): nil
+      ---@field display nil | fun(label: string): string
+      ---@type table<string, CommandPaletteEntry>
+      local command_palette_entries = {
+        ["Commands"] = { cmd = builtin.commands },
+        ["Copy file path (Absolute)"] = { cmd = "CopyAbsolutePath" },
+        ["Copy file path (Relative)"] = { cmd = "CopyRelativePath" },
+        ["Copy filetype"] = { cmd = "CopyFiletype" },
+        ["Find"] = { cmd = builtin.current_buffer_fuzzy_find },
+        ["Format (Biome)"] = { cmd = "FormatWithBiome" },
+        ["Format (Prettier)"] = { cmd = "FormatWithPrettier" },
+        ["Format (default)"] = { cmd = "Format" },
+        ["Git (conflict)"] = {
+          cmd = function()
+            vim.cmd("GitConflictRefresh")
+            vim.cmd("GitConflictListQf")
+          end,
+        },
+        ["Git (fugitive)"] = { cmd = "Git" },
+        ["Help"] = { cmd = builtin.help_tags },
+        ["Lint (Biome)"] = { cmd = "LintWithBiome" },
+        ["Lint (EsLint)"] = { cmd = "LintWithPrettier" },
+        ["Lint (default)"] = { cmd = "Lint" },
+        ["Noice dismiss"] = { cmd = "Noice dismiss" },
+        ["Noice messages"] = { cmd = "Noice telescope" },
+        ["Quit force"] = { cmd = "qa!" },
+        ["Toggle Line Numbers"] = {
+          cmd = "tabdo windo set rnu! nu!",
+          display = function(label)
+            return label .. " " .. (vim.go.number and "" or "")
+          end,
+        },
+        ["Toggle Invisible Chars"] = {
+          cmd = "tabdo windo set list!",
+          display = function(label)
+            return label .. " " .. (vim.go.list and "" or "")
+          end,
+        },
+        ["Toggle Wrap"] = {
+          cmd = "tabdo windo set wrap!",
+          display = function(label)
+            return label .. " " .. (vim.go.wrap and "" or "")
+          end,
+        },
+        ["Rename File"] = { cmd = "RenameFile" },
+        ["Save"] = { cmd = "wa" },
+        ["Save and quit force"] = { cmd = "wqa!" },
+        ["Search"] = { cmd = "Spectre" },
+        ["Symbols"] = { cmd = "Outline" },
+        ["Symbols (Document)"] = { cmd = builtin.lsp_document_symbols },
+        ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
+        ["Telescope"] = { cmd = "Telescope" },
+        ["Trouble"] = { cmd = "Trouble" },
+        ["Zen Mode"] = { cmd = "NoNeckPain" },
+        ["Zen Mode (decrease)"] = { cmd = "NoNeckPainWidthDown" },
+        ["Zen Mode (increase)"] = { cmd = "NoNeckPainWidthUp" },
+      }
+
+      local command_palette_results = get_keys(command_palette_entries)
+
+      local function command_palette(opts)
         opts = opts or {}
         pickers
           .new(opts, {
-            prompt_title = "colors",
+            prompt_title = "Command Palette",
             finder = finders.new_table({
-              results = {
-                { "red", function() print("chosen Red!!") end },
-                { "green", function() print("got green") end },
-                { "blue", function() print("selected blue!") end },
-              },
+              results = command_palette_results,
               entry_maker = function(entry)
+                local value = command_palette_entries[entry[1]]
+
                 return {
-                  value = entry,
-                  display = function()
-                    -- TODO: for certain toggle functions, I'd like to display some switches.
-                    -- some custom logic here...
-                    return entry[1]
-                  end,
+                  display = value.display ~= nil and value.display(entry[1]) or entry[1],
                   ordinal = entry[1],
+                  value = entry,
                 }
               end,
             }),
@@ -51,19 +136,21 @@ return {
               actions.select_default:replace(function()
                 actions.close(prompt_bufnr)
                 local selection = action_state.get_selected_entry()
-                selection.value[2]()
-                -- vim.api.nvim_put({ selection[1] }, "", false, true)
+                local cmd = command_palette_entries[selection.value[1]].cmd
+
+                if type(cmd) == "function" then
+                  cmd()
+                end
+
+                if type(cmd) == "string" then
+                  vim.cmd(cmd)
+                end
               end)
               return true
             end,
           })
           :find()
       end
-
-      --
-      local builtin = require("telescope.builtin")
-      local telescope = require("telescope")
-      local themes = require("telescope.themes")
 
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "TelescopeResults",
@@ -74,24 +161,6 @@ return {
           end)
         end,
       })
-
-      local function formattedName(_, path)
-        local tail = vim.fs.basename(path)
-        local parent = vim.fs.dirname(path)
-
-        if parent == "." then
-          return tail
-        end
-
-        parent = string.gsub(parent, vim.loop.cwd(), "")
-
-        return string.format("%s\t\t%s", tail, parent)
-      end
-
-      local function refresh()
-        vim.cmd("GitConflictRefresh")
-        vim.cmd("GitConflictListQf")
-      end
 
       telescope.setup({
         -- @see: https://github.com/nvim-telescope/telescope.nvim/issues/848#issuecomment-1584291014
@@ -120,7 +189,7 @@ return {
               -- "package-lock.json",
             },
             preview = false,
-            path_display = formattedName,
+            path_display = formatted_name,
             sorting_strategy = "ascending",
             mappings = {
               i = {
@@ -137,81 +206,12 @@ return {
             override_file_sorter = true,
             override_generic_sorter = true,
           },
-          menu = {
-            default = {
-              items = {
-                { display = "Commands", value = builtin.commands },
-                {
-                  display = "Copy file path (Absolute)",
-                  value = function()
-                    vim.cmd("CopyAbsolutePath")
-                  end,
-                },
-                {
-                  display = "Copy file path (Relative)",
-                  value = function()
-                    vim.cmd("CopyRelativePath")
-                  end,
-                },
-                {
-                  display = "Copy filetype",
-                  value = function()
-                    vim.cmd("CopyFiletype")
-                  end,
-                },
-                { display = "Find", value = builtin.current_buffer_fuzzy_find },
-                { display = "Format (Biome)", value = "FormatWithBiome" },
-                { display = "Format (Prettier)", value = "FormatWithPrettier" },
-                { display = "Format (default)", value = "Format" },
-                { display = "Git (conflict)", value = refresh },
-                { display = "Git (fugitive)", value = "Git" },
-                { display = "Help", value = builtin.help_tags },
-                { display = "Lint (Biome)", value = "LintWithBiome" },
-                { display = "Lint (EsLint)", value = "LintWithPrettier" },
-                { display = "Lint (default)", value = "Lint" },
-                { display = "Noice dismiss", value = "Noice dismiss" },
-                { display = "Noice messages", value = "Noice telescope" },
-                { display = "Quit force", value = "qa!" },
-                {
-                  display = "Rename File",
-                  value = "RenameFile",
-                },
-                { display = "Save", value = "wa" },
-                {
-                  display = "Command Palette",
-                  value = function()
-                    command_palette()
-                  end,
-                },
-                { display = "Save and quit force", value = "wqa!" },
-                { display = "Search", value = "Spectre" },
-                { display = "Symbols", value = "Outline" },
-                {
-                  display = "Symbols (Document)",
-                  value = builtin.lsp_document_symbols,
-                },
-                {
-                  display = "Symbols (Workspace)",
-                  value = builtin.lsp_workspace_symbols,
-                },
-                { display = "Telescope", value = "Telescope" },
-                { display = "Toggle Invisible Chars (global)", value = "set list!" },
-                { display = "Toggle Invisible Chars (local)", value = "setlocal list!" },
-                { display = "Toggle Line Numbers (global)", value = "set rnu! nu!" },
-                { display = "Toggle Line Numbers (local)", value = "setlocal rnu! nu!" },
-                { display = "Trouble", value = "Trouble" },
-                { display = "Zen Mode", value = "NoNeckPain" },
-                { display = "Zen Mode (decrease)", value = "NoNeckPainWidthDown" },
-                { display = "Zen Mode (increase)", value = "NoNeckPainWidthUp" },
-              },
-            },
-          },
         },
         pickers = {
           buffers = {
             ignore_current_buffer = true,
             only_cwd = true,
-            path_display = formattedName,
+            path_display = formatted_name,
             sort_mru = true,
           },
           colorscheme = {
@@ -222,14 +222,14 @@ return {
           },
           find_files = {
             hidden = true,
-            path_display = formattedName,
+            path_display = formatted_name,
           },
           git_files = {
-            path_display = formattedName,
+            path_display = formatted_name,
           },
           oldfiles = {
             only_cwd = true,
-            path_display = formattedName,
+            path_display = formatted_name,
             sort_mru = true,
           },
           help_tags = {},
@@ -237,11 +237,10 @@ return {
       })
 
       telescope.load_extension("fzf")
-      telescope.load_extension("menu")
       telescope.load_extension("ui-select")
 
       vim.keymap.set("n", "<leader>a", function()
-        vim.cmd("Telescope menu")
+        command_palette()
       end)
 
       vim.keymap.set("n", "<leader>b", builtin.buffers)

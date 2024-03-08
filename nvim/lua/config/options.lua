@@ -66,6 +66,7 @@ vim.opt.winbar = " " -- doing to avoid flash b/c winbar
 vim.opt.termguicolors = true
 
 -- wrapping
+vim.opt.linebreak = true
 vim.opt.wrap = false
 
 -- disable
