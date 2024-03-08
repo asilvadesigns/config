@@ -27,6 +27,10 @@ set -gx BAT_CONFIG_PATH "$HOME/.config/bat/bat.conf"
 # fish
 set -g fish_greeting;
 
+# go
+set -gx GOPATH "$HOME/go"
+set -gx PATH "$GOPATH/bin" $PATH;
+
 # pnpm
 set -gx PNPM_HOME "/Library/pnpm";
 set -gx PATH $PNPM_HOME $PATH;
