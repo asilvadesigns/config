@@ -93,7 +93,7 @@ vim.opt.wrap = false
 -- diagnostic config
 vim.diagnostic.config({
   underline = true,
-  virtual_text = false,
+  virtual_text = true,
 })
 
 -- diagnostic keymaps

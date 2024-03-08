@@ -16,6 +16,7 @@ return {
     config = function()
       require("catppuccin").setup({
         integrations = {
+          notify = false,
           nvimtree = false,
           ufo = true,
         },
