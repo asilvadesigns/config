@@ -5,26 +5,13 @@ return {
     "MunifTanjim/nui.nvim",
     {
       "rcarriga/nvim-notify",
-      dependencies = { "catppuccin/nvim" },
       config = function()
-        local colors = require("catppuccin.palettes").get_palette()
-
         require("notify").setup({
-          background_colour = colors.surface0,
           render = "minimal",
-          timeout = 1000,
+          stages = "static",
+          timeout = 1500,
           top_down = false,
         })
-
-        -- local NotifyPrompt = {
-        --   NotifyBackground = {
-        --     bg = colors.surface0,
-        --   },
-        -- }
-        --
-        -- for hl, col in pairs(NotifyPrompt) do
-        --   vim.api.nvim_set_hl(0, hl, col)
-        -- end
       end,
     },
   },
