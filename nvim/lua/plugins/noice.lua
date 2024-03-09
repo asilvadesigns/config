@@ -7,7 +7,7 @@ return {
       "rcarriga/nvim-notify",
       config = function()
         require("notify").setup({
-          render = "minimal",
+          render = "wrapped-compact",
           stages = "static",
           timeout = 1500,
           top_down = false,
@@ -20,6 +20,7 @@ return {
       cmdline = {
         enabled = true,
         format = {
+          cmdline = { pattern = "^:", icon = "", lang = "vim" },
           search_down = {
             icon = "  ",
             kind = "search",
@@ -54,6 +55,18 @@ return {
         -- { view = "notify", filter = { event = "msg_showmode" } },
         { view = "notify", filter = { event = "msg_show", find = "No information available" }, opts = { skip = true } },
         { view = "notify", filter = { event = "msg_show", find = "written" }, opts = { skip = true } },
+      },
+      views = {
+        cmdline_popup = {
+          border = {
+            style = "none",
+            padding = { 1, 2 },
+          },
+          filter_options = {},
+          win_options = {
+            winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+          },
+        },
       },
     })
 

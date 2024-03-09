@@ -21,7 +21,7 @@ return {
           ufo = true,
         },
         custom_highlights = function(c)
-          local NotifyGroup = { bg = c.surface0, fg = c.surface0 }
+          local NotifyBorderGroup = { bg = c.base, fg = c.base }
 
           return {
             --
@@ -40,27 +40,27 @@ return {
             FlashPrompt = { link = "NormalFloat" },
             --
             -- custom NOTIFY
-            NotifyBackground = { bg = c.surface0 },
-            NotifyDEBUGBody = { bg = c.surface0 },
-            NotifyDEBUGBorder = NotifyGroup,
+            NotifyBackground = { bg = c.mantle },
+            NotifyDEBUGBody = { bg = c.mantle },
+            NotifyDEBUGBorder = NotifyBorderGroup,
             NotifyDEBUGIcon = { fg = c.peach },
-            NotifyDEBUGTitle = { bg = c.surface0, style = {} },
-            NotifyERRORBody = { bg = c.surface0 },
-            NotifyERRORBorder = NotifyGroup,
+            NotifyDEBUGTitle = { bg = c.mantle, style = {} },
+            NotifyERRORBody = { bg = c.mantle },
+            NotifyERRORBorder = NotifyBorderGroup,
             NotifyERRORIcon = { fg = c.red },
-            NotifyERRORTitle = { bg = c.surface0, style = {} },
-            NotifyINFOBody = { bg = c.surface0 },
-            NotifyINFOBorder = NotifyGroup,
+            NotifyERRORTitle = { bg = c.mantle, style = {} },
+            NotifyINFOBody = { bg = c.mantle },
+            NotifyINFOBorder = NotifyBorderGroup,
             NotifyINFOIcon = { fg = c.blue },
-            NotifyINFOTitle = { bg = c.surface0, style = {} },
-            NotifyTRACEBody = { bg = c.surface0 },
-            NotifyTRACEBorder = NotifyGroup,
+            NotifyINFOTitle = { bg = c.mantle, style = {} },
+            NotifyTRACEBody = { bg = c.mantle },
+            NotifyTRACEBorder = NotifyBorderGroup,
             NotifyTRACEIcon = { fg = c.teal },
-            NotifyTRACETitle = { bg = c.surface0, style = {} },
-            NotifyWARNBody = { bg = c.surface0 },
-            NotifyWARNBorder = NotifyGroup,
+            NotifyTRACETitle = { bg = c.mantle, style = {} },
+            NotifyWARNBody = { bg = c.mantle },
+            NotifyWARNBorder = NotifyBorderGroup,
             NotifyWARNIcon = { fg = c.yellow },
-            NotifyWARNTitle = { bg = c.surface0, style = {} },
+            NotifyWARNTitle = { bg = c.mantle, style = {} },
             --
             -- custom UFO
             Folded = { bg = c.none },

@@ -178,7 +178,7 @@ return {
                 return math.min(max_columns, 100)
               end,
               height = function(_, _, max_lines)
-                return math.min(max_lines, 40)
+                return math.min(max_lines, 24)
               end,
             },
           }),
@@ -252,32 +252,13 @@ return {
       local colors = require("catppuccin.palettes").get_palette()
 
       local TelescopePrompt = {
-        TelescopePromptNormal = {
-          bg = colors.surface0,
-        },
-        TelescopePromptBorder = {
-          fg = colors.surface0,
-          bg = colors.surface0,
-        },
-        TelescopePromptTitle = {
-          fg = colors.surface0,
-          bg = colors.blue,
-        },
-        TelescopePreviewTitle = {
-          fg = colors.surface0,
-          bg = colors.surface0,
-        },
-        TelescopeResultsTitle = {
-          fg = colors.surface0,
-          bg = colors.surface0,
-        },
-        TelescopeResultsNormal = {
-          bg = colors.surface0,
-        },
-        TelescopeResultsBorder = {
-          fg = colors.surface0,
-          bg = colors.surface0,
-        },
+        TelescopePromptNormal = { bg = colors.mantle },
+        TelescopePromptBorder = { fg = colors.mantle, bg = colors.mantle },
+        TelescopePromptTitle = { fg = colors.mantle, bg = colors.blue },
+        TelescopePreviewTitle = { fg = colors.mantle, bg = colors.mantle },
+        TelescopeResultsTitle = { fg = colors.mantle, bg = colors.mantle },
+        TelescopeResultsNormal = { bg = colors.mantle },
+        TelescopeResultsBorder = { fg = colors.mantle, bg = colors.mantle },
       }
 
       for hl, col in pairs(TelescopePrompt) do
