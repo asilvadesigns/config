@@ -5,20 +5,20 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-local cursorline_include_filetypes = {
-  "NvimTree",
-}
-
+-- local cursorline_include_filetypes = {
+--   "NvimTree",
+-- }
+--
 -- show cursorline for certain filetypes
-vim.api.nvim_create_autocmd("WinEnter", {
-  callback = function()
-    if vim.tbl_contains(cursorline_include_filetypes, vim.bo.filetype) then
-      vim.cmd("setlocal cursorline")
-    else
-      vim.cmd("setlocal nocursorline")
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("WinEnter", {
+--   callback = function()
+--     if vim.tbl_contains(cursorline_include_filetypes, vim.bo.filetype) then
+--       vim.cmd("setlocal cursorline")
+--     else
+--       vim.cmd("setlocal nocursorline")
+--     end
+--   end,
+-- })
 
 -- show numbers in help
 vim.api.nvim_create_autocmd("FileType", {
@@ -69,9 +69,10 @@ local function renderWinbar()
 
   local buf = vim.api.nvim_get_current_buf()
   local buf_modified = vim.api.nvim_buf_get_option(buf, "modified")
-  local flag = buf_modified and " +" or ""
 
-  return "%#Comment#" .. path .. name .. flag .. "%*"
+  local flag = buf_modified and " +" or "  "
+
+  return "%#CursorLineFold#" .. path .. name .. flag .. "%*"
 end
 
 local function lsp()
@@ -132,31 +133,41 @@ local function renderStatusLine()
   return cached_status_line
 end
 
-vim.api.nvim_create_augroup("winbar", { clear = true })
+local render_winbar_cache = ""
+local render_winbar_group = "winbar_update"
+local render_winbar_time = 100
+local render_winbar_timer = vim.fn.timer_start(render_winbar_time, function() end)
+
+vim.api.nvim_create_augroup(render_winbar_group, { clear = true })
 
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
-  group = "winbar",
+  group = render_winbar_group,
   callback = function()
+    local winnr = vim.api.nvim_get_current_win()
     local winbar = renderWinbar()
-    vim.api.nvim_set_option_value("winbar", winbar, { scope = "local" })
+    render_winbar_cache = winbar
+    vim.wo[winnr].winbar = render_winbar_cache
   end,
 })
 
-local render_winbar_cache = ""
-local render_winbar_time = 100
-local render_winbar_timer = vim.fn.timer_start(render_winbar_time, function() end)
-vim.api.nvim_create_autocmd({ "BufWritePost", "TextChanged", "TextChangedI" }, {
-  group = "winbar",
+vim.api.nvim_create_autocmd({
+  "BufModifiedSet",
+  "BufWritePost",
+  "TextChanged",
+  "TextChangedI",
+}, {
+  group = render_winbar_group,
   callback = function()
     if render_winbar_timer ~= nil and vim.fn.timer_stop(render_winbar_timer) ~= -1 then
       render_winbar_timer = nil
     end
 
     render_winbar_timer = vim.fn.timer_start(render_winbar_time, function()
+      local winnr = vim.api.nvim_get_current_win()
       local winbar = renderWinbar()
       if render_winbar_cache ~= winbar then
         render_winbar_cache = winbar
-        vim.api.nvim_set_option_value("winbar", winbar, { scope = "local" })
+        vim.wo[winnr].winbar = render_winbar_cache
       end
     end)
   end,
@@ -191,4 +202,3 @@ vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold" }, {
     end
   end,
 })
-

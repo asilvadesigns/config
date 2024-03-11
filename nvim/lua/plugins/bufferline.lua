@@ -4,6 +4,13 @@ return {
     "catppuccin/nvim",
     "nvim-tree/nvim-web-devicons",
   },
+  keys = {
+    { "<leader>t<", ":tabprevious<CR>" },
+    { "<leader>t>", ":tabnext<CR>" },
+    { "<leader>tc", ":tabclose<CR>" },
+    { "<leader>tl", ":tablast<CR>" },
+    { "<leader>tn", ":tabnew<CR>" },
+  },
   event = { "VeryLazy" },
   config = function()
     local colors = require("catppuccin.palettes").get_palette()

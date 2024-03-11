@@ -12,7 +12,7 @@ vim.opt.splitright = true
 vim.opt.clipboard = "unnamedplus"
 
 -- cursorline
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 
 -- folding
 vim.opt.conceallevel = 0

@@ -20,7 +20,8 @@ local function formatted_name(_, path)
     return tail
   end
 
-  parent = string.gsub(parent, vim.loop.cwd(), "")
+  local cwd = vim.loop.cwd()
+  parent = string.gsub(parent, cwd ~= nil and cwd or "", "")
 
   return string.format("%s\t\t%s", tail, parent)
 end
@@ -62,6 +63,7 @@ return {
         ["Copy file path (Absolute)"] = { cmd = "CopyAbsolutePath" },
         ["Copy file path (Relative)"] = { cmd = "CopyRelativePath" },
         ["Copy filetype"] = { cmd = "CopyFiletype" },
+        ["Diagnostics"] = { cmd = "Telescope diagnostics" },
         ["Find"] = { cmd = builtin.current_buffer_fuzzy_find },
         ["Format (Biome)"] = { cmd = "FormatWithBiome" },
         ["Format (Prettier)"] = { cmd = "FormatWithPrettier" },
@@ -74,12 +76,21 @@ return {
         },
         ["Git (fugitive)"] = { cmd = "Git" },
         ["Help"] = { cmd = builtin.help_tags },
+        ["Keymaps"] = { cmd = "Telescope keymaps" },
         ["Lint (Biome)"] = { cmd = "LintWithBiome" },
         ["Lint (EsLint)"] = { cmd = "LintWithPrettier" },
         ["Lint (default)"] = { cmd = "Lint" },
         ["Noice dismiss"] = { cmd = "Noice dismiss" },
         ["Noice messages"] = { cmd = "Noice telescope" },
         ["Quit force"] = { cmd = "qa!" },
+        ["Rename File"] = { cmd = "RenameFile" },
+        ["Save"] = { cmd = "wa" },
+        ["Save and quit force"] = { cmd = "wqa!" },
+        ["Search"] = { cmd = "Spectre" },
+        ["Symbols"] = { cmd = "Outline" },
+        ["Symbols (Document)"] = { cmd = builtin.lsp_document_symbols },
+        ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
+        ["Telescope"] = { cmd = "Telescope" },
         ["Toggle Line Numbers"] = {
           cmd = "tabdo windo set rnu! nu!",
           display = function(label)
@@ -98,14 +109,6 @@ return {
             return label .. " " .. (vim.go.wrap and "" or "")
           end,
         },
-        ["Rename File"] = { cmd = "RenameFile" },
-        ["Save"] = { cmd = "wa" },
-        ["Save and quit force"] = { cmd = "wqa!" },
-        ["Search"] = { cmd = "Spectre" },
-        ["Symbols"] = { cmd = "Outline" },
-        ["Symbols (Document)"] = { cmd = builtin.lsp_document_symbols },
-        ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
-        ["Telescope"] = { cmd = "Telescope" },
         ["Trouble"] = { cmd = "Trouble" },
         ["Zen Mode"] = { cmd = "NoNeckPain" },
         ["Zen Mode (decrease)"] = { cmd = "NoNeckPainWidthDown" },
