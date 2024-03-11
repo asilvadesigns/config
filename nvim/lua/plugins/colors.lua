@@ -62,6 +62,15 @@ return {
             NotifyWARNIcon = { fg = c.yellow },
             NotifyWARNTitle = { bg = c.mantle, style = {} },
             --
+            -- custom Telescope
+            TelescopePreviewTitle = { fg = c.mantle, bg = c.mantle },
+            TelescopePromptBorder = { fg = c.mantle, bg = c.mantle },
+            TelescopePromptNormal = { bg = c.mantle },
+            TelescopePromptTitle = { fg = c.mantle, bg = c.blue },
+            TelescopeResultsBorder = { fg = c.mantle, bg = c.mantle },
+            TelescopeResultsNormal = { bg = c.mantle },
+            TelescopeResultsTitle = { fg = c.mantle, bg = c.mantle },
+            --
             -- custom UFO
             Folded = { bg = c.none },
             UfoFoldedEllipsis = { fg = c.mauve, bg = c.none },

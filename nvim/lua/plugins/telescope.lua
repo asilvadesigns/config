@@ -38,7 +38,6 @@ return {
       "<leader>l",
     },
     dependencies = {
-      "catppuccin/nvim",
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -252,22 +251,6 @@ return {
       vim.keymap.set("n", "<leader>f", builtin.find_files)
       vim.keymap.set("n", "<leader>g", builtin.git_files)
       vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)
-
-      local colors = require("catppuccin.palettes").get_palette()
-
-      local TelescopePrompt = {
-        TelescopePromptNormal = { bg = colors.mantle },
-        TelescopePromptBorder = { fg = colors.mantle, bg = colors.mantle },
-        TelescopePromptTitle = { fg = colors.mantle, bg = colors.blue },
-        TelescopePreviewTitle = { fg = colors.mantle, bg = colors.mantle },
-        TelescopeResultsTitle = { fg = colors.mantle, bg = colors.mantle },
-        TelescopeResultsNormal = { bg = colors.mantle },
-        TelescopeResultsBorder = { fg = colors.mantle, bg = colors.mantle },
-      }
-
-      for hl, col in pairs(TelescopePrompt) do
-        vim.api.nvim_set_hl(0, hl, col)
-      end
     end,
   },
 }
