@@ -88,32 +88,20 @@ return {
         end, { "i", "s" }),
       }),
       sources = {
-        { name = "buffer" },
-        { name = "luasnip" },
-        { name = "npm" },
+        -- { name = "buffer" },
+        -- { name = "npm" },
         { name = "nvim_lsp" },
-        { name = "nvim_lua" },
+        { name = "luasnip" },
+        -- { name = "nvim_lua" },
         { name = "path" },
       },
       formatting = {
-        format = function(entry, vim_item)
-          local lspkind_ok, lspkind = pcall(require, "lspkind")
-          if not lspkind_ok then
-            -- From kind_icons array
-            vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
-            -- Source
-            vim_item.menu = ({
-              nvim_lsp = "[LSP]",
-              nvim_lua = "[Lua]",
-              buffer = "[Buffer]",
-              luasnip = "[LuaSnip]",
-            })[entry.source.name]
-            return vim_item
-          else
-            -- From lspkind
-            return lspkind.cmp_format()(entry, vim_item)
-          end
-        end,
+        expandable_indicator = true,
+        fields = { "kind", "abbr", "menu" },
+        format = require("lspkind").cmp_format({
+          maxwidth = 50,
+          with_text = false,
+        }),
       },
     })
   end,
