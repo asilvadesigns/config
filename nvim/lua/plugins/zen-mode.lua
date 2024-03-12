@@ -7,10 +7,6 @@ return {
       "NoNeckPainWidthUp",
     },
     version = "*",
-    config = function()
-      require("no-neck-pain").setup({
-        width = 120,
-      })
-    end,
+    opts = { width = 120 },
   },
 }

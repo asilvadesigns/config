@@ -33,47 +33,47 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
-local winbar_exclude_filetypes = {
-  "NvimTree",
-  "Outline",
-  "TelescopePrompt",
-  "Trouble",
-  "alpha",
-  "dashboard",
-  "help",
-  "lir",
-  "neogitstatus",
-  "packer",
-  -- "qf",
-  "spectre_panel",
-  "startify",
-  "toggleterm",
-}
-
-local function renderWinbar()
-  local win_config = vim.api.nvim_win_get_config(0)
-  local win_filetype = vim.bo.filetype
-
-  if win_config.relative ~= "" or win_filetype == "telescope" then
-    return ""
-  end
-
-  if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
-    vim.opt_local.winbar = nil
-    return ""
-  end
-
-  local sep = "  "
-  local name = vim.fn.expand("%:t")
-  local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
-
-  local buf = vim.api.nvim_get_current_buf()
-  local buf_modified = vim.api.nvim_buf_get_option(buf, "modified")
-
-  local flag = buf_modified and " +" or "  "
-
-  return "%#CursorLineFold#" .. path .. name .. flag .. "%*"
-end
+-- local winbar_exclude_filetypes = {
+--   "NvimTree",
+--   "Outline",
+--   "TelescopePrompt",
+--   "Trouble",
+--   "alpha",
+--   "dashboard",
+--   "help",
+--   "lir",
+--   "neogitstatus",
+--   "packer",
+--   -- "qf",
+--   "spectre_panel",
+--   "startify",
+--   "toggleterm",
+-- }
+--
+-- local function renderWinbar()
+--   local win_config = vim.api.nvim_win_get_config(0)
+--   local win_filetype = vim.bo.filetype
+--
+--   if win_config.relative ~= "" or win_filetype == "telescope" then
+--     return ""
+--   end
+--
+--   if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
+--     vim.opt_local.winbar = nil
+--     return ""
+--   end
+--
+--   local sep = "  "
+--   local name = vim.fn.expand("%:t")
+--   local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
+--
+--   local buf = vim.api.nvim_get_current_buf()
+--   local buf_modified = vim.api.nvim_buf_get_option(buf, "modified")
+--
+--   local flag = buf_modified and " +" or "  "
+--
+--   return "%#CursorLineFold#" .. path .. name .. flag .. "%*"
+-- end
 
 local function lsp()
   local count = {
@@ -109,69 +109,69 @@ local function lsp()
   return errors .. warnings .. hints .. info
 end
 
-local function renderStatusLine()
-  local is_excluded = vim.tbl_contains(winbar_exclude_filetypes, vim.bo.filetype)
-  local is_floating = vim.api.nvim_win_get_config(0).relative ~= ""
+-- local function renderStatusLine()
+--   local is_excluded = vim.tbl_contains(winbar_exclude_filetypes, vim.bo.filetype)
+--   local is_floating = vim.api.nvim_win_get_config(0).relative ~= ""
+--
+--   if is_excluded or is_floating then
+--     return cached_status_line
+--   end
+--
+--   local value = " "
+--
+--   local git_info = vim.b.gitsigns_status_dict
+--   if git_info ~= nil and git_info.head ~= "" then
+--     value = "  " .. git_info.head .. "  "
+--   end
+--
+--   local lsp_info = lsp()
+--   if lsp_info ~= "" then
+--     value = value .. "  " .. lsp_info
+--   end
+--
+--   cached_status_line = value
+--   return cached_status_line
+-- end
 
-  if is_excluded or is_floating then
-    return cached_status_line
-  end
-
-  local value = " "
-
-  local git_info = vim.b.gitsigns_status_dict
-  if git_info ~= nil and git_info.head ~= "" then
-    value = "  " .. git_info.head .. "  "
-  end
-
-  local lsp_info = lsp()
-  if lsp_info ~= "" then
-    value = value .. "  " .. lsp_info
-  end
-
-  cached_status_line = value
-  return cached_status_line
-end
-
-local render_winbar_cache = ""
-local render_winbar_group = "winbar_update"
-local render_winbar_time = 100
-local render_winbar_timer = vim.fn.timer_start(render_winbar_time, function() end)
-
-vim.api.nvim_create_augroup(render_winbar_group, { clear = true })
-
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
-  group = render_winbar_group,
-  callback = function()
-    local winnr = vim.api.nvim_get_current_win()
-    local winbar = renderWinbar()
-    render_winbar_cache = winbar
-    vim.wo[winnr].winbar = render_winbar_cache
-  end,
-})
-
-vim.api.nvim_create_autocmd({
-  "BufModifiedSet",
-  "BufWritePost",
-  "TextChanged",
-  "TextChangedI",
-}, {
-  group = render_winbar_group,
-  callback = function()
-    if render_winbar_timer ~= nil and vim.fn.timer_stop(render_winbar_timer) ~= -1 then
-      render_winbar_timer = nil
-    end
-
-    render_winbar_timer = vim.fn.timer_start(render_winbar_time, function()
-      local winnr = vim.api.nvim_get_current_win()
-      local winbar = renderWinbar()
-      if render_winbar_cache ~= winbar then
-        render_winbar_cache = winbar
-        vim.wo[winnr].winbar = render_winbar_cache
-      end
-    end)
-  end,
-})
+-- local render_winbar_cache = ""
+-- local render_winbar_group = "winbar_update"
+-- local render_winbar_time = 100
+-- local render_winbar_timer = vim.fn.timer_start(render_winbar_time, function() end)
+--
+-- vim.api.nvim_create_augroup(render_winbar_group, { clear = true })
+--
+-- vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
+--   group = render_winbar_group,
+--   callback = function()
+--     local winnr = vim.api.nvim_get_current_win()
+--     local winbar = renderWinbar()
+--     render_winbar_cache = winbar
+--     vim.wo[winnr].winbar = render_winbar_cache
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd({
+--   "BufModifiedSet",
+--   "BufWritePost",
+--   "TextChanged",
+--   "TextChangedI",
+-- }, {
+--   group = render_winbar_group,
+--   callback = function()
+--     if render_winbar_timer ~= nil and vim.fn.timer_stop(render_winbar_timer) ~= -1 then
+--       render_winbar_timer = nil
+--     end
+--
+--     render_winbar_timer = vim.fn.timer_start(render_winbar_time, function()
+--       local winnr = vim.api.nvim_get_current_win()
+--       local winbar = renderWinbar()
+--       if render_winbar_cache ~= winbar then
+--         render_winbar_cache = winbar
+--         vim.wo[winnr].winbar = render_winbar_cache
+--       end
+--     end)
+--   end,
+-- })
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command

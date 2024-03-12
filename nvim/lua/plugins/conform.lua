@@ -1,4 +1,4 @@
----@param originalTable table<string, string>
+---@param originalTable table<string, string[]>
 ---@param keysToInclude string[]
 local filter_table = function(originalTable, keysToInclude)
   local resultTable = {}
@@ -63,7 +63,7 @@ end
 local get_closest_formatter = function(_formatters)
   ---@type string
   local current_buffer_path = vim.api.nvim_buf_get_name(0)
-  print("current buffer path::" .. vim.inspect(current_buffer_path))
+  -- print("current buffer path::" .. vim.inspect(current_buffer_path))
 
   local available_formatters = require("conform").list_formatters(0)
   local keys_to_include = {}
