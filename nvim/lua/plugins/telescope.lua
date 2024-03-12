@@ -97,6 +97,20 @@ return {
             return label .. " " .. (vim.go.number and "" or "")
           end,
         },
+        ["Toggle Incline"] = {
+          cmd = "InclineToggle",
+          display = function(label)
+            local is_not_loaded = require("lazy.core.config").plugins["incline.nvim"]._.loaded == nil
+
+            if is_not_loaded then
+              return label
+            end
+
+            local is_enabled = require("incline").is_enabled()
+
+            return label .. " " .. (is_enabled and "" or "")
+          end,
+        },
         ["Toggle Invisible Chars"] = {
           cmd = "tabdo windo set list!",
           display = function(label)
@@ -135,7 +149,7 @@ return {
               end,
             }),
             sorter = conf.generic_sorter(opts),
-            attach_mappings = function(prompt_bufnr, map)
+            attach_mappings = function(prompt_bufnr)
               actions.select_default:replace(function()
                 actions.close(prompt_bufnr)
                 local selection = action_state.get_selected_entry()

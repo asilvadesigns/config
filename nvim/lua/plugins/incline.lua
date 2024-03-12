@@ -48,5 +48,9 @@ return {
         },
       },
     })
+
+    vim.api.nvim_create_user_command("InclineToggle", function()
+      require("incline").toggle()
+    end, {})
   end,
 }
