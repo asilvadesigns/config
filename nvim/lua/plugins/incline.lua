@@ -9,6 +9,9 @@ return {
     local colors = require("catppuccin.palettes").get_palette()
 
     require("incline").setup({
+      hide = {
+        cursorline = true,
+      },
       highlight = {
         groups = {
           InclineNormal = { guibg = "none", guifg = colors.surface2 },
@@ -31,19 +34,12 @@ return {
         end
 
         local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-
-        local sep = "  "
-        local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-        local path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":~:.:h") .. "/"
-        -- path = " " .. string.gsub(path, "/", sep) .. sep
-
-        -- local ft_icon, ft_color = require("nvim-web-devicons").get_icon_color(filename)
+        local filepath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":~:.:h") .. "/"
         local modified = vim.bo[props.buf].modified
-        -- { (ft_icon or " ") .. " ", guifg = ft_color, guibg = "none" },
 
         return {
           { diagnostics .. "  " },
-          { path .. filename },
+          { filepath .. filename },
           modified and " *" or "  ",
         }
       end,
