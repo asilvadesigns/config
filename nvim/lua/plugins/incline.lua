@@ -11,8 +11,8 @@ return {
     require("incline").setup({
       highlight = {
         groups = {
-          InclineNormal = { guibg = "none", guifg = colors.overlay2 },
-          InclineNormalNC = { guibg = "none", guifg = colors.overlay2 },
+          InclineNormal = { guibg = "none", guifg = colors.surface2 },
+          InclineNormalNC = { guibg = "none", guifg = colors.surface2 },
         },
       },
       render = function(props)
@@ -31,14 +31,20 @@ return {
         end
 
         local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-        local ft_icon, ft_color = require("nvim-web-devicons").get_icon_color(filename)
+
+        local sep = "  "
+        local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+        local path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":~:.:h") .. "/"
+        -- path = " " .. string.gsub(path, "/", sep) .. sep
+
+        -- local ft_icon, ft_color = require("nvim-web-devicons").get_icon_color(filename)
         local modified = vim.bo[props.buf].modified
+        -- { (ft_icon or " ") .. " ", guifg = ft_color, guibg = "none" },
 
         return {
-          { diagnostics },
-          { (ft_icon or "") .. " ", guifg = ft_color, guibg = "none" },
-          { filename .. " " },
-          modified and " *" or "",
+          { diagnostics .. "  " },
+          { path .. filename },
+          modified and " *" or "  ",
         }
       end,
       window = {
