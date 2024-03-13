@@ -28,7 +28,7 @@ return {
             -- custom DEFAULTS
             CursorLine = { bg = c.surface0 },
             CursorLineNr = { fg = c.blue },
-            StatusLine = { bg = c.base },
+            -- StatusLine = { bg = c.base },
             -- WinSeparator = { fg = colors.base },
             -- WinBar = { bg = colors.mantle },
             --
@@ -61,6 +61,10 @@ return {
             NotifyWARNBorder = NotifyBorderGroup,
             NotifyWARNIcon = { fg = c.yellow },
             NotifyWARNTitle = { bg = c.mantle, style = {} },
+            --
+            -- custom StatusLine
+            StatusLine = { bg = c.base },
+            StatusLineNC = { bg = c.base },
             --
             -- custom Telescope
             TelescopePreviewTitle = { fg = c.mantle, bg = c.mantle },

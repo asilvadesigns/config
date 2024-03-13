@@ -43,19 +43,19 @@ local function gitBranch(color)
         vim.cmd("Git")
       end,
     },
-    {
-      "diagnostics",
-      always_visible = true,
-      on_click = function()
-        vim.cmd("Trouble")
-      end,
-    },
+    -- {
+    --   "diagnostics",
+    --   always_visible = true,
+    --   on_click = function()
+    --     vim.cmd("Trouble")
+    --   end,
+    -- },
   }
 end
 
 return {
   "nvim-lualine/lualine.nvim",
-  enabled = false,
+  enabled = true,
   event = { "BufNewFile", "BufReadPre" },
   dependencies = {
     "catppuccin/nvim",
@@ -75,7 +75,7 @@ return {
         globalstatus = true,
         icons_enabled = true,
         section_separators = "",
-        theme = "auto",
+        theme = "catppuccin",
       },
       sections = {
         lualine_a = {},

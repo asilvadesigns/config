@@ -33,14 +33,15 @@ return {
           diagnostics = diagnostics .. (count >= 1 and sign .. count .. " " or "")
         end
 
-        local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-        local filepath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":~:.:h") .. "/"
-        local modified = vim.bo[props.buf].modified
+        -- local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+        -- local filepath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":~:.:h") .. "/"
+        -- local modified = vim.bo[props.buf].modified
 
         return {
-          { diagnostics .. "  " },
-          { filepath .. filename },
-          modified and " *" or "  ",
+          { diagnostics },
+          -- { diagnostics .. "  " },
+          -- { filepath .. filename },
+          -- modified and " *" or "  ",
         }
       end,
       window = {
