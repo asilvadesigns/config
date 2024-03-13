@@ -33,22 +33,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
--- local winbar_exclude_filetypes = {
---   "NvimTree",
---   "Outline",
---   "TelescopePrompt",
---   "Trouble",
---   "alpha",
---   "dashboard",
---   "help",
---   "lir",
---   "neogitstatus",
---   "packer",
---   -- "qf",
---   "spectre_panel",
---   "startify",
---   "toggleterm",
--- }
 --
 -- local function renderWinbar()
 --   local win_config = vim.api.nvim_win_get_config(0)
@@ -75,103 +59,80 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 --   return "%#CursorLineFold#" .. path .. name .. flag .. "%*"
 -- end
 
-local function lsp()
-  local count = {
-    Error = 0,
-    Hint = 0,
-    Info = 0,
-    Warn = 0,
-  }
-
-  local signs = {
-    Error = "󰅚 ",
-    Hint = "󰌶 ",
-    Info = " ",
-    Warn = "󰀪 ",
-  }
-
-  local levels = {
-    errors = "Error",
-    hints = "Hint",
-    info = "Info",
-    warnings = "Warn",
-  }
-
-  for _, level in pairs(levels) do
-    count[level] = vim.tbl_count(vim.diagnostic.get(0, { severity = level }))
-  end
-
-  local errors = signs["Error"] .. count["Error"] .. " "
-  local hints = signs["Hint"] .. count["Hint"] .. " "
-  local info = signs["Info"] .. count["Info"] .. " "
-  local warnings = signs["Warn"] .. count["Warn"] .. " "
-
-  return errors .. warnings .. hints .. info
-end
-
--- local function renderStatusLine()
---   local is_excluded = vim.tbl_contains(winbar_exclude_filetypes, vim.bo.filetype)
---   local is_floating = vim.api.nvim_win_get_config(0).relative ~= ""
+-- local function lsp()
+--   local count = {
+--     Error = 0,
+--     Hint = 0,
+--     Info = 0,
+--     Warn = 0,
+--   }
 --
---   if is_excluded or is_floating then
---     return cached_status_line
+--   local signs = {
+--     Error = "󰅚 ",
+--     Hint = "󰌶 ",
+--     Info = " ",
+--     Warn = "󰀪 ",
+--   }
+--
+--   local levels = {
+--     errors = "Error",
+--     hints = "Hint",
+--     info = "Info",
+--     warnings = "Warn",
+--   }
+--
+--   for _, level in pairs(levels) do
+--     count[level] = vim.tbl_count(vim.diagnostic.get(0, { severity = level }))
 --   end
 --
---   local value = " "
+--   local errors = signs["Error"] .. count["Error"] .. " "
+--   local hints = signs["Hint"] .. count["Hint"] .. " "
+--   local info = signs["Info"] .. count["Info"] .. " "
+--   local warnings = signs["Warn"] .. count["Warn"] .. " "
 --
---   local git_info = vim.b.gitsigns_status_dict
---   if git_info ~= nil and git_info.head ~= "" then
---     value = "  " .. git_info.head .. "  "
---   end
---
---   local lsp_info = lsp()
---   if lsp_info ~= "" then
---     value = value .. "  " .. lsp_info
---   end
---
---   cached_status_line = value
---   return cached_status_line
+--   return errors .. warnings .. hints .. info
 -- end
 
--- local render_winbar_cache = ""
--- local render_winbar_group = "winbar_update"
--- local render_winbar_time = 100
--- local render_winbar_timer = vim.fn.timer_start(render_winbar_time, function() end)
---
--- vim.api.nvim_create_augroup(render_winbar_group, { clear = true })
---
--- vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPre" }, {
---   group = render_winbar_group,
---   callback = function()
---     local winnr = vim.api.nvim_get_current_win()
---     local winbar = renderWinbar()
---     render_winbar_cache = winbar
---     vim.wo[winnr].winbar = render_winbar_cache
---   end,
--- })
---
--- vim.api.nvim_create_autocmd({
---   "BufModifiedSet",
---   "BufWritePost",
---   "TextChanged",
---   "TextChangedI",
--- }, {
---   group = render_winbar_group,
---   callback = function()
---     if render_winbar_timer ~= nil and vim.fn.timer_stop(render_winbar_timer) ~= -1 then
---       render_winbar_timer = nil
---     end
---
---     render_winbar_timer = vim.fn.timer_start(render_winbar_time, function()
---       local winnr = vim.api.nvim_get_current_win()
---       local winbar = renderWinbar()
---       if render_winbar_cache ~= winbar then
---         render_winbar_cache = winbar
---         vim.wo[winnr].winbar = render_winbar_cache
---       end
---     end)
---   end,
--- })
+local cached_git_value = ""
+
+local function renderStatusLine()
+  local git_info = vim.api.nvim_eval_statusline("%{FugitiveStatusline()}", {})
+  local git_info_str = git_info["str"]
+
+  if git_info_str ~= "" then
+    cached_git_value = "  " .. string.match(git_info_str, "%((.-)%)")
+  end
+
+  return "%#CursorLineFold#" .. cached_git_value
+end
+
+local render_winbar_group = "winbar_update"
+local render_winbar_time = 100
+local render_winbar_timer = vim.fn.timer_start(render_winbar_time, function() end)
+
+vim.api.nvim_create_augroup(render_winbar_group, { clear = true })
+
+vim.api.nvim_create_autocmd({
+  "BufEnter",
+  "BufModifiedSet",
+  "BufNewFile",
+  "BufReadPre",
+  "BufWritePost",
+  "CursorHold",
+  "TextChanged",
+  "TextChangedI",
+}, {
+  group = render_winbar_group,
+  callback = function()
+    if render_winbar_timer ~= nil and vim.fn.timer_stop(render_winbar_timer) ~= -1 then
+      render_winbar_timer = nil
+    end
+
+    render_winbar_timer = vim.fn.timer_start(render_winbar_time, function()
+      vim.opt.statusline = renderStatusLine()
+    end)
+  end,
+})
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command

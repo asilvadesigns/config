@@ -55,7 +55,7 @@ end
 
 return {
   "nvim-lualine/lualine.nvim",
-  enabled = true,
+  enabled = false,
   event = { "BufNewFile", "BufReadPre" },
   dependencies = {
     "catppuccin/nvim",

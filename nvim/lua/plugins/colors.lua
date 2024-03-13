@@ -26,10 +26,10 @@ return {
           return {
             --
             -- custom DEFAULTS
-            CursorLine = { bg = c.surface0 },
+            CursorLine = { bg = c.base }, --surface0 really nice too
             CursorLineNr = { fg = c.blue },
             -- StatusLine = { bg = c.base },
-            -- WinSeparator = { fg = colors.base },
+            WinSeparator = { fg = c.base },
             -- WinBar = { bg = colors.mantle },
             --
             -- custom FLASH

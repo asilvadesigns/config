@@ -8,6 +8,7 @@ return {
   },
   {
     "tpope/vim-fugitive",
+    event = { "VeryLazy" },
     cmd = {
       "Gdiffsplit",
       "Git",
