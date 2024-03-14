@@ -49,14 +49,15 @@ vim.api.nvim_create_user_command("RenameFile", function()
     local old = old_path .. old_name
     local new = old_path .. new_name
 
-    local success, err = os.rename(old, new)
+    vim.cmd("saveas " .. new)
+    vim.cmd("e! " .. new)
+    require("nvim-tree.api").tree.find_file()
+
+    local success, err = os.remove(old)
 
     if not success then
-      print("Could not update!", err)
+      print("Could not delete!", err)
       return
     end
-
-
-    vim.cmd("e! " .. new)
   end)
 end, {})

@@ -56,11 +56,11 @@ vim.opt.smartcase = true
 vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
 
--- statusline
+-- statusline && winbar
 vim.opt.laststatus = 3
 vim.opt.showmode = false
 vim.opt.statusline = " "
--- vim.opt.winbar = " winbar "
+vim.opt.winbar = " "
 
 -- terminal
 vim.opt.termguicolors = true

@@ -28,33 +28,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
     vim.cmd("tabdo wincmd =")
   end,
 })
-
---
--- local function renderWinbar()
---   local win_config = vim.api.nvim_win_get_config(0)
---   local win_filetype = vim.bo.filetype
---
---   if win_config.relative ~= "" or win_filetype == "telescope" then
---     return ""
---   end
---
---   if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
---     vim.opt_local.winbar = nil
---     return ""
---   end
---
---   local sep = "  "
---   local name = vim.fn.expand("%:t")
---   local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
---
---   local buf = vim.api.nvim_get_current_buf()
---   local buf_modified = vim.api.nvim_buf_get_option(buf, "modified")
---
---   local flag = buf_modified and " +" or "  "
---
---   return "%#CursorLineFold#" .. path .. name .. flag .. "%*"
--- end
-
 -- local function lsp()
 --   local count = {
 --     Error = 0,
@@ -91,18 +64,70 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 --
 
 local cached_git_value = "  ..loading"
+local cached_statusline_value = " "
 local cached_winbar_value = " "
 local render_winbar_timer = vim.loop.new_timer()
 
+local winbar_exclude_filetypes = {
+  "NvimTree",
+  "Outline",
+  "TelescopePrompt",
+  "Trouble",
+  "alpha",
+  "dashboard",
+  "help",
+  "lir",
+  "neogitstatus",
+  "packer",
+  "spectre_panel",
+  "startify",
+  "telescope",
+  "toggleterm",
+  -- "qf",
+}
+
+local function renderWinbar()
+  local win_config = vim.api.nvim_win_get_config(0)
+  local win_filetype = vim.bo.filetype
+
+  if win_config.relative ~= "" then
+    return
+  end
+
+  if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
+    vim.opt_local.winbar = nil
+    return
+  end
+
+  local sep = "  "
+  local name = vim.fn.expand("%:t")
+  local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
+
+  local buf = vim.api.nvim_get_current_buf()
+  local buf_modified = vim.api.nvim_buf_get_option(buf, "modified")
+
+  local flag = buf_modified and " +" or "  "
+
+  local next_winbar = "%#CursorLineFold#" .. path .. name .. flag .. "%*"
+
+  if cached_winbar_value ~= next_winbar then
+    cached_winbar_value = next_winbar
+    vim.api.nvim_set_option_value("winbar", cached_winbar_value, { scope = "local" })
+  end
+end
+
+--- something meaningful goes here.
 local function renderStatusLine()
   local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
   if not lazy_ready then
-    return "%#CursorLineFold#" .. cached_git_value
+    vim.opt.statusline = "%#CursorLineFold#" .. cached_git_value
+    return
   end
 
   local fugitive_ready = lazy_config.plugins["vim-fugitive"]._.loaded
   if not fugitive_ready then
-    return "%#CursorLineFold#" .. cached_git_value
+    vim.opt.statusline = "%#CursorLineFold#" .. cached_git_value
+    return
   end
 
   local git_info = vim.api.nvim_eval_statusline("%{FugitiveStatusline()}", {})
@@ -112,18 +137,29 @@ local function renderStatusLine()
     cached_git_value = "  " .. string.match(git_info_str, "%((.-)%)")
   end
 
-  return "%#CursorLineFold#" .. cached_git_value
+  local next_statusline = "%#CursorLineFold#" .. cached_git_value
+
+  if cached_statusline_value ~= next_statusline then
+    cached_statusline_value = next_statusline
+    vim.opt.statusline = cached_statusline_value
+  end
 end
+
+vim.api.nvim_create_augroup("render_ui", { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  group = "render_ui",
+  callback = function()
+    renderStatusLine()
+    renderWinbar()
+  end,
+})
 
 render_winbar_timer:start(
   0,
-  250,
+  1000,
   vim.schedule_wrap(function()
-    local next_winbar = renderStatusLine()
-    if cached_winbar_value ~= next_winbar then
-      cached_winbar_value = next_winbar
-      vim.opt.statusline = cached_winbar_value
-    end
+    renderStatusLine()
   end)
 )
 
