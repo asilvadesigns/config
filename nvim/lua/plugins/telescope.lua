@@ -115,20 +115,6 @@ return {
             return label .. " " .. (vim.wo.number and "" or "")
           end,
         },
-        ["Toggle Incline"] = {
-          cmd = "InclineToggle",
-          display = function(label)
-            local is_not_loaded = require("lazy.core.config").plugins["incline.nvim"]._.loaded == nil
-
-            if is_not_loaded then
-              return label
-            end
-
-            local is_enabled = require("incline").is_enabled()
-
-            return label .. " " .. (is_enabled and "" or "")
-          end,
-        },
         ["Toggle Invisible Chars"] = {
           cmd = "tabdo windo set list!",
           display = function(label)

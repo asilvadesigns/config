@@ -66,6 +66,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 local cached_git_value = "  ..loading"
 local cached_statusline_value = " "
 local cached_winbar_value = " "
+local UI_COLOR = "%#CursorLineFold#"
 local render_winbar_timer = vim.loop.new_timer()
 
 local winbar_exclude_filetypes = {
@@ -103,12 +104,11 @@ local function renderWinbar()
   local name = vim.fn.expand("%:t")
   local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
 
-  local buf = vim.api.nvim_get_current_buf()
-  local buf_modified = vim.api.nvim_buf_get_option(buf, "modified")
+  -- local buf = vim.api.nvim_get_current_buf()
+  -- local buf_modified = vim.api.nvim_buf_get_option(buf, "modified")
+  -- local flag = buf_modified and " +" or "  "
 
-  local flag = buf_modified and " +" or "  "
-
-  local next_winbar = "%#CursorLineFold#" .. path .. name .. flag .. "%*"
+  local next_winbar = UI_COLOR .. path .. name .. "%*"
 
   if cached_winbar_value ~= next_winbar then
     cached_winbar_value = next_winbar
@@ -120,13 +120,13 @@ end
 local function renderStatusLine()
   local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
   if not lazy_ready then
-    vim.opt.statusline = "%#CursorLineFold#" .. cached_git_value
+    vim.opt.statusline = UI_COLOR .. cached_git_value
     return
   end
 
   local fugitive_ready = lazy_config.plugins["vim-fugitive"]._.loaded
   if not fugitive_ready then
-    vim.opt.statusline = "%#CursorLineFold#" .. cached_git_value
+    vim.opt.statusline = UI_COLOR .. cached_git_value
     return
   end
 
@@ -137,7 +137,7 @@ local function renderStatusLine()
     cached_git_value = "  " .. string.match(git_info_str, "%((.-)%)")
   end
 
-  local next_statusline = "%#CursorLineFold#" .. cached_git_value
+  local next_statusline = UI_COLOR .. cached_git_value
 
   if cached_statusline_value ~= next_statusline then
     cached_statusline_value = next_statusline
@@ -160,6 +160,7 @@ render_winbar_timer:start(
   1000,
   vim.schedule_wrap(function()
     renderStatusLine()
+    renderWinbar()
   end)
 )
 
