@@ -5,20 +5,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- local cursorline_include_filetypes = {
---   "NvimTree",
--- }
---
--- show cursorline for certain filetypes
--- vim.api.nvim_create_autocmd("WinEnter", {
---   callback = function()
---     if vim.tbl_contains(cursorline_include_filetypes, vim.bo.filetype) then
---       vim.cmd("setlocal cursorline")
---     else
---       vim.cmd("setlocal nocursorline")
---     end
---   end,
--- })
+-- go to last loc when opening a buffer
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
 
 -- show numbers in help
 vim.api.nvim_create_autocmd("FileType", {
@@ -92,10 +88,23 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 --
 --   return errors .. warnings .. hints .. info
 -- end
+--
 
-local cached_git_value = ""
+local cached_git_value = "  ..loading"
+local cached_winbar_value = " "
+local render_winbar_timer = vim.loop.new_timer()
 
 local function renderStatusLine()
+  local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
+  if not lazy_ready then
+    return "%#CursorLineFold#" .. cached_git_value
+  end
+
+  local fugitive_ready = lazy_config.plugins["vim-fugitive"]._.loaded
+  if not fugitive_ready then
+    return "%#CursorLineFold#" .. cached_git_value
+  end
+
   local git_info = vim.api.nvim_eval_statusline("%{FugitiveStatusline()}", {})
   local git_info_str = git_info["str"]
 
@@ -106,33 +115,17 @@ local function renderStatusLine()
   return "%#CursorLineFold#" .. cached_git_value
 end
 
-local render_winbar_group = "winbar_update"
-local render_winbar_time = 100
-local render_winbar_timer = vim.fn.timer_start(render_winbar_time, function() end)
-
-vim.api.nvim_create_augroup(render_winbar_group, { clear = true })
-
-vim.api.nvim_create_autocmd({
-  "BufEnter",
-  "BufModifiedSet",
-  "BufNewFile",
-  "BufReadPre",
-  "BufWritePost",
-  "CursorHold",
-  "TextChanged",
-  "TextChangedI",
-}, {
-  group = render_winbar_group,
-  callback = function()
-    if render_winbar_timer ~= nil and vim.fn.timer_stop(render_winbar_timer) ~= -1 then
-      render_winbar_timer = nil
+render_winbar_timer:start(
+  0,
+  250,
+  vim.schedule_wrap(function()
+    local next_winbar = renderStatusLine()
+    if cached_winbar_value ~= next_winbar then
+      cached_winbar_value = next_winbar
+      vim.opt.statusline = cached_winbar_value
     end
-
-    render_winbar_timer = vim.fn.timer_start(render_winbar_time, function()
-      vim.opt.statusline = renderStatusLine()
-    end)
-  end,
-})
+  end)
+)
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command
@@ -160,6 +153,79 @@ vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold" }, {
   callback = function()
     if vim.fn.getcmdwintype() == "" then
       vim.cmd("checktime")
+    end
+  end,
+})
+
+-- Disable some sources of slowdown in large buffers.
+local LARGE_BUFFER = 1000000
+
+local function detect_large_buffer(buffer)
+  buffer = buffer or vim.api.nvim_get_current_buf()
+  local stats_ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buffer))
+  if stats_ok and stats and (stats.size > LARGE_BUFFER) then
+    return true
+  end
+  return false
+end
+
+-- stylua: ignore start
+local LARGE_BUFFER_DISABLED = {
+  cmp = function() require("cmp").setup.buffer({ enabled = false }) end, ---@diagnostic disable-line: missing-fields
+  colorizer = "ColorizerDetachFromBuffer",
+  folds = function() vim.opt_local.foldmethod = "manual" end,
+  illuminate = function() require("illuminate").pause_buf() end,
+  indent_blankline = "IBLDisable",
+  spell = function() vim.opt_local.spell = false end,
+  syntax = "syntax off",
+  treesitter_context = "TSContextDisable",
+  treesitter_highlight = "TSBufDisable highlight",
+  ufo = function() require("ufo").detach() end,
+}
+-- stylua: ignore end
+
+local function disable_large_buffer(buffer)
+  buffer = buffer or vim.api.nvim_get_current_buf()
+
+  if vim.api.nvim_buf_get_var(buffer, "large_buffer") then
+    return
+  end
+
+  vim.api.nvim_buf_set_var(buffer, "large_buffer", true)
+
+  local disabled = {}
+  for path, cmd in pairs(LARGE_BUFFER_DISABLED) do
+    if type(cmd) == "function" then
+      local ok = pcall(cmd)
+      if ok then
+        vim.notify(path .. " disabled", vim.log.levels.DEBUG)
+        table.insert(disabled, path)
+      else
+        vim.notify("Failed to disable " .. path, vim.log.levels.ERROR)
+      end
+    elseif pcall(vim.cmd, cmd) then ---@diagnostic disable-line: param-type-mismatch
+      vim.notify(path .. " disabled with " .. cmd, vim.log.levels.DEBUG)
+      table.insert(disabled, path)
+    else
+      vim.notify(cmd .. " failed", vim.log.levels.ERROR)
+    end
+  end
+  vim.notify("Disabling:\n  " .. table.concat(disabled, "\n  "), vim.log.levels.INFO)
+end
+
+vim.api.nvim_create_user_command("DisableLargeBuffer", function()
+  disable_large_buffer()
+end, {})
+
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+  pattern = "*",
+  group = vim.api.nvim_create_augroup("large_buffer", { clear = true }),
+  callback = function()
+    local buffer = vim.api.nvim_get_current_buf()
+    vim.api.nvim_buf_set_var(buffer, "large_buffer", false)
+    if detect_large_buffer(buffer) then
+      vim.notify("Large file detected!", vim.log.levels.INFO)
+      disable_large_buffer(buffer)
     end
   end,
 })

@@ -91,10 +91,28 @@ return {
         ["Symbols (Document)"] = { cmd = builtin.lsp_document_symbols },
         ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
         ["Telescope"] = { cmd = "Telescope" },
-        ["Toggle Line Numbers"] = {
-          cmd = "tabdo windo set rnu! nu!",
+        ["Toggle Cursorline"] = {
+          cmd = function()
+            if vim.wo.cursorline then
+              vim.cmd("tabdo windo set nocursorline")
+            else
+              vim.cmd("tabdo windo set cursorline")
+            end
+          end,
           display = function(label)
-            return label .. " " .. (vim.go.number and "" or "")
+            return label .. " " .. (vim.wo.cursorline and "" or "")
+          end,
+        },
+        ["Toggle Line Numbers"] = {
+          cmd = function()
+            if vim.wo.number then
+              vim.cmd("tabdo windo set nornu nonu")
+            else
+              vim.cmd("tabdo windo set rnu nu")
+            end
+          end,
+          display = function(label)
+            return label .. " " .. (vim.wo.number and "" or "")
           end,
         },
         ["Toggle Incline"] = {
@@ -123,6 +141,8 @@ return {
             return label .. " " .. (vim.go.wrap and "" or "")
           end,
         },
+        ["Todos"] = { cmd = "TodoTelescope" },
+        ["Todos Quickfix"] = { cmd = "TodoLocList" },
         ["Trouble"] = { cmd = "Trouble" },
         ["Zen Mode"] = { cmd = "NoNeckPain" },
         ["Zen Mode (decrease)"] = { cmd = "NoNeckPainWidthDown" },

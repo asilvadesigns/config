@@ -2,11 +2,7 @@ return {
   {
     "NvChad/nvim-colorizer.lua",
     event = { "VeryLazy" },
-    config = function()
-      require("colorizer").setup({})
-
-      vim.cmd("ColorizerAttachToBuffer")
-    end,
+    opts = {},
   },
   {
     "catppuccin/nvim",
@@ -16,6 +12,7 @@ return {
     config = function()
       require("catppuccin").setup({
         integrations = {
+          leap = true,
           notify = true,
           nvimtree = false,
           ufo = true,
@@ -26,10 +23,14 @@ return {
           return {
             --
             -- custom DEFAULTS
-            CursorLine = { bg = c.base }, --surface0 really nice too
+            CursorLine = { bg = c.mantle }, --mantle is nice too
             CursorLineNr = { fg = c.blue },
-            -- StatusLine = { bg = c.base },
+            -- Visual = { bg = c.mantle }, --mantle is nice too
+            -- CursorLineFold = { bg = c.surface0 },
+            -- CursorLineNr = { bg = c.surface0, fg = c.blue },
+            -- CursorLineSign = { bg = c.surface0 },
             WinSeparator = { fg = c.base },
+            -- StatusLine = { bg = c.base },
             -- WinBar = { bg = colors.mantle },
             --
             -- custom FLASH
@@ -74,6 +75,15 @@ return {
             TelescopeResultsBorder = { fg = c.mantle, bg = c.mantle },
             TelescopeResultsNormal = { bg = c.mantle },
             TelescopeResultsTitle = { fg = c.mantle, bg = c.mantle },
+            --
+            -- custom TODO
+            -- TodoBgFIX = {},
+            -- TodoBgHACK = {},
+            -- TodoBgNOTE = {},
+            -- TodoBgPERF = {},
+            -- TodoBgTEST = {},
+            -- TodoBgTODO = {},
+            -- TodoBgWARN = {},
             --
             -- custom UFO
             Folded = { bg = c.none },
