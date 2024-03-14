@@ -29,7 +29,7 @@ return {
             -- CursorLineFold = { bg = c.surface0 },
             -- CursorLineNr = { bg = c.surface0, fg = c.blue },
             -- CursorLineSign = { bg = c.surface0 },
-            WinSeparator = { fg = c.base },
+            WinSeparator = { fg = c.mantle },
             -- StatusLine = { bg = c.base },
             -- WinBar = { bg = colors.mantle },
             --

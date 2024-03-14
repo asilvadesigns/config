@@ -69,6 +69,26 @@ local cached_winbar_value = " "
 local UI_COLOR = "%#CursorLineFold#"
 local render_winbar_timer = vim.loop.new_timer()
 
+---@return table<string>
+local function getVisibleWindows()
+  local visible_buffers = {}
+  local windows = vim.api.nvim_list_wins()
+
+  for _, win_id in ipairs(windows) do
+    local is_floating = vim.api.nvim_win_get_config(win_id).relative ~= ""
+    local is_empty = vim.api.nvim_win_get_buf(win_id) < 1
+
+    if is_floating or is_empty then
+      goto continue
+    end
+
+    table.insert(visible_buffers, win_id)
+    ::continue::
+  end
+
+  return visible_buffers
+end
+
 local winbar_exclude_filetypes = {
   "NvimTree",
   "Outline",
@@ -79,6 +99,7 @@ local winbar_exclude_filetypes = {
   "help",
   "lir",
   "neogitstatus",
+  "no-neck-pain",
   "packer",
   "spectre_panel",
   "startify",
@@ -88,35 +109,32 @@ local winbar_exclude_filetypes = {
 }
 
 local function renderWinbar()
-  local win_config = vim.api.nvim_win_get_config(0)
-  local win_filetype = vim.bo.filetype
+  local windows = getVisibleWindows()
 
-  if win_config.relative ~= "" then
-    return
-  end
+  for _, win_id in ipairs(windows) do
+    local buf_id = vim.api.nvim_win_get_buf(win_id)
+    local buf_filetype = vim.api.nvim_buf_get_option(buf_id, "filetype")
 
-  if vim.tbl_contains(winbar_exclude_filetypes, win_filetype) then
-    vim.opt_local.winbar = nil
-    return
-  end
+    if vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
+      goto continue
+    end
 
-  local sep = "  "
-  local name = vim.fn.expand("%:t")
-  local path = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
+    local buf_name = vim.api.nvim_buf_get_name(buf_id)
 
-  -- local buf = vim.api.nvim_get_current_buf()
-  -- local buf_modified = vim.api.nvim_buf_get_option(buf, "modified")
-  -- local flag = buf_modified and " +" or "  "
+    local sep = "  "
+    local filename = vim.fn.fnamemodify(buf_name, ":t")
+    local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
 
-  local next_winbar = UI_COLOR .. path .. name .. "%*"
+    local is_modified = vim.bo[buf_id].modified
+    local flag = is_modified and " +" or "  "
 
-  if cached_winbar_value ~= next_winbar then
-    cached_winbar_value = next_winbar
-    vim.api.nvim_set_option_value("winbar", cached_winbar_value, { scope = "local" })
+    local next_winbar = UI_COLOR .. filepath .. filename .. flag .. "%*"
+
+    vim.api.nvim_win_set_option(win_id, "winbar", next_winbar)
+    ::continue::
   end
 end
 
---- something meaningful goes here.
 local function renderStatusLine()
   local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
   if not lazy_ready then
@@ -145,10 +163,8 @@ local function renderStatusLine()
   end
 end
 
-vim.api.nvim_create_augroup("render_ui", { clear = true })
-
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
-  group = "render_ui",
+  group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
   callback = function()
     renderStatusLine()
     renderWinbar()
@@ -157,12 +173,20 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 
 render_winbar_timer:start(
   0,
-  1000,
+  500,
   vim.schedule_wrap(function()
     renderStatusLine()
     renderWinbar()
   end)
 )
+
+
+
+
+
+
+
+
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command
