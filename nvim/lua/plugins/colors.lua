@@ -63,6 +63,7 @@ return {
             NotifyWARNIcon = { fg = c.yellow },
             NotifyWARNTitle = { bg = c.mantle, style = {} },
             --
+            -- custom Leap
             -- custom StatusLine
             StatusLine = { bg = c.base },
             StatusLineNC = { bg = c.base },
