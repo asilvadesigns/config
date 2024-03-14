@@ -180,14 +180,6 @@ render_winbar_timer:start(
   end)
 )
 
-
-
-
-
-
-
-
-
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command
 -- line before executing this command, see also https://vi.stackexchange.com/a/20397/15292 .
@@ -230,18 +222,28 @@ local function detect_large_buffer(buffer)
   return false
 end
 
--- stylua: ignore start
+--- NOTE: shamelessly take from: https://github.com/lettertwo/config/blob/fe866b91d44dfac850fb9fa030b838ce8c89789a/nvim/lua/config/autocmds.lua#L96
 local LARGE_BUFFER_DISABLED = {
-  cmp = function() require("cmp").setup.buffer({ enabled = false }) end, ---@diagnostic disable-line: missing-fields
+  cmp = function()
+    require("cmp").setup.buffer({ enabled = false })
+  end, ---@diagnostic disable-line: missing-fields
   colorizer = "ColorizerDetachFromBuffer",
-  folds = function() vim.opt_local.foldmethod = "manual" end,
-  illuminate = function() require("illuminate").pause_buf() end,
+  folds = function()
+    vim.opt_local.foldmethod = "manual"
+  end,
+  illuminate = function()
+    require("illuminate").pause_buf()
+  end,
   indent_blankline = "IBLDisable",
-  spell = function() vim.opt_local.spell = false end,
+  spell = function()
+    vim.opt_local.spell = false
+  end,
   syntax = "syntax off",
   treesitter_context = "TSContextDisable",
   treesitter_highlight = "TSBufDisable highlight",
-  ufo = function() require("ufo").detach() end,
+  ufo = function()
+    require("ufo").detach()
+  end,
 }
 -- stylua: ignore end
 
