@@ -9,9 +9,9 @@ return {
         require("statuscol").setup({
           relculright = true,
           segments = {
-            { text = { "%s " }, click = "v:lua.ScSa" },
-            { text = { require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
-            { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
+            { text = { "%s" }, click = "v:lua.ScSa" },
+            { text = { " ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
+            { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
           },
         })
       end,
