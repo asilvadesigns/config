@@ -23,9 +23,9 @@ return {
           return {
             --
             -- custom DEFAULTS
-            CursorLine = { bg = c.mantle },
+            CursorLine = { bg = c.surface0 },
             CursorLineNr = { fg = c.blue },
-            Visual = { bg = c.mantle },
+            Visual = { bg = c.surface0 },
             WinSeparator = { fg = c.mantle },
             --
             -- custom FLASH

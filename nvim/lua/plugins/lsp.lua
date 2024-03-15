@@ -47,6 +47,7 @@ return {
       "stylelua",
       "stylua",
       "tailwindcss",
+      "templ",
       "tsserver",
       "yamlls",
     }
@@ -72,6 +73,7 @@ return {
         "prismals",
         "pyright",
         "tailwindcss",
+        "templ",
         "tsserver",
         "yamlls",
       },
@@ -126,6 +128,20 @@ return {
           },
         })
       end,
+      ["html"] = function()
+        require("lspconfig").html.setup({
+          capabilities = capabilities,
+          filetypes = { "html", "templ" },
+          on_attach = on_attach,
+        })
+      end,
+      ["htmx"] = function()
+        require("lspconfig").htmx.setup({
+          capabilities = capabilities,
+          filetypes = { "html", "templ" },
+          on_attach = on_attach,
+        })
+      end,
       ["lua_ls"] = function()
         require("neodev").setup()
         require("lspconfig").lua_ls.setup({
@@ -142,6 +158,8 @@ return {
       ["tailwindcss"] = function()
         require("lspconfig").tailwindcss.setup({
           capabilities = capabilities,
+          filetypes = { "templ", "astro", "javascript", "typescript", "react" },
+          init_options = { userLanguages = { templ = "html" } },
           on_attach = on_attach,
           root_dir = require("lspconfig.util").root_pattern(
             "tailwind.config.js",

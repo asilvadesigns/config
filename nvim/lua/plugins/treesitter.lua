@@ -41,6 +41,7 @@ return {
           "prisma",
           "python",
           "scss",
+          "templ",
           "tsx",
           "typescript",
           "vim",
