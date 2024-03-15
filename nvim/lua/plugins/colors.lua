@@ -23,15 +23,10 @@ return {
           return {
             --
             -- custom DEFAULTS
-            CursorLine = { bg = c.mantle }, --mantle is nice too
+            CursorLine = { bg = c.mantle },
             CursorLineNr = { fg = c.blue },
-            -- Visual = { bg = c.mantle }, --mantle is nice too
-            -- CursorLineFold = { bg = c.surface0 },
-            -- CursorLineNr = { bg = c.surface0, fg = c.blue },
-            -- CursorLineSign = { bg = c.surface0 },
+            Visual = { bg = c.mantle },
             WinSeparator = { fg = c.mantle },
-            -- StatusLine = { bg = c.base },
-            -- WinBar = { bg = colors.mantle },
             --
             -- custom FLASH
             FlashBackdrop = { fg = c.overlay0 },

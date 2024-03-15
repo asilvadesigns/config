@@ -65,7 +65,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 
 local cached_git_value = "  ..loading"
 local cached_statusline_value = " "
-local cached_winbar_value = " "
+local cached_winbar_value = {}
 local UI_COLOR = "%#CursorLineFold#"
 local render_winbar_timer = vim.loop.new_timer()
 
@@ -130,7 +130,10 @@ local function renderWinbar()
 
     local next_winbar = UI_COLOR .. filepath .. filename .. flag .. "%*"
 
-    vim.api.nvim_win_set_option(win_id, "winbar", next_winbar)
+    if cached_winbar_value[buf_id] ~= next_winbar then
+      cached_winbar_value[buf_id] = next_winbar
+      vim.api.nvim_win_set_option(win_id, "winbar", cached_winbar_value[buf_id])
+    end
     ::continue::
   end
 end
