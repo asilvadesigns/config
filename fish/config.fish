@@ -28,7 +28,7 @@ set -gx BAT_CONFIG_PATH "$HOME/.config/bat/bat.conf"
 set -g fish_greeting;
 
 # fzf (THEME: https://github.com/catppuccin/fzf)
-# # frappe (DARK)
+# frappe (DARK)
 set -gx FZF_DEFAULT_OPTS "\
 --color=bg+:#414559,bg:#292c3c,spinner:#f2d5cf,hl:#e78284 \
 --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \

@@ -36,7 +36,7 @@ vim.opt.smartindent = true
 vim.opt.tabstop = 2
 
 -- invisible chars
-vim.opt.list = false -- TODO: persist via prefs plugin
+vim.opt.list = true -- TODO: persist via prefs plugin
 
 vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "

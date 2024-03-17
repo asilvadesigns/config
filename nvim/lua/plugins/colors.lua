@@ -30,7 +30,7 @@ return {
             --
             -- custom FLASH
             FlashBackdrop = { fg = c.overlay0 },
-            FlashLabel = { fg = c.red, bg = c.crust }, -- , style = { "bold" } },
+            FlashLabel = { fg = c.red, bg = c.crust },
             FlashMatch = { fg = c.lavender, bg = c.base },
             FlashCurrent = { fg = c.sky, bg = c.base },
             FlashPrompt = { link = "NormalFloat" },
@@ -88,7 +88,9 @@ return {
         end,
       })
 
+      -- # dark
       vim.cmd("colorscheme catppuccin-frappe")
+      -- # light
       -- vim.cmd("colorscheme catppuccin-latte")
     end,
   },
