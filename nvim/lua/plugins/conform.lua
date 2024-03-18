@@ -126,6 +126,7 @@ return {
     require("conform").setup({
       formatters_by_ft = {
         css = { "biome-check", "prettier", "stylelint" },
+        go = { "goimports", "gofmt" },
         html = { "biome-check", "prettier" },
         javascript = { "biome-check", "prettier" },
         javascriptreact = { "biome-check", "prettier" },
@@ -144,6 +145,7 @@ return {
     vim.api.nvim_create_user_command("Format", function()
       local formatters = get_closest_formatter({
         ["biome-check"] = { "biome.json" },
+        gofmt = { "goimports", "go.mod" },
         prettier = { ".prettierrc", "prettier.config.js" },
         stylua = { "stylua.toml" },
       })

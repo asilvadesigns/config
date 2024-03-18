@@ -1,8 +1,8 @@
 import = [
   # dark
-  "~/.config/alacritty/catppuccin-frappe.toml",
+  # "~/.config/alacritty/catppuccin-frappe.toml",
   # light
-  # "~/.config/alacritty/catppuccin-latte.toml"
+  "~/.config/alacritty/catppuccin-latte.toml"
 ]
 
 [colors]
