@@ -115,7 +115,7 @@ local function renderWinbar()
     local buf_id = vim.api.nvim_win_get_buf(win_id)
     local buf_filetype = vim.api.nvim_buf_get_option(buf_id, "filetype")
 
-    if vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
+    if buf_filetype == "" or vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
       goto continue
     end
 
@@ -214,7 +214,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold" }, {
 })
 
 -- Disable some sources of slowdown in large buffers.
-local LARGE_BUFFER = 1000000
+local LARGE_BUFFER = 2000000
 
 local function detect_large_buffer(buffer)
   buffer = buffer or vim.api.nvim_get_current_buf()

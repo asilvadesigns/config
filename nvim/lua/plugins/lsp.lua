@@ -158,7 +158,7 @@ return {
       ["tailwindcss"] = function()
         require("lspconfig").tailwindcss.setup({
           capabilities = capabilities,
-          filetypes = { "templ", "astro", "javascript", "typescript", "react" },
+          filetypes = { "astro", "javascript", "react", "templ", "typescript" },
           init_options = { userLanguages = { templ = "html" } },
           on_attach = on_attach,
           root_dir = require("lspconfig.util").root_pattern(

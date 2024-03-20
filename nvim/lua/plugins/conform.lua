@@ -145,7 +145,8 @@ return {
     vim.api.nvim_create_user_command("Format", function()
       local formatters = get_closest_formatter({
         ["biome-check"] = { "biome.json" },
-        gofmt = { "goimports", "go.mod" },
+        -- gofmt = { "goimports", "go.mod" },
+        -- goimports = { "go.mod" },
         prettier = { ".prettierrc", "prettier.config.js" },
         stylua = { "stylua.toml" },
       })
