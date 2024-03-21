@@ -63,8 +63,6 @@ end
 local get_closest_formatter = function(_formatters)
   ---@type string
   local current_buffer_path = vim.api.nvim_buf_get_name(0)
-  -- print("current buffer path::" .. vim.inspect(current_buffer_path))
-
   local available_formatters = require("conform").list_formatters(0)
   local keys_to_include = {}
   for _, value in ipairs(available_formatters) do
@@ -124,6 +122,7 @@ return {
   },
   config = function()
     require("conform").setup({
+      --- NOTE: table<filetype, table<formatter>>
       formatters_by_ft = {
         css = { "biome-check", "prettier", "stylelint" },
         go = { "goimports", "gofmt" },
@@ -135,6 +134,7 @@ return {
         lua = { "stylua" },
         sh = { "shellcheck", "shfmt" },
         svelte = { "biome-check", "prettier" },
+        templ = { "templ" },
         typescript = { "biome-check", "prettier" },
         typescriptreact = { "biome-check", "prettier" },
         vue = { "biome-check", "prettier" },
@@ -143,6 +143,7 @@ return {
     })
 
     vim.api.nvim_create_user_command("Format", function()
+      --- NOTE: table<formatter, table<config_file>>
       local formatters = get_closest_formatter({
         ["biome-check"] = { "biome.json" },
         -- gofmt = { "goimports", "go.mod" },

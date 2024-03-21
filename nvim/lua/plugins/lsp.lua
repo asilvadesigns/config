@@ -140,6 +140,8 @@ return {
           capabilities = capabilities,
           filetypes = { "html", "templ" },
           on_attach = on_attach,
+          root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
+          single_file_support = true,
         })
       end,
       ["lua_ls"] = function()
