@@ -18,6 +18,8 @@ return {
       },
     },
     config = function()
+      vim.treesitter.language.register("mdx", { "markdown" })
+
       ---@diagnostic disable-next-line: missing-fields
       require("nvim-treesitter.configs").setup({
         auto_install = true,

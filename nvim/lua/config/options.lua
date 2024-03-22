@@ -119,5 +119,3 @@ for type, icon in pairs(signs) do
     texthl = hl,
   })
 end
-
-vim.filetype.add({ extension = { templ = "templ" } })

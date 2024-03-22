@@ -66,8 +66,9 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 local cached_git_value = "  ..loading"
 local cached_statusline_value = " "
 local cached_winbar_value = {}
-local UI_COLOR = "%#CursorLineFold#"
 local render_winbar_timer = vim.loop.new_timer()
+local WINBAR_COLOR = "%#LineNr#"
+local STATUS_COLOR = "%#CursorLineFold#"
 
 ---@return table<string>
 local function getVisibleWindows()
@@ -128,7 +129,7 @@ local function renderWinbar()
     local is_modified = vim.bo[buf_id].modified
     local flag = is_modified and " +" or "  "
 
-    local next_winbar = UI_COLOR .. filepath .. filename .. flag .. "%*"
+    local next_winbar = WINBAR_COLOR .. filepath .. filename .. flag .. "%*"
 
     if cached_winbar_value[buf_id] ~= next_winbar then
       cached_winbar_value[buf_id] = next_winbar
@@ -141,13 +142,13 @@ end
 local function renderStatusLine()
   local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
   if not lazy_ready then
-    vim.opt.statusline = UI_COLOR .. cached_git_value
+    vim.opt.statusline = STATUS_COLOR .. cached_git_value
     return
   end
 
   local fugitive_ready = lazy_config.plugins["vim-fugitive"]._.loaded
   if not fugitive_ready then
-    vim.opt.statusline = UI_COLOR .. cached_git_value
+    vim.opt.statusline = STATUS_COLOR .. cached_git_value
     return
   end
 
@@ -158,7 +159,7 @@ local function renderStatusLine()
     cached_git_value = "  " .. string.match(git_info_str, "%((.-)%)")
   end
 
-  local next_statusline = UI_COLOR .. cached_git_value
+  local next_statusline = STATUS_COLOR .. cached_git_value
 
   if cached_statusline_value ~= next_statusline then
     cached_statusline_value = next_statusline
