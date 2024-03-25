@@ -15,7 +15,7 @@
   "fzf": { "branch": "master", "commit": "db6db49ed642caf9cbe716f80d4fa40052118068" },
   "git-conflict.nvim": { "branch": "main", "commit": "4c8e252b87d54d944c1e56bfb477f78b6fdaf661" },
   "gitsigns.nvim": { "branch": "main", "commit": "078041e9d060a386b0c9d3a8c7a7b019a35d3fb0" },
-  "lazy.nvim": { "branch": "main", "commit": "3132d7d27d56d6bb4bdd0a09623d162b3cf1c588" },
+  "lazy.nvim": { "branch": "main", "commit": "9131ea4c4ae59e347716659088a76d9b9ce3b2f5" },
   "leap.nvim": { "branch": "main", "commit": "87d206bf678451301fa2de993db286c136cf383b" },
   "lspkind.nvim": { "branch": "master", "commit": "1735dd5a5054c1fb7feaf8e8658dbab925f4f0cf" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "9dfcf2036c223920826140f0151d929a43f9eceb" },
