@@ -11,6 +11,13 @@ return {
     delete_to_trash = true,
     use_default_keymaps = false,
     view_options = { show_hidden = true },
+    columns = {
+      -- "icon",
+      -- "permissions",
+      -- "size",
+      -- "mtime",
+    },
+
     keymaps = {
       -- ["g?"] = "actions.show_help",
       ["<CR>"] = "actions.select",
