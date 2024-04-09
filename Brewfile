@@ -1,3 +1,4 @@
+tap "ariga/tap/atlas"
 tap "homebrew/bundle"
 tap "joshmedeski/sesh"
 tap "planetscale/tap"
