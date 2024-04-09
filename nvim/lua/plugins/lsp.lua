@@ -44,6 +44,7 @@ return {
       "lua_ls",
       "prismals",
       "pyright",
+      "sqls",
       "stylelua",
       "stylua",
       "tailwindcss",
