@@ -116,7 +116,7 @@ local function renderWinbar()
     local buf_id = vim.api.nvim_win_get_buf(win_id)
     local buf_filetype = vim.api.nvim_buf_get_option(buf_id, "filetype")
 
-    if buf_filetype == "" or vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
+    if vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
       goto continue
     end
 

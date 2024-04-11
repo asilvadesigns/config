@@ -71,3 +71,6 @@ set -gx YARN_PREFIX "$FNM_MULTISHELL_PATH"
 
 # Created by `pipx` on 2024-02-28 18:49:16
 set PATH $PATH /Users/albertos/.local/bin
+
+# direnv
+direnv hook fish | source

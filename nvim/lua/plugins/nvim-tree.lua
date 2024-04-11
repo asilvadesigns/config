@@ -49,11 +49,11 @@ return {
     vim.cmd("highlight link NvimTreeIndentMarker LineNr")
 
     -- @see: https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close#eliasa5
-    vim.api.nvim_create_autocmd({ "QuitPre" }, {
-      callback = function()
-        vim.cmd("NvimTreeClose")
-      end,
-    })
+    -- vim.api.nvim_create_autocmd({ "QuitPre" }, {
+    --   callback = function()
+    --     vim.cmd("NvimTreeClose")
+    --   end,
+    -- })
 
     vim.keymap.set("n", "<leader>j", function()
       local filetype = vim.bo.filetype

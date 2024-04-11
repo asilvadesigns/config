@@ -22,12 +22,14 @@ return {
     )
 
     local opts = { noremap = true, silent = true }
-    local on_attach = function(client, bufnr)
+    local on_attach = function(_, bufnr)
       opts.buffer = bufnr
       vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
       vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
       vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-      vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
+      vim.keymap.set("n", "gd", function()
+        require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
+      end, opts)
       vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
     end
 
@@ -44,7 +46,7 @@ return {
       "lua_ls",
       "prismals",
       "pyright",
-      "sqls",
+      "sqlls",
       "stylelua",
       "stylua",
       "tailwindcss",
@@ -61,23 +63,7 @@ return {
 
     require("mason-lspconfig").setup({
       automatic_installation = true,
-      ensure_installed = {
-        "angularls",
-        "cssls",
-        "cssmodules_ls",
-        "dockerls",
-        "eslint",
-        "gopls",
-        "html",
-        "jsonls",
-        "lua_ls",
-        "prismals",
-        "pyright",
-        "tailwindcss",
-        "templ",
-        "tsserver",
-        "yamlls",
-      },
+      ensure_installed,
     })
 
     require("mason-lspconfig").setup_handlers({
@@ -161,7 +147,7 @@ return {
       ["tailwindcss"] = function()
         require("lspconfig").tailwindcss.setup({
           capabilities = capabilities,
-          filetypes = { "astro", "javascript", "react", "templ", "typescript" },
+          filetypes = { "astro", "html", "javascript", "react", "templ", "typescript" },
           init_options = { userLanguages = { templ = "html" } },
           on_attach = on_attach,
           root_dir = require("lspconfig.util").root_pattern(
@@ -179,6 +165,13 @@ return {
           },
         })
       end,
+      -- ["sqlls"] = function ()
+      --   require("lspconfig").sqlls.setup({
+      --     capabilities = capabilities,
+      --     on_attach = on_attach,
+      --     root_dir = require("lspconfig.util").root_pattern(".git"),
+      --   })
+      -- end,
       ["tsserver"] = function()
         require("lspconfig").tsserver.setup({
           capabilities = capabilities,
