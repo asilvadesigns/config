@@ -57,7 +57,7 @@ vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
 
 -- statusline && winbar
-vim.opt.laststatus = 3
+vim.opt.laststatus = 0
 vim.opt.showmode = false
 vim.opt.statusline = " "
 vim.opt.winbar = " "
