@@ -170,7 +170,7 @@ end
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
   callback = function()
-    -- renderStatusLine()
+    renderStatusLine()
     renderWinbar()
   end,
 })
@@ -179,7 +179,7 @@ render_winbar_timer:start(
   0,
   500,
   vim.schedule_wrap(function()
-    -- renderStatusLine()
+    renderStatusLine()
     renderWinbar()
   end)
 )

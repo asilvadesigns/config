@@ -85,15 +85,34 @@ return {
           settings = {
             json = {
               schemas = {
-                { fileMatch = { "jsconfig.json" }, url = "https://json.schemastore.org/jsconfig" },
-                { fileMatch = { "tsconfig.json" }, url = "https://json.schemastore.org/tsconfig" },
-                { fileMatch = { "turbo.json" }, url = "https://turbo.build/schema.json" },
-                { fileMatch = { "package.json" }, url = "https://json.schemastore.org/package" },
+                {
+                  fileMatch = { "sqlc.json" },
+                  url = { "https://json.schemastore.org/sqlc-2.0.json" },
+                },
+                {
+                  fileMatch = { "jsconfig.json" },
+                  url = "https://json.schemastore.org/jsconfig",
+                },
+                {
+                  fileMatch = { "tsconfig.json" },
+                  url = "https://json.schemastore.org/tsconfig",
+                },
+                {
+                  fileMatch = { "turbo.json" },
+                  url = "https://turbo.build/schema.json",
+                },
+                {
+                  fileMatch = { "package.json" },
+                  url = "https://json.schemastore.org/package",
+                },
                 {
                   fileMatch = { ".prettierrc.json", ".prettierrc" },
                   url = "https://json.schemastore.org/prettierrc.json",
                 },
-                { fileMatch = { ".eslintrc.json" }, url = "https://json.schemastore.org/eslintrc.json" },
+                {
+                  fileMatch = { ".eslintrc.json" },
+                  url = "https://json.schemastore.org/eslintrc.json",
+                },
               },
             },
           },
