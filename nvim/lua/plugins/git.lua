@@ -38,6 +38,7 @@ return {
     },
     version = "*",
     config = function()
+      ---@diagnostic disable-next-line: missing-fields
       require("git-conflict").setup({
         default_commands = true,
         default_mappings = false,

@@ -41,6 +41,7 @@ return {
       "cssls",
       "cssmodules_ls",
       "dockerls",
+      "emmet_language_server",
       "eslint",
       "gopls",
       "html",
@@ -52,6 +53,7 @@ return {
       "stylelua",
       "stylua",
       "tailwindcss",
+      "taplo",
       "templ",
       "tsserver",
       "yamlls",
@@ -134,6 +136,13 @@ return {
               usePlaceholders = true,
             },
           },
+        })
+      end,
+      ["emmet_language_server"] = function()
+        require("lspconfig").emmet_language_server.setup({
+          capabilities = capabilities,
+          filetypes = { "html", "templ" },
+          on_attach = on_attach,
         })
       end,
       ["html"] = function()

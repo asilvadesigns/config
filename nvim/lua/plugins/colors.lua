@@ -89,9 +89,9 @@ return {
       })
 
       -- # dark
-      -- vim.cmd("colorscheme catppuccin-frappe")
+      vim.cmd("colorscheme catppuccin-frappe")
       -- # light
-      vim.cmd("colorscheme catppuccin-latte")
+      -- vim.cmd("colorscheme catppuccin-latte")
     end,
   },
 }

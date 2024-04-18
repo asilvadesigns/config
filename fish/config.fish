@@ -29,18 +29,18 @@ set -g fish_greeting;
 
 # fzf (THEME: https://github.com/catppuccin/fzf)
 # frappe (DARK)
-# set -gx FZF_DEFAULT_OPTS "\
-# --color=bg+:#414559,bg:#292c3c,spinner:#f2d5cf,hl:#e78284 \
-# --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \
-# --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284 \
-# --color=border:#292c3c"
+set -gx FZF_DEFAULT_OPTS "\
+--color=bg+:#414559,bg:#292c3c,spinner:#f2d5cf,hl:#e78284 \
+--color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \
+--color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284 \
+--color=border:#292c3c"
 
 # latte (LIGHT)
-set -gx FZF_DEFAULT_OPTS "\
---color=bg+:#ccd0da,bg:#e6e9ef,spinner:#dc8a78,hl:#d20f39 \
---color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
---color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39 \
---color=border:#e6e9ef"
+# set -gx FZF_DEFAULT_OPTS "\
+# --color=bg+:#ccd0da,bg:#e6e9ef,spinner:#dc8a78,hl:#d20f39 \
+# --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
+# --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39 \
+# --color=border:#e6e9ef"
 
 # go
 set -gx GOPATH "$HOME/go"
