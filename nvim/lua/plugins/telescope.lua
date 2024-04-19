@@ -86,6 +86,7 @@ return {
         ["Noice messages"] = { cmd = "Noice telescope" },
         ["Quit force"] = { cmd = "qa!" },
         ["Rename File"] = { cmd = "RenameFile" },
+        ["Restart LSP"] = { cmd = "LspRestart" },
         ["Save"] = { cmd = "wa" },
         ["Save and quit force"] = { cmd = "wqa!" },
         ["Search"] = { cmd = "Spectre" },
