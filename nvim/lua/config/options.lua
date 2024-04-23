@@ -56,6 +56,9 @@ vim.opt.smartcase = true
 vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
 
+-- sessions
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
 -- statusline && winbar
 vim.opt.laststatus = 3
 vim.opt.showmode = false
