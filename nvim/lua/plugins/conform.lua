@@ -133,6 +133,7 @@ return {
         jsonc = { "biome-check", "prettier" },
         lua = { "stylua" },
         sh = { "shellcheck", "shfmt" },
+        sql = { "sql_formatter" },
         svelte = { "biome-check", "prettier" },
         templ = { "templ" },
         typescript = { "biome-check", "prettier" },
