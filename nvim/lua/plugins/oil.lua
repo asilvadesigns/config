@@ -19,7 +19,7 @@ return {
     },
 
     keymaps = {
-      -- ["g?"] = "actions.show_help",
+      ["g?"] = "actions.show_help",
       ["<CR>"] = "actions.select",
       -- ["<C-s>"] = "actions.select_vsplit",
       -- ["<C-h>"] = "actions.select_split",
