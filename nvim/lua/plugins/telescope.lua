@@ -12,19 +12,9 @@ local function get_keys(tbl)
   return sorted_keys
 end
 
-local function formatted_name(_, path)
-  local tail = vim.fs.basename(path)
-  local parent = vim.fs.dirname(path)
-
-  if parent == "." then
-    return tail
-  end
-
-  local cwd = vim.loop.cwd()
-  parent = string.gsub(parent, cwd ~= nil and cwd or "", "")
-
-  return string.format("%s\t\t%s", tail, parent)
-end
+local path_display = {
+  "filename_first",
+}
 
 return {
   {
@@ -76,6 +66,10 @@ return {
         },
         ["Git (fugitive)"] = { cmd = "Git" },
         ["Help"] = { cmd = builtin.help_tags },
+        ["Harpoon Open"] = { cmd = "HarpoonOpen" },
+        ["Harpoon Add"] = { cmd = "HarpoonAdd" },
+        ["Harpoon Next"] = { cmd = "HarpoonNext" },
+        ["Harpoon Prev"] = { cmd = "HarpoonPrev" },
         ["Keymaps"] = { cmd = "Telescope keymaps" },
         ["Lazy"] = { cmd = "Lazy" },
         ["Lint (Biome)"] = { cmd = "LintWithBiome" },
@@ -215,7 +209,7 @@ return {
               -- "package-lock.json",
             },
             preview = false,
-            path_display = formatted_name,
+            path_display = path_display,
             sorting_strategy = "ascending",
             mappings = {
               i = {
@@ -237,7 +231,7 @@ return {
           buffers = {
             ignore_current_buffer = true,
             only_cwd = true,
-            path_display = formatted_name,
+            path_display = path_display,
             sort_mru = true,
           },
           colorscheme = {
@@ -248,14 +242,14 @@ return {
           },
           find_files = {
             hidden = true,
-            path_display = formatted_name,
+            path_display = path_display,
           },
           git_files = {
-            path_display = formatted_name,
+            path_display = path_display,
           },
           oldfiles = {
             only_cwd = true,
-            path_display = formatted_name,
+            path_display = path_display,
             sort_mru = true,
           },
           help_tags = {},
