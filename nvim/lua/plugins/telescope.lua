@@ -58,12 +58,6 @@ return {
         ["Format (Biome)"] = { cmd = "FormatWithBiome" },
         ["Format (Prettier)"] = { cmd = "FormatWithPrettier" },
         ["Format (default)"] = { cmd = "Format" },
-        ["Git (conflict)"] = {
-          cmd = function()
-            vim.cmd("GitConflictRefresh")
-            vim.cmd("GitConflictListQf")
-          end,
-        },
         ["Git (fugitive)"] = { cmd = "Git" },
         ["Help"] = { cmd = builtin.help_tags },
         ["Harpoon Open"] = { cmd = "HarpoonOpen" },
@@ -76,6 +70,7 @@ return {
         ["Lint (EsLint)"] = { cmd = "LintWithPrettier" },
         ["Lint (default)"] = { cmd = "Lint" },
         ["Mason"] = { cmd = "Mason" },
+        ["Markdown Preview"] = { cmd = "MarkdownPreviewToggle" },
         ["Noice dismiss"] = { cmd = "Noice dismiss" },
         ["Noice messages"] = { cmd = "Noice telescope" },
         ["Quit force"] = { cmd = "qa!" },
