@@ -2,9 +2,25 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = { "VeryLazy" },
-    opts = {
-      signcolumn = false,
-    },
+    opts = { signcolumn = false },
+  },
+  {
+    "rhysd/conflict-marker.vim",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    init = function()
+      vim.cmd([[
+      let g:conflict_marker_highlight_group = ''
+      " Include text after begin and end markers
+      let g:conflict_marker_begin = '^<<<<<<< .*$'
+      let g:conflict_marker_end   = '^>>>>>>> .*$'
+
+      highlight ConflictMarkerBegin guibg=#2f7366
+      highlight ConflictMarkerOurs guibg=#2e5049
+      highlight ConflictMarkerTheirs guibg=#344f69
+      highlight ConflictMarkerEnd guibg=#2f628e
+      highlight ConflictMarkerCommonAncestorsHunk guibg=#754a81
+		]])
+    end,
   },
   {
     "tpope/vim-fugitive",
@@ -17,47 +33,12 @@ return {
   },
   {
     "sindrets/diffview.nvim",
+    event = { "VeryLazy" },
     cmd = {
-      "DiffviewClose",
-      "DiffviewFocusFiles",
       "DiffviewOpen",
+      "DiffviewClose",
       "DiffviewToggleFiles",
+      "DiffviewFocusFiles",
     },
-    opts = {},
-  },
-  {
-    "akinsho/git-conflict.nvim",
-    cmd = {
-      "GitConflictChooseBoth",
-      "GitConflictChooseNone",
-      "GitConflictChooseOurs",
-      "GitConflictChooseTheirs",
-      "GitConflictListQf",
-      "GitConflictNextConflict",
-      "GitConflictPrevConflict",
-    },
-    version = "*",
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require("git-conflict").setup({
-        default_commands = true,
-        default_mappings = false,
-        disable_diagnostics = true,
-        list_opener = "copen", -- command or function to open the conflicts list
-        highlights = { -- They must have background color, otherwise the default color will be used
-          current = "DiffText",
-          incoming = "DiffAdd",
-        },
-      })
-
-      -- TODO revisit.
-      -- vim.keymap.set('n', '[x', '<CMD>GitConflictNextConflict<CR>')
-      -- vim.keymap.set('n', ']x', '<CMD>GitConflictPrevConflict<CR>')
-      -- vim.keymap.set('n', 'c0', '<CMD>GitConflictChooseNone<CR>')
-      -- vim.keymap.set('n', 'cb', '<CMD>GitConflictChooseBoth<CR>')
-      -- vim.keymap.set('n', 'cf', '<CMD>GitConflictListQf<CR>')
-      -- vim.keymap.set('n', 'co', '<CMD>GitConflictChooseOurs<CR>')
-      -- vim.keymap.set('n', 'ct', '<CMD>GitConflictChooseTheirs<CR>')
-    end,
   },
 }

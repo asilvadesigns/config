@@ -8,5 +8,5 @@ return {
     },
     version = "*",
     opts = { width = 120 },
-  },
+  }
 }
