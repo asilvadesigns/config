@@ -9,21 +9,24 @@ local delete_all_buffers_except_current = function()
 end
 
 return {
-  "rmagatti/auto-session",
-  lazy = false,
-  config = function()
-    local handle_pre_save = function()
-      delete_all_buffers_except_current()
-      require("no-neck-pain").disable()
-      vim.cmd("NvimTreeClose")
-    end
+  {
+    "rmagatti/auto-session",
+    lazy = false,
+    config = function()
+      local handle_pre_save = function()
+        -- delete_all_buffers_except_current()
+        require("no-neck-pain").disable()
+        require("ufo").openAllFolds()
+        vim.cmd("NvimTreeClose")
+      end
 
-    require("auto-session").setup({
-      log_level = "error",
-      pre_save_cmds = { handle_pre_save },
-      session_lens = {
-        load_on_setup = false,
-      },
-    })
-  end,
+      require("auto-session").setup({
+        log_level = "error",
+        pre_save_cmds = { handle_pre_save },
+        session_lens = {
+          load_on_setup = false,
+        },
+      })
+    end,
+  },
 }
