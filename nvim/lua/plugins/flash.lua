@@ -1,6 +1,7 @@
 return {
   {
     "ggandor/flit.nvim",
+    enabled = false,
     event = { "VeryLazy" },
     config = function()
       require("flit").setup({
@@ -15,6 +16,7 @@ return {
   {
     "ggandor/leap.nvim",
     event = { "VeryLazy" },
+    enabled = false,
     keys = {
       {
         ";",
@@ -28,9 +30,16 @@ return {
   {
     "folke/flash.nvim",
     event = { "VeryLazy" },
-    enabled = false,
     keys = {
-      -- { "S", false, mode = {"v"} },
+      { "S", false, mode = { "v" } },
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flash",
+      },
       -- {
       --   "f",
       --   mode = { "n", "x", "o" },
@@ -46,7 +55,7 @@ return {
       },
       modes = {
         char = {
-          -- keys = { "s" },
+          keys = { "f", "F", "t", "T" },
           jump_labels = true,
         },
       },

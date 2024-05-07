@@ -53,8 +53,8 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- scroll boundaries
-vim.opt.scrolloff = 0
-vim.opt.sidescrolloff = 0
+vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 10
 
 -- sessions
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
