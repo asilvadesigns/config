@@ -125,6 +125,14 @@ local function renderStatusLine()
     cached_git_value = "  " .. string.match(git_info_str, "%((.-)%)")
   end
 
+  -- local buf_name = vim.api.nvim_buf_get_name(0)
+  -- local sep = "  "
+  -- local filename = vim.fn.fnamemodify(buf_name, ":t")
+  -- local filepath = "   " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
+
+  -- local is_modified = vim.bo[0].modified
+  -- local flag = is_modified and " +" or "  "
+
   local next_statusline = STATUS_COLOR .. cached_git_value
 
   if cached_statusline_value ~= next_statusline then

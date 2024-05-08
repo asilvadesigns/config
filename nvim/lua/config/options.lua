@@ -17,8 +17,9 @@ vim.opt.cursorline = false
 -- folding
 vim.opt.conceallevel = 0
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-vim.opt.foldcolumn = "1" -- '0' is not bad
+vim.opt.foldcolumn = "0" -- '0' is not bad
 vim.opt.foldenable = true
+-- vim.opt.foldnestmax = 0
 vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.opt.foldlevelstart = 99
 
@@ -42,8 +43,8 @@ vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 
 -- numberline
-vim.opt.number = false -- TODO: persist via prefs plugin
-vim.opt.relativenumber = false -- TODO: persist via prefs plugin
+vim.opt.number = true -- TODO: persist via prefs plugin
+vim.opt.relativenumber = true -- TODO: persist via prefs plugin
 
 -- searching
 vim.opt.grepformat = "%f:%l:%c:%m"
@@ -53,8 +54,8 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- scroll boundaries
-vim.opt.scrolloff = 10
-vim.opt.sidescrolloff = 10
+vim.opt.scrolloff = 0
+vim.opt.sidescrolloff = 0
 
 -- sessions
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
