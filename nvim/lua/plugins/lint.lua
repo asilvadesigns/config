@@ -37,6 +37,7 @@ return {
     },
   },
   config = function()
+    -- write logic to handle... getting nearest linter by filetype...
     -- local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
     --
     -- vim.api.nvim_create_autocmd({

@@ -143,13 +143,16 @@ return {
         stylua = { "stylua.toml" },
       })
 
+      print("formatting with::")
+      print(vim.inspect(formatters))
+
       if not formatters then
         -- TODO: at some point log out the lsp name
         print("formatter not found, using lsp")
         require("conform").format({ async = true, lsp_fallback = true })
       else
         print("formatted with " .. formatters[1])
-        require("conform").format({ async = true, lsp_fallback = false, formatters })
+        require("conform").format({ async = true, lsp_fallback = false, formatters = formatters })
       end
     end, {})
 

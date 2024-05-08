@@ -2,11 +2,13 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = { "VeryLazy" },
+    enabled = false,
     opts = { signcolumn = false },
   },
   {
     "NeogitOrg/neogit",
     event = { "VeryLazy" },
+    enabled = false,
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
       "sindrets/diffview.nvim", -- optional - Diff integration
@@ -46,6 +48,7 @@ return {
   {
     "sindrets/diffview.nvim",
     event = { "VeryLazy" },
+    enabled = false,
     cmd = {
       "DiffviewOpen",
       "DiffviewClose",

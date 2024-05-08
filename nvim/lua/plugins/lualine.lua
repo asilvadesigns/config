@@ -82,7 +82,7 @@ return {
       sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = gitBranch({ fg = colors.overlay2 }),
+        lualine_c = {}, --gitBranch({ fg = colors.overlay2 }),
         lualine_x = filenameText({ fg = colors.overlay2 }),
         lualine_y = {},
         lualine_z = {},
@@ -90,7 +90,7 @@ return {
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = gitBranch(),
+        lualine_c = {}, --gitBranch(),
         lualine_x = filenameText(),
         lualine_y = {},
         lualine_z = {},
