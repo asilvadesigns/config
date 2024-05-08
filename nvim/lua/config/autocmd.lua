@@ -28,40 +28,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
     vim.cmd("tabdo wincmd =")
   end,
 })
--- local function lsp()
---   local count = {
---     Error = 0,
---     Hint = 0,
---     Info = 0,
---     Warn = 0,
---   }
---
---   local signs = {
---     Error = "󰅚 ",
---     Hint = "󰌶 ",
---     Info = " ",
---     Warn = "󰀪 ",
---   }
---
---   local levels = {
---     errors = "Error",
---     hints = "Hint",
---     info = "Info",
---     warnings = "Warn",
---   }
---
---   for _, level in pairs(levels) do
---     count[level] = vim.tbl_count(vim.diagnostic.get(0, { severity = level }))
---   end
---
---   local errors = signs["Error"] .. count["Error"] .. " "
---   local hints = signs["Hint"] .. count["Hint"] .. " "
---   local info = signs["Info"] .. count["Info"] .. " "
---   local warnings = signs["Warn"] .. count["Warn"] .. " "
---
---   return errors .. warnings .. hints .. info
--- end
---
 
 local cached_git_value = "  ..loading"
 local cached_statusline_value = " "
@@ -171,7 +137,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
   group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
   callback = function()
     renderStatusLine()
-    renderWinbar()
+    -- renderWinbar()
   end,
 })
 
@@ -180,7 +146,7 @@ render_winbar_timer:start(
   500,
   vim.schedule_wrap(function()
     renderStatusLine()
-    renderWinbar()
+    -- renderWinbar()
   end)
 )
 

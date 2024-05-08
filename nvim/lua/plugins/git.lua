@@ -17,7 +17,8 @@ return {
   },
   {
     "rhysd/conflict-marker.vim",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    event = { "VeryLazy" },
+    enabled = false,
     init = function()
       vim.cmd([[
       let g:conflict_marker_highlight_group = ''

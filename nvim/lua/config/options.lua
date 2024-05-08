@@ -63,7 +63,7 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpo
 vim.opt.laststatus = 3
 vim.opt.showmode = false
 vim.opt.statusline = " "
-vim.opt.winbar = " "
+-- vim.opt.winbar = " "
 
 -- terminal
 vim.opt.termguicolors = true
