@@ -31,18 +31,19 @@ end
 
 local function gitBranch(color)
   return {
-    {
-      "branch",
-      icon = "",
-      color = color,
-      on_click = function()
-        vim.cmd("Git")
-      end,
-    },
+    -- {
+    --   "branch",
+    --   icon = "",
+    --   color = color,
+    --   on_click = function()
+    --     vim.cmd("Git")
+    --   end,
+    -- },
     {
       "diagnostics",
       color = color,
       always_visible = true,
+      colored = false,           -- Displays diagnostics status in color if set to true.
       on_click = function()
         vim.cmd("Trouble")
       end,
@@ -53,6 +54,7 @@ end
 return {
   "nvim-lualine/lualine.nvim",
   event = { "VeryLazy" },
+  enabled = false,
   dependencies = {
     "nvim-tree/nvim-web-devicons",
     "catppuccin/nvim",
@@ -82,15 +84,15 @@ return {
       sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = {}, --gitBranch({ fg = colors.overlay2 }),
-        lualine_x = filenameText({ fg = colors.overlay2 }),
+        lualine_c = gitBranch({ fg = colors.surface2 }),
+        lualine_x = filenameText({ fg = colors.surface2 }),
         lualine_y = {},
         lualine_z = {},
       },
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = {}, --gitBranch(),
+        lualine_c = gitBranch(),
         lualine_x = filenameText(),
         lualine_y = {},
         lualine_z = {},

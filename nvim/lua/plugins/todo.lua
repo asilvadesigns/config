@@ -3,6 +3,7 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "VeryLazy" },
   config = function()
+    -- TODO: yo forreal tho.
     require("todo-comments").setup({
       keywords = {
         FIX = {
@@ -17,6 +18,11 @@ return {
         TEST = { icon = " ⏲", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
         TODO = { icon = " 󰄬", color = "info" },
         WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+      },
+      highlight = {
+        multiline = false, -- enable multine todo comments
+        pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
+        comments_only = true, -- uses treesitter to match keywords in comments only
       },
     })
 

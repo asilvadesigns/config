@@ -125,15 +125,15 @@ local function renderStatusLine()
     cached_git_value = "  " .. string.match(git_info_str, "%((.-)%)")
   end
 
-  -- local buf_name = vim.api.nvim_buf_get_name(0)
-  -- local sep = "  "
-  -- local filename = vim.fn.fnamemodify(buf_name, ":t")
-  -- local filepath = "   " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
+  local buf_name = vim.api.nvim_buf_get_name(0)
+  local sep = "/"
+  local filename = vim.fn.fnamemodify(buf_name, ":t")
+  local filepath = string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
 
-  -- local is_modified = vim.bo[0].modified
-  -- local flag = is_modified and " +" or "  "
+  local is_modified = vim.bo[0].modified
+  local flag = is_modified and " +" or "  "
 
-  local next_statusline = STATUS_COLOR .. cached_git_value
+  local next_statusline = STATUS_COLOR .. cached_git_value .. "  " .. filepath .. filename .. flag
 
   if cached_statusline_value ~= next_statusline then
     cached_statusline_value = next_statusline
@@ -151,7 +151,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 
 render_winbar_timer:start(
   0,
-  500,
+  250,
   vim.schedule_wrap(function()
     renderStatusLine()
     -- renderWinbar()

@@ -1,3 +1,21 @@
+local function get_diagnostic_label(props)
+  local icons = {
+    Error = { icon = "󰅚" },
+    Hint = { icon = "󰌶" },
+    Info = { icon = "" },
+    Warn = { icon = "󰀪" },
+  }
+
+  local label = {}
+  for severity, data in pairs(icons) do
+    local n = #vim.diagnostic.get(props.buf, { severity = vim.diagnostic.severity[string.upper(severity)] })
+    if n > 0 then
+      table.insert(label, { data.icon .. " " .. n .. " ", group = "DiagnosticSign" .. severity })
+    end
+  end
+  return label
+end
+
 return {
   "b0o/incline.nvim",
   dependencies = {
@@ -5,7 +23,6 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   event = { "VeryLazy" },
-  enabled = false,
   config = function()
     local colors = require("catppuccin.palettes").get_palette()
 
@@ -20,29 +37,14 @@ return {
         },
       },
       render = function(props)
-        local diagnostic_data = {
-          Error = { sign = "󰅚 ", hl = "%#LspDiagnosticsVirtualTextError#" },
-          Hint = { sign = "󰌶 ", hl = "%#LspDiagnosticsVirtualTextHint#" },
-          Info = { sign = " ", hl = "%#LspDiagnosticsVirtualTextInformation#" },
-          Warn = { sign = "󰀪 ", hl = "%#LspDiagnosticsVirtualTextWarn#" },
-        }
+        local diagnostics = get_diagnostic_label(props)
 
-        local diagnostics = " "
-
-        for level, data in pairs(diagnostic_data) do
-          local count = vim.tbl_count(vim.diagnostic.get(props.buf, { severity = level }))
-          -- diagnostics = diagnostics .. (count >= 1 and sign .. count .. " " or " ")
-          diagnostics = diagnostics .. (count >= 1 and data.hl .. data.sign .. count .. "%*" or " ")
-        end
-
-        local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+        -- local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
         -- local filepath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":~:.:h") .. "/"
         -- local modified = vim.bo[props.buf].modified
 
         return {
-          { diagnostics .. " " .. filename },
-          -- { diagnostics .. "  " },
-          -- modified and " *" or "  ",
+          { diagnostics },
         }
       end,
       window = {
