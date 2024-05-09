@@ -16,6 +16,17 @@ local function get_diagnostic_label(props)
   return label
 end
 
+local function get_modified_label(props, modified, base)
+  local label = {}
+  local is_modified = vim.bo[props.buf].modified
+  if is_modified then
+    table.insert(label, { " ", guifg = modified })
+  else
+    table.insert(label, { " ", guifg = base })
+  end
+  return label
+end
+
 return {
   "b0o/incline.nvim",
   dependencies = {
@@ -38,13 +49,11 @@ return {
       },
       render = function(props)
         local diagnostics = get_diagnostic_label(props)
-
-        -- local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-        -- local filepath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":~:.:h") .. "/"
-        -- local modified = vim.bo[props.buf].modified
+        local modified = get_modified_label(props, colors.yellow, colors.crust)
 
         return {
           { diagnostics },
+          { modified },
         }
       end,
       window = {
