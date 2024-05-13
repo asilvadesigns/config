@@ -35,6 +35,7 @@ return {
             FlashCurrent = { fg = c.sky, bg = c.base },
             FlashPrompt = { link = "NormalFloat" },
             --
+            NvimTreeFileExec = { fg = c.subtext1 },
             NvimTreeFolderName = { fg = c.subtext1 },
             --
             -- custom NOTIFY

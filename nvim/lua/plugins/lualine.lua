@@ -29,6 +29,20 @@ local function filenameText(color)
   }
 end
 
+local function diagnostics(color)
+  return {
+    {
+      "diagnostics",
+      color = color,
+      always_visible = true,
+      colored = false, -- Displays diagnostics status in color if set to true.
+      on_click = function()
+        vim.cmd("Trouble")
+      end,
+    },
+  }
+end
+
 local function gitBranch(color)
   return {
     {
@@ -37,15 +51,6 @@ local function gitBranch(color)
       color = color,
       on_click = function()
         vim.cmd("Git")
-      end,
-    },
-    {
-      "diagnostics",
-      color = color,
-      always_visible = true,
-      colored = false,           -- Displays diagnostics status in color if set to true.
-      on_click = function()
-        vim.cmd("Trouble")
       end,
     },
   }
@@ -67,7 +72,7 @@ return {
         component_separators = " ",
         disabled_filetypes = {
           statusline = { "" },
-          -- winbar = { "" },
+          winbar = { "NvimTree", "no-neck-pain" },
         },
         globalstatus = true,
         icons_enabled = true,
@@ -84,7 +89,7 @@ return {
         lualine_a = {},
         lualine_b = {},
         lualine_c = gitBranch({ fg = colors.surface2 }),
-        lualine_x = filenameText({ fg = colors.surface2 }),
+        lualine_x = {},
         lualine_y = {},
         lualine_z = {},
       },
@@ -92,12 +97,26 @@ return {
         lualine_a = {},
         lualine_b = {},
         lualine_c = gitBranch(),
-        lualine_x = filenameText(),
+        lualine_x = {},
         lualine_y = {},
         lualine_z = {},
       },
-      -- winbar = {},
-      -- inactive_winbar = {},
+      winbar = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = filenameText({ fg = colors.surface2 }),
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = diagnostics({ fg = colors.surface2 }),
+      },
+      inactive_winbar = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = filenameText({ fg = colors.surface2 }),
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = diagnostics({ fg = colors.surface2 }),
+      },
     })
   end,
 }
