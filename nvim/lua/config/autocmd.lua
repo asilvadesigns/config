@@ -92,10 +92,10 @@ local function renderWinbar()
     local filename = vim.fn.fnamemodify(buf_name, ":t")
     local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
 
-    local is_modified = vim.bo[buf_id].modified
-    local flag = is_modified and " +" or "  "
+    -- local is_modified = vim.bo[buf_id].modified
+    -- local flag = is_modified and " +" or "  "
 
-    local next_winbar = WINBAR_COLOR .. filepath .. filename .. flag .. "%*"
+    local next_winbar = WINBAR_COLOR .. filepath .. filename .. "%*"
 
     if cached_winbar_value[buf_id] ~= next_winbar then
       cached_winbar_value[buf_id] = next_winbar
@@ -118,19 +118,20 @@ local function renderStatusLine()
     return
   end
 
-  local git_info = vim.api.nvim_eval_statusline("%{FugitiveStatusline()}", {})
-  local git_info_str = git_info["str"]
-
-  if git_info_str ~= "" then
-    cached_git_value = "  " .. string.match(git_info_str, "%((.-)%)")
-  end
+  -- local git_info = vim.api.nvim_eval_statusline("%{FugitiveStatusline()}", {})
+  -- local git_info_str = git_info["str"]
+  --
+  -- if git_info_str ~= "" then
+  --   cached_git_value = "  " .. string.match(git_info_str, "%((.-)%)")
+  -- end
 
   local buf_name = vim.api.nvim_buf_get_name(0)
   local sep = "/"
   local filename = vim.fn.fnamemodify(buf_name, ":t")
   local filepath = string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
 
-  local next_statusline = STATUS_COLOR .. cached_git_value .. "  " .. filepath .. filename
+  -- local next_statusline = STATUS_COLOR .. cached_git_value .. "  " .. filepath .. filename
+  local next_statusline = STATUS_COLOR .. "  " .. filepath .. filename
 
   if cached_statusline_value ~= next_statusline then
     cached_statusline_value = next_statusline
@@ -138,22 +139,22 @@ local function renderStatusLine()
   end
 end
 
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
-  group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
-  callback = function()
-    renderStatusLine()
-    -- renderWinbar()
-  end,
-})
-
-render_winbar_timer:start(
-  0,
-  500,
-  vim.schedule_wrap(function()
-    renderStatusLine()
-    -- renderWinbar()
-  end)
-)
+-- vim.api.nvim_create_autocmd({ "BufEnter" }, {
+--   group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
+--   callback = function()
+--     -- renderStatusLine()
+--     renderWinbar()
+--   end,
+-- })
+--
+-- render_winbar_timer:start(
+--   0,
+--   500,
+--   vim.schedule_wrap(function()
+--     -- renderStatusLine()
+--     renderWinbar()
+--   end)
+-- )
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command

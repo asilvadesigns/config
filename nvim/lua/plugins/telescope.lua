@@ -69,6 +69,7 @@ return {
         ["Lint (Biome)"] = { cmd = "LintWithBiome" },
         ["Lint (EsLint)"] = { cmd = "LintWithPrettier" },
         ["Lint (default)"] = { cmd = "Lint" },
+        ["Load Session"] = { cmd = "LoadSession" },
         ["Mason"] = { cmd = "Mason" },
         ["Markdown Preview"] = { cmd = "MarkdownPreviewToggle" },
         ["Noice dismiss"] = { cmd = "Noice dismiss" },

@@ -23,7 +23,7 @@ return {
           return {
             --
             -- custom DEFAULTS
-            CursorLine = { bg = c.base },
+            -- CursorLine = { bg = c.surface2 },
             CursorLineNr = { fg = c.blue },
             Visual = { bg = c.surface0 },
             WinSeparator = { fg = c.mantle },
@@ -34,6 +34,8 @@ return {
             FlashMatch = { fg = c.lavender, bg = c.base },
             FlashCurrent = { fg = c.sky, bg = c.base },
             FlashPrompt = { link = "NormalFloat" },
+            --
+            NvimTreeFolderName = { fg = c.subtext1 },
             --
             -- custom NOTIFY
             NotifyBackground = { bg = c.mantle },

@@ -31,14 +31,14 @@ end
 
 local function gitBranch(color)
   return {
-    -- {
-    --   "branch",
-    --   icon = "",
-    --   color = color,
-    --   on_click = function()
-    --     vim.cmd("Git")
-    --   end,
-    -- },
+    {
+      "branch",
+      icon = "",
+      color = color,
+      on_click = function()
+        vim.cmd("Git")
+      end,
+    },
     {
       "diagnostics",
       color = color,
@@ -54,7 +54,6 @@ end
 return {
   "nvim-lualine/lualine.nvim",
   event = { "VeryLazy" },
-  enabled = false,
   dependencies = {
     "nvim-tree/nvim-web-devicons",
     "catppuccin/nvim",
