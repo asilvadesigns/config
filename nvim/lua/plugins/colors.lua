@@ -29,6 +29,9 @@ return {
             WinSeparator = { fg = c.mantle },
             --
             -- custom FLASH
+            TroubleNormal = { bg = c.base },
+            --
+            -- custom FLASH
             FlashBackdrop = { fg = c.overlay0 },
             FlashLabel = { fg = c.red, bg = c.crust },
             FlashMatch = { fg = c.lavender, bg = c.base },

@@ -51,6 +51,7 @@ vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.grepprg = "rg --hidden --vimgrep --smart-case --"
 vim.opt.hlsearch = true
 vim.opt.ignorecase = true
+vim.opt.inccommand = "nosplit"
 vim.opt.smartcase = true
 
 -- scroll boundaries
