@@ -12,6 +12,9 @@ draw_bold_text_with_bright_colors = false
 cursor = "0x268bd2"
 text = "0xeee8d5"
 
+[cursor]
+thickness = 0.2
+
 [keyboard]
 bindings = [
   # tmux | clear
