@@ -37,7 +37,8 @@ local function get_branch(color)
   return {
     {
       "branch",
-      icon = "",
+      icon = "",
+      icons_enabled = true,
       color = color,
       on_click = function()
         vim.cmd("Git")
@@ -59,10 +60,7 @@ return {
   "nvim-lualine/lualine.nvim",
   enabled = true,
   event = { "VeryLazy" },
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-    "catppuccin/nvim",
-  },
+  dependencies = { "catppuccin/nvim" },
   config = function()
     local colors = require("catppuccin.palettes").get_palette()
 
@@ -75,7 +73,7 @@ return {
           winbar = { "NvimTree", "Outline", "no-neck-pain", "trouble" },
         },
         globalstatus = true,
-        icons_enabled = true,
+        icons_enabled = false,
         section_separators = "",
         theme = {
           normal = {
