@@ -13,7 +13,7 @@ cursor = "0x268bd2"
 text = "0xeee8d5"
 
 [cursor]
-thickness = 0.25
+thickness = 0.2
 blink_interval = 750
 
 [cursor.style]

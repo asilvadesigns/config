@@ -25,8 +25,9 @@ return {
           return {
             --
             -- custom DEFAULTS
-            CursorLine = { bg = c.base },
+            -- CursorLine = { bg = c.base },
             CursorLineNr = { fg = c.blue },
+            CursorLineFold = { bg = c.surface0 },
             Visual = { bg = c.surface0 },
             WinSeparator = { fg = c.mantle },
             --
@@ -42,6 +43,7 @@ return {
             --
             NvimTreeFileExec = { fg = c.subtext1 },
             NvimTreeFolderName = { fg = c.subtext1 },
+            -- NvimTreeCursorLine = { fg = c.yellow },
             --
             -- custom NOTIFY
             NotifyBackground = { bg = c.mantle },

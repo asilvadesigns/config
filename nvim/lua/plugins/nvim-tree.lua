@@ -43,6 +43,14 @@ return {
           enable = false,
         },
       },
+      update_focused_file = {
+        enable = true,
+        update_root = {
+          enable = false,
+          ignore_list = {},
+        },
+        exclude = false,
+      },
       view = {
         width = 40,
       },
