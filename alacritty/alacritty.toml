@@ -58,6 +58,8 @@ bindings = [
   { key = "7", mods = "Command", chars = "\u00007" },
   { key = "8", mods = "Command", chars = "\u00008" },
   { key = "9", mods = "Command", chars = "\u00009" },
+  # nvim comment
+  { key = "/", mods = "Command", chars = "gcc" },
 ]
 
 [env]
