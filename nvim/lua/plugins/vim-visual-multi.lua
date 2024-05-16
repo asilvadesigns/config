@@ -3,6 +3,7 @@ return {
   enabled = true,
   event = { "VeryLazy" },
   config = function()
+    vim.g.VM_theme = "iceblue"
     vim.g.VM_default_mappings = 1
     vim.g.VM_mouse_mappings = 0
     vim.g.VM_set_statusline = 0

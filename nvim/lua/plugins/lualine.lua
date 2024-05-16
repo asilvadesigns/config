@@ -1,11 +1,5 @@
-local function filenameText(color, colored)
+local function get_filename(color)
   return {
-    -- {
-    --   "filetype",
-    --   colored = colored, -- Displays filetype icon in color if set to true
-    --   icon_only = true, -- Display only an icon for filetype
-    --   icon = { align = "right" }, -- Display filetype icon on the right hand side
-    -- },
     {
       "filename",
       color = color,
@@ -39,7 +33,7 @@ local function get_diagnostics(color, colored)
   }
 end
 
-local function gitBranch(color)
+local function get_branch(color)
   return {
     {
       "branch",
@@ -49,6 +43,15 @@ local function gitBranch(color)
         vim.cmd("Git")
       end,
     },
+  }
+end
+
+local function file_details(color)
+  return {
+    { "location", color = color },
+    { "progress", color = color },
+    { "encoding", color = color },
+    { "filetype", color = color },
   }
 end
 
@@ -85,23 +88,15 @@ return {
       sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = gitBranch({ fg = colors.surface2 }),
+        lualine_c = get_branch({ fg = colors.surface2 }),
         lualine_x = {},
         lualine_y = {},
-        lualine_z = {},
-      },
-      inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = gitBranch(),
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
+        lualine_z = file_details({ fg = colors.surface2 }),
       },
       winbar = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = filenameText({ fg = colors.surface2 }, true),
+        lualine_c = get_filename({ fg = colors.surface2 }),
         lualine_x = {},
         lualine_y = {},
         lualine_z = get_diagnostics(nil, true),
@@ -109,7 +104,7 @@ return {
       inactive_winbar = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = filenameText({ fg = colors.surface2 }, false),
+        lualine_c = get_filename({ fg = colors.surface2 }),
         lualine_x = {},
         lualine_y = {},
         lualine_z = get_diagnostics({ fg = colors.surface2 }, false),
