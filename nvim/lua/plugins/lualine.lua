@@ -38,7 +38,6 @@ local function get_branch(color)
     {
       "branch",
       icon = "",
-      icons_enabled = true,
       color = color,
       on_click = function()
         vim.cmd("Git")
@@ -73,7 +72,7 @@ return {
           winbar = { "NvimTree", "Outline", "no-neck-pain", "trouble" },
         },
         globalstatus = true,
-        icons_enabled = false,
+        icons_enabled = true,
         section_separators = "",
         theme = {
           normal = {
