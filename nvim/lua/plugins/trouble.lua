@@ -1,7 +1,7 @@
 return {
   "folke/trouble.nvim",
+  enabled = true,
   branch = "dev",
-  event = { "VeryLazy" },
   cmd = { "ToggleTrouble", "Trouble" },
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()

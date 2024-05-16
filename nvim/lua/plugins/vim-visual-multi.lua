@@ -1,5 +1,6 @@
 return {
   "mg979/vim-visual-multi",
+  enabled = true,
   event = { "VeryLazy" },
   config = function()
     vim.g.VM_default_mappings = 1

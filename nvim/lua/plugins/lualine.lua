@@ -1,15 +1,3 @@
-local function filenameIcon(color, colored)
-  return {
-    {
-      "filetype",
-      color = color,
-      colored = colored, -- Displays filetype icon in color if set to true
-      icon_only = true, -- Display only an icon for filetype
-      icon = { align = "right" }, -- Display filetype icon on the right hand side
-    },
-  }
-end
-
 local function filenameText(color, colored)
   return {
     -- {
@@ -35,58 +23,21 @@ local function filenameText(color, colored)
   }
 end
 
-local function get_diagnostics(color)
+---@param color table<string, string> | nil
+---@param colored boolean
+local function get_diagnostics(color, colored)
   return {
     {
       "diagnostics",
+      always_visible = false,
       color = color,
-      always_visible = true,
-      colored = false, -- Displays diagnostics status in color if set to true.
+      colored = colored,
       on_click = function()
         vim.cmd("Trouble")
       end,
     },
   }
 end
---
---   local icons = {
---     Error = { icon = "󰅚" },
---     Hint = { icon = "󰌶" },
---     Info = { icon = "" },
---     Warn = { icon = "󰀪" },
---   }
---
---   local label = {}
---
---   for severity, data in pairs(icons) do
---     local n = vim.diagnostic.get(0, { severity = vim.diagnostic.severity[string.upper(severity)] })
---     if n > 0 then
---       table.insert(label, { data.icon .. " " .. n .. " ", group = "DiagnosticSign" .. severity })
---     end
---   end
---
---   local output = table.concat(label, " ")
---
---   vim.print(vim.inspect(label))
---   vim.print("\n")
---   vim.print(vim.inspect(output))
---
---   -- return [[hello world]]
---   return { output }
--- end
-
--- local function get_diagnostics(component)
---   return function()
---     local diagnostics = component()
---     local filtered_diagnostics = {}
---     for _, diag in ipairs(diagnostics) do
---       if diag.content ~= "0" then -- Check if diagnostic value is not zero
---         table.insert(filtered_diagnostics, diag)
---       end
---     end
---     return filtered_diagnostics
---   end
--- end
 
 local function gitBranch(color)
   return {
@@ -103,6 +54,7 @@ end
 
 return {
   "nvim-lualine/lualine.nvim",
+  enabled = true,
   event = { "VeryLazy" },
   dependencies = {
     "nvim-tree/nvim-web-devicons",
@@ -116,8 +68,8 @@ return {
       options = {
         component_separators = " ",
         disabled_filetypes = {
-          statusline = { "trouble" },
-          winbar = { "NvimTree", "no-neck-pain", "trouble" },
+          statusline = { "trouble", "oil" },
+          winbar = { "NvimTree", "Outline", "no-neck-pain", "trouble" },
         },
         globalstatus = true,
         icons_enabled = true,
@@ -152,7 +104,7 @@ return {
         lualine_c = filenameText({ fg = colors.surface2 }, true),
         lualine_x = {},
         lualine_y = {},
-        lualine_z = get_diagnostics({ fg = colors.surface2 }),
+        lualine_z = get_diagnostics(nil, true),
       },
       inactive_winbar = {
         lualine_a = {},
@@ -160,7 +112,7 @@ return {
         lualine_c = filenameText({ fg = colors.surface2 }, false),
         lualine_x = {},
         lualine_y = {},
-        lualine_z = get_diagnostics({ fg = colors.surface2 }),
+        lualine_z = get_diagnostics({ fg = colors.surface2 }, false),
       },
     })
   end,

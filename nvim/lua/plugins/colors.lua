@@ -1,11 +1,13 @@
 return {
   {
     "NvChad/nvim-colorizer.lua",
+    enabled = true,
     event = { "VeryLazy" },
     opts = {},
   },
   {
     "catppuccin/nvim",
+    enabled = true,
     lazy = false,
     name = "catppuccin",
     priority = 1000,

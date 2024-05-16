@@ -109,10 +109,10 @@ vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic m
 -- diagnostics in gutter
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
 local signs = {
-  Error = " 󰅚",
-  Warn = " 󰀪",
-  Hint = " 󰌶",
-  Info = " ",
+  Error = "󰅚",
+  Warn = "󰀪",
+  Hint = "󰌶",
+  Info = "",
 }
 
 for type, icon in pairs(signs) do

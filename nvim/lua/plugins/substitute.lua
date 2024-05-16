@@ -1,5 +1,6 @@
 return {
   "gbprod/substitute.nvim",
+  enabled = true,
   event = { "VeryLazy" },
   keys = {
     {

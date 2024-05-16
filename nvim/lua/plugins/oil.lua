@@ -1,5 +1,6 @@
 return {
   "stevearc/oil.nvim",
+  enabled = true,
   cmd = "Oil",
   keys = {
     { "<leader>x", "<CMD>Oil<CR>" },

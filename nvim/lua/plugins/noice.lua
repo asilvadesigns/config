@@ -1,7 +1,7 @@
 return {
   "folke/noice.nvim",
-  -- event = { "VeryLazy" },
-  lazy = false,
+  enabled = true,
+  event = { "VeryLazy" },
   dependencies = {
     "MunifTanjim/nui.nvim",
     {
@@ -22,7 +22,12 @@ return {
       cmdline = {
         enabled = true,
         format = {
-          cmdline = { pattern = "^:", icon = "", lang = "vim" },
+          cmdline = {
+            icon = " ",
+            lang = "vim",
+            pattern = "^:",
+            view = "cmdline"
+          },
           search_down = {
             icon = "  ",
             kind = "search",

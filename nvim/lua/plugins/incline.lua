@@ -29,12 +29,12 @@ end
 
 return {
   "b0o/incline.nvim",
+  enabled = false,
   dependencies = {
     "catppuccin/nvim",
     "nvim-tree/nvim-web-devicons",
   },
   event = { "VeryLazy" },
-  enabled = false,
   config = function()
     local colors = require("catppuccin.palettes").get_palette()
 

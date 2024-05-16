@@ -1,6 +1,7 @@
 return {
   "axelvc/template-string.nvim",
-  event = { "VeryLazy" },
+  enabled = true,
+  event = { "InsertEnter" },
   config = function()
     require("template-string").setup({
       remove_template_string = true,

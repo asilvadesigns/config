@@ -1,5 +1,6 @@
 return {
   "hrsh7th/nvim-cmp",
+  enabled = true,
   event = { "InsertEnter" },
   dependencies = {
     -- Snippet Engine

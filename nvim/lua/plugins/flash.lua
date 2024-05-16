@@ -15,8 +15,8 @@ return {
   },
   {
     "ggandor/leap.nvim",
-    event = { "VeryLazy" },
     enabled = false,
+    event = { "VeryLazy" },
     keys = {
       {
         ";",
@@ -29,6 +29,7 @@ return {
   },
   {
     "folke/flash.nvim",
+    enabled = false,
     event = { "VeryLazy" },
     keys = {
       { "S", false, mode = { "v" } },

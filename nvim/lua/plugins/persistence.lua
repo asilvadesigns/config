@@ -1,12 +1,13 @@
 return {
   "folke/persistence.nvim",
-  event = { "VeryLazy" },
+  enabled = true,
+  lazy = false,
   config = function()
     require("persistence").setup()
 
-    -- if next(vim.fn.argv()) == nil then
-    --   require("persistence").load()
-    -- end
+    if next(vim.fn.argv()) == nil then
+      require("persistence").load()
+    end
 
     vim.api.nvim_create_autocmd("ExitPre", {
       callback = function()

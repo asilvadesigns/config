@@ -1,5 +1,6 @@
 return {
   "akinsho/bufferline.nvim",
+  enabled = false,
   dependencies = {
     "catppuccin/nvim",
     "nvim-tree/nvim-web-devicons",
@@ -13,12 +14,8 @@ return {
         styles = { "italic", "bold" },
         custom = {
           all = {
-            fill = {
-              bg = colors.mantle,
-            },
-            indicator_selected = {
-              fg = colors.blue,
-            },
+            fill = { bg = colors.mantle },
+            indicator_selected = { fg = colors.blue },
           },
         },
       }),

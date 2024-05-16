@@ -102,6 +102,7 @@ end
 
 return {
   "stevearc/conform.nvim",
+  enabled = true,
   dependencies = { "neovim/nvim-lspconfig" },
   cmd = { "Format" },
   keys = {
