@@ -78,7 +78,7 @@ style = "Bold Italic"
 
 [font.glyph_offset]
 x = 0
-y = 7
+y = 8
 
 [font.italic]
 family = "JetBrainsMono Nerd Font Mono"
@@ -90,7 +90,7 @@ style = "Regular"
 
 [font.offset]
 x = 0
-y = 14
+y = 16
 
 [window]
 decorations = "buttonless"
