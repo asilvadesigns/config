@@ -123,7 +123,8 @@ return {
         ["Todos"] = { cmd = "TodoTelescope" },
         ["Todos Quickfix"] = { cmd = "TodoLocList" },
         ["Trouble"] = { cmd = "Trouble" },
-        ["Zen Mode"] = { cmd = "NoNeckPain" },
+        ["Zen Mode (folke)"] = { cmd = "ZenMode" },
+        ["Zen Mode (no neck pain)"] = { cmd = "NoNeckPain" },
         ["Zen Mode (decrease)"] = { cmd = "NoNeckPainWidthDown" },
         ["Zen Mode (increase)"] = { cmd = "NoNeckPainWidthUp" },
       }
