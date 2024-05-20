@@ -15,17 +15,20 @@ return {
   },
   {
     "ggandor/leap.nvim",
-    enabled = false,
+    enabled = true,
     event = { "VeryLazy" },
-    keys = {
-      {
-        ";",
-        function()
-          require("leap").leap({ target_windows = { vim.api.nvim_get_current_win() } })
-        end,
-        mode = { "n" },
-      },
-    },
+    config = function()
+      require('leap').create_default_mappings()
+    end,
+    -- keys = {
+    --   {
+    --     ";",
+    --     function()
+    --       require("leap").leap({ target_windows = { vim.api.nvim_get_current_win() } })
+    --     end,
+    --     mode = { "n" },
+    --   },z
+    -- },
   },
   {
     "folke/flash.nvim",

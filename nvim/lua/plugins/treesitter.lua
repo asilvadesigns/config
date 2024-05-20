@@ -4,19 +4,7 @@ return {
     enabled = true,
     event = { "VeryLazy" },
     build = ":TSUpdate",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      { "windwp/nvim-autopairs", opts = {} },
-      {
-        "windwp/nvim-ts-autotag",
-        opts = {
-          enable = true,
-          enable_rename = true,
-          enable_close = true,
-          enable_close_on_slash = true,
-        },
-      },
-    },
+    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     config = function()
       vim.treesitter.language.register("mdx", { "markdown" })
 
@@ -57,7 +45,8 @@ return {
           enable = false,
         },
         incremental_selection = {
-          enable = true,
+          enable = false,
+          -- NOTE: conflicts with leap.
           keymaps = {
             init_selection = "gsl",
             node_decremental = "gsd",
