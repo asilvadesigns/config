@@ -205,7 +205,7 @@ return {
               -- "node_modules",
               -- "package-lock.json",
             },
-            preview = false,
+            preview = true,
             path_display = path_display,
             sorting_strategy = "ascending",
             mappings = {

@@ -2,7 +2,7 @@ return {
   {
     "NvChad/nvim-colorizer.lua",
     enabled = true,
-    event = { "VeryLazy" },
+    event = "VeryLazy" ,
     opts = {},
   },
   {

@@ -58,7 +58,7 @@ end
 return {
   "nvim-lualine/lualine.nvim",
   enabled = true,
-  event = { "VeryLazy" },
+  event = "VeryLazy" ,
   dependencies = { "catppuccin/nvim" },
   config = function()
     local colors = require("catppuccin.palettes").get_palette()

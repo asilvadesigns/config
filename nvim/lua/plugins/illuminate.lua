@@ -1,7 +1,7 @@
 return {
   "RRethy/vim-illuminate",
   enabled = false,
-  event = { "VeryLazy" },
+  event = "VeryLazy" ,
   config = function()
     require("illuminate").configure({
       filetypes_denylist = {

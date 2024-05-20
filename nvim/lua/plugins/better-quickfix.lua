@@ -8,7 +8,7 @@ return {
   cmd = {
     "BqfAutoToggle",
   },
-  event = { "QuickFixCmdPost" },
+  event = "QuickFixCmdPost" ,
   ft = "qf",
   opts = {
     preview = {

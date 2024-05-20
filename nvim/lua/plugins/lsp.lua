@@ -1,7 +1,7 @@
 return {
   "neovim/nvim-lspconfig",
   enabled = true,
-  event = { "VeryLazy" },
+  event = "VeryLazy" ,
   dependencies = {
     "folke/neodev.nvim",
     "hrsh7th/cmp-nvim-lsp",

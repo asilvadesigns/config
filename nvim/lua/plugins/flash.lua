@@ -2,7 +2,7 @@ return {
   {
     "ggandor/flit.nvim",
     enabled = false,
-    event = { "VeryLazy" },
+    event = "VeryLazy",
     config = function()
       require("flit").setup({
         keys = { f = "f", F = "F", t = "t", T = "T" },
@@ -16,9 +16,12 @@ return {
   {
     "ggandor/leap.nvim",
     enabled = true,
-    event = { "VeryLazy" },
+    event = "VeryLazy",
     config = function()
-      require('leap').create_default_mappings()
+      vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
+      -- vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap-forward)")
+      -- vim.keymap.set({ "n", "x", "o" }, "S", "<Plug>(leap-backward)")
+      vim.keymap.set({ "n", "x", "o" }, "gs", "<Plug>(leap-from-window)")
     end,
     -- keys = {
     --   {
@@ -33,7 +36,7 @@ return {
   {
     "folke/flash.nvim",
     enabled = false,
-    event = { "VeryLazy" },
+    event = "VeryLazy",
     keys = {
       { "S", false, mode = { "v" } },
       {
