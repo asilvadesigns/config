@@ -2,7 +2,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     enabled = true,
-    event = "VeryLazy" ,
+    event = "VeryLazy",
     build = ":TSUpdate",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     config = function()
@@ -99,6 +99,11 @@ return {
       { "<leader>tm", mode = "n", ":TSJToggle<CR>", silent = true },
       { "<leader>ts", mode = "n", ":TSJSplit<CR>", silent = true },
     },
+    opts = {},
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    event = "VeryLazy",
     opts = {},
   },
 }

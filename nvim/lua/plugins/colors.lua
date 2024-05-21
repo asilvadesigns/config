@@ -26,7 +26,7 @@ return {
             --
             -- custom DEFAULTS
             -- CursorLine = { bg = c.base },
-            CursorLineNr = { fg = c.blue },
+            CursorLineNr = { fg = c.overlay0 },
             CursorLineFold = { fg = c.subtext1 },
             Visual = { bg = c.surface0 },
             WinSeparator = { fg = c.mantle },

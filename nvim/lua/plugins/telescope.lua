@@ -80,8 +80,8 @@ return {
         ["Save"] = { cmd = "wa" },
         ["Save and quit force"] = { cmd = "wqa!" },
         ["Search"] = { cmd = "Spectre" },
-        ["Symbols"] = { cmd = "Outline" },
-        ["Symbols (Document)"] = { cmd = builtin.lsp_document_symbols },
+        ["Symbols"] = { cmd = builtin.lsp_document_symbols },
+        ["Symbols (Outline)"] = { cmd = "Outline" },
         ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
         ["Telescope"] = { cmd = "Telescope" },
         ["Toggle Cursorline"] = {
