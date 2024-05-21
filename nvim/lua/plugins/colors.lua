@@ -82,15 +82,6 @@ return {
             TelescopeResultsNormal = { bg = c.mantle },
             TelescopeResultsTitle = { fg = c.mantle, bg = c.mantle },
             --
-            -- custom TODO
-            -- TodoBgFIX = {},
-            -- TodoBgHACK = {},
-            -- TodoBgNOTE = {},
-            -- TodoBgPERF = {},
-            -- TodoBgTEST = {},
-            -- TodoBgTODO = {},
-            -- TodoBgWARN = {},
-            --
             -- custom UFO
             Folded = { bg = c.none },
             UfoFoldedEllipsis = { fg = c.mauve, bg = c.none },

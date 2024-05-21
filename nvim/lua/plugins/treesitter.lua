@@ -103,7 +103,18 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-context",
+    enabled = false,
     event = "VeryLazy",
-    opts = {},
+    config = function()
+      require("treesitter-context").setup({
+        enable = true,
+      })
+
+      vim.cmd("highlight TreesitterContextBottom gui=none")
+
+      -- vim.keymap.set("n", "]c", function()
+      --   require("treesitter-context").go_to_context(vim.v.count1)
+      -- end, { silent = true })
+    end,
   },
 }
