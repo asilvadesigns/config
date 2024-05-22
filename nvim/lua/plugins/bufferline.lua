@@ -1,6 +1,6 @@
 return {
   "akinsho/bufferline.nvim",
-  enabled = false,
+  enabled = true,
   dependencies = {
     "catppuccin/nvim",
     "nvim-tree/nvim-web-devicons",

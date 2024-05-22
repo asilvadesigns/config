@@ -83,6 +83,11 @@ return {
         ["Symbols"] = { cmd = builtin.lsp_document_symbols },
         ["Symbols (Outline)"] = { cmd = "Outline" },
         ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
+        ["Tab Close"] = { cmd = "tabclose" },
+        ["Tab New"] = { cmd = "tabnew" },
+        ["Tab Next"] = { cmd = "tabnext" },
+        ["Tab Only"] = { cmd = "tabonly" },
+        ["Tab Previous"] = { cmd = "tabprevious" },
         ["Telescope"] = { cmd = "Telescope" },
         ["Toggle Cursorline"] = {
           cmd = function()

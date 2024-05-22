@@ -180,9 +180,11 @@ return {
           capabilities = capabilities,
           filetypes = {
             "astro",
+            "css",
             "html",
             "javascript",
             "react",
+            "scss",
             "templ",
             "typescript",
             "typescriptreact",

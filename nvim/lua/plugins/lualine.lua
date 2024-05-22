@@ -37,7 +37,7 @@ local function get_branch(color)
   return {
     {
       "branch",
-      icon = "",
+      icon = "",
       color = color,
       on_click = function()
         vim.cmd("Git")
@@ -90,9 +90,10 @@ return {
         section_separators = "",
         theme = {
           normal = {
-            a = { bg = colors.base },
-            b = { bg = colors.base },
-            c = { bg = colors.base },
+            a = { bg = colors.mantle },
+            b = { bg = colors.mantle },
+            c = { bg = colors.mantle },
+            z = { bg = colors.mantle },
           },
         },
       },
@@ -107,18 +108,18 @@ return {
       winbar = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = get_filename({ fg = colors.surface2 }),
+        lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }),
         lualine_x = {},
         lualine_y = {},
-        lualine_z = get_diagnostics(nil, true),
+        lualine_z = {} --get_diagnostics(nil, true),
       },
       inactive_winbar = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = get_filename({ fg = colors.surface2 }),
+        lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }),
         lualine_x = {},
         lualine_y = {},
-        lualine_z = get_diagnostics({ fg = colors.surface2 }, false),
+        lualine_z = {}, --get_diagnostics({ bg = colors.base, fg = colors.surface2 }, false),
       },
     })
   end,

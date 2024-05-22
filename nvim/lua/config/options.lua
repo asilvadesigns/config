@@ -1,3 +1,5 @@
+local m = {}
+
 -- backups
 vim.opt.backup = false
 vim.opt.swapfile = false
@@ -28,6 +30,7 @@ vim.opt.pumheight = 10
 -- gutters
 vim.opt.signcolumn = "yes"
 vim.opt.statuscolumn = ""
+-- vim.opt.statuscolumn = '%=%{v:relnum?v:relnum:v:lnum} '
 
 -- indenting
 vim.opt.expandtab = true
@@ -107,12 +110,23 @@ vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic m
 
 -- diagnostics in gutter
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
+local square = vim.fn.nr2char(0x25aa)
+
+-- local signs = {
+--   Error = "󰅚",
+--   Warn = "󰀪",
+--   Hint = "󰌶",
+--   Info = "",
+-- }
+
 local signs = {
-  Error = "󰅚",
-  Warn = "󰀪",
-  Hint = "󰌶",
-  Info = "",
+  Error = square,
+  Warn = square,
+  Hint = square,
+  Info = square,
 }
+
+m.signs = signs
 
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
@@ -123,3 +137,5 @@ for type, icon in pairs(signs) do
     texthl = hl,
   })
 end
+
+return m

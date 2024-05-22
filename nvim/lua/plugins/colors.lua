@@ -70,8 +70,8 @@ return {
             --
             -- custom Leap
             -- custom StatusLine
-            StatusLine = { bg = c.base },
-            StatusLineNC = { bg = c.base },
+            -- StatusLine = { bg = c.base },
+            -- StatusLineNC = { bg = c.base },
             --
             -- custom Telescope
             TelescopePreviewTitle = { fg = c.mantle, bg = c.mantle },
