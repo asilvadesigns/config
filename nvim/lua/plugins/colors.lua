@@ -2,7 +2,7 @@ return {
   {
     "NvChad/nvim-colorizer.lua",
     enabled = true,
-    event = "VeryLazy" ,
+    event = "VeryLazy",
     opts = {},
   },
   {
@@ -81,6 +81,9 @@ return {
             TelescopeResultsBorder = { fg = c.mantle, bg = c.mantle },
             TelescopeResultsNormal = { bg = c.mantle },
             TelescopeResultsTitle = { fg = c.mantle, bg = c.mantle },
+
+            -- custom ScrollVie
+            ScrollViewCursor = { fg = c.blue },
             --
             -- custom UFO
             Folded = { bg = c.none },

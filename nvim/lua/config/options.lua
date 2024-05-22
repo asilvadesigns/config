@@ -128,14 +128,25 @@ local signs = {
 
 m.signs = signs
 
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, {
-    linehl = "",
-    numhl = "",
-    text = icon,
-    texthl = hl,
-  })
-end
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = square,
+      [vim.diagnostic.severity.HINT] = square,
+      [vim.diagnostic.severity.INFO] = square,
+      [vim.diagnostic.severity.WARN] = square,
+    },
+  },
+})
+
+-- for type, icon in pairs(signs) do
+--   local hl = "DiagnosticSign" .. type
+--   -- vim.fn.sign_define(hl, {
+--   --   linehl = "",
+--   --   numhl = "",
+--   --   text = icon,
+--   --   texthl = hl,
+--   -- })
+-- end
 
 return m

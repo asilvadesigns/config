@@ -10,7 +10,7 @@ return {
       -- fold_open = "", -- icon used for open folds
       -- indent_lines = false,
       -- padding = false,
-      -- use_diagnostic_signs = true,
+      use_diagnostic_signs = true,
     })
   end,
 }
