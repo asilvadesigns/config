@@ -1,6 +1,5 @@
 return {
   "hedyhli/outline.nvim",
-  enabled = true,
   cmd = { "Outline", "OutlineOpen" },
   dependencies = {
     "nvim-treesitter/nvim-treesitter",

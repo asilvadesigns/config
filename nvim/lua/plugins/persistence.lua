@@ -12,6 +12,7 @@ return {
   "folke/persistence.nvim",
   enabled = true,
   lazy = false,
+  priority = 2000,
   config = function()
     require("persistence").setup({
       pre_save = function()

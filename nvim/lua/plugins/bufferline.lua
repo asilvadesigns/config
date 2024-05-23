@@ -1,11 +1,11 @@
 return {
   "akinsho/bufferline.nvim",
   enabled = true,
+  event = "TabNew",
   dependencies = {
     "catppuccin/nvim",
     "nvim-tree/nvim-web-devicons",
   },
-  event = "VeryLazy" ,
   config = function()
     local colors = require("catppuccin.palettes").get_palette()
 

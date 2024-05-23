@@ -1,6 +1,5 @@
 return {
   "mrjones2014/smart-splits.nvim",
-  enabled = true,
   keys = {
     -- resize
     {

@@ -1,6 +1,6 @@
 return {
   "dstein64/nvim-scrollview",
-  enabled = true,
+  event = "VeryLazy",
   config = function()
     local options = require("config.options")
 

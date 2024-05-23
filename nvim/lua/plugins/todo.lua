@@ -1,8 +1,7 @@
 return {
   "folke/todo-comments.nvim",
-  enabled = true,
+  cmd = { "TodoTelescope", "TodoLocList" },
   dependencies = { "nvim-lua/plenary.nvim" },
-  event = "VeryLazy" ,
   config = function()
     -- TODO: yo forreal tho.
     require("todo-comments").setup({

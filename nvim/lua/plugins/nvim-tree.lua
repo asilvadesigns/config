@@ -1,7 +1,5 @@
 return {
   "nvim-tree/nvim-tree.lua",
-  enabled = true,
-  event = "VeryLazy" ,
   keys = {
     {
       "<leader>j",

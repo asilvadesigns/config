@@ -1,7 +1,7 @@
 return {
   "neovim/nvim-lspconfig",
   enabled = true,
-  event = "VeryLazy" ,
+  event = "VeryLazy",
   dependencies = {
     "folke/neodev.nvim",
     "hrsh7th/cmp-nvim-lsp",
@@ -237,7 +237,7 @@ return {
     })
 
     vim.api.nvim_create_user_command("GetActiveLSPs", function()
-      local clients = vim.lsp.get_active_clients()
+      local clients = vim.lsp.get_clients()
       local clients_list = {}
       for _, client in pairs(clients) do
         table.insert(clients_list, client.name)
@@ -250,7 +250,7 @@ return {
     ---https://github.com/wookayin/dotfiles/blob/f2c7b0944135f33db83b218afa2da89fb4b3ef1c/nvim/lua/config/lsp.lua#L318
     local attach_lsp_to_existing_buffers = vim.schedule_wrap(function()
       for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-        local valid = vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_buf_get_option(bufnr, "buflisted")
+        local valid = vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_get_option_value("buflisted", { buf = bufnr })
         if valid and vim.bo[bufnr].buftype == "" then
           local augroup_lspconfig = vim.api.nvim_create_augroup("lspconfig", { clear = false })
           vim.api.nvim_exec_autocmds("FileType", { group = augroup_lspconfig, buffer = bufnr })
