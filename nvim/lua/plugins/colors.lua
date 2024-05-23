@@ -7,7 +7,6 @@ return {
   },
   {
     "catppuccin/nvim",
-    enabled = true,
     lazy = false,
     name = "catppuccin",
     priority = 1000,
@@ -25,15 +24,23 @@ return {
           -- local fullCursorLine = c.surface0
           local fullCursorLine = c.base
 
+          local group01 = c.overlay2
+          local group02 = c.overlay2
+          local group03 = c.overlay2
+          -- local group01 = c.overlay2
+          -- local group02 = c.overlay1
+          -- local group03 = c.text
+
           return {
             --
             -- custom DEFAULTS
             CursorLine = { bg = fullCursorLine },
             CursorLineFold = { bg = fullCursorLine, fg = c.subtext1 },
-            CursorLineNr = { bg = fullCursorLine, fg = c.overlay0 },
+            CursorLineNr = { bg = fullCursorLine, fg = c.blue },
+            -- CursorLineNr = { bg = fullCursorLine, fg = c.overlay0 },
             CursorLineSign = { bg = fullCursorLine },
             ScrollView = { bg = c.surface0 },
-            Visual = { bg = fullCursorLine },
+            Visual = { bg = c.surface0 },
             WinSeparator = { fg = c.mantle },
             --
             -- custom FLASH
@@ -46,9 +53,17 @@ return {
             FlashCurrent = { fg = c.sky, bg = c.base },
             FlashPrompt = { link = "NormalFloat" },
             --
-            NvimTreeFileExec = { fg = c.subtext1 },
-            NvimTreeFolderName = { fg = c.subtext1 },
-            -- NvimTreeCursorLine = { fg = c.yellow },
+            NvimTreeNormal = { fg = group01 },
+            NvimTreeRootFolder = { fg = group01 },
+            NvimTreeFolderName = { fg = group03 },
+            NvimTreeOpenedFolderName = { fg = group03 },
+            -- NvimTreeFolderArrowOpen = { fg = c.blue },
+
+            NvimTreeFileExec = { fg = group02 },
+            NvimTreeExecFile = { fg = group02 },
+            NvimTreeSpecialFile = { fg = group02 },
+
+            NvimTreeCursorLine = { bg = c.surface0 },
             --
             -- custom NOTIFY
             NotifyBackground = { bg = c.mantle },

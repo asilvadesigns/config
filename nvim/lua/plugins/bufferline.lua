@@ -1,6 +1,5 @@
 return {
   "akinsho/bufferline.nvim",
-  enabled = true,
   event = "TabNew",
   dependencies = {
     "catppuccin/nvim",

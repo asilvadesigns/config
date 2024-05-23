@@ -39,7 +39,28 @@ return {
       },
       renderer = {
         indent_markers = {
-          enable = true,
+          enable = false,
+        },
+        icons = {
+          show = {
+            file = true,
+            folder = true,
+            folder_arrow = true,
+            git = true,
+            modified = true,
+            diagnostics = true,
+            bookmarks = true,
+          },
+          web_devicons = {
+            file = {
+              enable = true,
+              color = false,
+            },
+            folder = {
+              enable = true,
+              color = false,
+            },
+          },
         },
       },
       update_focused_file = {

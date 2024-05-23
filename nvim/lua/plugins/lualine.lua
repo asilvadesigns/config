@@ -43,20 +43,20 @@ local function get_branch(color)
         vim.cmd("Git")
       end,
     },
-    -- {
-    --   "filename",
-    --   color = color,
-    --   file_status = true, -- Displays file status (readonly status, modified status)
-    --   newfile_status = false, -- Display new file status (new file means no write after created)
-    --   path = 3,
-    --   shorting_target = 40, -- Shortens path to leave 40 spaces in the window
-    --   symbols = {
-    --     modified = "[+]", -- Text to show when the file is modified.
-    --     readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
-    --     unnamed = "[No Name]", -- Text to show for unnamed buffers.
-    --     newfile = "[New]", -- Text to show for newly created file before first write
-    --   },
-    -- },
+    {
+      "filename",
+      color = color,
+      file_status = true, -- Displays file status (readonly status, modified status)
+      newfile_status = false, -- Display new file status (new file means no write after created)
+      path = 4,
+      shorting_target = 40, -- Shortens path to leave 40 spaces in the window
+      symbols = {
+        modified = "[+]", -- Text to show when the file is modified.
+        readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
+        unnamed = "[No Name]", -- Text to show for unnamed buffers.
+        newfile = "[New]", -- Text to show for newly created file before first write
+      },
+    },
   }
 end
 
@@ -105,22 +105,22 @@ return {
         lualine_y = {},
         lualine_z = file_details({ fg = colors.surface2 }),
       },
-      winbar = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }),
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {} --get_diagnostics(nil, true),
-      },
-      inactive_winbar = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }),
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {}, --get_diagnostics({ bg = colors.base, fg = colors.surface2 }, false),
-      },
+      -- winbar = {
+      --   lualine_a = {},
+      --   lualine_b = {},
+      --   lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }),
+      --   lualine_x = {},
+      --   lualine_y = {},
+      --   lualine_z = {} --get_diagnostics(nil, true),
+      -- },
+      -- inactive_winbar = {
+      --   lualine_a = {},
+      --   lualine_b = {},
+      --   lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }),
+      --   lualine_x = {},
+      --   lualine_y = {},
+      --   lualine_z = {}, --get_diagnostics({ bg = colors.base, fg = colors.surface2 }, false),
+      -- },
     })
   end,
 }

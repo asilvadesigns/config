@@ -13,7 +13,7 @@ return {
     view_options = { show_hidden = true },
     constrain_cursor = "name",
     columns = {
-      "icon",
+      -- "icon",
       -- "permissions",
       -- "size",
       -- "mtime",

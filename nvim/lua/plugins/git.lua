@@ -7,8 +7,7 @@ return {
   },
   {
     "NeogitOrg/neogit",
-    enabled = true,
-    event = "VeryLazy",
+    cmd = "Neogit",
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
       -- "sindrets/diffview.nvim", -- optional - Diff integration
