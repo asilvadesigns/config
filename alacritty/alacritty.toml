@@ -9,7 +9,7 @@ import = [
 draw_bold_text_with_bright_colors = false
 
 [colors.cursor]
-cursor = "0x268bd2"
+cursor = "0x7286fd"
 text = "0xeee8d5"
 
 [cursor]

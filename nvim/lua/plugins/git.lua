@@ -2,25 +2,33 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     enabled = false,
-    event = "VeryLazy" ,
+    event = "VeryLazy",
     opts = { signcolumn = false },
   },
   {
     "NeogitOrg/neogit",
     enabled = true,
-    event = "VeryLazy" ,
+    event = "VeryLazy",
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
       -- "sindrets/diffview.nvim", -- optional - Diff integration
       -- Only one of these is needed, not both.
       "nvim-telescope/telescope.nvim", -- optional
     },
-    config = {},
+    config = function()
+      require("neogit").setup({
+        signs = {
+          hunk = { "", "" },
+          item = { "", "" },
+          section = { "", "" },
+        },
+      })
+    end,
   },
   {
     "rhysd/conflict-marker.vim",
     enabled = false,
-    event = "VeryLazy" ,
+    event = "VeryLazy",
     init = function()
       vim.cmd([[
       let g:conflict_marker_highlight_group = ''
@@ -39,7 +47,7 @@ return {
   {
     "tpope/vim-fugitive",
     enabled = true,
-    event = "VeryLazy" ,
+    event = "VeryLazy",
     cmd = {
       "Gdiffsplit",
       "Git",
@@ -49,7 +57,7 @@ return {
   {
     "sindrets/diffview.nvim",
     enabled = false,
-    event = "VeryLazy" ,
+    event = "VeryLazy",
     cmd = {
       "DiffviewOpen",
       "DiffviewClose",

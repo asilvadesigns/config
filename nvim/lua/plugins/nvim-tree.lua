@@ -33,6 +33,7 @@ return {
       },
       filters = {
         dotfiles = false,
+        -- exclude = { "\\._templ.txt$" }
       },
       git = {
         enable = false,
@@ -40,7 +41,7 @@ return {
       },
       renderer = {
         indent_markers = {
-          enable = false,
+          enable = true,
         },
       },
       update_focused_file = {
