@@ -65,7 +65,7 @@ local function file_details(color)
     { "location", color = color },
     { "progress", color = color },
     { "encoding", color = color },
-    { "filetype", color = color },
+    { "filetype", color = color, colored = false },
   }
 end
 
@@ -90,10 +90,10 @@ return {
         section_separators = "",
         theme = {
           normal = {
-            a = { bg = colors.mantle },
-            b = { bg = colors.mantle },
-            c = { bg = colors.mantle },
-            z = { bg = colors.mantle },
+            a = { bg = colors.base },
+            b = { bg = colors.base },
+            c = { bg = colors.base },
+            z = { bg = colors.base },
           },
         },
       },

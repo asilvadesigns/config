@@ -22,13 +22,18 @@ return {
         custom_highlights = function(c)
           local NotifyBorderGroup = { bg = c.base, fg = c.base }
 
+          -- local fullCursorLine = c.surface0
+          local fullCursorLine = c.base
+
           return {
             --
             -- custom DEFAULTS
-            -- CursorLine = { bg = c.base },
-            CursorLineNr = { fg = c.overlay0 },
-            CursorLineFold = { fg = c.subtext1 },
-            Visual = { bg = c.surface0 },
+            CursorLine = { bg = fullCursorLine },
+            CursorLineFold = { bg = fullCursorLine, fg = c.subtext1 },
+            CursorLineNr = { bg = fullCursorLine, fg = c.overlay0 },
+            CursorLineSign = { bg = fullCursorLine },
+            ScrollView = { bg = c.surface0 },
+            Visual = { bg = fullCursorLine },
             WinSeparator = { fg = c.mantle },
             --
             -- custom FLASH
@@ -70,8 +75,8 @@ return {
             --
             -- custom Leap
             -- custom StatusLine
-            -- StatusLine = { bg = c.base },
-            -- StatusLineNC = { bg = c.base },
+            StatusLine = { bg = c.base },
+            StatusLineNC = { bg = c.base },
             --
             -- custom Telescope
             TelescopePreviewTitle = { fg = c.mantle, bg = c.mantle },

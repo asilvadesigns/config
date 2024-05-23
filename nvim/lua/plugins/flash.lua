@@ -15,7 +15,7 @@ return {
   },
   {
     "ggandor/leap.nvim",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     config = function()
       vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
@@ -35,7 +35,7 @@ return {
   },
   {
     "folke/flash.nvim",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     keys = {
       { "S", false, mode = { "v" } },
