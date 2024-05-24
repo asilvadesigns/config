@@ -1,19 +1,19 @@
 local function get_branch(git_color, file_color)
   return {
-    {
-      "branch",
-      icon = "",
-      color = git_color,
-      on_click = function()
-        vim.cmd("Git")
-      end,
-    },
+    -- {
+    --   "branch",
+    --   icon = "",
+    --   color = git_color,
+    --   on_click = function()
+    --     vim.cmd("Git")
+    --   end,
+    -- },
     {
       "filename",
-      color = file_color,
+      color = git_color,
       file_status = true, -- Displays file status (readonly status, modified status)
       newfile_status = false, -- Display new file status (new file means no write after created)
-      path = 4,
+      path = 3,
       shorting_target = 40, -- Shortens path to leave 40 spaces in the window
       symbols = {
         modified = "[+]", -- Text to show when the file is modified.
