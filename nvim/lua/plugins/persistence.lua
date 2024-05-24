@@ -12,7 +12,7 @@ return {
   "folke/persistence.nvim",
   enabled = true,
   lazy = false,
-  priority = 2000,
+  priority = 500,
   config = function()
     require("persistence").setup({
       pre_save = function()
@@ -21,9 +21,9 @@ return {
       end,
     })
 
-    if next(vim.fn.argv()) == nil then
-      require("persistence").load()
-    end
+    -- if next(vim.fn.argv()) == nil then
+    --   require("persistence").load()
+    -- end
 
     vim.api.nvim_create_autocmd("ExitPre", {
       callback = function()

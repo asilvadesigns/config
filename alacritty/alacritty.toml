@@ -98,5 +98,5 @@ dynamic_title = true
 dynamic_padding = false
 
 [window.padding]
-x = 0
+x = 10
 y = 0

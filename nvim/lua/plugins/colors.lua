@@ -1,5 +1,21 @@
 return {
   {
+    "rasulomaroff/cursor.nvim",
+    enabled = false,
+    event = "BufEnter",
+    config = function()
+      require("cursor").setup({
+        cursors = {
+          ---@diagnostic disable-next-line: missing-fields
+          {
+            blink = { wait = 0, default = 100 },
+            mode = "a",
+          },
+        },
+      })
+    end,
+  },
+  {
     "NvChad/nvim-colorizer.lua",
     enabled = true,
     event = "VeryLazy",
@@ -24,19 +40,12 @@ return {
           -- local fullCursorLine = c.surface0
           local fullCursorLine = c.base
 
-          local group01 = c.overlay2
-          local group02 = c.overlay2
-          local group03 = c.overlay2
-          -- local group01 = c.overlay2
-          -- local group02 = c.overlay1
-          -- local group03 = c.text
-
           return {
             --
             -- custom DEFAULTS
             CursorLine = { bg = fullCursorLine },
             CursorLineFold = { bg = fullCursorLine, fg = c.subtext1 },
-            CursorLineNr = { bg = fullCursorLine, fg = c.blue },
+            -- CursorLineNr = { bg = c.base, fg = c.subtext1 },
             -- CursorLineNr = { bg = fullCursorLine, fg = c.overlay0 },
             CursorLineSign = { bg = fullCursorLine },
             ScrollView = { bg = c.surface0 },
@@ -53,17 +62,17 @@ return {
             FlashCurrent = { fg = c.sky, bg = c.base },
             FlashPrompt = { link = "NormalFloat" },
             --
-            NvimTreeNormal = { fg = group01 },
-            NvimTreeRootFolder = { fg = group01 },
-            NvimTreeFolderName = { fg = group03 },
-            NvimTreeOpenedFolderName = { fg = group03 },
+            NvimTreeNormal = { fg = c.overlay2 },
+            NvimTreeRootFolder = { fg = c.overlay2 },
+            NvimTreeFolderName = { fg = c.overlay2 },
+            NvimTreeOpenedFolderName = { fg = c.overlay2 },
             -- NvimTreeFolderArrowOpen = { fg = c.blue },
 
-            NvimTreeFileExec = { fg = group02 },
-            NvimTreeExecFile = { fg = group02 },
-            NvimTreeSpecialFile = { fg = group02 },
+            NvimTreeFileExec = { fg = c.overlay0 },
+            NvimTreeExecFile = { fg = c.overlay0 },
+            NvimTreeSpecialFile = { fg = c.overlay0 },
+            NvimTreeCursorLine = { bg = c.base, fg = c.text },
 
-            NvimTreeCursorLine = { bg = c.surface0 },
             --
             -- custom NOTIFY
             NotifyBackground = { bg = c.mantle },

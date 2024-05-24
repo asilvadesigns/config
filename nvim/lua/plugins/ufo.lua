@@ -2,22 +2,22 @@ return {
   {
     "kevinhwang91/nvim-ufo",
     enabled = true,
-    event = "VeryLazy" ,
+    event = "VeryLazy",
     dependencies = {
       "kevinhwang91/promise-async",
-      {
-        "luukvbaal/statuscol.nvim",
-        config = function()
-          require("statuscol").setup({
-            relculright = true,
-            segments = {
-              { text = { " %s" }, click = "v:lua.ScSa" },
-              { text = { " ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
-              { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
-            },
-          })
-        end,
-      },
+      -- {
+      --   "luukvbaal/statuscol.nvim",
+      --   config = function()
+      --     require("statuscol").setup({
+      --       relculright = true,
+      --       segments = {
+      --         { text = { " %s" }, click = "v:lua.ScSa" },
+      --         { text = { " ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
+      --         { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
+      --       },
+      --     })
+      --   end,
+      -- },
     },
     config = function()
       require("ufo").setup({

@@ -1,16 +1,16 @@
-local function get_branch(color)
+local function get_branch(git_color, file_color)
   return {
     {
       "branch",
       icon = "",
-      color = color,
+      color = git_color,
       on_click = function()
         vim.cmd("Git")
       end,
     },
     {
       "filename",
-      color = color,
+      color = file_color,
       file_status = true, -- Displays file status (readonly status, modified status)
       newfile_status = false, -- Display new file status (new file means no write after created)
       path = 4,
@@ -55,20 +55,20 @@ return {
         section_separators = "",
         theme = {
           normal = {
-            a = { bg = colors.mantle },
-            b = { bg = colors.mantle },
-            c = { bg = colors.mantle },
-            z = { bg = colors.mantle },
+            a = { bg = colors.base },
+            b = { bg = colors.base },
+            c = { bg = colors.base },
+            z = { bg = colors.base },
           },
         },
       },
       sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = get_branch({ fg = colors.surface2 }),
+        lualine_c = get_branch({ fg = colors.overlay0 }, { fg = colors.text }),
         lualine_x = {},
         lualine_y = {},
-        lualine_z = file_details({ fg = colors.surface2 }),
+        lualine_z = file_details({ fg = colors.overlay0 }),
       },
       -- winbar = {
       --   lualine_a = {},
