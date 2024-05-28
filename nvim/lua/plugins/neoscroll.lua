@@ -1,6 +1,6 @@
 return {
   "karb94/neoscroll.nvim",
-  enabled = false,
+  enabled = true,
   config = function()
     require("neoscroll").setup({
       easing_function = "sine", -- Default easing function

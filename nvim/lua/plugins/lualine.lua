@@ -36,7 +36,7 @@ end
 
 return {
   "nvim-lualine/lualine.nvim",
-  enabled = true,
+  enabled = false,
   event = "VeryLazy",
   dependencies = { "catppuccin/nvim" },
   config = function()

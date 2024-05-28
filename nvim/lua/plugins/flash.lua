@@ -15,7 +15,7 @@ return {
   },
   {
     "ggandor/leap.nvim",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     config = function()
       vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
@@ -35,10 +35,9 @@ return {
   },
   {
     "folke/flash.nvim",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     keys = {
-      { "S", false, mode = { "v" } },
       {
         "s",
         mode = { "n", "x", "o" },
@@ -47,6 +46,15 @@ return {
         end,
         desc = "Flash",
       },
+      { "S", false, mode = { "v" } },
+      -- {
+      --   "S",
+      --   mode = { "n", "x", "o" },
+      --   function()
+      --     require("flash").treesitter()
+      --   end,
+      --   desc = "Flash Treesitter",
+      -- },
       {
         "r",
         mode = "o",
@@ -55,26 +63,23 @@ return {
         end,
         desc = "Remote Flash",
       },
-      -- {
-      --   "f",
-      --   mode = { "n", "x", "o" },
-      --   function()
-      --     require("flash").jump({})
-      --   end,
-      --   desc = "Flash",
-      -- },
-    },
-    opts = {
-      search = {
-        mode = "exact",
-        multi_window = false,
+      {
+        "R",
+        mode = { "o", "x" },
+        function()
+          require("flash").treesitter_search()
+        end,
+        desc = "Treesitter Search",
       },
-      modes = {
-        char = {
-          keys = { "f", "F", "t", "T" },
-          jump_labels = true,
-        },
+      {
+        "<c-s>",
+        mode = { "c" },
+        function()
+          require("flash").toggle()
+        end,
+        desc = "Toggle Flash Search",
       },
     },
+    opts = {},
   },
 }

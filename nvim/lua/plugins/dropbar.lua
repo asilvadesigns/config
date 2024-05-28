@@ -1,7 +1,7 @@
 return {
   {
     "utilyre/barbecue.nvim",
-    enabled = false,
+    enabled = true,
     name = "barbecue",
     version = "*",
     lazy = false,
@@ -13,18 +13,16 @@ return {
       -- configurations go here
     },
   },
-  {
-    "SmiteshP/nvim-navic",
-    enabled = false,
-    lazy = false,
-    config = function()
-      require("nvim-navic").setup({
-        lsp = {
-          auto_attach = true,
-        },
-      })
-    end,
-  },
+  -- {
+  --   "SmiteshP/nvim-navic",
+  --   config = function()
+  --     require("nvim-navic").setup({
+  --       lsp = {
+  --         auto_attach = true,
+  --       },
+  --     })
+  --   end,
+  -- },
   {
     "Bekaboo/dropbar.nvim",
     enabled = false,
