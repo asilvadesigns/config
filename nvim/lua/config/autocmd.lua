@@ -33,7 +33,7 @@ local cached_git_value = "  ..loading"
 local cached_statusline_value = " "
 local cached_winbar_value = {}
 local render_winbar_timer = vim.loop.new_timer()
-local WINBAR_COLOR = "%#CursorLineFold#"
+local WINBAR_COLOR = "%#Comment#"
 local STATUS_COLOR = "%#CursorLineFold#"
 
 ---@return table<string>
@@ -79,27 +79,27 @@ local function renderWinbar()
   local windows = getVisibleWindows()
 
   for _, win_id in ipairs(windows) do
-    local buf_id = vim.api.nvim_win_get_buf(win_id)
-    local buf_filetype = vim.api.nvim_buf_get_option(buf_id, "filetype")
+    local buf = vim.api.nvim_win_get_buf(win_id)
+    local buf_filetype = vim.api.nvim_get_option_value("filetype", { buf })
 
     if vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
       goto continue
     end
 
-    local buf_name = vim.api.nvim_buf_get_name(buf_id)
+    local buf_name = vim.api.nvim_buf_get_name(buf)
 
     local sep = "  "
     local filename = vim.fn.fnamemodify(buf_name, ":t")
     local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
 
-    -- local is_modified = vim.bo[buf_id].modified
+    -- local is_modified = vim.bo[buf].modified
     -- local flag = is_modified and " +" or "  "
 
     local next_winbar = WINBAR_COLOR .. filepath .. filename .. "%*"
 
-    if cached_winbar_value[buf_id] ~= next_winbar then
-      cached_winbar_value[buf_id] = next_winbar
-      vim.api.nvim_win_set_option(win_id, "winbar", cached_winbar_value[buf_id])
+    if cached_winbar_value[buf] ~= next_winbar then
+      cached_winbar_value[buf] = next_winbar
+      vim.api.nvim_set_option_value(win_id, "winbar", cached_winbar_value[buf])
     end
     ::continue::
   end

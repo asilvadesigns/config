@@ -34,7 +34,7 @@ return {
     "catppuccin/nvim",
     "nvim-tree/nvim-web-devicons",
   },
-  event = "VeryLazy" ,
+  event = "VeryLazy",
   config = function()
     local colors = require("catppuccin.palettes").get_palette()
 
@@ -49,17 +49,24 @@ return {
         },
       },
       render = function(props)
-        local diagnostics = get_diagnostic_label(props)
-        local modified = get_modified_label(props, colors.yellow, colors.crust)
+        -- local diagnostics = get_diagnostic_label(props)
+        -- local modified = get_modified_label(props, colors.yellow, colors.crust)
+
+        local buf_name = vim.api.nvim_buf_get_name(props.buf)
+
+        -- local sep = "  "
+        local filename = vim.fn.fnamemodify(buf_name, ":t")
+        -- local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
+        local filepath = vim.fn.fnamemodify(buf_name, ":~:.:h") .. "/"
 
         return {
-          { diagnostics },
-          { modified },
+          { filepath },
+          { filename },
         }
       end,
       window = {
         margin = {
-          horizontal = 0,
+          horizontal = 1,
           vertical = 1,
         },
       },
