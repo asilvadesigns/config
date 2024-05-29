@@ -1,34 +1,55 @@
-format=' $all'
+# format=' $all'
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$line_break\
+$character
+"""
 
 [character]
 format = ' $symbol '
-success_symbol=''
-error_symbol=''
+success_symbol = ''
+error_symbol = ''
 
 [directory]
-style="blue"
 truncation_length = 0
 truncate_to_repo = false
+style = "blue"
 
 [git_branch]
-style="purple"
-symbol=" "
+symbol = ""
+style = "purple"
+# symbol = " "
 
 [git_status]
 #disabled = true
 #ADDED=''
 #UNMERGED=''
-deleted=''
-diverged=''
-modified=''
-renamed=''
-stashed=''
+format = '([$all_status$ahead_behind]($style) )'
+deleted = ''
+diverged = ''
+modified = ''
+untracked = "?"
+renamed = ''
+stashed = ''
 
 [lua]
-# disabled = false
+disabled = true
 
 [python]
-# disabled = false
+disabled = true
 
 [nodejs]
-# disabled = false
+disabled = true
+
+[package]
+disabled = true
+
+[golang]
+disabled = true

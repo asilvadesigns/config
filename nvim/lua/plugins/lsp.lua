@@ -80,6 +80,26 @@ return {
         })
       end,
 
+      ["cssls"] = function()
+        require("lspconfig").cssls.setup({
+          capabilities = capabilities,
+          on_attach = on_attach,
+          settings = {
+            css = {
+              lint = {
+                -- fixes unknown @tailwind rule for css files
+                unknownAtRules = "ignore",
+              },
+            },
+            scss = {
+              lint = {
+                -- fixes unknown @tailwind rule for sass files
+                unknownAtRules = "ignore",
+              },
+            },
+          },
+        })
+      end,
       -- server overrides
       ["jsonls"] = function()
         -- NOTE: to add new schemas, find url here https://www.schemastore.org/json/
