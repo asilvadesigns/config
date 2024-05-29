@@ -104,7 +104,6 @@ M.setup = function()
   end
 
   require("conform").setup({
-    --- NOTE: table<filetype, table<formatter>>
     formatters_by_ft = {
       css = { "biome-check", "prettier", "stylelint" },
       go = { "goimports", "gofmt" },

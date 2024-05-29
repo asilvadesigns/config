@@ -47,6 +47,7 @@ require("lazy").setup({
   },
   {
     "folke/flash.nvim",
+    event = { "BufReadPost", "BufNewFile" },
     keys = {
       {
         "s",

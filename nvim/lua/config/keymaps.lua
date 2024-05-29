@@ -77,8 +77,8 @@ vim.keymap.set("v", "p", '"_dP', keymap_opts)
 -- vim.keymap.set('n', '<S-l>', ':bnext<CR>', keymap_opts)
 
 -- move selected line / block of text in visual mode
-vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", keymap_opts)
-vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv", keymap_opts)
+-- vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", keymap_opts)
+-- vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv", keymap_opts)
 -- vim.keymap.set("n", "<leader>x", "<C-W>q", keymap_opts)
 
 -- resizing panes
