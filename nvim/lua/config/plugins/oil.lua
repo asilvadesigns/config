@@ -1,13 +1,7 @@
-return {
-  "stevearc/oil.nvim",
-  cmd = "Oil",
-  keys = {
-    { "<leader>x", "<CMD>Oil<CR>" },
-  },
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-  },
-  opts = {
+local M = {}
+
+M.setup = function()
+  require("oil").setup({
     delete_to_trash = true,
     use_default_keymaps = false,
     view_options = { show_hidden = true },
@@ -36,5 +30,7 @@ return {
       -- ["g."] = "actions.toggle_hidden",
       -- ["g\\"] = "actions.toggle_trash",
     },
-  },
-}
+  })
+end
+
+return M

@@ -19,7 +19,7 @@ vim.opt.cursorline = true
 -- folding
 vim.opt.conceallevel = 0
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
+vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
