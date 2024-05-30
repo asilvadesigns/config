@@ -423,6 +423,7 @@ require("lazy").setup({
   },
   {
     "dstein64/nvim-scrollview",
+    enabled = false,
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
   },
@@ -558,7 +559,7 @@ require("lazy").setup({
           require("statuscol").setup({
             relculright = true,
             segments = {
-              { text = { "%s" }, click = "v:lua.ScSa" },
+              -- { text = { "%s" }, click = "v:lua.ScSa" },
               { text = { " ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
               { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
             },
@@ -617,6 +618,7 @@ require("lazy").setup({
   },
   {
     "lukas-reineke/indent-blankline.nvim",
+    enabled = false,
     event = { "BufReadPre", "BufNewFile" },
     main = "ibl",
     config = function()

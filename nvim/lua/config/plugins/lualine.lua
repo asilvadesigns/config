@@ -109,7 +109,7 @@ M.setup = function()
       lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }),
       lualine_x = {},
       lualine_y = {},
-      lualine_z = {}, -- get_diagnostics(nil, true),
+      lualine_z = get_diagnostics(nil, true),
     },
     inactive_winbar = {
       lualine_a = {},
@@ -117,7 +117,7 @@ M.setup = function()
       lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }),
       lualine_x = {},
       lualine_y = {},
-      lualine_z = {}, --get_diagnostics({ bg = colors.base, fg = colors.surface2 }, false),
+      lualine_z = get_diagnostics({ bg = colors.base, fg = colors.surface2 }, false),
     },
   })
 end

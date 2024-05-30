@@ -25,8 +25,8 @@ M.setup = function()
         CursorLineSign = { bg = fullCursorLine },
         ScrollView = { bg = c.surface0 },
         Visual = { bg = c.surface0 },
-        WinSeparator = { fg = c.base }, -- or c.mantle
-        -- WinSeparator = { fg = c.mantle }, -- or c.mantle
+        -- WinSeparator = { fg = c.base }, -- or c.mantle
+        WinSeparator = { fg = c.mantle }, -- or c.mantle
         --
         -- custom FLASH
         TroubleNormal = { bg = c.base },
