@@ -426,9 +426,15 @@ require("lazy").setup({
   },
   {
     "dstein64/nvim-scrollview",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
+  },
+  {
+    "petertriho/nvim-scrollbar",
+    enabled = false,
+    event = "VeryLazy",
+    config = require("config.plugins.scrollbar").setup,
   },
   {
     "mrjones2014/smart-splits.nvim",
@@ -634,7 +640,7 @@ require("lazy").setup({
 }, {
   change_detection = {
     enabled = false,
-    notify = false,
+    notify = true,
   },
   performance = {
     rtp = {

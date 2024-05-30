@@ -32,6 +32,14 @@ M.setup = function()
   -- vim.g.scrollview_diagnostics_info_symbol = square
   -- vim.g.scrollview_diagnostics_warn_symbol = square
   vim.g.scrollview_cursor_symbol = square
+  vim.g.scrollview_winblend_gui = 50
+  vim.g.scrollview_always_show = true
+
+  vim.api.nvim_create_autocmd("DiagnosticChanged", {
+    callback = function()
+      vim.cmd("ScrollViewRefresh")
+    end,
+  })
 end
 
 return M

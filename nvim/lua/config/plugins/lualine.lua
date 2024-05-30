@@ -2,12 +2,13 @@ local M = {}
 
 M.setup = function()
   local colors = require("catppuccin.palettes").get_palette()
+  local square = vim.fn.nr2char(0x25aa)
 
-  local function get_filename(color)
+  local function get_filename(file_color, git_color, colored)
     return {
       {
         "filename",
-        color = color,
+        color = file_color,
         file_status = true, -- Displays file status (readonly status, modified status)
         newfile_status = false, -- Display new file status (new file means no write after created)
         path = 3,
@@ -19,12 +20,20 @@ M.setup = function()
           newfile = "[New]", -- Text to show for newly created file before first write
         },
       },
+      {
+        "diagnostics",
+        always_visible = false,
+        color = git_color,
+        colored = colored,
+        symbols = { error = square, warn = square, info = square, hint = square },
+        on_click = function()
+          vim.cmd("Trouble")
+        end,
+      },
     }
   end
 
   local function get_diagnostics(color, colored)
-    local square = vim.fn.nr2char(0x25aa)
-
     return {
       {
         "diagnostics",
@@ -106,18 +115,22 @@ M.setup = function()
     winbar = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }),
+      lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }, nil, true),
       lualine_x = {},
       lualine_y = {},
-      lualine_z = get_diagnostics(nil, true),
+      lualine_z = {}, --get_diagnostics(nil, true),
     },
     inactive_winbar = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }),
+      lualine_c = get_filename(
+        { bg = colors.base, fg = colors.surface2 },
+        { bg = colors.base, fg = colors.surface2 },
+        false
+      ),
       lualine_x = {},
       lualine_y = {},
-      lualine_z = get_diagnostics({ bg = colors.base, fg = colors.surface2 }, false),
+      lualine_z = {}, --get_diagnostics({ bg = colors.base, fg = colors.surface2 }, false),
     },
   })
 end
