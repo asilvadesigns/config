@@ -8,93 +8,95 @@ M.setup = function()
       nvimtree = false,
       ufo = true,
     },
-    custom_highlights = function(c)
-      local NotifyBorderGroup = { bg = c.base, fg = c.base }
+    highlight_overrides = {
+      all = function(c)
+        local NotifyBorderGroup = { bg = c.base, fg = c.base }
 
-      -- local fullCursorLine = c.surface0
-      local fullCursorLine = c.base
+        -- local fullCursorLine = c.surface0
+        local fullCursorLine = c.base
 
-      return {
-        --
-        -- custom DEFAULTS
-        CursorLine = { bg = fullCursorLine },
-        CursorLineFold = { bg = fullCursorLine, fg = c.overlay0 },
-        -- CursorLineFold = { bg = fullCursorLine, fg = c.subtext1 },
-        -- CursorLineNr = { bg = c.base, fg = c.subtext1 },
-        -- CursorLineNr = { bg = fullCursorLine, fg = c.overlay0 },
-        CursorLineSign = { bg = fullCursorLine },
-        ScrollView = { bg = c.surface0 },
-        Visual = { bg = c.surface0 },
-        -- WinSeparator = { fg = c.base }, -- or c.mantle
-        WinSeparator = { fg = c.mantle }, -- or c.mantle
-        --
-        -- custom FLASH
-        TroubleNormal = { bg = c.base },
-        --
-        -- custom FLASH
-        FlashBackdrop = { fg = c.overlay0 },
-        FlashLabel = { fg = c.red, bg = c.crust },
-        FlashMatch = { fg = c.lavender, bg = c.base },
-        FlashCurrent = { fg = c.sky, bg = c.base },
-        FlashPrompt = { link = "NormalFloat" },
-        --
-        NvimTreeNormal = { fg = c.overlay2 },
-        NvimTreeRootFolder = { fg = c.overlay2 },
-        NvimTreeFolderName = { fg = c.overlay2 },
-        NvimTreeOpenedFolderName = { fg = c.overlay2 },
-        -- NvimTreeFolderArrowOpen = { fg = c.blue },
+        return {
+          --
+          -- custom DEFAULTS
+          CursorLine = { bg = fullCursorLine },
+          CursorLineFold = { bg = fullCursorLine, fg = c.overlay0 },
+          -- CursorLineFold = { bg = fullCursorLine, fg = c.subtext1 },
+          -- CursorLineNr = { bg = c.base, fg = c.subtext1 },
+          -- CursorLineNr = { bg = fullCursorLine, fg = c.overlay0 },
+          CursorLineSign = { bg = fullCursorLine },
+          ScrollView = { bg = c.surface0 },
+          Visual = { bg = c.surface0 },
+          -- WinSeparator = { fg = c.base }, -- or c.mantle
+          WinSeparator = { fg = c.mantle }, -- or c.mantle
+          --
+          -- custom FLASH
+          TroubleNormal = { bg = c.base },
+          --
+          -- custom FLASH
+          FlashBackdrop = { fg = c.overlay0 },
+          FlashLabel = { fg = c.red, bg = c.crust },
+          FlashMatch = { fg = c.lavender, bg = c.base },
+          FlashCurrent = { fg = c.sky, bg = c.base },
+          FlashPrompt = { link = "NormalFloat" },
+          --
+          NvimTreeNormal = { fg = c.overlay2 },
+          NvimTreeRootFolder = { fg = c.overlay2 },
+          NvimTreeFolderName = { fg = c.overlay2 },
+          NvimTreeOpenedFolderName = { fg = c.overlay2 },
+          -- NvimTreeFolderArrowOpen = { fg = c.blue },
 
-        NvimTreeFileExec = { fg = c.overlay0 },
-        NvimTreeExecFile = { fg = c.overlay0 },
-        NvimTreeSpecialFile = { fg = c.overlay0 },
-        NvimTreeCursorLine = { bg = c.base, fg = c.text },
+          NvimTreeFileExec = { fg = c.overlay0 },
+          NvimTreeExecFile = { fg = c.overlay0 },
+          NvimTreeSpecialFile = { fg = c.overlay0 },
+          NvimTreeCursorLine = { bg = c.base, fg = c.text },
 
-        --
-        -- custom NOTIFY
-        NotifyBackground = { bg = c.mantle },
-        NotifyDEBUGBody = { bg = c.mantle },
-        NotifyDEBUGBorder = NotifyBorderGroup,
-        NotifyDEBUGIcon = { fg = c.peach },
-        NotifyDEBUGTitle = { bg = c.mantle, style = {} },
-        NotifyERRORBody = { bg = c.mantle },
-        NotifyERRORBorder = NotifyBorderGroup,
-        NotifyERRORIcon = { fg = c.red },
-        NotifyERRORTitle = { bg = c.mantle, style = {} },
-        NotifyINFOBody = { bg = c.mantle },
-        NotifyINFOBorder = NotifyBorderGroup,
-        NotifyINFOIcon = { fg = c.blue },
-        NotifyINFOTitle = { bg = c.mantle, style = {} },
-        NotifyTRACEBody = { bg = c.mantle },
-        NotifyTRACEBorder = NotifyBorderGroup,
-        NotifyTRACEIcon = { fg = c.teal },
-        NotifyTRACETitle = { bg = c.mantle, style = {} },
-        NotifyWARNBody = { bg = c.mantle },
-        NotifyWARNBorder = NotifyBorderGroup,
-        NotifyWARNIcon = { fg = c.yellow },
-        NotifyWARNTitle = { bg = c.mantle, style = {} },
-        --
-        -- custom Leap
-        -- custom StatusLine
-        StatusLine = { bg = c.base },
-        StatusLineNC = { bg = c.base },
-        --
-        -- custom Telescope
-        TelescopePreviewTitle = { fg = c.mantle, bg = c.mantle },
-        TelescopePromptBorder = { fg = c.mantle, bg = c.mantle },
-        TelescopePromptNormal = { bg = c.mantle },
-        TelescopePromptTitle = { fg = c.mantle, bg = c.blue },
-        TelescopeResultsBorder = { fg = c.mantle, bg = c.mantle },
-        TelescopeResultsNormal = { bg = c.mantle },
-        TelescopeResultsTitle = { fg = c.mantle, bg = c.mantle },
+          --
+          -- custom NOTIFY
+          NotifyBackground = { bg = c.mantle },
+          NotifyDEBUGBody = { bg = c.mantle },
+          NotifyDEBUGBorder = NotifyBorderGroup,
+          NotifyDEBUGIcon = { fg = c.peach },
+          NotifyDEBUGTitle = { bg = c.mantle, style = {} },
+          NotifyERRORBody = { bg = c.mantle },
+          NotifyERRORBorder = NotifyBorderGroup,
+          NotifyERRORIcon = { fg = c.red },
+          NotifyERRORTitle = { bg = c.mantle, style = {} },
+          NotifyINFOBody = { bg = c.mantle },
+          NotifyINFOBorder = NotifyBorderGroup,
+          NotifyINFOIcon = { fg = c.blue },
+          NotifyINFOTitle = { bg = c.mantle, style = {} },
+          NotifyTRACEBody = { bg = c.mantle },
+          NotifyTRACEBorder = NotifyBorderGroup,
+          NotifyTRACEIcon = { fg = c.teal },
+          NotifyTRACETitle = { bg = c.mantle, style = {} },
+          NotifyWARNBody = { bg = c.mantle },
+          NotifyWARNBorder = NotifyBorderGroup,
+          NotifyWARNIcon = { fg = c.yellow },
+          NotifyWARNTitle = { bg = c.mantle, style = {} },
+          --
+          -- custom Leap
+          -- custom StatusLine
+          StatusLine = { bg = c.base },
+          StatusLineNC = { bg = c.base },
+          --
+          -- custom Telescope
+          TelescopePreviewTitle = { fg = c.mantle, bg = c.mantle },
+          TelescopePromptBorder = { fg = c.mantle, bg = c.mantle },
+          TelescopePromptNormal = { bg = c.mantle },
+          TelescopePromptTitle = { fg = c.mantle, bg = c.blue },
+          TelescopeResultsBorder = { fg = c.mantle, bg = c.mantle },
+          TelescopeResultsNormal = { bg = c.mantle },
+          TelescopeResultsTitle = { fg = c.mantle, bg = c.mantle },
 
-        -- custom ScrollVie
-        ScrollViewCursor = { fg = c.blue },
-        --
-        -- custom UFO
-        Folded = { bg = c.none },
-        UfoFoldedEllipsis = { fg = c.mauve, bg = c.none },
-      }
-    end,
+          -- custom ScrollVie
+          ScrollViewCursor = { fg = c.blue },
+          --
+          -- custom UFO
+          Folded = { bg = c.none },
+          UfoFoldedEllipsis = { fg = c.mauve, bg = c.none },
+        }
+      end,
+    },
   })
 
   -- # dark

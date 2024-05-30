@@ -18,9 +18,9 @@ M.setup = function()
     end,
   })
 
-  -- if next(vim.fn.argv()) == nil then
-  --   require("persistence").load()
-  -- end
+  if next(vim.fn.argv()) == nil then
+    require("persistence").load()
+  end
 
   vim.api.nvim_create_autocmd("ExitPre", {
     callback = function()

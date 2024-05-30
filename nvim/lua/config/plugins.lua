@@ -47,7 +47,7 @@ require("lazy").setup({
   },
   {
     "folke/flash.nvim",
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "CursorMoved", "CursorMovedI" },
     keys = {
       {
         "s",
@@ -215,7 +215,6 @@ require("lazy").setup({
   },
   {
     "folke/trouble.nvim",
-    branch = "dev",
     cmd = { "ToggleTrouble", "Trouble" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
@@ -224,7 +223,10 @@ require("lazy").setup({
   },
   {
     "mg979/vim-visual-multi",
-    event = { "BufReadPost", "BufNewFile" },
+    keys = {
+      { "<C-N>", mode = "n" },
+      { "<C-N>", mode = "x" },
+    },
     config = function()
       vim.g.VM_theme = "iceblue"
       vim.g.VM_default_mappings = 1
@@ -238,7 +240,7 @@ require("lazy").setup({
   },
   {
     "RRethy/vim-illuminate",
-    event = { "BufReadPost", "BufNewFile" },
+    event = "VeryLazy",
     config = function()
       require("illuminate").configure({
         filetypes_denylist = {
@@ -314,7 +316,7 @@ require("lazy").setup({
   },
   {
     "folke/noice.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
       {
@@ -418,7 +420,8 @@ require("lazy").setup({
   },
   {
     "folke/persistence.nvim",
-    event = "VeryLazy",
+    lazy = false,
+    -- event = "VeryLazy",
     config = require("config.plugins.persistence").setup,
   },
   {
