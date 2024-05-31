@@ -29,7 +29,7 @@ vim.opt.pumheight = 10
 
 -- gutters
 vim.opt.signcolumn = "yes"
-vim.opt.statuscolumn = ""
+-- vim.opt.statuscolumn = "  "
 -- vim.opt.statuscolumn = '%=%{v:relnum?v:relnum:v:lnum} '
 
 -- indenting
@@ -66,8 +66,8 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpo
 -- statusline && winbar
 vim.opt.laststatus = 0 -- 3 or 0, there is no other way
 vim.opt.showmode = false
--- vim.opt.statusline = " "
--- vim.opt.winbar = " "
+vim.opt.statusline = " "
+vim.opt.winbar = " "
 
 -- terminal
 vim.opt.termguicolors = true
