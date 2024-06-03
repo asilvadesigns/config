@@ -5,7 +5,7 @@ M.setup = function()
 
   require("scrollview").setup({
     column = 1,
-    current_only = false,
+    current_only = true,
     signs_on_startup = {
       -- "conflicts",
       "cursor",
