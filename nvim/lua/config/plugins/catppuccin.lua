@@ -1,6 +1,8 @@
 local M = {}
 
 M.setup = function()
+  local utils = require('catppuccin.utils.colors')
+
   require("catppuccin").setup({
     integrations = {
       leap = true,
@@ -12,8 +14,8 @@ M.setup = function()
       all = function(c)
         local NotifyBorderGroup = { bg = c.base, fg = c.base }
 
-        -- local fullCursorLine = c.surface0
-        local fullCursorLine = c.base
+        local fullCursorLine = utils.darken(c.surface0, 0.84)
+        -- local fullCursorLine = c.base
 
         return {
           --
@@ -22,7 +24,7 @@ M.setup = function()
           CursorLineFold = { bg = fullCursorLine, fg = c.overlay0 },
           -- CursorLineFold = { bg = fullCursorLine, fg = c.subtext1 },
           -- CursorLineNr = { bg = c.base, fg = c.subtext1 },
-          -- CursorLineNr = { bg = fullCursorLine, fg = c.overlay0 },
+          CursorLineNr = { bg = fullCursorLine, fg = c.mauve },
           CursorLineSign = { bg = fullCursorLine },
           ScrollView = { bg = c.surface0 },
           Visual = { bg = c.surface0 },
@@ -48,7 +50,8 @@ M.setup = function()
           NvimTreeFileExec = { fg = c.overlay0 },
           NvimTreeExecFile = { fg = c.overlay0 },
           NvimTreeSpecialFile = { fg = c.overlay0 },
-          NvimTreeCursorLine = { bg = c.base, fg = c.text },
+          NvimTreeCursorLine = { bg = fullCursorLine ,fg = c.text },
+          -- NvimTreeCursorLineNr = { bg = c.base },
 
           --
           -- custom NOTIFY
