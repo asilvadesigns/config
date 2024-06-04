@@ -39,6 +39,11 @@ vim.keymap.set("n", "<leader>wq", "<C-w>q", keymap_opts)
 vim.keymap.set("n", "<leader>ws", "<C-w>s", keymap_opts)
 vim.keymap.set("n", "<leader>wv", "<C-w>v", keymap_opts)
 
+vim.keymap.set("n", "<leader>wH", "<C-w>H", keymap_opts)
+vim.keymap.set("n", "<leader>wJ", "<C-w>J", keymap_opts)
+vim.keymap.set("n", "<leader>wK", "<C-w>K", keymap_opts)
+vim.keymap.set("n", "<leader>wL", "<C-w>L", keymap_opts)
+
 -- better keymaps
 vim.keymap.set("n", "<leader>qf", ":wqa!<CR>", keymap_opts)
 

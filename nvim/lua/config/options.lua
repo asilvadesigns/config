@@ -34,9 +34,9 @@ vim.opt.signcolumn = "yes"
 
 -- indenting
 vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
+vim.opt.shiftwidth = 4
 vim.opt.smartindent = true
-vim.opt.tabstop = 2
+vim.opt.tabstop = 4
 
 -- invisible chars
 vim.opt.list = false -- TODO: persist via prefs plugin

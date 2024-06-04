@@ -47,7 +47,7 @@ require("lazy").setup({
   },
   {
     "folke/flash.nvim",
-    event = { "CursorMoved", "CursorMovedI" },
+    event = "VeryLazy",
     keys = {
       {
         "s",

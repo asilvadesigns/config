@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local utils = require('catppuccin.utils.colors')
+  local utils = require("catppuccin.utils.colors")
 
   require("catppuccin").setup({
     integrations = {
@@ -11,21 +11,32 @@ M.setup = function()
       ufo = true,
     },
     highlight_overrides = {
+      latte = function(c)
+        local fullCursorLine = utils.lighten(c.surface0, 0.5)
+        return {
+          CursorLine = { bg = fullCursorLine },
+          CursorLineFold = { bg = fullCursorLine, fg = c.overlay0 },
+          CursorLineNr = { bg = fullCursorLine, fg = c.mauve },
+          CursorLineSign = { bg = fullCursorLine },
+          NvimTreeCursorLine = { bg = fullCursorLine, fg = c.text },
+        }
+      end,
+      frappe = function(c)
+        local fullCursorLine = utils.darken(c.surface0, 0.84)
+        return {
+          CursorLine = { bg = fullCursorLine },
+          CursorLineFold = { bg = fullCursorLine, fg = c.overlay0 },
+          CursorLineNr = { bg = fullCursorLine, fg = c.mauve },
+          CursorLineSign = { bg = fullCursorLine },
+          NvimTreeCursorLine = { bg = fullCursorLine, fg = c.text },
+        }
+      end,
       all = function(c)
         local NotifyBorderGroup = { bg = c.base, fg = c.base }
-
-        local fullCursorLine = utils.darken(c.surface0, 0.84)
-        -- local fullCursorLine = c.base
 
         return {
           --
           -- custom DEFAULTS
-          CursorLine = { bg = fullCursorLine },
-          CursorLineFold = { bg = fullCursorLine, fg = c.overlay0 },
-          -- CursorLineFold = { bg = fullCursorLine, fg = c.subtext1 },
-          -- CursorLineNr = { bg = c.base, fg = c.subtext1 },
-          CursorLineNr = { bg = fullCursorLine, fg = c.mauve },
-          CursorLineSign = { bg = fullCursorLine },
           ScrollView = { bg = c.surface0 },
           Visual = { bg = c.surface0 },
           -- WinSeparator = { fg = c.base }, -- or c.mantle
@@ -50,7 +61,6 @@ M.setup = function()
           NvimTreeFileExec = { fg = c.overlay0 },
           NvimTreeExecFile = { fg = c.overlay0 },
           NvimTreeSpecialFile = { fg = c.overlay0 },
-          NvimTreeCursorLine = { bg = fullCursorLine ,fg = c.text },
           -- NvimTreeCursorLineNr = { bg = c.base },
 
           --
@@ -79,8 +89,8 @@ M.setup = function()
           --
           -- custom Leap
           -- custom StatusLine
-          StatusLine = { bg = c.base },
-          StatusLineNC = { bg = c.base },
+          StatusLine = { bg = c.mantle },
+          StatusLineNC = { bg = c.mantle },
           --
           -- custom Telescope
           TelescopePreviewTitle = { fg = c.mantle, bg = c.mantle },

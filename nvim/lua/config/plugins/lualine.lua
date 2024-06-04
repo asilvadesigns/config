@@ -97,10 +97,10 @@ M.setup = function()
       section_separators = "",
       theme = {
         normal = {
-          a = { bg = colors.base },
-          b = { bg = colors.base },
-          c = { bg = colors.base },
-          z = { bg = colors.base },
+          a = { bg = colors.mantle },
+          b = { bg = colors.mantle },
+          c = { bg = colors.mantle },
+          z = { bg = colors.mantle },
         },
       },
     },
@@ -115,7 +115,11 @@ M.setup = function()
     winbar = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }, nil, true),
+      lualine_c = get_filename(
+        { bg = colors.base, fg = colors.surface2 },
+        { bg = colors.base, fg = colors.surface2 },
+        true
+      ),
       lualine_x = {},
       lualine_y = {},
       lualine_z = {}, --get_diagnostics(nil, true),
