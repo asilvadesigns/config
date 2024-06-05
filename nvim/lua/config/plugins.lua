@@ -240,6 +240,7 @@ require("lazy").setup({
   },
   {
     "RRethy/vim-illuminate",
+    enabled = false,
     event = "VeryLazy",
     config = function()
       require("illuminate").configure({
@@ -315,7 +316,6 @@ require("lazy").setup({
   },
   {
     "folke/noice.nvim",
-    enabled = false,
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
@@ -426,15 +426,9 @@ require("lazy").setup({
   },
   {
     "dstein64/nvim-scrollview",
-    enabled = true,
-    event = "VeryLazy",
-    config = require("config.plugins.scrollview").setup,
-  },
-  {
-    "petertriho/nvim-scrollbar",
     enabled = false,
     event = "VeryLazy",
-    config = require("config.plugins.scrollbar").setup,
+    config = require("config.plugins.scrollview").setup,
   },
   {
     "mrjones2014/smart-splits.nvim",

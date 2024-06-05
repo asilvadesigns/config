@@ -67,7 +67,7 @@ vim.opt.smoothscroll = true
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- statusline && winbar
-vim.opt.laststatus = 0 -- 3 or 0, there is no other way
+vim.opt.laststatus = 3 -- 3 or 0, there is no other way
 vim.opt.showmode = false
 vim.opt.statusline = " "
 vim.opt.winbar = " "

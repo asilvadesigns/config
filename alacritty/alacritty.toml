@@ -3,6 +3,7 @@ import = [
   "~/.config/alacritty/catppuccin-frappe.toml",
   # light
   # "~/.config/alacritty/catppuccin-latte.toml"
+  # "~/.config/alacritty/alacritty-themes/solarized-light.toml"
 ]
 
 [colors]
