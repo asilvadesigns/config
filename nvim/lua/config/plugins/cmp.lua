@@ -54,6 +54,7 @@ M.setup = function()
       { name = "luasnip" },
       -- { name = "nvim_lua" },
       { name = "path" },
+      { name = "lazydev", group_index = 0 },
     },
     formatting = {
       expandable_indicator = true,

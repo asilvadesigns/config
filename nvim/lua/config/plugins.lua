@@ -315,6 +315,7 @@ require("lazy").setup({
   },
   {
     "folke/noice.nvim",
+    enabled = false,
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
@@ -518,6 +519,7 @@ require("lazy").setup({
   },
   {
     "nvim-telescope/telescope.nvim",
+    event = "VeryLazy",
     cmd = { "Telescope" },
     keys = {
       "<leader>a",
@@ -567,7 +569,7 @@ require("lazy").setup({
           require("statuscol").setup({
             relculright = true,
             segments = {
-              -- { text = { "%s" }, click = "v:lua.ScSa" },
+              { text = { "%s" }, click = "v:lua.ScSa" },
               { text = { " ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
               { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
             },
@@ -589,14 +591,36 @@ require("lazy").setup({
       "NoNeckPainWidthDown",
       "NoNeckPainWidthUp",
     },
+    keys = {
+      {
+        "<leader>z",
+        function()
+          vim.cmd("NoNeckPain")
+        end,
+        mode = "n",
+      },
+    },
     version = "*",
     opts = { width = 120 },
+  },
+  { "Bilal2453/luvit-meta", lazy = true },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        {
+          path = "luvit-meta/library",
+          words = { "vim%.uv" },
+        },
+      },
+    },
   },
   {
     "neovim/nvim-lspconfig",
     event = "VeryLazy",
     dependencies = {
-      "folke/neodev.nvim",
+      -- "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "williamboman/mason-lspconfig.nvim",
       "williamboman/mason.nvim",

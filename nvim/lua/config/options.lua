@@ -19,7 +19,7 @@ vim.opt.cursorline = true
 -- folding
 vim.opt.conceallevel = 0
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
+vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
@@ -45,8 +45,8 @@ vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 
 -- numberline
-vim.opt.number = true -- TODO: persist via prefs plugin
-vim.opt.relativenumber = true -- TODO: persist via prefs plugin
+vim.opt.number = false -- TODO: persist via prefs plugin
+vim.opt.relativenumber = false -- TODO: persist via prefs plugin
 
 -- searching
 vim.opt.grepformat = "%f:%l:%c:%m"
@@ -57,8 +57,11 @@ vim.opt.inccommand = "nosplit"
 vim.opt.smartcase = true
 
 -- scroll boundaries
-vim.opt.scrolloff = 0
-vim.opt.sidescrolloff = 0
+vim.opt.scrolloff = 6
+vim.opt.sidescrolloff = 6
+
+-- scroll behavior
+vim.opt.smoothscroll = true
 
 -- sessions
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"

@@ -80,6 +80,6 @@ map opt+cmd+d debug_config
 
 
 # BEGIN_KITTY_THEME
-# Catppuccin-Frappe
+# Catppuccin-Latte
 include current-theme.conf
 # END_KITTY_THEME
