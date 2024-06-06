@@ -638,6 +638,7 @@ require("lazy").setup({
   },
   {
     "nvim-lualine/lualine.nvim",
+    enabled = false,
     event = "VeryLazy",
     dependencies = { "catppuccin/nvim" },
     config = require("config.plugins.lualine").setup,

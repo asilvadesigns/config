@@ -4,7 +4,7 @@ M.setup = function()
   local colors = require("catppuccin.palettes").get_palette()
   local square = vim.fn.nr2char(0x25aa)
 
-  local function get_filename(file_color, git_color, colored)
+  local function get_filename(file_color, git_color)
     return {
       {
         "filename",
@@ -20,16 +20,16 @@ M.setup = function()
           newfile = "[New]", -- Text to show for newly created file before first write
         },
       },
-      {
-        "diagnostics",
-        always_visible = false,
-        color = git_color,
-        colored = colored,
-        symbols = { error = square, warn = square, info = square, hint = square },
-        on_click = function()
-          vim.cmd("Trouble")
-        end,
-      },
+      -- {
+      --   "diagnostics",
+      --   always_visible = false,
+      --   color = git_color,
+      --   colored = colored,
+      --   symbols = { error = square, warn = square, info = square, hint = square },
+      --   on_click = function()
+      --     vim.cmd("Trouble")
+      --   end,
+      -- },
     }
   end
 
@@ -48,7 +48,7 @@ M.setup = function()
     }
   end
 
-  local function get_branch(git_color)
+  local function get_branch(git_color, colored)
     return {
       {
         "branch",
@@ -56,6 +56,16 @@ M.setup = function()
         color = git_color,
         on_click = function()
           vim.cmd("Git")
+        end,
+      },
+      {
+        "diagnostics",
+        always_visible = false,
+        color = git_color,
+        colored = colored,
+        symbols = { error = square, warn = square, info = square, hint = square },
+        on_click = function()
+          vim.cmd("Trouble")
         end,
       },
       -- {
@@ -97,17 +107,17 @@ M.setup = function()
       section_separators = "",
       theme = {
         normal = {
-          a = { bg = colors.mantle },
-          b = { bg = colors.mantle },
-          c = { bg = colors.mantle },
-          z = { bg = colors.mantle },
+          a = { bg = colors.base },
+          b = { bg = colors.base },
+          c = { bg = colors.base },
+          z = { bg = colors.base },
         },
       },
     },
     sections = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = get_branch({ fg = colors.surface2 }),
+      lualine_c = get_branch({ fg = colors.surface2 }, true),
       lualine_x = {},
       lualine_y = {},
       lualine_z = file_details({ fg = colors.surface2 }),
@@ -115,11 +125,7 @@ M.setup = function()
     winbar = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = get_filename(
-        { bg = colors.base, fg = colors.surface2 },
-        { bg = colors.base, fg = colors.surface2 },
-        true
-      ),
+      lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }, { bg = colors.base, fg = colors.surface2 }),
       lualine_x = {},
       lualine_y = {},
       lualine_z = {}, --get_diagnostics(nil, true),
@@ -127,11 +133,7 @@ M.setup = function()
     inactive_winbar = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = get_filename(
-        { bg = colors.base, fg = colors.surface2 },
-        { bg = colors.base, fg = colors.surface2 },
-        false
-      ),
+      lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }, { bg = colors.base, fg = colors.surface2 }),
       lualine_x = {},
       lualine_y = {},
       lualine_z = {}, --get_diagnostics({ bg = colors.base, fg = colors.surface2 }, false),

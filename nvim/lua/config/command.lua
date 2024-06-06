@@ -18,7 +18,7 @@ end, {})
 
 vim.api.nvim_create_user_command("CopySelection", function()
   local old_reg = vim.fn.getreg("v")
-  vim.api.nvim_exec('normal! gv"vy', false)
+  vim.api.nvim_exec2('normal! gv"vy', { output = false })
 
   local raw_search = vim.fn.getreg("v")
   vim.fn.setreg("v", old_reg)

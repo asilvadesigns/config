@@ -1,12 +1,38 @@
 local M = {}
 
 M.setup = function()
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticHintIcon", { link = "DiagnosticSignHint" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticErrorIcon", { link = "DiagnosticSignError" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticWarnIcon", { link = "DiagnosticSignWarn" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticInfoIcon", { link = "DiagnosticSignInfo" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticHintFileHL", { link = "DiagnosticSignHint" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticErrorFileHL", { link = "DiagnosticSignError" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticWarnFileHL", { link = "DiagnosticSignWarn" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticInfoFileHL", { link = "DiagnosticSignInfo" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticHintFolderHL", { link = "DiagnosticSignHint" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticErrorFolderHL", { link = "DiagnosticSignError" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticWarnFolderHL", { link = "DiagnosticSignWarn" })
+  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticInfoFolderHL", { link = "DiagnosticSignInfo" })
+
+
+  local options = require("config.options")
+
   require("nvim-tree").setup({
     actions = {
       open_file = {
         window_picker = {
           enable = false,
         },
+      },
+    },
+    diagnostics = {
+      enable = true,
+      show_on_dirs = true,
+      icons = {
+        hint = options.signs.Hint,
+        info = options.signs.Info,
+        warning = options.signs.Warn,
+        error = options.signs.Error,
       },
     },
     filesystem_watchers = {
@@ -26,6 +52,7 @@ M.setup = function()
       indent_markers = {
         enable = false,
       },
+      highlight_diagnostics = "all",
       icons = {
         show = {
           file = true,

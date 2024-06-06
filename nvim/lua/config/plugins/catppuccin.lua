@@ -42,6 +42,12 @@ M.setup = function()
           -- WinSeparator = { fg = c.base }, -- or c.mantle
           WinSeparator = { fg = c.mantle }, -- or c.mantle
           --
+          -- NvimTree
+          -- NvimTreeLspDiagnosticsErrorText = { fg = c.red },
+          -- NvimTreeLspDiagnosticsHintText = { fg = c.green },
+          -- NvimTreeLspDiagnosticsInfoText = { fg = c.blue },
+          -- NvimTreeLspDiagnosticsWarnText = { fg = c.yellow },
+          --
           -- custom FLASH
           TroubleNormal = { bg = c.base },
           --
@@ -52,16 +58,14 @@ M.setup = function()
           FlashCurrent = { fg = c.sky, bg = c.base },
           FlashPrompt = { link = "NormalFloat" },
           --
+
           NvimTreeNormal = { fg = c.overlay2 },
           NvimTreeRootFolder = { fg = c.overlay2 },
           NvimTreeFolderName = { fg = c.overlay2 },
           NvimTreeOpenedFolderName = { fg = c.overlay2 },
-          -- NvimTreeFolderArrowOpen = { fg = c.blue },
-
           NvimTreeFileExec = { fg = c.overlay0 },
           NvimTreeExecFile = { fg = c.overlay0 },
           NvimTreeSpecialFile = { fg = c.overlay0 },
-          -- NvimTreeCursorLineNr = { bg = c.base },
 
           --
           -- custom NOTIFY
@@ -89,8 +93,8 @@ M.setup = function()
           --
           -- custom Leap
           -- custom StatusLine
-          StatusLine = { bg = c.mantle },
-          StatusLineNC = { bg = c.mantle },
+          StatusLine = { bg = c.base },
+          StatusLineNC = { bg = c.base },
           --
           -- custom Telescope
           TelescopePreviewTitle = { fg = c.mantle, bg = c.mantle },

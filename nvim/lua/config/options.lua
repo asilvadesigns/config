@@ -34,9 +34,9 @@ vim.opt.signcolumn = "yes"
 
 -- indenting
 vim.opt.expandtab = true
-vim.opt.shiftwidth = 4
+vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
-vim.opt.tabstop = 4
+vim.opt.tabstop = 2
 
 -- invisible chars
 vim.opt.list = false -- TODO: persist via prefs plugin
@@ -45,8 +45,8 @@ vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 
 -- numberline
-vim.opt.number = false -- TODO: persist via prefs plugin
-vim.opt.relativenumber = false -- TODO: persist via prefs plugin
+vim.opt.number = true -- TODO: persist via prefs plugin
+vim.opt.relativenumber = true -- TODO: persist via prefs plugin
 
 -- searching
 vim.opt.grepformat = "%f:%l:%c:%m"
@@ -57,8 +57,8 @@ vim.opt.inccommand = "nosplit"
 vim.opt.smartcase = true
 
 -- scroll boundaries
-vim.opt.scrolloff = 6
-vim.opt.sidescrolloff = 6
+vim.opt.scrolloff = 0
+vim.opt.sidescrolloff = 0
 
 -- scroll behavior
 vim.opt.smoothscroll = true
@@ -69,8 +69,8 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpo
 -- statusline && winbar
 vim.opt.laststatus = 3 -- 3 or 0, there is no other way
 vim.opt.showmode = false
-vim.opt.statusline = " "
-vim.opt.winbar = " "
+-- vim.opt.statusline = " "
+-- vim.opt.winbar = " "
 
 -- terminal
 vim.opt.termguicolors = true
