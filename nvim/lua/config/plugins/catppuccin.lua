@@ -18,7 +18,7 @@ M.setup = function()
           CursorLineFold = { bg = fullCursorLine, fg = c.overlay0 },
           CursorLineNr = { bg = fullCursorLine, fg = c.mauve },
           CursorLineSign = { bg = fullCursorLine },
-          NvimTreeCursorLine = { bg = fullCursorLine, fg = c.text },
+          NvimTreeCursorLine = { bg = fullCursorLine },
         }
       end,
       frappe = function(c)
@@ -28,7 +28,7 @@ M.setup = function()
           CursorLineFold = { bg = fullCursorLine, fg = c.overlay0 },
           CursorLineNr = { bg = fullCursorLine, fg = c.mauve },
           CursorLineSign = { bg = fullCursorLine },
-          NvimTreeCursorLine = { bg = fullCursorLine, fg = c.text },
+          NvimTreeCursorLine = { bg = fullCursorLine },
         }
       end,
       all = function(c)
@@ -43,10 +43,10 @@ M.setup = function()
           WinSeparator = { fg = c.mantle }, -- or c.mantle
           --
           -- NvimTree
-          -- NvimTreeLspDiagnosticsErrorText = { fg = c.red },
-          -- NvimTreeLspDiagnosticsHintText = { fg = c.green },
-          -- NvimTreeLspDiagnosticsInfoText = { fg = c.blue },
-          -- NvimTreeLspDiagnosticsWarnText = { fg = c.yellow },
+          NvimTreeLspDiagnosticsErrorText = { fg = c.red },
+          NvimTreeLspDiagnosticsHintText = { fg = c.green },
+          NvimTreeLspDiagnosticsInfoText = { fg = c.blue },
+          NvimTreeLspDiagnosticsWarnText = { fg = c.yellow },
           --
           -- custom FLASH
           TroubleNormal = { bg = c.base },

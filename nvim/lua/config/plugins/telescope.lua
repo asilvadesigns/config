@@ -177,12 +177,12 @@ M.setup = function()
     defaults = vim.tbl_extend(
       "force",
       themes.get_dropdown({
-        borderchars = {
-          { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-          prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-          results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-          preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-        },
+        -- borderchars = {
+        --   { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        --   prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+        --   results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+        --   preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        -- },
         layout_config = {
           width = function(_, max_columns, _)
             return math.min(max_columns, 100)

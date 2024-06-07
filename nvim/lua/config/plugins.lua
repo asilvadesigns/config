@@ -266,9 +266,22 @@ require("lazy").setup({
   },
   {
     "catppuccin/nvim",
+    enabled = false,
     name = "catppuccin",
     priority = 1000,
     config = require("config.plugins.catppuccin").setup,
+  },
+  {
+    "rose-pine/neovim",
+    enabled = false,
+    name = "rose-pine",
+    priority = 1000,
+    config = require("config.plugins.rosepine").setup,
+  },
+  {
+    "loctvl842/monokai-pro.nvim",
+    priority = 1000,
+    config = require("config.plugins.monokai-pro").setup,
   },
   {
     "hrsh7th/nvim-cmp",
@@ -401,17 +414,26 @@ require("lazy").setup({
   },
   {
     "nvim-tree/nvim-tree.lua",
+    lazy = false,
     keys = {
       {
         "<leader>j",
         function()
-          local filetype = vim.bo.filetype
+          local api = require("nvim-tree.api")
 
-          if filetype == "NvimTree" then
-            vim.cmd("NvimTreeClose")
-          else
-            vim.cmd("NvimTreeFindFile")
-          end
+          api.tree.toggle({ current_window = true })
+          -- if api.tree.is_visible() then
+          --   api.tree.close()
+          -- else
+          --   api.node.open.replace_tree_buffer()
+          -- end
+          -- local filetype = vim.bo.filetype
+          --
+          -- if filetype == "NvimTree" then
+          --   vim.cmd("NvimTreeClose")
+          -- else
+          --   vim.cmd("NvimTreeFindFile")
+          -- end
         end,
       },
     },

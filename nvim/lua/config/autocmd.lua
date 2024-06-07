@@ -29,109 +29,107 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
-local cached_git_value = "  ..loading"
+-- local cached_git_value = "  ..loading"
 local cached_statusline_value = " "
-local cached_winbar_value = {}
-local render_winbar_timer = vim.loop.new_timer()
-local WINBAR_COLOR = "%#Comment#"
-local STATUS_COLOR = "%#CursorLineFold#"
+-- local cached_winbar_value = {}
+-- local render_winbar_timer = vim.loop.new_timer()
+-- local WINBAR_COLOR = "%#Comment#"
+-- local STATUS_COLOR = "%#NonText#"
 
 ---@return table<string>
-local function getVisibleWindows()
-  local visible_buffers = {}
-  local windows = vim.api.nvim_list_wins()
+-- local function getVisibleWindows()
+--   local visible_buffers = {}
+--   local windows = vim.api.nvim_list_wins()
+--
+--   for _, win_id in ipairs(windows) do
+--     local is_floating = vim.api.nvim_win_get_config(win_id).relative ~= ""
+--     local is_empty = vim.api.nvim_win_get_buf(win_id) < 1
+--
+--     if is_floating or is_empty then
+--       goto continue
+--     end
+--
+--     table.insert(visible_buffers, win_id)
+--     ::continue::
+--   end
+--
+--   return visible_buffers
+-- end
 
-  for _, win_id in ipairs(windows) do
-    local is_floating = vim.api.nvim_win_get_config(win_id).relative ~= ""
-    local is_empty = vim.api.nvim_win_get_buf(win_id) < 1
+-- local winbar_exclude_filetypes = {
+--   "NvimTree",
+--   "Outline",
+--   "TelescopePrompt",
+--   "Trouble",
+--   "alpha",
+--   "dashboard",
+--   "help",
+--   "lir",
+--   "neogitstatus",
+--   "no-neck-pain",
+--   "packer",
+--   "spectre_panel",
+--   "startify",
+--   "telescope",
+--   "toggleterm",
+--   -- "qf",
+-- }
 
-    if is_floating or is_empty then
-      goto continue
-    end
-
-    table.insert(visible_buffers, win_id)
-    ::continue::
-  end
-
-  return visible_buffers
-end
-
-local winbar_exclude_filetypes = {
-  "NvimTree",
-  "Outline",
-  "TelescopePrompt",
-  "Trouble",
-  "alpha",
-  "dashboard",
-  "help",
-  "lir",
-  "neogitstatus",
-  "no-neck-pain",
-  "packer",
-  "spectre_panel",
-  "startify",
-  "telescope",
-  "toggleterm",
-  -- "qf",
-}
-
-local function renderWinbar()
-  local windows = getVisibleWindows()
-
-  for _, win_id in ipairs(windows) do
-    local buf = vim.api.nvim_win_get_buf(win_id)
-    local buf_filetype = vim.api.nvim_get_option_value("filetype", { buf })
-
-    if vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
-      goto continue
-    end
-
-    local buf_name = vim.api.nvim_buf_get_name(buf)
-
-    local sep = "  "
-    local filename = vim.fn.fnamemodify(buf_name, ":t")
-    local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
-
-    -- local is_modified = vim.bo[buf].modified
-    -- local flag = is_modified and " +" or "  "
-
-    local next_winbar = WINBAR_COLOR .. filepath .. filename .. "%*"
-
-    if cached_winbar_value[buf] ~= next_winbar then
-      cached_winbar_value[buf] = next_winbar
-      vim.api.nvim_set_option_value(win_id, "winbar", cached_winbar_value[buf])
-    end
-    ::continue::
-  end
-end
+-- local function renderWinbar()
+--   local windows = getVisibleWindows()
+--
+--   for _, win_id in ipairs(windows) do
+--     local buf = vim.api.nvim_win_get_buf(win_id)
+--     local buf_filetype = vim.api.nvim_get_option_value("filetype", { buf })
+--
+--     if vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
+--       goto continue
+--     end
+--
+--     local buf_name = vim.api.nvim_buf_get_name(buf)
+--
+--     local sep = "  "
+--     local filename = vim.fn.fnamemodify(buf_name, ":t")
+--     local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
+--
+--     -- local is_modified = vim.bo[buf].modified
+--     -- local flag = is_modified and " +" or "  "
+--
+--     local next_winbar = WINBAR_COLOR .. filepath .. filename .. "%*"
+--
+--     if cached_winbar_value[buf] ~= next_winbar then
+--       cached_winbar_value[buf] = next_winbar
+--       vim.api.nvim_set_option_value(win_id, "winbar", cached_winbar_value[buf])
+--     end
+--     ::continue::
+--   end
+-- end
 
 local function renderStatusLine()
-  local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
-  if not lazy_ready then
-    vim.opt.statusline = STATUS_COLOR .. cached_git_value
-    return
-  end
-
-  local fugitive_ready = lazy_config.plugins["vim-fugitive"]._.loaded
-  if not fugitive_ready then
-    vim.opt.statusline = STATUS_COLOR .. cached_git_value
-    return
-  end
-
-  -- local git_info = vim.api.nvim_eval_statusline("%{FugitiveStatusline()}", {})
-  -- local git_info_str = git_info["str"]
-  --
-  -- if git_info_str ~= "" then
-  --   cached_git_value = "  " .. string.match(git_info_str, "%((.-)%)")
-  -- end
-
   local buf_name = vim.api.nvim_buf_get_name(0)
   local sep = "/"
   local filename = vim.fn.fnamemodify(buf_name, ":t")
   local filepath = string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
 
-  -- local next_statusline = STATUS_COLOR .. cached_git_value .. "  " .. filepath .. filename
-  local next_statusline = STATUS_COLOR .. "  " .. filepath .. filename
+  local diagnostic_label = ""
+  local diagnostic_count = vim.diagnostic.count(0)
+  local square = vim.fn.nr2char(0x25aa)
+
+  if diagnostic_count[vim.diagnostic.severity.ERROR] and diagnostic_count[vim.diagnostic.severity.ERROR] > 0 then
+    diagnostic_label = diagnostic_label .. " %#DiagnosticSignError#" .. square .. diagnostic_count[vim.diagnostic.severity.ERROR] .. "%*"
+  end
+  if diagnostic_count[vim.diagnostic.severity.HINT] and diagnostic_count[vim.diagnostic.severity.HINT] > 0 then
+    diagnostic_label = diagnostic_label .. " %#DiagnosticSignHint#" .. square .. diagnostic_count[vim.diagnostic.severity.HINT] .. "%*"
+  end
+  if diagnostic_count[vim.diagnostic.severity.INFO] and diagnostic_count[vim.diagnostic.severity.INFO] > 0 then
+    diagnostic_label = diagnostic_label .. " %#DiagnosticSignInfo#" .. square .. diagnostic_count[vim.diagnostic.severity.INFO] .. "%*"
+  end
+  if diagnostic_count[vim.diagnostic.severity.WARN] and diagnostic_count[vim.diagnostic.severity.WARN] > 0 then
+    diagnostic_label = diagnostic_label .. " %#DiagnosticSignWarn#" .. square .. diagnostic_count[vim.diagnostic.severity.WARN] .. "%*"
+  end
+
+  -- local next_statusline = STATUS_COLOR .. "  " .. filepath .. filename .. "%*" .. diagnostic_label
+  local next_statusline = "  " .. filepath .. filename .. "%*" .. diagnostic_label
 
   if cached_statusline_value ~= next_statusline then
     cached_statusline_value = next_statusline
@@ -139,13 +137,17 @@ local function renderStatusLine()
   end
 end
 
--- vim.api.nvim_create_autocmd({ "BufEnter" }, {
---   group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
---   callback = function()
---     -- renderStatusLine()
---     renderWinbar()
---   end,
--- })
+vim.api.nvim_create_autocmd({
+  "BufEnter",
+  "BufModifiedSet",
+  "DiagnosticChanged",
+}, {
+  group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
+  callback = function()
+    renderStatusLine()
+    -- renderWinbar()
+  end,
+})
 --
 -- render_winbar_timer:start(
 --   0,
@@ -191,7 +193,7 @@ local LARGE_BUFFER = 2000000
 
 local function detect_large_buffer(buffer)
   buffer = buffer or vim.api.nvim_get_current_buf()
-  local stats_ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buffer))
+  local stats_ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buffer))
   if stats_ok and stats and (stats.size > LARGE_BUFFER) then
     return true
   end

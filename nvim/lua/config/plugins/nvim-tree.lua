@@ -14,10 +14,18 @@ M.setup = function()
   -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticWarnFolderHL", { link = "DiagnosticSignWarn" })
   -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticInfoFolderHL", { link = "DiagnosticSignInfo" })
 
-
   local options = require("config.options")
 
   require("nvim-tree").setup({
+    on_attach = function(bufnr)
+      local api = require("nvim-tree.api")
+
+      local function opts(desc)
+        return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+      end
+
+      vim.keymap.set("n", "<CR>", api.node.open.replace_tree_buffer, opts("Open: In Place"))
+    end,
     actions = {
       open_file = {
         window_picker = {
