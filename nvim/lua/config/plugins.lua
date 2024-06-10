@@ -87,6 +87,7 @@ require("lazy").setup({
   },
   {
     "akinsho/git-conflict.nvim",
+    event = "VeryLazy",
     cmd = {
       "GitConflictChooseBoth",
       "GitConflictChooseNone",
