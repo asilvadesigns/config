@@ -420,20 +420,20 @@ require("lazy").setup({
       {
         "<leader>j",
         function()
-          local api = require("nvim-tree.api")
+          local filetype = vim.bo.filetype
 
-          api.tree.toggle({ current_window = true })
+          if filetype == "NvimTree" then
+            vim.cmd("NvimTreeClose")
+          else
+            vim.cmd("NvimTreeFindFile")
+          end
+          -- local api = require("nvim-tree.api")
+          --
           -- if api.tree.is_visible() then
           --   api.tree.close()
           -- else
-          --   api.node.open.replace_tree_buffer()
-          -- end
-          -- local filetype = vim.bo.filetype
-          --
-          -- if filetype == "NvimTree" then
-          --   vim.cmd("NvimTreeClose")
-          -- else
-          --   vim.cmd("NvimTreeFindFile")
+          --   api.tree.toggle()
+          --   -- api.tree.toggle({ current_window = true })
           -- end
         end,
       },

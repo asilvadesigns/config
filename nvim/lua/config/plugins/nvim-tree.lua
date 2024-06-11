@@ -17,15 +17,23 @@ M.setup = function()
   local options = require("config.options")
 
   require("nvim-tree").setup({
-    on_attach = function(bufnr)
-      local api = require("nvim-tree.api")
-
-      local function opts(desc)
-        return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-      end
-
-      vim.keymap.set("n", "<CR>", api.node.open.replace_tree_buffer, opts("Open: In Place"))
-    end,
+    -- on_attach = function(bufnr)
+    --   local api = require("nvim-tree.api")
+    --
+    --   local function opts(desc)
+    --     return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    --   end
+    --
+    --   vim.keymap.set("n", "<CR>", api.node.open.replace_tree_buffer, opts("Open: In Place"))
+    --   -- file system
+    --   vim.keymap.set("n", "a", api.fs.create, opts("Create"))
+    --   vim.keymap.set("n", "d", api.fs.remove, opts("Delete"))
+    --   vim.keymap.set("n", "r", api.fs.rename, opts("Rename"))
+    --   -- tree
+    --   vim.keymap.set("n", "R", api.tree.reload, opts("Refresh"))
+    --   -- help
+    --   vim.keymap.set("n", "g?", api.tree.toggle_help, opts("Help"))
+    -- end,
     actions = {
       open_file = {
         window_picker = {
