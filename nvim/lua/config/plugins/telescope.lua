@@ -205,6 +205,8 @@ M.setup = function()
           i = {
             ["<C-u>"] = false,
             ["<esc>"] = actions.close,
+            ["<C-n>"] = actions.cycle_history_next,
+            ["<C-p>"] = actions.cycle_history_prev,
           },
         },
       }
@@ -256,7 +258,7 @@ M.setup = function()
   vim.keymap.set("n", "<leader>b", builtin.buffers)
   vim.keymap.set("n", "<leader>e", builtin.oldfiles)
   vim.keymap.set("n", "<leader>f", builtin.find_files)
-  vim.keymap.set("n", "<leader>g", builtin.git_files)
+  vim.keymap.set("n", "<leader>g", builtin.live_grep)
   vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)
 end
 

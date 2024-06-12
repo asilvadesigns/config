@@ -218,9 +218,7 @@ require("lazy").setup({
     "folke/trouble.nvim",
     cmd = { "ToggleTrouble", "Trouble" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      use_diagnostic_signs = true,
-    },
+    config = require("config.plugins.trouble").setup,
   },
   {
     "mg979/vim-visual-multi",
@@ -280,7 +278,18 @@ require("lazy").setup({
     config = require("config.plugins.rosepine").setup,
   },
   {
+    "echasnovski/mini.ai",
+    enabled = true,
+    event = "VeryLazy",
+    version = "*",
+    config = function()
+      require("mini.ai").setup()
+    end,
+  },
+  {
     "loctvl842/monokai-pro.nvim",
+    enabled = true,
+    lazy = false,
     priority = 1000,
     config = require("config.plugins.monokai-pro").setup,
   },
@@ -415,7 +424,7 @@ require("lazy").setup({
   },
   {
     "nvim-tree/nvim-tree.lua",
-    lazy = false,
+    event = "VeryLazy",
     keys = {
       {
         "<leader>j",
