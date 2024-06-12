@@ -10,6 +10,13 @@ require("lazy").setup({
     opts = {},
   },
   {
+    "echasnovski/mini.ai",
+    event = "VeryLazy",
+    config = function()
+      require("mini.ai").setup()
+    end,
+  },
+  {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
     opts = {
@@ -44,6 +51,11 @@ require("lazy").setup({
       { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
     },
     config = require("config.plugins.comment").setup,
+  },
+  {
+    "rktjmp/lush.nvim",
+    enabled = true,
+    event = "VeryLazy",
   },
   {
     "folke/flash.nvim",
@@ -101,6 +113,7 @@ require("lazy").setup({
   },
   {
     "tpope/vim-fugitive",
+    lazy = false,
     cmd = {
       "Gdiffsplit",
       "Git",
@@ -147,9 +160,7 @@ require("lazy").setup({
     keys = {
       { "<leader>x", "<CMD>Oil<CR>" },
     },
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
+    dependencies = { "nvim-tree/nvim-web-devicons", },
     config = require("config.plugins.oil").setup,
   },
   {
@@ -278,15 +289,6 @@ require("lazy").setup({
     config = require("config.plugins.rosepine").setup,
   },
   {
-    "echasnovski/mini.ai",
-    enabled = true,
-    event = "VeryLazy",
-    version = "*",
-    config = function()
-      require("mini.ai").setup()
-    end,
-  },
-  {
     "loctvl842/monokai-pro.nvim",
     enabled = true,
     lazy = false,
@@ -295,7 +297,7 @@ require("lazy").setup({
   },
   {
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
+    event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       -- Snippet Engine
       "L3MON4D3/LuaSnip",
@@ -451,9 +453,29 @@ require("lazy").setup({
     config = require("config.plugins.nvim-tree").setup,
   },
   {
+    "goolord/alpha-nvim",
+    enabled = false,
+    lazy = false,
+    config = function()
+      local alpha = require("alpha")
+      local dashboard = require("alpha.themes.dashboard")
+
+      dashboard.section.header.val = "nerd."
+
+      dashboard.section.buttons.val = {
+        dashboard.button("e", " -> New file", ":ene <BAR> startinsert <CR>"),
+        dashboard.button("f", "󰈞  > Find file", ":Telescope find_files<CR>"),
+        dashboard.button("l", "󰈮  > Load Session", ":LoadSession<CR>"),
+        dashboard.button("q", "󰩈  > Quit NVIM", ":qa<CR>"),
+      }
+
+      alpha.setup(dashboard.opts)
+    end,
+  },
+  {
     "folke/persistence.nvim",
     lazy = false,
-    -- event = "VeryLazy",
+    cmd = { "LoadSession", "SaveSession" },
     config = require("config.plugins.persistence").setup,
   },
   {
@@ -646,7 +668,6 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     event = "VeryLazy",
     dependencies = {
-      -- "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "williamboman/mason-lspconfig.nvim",
       "williamboman/mason.nvim",

@@ -29,7 +29,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
--- local cached_git_value = "  ..loading"
+local cached_git_label = "  ..loading"
 local cached_statusline_value = " "
 -- local cached_winbar_value = {}
 -- local render_winbar_timer = vim.loop.new_timer()
@@ -104,32 +104,57 @@ local cached_statusline_value = " "
 --     ::continue::
 --   end
 -- end
+--
 
 local function renderStatusLine()
+  -- get filename
   local buf_name = vim.api.nvim_buf_get_name(0)
   local sep = "/"
-  local filename = vim.fn.fnamemodify(buf_name, ":t")
-  local filepath = string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
+  local f_name = vim.fn.fnamemodify(buf_name, ":t")
+  local f_path = string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
+  local f_label = f_path .. f_name
 
-  local diagnostic_label = ""
-  local diagnostic_count = vim.diagnostic.count(0)
+  -- get diagnostics
+  local d_label = ""
+  local d_count = vim.diagnostic.count(0)
   local square = vim.fn.nr2char(0x25aa)
 
-  if diagnostic_count[vim.diagnostic.severity.ERROR] and diagnostic_count[vim.diagnostic.severity.ERROR] > 0 then
-    diagnostic_label = diagnostic_label .. " %#DiagnosticSignError#" .. square .. diagnostic_count[vim.diagnostic.severity.ERROR] .. "%*"
+  if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
+    d_label = d_label .. " %#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
   end
-  if diagnostic_count[vim.diagnostic.severity.HINT] and diagnostic_count[vim.diagnostic.severity.HINT] > 0 then
-    diagnostic_label = diagnostic_label .. " %#DiagnosticSignHint#" .. square .. diagnostic_count[vim.diagnostic.severity.HINT] .. "%*"
+  if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
+    d_label = d_label .. " %#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
   end
-  if diagnostic_count[vim.diagnostic.severity.INFO] and diagnostic_count[vim.diagnostic.severity.INFO] > 0 then
-    diagnostic_label = diagnostic_label .. " %#DiagnosticSignInfo#" .. square .. diagnostic_count[vim.diagnostic.severity.INFO] .. "%*"
+  if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
+    d_label = d_label .. " %#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
   end
-  if diagnostic_count[vim.diagnostic.severity.WARN] and diagnostic_count[vim.diagnostic.severity.WARN] > 0 then
-    diagnostic_label = diagnostic_label .. " %#DiagnosticSignWarn#" .. square .. diagnostic_count[vim.diagnostic.severity.WARN] .. "%*"
+  if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
+    d_label = d_label .. " %#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
   end
 
-  -- local next_statusline = STATUS_COLOR .. "  " .. filepath .. filename .. "%*" .. diagnostic_label
-  local next_statusline = "  " .. filepath .. filename .. "%*" .. diagnostic_label
+  local next_statusline = "  " .. cached_git_label .. "  " .. f_label .. "%*" .. d_label
+
+  -- get git
+  local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
+  if not lazy_ready then
+    vim.opt.statusline = next_statusline
+    return
+  end
+
+  local fugitive_ready = lazy_config.plugins["vim-fugitive"]._.loaded
+  if not fugitive_ready then
+    vim.opt.statusline = next_statusline
+    return
+  end
+
+  local git_info = vim.api.nvim_eval_statusline("%{FugitiveStatusline()}", {})
+  local git_info_str = git_info["str"]
+
+  if git_info_str ~= "" then
+    cached_git_label = "  " .. string.match(git_info_str, "%((.-)%)")
+  end
+
+  next_statusline = "  " .. cached_git_label .. "  " .. f_label .. "%*" .. d_label
 
   if cached_statusline_value ~= next_statusline then
     cached_statusline_value = next_statusline

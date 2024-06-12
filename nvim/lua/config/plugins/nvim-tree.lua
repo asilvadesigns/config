@@ -82,10 +82,10 @@ M.setup = function()
         web_devicons = {
           file = {
             enable = true,
-            color = false,
+            color = true,
           },
           folder = {
-            enable = true,
+            enable = false,
             color = false,
           },
         },
@@ -129,7 +129,17 @@ M.setup = function()
     },
   })
 
-  vim.cmd("highlight link NvimTreeIndentMarker LineNr")
+  vim.cmd("hi! link NvimTreeIndentMarker LineNr")
+
+  -- vim.cmd("hi! link NvimTreeDiagnosticErrorFileHL DiagnosticSignError")
+  -- vim.cmd("hi! link NvimTreeDiagnosticHintFileHL DiagnosticSignHint")
+  -- vim.cmd("hi! link NvimTreeDiagnosticInfoFileHL DiagnosticSignInfo")
+  -- vim.cmd("hi! link NvimTreeDiagnosticWarnFileHL DiagnosticSignWarn")
+  --
+  -- vim.cmd("hi! link NvimTreeDiagnosticErrorFolderHL DiagnosticSignError")
+  -- vim.cmd("hi! link NvimTreeDiagnosticHintFolderHL DiagnosticSignHint")
+  -- vim.cmd("hi! link NvimTreeDiagnosticInfoFolderHL DiagnosticSignInfo")
+  -- vim.cmd("hi! link NvimTreeDiagnosticWarnFolderHL DiagnosticSignWarn")
 end
 
 return M

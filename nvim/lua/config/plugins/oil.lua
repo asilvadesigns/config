@@ -2,12 +2,13 @@ local M = {}
 
 M.setup = function()
   require("oil").setup({
+    constrain_cursor = "name",
     delete_to_trash = true,
+    skip_confirm_for_simple_edits = true,
     use_default_keymaps = false,
     view_options = { show_hidden = true },
-    constrain_cursor = "name",
     columns = {
-      -- "icon",
+      "icon",
       -- "permissions",
       -- "size",
       -- "mtime",
