@@ -13,6 +13,7 @@ M.setup = function()
   luasnip.config.setup()
 
   cmp.setup({
+    enabled = true,
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)
@@ -64,6 +65,9 @@ M.setup = function()
         with_text = false,
       }),
     },
+    completion = {
+      autocomplete = false,
+    }
   })
 end
 

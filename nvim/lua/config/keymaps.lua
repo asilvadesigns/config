@@ -69,6 +69,8 @@ vim.keymap.set("n", "<leader>9", ":tabn 9<CR>", keymap_opts)
 -- better navigation in line wraps
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", keymap_opts_with_expr)
+vim.keymap.set("v", "k", "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)
+vim.keymap.set("v", "j", "v:count == 0 ? 'gj' : 'j'", keymap_opts_with_expr)
 
 -- better indent
 vim.keymap.set("v", "<Tab>", ">gv", keymap_opts)

@@ -41,7 +41,7 @@ set -g fish_greeting;
 # --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
 # --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39 \
 # --color=border:#e6e9ef"
-set -gx FZF_DEFAULT_OPTS ""
+set -gx FZF_DEFAULT_OPTS "--color=border:blue,bg+:-1"
 
 # go
 set -gx GOPATH "$HOME/go"

@@ -129,17 +129,22 @@ M.setup = function()
     },
   })
 
-  vim.cmd("hi! link NvimTreeIndentMarker LineNr")
+  -- vim.cmd("hi! link NvimTreeIndentMarker LineNr")
 
-  -- vim.cmd("hi! link NvimTreeDiagnosticErrorFileHL DiagnosticSignError")
-  -- vim.cmd("hi! link NvimTreeDiagnosticHintFileHL DiagnosticSignHint")
-  -- vim.cmd("hi! link NvimTreeDiagnosticInfoFileHL DiagnosticSignInfo")
-  -- vim.cmd("hi! link NvimTreeDiagnosticWarnFileHL DiagnosticSignWarn")
-  --
-  -- vim.cmd("hi! link NvimTreeDiagnosticErrorFolderHL DiagnosticSignError")
-  -- vim.cmd("hi! link NvimTreeDiagnosticHintFolderHL DiagnosticSignHint")
-  -- vim.cmd("hi! link NvimTreeDiagnosticInfoFolderHL DiagnosticSignInfo")
-  -- vim.cmd("hi! link NvimTreeDiagnosticWarnFolderHL DiagnosticSignWarn")
+  vim.cmd("hi! link NvimTreeFolderName Delimiter")
+  vim.cmd("hi! link NvimTreeNormal Delimiter")
+  vim.cmd("hi! link NvimTreeOpenedFolderName Delimiter")
+  vim.cmd("hi! link NvimTreeRootFolder Delimiter")
+
+  vim.cmd("hi! link NvimTreeDiagnosticErrorFileHL DiagnosticSignError")
+  vim.cmd("hi! link NvimTreeDiagnosticHintFileHL DiagnosticSignHint")
+  vim.cmd("hi! link NvimTreeDiagnosticInfoFileHL DiagnosticSignInfo")
+  vim.cmd("hi! link NvimTreeDiagnosticWarnFileHL DiagnosticSignWarn")
+
+  vim.cmd("hi! link NvimTreeDiagnosticErrorFolderHL DiagnosticSignError")
+  vim.cmd("hi! link NvimTreeDiagnosticHintFolderHL DiagnosticSignHint")
+  vim.cmd("hi! link NvimTreeDiagnosticInfoFolderHL DiagnosticSignInfo")
+  vim.cmd("hi! link NvimTreeDiagnosticWarnFolderHL DiagnosticSignWarn")
 end
 
 return M

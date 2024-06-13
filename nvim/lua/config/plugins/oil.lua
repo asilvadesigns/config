@@ -8,7 +8,11 @@ M.setup = function()
     use_default_keymaps = false,
     view_options = { show_hidden = true },
     columns = {
-      "icon",
+      {
+        "icon",
+        directory = "",
+        default_file = "",
+      },
       -- "permissions",
       -- "size",
       -- "mtime",
@@ -22,7 +26,7 @@ M.setup = function()
       -- ["<C-p>"] = "actions.preview",
       -- ["<C-c>"] = "actions.close",
       -- ["<C-l>"] = "actions.refresh",
-      ["-"] = "actions.parent",
+      ["K"] = "actions.parent",
       -- ["_"] = "actions.open_cwd",
       -- ["`"] = "actions.cd",
       -- ["~"] = "actions.tcd",
@@ -32,6 +36,10 @@ M.setup = function()
       -- ["g\\"] = "actions.toggle_trash",
     },
   })
+
+  vim.cmd("hi! link OilDir NvimTreeFolderName")
+  vim.cmd("hi! link OilDirIcon NvimTreeFolderName")
+  vim.cmd("hi! link OilFile NvimTreeFolderName")
 end
 
 return M

@@ -95,7 +95,7 @@ require("lazy").setup({
         desc = "Toggle Flash Search",
       },
     },
-    opts = {},
+    config = require("config.plugins.flash").setup,
   },
   {
     "akinsho/git-conflict.nvim",
@@ -160,7 +160,7 @@ require("lazy").setup({
     keys = {
       { "<leader>x", "<CMD>Oil<CR>" },
     },
-    dependencies = { "nvim-tree/nvim-web-devicons", },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.oil").setup,
   },
   {
@@ -276,7 +276,8 @@ require("lazy").setup({
   },
   {
     "catppuccin/nvim",
-    enabled = false,
+    enabled = true,
+    lazy = false,
     name = "catppuccin",
     priority = 1000,
     config = require("config.plugins.catppuccin").setup,
@@ -290,8 +291,7 @@ require("lazy").setup({
   },
   {
     "loctvl842/monokai-pro.nvim",
-    enabled = true,
-    lazy = false,
+    enabled = false,
     priority = 1000,
     config = require("config.plugins.monokai-pro").setup,
   },

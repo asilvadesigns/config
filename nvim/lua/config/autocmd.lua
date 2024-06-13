@@ -143,15 +143,14 @@ local function renderStatusLine()
 
   local fugitive_ready = lazy_config.plugins["vim-fugitive"]._.loaded
   if not fugitive_ready then
-    vim.opt.statusline = next_statusline
-    return
-  end
+    cached_git_label = "  no branch "
+  else
+    local git_info = vim.api.nvim_eval_statusline("%{FugitiveStatusline()}", {})
+    local git_info_str = git_info["str"]
 
-  local git_info = vim.api.nvim_eval_statusline("%{FugitiveStatusline()}", {})
-  local git_info_str = git_info["str"]
-
-  if git_info_str ~= "" then
-    cached_git_label = "  " .. string.match(git_info_str, "%((.-)%)")
+    if git_info_str ~= "" then
+      cached_git_label = "  " .. string.match(git_info_str, "%((.-)%)")
+    end
   end
 
   next_statusline = "  " .. cached_git_label .. "  " .. f_label .. "%*" .. d_label
