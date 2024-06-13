@@ -113,7 +113,7 @@ require("lazy").setup({
   },
   {
     "tpope/vim-fugitive",
-    lazy = false,
+    event = "VeryLazy",
     cmd = {
       "Gdiffsplit",
       "Git",
