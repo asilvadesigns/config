@@ -66,7 +66,7 @@ M.setup = function()
       }),
     },
     completion = {
-      autocomplete = false,
+      -- autocomplete = false,
     }
   })
 end

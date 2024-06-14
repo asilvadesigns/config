@@ -11,6 +11,7 @@ require("lazy").setup({
   },
   {
     "echasnovski/mini.ai",
+    enabled = false,
     event = "VeryLazy",
     config = function()
       require("mini.ai").setup()
