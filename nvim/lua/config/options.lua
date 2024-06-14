@@ -28,7 +28,7 @@ vim.opt.foldenable = true
 vim.opt.pumheight = 10
 
 -- gutters
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "no"
 -- vim.opt.statuscolumn = "  "
 -- vim.opt.statuscolumn = '%=%{v:relnum?v:relnum:v:lnum} '
 
@@ -138,6 +138,12 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.HINT] = square,
       [vim.diagnostic.severity.INFO] = square,
       [vim.diagnostic.severity.WARN] = square,
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
     },
   },
 })

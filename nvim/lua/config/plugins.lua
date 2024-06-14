@@ -1,3 +1,26 @@
+vim.cmd("hi! link LazyNormal Normal")
+
+local get_diagnostics = function(props)
+  local d_label = {}
+  local d_count = vim.diagnostic.count(props.buf)
+  local square = vim.fn.nr2char(0x25aa)
+
+  if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
+    table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.ERROR], group = "DiagnosticSignError" })
+  end
+  if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
+    table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.HINT], group = "DiagnosticSignHint" })
+  end
+  if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
+    table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.INFO], group = "DiagnosticSignInfo" })
+  end
+  if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
+    table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.WARN], group = "DiagnosticSignWarn" })
+  end
+
+  return { d_label }
+end
+
 require("lazy").setup({
   {
     "windwp/nvim-autopairs",
@@ -10,14 +33,6 @@ require("lazy").setup({
     opts = {},
   },
   {
-    "echasnovski/mini.ai",
-    enabled = false,
-    event = "VeryLazy",
-    config = function()
-      require("mini.ai").setup()
-    end,
-  },
-  {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
     opts = {
@@ -28,10 +43,7 @@ require("lazy").setup({
   },
   {
     "kevinhwang91/nvim-bqf",
-    dependencies = {
-      "junegunn/fzf",
-      "nvim-treesitter/nvim-treesitter",
-    },
+    dependencies = { "junegunn/fzf", "nvim-treesitter/nvim-treesitter" },
     ft = "qf",
     opts = {},
   },
@@ -52,11 +64,6 @@ require("lazy").setup({
       { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
     },
     config = require("config.plugins.comment").setup,
-  },
-  {
-    "rktjmp/lush.nvim",
-    enabled = true,
-    event = "VeryLazy",
   },
   {
     "folke/flash.nvim",
@@ -115,41 +122,17 @@ require("lazy").setup({
   {
     "tpope/vim-fugitive",
     event = "VeryLazy",
-    cmd = {
-      "Gdiffsplit",
-      "Git",
-      "Gvdiffsplit",
-    },
+    cmd = { "Gdiffsplit", "Git", "Gvdiffsplit" },
   },
   {
     "NeogitOrg/neogit",
     cmd = "Neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- required
-      -- "sindrets/diffview.nvim", -- optional - Diff integration
-      -- Only one of these is needed, not both.
-      "nvim-telescope/telescope.nvim", -- optional
-    },
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "sindrets/diffview.nvim" },
     config = require("config.plugins.neogit").setup,
   },
   {
-    "sindrets/diffview.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    cmd = {
-      "DiffviewOpen",
-      "DiffviewClose",
-      "DiffviewToggleFiles",
-      "DiffviewFocusFiles",
-    },
-  },
-  {
     "iamcco/markdown-preview.nvim",
-    cmd = {
-      "MarkdownPreview",
-      "MarkdownPreviewStop",
-      "MarkdownPreviewToggle",
-    },
+    cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
     ft = { "markdown" },
     build = function()
       vim.fn["mkdp#util#install"]()
@@ -158,22 +141,14 @@ require("lazy").setup({
   {
     "stevearc/oil.nvim",
     cmd = "Oil",
-    keys = {
-      { "<leader>x", "<CMD>Oil<CR>" },
-    },
+    keys = { { "<leader>x", "<CMD>Oil<CR>" } },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.oil").setup,
   },
   {
     "hedyhli/outline.nvim",
-    cmd = {
-      "Outline",
-      "OutlineOpen",
-    },
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      "nvim-treesitter/nvim-treesitter",
-    },
+    cmd = { "Outline", "OutlineOpen" },
+    dependencies = { "nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter" },
     opts = {
       outline_window = {
         width = 40,
@@ -255,12 +230,7 @@ require("lazy").setup({
     event = "VeryLazy",
     config = function()
       require("illuminate").configure({
-        filetypes_denylist = {
-          "NvimTree",
-          "oil",
-          "spectre_panel",
-          "trouble",
-        },
+        filetypes_denylist = { "NvimTree", "oil", "spectre_panel", "trouble" },
         delay = 100,
         large_file_cutoff = 5000, -- disable at 5k lines.
       })
@@ -269,10 +239,7 @@ require("lazy").setup({
   {
     "akinsho/bufferline.nvim",
     event = "TabNew",
-    dependencies = {
-      "catppuccin/nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
+    dependencies = { "catppuccin/nvim", "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.bufferline").setup,
   },
   {
@@ -282,19 +249,6 @@ require("lazy").setup({
     name = "catppuccin",
     priority = 1000,
     config = require("config.plugins.catppuccin").setup,
-  },
-  {
-    "rose-pine/neovim",
-    enabled = false,
-    name = "rose-pine",
-    priority = 1000,
-    config = require("config.plugins.rosepine").setup,
-  },
-  {
-    "loctvl842/monokai-pro.nvim",
-    enabled = false,
-    priority = 1000,
-    config = require("config.plugins.monokai-pro").setup,
   },
   {
     "hrsh7th/nvim-cmp",
@@ -325,11 +279,7 @@ require("lazy").setup({
   },
   {
     "mfussenegger/nvim-lint",
-    cmd = {
-      "Lint",
-      "LintWithBiome",
-      "LintWithEslint",
-    },
+    cmd = { "Lint", "LintWithBiome", "LintWithEslint" },
     config = require("config.plugins.lint").setup,
   },
   {
@@ -358,72 +308,7 @@ require("lazy").setup({
         end,
       },
     },
-    config = function()
-      require("noice").setup({
-        cmdline = {
-          enabled = true,
-          format = {
-            cmdline = {
-              icon = " ",
-              lang = "vim",
-              pattern = "^:",
-              view = "cmdline",
-            },
-            search_down = {
-              icon = "  ",
-              kind = "search",
-              lang = "regex",
-              pattern = "^/",
-            },
-            search_up = {
-              icon = "  ",
-              kind = "search",
-              lang = "regex",
-              pattern = "^%?",
-            },
-          },
-        },
-        messages = {
-          enabled = true,
-        },
-        notify = {
-          enabled = false,
-        },
-        popupmenu = {
-          enabled = true,
-        },
-        lsp = {
-          progress = { enabled = true },
-        },
-        presets = {
-          bottom_search = true,
-        },
-        routes = {
-          -- -- show "@recording" messages
-          -- { view = "notify", filter = { event = "msg_showmode" } },
-          {
-            view = "notify",
-            filter = { event = "msg_show", find = "No information available" },
-            opts = { skip = true },
-          },
-          { view = "notify", filter = { event = "msg_show", find = "written" }, opts = { skip = true } },
-        },
-        views = {
-          cmdline_popup = {
-            border = {
-              style = "none",
-              padding = { 1, 2 },
-            },
-            filter_options = {},
-            win_options = {
-              winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-            },
-          },
-        },
-      })
-
-      vim.keymap.set("n", "<leader>nd", ":NoiceDismiss<CR>", { noremap = true, silent = true })
-    end,
+    config = require("config.plugins.noice").setup,
   },
   {
     "nvim-tree/nvim-tree.lua",
@@ -454,26 +339,6 @@ require("lazy").setup({
     config = require("config.plugins.nvim-tree").setup,
   },
   {
-    "goolord/alpha-nvim",
-    enabled = false,
-    lazy = false,
-    config = function()
-      local alpha = require("alpha")
-      local dashboard = require("alpha.themes.dashboard")
-
-      dashboard.section.header.val = "nerd."
-
-      dashboard.section.buttons.val = {
-        dashboard.button("e", " -> New file", ":ene <BAR> startinsert <CR>"),
-        dashboard.button("f", "󰈞  > Find file", ":Telescope find_files<CR>"),
-        dashboard.button("l", "󰈮  > Load Session", ":LoadSession<CR>"),
-        dashboard.button("q", "󰩈  > Quit NVIM", ":qa<CR>"),
-      }
-
-      alpha.setup(dashboard.opts)
-    end,
-  },
-  {
     "folke/persistence.nvim",
     lazy = false,
     cmd = { "LoadSession", "SaveSession" },
@@ -481,7 +346,7 @@ require("lazy").setup({
   },
   {
     "dstein64/nvim-scrollview",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
   },
@@ -570,13 +435,7 @@ require("lazy").setup({
     "nvim-telescope/telescope.nvim",
     event = "VeryLazy",
     cmd = { "Telescope" },
-    keys = {
-      "<leader>a",
-      "<leader>c",
-      "<leader>e",
-      "<leader>f",
-      "<leader>l",
-    },
+    keys = { "<leader>a", "<leader>c", "<leader>e", "<leader>f", "<leader>l" },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
@@ -618,8 +477,8 @@ require("lazy").setup({
           require("statuscol").setup({
             relculright = true,
             segments = {
-              { text = { "%s" }, click = "v:lua.ScSa" },
-              { text = { " ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
+              -- { text = { "%s" }, click = "v:lua.ScSa" },
+              { text = { "  ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
               { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
             },
           })
@@ -635,11 +494,7 @@ require("lazy").setup({
   },
   {
     "shortcuts/no-neck-pain.nvim",
-    cmd = {
-      "NoNeckPain",
-      "NoNeckPainWidthDown",
-      "NoNeckPainWidthUp",
-    },
+    cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
     keys = {
       {
         "<leader>z",
@@ -666,13 +521,36 @@ require("lazy").setup({
     },
   },
   {
+    "b0o/incline.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("incline").setup({
+        highlight = {
+          groups = {
+            InclineNormal = { default = true, group = "Normal" },
+            InclineNormalNC = { default = true, group = "Normal" },
+          },
+        },
+        render = function(props)
+          local diagnostics = get_diagnostics(props)
+          local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t"), group ="Comment" }
+
+          return { filename, diagnostics }
+        end,
+      })
+
+      vim.api.nvim_create_autocmd({ "DiagnosticChanged" }, {
+        group = vim.api.nvim_create_augroup("render_incline", { clear = true }),
+        callback = function()
+          require("incline").refresh()
+        end,
+      })
+    end,
+  },
+  {
     "neovim/nvim-lspconfig",
     event = "VeryLazy",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "williamboman/mason-lspconfig.nvim",
-      "williamboman/mason.nvim",
-    },
+    dependencies = { "hrsh7th/cmp-nvim-lsp", "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
     config = require("config.plugins.lsp").setup,
   },
   {
@@ -689,13 +567,6 @@ require("lazy").setup({
       },
     },
     config = require("config.plugins.conform").setup,
-  },
-  {
-    "nvim-lualine/lualine.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    dependencies = { "catppuccin/nvim" },
-    config = require("config.plugins.lualine").setup,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
@@ -728,5 +599,6 @@ require("lazy").setup({
   },
   ui = {
     backdrop = 100,
+    border = "rounded",
   },
 })
