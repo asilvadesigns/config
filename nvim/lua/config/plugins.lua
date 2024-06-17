@@ -510,7 +510,7 @@ require("lazy").setup({
   { "Bilal2453/luvit-meta", lazy = true },
   {
     "folke/lazydev.nvim",
-    ft = "lua",
+    event = "VeryLazy",
     opts = {
       library = {
         {
