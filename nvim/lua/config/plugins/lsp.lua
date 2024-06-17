@@ -52,7 +52,13 @@ M.setup = function()
     "yamlls",
   }
 
-  require("mason").setup({})
+  require("mason").setup({
+    ui = {
+      border = "rounded",
+    },
+  })
+
+  vim.cmd("hi! link MasonNormal Normal")
 
   vim.api.nvim_create_user_command("MasonInstallAll", function()
     vim.cmd("MasonInstall " .. table.concat(ensure_installed, " "))
