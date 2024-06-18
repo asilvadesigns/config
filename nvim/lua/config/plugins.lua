@@ -533,7 +533,7 @@ require("lazy").setup({
         },
         render = function(props)
           local diagnostics = get_diagnostics(props)
-          local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t"), group ="Comment" }
+          local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t"), group = "Comment" }
 
           return { filename, diagnostics }
         end,
@@ -589,6 +589,7 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
+        "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
