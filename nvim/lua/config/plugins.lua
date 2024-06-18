@@ -346,7 +346,7 @@ require("lazy").setup({
   },
   {
     "dstein64/nvim-scrollview",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
   },

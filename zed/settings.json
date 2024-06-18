@@ -7,8 +7,9 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "theme": "One Light",
+  "theme": "Catppuccin Frappé",
   "buffer_font_size": 13,
+  "ui_font_size": 13,
   "vim_mode": true,
   "relative_line_numbers": true,
   "tab_bar": {
