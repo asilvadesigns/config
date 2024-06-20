@@ -226,7 +226,6 @@ require("lazy").setup({
   },
   {
     "RRethy/vim-illuminate",
-    enabled = false,
     event = "VeryLazy",
     config = function()
       require("illuminate").configure({
@@ -324,14 +323,6 @@ require("lazy").setup({
           else
             vim.cmd("NvimTreeFindFile")
           end
-          -- local api = require("nvim-tree.api")
-          --
-          -- if api.tree.is_visible() then
-          --   api.tree.close()
-          -- else
-          --   api.tree.toggle()
-          --   -- api.tree.toggle({ current_window = true })
-          -- end
         end,
       },
     },

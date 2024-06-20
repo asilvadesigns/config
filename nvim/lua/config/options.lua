@@ -100,12 +100,6 @@ vim.opt.wrap = false
 -- vim.g.loaded_zipPlugin = 1
 -- vim.g.skip_ts_context_commentstring_module = true
 
--- diagnostic config
-vim.diagnostic.config({
-  underline = true,
-  virtual_text = true,
-})
-
 -- diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
@@ -132,6 +126,8 @@ local signs = {
 m.signs = signs
 
 vim.diagnostic.config({
+  underline = true,
+  virtual_text = false,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = square,
@@ -139,23 +135,14 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.INFO] = square,
       [vim.diagnostic.severity.WARN] = square,
     },
-    numhl = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-    },
+    -- NOTE: cool to highlight but too much.
+    -- numhl = {
+    --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+    --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+    --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+    --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+    -- },
   },
 })
-
--- for type, icon in pairs(signs) do
---   local hl = "DiagnosticSign" .. type
---   -- vim.fn.sign_define(hl, {
---   --   linehl = "",
---   --   numhl = "",
---   --   text = icon,
---   --   texthl = hl,
---   -- })
--- end
 
 return m
