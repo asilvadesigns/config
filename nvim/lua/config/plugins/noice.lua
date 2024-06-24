@@ -41,17 +41,20 @@ M.setup = function()
       bottom_search = true,
     },
     routes = {
-      -- -- show "@recording" messages
       {
+        -- skip "-- insert --"
         view = "notify",
         filter = { event = "msg_showmode" },
+        opts = { skip = true },
       },
       {
+        -- skip "No information available"
         view = "notify",
         filter = { event = "msg_show", find = "No information available" },
         opts = { skip = true },
       },
       {
+        -- skip "written"
         view = "notify",
         filter = { event = "msg_show", find = "written" },
         opts = { skip = true },

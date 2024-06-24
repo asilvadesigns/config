@@ -11,9 +11,9 @@ M.setup = function()
     highlight_overrides = {
       all = function(c)
         return {
-          CursorLine = { bg = c.base },
+          -- CursorLine = { bg = c.base },
           Folded = { bg = c.base },
-          NvimTreeCursorLine = { bg = c.base, fg = c.text },
+          -- NvimTreeCursorLine = { bg = c.base, fg = c.text },
           --
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },
