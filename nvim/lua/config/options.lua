@@ -28,9 +28,18 @@ vim.opt.foldenable = true
 vim.opt.pumheight = 10
 
 -- gutters
-vim.opt.signcolumn = "no"
+-- vim.opt.signcolumn = "no"
 -- vim.opt.statuscolumn = "  "
--- vim.opt.statuscolumn = '%=%{v:relnum?v:relnum:v:lnum} '
+-- vim.o.statuscolumn = "%s %=%{v:relnum?v:relnum:v:lnum} %C "
+-- vim.opt.statuscolumn = "%=%{v:relnum?v:relnum:v:lnum} "
+
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "NvimTree",
+--   callback = function()
+--     print('got em')
+--     vim.wo.statuscolumn = ""
+--   end,
+-- })
 
 -- indenting
 vim.opt.expandtab = true
@@ -67,10 +76,9 @@ vim.opt.smoothscroll = true
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- statusline && winbar
-vim.opt.laststatus = 3 -- 3 or 0, there is no other way
-vim.opt.showmode = false
--- vim.opt.statusline = " "
--- vim.opt.winbar = " "
+vim.opt.laststatus = 0
+local str = string.rep('—', vim.api.nvim_win_get_width(0))
+vim.opt.statusline = str
 
 -- terminal
 vim.opt.termguicolors = true
@@ -125,9 +133,17 @@ local signs = {
 
 m.signs = signs
 
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, {
+    text = icon,
+    texthl = hl,
+  })
+end
+
 vim.diagnostic.config({
   underline = true,
-  virtual_text = false,
+  virtual_text = true,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = square,

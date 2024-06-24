@@ -4,7 +4,7 @@ M.setup = function()
   local options = require("config.options")
 
   require("scrollview").setup({
-    always_show = true,
+    always_show = false,
     column = 1,
     current_only = true,
     cursor_symbol = vim.fn.nr2char(0x25aa),

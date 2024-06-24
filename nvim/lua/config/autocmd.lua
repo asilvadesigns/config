@@ -1,3 +1,18 @@
+function GetTmuxPaneCount()
+  -- Run the command and capture the output
+  local handle = io.popen("tmux list-panes | wc -l")
+  if handle ~= nil then
+    local result = handle:read("*a")
+    handle:close()
+    -- Trim any whitespace from the output
+    result = result:gsub("%s+", "")
+    return result
+  end
+
+  return ""
+end
+
+--
 -- highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
@@ -29,12 +44,12 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
-local cached_git_label = "  ..loading"
+local cached_git_label = " ..loading"
 local cached_statusline_value = " "
--- local cached_winbar_value = {}
--- local render_winbar_timer = vim.loop.new_timer()
--- local WINBAR_COLOR = "%#Comment#"
--- local STATUS_COLOR = "%#NonText#"
+local cached_winbar_value = {}
+local render_winbar_timer = vim.loop.new_timer()
+local WINBAR_COLOR = "%#Comment#"
+local STATUS_COLOR = "%#StatusLine#"
 
 ---@return table<string>
 -- local function getVisibleWindows()
@@ -104,7 +119,6 @@ local cached_statusline_value = " "
 --     ::continue::
 --   end
 -- end
---
 
 local function renderStatusLine()
   -- get filename
@@ -114,51 +128,40 @@ local function renderStatusLine()
   local f_path = string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
   local f_label = f_path .. f_name
 
-  -- get diagnostics
-  local d_label = ""
-  local d_count = vim.diagnostic.count(0)
-  local square = vim.fn.nr2char(0x25aa)
+  -- -- get diagnostics
+  -- local d_label = ""
+  -- local d_count = vim.diagnostic.count(0)
+  -- local square = vim.fn.nr2char(0x25aa)
+  --
+  -- if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
+  --   d_label = d_label .. " %#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
+  -- end
+  -- if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
+  --   d_label = d_label .. " %#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
+  -- end
+  -- if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
+  --   d_label = d_label .. " %#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
+  -- end
+  -- if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
+  --   d_label = d_label .. " %#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
+  -- end
 
-  if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
-    d_label = d_label .. " %#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
-  end
-  if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
-    d_label = d_label .. " %#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
-  end
-  if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
-    d_label = d_label .. " %#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
-  end
-  if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
-    d_label = d_label .. " %#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
-  end
+  -- local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
 
-  local next_statusline = "  " .. cached_git_label .. "  " .. f_label .. "%*" .. d_label
+  -- local tmux_label = ""
+  -- local tmux_panes = ""
+  -- if vim.env.TMUX ~= nil then
+  --   tmux_panes = GetTmuxPaneCount()
+  --   tmux_label = "%#DiagnosticSignHint#" .. "" .. " " .. tmux_panes .. "%*"
+  -- end
 
-  -- get git
-  local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
-  if not lazy_ready then
-    vim.opt.statusline = next_statusline
-    return
-  end
+  vim.opt.statusline = STATUS_COLOR .. " " .. f_label .. "%*"
 
-  local fugitive_ready = lazy_config.plugins["vim-fugitive"]._.loaded
-  if not fugitive_ready then
-    cached_git_label = "  no branch "
-  else
-    local git_info = vim.api.nvim_eval_statusline("%{FugitiveStatusline()}", {})
-    local git_info_str = git_info["str"]
-
-    if git_info_str ~= "" then
-      cached_git_label = "  " .. string.match(git_info_str, "%((.-)%)")
-    end
-  end
-
-  next_statusline = "  " .. cached_git_label .. "  " .. f_label .. "%*" .. d_label
-
-  if cached_statusline_value ~= next_statusline then
-    cached_statusline_value = next_statusline
-    vim.opt.statusline = cached_statusline_value
-  end
+  -- if lazy_ready then
+  --   if lazy_config.plugins["vim-tpipeline"]._.loaded then
+  --     vim.cmd("silent! call tpipeline#update()")
+  --   end
+  -- end
 end
 
 vim.api.nvim_create_autocmd({
@@ -168,10 +171,11 @@ vim.api.nvim_create_autocmd({
 }, {
   group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
   callback = function()
-    renderStatusLine()
+    -- renderStatusLine()
     -- renderWinbar()
   end,
 })
+
 --
 -- render_winbar_timer:start(
 --   0,

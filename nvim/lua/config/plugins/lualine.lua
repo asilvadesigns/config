@@ -4,7 +4,7 @@ M.setup = function()
   local colors = require("catppuccin.palettes").get_palette()
   local square = vim.fn.nr2char(0x25aa)
 
-  local function get_filename(file_color, git_color)
+  local function get_filename(file_color, colored)
     return {
       {
         "filename",
@@ -20,16 +20,16 @@ M.setup = function()
           newfile = "[New]", -- Text to show for newly created file before first write
         },
       },
-      -- {
-      --   "diagnostics",
-      --   always_visible = false,
-      --   color = git_color,
-      --   colored = colored,
-      --   symbols = { error = square, warn = square, info = square, hint = square },
-      --   on_click = function()
-      --     vim.cmd("Trouble")
-      --   end,
-      -- },
+      {
+        "diagnostics",
+        always_visible = false,
+        -- color = git_color,
+        colored = colored,
+        symbols = { error = square, warn = square, info = square, hint = square },
+        on_click = function()
+          vim.cmd("Trouble")
+        end,
+      },
     }
   end
 
@@ -58,16 +58,16 @@ M.setup = function()
           vim.cmd("Git")
         end,
       },
-      {
-        "diagnostics",
-        always_visible = false,
-        color = git_color,
-        colored = colored,
-        symbols = { error = square, warn = square, info = square, hint = square },
-        on_click = function()
-          vim.cmd("Trouble")
-        end,
-      },
+      -- {
+      --   "diagnostics",
+      --   always_visible = false,
+      --   color = git_color,
+      --   colored = colored,
+      --   symbols = { error = square, warn = square, info = square, hint = square },
+      --   on_click = function()
+      --     vim.cmd("Trouble")
+      --   end,
+      -- },
       -- {
       --   "filename",
       --   color = git_color,
@@ -94,6 +94,9 @@ M.setup = function()
     }
   end
 
+  local statusline_fg = colors.text
+  local winbar_fg = colors.overlay0
+
   require("lualine").setup({
     extensions = { "oil" },
     options = {
@@ -117,27 +120,28 @@ M.setup = function()
     sections = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = get_branch({ fg = colors.surface2 }, true),
+      lualine_c = get_filename({ fg = winbar_fg }, true),
       lualine_x = {},
       lualine_y = {},
-      lualine_z = file_details({ fg = colors.surface2 }),
+      lualine_z = {}, -- file_details({ fg = winbar_fg }),
     },
-    winbar = {
-      lualine_a = {},
-      lualine_b = {},
-      lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }, { bg = colors.base, fg = colors.surface2 }),
-      lualine_x = {},
-      lualine_y = {},
-      lualine_z = {}, --get_diagnostics(nil, true),
-    },
-    inactive_winbar = {
-      lualine_a = {},
-      lualine_b = {},
-      lualine_c = get_filename({ bg = colors.base, fg = colors.surface2 }, { bg = colors.base, fg = colors.surface2 }),
-      lualine_x = {},
-      lualine_y = {},
-      lualine_z = {}, --get_diagnostics({ bg = colors.base, fg = colors.surface2 }, false),
-    },
+    winbar = {},
+    -- winbar = {
+    --   lualine_a = {},
+    --   lualine_b = {},
+    --   lualine_c = get_filename({ bg = colors.base, fg = winbar_fg }, { bg = colors.base, fg = winbar_fg }),
+    --   lualine_x = {},
+    --   lualine_y = {},
+    --   lualine_z = {}, --get_diagnostics(nil, true),
+    -- },
+    -- inactive_winbar = {
+    --   lualine_a = {},
+    --   lualine_b = {},
+    --   lualine_c = get_filename({ bg = colors.base, fg = winbar_fg }, { bg = colors.base, fg = winbar_fg }),
+    --   lualine_x = {},
+    --   lualine_y = {},
+    --   lualine_z = {}, --get_diagnostics({ bg = colors.base, fg = colors.surface2 }, false),
+    -- },
   })
 end
 

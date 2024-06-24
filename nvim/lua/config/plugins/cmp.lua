@@ -13,7 +13,10 @@ M.setup = function()
   luasnip.config.setup()
 
   cmp.setup({
-    enabled = true,
+    preselect = cmp.PreselectMode.None,
+    completion = {
+      completeopt = "menu,menuone,noselect",
+    },
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)
@@ -48,15 +51,14 @@ M.setup = function()
         end
       end, { "i", "s" }),
     }),
-    sources = {
-      -- { name = "buffer" },
-      -- { name = "npm" },
+    sources = cmp.config.sources({
       { name = "nvim_lsp" },
       { name = "luasnip" },
-      -- { name = "nvim_lua" },
       { name = "path" },
       { name = "lazydev", group_index = 0 },
-    },
+    }, {
+      { name = "buffer" },
+    }),
     formatting = {
       expandable_indicator = true,
       fields = { "kind", "abbr", "menu" },
@@ -65,9 +67,13 @@ M.setup = function()
         with_text = false,
       }),
     },
-    completion = {
-      -- autocomplete = false,
-    }
+  })
+
+  cmp.setup.cmdline({ "/", "?" }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "buffer" },
+    },
   })
 end
 

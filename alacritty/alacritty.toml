@@ -10,9 +10,9 @@ import = [
 [colors]
 draw_bold_text_with_bright_colors = false
 
-[colors.cursor]
-cursor = "0x7286fd"
-text = "0xeee8d5"
+# [colors.cursor]
+# cursor = "0x7286fd"
+# text = "0xeee8d5"
 
 [cursor]
 thickness = 0.2
@@ -78,9 +78,13 @@ style = "Bold"
 family = "JetBrainsMono Nerd Font Mono"
 style = "Bold Italic"
 
+[font.offset]
+x = 0
+y = 4 # 4
+
 [font.glyph_offset]
 x = 0
-y = 4
+y = 2 # 2
 
 [font.italic]
 family = "JetBrainsMono Nerd Font Mono"
@@ -90,14 +94,10 @@ style = "Italic"
 family = "JetBrainsMono Nerd Font Mono"
 style = "Regular"
 
-[font.offset]
-x = 0
-y = 8
-
 [window]
 decorations = "buttonless"
 dynamic_title = true
-dynamic_padding = false
+dynamic_padding = true
 
 [window.padding]
 x = 0

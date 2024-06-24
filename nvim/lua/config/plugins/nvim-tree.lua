@@ -66,7 +66,7 @@ M.setup = function()
     },
     renderer = {
       indent_markers = {
-        enable = true,
+        enable = false,
       },
       highlight_diagnostics = "all",
       icons = {
@@ -126,6 +126,7 @@ M.setup = function()
     },
     view = {
       width = 40,
+      signcolumn = "no",
     },
   })
 

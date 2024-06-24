@@ -1,26 +1,5 @@
 vim.cmd("hi! link LazyNormal Normal")
 
-local get_diagnostics = function(props)
-  local d_label = {}
-  local d_count = vim.diagnostic.count(props.buf)
-  local square = vim.fn.nr2char(0x25aa)
-
-  if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
-    table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.ERROR], group = "DiagnosticSignError" })
-  end
-  if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
-    table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.HINT], group = "DiagnosticSignHint" })
-  end
-  if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
-    table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.INFO], group = "DiagnosticSignInfo" })
-  end
-  if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
-    table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.WARN], group = "DiagnosticSignWarn" })
-  end
-
-  return { d_label }
-end
-
 require("lazy").setup({
   {
     "windwp/nvim-autopairs",
@@ -337,7 +316,7 @@ require("lazy").setup({
   },
   {
     "dstein64/nvim-scrollview",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
   },
@@ -458,23 +437,24 @@ require("lazy").setup({
     opts = {},
   },
   {
+    "luukvbaal/statuscol.nvim",
+    config = function()
+      require("statuscol").setup({
+        relculright = true,
+        segments = {
+          -- { text = { "%s" }, click = "v:lua.ScSa" },
+          { text = { "  ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
+          { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
+        },
+      })
+    end,
+  },
+  {
     "kevinhwang91/nvim-ufo",
     event = "VeryLazy",
     dependencies = {
       "kevinhwang91/promise-async",
-      {
-        "luukvbaal/statuscol.nvim",
-        config = function()
-          require("statuscol").setup({
-            relculright = true,
-            segments = {
-              -- { text = { "%s" }, click = "v:lua.ScSa" },
-              { text = { "  ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
-              { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
-            },
-          })
-        end,
-      },
+      "luukvbaal/statuscol.nvim",
     },
     config = require("config.plugins.ufo").setup,
   },
@@ -512,31 +492,58 @@ require("lazy").setup({
     },
   },
   {
+    "vimpostor/vim-tpipeline",
+    -- event = "VeryLazy",
+    enabled = false,
+    lazy = false, -- cannot lazy load
+    init = function()
+      vim.cmd("set laststatus=0")
+      vim.g.tpipeline_autoembed = 0
+      vim.g.tpipeline_statusline = ""
+      vim.opt.laststatus = 3
+    end,
+    config = function()
+      -- vim.g.tpipeline_autoembed = 0
+      -- vim.g.tpipeline_clearstl = 1
+      -- vim.g.tpipeline_fillcentre = 1
+      -- vim.o.laststatus = 0
+      -- vim.cmd("hi! link StatusLine WinSeparator")
+      -- vim.g.tpipeline_statusline = ""
+      -- vim.o.laststatus = 0
+      -- silly lualine...
+      -- vim.defer_fn(function()
+      --   vim.o.laststatus = 0
+      -- end, 0)
+      -- vim.o.fillchars = "stl:─,stlnc:─"
+      -- vim.o.fillchars = 'stl:─,stlnc:─'
+      -- vim.api.nvim_create_autocmd('OptionSet', {
+      --   pattern = 'laststatus',
+      --   callback = function()
+      --     if vim.o.laststatus ~= 0 then
+      --       vim.notify 'Auto-setting laststatus to 0'
+      --       vim.o.laststatus = 0
+      --     end
+      --   end,
+      -- })
+    end,
+    cond = function()
+      return vim.env.TMUX ~= nil
+    end,
+  },
+  {
+    "nvim-lualine/lualine.nvim",
+    enabled = false,
+    event = "VeryLazy",
+    dependencies = {
+      "catppuccin/nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = require("config.plugins.lualine").setup,
+  },
+  {
     "b0o/incline.nvim",
     event = "VeryLazy",
-    config = function()
-      require("incline").setup({
-        highlight = {
-          groups = {
-            InclineNormal = { default = true, group = "Normal" },
-            InclineNormalNC = { default = true, group = "Normal" },
-          },
-        },
-        render = function(props)
-          local diagnostics = get_diagnostics(props)
-          local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t"), group = "Comment" }
-
-          return { filename, diagnostics }
-        end,
-      })
-
-      vim.api.nvim_create_autocmd({ "DiagnosticChanged" }, {
-        group = vim.api.nvim_create_augroup("render_incline", { clear = true }),
-        callback = function()
-          require("incline").refresh()
-        end,
-      })
-    end,
+    config = require("config.plugins.incline").setup,
   },
   {
     "neovim/nvim-lspconfig",
@@ -580,7 +587,7 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
-        "matchparen",
+        -- "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",

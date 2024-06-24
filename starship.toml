@@ -8,9 +8,15 @@ $git_commit\
 $git_state\
 $git_metrics\
 $git_status\
+${custom.tmux}\
 $line_break\
 $character
 """
+
+[custom.tmux]
+command = "echo 'in tmux'"
+when = "[ $TMUX ]"  # Condition to check
+style = "cyan"  # Style for the text
 
 [character]
 format = ' $symbol '
