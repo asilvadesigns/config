@@ -35,6 +35,7 @@ M.setup = function()
     highlight = {
       additional_vim_regex_highlighting = false,
       enable = true,
+      disable = { "tmux" },
     },
     indent = {
       enable = false,

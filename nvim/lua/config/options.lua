@@ -27,20 +27,6 @@ vim.opt.foldenable = true
 -- popup menu
 vim.opt.pumheight = 10
 
--- gutters
--- vim.opt.signcolumn = "no"
--- vim.opt.statuscolumn = "  "
--- vim.o.statuscolumn = "%s %=%{v:relnum?v:relnum:v:lnum} %C "
--- vim.opt.statuscolumn = "%=%{v:relnum?v:relnum:v:lnum} "
-
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "NvimTree",
---   callback = function()
---     print('got em')
---     vim.wo.statuscolumn = ""
---   end,
--- })
-
 -- indenting
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
@@ -87,27 +73,6 @@ vim.opt.termguicolors = true
 vim.opt.linebreak = true
 vim.opt.wrap = false
 
--- disable
--- vim.g.loaded_2html_plugin = 1
--- vim.g.loaded_getscript = 1
--- vim.g.loaded_getscriptPlugin = 1
--- vim.g.loaded_gzip = 1
--- vim.g.loaded_logipat = 1
--- vim.g.loaded_matchit = 1
--- vim.g.loaded_matchparen = 1
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwFileHandlers = 1
--- vim.g.loaded_netrwPlugin = 1
--- vim.g.loaded_netrwSettings = 1
--- vim.g.loaded_rrhelper = 1
--- vim.g.loaded_tar = 1
--- vim.g.loaded_tarPlugin = 1
--- vim.g.loaded_vimball = 1
--- vim.g.loaded_vimballPlugin = 1
--- vim.g.loaded_zip = 1
--- vim.g.loaded_zipPlugin = 1
--- vim.g.skip_ts_context_commentstring_module = true
-
 -- diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
@@ -116,13 +81,6 @@ vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic m
 -- diagnostics in gutter
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
 local square = vim.fn.nr2char(0x25aa)
-
--- local signs = {
---   Error = "󰅚",
---   Warn = "󰀪",
---   Hint = "󰌶",
---   Info = "",
--- }
 
 local signs = {
   Error = square,

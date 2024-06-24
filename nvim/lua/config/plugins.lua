@@ -214,15 +214,14 @@ require("lazy").setup({
       })
     end,
   },
-  {
-    "akinsho/bufferline.nvim",
-    event = "TabNew",
-    dependencies = { "catppuccin/nvim", "nvim-tree/nvim-web-devicons" },
-    config = require("config.plugins.bufferline").setup,
-  },
+  -- {
+  --   "akinsho/bufferline",
+  --   version = "*",
+  --   dependencies = { "catppuccin/nvim", "nvim-tree/nvim-web-devicons" },
+  --   config = require("config.plugins.bufferline").setup,
+  -- },
   {
     "catppuccin/nvim",
-    enabled = true,
     lazy = false,
     name = "catppuccin",
     priority = 1000,
@@ -245,24 +244,13 @@ require("lazy").setup({
     config = require("config.plugins.cmp").setup,
   },
   {
-    "ThePrimeagen/harpoon",
-    enabled = false,
-    event = "VeryLazy",
-    branch = "harpoon2",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
-    config = require("config.plugins.harpoon").setup,
-  },
-  {
     "mfussenegger/nvim-lint",
     cmd = { "Lint", "LintWithBiome", "LintWithEslint" },
     config = require("config.plugins.lint").setup,
   },
   {
     "MagicDuck/grug-far.nvim",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     config = function()
       require("grug-far").setup()
@@ -403,7 +391,7 @@ require("lazy").setup({
   },
   {
     "nvim-telescope/telescope.nvim",
-    event = "VeryLazy",
+    lazy = false,
     cmd = { "Telescope" },
     keys = { "<leader>a", "<leader>c", "<leader>e", "<leader>f", "<leader>l" },
     dependencies = {
@@ -437,44 +425,53 @@ require("lazy").setup({
     opts = {},
   },
   {
-    "luukvbaal/statuscol.nvim",
-    config = function()
-      require("statuscol").setup({
-        relculright = true,
-        segments = {
-          -- { text = { "%s" }, click = "v:lua.ScSa" },
-          { text = { "  ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
-          { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
-        },
-      })
-    end,
-  },
-  {
     "kevinhwang91/nvim-ufo",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    lazy = false,
     dependencies = {
       "kevinhwang91/promise-async",
-      "luukvbaal/statuscol.nvim",
+      {
+        "luukvbaal/statuscol.nvim",
+        config = function()
+          require("statuscol").setup({
+            relculright = true,
+            segments = {
+              -- { text = { "%s" }, click = "v:lua.ScSa" },
+              { text = { "  ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
+              { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
+            },
+          })
+        end,
+      },
     },
     config = require("config.plugins.ufo").setup,
   },
   {
     "folke/zen-mode.nvim",
     cmd = { "ZenMode" },
+    keys = {
+      {
+        "<leader>z",
+        function()
+          vim.cmd("ZenMode")
+        end,
+        mode = "n",
+      },
+    },
     config = require("config.plugins.zen-mode").setup,
   },
   {
     "shortcuts/no-neck-pain.nvim",
     cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
-    keys = {
-      {
-        "<leader>z",
-        function()
-          vim.cmd("NoNeckPain")
-        end,
-        mode = "n",
-      },
-    },
+    -- keys = {
+    --   {
+    --     "<leader>z",
+    --     function()
+    --       vim.cmd("NoNeckPain")
+    --     end,
+    --     mode = "n",
+    --   },
+    -- },
     version = "*",
     opts = { width = 120 },
   },
@@ -490,55 +487,6 @@ require("lazy").setup({
         },
       },
     },
-  },
-  {
-    "vimpostor/vim-tpipeline",
-    -- event = "VeryLazy",
-    enabled = false,
-    lazy = false, -- cannot lazy load
-    init = function()
-      vim.cmd("set laststatus=0")
-      vim.g.tpipeline_autoembed = 0
-      vim.g.tpipeline_statusline = ""
-      vim.opt.laststatus = 3
-    end,
-    config = function()
-      -- vim.g.tpipeline_autoembed = 0
-      -- vim.g.tpipeline_clearstl = 1
-      -- vim.g.tpipeline_fillcentre = 1
-      -- vim.o.laststatus = 0
-      -- vim.cmd("hi! link StatusLine WinSeparator")
-      -- vim.g.tpipeline_statusline = ""
-      -- vim.o.laststatus = 0
-      -- silly lualine...
-      -- vim.defer_fn(function()
-      --   vim.o.laststatus = 0
-      -- end, 0)
-      -- vim.o.fillchars = "stl:─,stlnc:─"
-      -- vim.o.fillchars = 'stl:─,stlnc:─'
-      -- vim.api.nvim_create_autocmd('OptionSet', {
-      --   pattern = 'laststatus',
-      --   callback = function()
-      --     if vim.o.laststatus ~= 0 then
-      --       vim.notify 'Auto-setting laststatus to 0'
-      --       vim.o.laststatus = 0
-      --     end
-      --   end,
-      -- })
-    end,
-    cond = function()
-      return vim.env.TMUX ~= nil
-    end,
-  },
-  {
-    "nvim-lualine/lualine.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    dependencies = {
-      "catppuccin/nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = require("config.plugins.lualine").setup,
   },
   {
     "b0o/incline.nvim",
@@ -587,7 +535,6 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
-        -- "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",

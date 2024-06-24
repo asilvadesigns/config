@@ -18,7 +18,7 @@ M.setup = function()
         -- relativenumber = false, -- disable relative numbers
         -- cursorline = false, -- disable cursorline
         -- cursorcolumn = false, -- disable cursor column
-        foldcolumn = "0", -- disable fold column
+        foldcolumn = "1", -- disable fold column
         -- list = false, -- disable whitespace characters
       },
     },
@@ -60,11 +60,13 @@ M.setup = function()
       },
     },
     -- callback where you can add custom code when the Zen window opens
-    on_open = function() end,
+    on_open = function()
+      vim.wo.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+    end,
     -- callback where you can add custom code when the Zen window closes
     on_close = function() end,
   })
-  vim.cmd('hi! link ZenBg Normal')
+  vim.cmd("hi! link ZenBg Normal")
 end
 
 return M
