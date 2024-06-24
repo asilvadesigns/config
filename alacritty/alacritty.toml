@@ -26,6 +26,8 @@ shape = "Block"
 bindings = [
   # tmux | clear
   { key = "K", mods = "Command", chars = "\u0000C" },
+  # tmux | toggle status bar
+  { key = "Z", mods = "Command", chars = "\u0000Z" },
   # tmux session | picker (sesh)
   { key = "K", mods = "Command|Shift", chars = "\u0000k" },
   # tmux | command
