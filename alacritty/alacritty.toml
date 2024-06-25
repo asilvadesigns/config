@@ -27,7 +27,7 @@ bindings = [
   # tmux | clear
   { key = "K", mods = "Command", chars = "\u0000C" },
   # tmux | toggle status bar
-  { key = "Z", mods = "Command", chars = "\u0000Z" },
+  { key = "S", mods = "Command|Shift", chars = "\u0000S" },
   # tmux session | picker (sesh)
   { key = "K", mods = "Command|Shift", chars = "\u0000k" },
   # tmux | command
@@ -97,7 +97,7 @@ family = "JetBrainsMono Nerd Font Mono"
 style = "Regular"
 
 [window]
-decorations = "buttonless"
+decorations = "none"
 dynamic_title = true
 dynamic_padding = true
 

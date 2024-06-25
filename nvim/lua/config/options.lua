@@ -19,7 +19,7 @@ vim.opt.cursorline = true
 -- folding
 vim.opt.conceallevel = 0
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
+vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
@@ -63,7 +63,7 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpo
 
 -- statusline && winbar
 vim.opt.laststatus = 0
-local str = string.rep('—', vim.api.nvim_win_get_width(0))
+local str = string.rep('—', 500)
 vim.opt.statusline = str
 
 -- terminal
