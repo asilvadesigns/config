@@ -45,7 +45,39 @@ require("lazy").setup({
     config = require("config.plugins.comment").setup,
   },
   {
+    "tummetott/reticle.nvim",
+    event = "VeryLazy", -- optionally lazy load the plugin
+    opts = {
+      -- add options here if you wish to override the default settings
+    },
+  },
+  {
+    "ggandor/leap.nvim",
+    keys = {
+      {
+        ";",
+        mode = { "n" },
+        function()
+          require("leap").leap({
+            target_windows = require("leap.user").get_focusable_windows(),
+          })
+        end,
+      },
+    },
+    config = function()
+      -- vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" }) -- or some grey
+      -- vim.api.nvim_set_hl(0, "LeapMatch", {
+      --   -- For light themes, set to 'black' or similar.
+      --   fg = "white",
+      --   bold = true,
+      --   nocombine = true,
+      -- })
+      -- require("leap").opts.highlight_unlabeled_phase_one_targets = true
+    end,
+  },
+  {
     "folke/flash.nvim",
+    enabled = false,
     event = "VeryLazy",
     keys = {
       {
@@ -392,7 +424,6 @@ require("lazy").setup({
   },
   {
     "nvim-telescope/telescope.nvim",
-    lazy = false,
     cmd = { "Telescope" },
     keys = { "<leader>a", "<leader>c", "<leader>e", "<leader>f", "<leader>l" },
     dependencies = {
@@ -427,7 +458,6 @@ require("lazy").setup({
   },
   {
     "kevinhwang91/nvim-ufo",
-    -- event = "VeryLazy",
     lazy = false,
     dependencies = {
       "kevinhwang91/promise-async",
@@ -491,7 +521,7 @@ require("lazy").setup({
   },
   {
     "b0o/incline.nvim",
-    event = "VeryLazy",
+    event = { "BufReadPost", "BufNewFile" },
     config = require("config.plugins.incline").setup,
   },
   {

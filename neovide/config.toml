@@ -1,9 +1,5 @@
-[font]
-    normal = ["JetBrainsMono Nerd Font Mono"] # Will use the bundled Fira Code Nerd Font by default
-    size = 14.0
-
 fork = false
-frame = "full"
+frame = "none"
 idle = true
 maximized = false
 neovim-bin = "/opt/homebrew/bin/nvim" # in reality found dynamically on $PATH if unset
@@ -14,4 +10,5 @@ theme = "auto"
 title-hidden = true
 vsync = true
 wsl = false
+
 
