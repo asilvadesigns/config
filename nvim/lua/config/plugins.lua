@@ -188,6 +188,7 @@ require("lazy").setup({
   },
   {
     "mg979/vim-visual-multi",
+    event = "VeryLazy",
     keys = {
       { "<C-N>", mode = "n" },
       { "<C-N>", mode = "x" },
@@ -304,7 +305,7 @@ require("lazy").setup({
   },
   {
     "dstein64/nvim-scrollview",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
   },
@@ -535,6 +536,7 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
+        "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",

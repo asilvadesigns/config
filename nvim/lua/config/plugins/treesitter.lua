@@ -25,6 +25,7 @@ M.setup = function()
       "markdown_inline",
       "prisma",
       "python",
+      "regex",
       "scss",
       "templ",
       "tsx",

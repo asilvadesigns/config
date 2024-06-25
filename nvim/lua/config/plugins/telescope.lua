@@ -198,7 +198,6 @@ M.setup = function()
           -- "node_modules",
           -- "package-lock.json",
         },
-        preview = true,
         path_display = path_display,
         sorting_strategy = "ascending",
         mappings = {
@@ -233,13 +232,16 @@ M.setup = function()
         sort_mru = true,
       },
       find_files = {
+        previewer = false,
         hidden = true,
         path_display = path_display,
       },
       git_files = {
+        previewer = false,
         path_display = path_display,
       },
       oldfiles = {
+        previewer = false,
         only_cwd = true,
         path_display = path_display,
         sort_mru = true,

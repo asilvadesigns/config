@@ -97,10 +97,10 @@ family = "JetBrainsMono Nerd Font Mono"
 style = "Regular"
 
 [window]
-decorations = "none"
+decorations = "buttonless"
 dynamic_title = true
 dynamic_padding = true
 
 [window.padding]
-x = 10
+x = 0
 y = 0
