@@ -1,6 +1,7 @@
 local M = {}
 
 M.setup = function()
+  local utils = require("catppuccin.utils.colors")
   require("catppuccin").setup({
     integrations = {
       leap = true,
@@ -9,9 +10,20 @@ M.setup = function()
       ufo = true,
     },
     highlight_overrides = {
+      latte = function (c)
+        return {
+          CursorLine = { bg = utils.lighten(c.surface0, 0.86) },
+          CursorLineNr = { bg = utils.lighten(c.surface0, 0.86) },
+        }
+      end,
+      frappe = function(c)
+        return {
+          CursorLine = { bg = utils.darken(c.surface0, 0.86) },
+          CursorLineNr = { bg = utils.darken(c.surface0, 0.86) },
+        }
+      end,
       all = function(c)
         return {
-          -- CursorLine = { bg = c.base },
           Folded = { bg = c.base },
           -- NvimTreeCursorLine = { bg = c.base, fg = c.text },
           --
@@ -34,8 +46,6 @@ M.setup = function()
   vim.cmd("colorscheme catppuccin-frappe")
   -- # light
   -- vim.cmd("colorscheme catppuccin-latte")
-  --
-  -- vim.cmd("hi! link StatusLine Comment")
 end
 
 return M
