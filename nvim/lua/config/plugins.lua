@@ -238,6 +238,7 @@ require("lazy").setup({
   },
   {
     "RRethy/vim-illuminate",
+    enabled = false,
     event = "VeryLazy",
     config = function()
       require("illuminate").configure({
@@ -332,11 +333,11 @@ require("lazy").setup({
   {
     "folke/persistence.nvim",
     lazy = false,
-    cmd = { "LoadSession", "SaveSession" },
     config = require("config.plugins.persistence").setup,
   },
   {
     "dstein64/nvim-scrollview",
+    enabled = false,
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
   },
@@ -565,7 +566,6 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
-        "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",

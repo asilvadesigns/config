@@ -31,6 +31,7 @@ M.setup = function()
       "tsx",
       "typescript",
       "vim",
+      "vimdoc",
       "yaml",
     },
     highlight = {
