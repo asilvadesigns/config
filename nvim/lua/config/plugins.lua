@@ -59,8 +59,10 @@ require("lazy").setup({
         ";",
         mode = { "n" },
         function()
+          -- require("leap").leap()
           require("leap").leap({
-            target_windows = require("leap.user").get_focusable_windows(),
+            -- target_windows = require("leap.user").get_focusable_windows(),
+            target_windows = { vim.api.nvim_get_current_win() },
           })
         end,
       },
@@ -312,6 +314,130 @@ require("lazy").setup({
     config = require("config.plugins.noice").setup,
   },
   {
+    "Bekaboo/dropbar.nvim",
+    enabled = false,
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-telescope/telescope-fzf-native.nvim",
+    },
+    config = function()
+      require("dropbar").setup({
+        icons = {
+          ui = {
+            bar = {
+              separator = "",
+              extends = "…",
+            },
+            menu = {
+              separator = " ",
+              indicator = "",
+            },
+          },
+          update_interval = 100,
+          kinds = {
+            use_devicons = false,
+            symbols = {
+              Array = "󰅪 ",
+              Boolean = " ",
+              BreakStatement = "󰙧 ",
+              Call = "󰃷 ",
+              CaseStatement = "󱃙 ",
+              Class = " ",
+              Color = "󰏘 ",
+              Constant = "󰏿 ",
+              Constructor = " ",
+              ContinueStatement = "→ ",
+              Copilot = " ",
+              Declaration = "󰙠 ",
+              Delete = "󰩺 ",
+              DoStatement = "󰑖 ",
+              Enum = " ",
+              EnumMember = " ",
+              Event = " ",
+              Field = " ",
+              File = " ",
+              Folder = " ",
+              ForStatement = "󰑖 ",
+              Function = "󰊕 ",
+              H1Marker = "󰉫 ", -- Used by markdown treesitter parser
+              H2Marker = "󰉬 ",
+              H3Marker = "󰉭 ",
+              H4Marker = "󰉮 ",
+              H5Marker = "󰉯 ",
+              H6Marker = "󰉰 ",
+              Identifier = "󰀫 ",
+              IfStatement = "󰇉 ",
+              Interface = " ",
+              Keyword = "󰌋 ",
+              List = "󰅪 ",
+              Log = "󰦪 ",
+              Lsp = " ",
+              Macro = "󰁌 ",
+              MarkdownH1 = "󰉫 ", -- Used by builtin markdown source
+              MarkdownH2 = "󰉬 ",
+              MarkdownH3 = "󰉭 ",
+              MarkdownH4 = "󰉮 ",
+              MarkdownH5 = "󰉯 ",
+              MarkdownH6 = "󰉰 ",
+              Method = "󰆧 ",
+              Module = "󰏗 ",
+              Namespace = "󰅩 ",
+              Null = "󰢤 ",
+              Number = "󰎠 ",
+              Object = "󰅩 ",
+              Operator = "󰆕 ",
+              Package = "󰆦 ",
+              Pair = "󰅪 ",
+              Property = " ",
+              Reference = "󰦾 ",
+              Regex = " ",
+              Repeat = "󰑖 ",
+              Scope = "󰅩 ",
+              Snippet = "󰩫 ",
+              Specifier = "󰦪 ",
+              Statement = "󰅩 ",
+              String = "󰉾 ",
+              Struct = " ",
+              SwitchStatement = "󰺟 ",
+              Terminal = " ",
+              Text = " ",
+              Type = " ",
+              TypeParameter = "󰆩 ",
+              Unit = " ",
+              Value = "󰎠 ",
+              Variable = "󰀫 ",
+              WhileStatement = "󰑖 ",
+            },
+          },
+        },
+      })
+    end,
+  },
+  {
+    "utilyre/barbecue.nvim",
+    enabled = false,
+    lazy = false,
+    name = "barbecue",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("barbecue").setup({
+        attach_navic = true,
+        show_modified = true,
+        symbols = {
+          modified = "󰆓",
+          separator = "",
+        },
+      })
+
+      vim.cmd("hi! link barbecue_normal barbecue_basename")
+      vim.cmd("hi! link barbecue_separator LineNr")
+    end,
+  },
+  {
     "nvim-tree/nvim-tree.lua",
     event = "VeryLazy",
     keys = {
@@ -522,6 +648,7 @@ require("lazy").setup({
   },
   {
     "b0o/incline.nvim",
+    enabled = false,
     event = "VeryLazy",
     config = require("config.plugins.incline").setup,
   },

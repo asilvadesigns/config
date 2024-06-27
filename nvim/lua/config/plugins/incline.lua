@@ -31,16 +31,16 @@ M.setup = function()
     },
     render = function(props)
       local diagnostics = get_diagnostics(props)
-      local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":p:."), group = "Comment" }
-      local modified = { " 󰆓 ", group = "Comment" }
-      if vim.bo[props.buf].modified == true then
-        modified = { " 󰆓 ", group = "DiagnosticSignWarn" }
-      end
+      -- local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":p:."), group = "Comment" }
+      -- local modified = { " 󰆓 ", group = "Comment" }
+      -- if vim.bo[props.buf].modified == true then
+      --   modified = { " 󰆓 ", group = "DiagnosticSignWarn" }
+      -- end
 
       return {
         diagnostics,
-        modified,
-        filename,
+        -- modified,
+        -- filename,
       }
     end,
   })

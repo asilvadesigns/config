@@ -1,3 +1,25 @@
+---@param buf_id number
+function GetDiagnostics(buf_id)
+  local d_label = ""
+  local d_count = vim.diagnostic.count(buf_id)
+  local square = vim.fn.nr2char(0x25aa)
+
+  if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
+    d_label = d_label .. "%#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
+  end
+  if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
+    d_label = d_label .. "%#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
+  end
+  if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
+    d_label = d_label .. "%#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
+  end
+  if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
+    d_label = d_label .. "%#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
+  end
+
+  return d_label
+end
+
 function GetTmuxPaneCount()
   -- Run the command and capture the output
   local handle = io.popen("tmux list-panes | wc -l")
@@ -52,117 +74,119 @@ local WINBAR_COLOR = "%#Comment#"
 local STATUS_COLOR = "%#StatusLine#"
 
 ---@return table<string>
--- local function getVisibleWindows()
---   local visible_buffers = {}
---   local windows = vim.api.nvim_list_wins()
---
---   for _, win_id in ipairs(windows) do
---     local is_floating = vim.api.nvim_win_get_config(win_id).relative ~= ""
---     local is_empty = vim.api.nvim_win_get_buf(win_id) < 1
---
---     if is_floating or is_empty then
---       goto continue
---     end
---
---     table.insert(visible_buffers, win_id)
---     ::continue::
---   end
---
---   return visible_buffers
--- end
+local function getVisibleWindows()
+  local visible_buffers = {}
+  local windows = vim.api.nvim_list_wins()
 
--- local winbar_exclude_filetypes = {
---   "NvimTree",
---   "Outline",
---   "TelescopePrompt",
---   "Trouble",
---   "alpha",
---   "dashboard",
---   "help",
---   "lir",
---   "neogitstatus",
---   "no-neck-pain",
---   "packer",
---   "spectre_panel",
---   "startify",
---   "telescope",
---   "toggleterm",
---   -- "qf",
--- }
+  for _, win_id in ipairs(windows) do
+    local is_floating = vim.api.nvim_win_get_config(win_id).relative ~= ""
+    local is_empty = vim.api.nvim_win_get_buf(win_id) < 1
 
--- local function renderWinbar()
---   local windows = getVisibleWindows()
---
---   for _, win_id in ipairs(windows) do
---     local buf = vim.api.nvim_win_get_buf(win_id)
---     local buf_filetype = vim.api.nvim_get_option_value("filetype", { buf })
---
---     if vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
---       goto continue
---     end
---
---     local buf_name = vim.api.nvim_buf_get_name(buf)
---
---     local sep = "  "
---     local filename = vim.fn.fnamemodify(buf_name, ":t")
---     local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
---
---     -- local is_modified = vim.bo[buf].modified
---     -- local flag = is_modified and " +" or "  "
---
---     local next_winbar = WINBAR_COLOR .. filepath .. filename .. "%*"
---
---     if cached_winbar_value[buf] ~= next_winbar then
---       cached_winbar_value[buf] = next_winbar
---       vim.api.nvim_set_option_value(win_id, "winbar", cached_winbar_value[buf])
---     end
---     ::continue::
---   end
--- end
+    if is_floating or is_empty then
+      goto continue
+    end
 
-local function renderStatusLine()
-  -- get filename
-  local buf_name = vim.api.nvim_buf_get_name(0)
-  local sep = "/"
-  local f_name = vim.fn.fnamemodify(buf_name, ":t")
-  local f_path = string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
-  local f_label = f_path .. f_name
+    table.insert(visible_buffers, win_id)
+    ::continue::
+  end
 
-  -- -- get diagnostics
-  -- local d_label = ""
-  -- local d_count = vim.diagnostic.count(0)
-  -- local square = vim.fn.nr2char(0x25aa)
-  --
-  -- if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
-  --   d_label = d_label .. " %#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
-  -- end
-  -- if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
-  --   d_label = d_label .. " %#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
-  -- end
-  -- if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
-  --   d_label = d_label .. " %#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
-  -- end
-  -- if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
-  --   d_label = d_label .. " %#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
-  -- end
-
-  -- local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
-
-  -- local tmux_label = ""
-  -- local tmux_panes = ""
-  -- if vim.env.TMUX ~= nil then
-  --   tmux_panes = GetTmuxPaneCount()
-  --   tmux_label = "%#DiagnosticSignHint#" .. "" .. " " .. tmux_panes .. "%*"
-  -- end
-
-  vim.opt.statusline = STATUS_COLOR .. " " .. f_label .. "%*"
-
-  -- if lazy_ready then
-  --   if lazy_config.plugins["vim-tpipeline"]._.loaded then
-  --     vim.cmd("silent! call tpipeline#update()")
-  --   end
-  -- end
+  return visible_buffers
 end
+
+local winbar_exclude_filetypes = {
+  "NvimTree",
+  "Outline",
+  "TelescopePrompt",
+  "Trouble",
+  "alpha",
+  "dashboard",
+  "help",
+  "lir",
+  "neogitstatus",
+  "no-neck-pain",
+  "packer",
+  "spectre_panel",
+  "startify",
+  "telescope",
+  "toggleterm",
+  -- "qf",
+}
+
+local function renderWinbar()
+  local windows = getVisibleWindows()
+
+  for _, win_id in ipairs(windows) do
+    local buf_id = vim.api.nvim_win_get_buf(win_id)
+    local buf_filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
+
+    if vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
+      goto continue
+    end
+
+    local buf_name = vim.api.nvim_buf_get_name(buf_id)
+
+    local filename = vim.fn.fnamemodify(buf_name, ":t")
+    local filepath = " " .. vim.fn.fnamemodify(buf_name, ":~:.:h") .. "/" .. filename
+    -- local sep = "  "
+    -- local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
+
+    -- local is_modified = vim.bo[buf].modified
+    -- local flag = is_modified and " +" or "  "
+
+    local diagnostics = GetDiagnostics(buf_id)
+    local next_winbar = WINBAR_COLOR .. filepath .. "%*" .. " " .. diagnostics
+
+    if cached_winbar_value[buf_id] ~= next_winbar then
+      cached_winbar_value[buf_id] = next_winbar
+      vim.api.nvim_set_option_value("winbar", cached_winbar_value[buf_id], { win = win_id })
+    end
+    ::continue::
+  end
+end
+
+-- local function renderStatusLine()
+--   -- get filename
+--   local buf_name = vim.api.nvim_buf_get_name(0)
+--   local sep = "/"
+--   local f_name = vim.fn.fnamemodify(buf_name, ":t")
+--   local f_path = string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
+--   local f_label = f_path .. f_name
+--
+--   -- -- get diagnostics
+--   -- local d_label = ""
+--   -- local d_count = vim.diagnostic.count(0)
+--   -- local square = vim.fn.nr2char(0x25aa)
+--   --
+--   -- if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
+--   --   d_label = d_label .. " %#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
+--   -- end
+--   -- if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
+--   --   d_label = d_label .. " %#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
+--   -- end
+--   -- if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
+--   --   d_label = d_label .. " %#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
+--   -- end
+--   -- if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
+--   --   d_label = d_label .. " %#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
+--   -- end
+--
+--   -- local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
+--
+--   -- local tmux_label = ""
+--   -- local tmux_panes = ""
+--   -- if vim.env.TMUX ~= nil then
+--   --   tmux_panes = GetTmuxPaneCount()
+--   --   tmux_label = "%#DiagnosticSignHint#" .. "" .. " " .. tmux_panes .. "%*"
+--   -- end
+--
+--   vim.opt.statusline = STATUS_COLOR .. " " .. f_label .. "%*"
+--
+--   -- if lazy_ready then
+--   --   if lazy_config.plugins["vim-tpipeline"]._.loaded then
+--   --     vim.cmd("silent! call tpipeline#update()")
+--   --   end
+--   -- end
+-- end
 
 vim.api.nvim_create_autocmd({
   "BufEnter",
@@ -172,7 +196,7 @@ vim.api.nvim_create_autocmd({
   group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
   callback = function()
     -- renderStatusLine()
-    -- renderWinbar()
+    renderWinbar()
   end,
 })
 
