@@ -3,6 +3,7 @@ vim.cmd("hi! link LazyNormal Normal")
 require("lazy").setup({
   {
     "windwp/nvim-autopairs",
+    enabled = false,
     event = "InsertEnter",
     opts = {},
   },
@@ -263,13 +264,13 @@ require("lazy").setup({
   },
   {
     "hrsh7th/nvim-cmp",
-    event = { "InsertEnter", "CmdlineEnter" },
+    event = "VeryLazy",
     dependencies = {
       -- Snippet Engine
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
       -- LSP completion
-      "David-Kunz/cmp-npm",
+      -- "David-Kunz/cmp-npm",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
       -- LSP kind
@@ -521,7 +522,7 @@ require("lazy").setup({
   },
   {
     "b0o/incline.nvim",
-    event = { "BufReadPost", "BufNewFile" },
+    event = "VeryLazy",
     config = require("config.plugins.incline").setup,
   },
   {

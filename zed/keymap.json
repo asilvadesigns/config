@@ -1,5 +1,14 @@
-{
-  "keybindings": {
-    "leader": ","
+[
+  {
+    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      ", m": ["editor::Format"]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && !menu",
+    "bindings": {
+      "k j": ["vim::SwitchMode", "Normal"]
+    }
   }
-}
+]
