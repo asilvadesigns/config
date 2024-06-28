@@ -24,6 +24,7 @@ M.setup = function()
       end,
       all = function(c)
         return {
+          FloatBorder = { bg = c.base },
           Folded = { bg = c.base },
           -- NvimTreeCursorLine = { bg = c.base, fg = c.text },
           --

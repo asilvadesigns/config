@@ -31,6 +31,7 @@ M.setup = function()
   -- NOTE: some of these are listed below but... getting there.
   local ensure_installed = {
     "angularls",
+    "astro",
     "cssls",
     "cssmodules_ls",
     "dockerls",
@@ -160,14 +161,14 @@ M.setup = function()
     ["emmet_language_server"] = function()
       require("lspconfig").emmet_language_server.setup({
         capabilities = capabilities,
-        filetypes = { "html", "templ" },
+        filetypes = { "astro", "html", "templ" },
         on_attach = on_attach,
       })
     end,
     ["html"] = function()
       require("lspconfig").html.setup({
         capabilities = capabilities,
-        filetypes = { "html", "templ" },
+        filetypes = { "astro", "html", "templ" },
         on_attach = on_attach,
       })
     end,

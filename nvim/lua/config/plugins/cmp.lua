@@ -89,7 +89,7 @@ M.setup = function()
       },
     },
     experimental = {
-      ghost_text = true,
+      ghost_text = false,
     },
     formatting = {
       expandable_indicator = true,

@@ -81,7 +81,7 @@ M.setup = function()
         },
         web_devicons = {
           file = {
-            enable = true,
+            enable = false,
             color = false,
           },
           folder = {
