@@ -23,7 +23,7 @@ M.setup = function()
   })
 
   vim.api.nvim_create_user_command("Format", function()
-    local fmts = require("conform").list_formatters_for_buffer(0)[1]
+    local fmts = require("conform").list_formatters_for_buffer(0)
     local fmt = fmts[1]
     print("available formatters::" .. vim.inspect(fmts))
 
