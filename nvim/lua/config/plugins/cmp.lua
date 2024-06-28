@@ -55,7 +55,7 @@ M.setup = function()
     sources = cmp.config.sources({
       { name = "nvim_lua" },
       { name = "nvim_lsp" },
-      { name = "luasnip" },
+      -- { name = "luasnip" },
       { name = "lazydev" },
     }, {
       { name = "path" },

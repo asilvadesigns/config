@@ -1,14 +1,42 @@
 [
+  // jump out of nvim-tree
   {
-    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "context": "ProjectPanel && not_editing",
     "bindings": {
-      ", m": ["editor::Format"]
+      ", j": "workspace::ToggleLeftDock"
     }
   },
+  // normal mode
   {
-    "context": "Editor && vim_mode == insert && !menu",
+    "context": "Editor && (vim_mode == normal) && !VimWaiting && !menu",
     "bindings": {
-      "k j": ["vim::SwitchMode", "Normal"]
+      ", a": "command_palette::Toggle",
+      ", d": "vim::ScrollDown",
+      ", f": "file_finder::Toggle",
+      ", j": "project_panel::ToggleFocus",
+      ", m": "editor::Format",
+      ", r": "editor::Rename",
+      ", s": "workspace::SaveWithoutFormat",
+      ", u": "vim::ScrollUp",
+      ", z": "workspace::ToggleCenteredLayout",
+      ", w v": "pane::SplitLeft",
+      ", w s": "pane::SplitUp",
+      ", w o": "workspace::CloseInactiveTabsAndPanes",
+      ", w q": "pane::CloseAllItems",
+      ", w l": ["workspace::ActivatePaneInDirection", "Right"],
+      ", w h": ["workspace::ActivatePaneInDirection", "Left"],
+      ", w k": ["workspace::ActivatePaneInDirection", "Up"],
+      ", w j": ["workspace::ActivatePaneInDirection", "Down"]
+    }
+  },
+  // other modes?
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "bindings": {
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
     }
   }
 ]

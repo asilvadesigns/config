@@ -65,6 +65,7 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpo
 vim.opt.laststatus = 0
 local str = string.rep('—', 500)
 vim.opt.statusline = str
+vim.opt.signcolumn = "yes"
 vim.opt.winbar = " "
 
 -- terminal
@@ -102,7 +103,7 @@ end
 
 vim.diagnostic.config({
   underline = true,
-  virtual_text = true,
+  virtual_text = false,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = square,

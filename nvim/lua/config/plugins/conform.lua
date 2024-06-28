@@ -144,6 +144,10 @@ M.setup = function()
     end
   end, {})
 
+  vim.api.nvim_create_user_command("FormatAny", function()
+    require("conform").format({ async = true, lsp_fallback = false })
+  end, {})
+
   vim.api.nvim_create_user_command("FormatWithBiome", function()
     require("conform").format({ async = true, lsp_fallback = false, formatters = { "biome-check" } })
   end, {})

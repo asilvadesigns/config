@@ -18,7 +18,7 @@ M.setup = function()
   local on_attach = function(_, bufnr)
     opts.buffer = bufnr
     vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
     vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
     vim.keymap.set("n", "gi", require("telescope.builtin").lsp_implementations, opts)

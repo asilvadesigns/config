@@ -241,12 +241,11 @@ require("lazy").setup({
   },
   {
     "RRethy/vim-illuminate",
-    enabled = false,
     event = "VeryLazy",
     config = function()
       require("illuminate").configure({
         filetypes_denylist = { "NvimTree", "oil", "spectre_panel", "trouble" },
-        delay = 100,
+        delay = 250,
         large_file_cutoff = 5000, -- disable at 5k lines.
       })
     end,
@@ -289,6 +288,15 @@ require("lazy").setup({
     "MagicDuck/grug-far.nvim",
     enabled = true,
     event = "VeryLazy",
+    -- keys = {
+    --   {
+    --     "<c-f>",
+    --     function()
+    --       require("grug-far").with_visual_selection()
+    --     end,
+    --     mode = "v",
+    --   },
+    -- },
     config = function()
       require("grug-far").setup()
     end,
@@ -594,7 +602,7 @@ require("lazy").setup({
           require("statuscol").setup({
             relculright = true,
             segments = {
-              -- { text = { "%s" }, click = "v:lua.ScSa" },
+              { text = { "%s" }, click = "v:lua.ScSa" },
               { text = { " ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
               { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
             },
@@ -659,9 +667,16 @@ require("lazy").setup({
     config = require("config.plugins.lsp").setup,
   },
   {
+    "dyng/ctrlsf.vim",
+    event = "VeryLazy",
+  },
+  {
     "stevearc/conform.nvim",
     dependencies = { "neovim/nvim-lspconfig" },
-    cmd = { "Format" },
+    cmd = {
+      "Format",
+      "FormatAny",
+    },
     keys = {
       {
         "<leader>m",
@@ -690,6 +705,7 @@ require("lazy").setup({
     enabled = false,
     notify = true,
   },
+  concurrency = 1,
   performance = {
     rtp = {
       disabled_plugins = {
@@ -704,6 +720,6 @@ require("lazy").setup({
   },
   ui = {
     backdrop = 100,
-    border = "rounded",
+    border = "rounded", -- "rounded"
   },
 })

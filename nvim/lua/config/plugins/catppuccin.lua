@@ -2,6 +2,7 @@ local M = {}
 
 M.setup = function()
   local utils = require("catppuccin.utils.colors")
+
   require("catppuccin").setup({
     integrations = {
       leap = true,
@@ -10,23 +11,26 @@ M.setup = function()
       ufo = true,
     },
     highlight_overrides = {
-      latte = function (c)
+      latte = function(c)
+        local bg = utils.lighten(c.surface0, 0.86)
         return {
-          CursorLine = { bg = utils.lighten(c.surface0, 0.86) },
-          CursorLineNr = { bg = utils.lighten(c.surface0, 0.86) },
+          CursorLine = { bg = bg },
+          CursorLineNr = { bg = bg, fg = c.mauve },
+          CursorLineSign = { bg = bg },
         }
       end,
       frappe = function(c)
+        local bg = utils.darken(c.surface0, 0.86)
         return {
-          CursorLine = { bg = utils.darken(c.surface0, 0.86) },
-          CursorLineNr = { bg = utils.darken(c.surface0, 0.86) },
+          CursorLine = { bg = bg },
+          CursorLineNr = { bg = bg, fg = c.mauve },
+          CursorLineSign = { bg = bg },
         }
       end,
       all = function(c)
         return {
           FloatBorder = { bg = c.base },
           Folded = { bg = c.base },
-          -- NvimTreeCursorLine = { bg = c.base, fg = c.text },
           --
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },
@@ -36,8 +40,6 @@ M.setup = function()
           --
           StatusLine = { fg = c.crust, bg = c.base },
           StatusLineNC = { fg = c.crust, bg = c.base },
-          --
-          -- WinSeparator = { fg = c.base },
         }
       end,
     },
