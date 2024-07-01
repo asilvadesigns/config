@@ -577,7 +577,7 @@ require("lazy").setup({
     enabled = false,
     notify = true,
   },
-  concurrency = 1,
+  concurrency = 4,
   performance = {
     rtp = {
       disabled_plugins = {

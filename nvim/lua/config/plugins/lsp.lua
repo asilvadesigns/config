@@ -15,6 +15,7 @@ M.setup = function()
   )
 
   local opts = { noremap = true, silent = true }
+
   local on_attach = function(_, bufnr)
     opts.buffer = bufnr
     vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
@@ -210,19 +211,19 @@ M.setup = function()
         },
         init_options = { userLanguages = { templ = "html" } },
         on_attach = on_attach,
-        root_dir = require("lspconfig.util").root_pattern(
-          "tailwind.config.js",
-          "tailwind.config.ts",
-          "tailwind.config.cjs"
-        ),
-        settings = {
-          tailwindCSS = {
-            classAttributes = {
-              "class",
-              "className",
-            },
-          },
-        },
+        -- root_dir = require("lspconfig.util").root_pattern(
+        --   "tailwind.config.js",
+        --   "tailwind.config.ts",
+        --   "tailwind.config.cjs"
+        -- ),
+        -- settings = {
+        --   tailwindCSS = {
+        --     classAttributes = {
+        --       "class",
+        --       "className",
+        --     },
+        --   },
+        -- },
       })
     end,
     -- ["sqlls"] = function ()

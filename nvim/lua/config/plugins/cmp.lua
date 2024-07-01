@@ -59,7 +59,7 @@ M.setup = function()
       { name = "lazydev" },
     }, {
       { name = "path" },
-      { name = "buffer" },
+      -- { name = "buffer" },
     }),
     sorting = {
       priority_weight = 1.0,

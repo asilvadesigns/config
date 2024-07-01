@@ -130,16 +130,15 @@ local function renderWinbar()
     -- local sep = "  "
     -- local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
 
-    -- local is_modified = vim.bo[buf].modified
-    -- local flag = is_modified and " +" or "  "
+    local modified = "%#Comment# 󰆓 %*"
+    if vim.bo[buf_id].modified == true then
+      modified = "%#DiagnosticSignWarn# 󰆓 %*"
+    end
 
     local diagnostics = GetDiagnostics(buf_id)
-    local next_winbar = WINBAR_COLOR .. filepath .. "%*" .. " " .. diagnostics
+    local next_winbar = WINBAR_COLOR .. filepath .. modified .. "%*" .. " " .. diagnostics
 
-    if cached_winbar_value[buf_id] ~= next_winbar then
-      cached_winbar_value[buf_id] = next_winbar
-      vim.api.nvim_set_option_value("winbar", cached_winbar_value[buf_id], { win = win_id })
-    end
+    vim.api.nvim_set_option_value("winbar", next_winbar, { win = win_id })
     ::continue::
   end
 end

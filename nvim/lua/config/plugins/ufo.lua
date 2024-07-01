@@ -36,7 +36,7 @@ M.setup = function()
       return newVirtText
     end,
     provider_selector = function()
-      return { "treesitter", "indent" }
+      return { "lsp", "indent" }
     end,
   })
 
