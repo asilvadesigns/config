@@ -29,8 +29,7 @@ M.setup = function()
     vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
   end
 
-  -- NOTE: some of these are listed below but... getting there.
-  local ensure_installed = {
+  local servers = {
     "angularls",
     "astro",
     "cssls",
@@ -45,8 +44,6 @@ M.setup = function()
     "prismals",
     "pyright",
     "sqlls",
-    "stylelua",
-    "stylua",
     "tailwindcss",
     "taplo",
     "templ",
@@ -54,21 +51,36 @@ M.setup = function()
     "yamlls",
   }
 
+  local formatters = {
+    "htmlbeautifier",
+    "sql-formatter",
+    "stylua",
+  }
+
   require("mason").setup({
-    ui = {
-      border = "rounded",
-    },
+    ui = { border = "rounded" },
   })
 
   vim.cmd("hi! link MasonNormal Normal")
 
   vim.api.nvim_create_user_command("MasonInstallAll", function()
-    vim.cmd("MasonInstall " .. table.concat(ensure_installed, " "))
+    vim.cmd("MasonInstall " .. table.concat(servers, " "))
+    local registry = require("mason-registry")
+
+    ---@see https://github.com/williamboman/mason-lspconfig.nvim/issues/113#issuecomment-1471346816
+    for _, pkg_name in ipairs(formatters) do
+      local ok, pkg = pcall(registry.get_package, pkg_name)
+      if ok then
+        if not pkg:is_installed() then
+          pkg:install()
+        end
+      end
+    end
   end, {})
 
   require("mason-lspconfig").setup({
     automatic_installation = true,
-    ensure_installed,
+    ensure_installed = servers,
   })
 
   require("mason-lspconfig").setup_handlers({

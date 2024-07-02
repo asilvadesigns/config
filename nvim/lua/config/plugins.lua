@@ -545,10 +545,8 @@ require("lazy").setup({
   {
     "stevearc/conform.nvim",
     dependencies = { "neovim/nvim-lspconfig" },
-    cmd = {
-      "Format",
-      "FormatAny",
-    },
+    event = "VeryLazy",
+    cmd = { "Format" },
     keys = {
       {
         "<leader>m",
