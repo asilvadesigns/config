@@ -183,7 +183,7 @@ require("lazy").setup({
         desc = "Search current file",
       },
     },
-    opts = {},
+    config = require("config.plugins.spectre").setup,
   },
   {
     "gbprod/substitute.nvim",
