@@ -60,13 +60,16 @@ M.setup = function()
       dotfiles = false,
       -- exclude = { "\\._templ.txt$" }
     },
+    live_filter = {
+      always_show_folders = false,
+    },
     git = {
       enable = false,
       ignore = false,
     },
     renderer = {
       indent_markers = {
-        enable = false,
+        enable = true,
       },
       highlight_diagnostics = "all",
       icons = {

@@ -1,7 +1,8 @@
 local M = {}
 
 M.setup = function()
-  vim.treesitter.language.register("mdx", { "markdown" })
+  vim.treesitter.language.register("mdx", "markdown")
+  vim.treesitter.language.register("templ", "templ")
 
   ---@diagnostic disable-next-line: missing-fields
   require("nvim-treesitter.configs").setup({

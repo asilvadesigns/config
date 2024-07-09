@@ -58,6 +58,9 @@ M.setup = function()
     local current_buffer_path = vim.api.nvim_buf_get_name(0)
 
     local available_formatters = require("conform").list_formatters(0)
+    print("available!?")
+    print(vim.inspect(available_formatters))
+
     local keys_to_include = {}
     for _, value in ipairs(available_formatters) do
       table.insert(keys_to_include, value.name)
@@ -116,7 +119,7 @@ M.setup = function()
       sh = { "shellcheck", "shfmt" },
       sql = { "sql_formatter" },
       svelte = { "biome", "prettier" },
-      templ = { "templ", "injected" },
+      templ = { "templ" },
       typescript = { "biome", "prettier" },
       typescriptreact = { "biome", "prettier" },
       vue = { "biome", "prettier" },
@@ -125,23 +128,45 @@ M.setup = function()
   })
 
   vim.api.nvim_create_user_command("Format", function()
-    local formatters = get_closest_formatter({
-      ["biome"] = { "biome.json" },
-      prettier = { ".prettierrc", "prettier.config.js" },
-      stylua = { "stylua.toml" },
-    })
+    local conform = require("conform")
+    local formatters = conform.list_formatters(0) -- 0 represents the current buffer
 
-    print("formatting with::" .. vim.inspect(formatters))
-
-    if not formatters then
-      -- TODO: at some point log out the lsp name
-      print("formatter not found, using lsp")
-      require("conform").format({ async = true, lsp_format = "prefer" })
-    else
-      print("formatted with " .. formatters[1])
-      require("conform").format({ async = true, lsp_format = "never", formatters = formatters })
+    if #formatters == 0 then
+      vim.notify("No formatters available for this buffer, using lsp", vim.log.levels.WARN)
+      conform.format({ async = false, lsp_fallback = true })
+      return
     end
+
+    local formatter_names = {}
+    for _, formatter in ipairs(formatters) do
+      table.insert(formatter_names, formatter.name)
+    end
+
+    local formatter_list = table.concat(formatter_names, ", ")
+    vim.notify("Available formatters: " .. formatter_list, vim.log.levels.INFO)
+
+    -- Invoke the formatter
+    conform.format({ async = false, lsp_fallback = true })
   end, {})
+
+  -- vim.api.nvim_create_user_command("Format", function()
+  --   -- get list of available formatters for the current buffer...
+  --   -- then get the formatter files...
+  --   local formatters = get_closest_formatter({
+  --     ["biome"] = { "biome.json" },
+  --     prettier = { ".prettierrc", "prettier.config.js" },
+  --     stylua = { "stylua.toml" },
+  --   })
+  --
+  --   if not formatters then
+  --     -- TODO: at some point log out the lsp name
+  --     print("formatter not found, using lsp")
+  --     require("conform").format({ async = true, lsp_format = "prefer" })
+  --   else
+  --     print("formatted with " .. formatters[1])
+  --     require("conform").format({ async = true, lsp_format = "never", formatters = formatters })
+  --   end
+  -- end, {})
 
   vim.api.nvim_create_user_command("FormatWithBiome", function()
     require("conform").format({ async = true, lsp_format = "never", formatters = { "biome-check" } })

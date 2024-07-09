@@ -63,20 +63,20 @@ M.setup = function()
 
   vim.cmd("hi! link MasonNormal Normal")
 
-  vim.api.nvim_create_user_command("MasonInstallAll", function()
-    vim.cmd("MasonInstall " .. table.concat(servers, " "))
-    local registry = require("mason-registry")
-
-    ---@see https://github.com/williamboman/mason-lspconfig.nvim/issues/113#issuecomment-1471346816
-    for _, pkg_name in ipairs(formatters) do
-      local ok, pkg = pcall(registry.get_package, pkg_name)
-      if ok then
-        if not pkg:is_installed() then
-          pkg:install()
-        end
-      end
-    end
-  end, {})
+  -- vim.api.nvim_create_user_command("MasonInstallAll", function()
+  --   vim.cmd("MasonInstall " .. table.concat(servers, " "))
+  --   local registry = require("mason-registry")
+  --
+  --   ---@see https://github.com/williamboman/mason-lspconfig.nvim/issues/113#issuecomment-1471346816
+  --   for _, pkg_name in ipairs(formatters) do
+  --     local ok, pkg = pcall(registry.get_package, pkg_name)
+  --     if ok then
+  --       if not pkg:is_installed() then
+  --         pkg:install()
+  --       end
+  --     end
+  --   end
+  -- end, {})
 
   require("mason-lspconfig").setup({
     automatic_installation = true,
@@ -84,7 +84,6 @@ M.setup = function()
   })
 
   require("mason-lspconfig").setup_handlers({
-    -- server defaults
     function(server_name)
       require("lspconfig")[server_name].setup({
         capabilities = capabilities,
@@ -228,14 +227,17 @@ M.setup = function()
         --   "tailwind.config.ts",
         --   "tailwind.config.cjs"
         -- ),
-        -- settings = {
-        --   tailwindCSS = {
-        --     classAttributes = {
-        --       "class",
-        --       "className",
-        --     },
-        --   },
-        -- },
+        settings = {
+          tailwindCSS = {
+            classAttributes = {
+              "class",
+              "className",
+            },
+            includeLanguages = {
+              templ = "html",
+            },
+          },
+        },
       })
     end,
     -- ["sqlls"] = function ()
@@ -245,6 +247,12 @@ M.setup = function()
     --     root_dir = require("lspconfig.util").root_pattern(".git"),
     --   })
     -- end,
+    ["templ"] = function()
+      require("lspconfig").templ.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+    end,
     ["tsserver"] = function()
       require("lspconfig").tsserver.setup({
         capabilities = capabilities,

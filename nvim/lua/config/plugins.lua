@@ -3,7 +3,6 @@ vim.cmd("hi! link LazyNormal Normal")
 require("lazy").setup({
   {
     "windwp/nvim-autopairs",
-    enabled = false,
     event = "InsertEnter",
     opts = {},
   },
@@ -61,7 +60,7 @@ require("lazy").setup({
         function()
           -- require("leap").leap()
           require("leap").leap({
-            -- target_windows = require("leap.user").get_focusable_windows(),
+            labels = "sfnjklhodweimbuyvrgtaqpcxz",
             target_windows = { vim.api.nvim_get_current_win() },
           })
         end,
@@ -575,7 +574,7 @@ require("lazy").setup({
     enabled = false,
     notify = true,
   },
-  concurrency = 4,
+  concurrency = 6,
   performance = {
     rtp = {
       disabled_plugins = {

@@ -52,15 +52,14 @@ M.setup = function()
         end
       end, { "i", "s" }),
     }),
-    sources = cmp.config.sources({
-      { name = "nvim_lua" },
+    sources = {
+      -- { name = "nvim_lua" },
       { name = "nvim_lsp" },
       -- { name = "luasnip" },
-      { name = "lazydev" },
-    }, {
       { name = "path" },
-      -- { name = "buffer" },
-    }),
+      { name = "lazydev" },
+      { name = "buffer" },
+    },
     sorting = {
       priority_weight = 1.0,
       comparators = {
