@@ -24,5 +24,11 @@
     "inline_blame": {
       "enabled": false
     }
+  },
+  "project_panel": {
+    "git_status": false
+  },
+  "scrollbar": {
+    "git_diff": false
   }
 }

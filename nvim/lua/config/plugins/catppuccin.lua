@@ -32,6 +32,9 @@ M.setup = function()
           FloatBorder = { bg = c.base },
           Folded = { bg = c.base },
           --
+          illuminatedWord = { bg = c.surface0 },
+          illuminatedCurWord = { bg = c.surface0 },
+          --
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },
           DiagnosticUnderlineHint = { sp = c.blue, undercurl = true },
@@ -40,6 +43,8 @@ M.setup = function()
           --
           StatusLine = { fg = c.crust, bg = c.base },
           StatusLineNC = { fg = c.crust, bg = c.base },
+          --
+          WinBar = { fg = c.overlay0 },
         }
       end,
     },

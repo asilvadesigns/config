@@ -1,6 +1,12 @@
 vim.cmd("hi! link LazyNormal Normal")
 
 require("lazy").setup({
+  -- {
+  --   "nvim-tree/nvim-web-devicons",
+  --   opts = {
+  --     
+  --   },
+  -- },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
@@ -15,9 +21,12 @@ require("lazy").setup({
     "max397574/better-escape.nvim",
     event = "InsertEnter",
     opts = {
-      clear_empty_lines = false,
-      keys = "<Esc>",
-      mapping = { "kj" },
+      default_mappings = false,
+      mappings = {
+        i = {
+          k = { j = "<Esc>" },
+        },
+      },
     },
   },
   {
@@ -477,7 +486,7 @@ require("lazy").setup({
           require("statuscol").setup({
             relculright = true,
             segments = {
-              { text = { "%s" }, click = "v:lua.ScSa" },
+              -- { text = { "%s" }, click = "v:lua.ScSa" },
               { text = { " ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
               { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
             },

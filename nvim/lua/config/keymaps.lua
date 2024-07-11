@@ -48,7 +48,17 @@ vim.keymap.set("n", "<leader>d", "<C-d>", keymap_opts)
 vim.keymap.set("n", "<leader>u", "<C-u>", keymap_opts)
 
 -- better keymaps
-vim.keymap.set("n", "<leader>qf", ":wqa!<CR>", keymap_opts)
+vim.keymap.set("n", "<leader>qf", function()
+  if vim.bo.filetype == "NvimTree" then
+    require("nvim-tree.api").tree.close()
+  end
+
+  if vim.bo.filetype == "oil" then
+    require("oil").close()
+  end
+
+  vim.cmd(":wqa!<CR>")
+end, keymap_opts)
 
 -- -- better tab navigation
 -- vim.keymap.set("n", "tp", ":tabprevious<CR>", keymap_opts)

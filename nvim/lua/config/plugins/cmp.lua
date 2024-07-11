@@ -16,6 +16,7 @@ M.setup = function()
   cmp.setup({
     preselect = cmp.PreselectMode.None,
     completion = {
+      autocomplete = false,
       completeopt = "menu,menuone,noselect",
     },
     snippet = {
@@ -55,7 +56,7 @@ M.setup = function()
     sources = {
       -- { name = "nvim_lua" },
       { name = "nvim_lsp" },
-      -- { name = "luasnip" },
+      { name = "luasnip" },
       { name = "path" },
       { name = "lazydev" },
       { name = "buffer" },

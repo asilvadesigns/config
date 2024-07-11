@@ -70,7 +70,7 @@ local cached_git_label = " ..loading"
 local cached_statusline_value = " "
 local cached_winbar_value = {}
 local render_winbar_timer = vim.loop.new_timer()
-local WINBAR_COLOR = "%#Comment#"
+local WINBAR_COLOR = "%#WinBar#"
 local STATUS_COLOR = "%#StatusLine#"
 
 ---@return table<string>

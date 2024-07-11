@@ -24,6 +24,13 @@ M.setup = function()
 
   vim.api.nvim_create_autocmd("ExitPre", {
     callback = function()
+      local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
+      if lazy_ready then
+        if lazy_config.plugins["nvim-tree.lua"]._.loaded then
+          require("nvim-tree.api").tree.close()
+        end
+      end
+
       require("persistence").save()
     end,
   })

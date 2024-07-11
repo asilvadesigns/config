@@ -16,24 +16,22 @@ M.setup = function()
 
   local options = require("config.options")
 
+  local function my_on_attach(bufnr)
+    local api = require("nvim-tree.api")
+
+    local function opts(desc)
+      return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    end
+
+    -- default mappings
+    api.config.mappings.default_on_attach(bufnr)
+
+    -- custom mappings
+    vim.keymap.set("n", "I", api.tree.toggle_enable_filters, opts("Up"))
+  end
+
   require("nvim-tree").setup({
-    -- on_attach = function(bufnr)
-    --   local api = require("nvim-tree.api")
-    --
-    --   local function opts(desc)
-    --     return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-    --   end
-    --
-    --   vim.keymap.set("n", "<CR>", api.node.open.replace_tree_buffer, opts("Open: In Place"))
-    --   -- file system
-    --   vim.keymap.set("n", "a", api.fs.create, opts("Create"))
-    --   vim.keymap.set("n", "d", api.fs.remove, opts("Delete"))
-    --   vim.keymap.set("n", "r", api.fs.rename, opts("Rename"))
-    --   -- tree
-    --   vim.keymap.set("n", "R", api.tree.reload, opts("Refresh"))
-    --   -- help
-    --   vim.keymap.set("n", "g?", api.tree.toggle_help, opts("Help"))
-    -- end,
+    on_attach = my_on_attach,
     actions = {
       open_file = {
         window_picker = {
@@ -57,8 +55,8 @@ M.setup = function()
       },
     },
     filters = {
-      dotfiles = false,
-      -- exclude = { "\\._templ.txt$" }
+      -- custom = { "^.git$", ".*_templ.txt$" },
+      custom = { ".*_templ.txt$" },
     },
     live_filter = {
       always_show_folders = false,
@@ -84,8 +82,8 @@ M.setup = function()
         },
         web_devicons = {
           file = {
-            enable = false,
-            color = false,
+            enable = true,
+            color = true,
           },
           folder = {
             enable = false,

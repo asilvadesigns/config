@@ -103,7 +103,7 @@ end
 
 vim.diagnostic.config({
   underline = true,
-  virtual_text = false,
+  virtual_text = true,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = square,
