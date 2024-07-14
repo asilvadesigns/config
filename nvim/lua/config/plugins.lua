@@ -1,12 +1,18 @@
 vim.cmd("hi! link LazyNormal Normal")
 
 require("lazy").setup({
-  -- {
-  --   "nvim-tree/nvim-web-devicons",
-  --   opts = {
-  --     
-  --   },
-  -- },
+  {
+    "nvim-focus/focus.nvim",
+    enabled = false,
+    event = { "VeryLazy" },
+    version = "*",
+    config = function()
+      require("focus").setup({
+        enable = true,
+        commands = true,
+      })
+    end,
+  },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
@@ -55,6 +61,7 @@ require("lazy").setup({
   },
   {
     "tummetott/reticle.nvim",
+    enabled = false,
     event = "VeryLazy", -- optionally lazy load the plugin
     opts = {
       -- add options here if you wish to override the default settings
@@ -170,7 +177,10 @@ require("lazy").setup({
   {
     "hedyhli/outline.nvim",
     cmd = { "Outline", "OutlineOpen" },
-    dependencies = { "nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter" },
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      "nvim-treesitter/nvim-treesitter",
+    },
     opts = {
       outline_window = {
         width = 40,
@@ -182,14 +192,21 @@ require("lazy").setup({
     "nvim-pack/nvim-spectre",
     cmd = { "Spectre" },
     keys = {
-      { "<c-s>", "<cmd>Spectre<cr>", desc = "Search" },
+      { "<C-s>", "<cmd>Spectre<cr>", desc = "Search" },
       {
-        "<c-f>",
+        "<C-f>",
         function()
           require("spectre").open_file_search({ select_word = true })
         end,
         desc = "Search current file",
       },
+      -- {
+      --   "<C-r>",
+      --   function()
+      --     require("spectre").open_visual({ select_word = true, path = "" })
+      --   end,
+      --   desc = "Search word",
+      -- },
     },
     config = require("config.plugins.spectre").setup,
   },
@@ -258,12 +275,12 @@ require("lazy").setup({
       })
     end,
   },
-  -- {
-  --   "akinsho/bufferline",
-  --   version = "*",
-  --   dependencies = { "catppuccin/nvim", "nvim-tree/nvim-web-devicons" },
-  --   config = require("config.plugins.bufferline").setup,
-  -- },
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    dependencies = { "catppuccin/nvim", "nvim-tree/nvim-web-devicons" },
+    config = require("config.plugins.bufferline").setup,
+  },
   {
     "catppuccin/nvim",
     lazy = false,
@@ -306,7 +323,9 @@ require("lazy").setup({
     --   },
     -- },
     config = function()
-      require("grug-far").setup()
+      require("grug-far").setup({
+        windowCreationCommand = 'tabnew %'
+      })
     end,
   },
   {
@@ -356,7 +375,6 @@ require("lazy").setup({
   },
   {
     "dstein64/nvim-scrollview",
-    enabled = false,
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
   },
@@ -460,7 +478,7 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
+    lazy = false,
     build = ":TSUpdate",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     config = require("config.plugins.treesitter").setup,
@@ -486,9 +504,8 @@ require("lazy").setup({
           require("statuscol").setup({
             relculright = true,
             segments = {
-              -- { text = { "%s" }, click = "v:lua.ScSa" },
-              { text = { " ", require("statuscol.builtin").lnumfunc, " " }, click = "v:lua.ScLa" },
-              { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
+              { text = { "   ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
+              -- { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
             },
           })
         end,
@@ -510,21 +527,21 @@ require("lazy").setup({
     },
     config = require("config.plugins.zen-mode").setup,
   },
-  {
-    "shortcuts/no-neck-pain.nvim",
-    cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
-    -- keys = {
-    --   {
-    --     "<leader>z",
-    --     function()
-    --       vim.cmd("NoNeckPain")
-    --     end,
-    --     mode = "n",
-    --   },
-    -- },
-    version = "*",
-    opts = { width = 120 },
-  },
+  -- {
+  --   "shortcuts/no-neck-pain.nvim",
+  --   cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
+  --   keys = {
+  --     {
+  --       "<leader>z",
+  --       function()
+  --         vim.cmd("NoNeckPain")
+  --       end,
+  --       mode = "n",
+  --     },
+  --   },
+  --   version = "*",
+  --   config = require("config.plugins.no-neck-pain").setup,
+  -- },
   { "Bilal2453/luvit-meta", lazy = true },
   {
     "folke/lazydev.nvim",

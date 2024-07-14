@@ -14,7 +14,7 @@ vim.opt.splitright = true
 vim.opt.clipboard = "unnamedplus"
 
 -- cursorline
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 -- folding
 vim.opt.conceallevel = 0
@@ -40,8 +40,8 @@ vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 
 -- numberline
-vim.opt.number = true -- TODO: persist via prefs plugin
-vim.opt.relativenumber = true -- TODO: persist via prefs plugin
+vim.opt.number = false -- TODO: persist via prefs plugin
+vim.opt.relativenumber = false -- TODO: persist via prefs plugin
 
 -- searching
 vim.opt.grepformat = "%f:%l:%c:%m"
@@ -66,7 +66,7 @@ vim.opt.laststatus = 0
 local str = string.rep('—', 500)
 vim.opt.statusline = str
 vim.opt.signcolumn = "yes"
-vim.opt.winbar = " "
+-- vim.opt.winbar = " "
 
 -- terminal
 vim.opt.termguicolors = true

@@ -73,8 +73,9 @@ local render_winbar_timer = vim.loop.new_timer()
 local WINBAR_COLOR = "%#WinBar#"
 local STATUS_COLOR = "%#StatusLine#"
 
+---@param excluded table<string>
 ---@return table<string>
-local function getVisibleWindows()
+local function getVisibleWindows(excluded)
   local visible_buffers = {}
   local windows = vim.api.nvim_list_wins()
 
@@ -82,7 +83,11 @@ local function getVisibleWindows()
     local is_floating = vim.api.nvim_win_get_config(win_id).relative ~= ""
     local is_empty = vim.api.nvim_win_get_buf(win_id) < 1
 
-    if is_floating or is_empty then
+    local buf_id = vim.api.nvim_win_get_buf(win_id)
+    local buf_filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
+    local is_excluded = vim.tbl_contains(excluded, buf_filetype)
+
+    if is_floating or is_empty or is_excluded then
       goto continue
     end
 
@@ -113,34 +118,29 @@ local winbar_exclude_filetypes = {
 }
 
 local function renderWinbar()
-  local windows = getVisibleWindows()
 
-  for _, win_id in ipairs(windows) do
-    local buf_id = vim.api.nvim_win_get_buf(win_id)
-    local buf_filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
+  -- local windows = getVisibleWindows(winbar_exclude_filetypes)
 
-    if vim.tbl_contains(winbar_exclude_filetypes, buf_filetype) then
-      goto continue
-    end
-
-    local buf_name = vim.api.nvim_buf_get_name(buf_id)
-
-    local filename = vim.fn.fnamemodify(buf_name, ":t")
-    local filepath = " " .. vim.fn.fnamemodify(buf_name, ":~:.:h") .. "/" .. filename
-    -- local sep = "  "
-    -- local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
-
-    local modified = "%#Comment# 󰆓 %*"
-    if vim.bo[buf_id].modified == true then
-      modified = "%#DiagnosticSignWarn# 󰆓 %*"
-    end
-
-    local diagnostics = GetDiagnostics(buf_id)
-    local next_winbar = WINBAR_COLOR .. filepath .. modified .. "%*" .. " " .. diagnostics
-
-    vim.api.nvim_set_option_value("winbar", next_winbar, { win = win_id })
-    ::continue::
-  end
+  -- for _, win_id in ipairs(windows) do
+  --   local buf_id = vim.api.nvim_win_get_buf(win_id)
+  --   local buf_name = vim.api.nvim_buf_get_name(buf_id)
+  --
+  --   local filename = vim.fn.fnamemodify(buf_name, ":t")
+  --   local filepath = " " .. vim.fn.fnamemodify(buf_name, ":~:.:h") .. "/" .. filename
+  --   -- local sep = "  "
+  --   -- local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
+  --
+  --   local modified = "%#Comment# 󰆓 %*"
+  --   if vim.bo[buf_id].modified == true then
+  --     modified = "%#DiagnosticSignWarn# 󰆓 %*"
+  --   end
+  --
+  --   local diagnostics = GetDiagnostics(buf_id)
+  --   local next_winbar = WINBAR_COLOR .. filepath .. modified .. "%*" .. " " .. diagnostics
+  --
+  --   vim.api.nvim_set_option_value("winbar", next_winbar, { win = win_id })
+  -- end
+  vim.opt_local.winbar = "%{%v:lua.require('your_module_name').get_winbar()%}"
 end
 
 -- local function renderStatusLine()
@@ -187,17 +187,14 @@ end
 --   -- end
 -- end
 
-vim.api.nvim_create_autocmd({
-  "BufEnter",
-  "BufModifiedSet",
-  "DiagnosticChanged",
-}, {
-  group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
-  callback = function()
-    -- renderStatusLine()
-    renderWinbar()
-  end,
-})
+-- vim.api.nvim_create_autocmd({
+--   "BufEnter",
+--   "BufModifiedSet",
+--   "DiagnosticChanged",
+-- }, {
+--   group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
+--   callback = renderWinbar,
+-- })
 
 --
 -- render_winbar_timer:start(

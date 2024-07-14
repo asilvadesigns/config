@@ -15,16 +15,22 @@ M.setup = function()
         local bg = utils.lighten(c.surface0, 0.86)
         return {
           CursorLine = { bg = bg },
+          CursorLineFold = { bg = bg, fg = c.text },
           CursorLineNr = { bg = bg, fg = c.mauve },
           CursorLineSign = { bg = bg },
+          --
+          NvimTreeCursorLine = { bg = bg },
         }
       end,
       frappe = function(c)
         local bg = utils.darken(c.surface0, 0.86)
         return {
           CursorLine = { bg = bg },
+          CursorLineFold = { bg = bg, fg = c.text },
           CursorLineNr = { bg = bg, fg = c.mauve },
           CursorLineSign = { bg = bg },
+          --
+          NvimTreeCursorLine = { bg = bg },
         }
       end,
       all = function(c)
@@ -45,6 +51,7 @@ M.setup = function()
           StatusLineNC = { fg = c.crust, bg = c.base },
           --
           WinBar = { fg = c.overlay0 },
+          WinBarNC = { fg = c.red },
         }
       end,
     },

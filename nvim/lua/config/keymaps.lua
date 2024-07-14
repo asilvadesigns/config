@@ -61,8 +61,11 @@ vim.keymap.set("n", "<leader>qf", function()
 end, keymap_opts)
 
 -- -- better tab navigation
--- vim.keymap.set("n", "tp", ":tabprevious<CR>", keymap_opts)
--- vim.keymap.set("n", "tn", ":tabnext<CR>", keymap_opts)
+vim.keymap.set("n", "<", ":tabprevious<CR>", keymap_opts)
+vim.keymap.set("n", ">", ":tabnext<CR>", keymap_opts)
+vim.keymap.set("n", "tn", ":tabnew<CR>", keymap_opts)
+vim.keymap.set("n", "tc", ":tabclose<CR>", keymap_opts)
+vim.keymap.set("n", "to", ":tabonly<CR>", keymap_opts)
 vim.keymap.set("n", "<leader>1", ":tabn 1<CR>", keymap_opts)
 vim.keymap.set("n", "<leader>2", ":tabn 2<CR>", keymap_opts)
 vim.keymap.set("n", "<leader>3", ":tabn 3<CR>", keymap_opts)
@@ -72,9 +75,6 @@ vim.keymap.set("n", "<leader>6", ":tabn 6<CR>", keymap_opts)
 vim.keymap.set("n", "<leader>7", ":tabn 7<CR>", keymap_opts)
 vim.keymap.set("n", "<leader>8", ":tabn 8<CR>", keymap_opts)
 vim.keymap.set("n", "<leader>9", ":tabn 9<CR>", keymap_opts)
--- vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", keymap_opts)
--- vim.keymap.set("n", "<leader>tv", ":tabnew<CR>", keymap_opts)
--- vim.keymap.set("n", "<leader>to", ":tabonly<CR>", keymap_opts)
 
 -- better navigation in line wraps
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)
