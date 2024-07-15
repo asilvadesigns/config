@@ -4,9 +4,7 @@ require("lazy").setup({
   {
     "karb94/neoscroll.nvim",
     event = "VeryLazy",
-    config = function()
-
-    end,
+    config = require("config.plugins.neoscroll").setup,
   },
   {
     "levouh/tint.nvim",
