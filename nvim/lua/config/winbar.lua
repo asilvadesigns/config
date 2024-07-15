@@ -24,7 +24,6 @@ end
 
 ---@return string
 local function get_filename()
-  -- local filename = vim.fn.expand("%:t")
   local filename = vim.fn.expand("%:t")
 
   if filename == "" then
@@ -32,6 +31,8 @@ local function get_filename()
   end
 
   local filepath = " " .. vim.fn.expand("%:~:.:h") .. "/"
+  -- local sep = "  "
+  -- local filepath = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
 
   return filepath .. filename
 end

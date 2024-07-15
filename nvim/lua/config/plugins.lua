@@ -2,9 +2,24 @@ vim.cmd("hi! link LazyNormal Normal")
 
 require("lazy").setup({
   {
+    "karb94/neoscroll.nvim",
+    event = "VeryLazy",
+    config = function()
+
+    end,
+  },
+  {
+    "levouh/tint.nvim",
+    config = function()
+      require("tint").setup({
+        highlight_ignore_patterns = { "WinSeparator" },
+      })
+    end,
+  },
+  {
     "nvim-focus/focus.nvim",
     enabled = false,
-    event = { "VeryLazy" },
+    event = "VeryLazy",
     version = "*",
     config = function()
       require("focus").setup({
@@ -15,11 +30,13 @@ require("lazy").setup({
   },
   {
     "windwp/nvim-autopairs",
+    enabled = false,
     event = "InsertEnter",
     opts = {},
   },
   {
     "windwp/nvim-ts-autotag",
+    enabled = false,
     event = "InsertEnter",
     opts = {},
   },
@@ -324,7 +341,7 @@ require("lazy").setup({
     -- },
     config = function()
       require("grug-far").setup({
-        windowCreationCommand = 'tabnew %'
+        windowCreationCommand = "tabnew %",
       })
     end,
   },
