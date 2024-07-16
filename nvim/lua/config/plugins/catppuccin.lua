@@ -50,6 +50,8 @@ M.setup = function()
           StatusLine = { fg = c.crust, bg = c.base },
           StatusLineNC = { fg = c.crust, bg = c.base },
           --
+          -- NvimTreeNormal = { bg = c.mantle },
+          --
           WinBar = { fg = c.overlay2 },
           WinBarNC = { fg = c.overlay2 },
           --

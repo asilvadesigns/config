@@ -2,8 +2,8 @@ local M = {}
 
 ---@return string
 local function get_diagnostics()
-  local d_label = ""
   local d_count = vim.diagnostic.count(0)
+  local d_label = ""
   local square = vim.fn.nr2char(0x25aa)
 
   if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
@@ -25,16 +25,27 @@ end
 ---@return string
 local function get_filename()
   local filename = vim.fn.expand("%:t")
+  local filepath = vim.fn.expand("%:~:.:h")
 
   if filename == "" then
-    return "[No Name]"
+    return ""
   end
 
-  local filepath = " " .. vim.fn.expand("%:~:.:h") .. "/"
   -- local sep = "  "
   -- local filepath = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
 
-  return filepath .. filename
+  return filepath .. "/" .. filename
+end
+
+---@return string
+local function get_filetype()
+  local filetype = vim.bo.filetype
+
+  if filetype == "oil" then
+    return vim.fn.expand("%:~:h")
+  end
+
+  return ""
 end
 
 ---@return nil
@@ -44,7 +55,7 @@ local function main()
   if is_floating then
     vim.opt_local.winbar = nil
   else
-    vim.opt_local.winbar = get_filename() .. " " .. get_diagnostics()
+    vim.opt_local.winbar = get_filetype() .. " " .. get_filename() .. " " .. get_diagnostics()
   end
 end
 

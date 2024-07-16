@@ -6,7 +6,9 @@ M.setup = function()
     delete_to_trash = true,
     skip_confirm_for_simple_edits = true,
     use_default_keymaps = false,
-    view_options = { show_hidden = true },
+    view_options = {
+      show_hidden = true,
+    },
     columns = {
       {
         "icon",

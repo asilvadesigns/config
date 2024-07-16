@@ -67,7 +67,7 @@ M.setup = function()
     },
     renderer = {
       indent_markers = {
-        enable = true,
+        enable = false,
       },
       highlight_diagnostics = "all",
       icons = {
@@ -134,7 +134,7 @@ M.setup = function()
   vim.cmd("hi! link NvimTreeIndentMarker LineNr")
 
   vim.cmd("hi! link NvimTreeFolderName Delimiter")
-  vim.cmd("hi! link NvimTreeNormal Delimiter")
+  -- vim.cmd("hi! link NvimTreeNormal Delimiter")
   vim.cmd("hi! link NvimTreeOpenedFolderName Delimiter")
   vim.cmd("hi! link NvimTreeRootFolder Delimiter")
 

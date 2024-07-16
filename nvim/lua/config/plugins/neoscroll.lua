@@ -21,7 +21,7 @@ M.setup = function()
 
   local keymap = {
     -- up
-    ["<leader-u>"] = function()
+    ["<leader>u"] = function()
       neoscroll.ctrl_u({ duration = 125, easing = "sine" })
     end,
     ["<C-u>"] = function()
@@ -31,7 +31,7 @@ M.setup = function()
     ["<C-d>"] = function()
       neoscroll.ctrl_d({ duration = 125, easing = "sine" })
     end,
-    ["<leader-d>"] = function()
+    ["<leader>d"] = function()
       neoscroll.ctrl_d({ duration = 125, easing = "sine" })
     end,
     -- full page up
