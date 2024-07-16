@@ -1,19 +1,6 @@
 local M = {}
 
 M.setup = function()
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticHintIcon", { link = "DiagnosticSignHint" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticErrorIcon", { link = "DiagnosticSignError" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticWarnIcon", { link = "DiagnosticSignWarn" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticInfoIcon", { link = "DiagnosticSignInfo" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticHintFileHL", { link = "DiagnosticSignHint" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticErrorFileHL", { link = "DiagnosticSignError" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticWarnFileHL", { link = "DiagnosticSignWarn" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticInfoFileHL", { link = "DiagnosticSignInfo" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticHintFolderHL", { link = "DiagnosticSignHint" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticErrorFolderHL", { link = "DiagnosticSignError" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticWarnFolderHL", { link = "DiagnosticSignWarn" })
-  -- vim.api.nvim_set_hl(0, "NvimTreeDiagnosticInfoFolderHL", { link = "DiagnosticSignInfo" })
-
   local options = require("config.options")
 
   local function my_on_attach(bufnr)
@@ -40,7 +27,7 @@ M.setup = function()
       },
     },
     diagnostics = {
-      enable = true,
+      enable = false,
       show_on_dirs = true,
       icons = {
         hint = options.signs.Hint,
@@ -72,17 +59,17 @@ M.setup = function()
       highlight_diagnostics = "all",
       icons = {
         show = {
+          bookmarks = true,
+          diagnostics = true,
           file = true,
           folder = true,
           folder_arrow = false,
           git = true,
           modified = true,
-          diagnostics = true,
-          bookmarks = true,
         },
         web_devicons = {
           file = {
-            enable = true,
+            enable = false,
             color = true,
           },
           folder = {
@@ -131,10 +118,13 @@ M.setup = function()
     },
   })
 
-  vim.cmd("hi! link NvimTreeIndentMarker LineNr")
+  vim.cmd("hi! link NvimTreeFolderIcon Delimiter") -- LineNr
+  vim.cmd("hi! link NvimTreeFileIcon Delimiter") -- LineNr
+  vim.cmd("hi! link NvimTreeIndentMarker Delimiter") -- LineNr
+  vim.cmd("hi! link NvimTreeOpenedFolderIcon Delimiter")
 
   vim.cmd("hi! link NvimTreeFolderName Delimiter")
-  -- vim.cmd("hi! link NvimTreeNormal Delimiter")
+  vim.cmd("hi! link NvimTreeNormal Delimiter")
   vim.cmd("hi! link NvimTreeOpenedFolderName Delimiter")
   vim.cmd("hi! link NvimTreeRootFolder Delimiter")
 

@@ -15,9 +15,10 @@ M.setup = function()
     return sorted_keys
   end
 
-  local path_display = {
-    "filename_first",
-  }
+  -- local path_display = {
+  --   "filename_first",
+  -- }
+  local path_display = nil
 
   local conf = require("telescope.config").values
   local finders = require("telescope.finders")
@@ -220,6 +221,7 @@ M.setup = function()
     },
     pickers = {
       buffers = {
+        disable_devicons = true,
         ignore_current_buffer = true,
         only_cwd = true,
         path_display = path_display,
@@ -232,18 +234,21 @@ M.setup = function()
         sort_mru = true,
       },
       find_files = {
-        previewer = false,
+        disable_devicons = true,
         hidden = true,
         path_display = path_display,
+        previewer = false,
       },
       git_files = {
-        previewer = false,
+        disable_devicons = true,
         path_display = path_display,
+        previewer = false,
       },
       oldfiles = {
-        previewer = false,
+        disable_devicons = true,
         only_cwd = true,
         path_display = path_display,
+        previewer = false,
         sort_mru = true,
       },
       help_tags = {},

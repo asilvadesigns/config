@@ -40,7 +40,7 @@ vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 
 -- numberline
-vim.opt.number = true -- TODO: persist via prefs plugin
+vim.opt.number = false -- TODO: persist via prefs plugin
 vim.opt.relativenumber = false -- TODO: persist via prefs plugin
 
 -- searching

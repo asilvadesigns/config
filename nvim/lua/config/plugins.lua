@@ -11,6 +11,14 @@ require("lazy").setup({
     config = function()
       require("tint").setup({
         highlight_ignore_patterns = { "LineNr", "WinSeparator" },
+        window_ignore_function = function(winid)
+          local bufid = vim.api.nvim_win_get_buf(winid)
+          local buftype = vim.api.nvim_get_option_value("buftype", { buf = bufid })
+          local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufid })
+          local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
+
+          return filetype == "NvimTree" or buftype == "terminal" or floating
+        end,
       })
     end,
   },
@@ -495,9 +503,9 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    lazy = false,
+    -- lazy = false,
     build = ":TSUpdate",
-    -- dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     config = require("config.plugins.treesitter").setup,
   },
   {
