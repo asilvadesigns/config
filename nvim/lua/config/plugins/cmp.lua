@@ -16,7 +16,7 @@ M.setup = function()
   cmp.setup({
     preselect = cmp.PreselectMode.None,
     completion = {
-      autocomplete = false,
+      -- autocomplete = true,
       completeopt = "menu,menuone,noselect",
     },
     snippet = {
@@ -58,8 +58,8 @@ M.setup = function()
       { name = "nvim_lsp" },
       { name = "luasnip" },
       { name = "path" },
-      { name = "lazydev" },
-      { name = "buffer" },
+      { name = "lazydev", group_index = 0 },
+      -- { name = "buffer" },
     },
     sorting = {
       priority_weight = 1.0,

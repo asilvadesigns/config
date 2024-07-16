@@ -391,6 +391,7 @@ require("lazy").setup({
   },
   {
     "dstein64/nvim-scrollview",
+    enabled = false,
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
   },
@@ -496,7 +497,7 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
     build = ":TSUpdate",
-    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+    -- dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     config = require("config.plugins.treesitter").setup,
   },
   {
@@ -561,13 +562,10 @@ require("lazy").setup({
   { "Bilal2453/luvit-meta", lazy = true },
   {
     "folke/lazydev.nvim",
-    event = "VeryLazy",
+    ft = "lua",
     opts = {
       library = {
-        {
-          path = "luvit-meta/library",
-          words = { "vim%.uv" },
-        },
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
       },
     },
   },
@@ -621,6 +619,7 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
+        "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
@@ -631,6 +630,6 @@ require("lazy").setup({
   },
   ui = {
     backdrop = 100,
-    border = "rounded", -- "rounded"
+    border = "single", -- "rounded", "single"
   },
 })
