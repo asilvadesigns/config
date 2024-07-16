@@ -10,7 +10,7 @@ require("lazy").setup({
     "levouh/tint.nvim",
     config = function()
       require("tint").setup({
-        highlight_ignore_patterns = { "WinSeparator" },
+        highlight_ignore_patterns = { "LineNr", "WinSeparator" },
       })
     end,
   },
@@ -281,6 +281,7 @@ require("lazy").setup({
   },
   {
     "RRethy/vim-illuminate",
+    enabled = false,
     event = "VeryLazy",
     config = function()
       require("illuminate").configure({
@@ -519,7 +520,7 @@ require("lazy").setup({
           require("statuscol").setup({
             relculright = true,
             segments = {
-              { text = { "   ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
+              { text = { " ", require("statuscol.builtin").lnumfunc, "  " }, click = "v:lua.ScLa" },
               -- { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
             },
           })

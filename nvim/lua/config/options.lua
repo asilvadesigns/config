@@ -14,7 +14,7 @@ vim.opt.splitright = true
 vim.opt.clipboard = "unnamedplus"
 
 -- cursorline
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 
 -- folding
 vim.opt.conceallevel = 0
@@ -40,7 +40,7 @@ vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 
 -- numberline
-vim.opt.number = false -- TODO: persist via prefs plugin
+vim.opt.number = true -- TODO: persist via prefs plugin
 vim.opt.relativenumber = false -- TODO: persist via prefs plugin
 
 -- searching
