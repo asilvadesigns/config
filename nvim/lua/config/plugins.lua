@@ -10,7 +10,11 @@ require("lazy").setup({
     "levouh/tint.nvim",
     config = function()
       require("tint").setup({
-        highlight_ignore_patterns = { "LineNr", "WinSeparator" },
+        highlight_ignore_patterns = {
+          "LineNr",
+          "StatusLine",
+          "WinSeparator",
+        },
         window_ignore_function = function(winid)
           local bufid = vim.api.nvim_win_get_buf(winid)
           local buftype = vim.api.nvim_get_option_value("buftype", { buf = bufid })

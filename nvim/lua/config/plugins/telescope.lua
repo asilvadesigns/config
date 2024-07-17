@@ -238,6 +238,11 @@ M.setup = function()
         hidden = true,
         path_display = path_display,
         previewer = false,
+        file_ignore_patterns = {
+          "%.git/.",
+          "node_modules",
+          "package-lock.json",
+        },
       },
       git_files = {
         disable_devicons = true,

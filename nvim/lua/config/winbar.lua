@@ -26,6 +26,15 @@ end
 local function get_filename()
   local filename = vim.fn.expand("%:t")
   local filepath = vim.fn.expand("%:~:.:h")
+  local filetype = vim.bo.filetype
+
+  if filetype == "oil" then
+    return vim.fn.expand("%:~:h")
+  end
+
+  if filetype == "NvimTree" then
+    return ""
+  end
 
   if filename == "" then
     return ""
@@ -37,17 +46,6 @@ local function get_filename()
   return filepath .. "/" .. filename
 end
 
----@return string
-local function get_filetype()
-  local filetype = vim.bo.filetype
-
-  if filetype == "oil" then
-    return vim.fn.expand("%:~:h")
-  end
-
-  return ""
-end
-
 ---@return nil
 local function main()
   local is_floating = vim.api.nvim_win_get_config(0).relative ~= ""
@@ -55,7 +53,7 @@ local function main()
   if is_floating then
     vim.opt_local.winbar = nil
   else
-    vim.opt_local.winbar = get_filetype() .. " " .. get_filename() .. " " .. get_diagnostics()
+    vim.opt_local.winbar = get_filename() .. " " .. get_diagnostics()
   end
 end
 
