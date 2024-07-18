@@ -49,7 +49,7 @@ M.setup = function()
       always_show_folders = false,
     },
     git = {
-      enable = false,
+      enable = true,
       ignore = false,
     },
     renderer = {
@@ -67,10 +67,11 @@ M.setup = function()
           git = true,
           modified = true,
         },
+        git_placement = "after",
         web_devicons = {
           file = {
             enable = false,
-            color = true,
+            color = false,
           },
           folder = {
             enable = false,
@@ -99,7 +100,7 @@ M.setup = function()
             renamed = "➜",
             untracked = "★",
             deleted = "",
-            ignored = "◌",
+            ignored = "󱙝", -- 󰊠 
           },
         },
       },
@@ -127,6 +128,11 @@ M.setup = function()
   vim.cmd("hi! link NvimTreeNormal Delimiter")
   vim.cmd("hi! link NvimTreeOpenedFolderName Delimiter")
   vim.cmd("hi! link NvimTreeRootFolder Delimiter")
+
+  vim.cmd("hi! link NvimTreeGitIgnored LineNr")
+  vim.cmd("hi! link NvimTreeGitIgnoredIcon LineNr")
+  vim.cmd("hi! link NvimTreeGitFileIgnoredHL LineNr")
+  vim.cmd("hi! link NvimTreeGitFolderIgnoredHL LineNr")
 
   vim.cmd("hi! link NvimTreeDiagnosticErrorFileHL DiagnosticSignError")
   vim.cmd("hi! link NvimTreeDiagnosticHintFileHL DiagnosticSignHint")

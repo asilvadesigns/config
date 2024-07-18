@@ -53,7 +53,7 @@ local function main()
   if is_floating then
     vim.opt_local.winbar = nil
   else
-    vim.opt_local.winbar = get_filename() .. " " .. get_diagnostics()
+    vim.opt_local.winbar = " " .. get_filename() .. " " .. get_diagnostics()
   end
 end
 

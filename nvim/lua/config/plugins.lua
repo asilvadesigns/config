@@ -533,8 +533,8 @@ require("lazy").setup({
           require("statuscol").setup({
             relculright = true,
             segments = {
-              { text = { " ", require("statuscol.builtin").lnumfunc, "  " }, click = "v:lua.ScLa" },
-              -- { text = { require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
+              { text = { " ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
+              { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
             },
           })
         end,
