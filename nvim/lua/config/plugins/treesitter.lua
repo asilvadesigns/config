@@ -35,6 +35,10 @@ M.setup = function()
       "vimdoc",
       "yaml",
     },
+    matchup = {
+      enabled = true,
+      include_match_words = false,
+    },
     highlight = {
       additional_vim_regex_highlighting = false,
       enable = true,

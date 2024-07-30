@@ -100,7 +100,7 @@ M.setup = function()
             renamed = "➜",
             untracked = "★",
             deleted = "",
-            ignored = "󱙝", -- 󰊠 
+            ignored = "󱙝", -- 󰊠
           },
         },
       },
@@ -143,6 +143,16 @@ M.setup = function()
   vim.cmd("hi! link NvimTreeDiagnosticHintFolderHL DiagnosticSignHint")
   vim.cmd("hi! link NvimTreeDiagnosticInfoFolderHL DiagnosticSignInfo")
   vim.cmd("hi! link NvimTreeDiagnosticWarnFolderHL DiagnosticSignWarn")
+
+  vim.keymap.set("n", "<leader>j", function()
+    local filetype = vim.bo.filetype
+
+    if filetype == "NvimTree" then
+      vim.cmd("NvimTreeClose")
+    else
+      vim.cmd("NvimTreeFindFile")
+    end
+  end, {})
 end
 
 return M

@@ -2,6 +2,11 @@ vim.cmd("hi! link LazyNormal Normal")
 
 require("lazy").setup({
   {
+    "andymass/vim-matchup",
+    event = "BufReadPost",
+    config = require("config.plugins.matchup").setup,
+  },
+  {
     "karb94/neoscroll.nvim",
     event = "VeryLazy",
     config = require("config.plugins.neoscroll").setup,
@@ -276,10 +281,6 @@ require("lazy").setup({
   {
     "mg979/vim-visual-multi",
     event = "VeryLazy",
-    keys = {
-      { "<C-N>", mode = "n" },
-      { "<C-N>", mode = "x" },
-    },
     config = function()
       vim.g.VM_theme = "iceblue"
       vim.g.VM_default_mappings = 1
@@ -293,13 +294,12 @@ require("lazy").setup({
   },
   {
     "RRethy/vim-illuminate",
-    enabled = false,
     event = "VeryLazy",
     config = function()
       require("illuminate").configure({
         filetypes_denylist = { "NvimTree", "oil", "spectre_panel", "trouble" },
         delay = 100,
-        large_file_cutoff = 5000, -- disable at 5k lines.
+        large_file_cutoff = 5000,
       })
     end,
   },
@@ -379,20 +379,6 @@ require("lazy").setup({
   {
     "nvim-tree/nvim-tree.lua",
     event = "VeryLazy",
-    keys = {
-      {
-        "<leader>j",
-        function()
-          local filetype = vim.bo.filetype
-
-          if filetype == "NvimTree" then
-            vim.cmd("NvimTreeClose")
-          else
-            vim.cmd("NvimTreeFindFile")
-          end
-        end,
-      },
-    },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.nvim-tree").setup,
   },
@@ -631,7 +617,6 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
-        "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
