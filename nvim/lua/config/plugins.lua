@@ -294,6 +294,7 @@ require("lazy").setup({
   },
   {
     "RRethy/vim-illuminate",
+    enabled = false,
     event = "VeryLazy",
     config = function()
       require("illuminate").configure({
@@ -350,11 +351,7 @@ require("lazy").setup({
     --     mode = "v",
     --   },
     -- },
-    config = function()
-      require("grug-far").setup({
-        windowCreationCommand = "tabnew %",
-      })
-    end,
+    config = require("config.plugins.grug-far").setup,
   },
   {
     "folke/noice.nvim",
@@ -493,7 +490,6 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    -- lazy = false,
     build = ":TSUpdate",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     config = require("config.plugins.treesitter").setup,
