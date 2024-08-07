@@ -5,12 +5,6 @@ M.setup = function()
   local compare = require("cmp.config.compare")
   local luasnip = require("luasnip")
 
-  -- require("cmp-npm").setup({
-  --   ignore = {},
-  --   only_semantic_versions = false,
-  --   only_latest_version = false,
-  -- })
-
   luasnip.config.setup()
 
   cmp.setup({
@@ -25,11 +19,27 @@ M.setup = function()
       end,
     },
     mapping = cmp.mapping.preset.insert({
+      -- Select the [n]ext item
       ["<C-n>"] = cmp.mapping.select_next_item(),
+      -- Select the [p]revious item
       ["<C-p>"] = cmp.mapping.select_prev_item(),
-      ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+      -- Scroll the documentation window [b]ack / [f]orward
+      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
+      -- Manually trigger c[o]mpletion
       ["<C-o>"] = cmp.mapping.complete(),
+      -- Move to right in snippet expansion
+      ["<C-l>"] = cmp.mapping(function()
+        if luasnip.expand_or_locally_jumpable() then
+          luasnip.expand_or_jump()
+        end
+      end, { "i", "s" }),
+      -- Move to left in snippet expansion
+      ["<C-h>"] = cmp.mapping(function()
+        if luasnip.locally_jumpable(-1) then
+          luasnip.jump(-1)
+        end
+      end, { "i", "s" }),
       ["<CR>"] = cmp.mapping.confirm({
         behavior = cmp.ConfirmBehavior.Insert,
         select = true,
@@ -54,12 +64,10 @@ M.setup = function()
       end, { "i", "s" }),
     }),
     sources = {
-      -- { name = "nvim_lua" },
+      { name = "lazydev", group_index = 0 },
       { name = "nvim_lsp" },
       { name = "luasnip" },
       { name = "path" },
-      { name = "lazydev", group_index = 0 },
-      -- { name = "buffer" },
     },
     sorting = {
       priority_weight = 1.0,

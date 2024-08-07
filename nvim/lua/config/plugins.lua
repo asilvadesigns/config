@@ -240,7 +240,6 @@ require("lazy").setup({
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
       -- LSP completion
-      -- "David-Kunz/cmp-npm",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
       -- LSP kind
@@ -264,7 +263,8 @@ require("lazy").setup({
     --     end,
     --     mode = "v",
     --   },
-    -- },
+    -- llh5o!
+    -- }c
     config = require("config.plugins.grug-far").setup,
   },
   {
@@ -301,7 +301,7 @@ require("lazy").setup({
   },
   {
     "dstein64/nvim-scrollview",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
   },
@@ -424,18 +424,18 @@ require("lazy").setup({
     event = "VeryLazy",
     dependencies = {
       "kevinhwang91/promise-async",
-      -- {
-      --   "luukvbaal/statuscol.nvim",
-      --   config = function()
-      --     require("statuscol").setup({
-      --       relculright = true,
-      --       segments = {
-      --         { text = { " ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
-      --         { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
-      --       },
-      --     })
-      --   end,
-      -- },
+      {
+        "luukvbaal/statuscol.nvim",
+        config = function()
+          require("statuscol").setup({
+            relculright = true,
+            segments = {
+              { text = { " ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
+              { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
+            },
+          })
+        end,
+      },
     },
     config = require("config.plugins.ufo").setup,
   },
