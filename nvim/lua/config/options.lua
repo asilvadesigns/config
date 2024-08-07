@@ -80,6 +80,9 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous dia
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic message" })
 
+-- jumplist
+vim.opt.jumpoptions = "view"
+
 -- diagnostics in gutter
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
 local square = vim.fn.nr2char(0x25aa)

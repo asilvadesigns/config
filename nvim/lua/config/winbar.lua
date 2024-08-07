@@ -43,7 +43,7 @@ local function get_filename()
   -- local sep = "  "
   -- local filepath = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
 
-  return filepath .. "/" .. filename
+  return filepath .. "/" .. "%*%#Normal#" ..  filename .. "%*"
 end
 
 ---@return nil

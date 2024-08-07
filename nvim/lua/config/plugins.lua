@@ -1,11 +1,26 @@
 vim.cmd("hi! link LazyNormal Normal")
 
 require("lazy").setup({
+  ---might delete forever.
   {
     "andymass/vim-matchup",
+    enabled = false,
     event = "BufReadPost",
     config = require("config.plugins.matchup").setup,
   },
+  {
+    "RRethy/vim-illuminate",
+    enabled = false,
+    event = "VeryLazy",
+    config = function()
+      require("illuminate").configure({
+        filetypes_denylist = { "NvimTree", "oil", "spectre_panel", "trouble" },
+        delay = 100,
+        large_file_cutoff = 5000,
+      })
+    end,
+  },
+  ---actually helpful.
   {
     "karb94/neoscroll.nvim",
     event = "VeryLazy",
@@ -13,39 +28,10 @@ require("lazy").setup({
   },
   {
     "levouh/tint.nvim",
-    config = function()
-      require("tint").setup({
-        highlight_ignore_patterns = {
-          "LineNr",
-          "StatusLine",
-          "WinSeparator",
-        },
-        window_ignore_function = function(winid)
-          local bufid = vim.api.nvim_win_get_buf(winid)
-          local buftype = vim.api.nvim_get_option_value("buftype", { buf = bufid })
-          local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufid })
-          local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
-
-          return filetype == "NvimTree" or buftype == "terminal" or floating
-        end,
-      })
-    end,
-  },
-  {
-    "nvim-focus/focus.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    version = "*",
-    config = function()
-      require("focus").setup({
-        enable = true,
-        commands = true,
-      })
-    end,
+    config = require("config.plugins.tint").setup,
   },
   {
     "windwp/nvim-autopairs",
-    enabled = false,
     event = "InsertEnter",
     opts = {},
   },
@@ -92,21 +78,12 @@ require("lazy").setup({
     config = require("config.plugins.comment").setup,
   },
   {
-    "tummetott/reticle.nvim",
-    enabled = false,
-    event = "VeryLazy", -- optionally lazy load the plugin
-    opts = {
-      -- add options here if you wish to override the default settings
-    },
-  },
-  {
     "ggandor/leap.nvim",
     keys = {
       {
         ";",
         mode = { "n" },
         function()
-          -- require("leap").leap()
           require("leap").leap({
             labels = "sfnjklhodweimbuyvrgtaqpcxz",
             target_windows = { vim.api.nvim_get_current_win() },
@@ -114,57 +91,7 @@ require("lazy").setup({
         end,
       },
     },
-    config = function()
-      -- vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" }) -- or some grey
-      -- vim.api.nvim_set_hl(0, "LeapMatch", {
-      --   -- For light themes, set to 'black' or similar.
-      --   fg = "white",
-      --   bold = true,
-      --   nocombine = true,
-      -- })
-      -- require("leap").opts.highlight_unlabeled_phase_one_targets = true
-    end,
-  },
-  {
-    "folke/flash.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    keys = {
-      {
-        "s",
-        mode = { "n", "x", "o" },
-        function()
-          require("flash").jump()
-        end,
-        desc = "Flash",
-      },
-      { "S", false, mode = { "v" } },
-      {
-        "r",
-        mode = "o",
-        function()
-          require("flash").remote()
-        end,
-        desc = "Remote Flash",
-      },
-      {
-        "R",
-        mode = { "o", "x" },
-        function()
-          require("flash").treesitter_search()
-        end,
-        desc = "Treesitter Search",
-      },
-      {
-        "<c-s>",
-        mode = { "c" },
-        function()
-          require("flash").toggle()
-        end,
-        desc = "Toggle Flash Search",
-      },
-    },
-    config = require("config.plugins.flash").setup,
+    opts = {},
   },
   {
     "akinsho/git-conflict.nvim",
@@ -293,18 +220,6 @@ require("lazy").setup({
     end,
   },
   {
-    "RRethy/vim-illuminate",
-    enabled = false,
-    event = "VeryLazy",
-    config = function()
-      require("illuminate").configure({
-        filetypes_denylist = { "NvimTree", "oil", "spectre_panel", "trouble" },
-        delay = 100,
-        large_file_cutoff = 5000,
-      })
-    end,
-  },
-  {
     "akinsho/bufferline.nvim",
     version = "*",
     dependencies = { "catppuccin/nvim", "nvim-tree/nvim-web-devicons" },
@@ -340,7 +255,6 @@ require("lazy").setup({
   },
   {
     "MagicDuck/grug-far.nvim",
-    enabled = true,
     event = "VeryLazy",
     -- keys = {
     --   {
@@ -381,6 +295,7 @@ require("lazy").setup({
   },
   {
     "folke/persistence.nvim",
+    enabled = false,
     lazy = false,
     config = require("config.plugins.persistence").setup,
   },
@@ -506,21 +421,21 @@ require("lazy").setup({
   },
   {
     "kevinhwang91/nvim-ufo",
-    lazy = false,
+    event = "VeryLazy",
     dependencies = {
       "kevinhwang91/promise-async",
-      {
-        "luukvbaal/statuscol.nvim",
-        config = function()
-          require("statuscol").setup({
-            relculright = true,
-            segments = {
-              { text = { " ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
-              { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
-            },
-          })
-        end,
-      },
+      -- {
+      --   "luukvbaal/statuscol.nvim",
+      --   config = function()
+      --     require("statuscol").setup({
+      --       relculright = true,
+      --       segments = {
+      --         { text = { " ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
+      --         { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
+      --       },
+      --     })
+      --   end,
+      -- },
     },
     config = require("config.plugins.ufo").setup,
   },
@@ -564,12 +479,6 @@ require("lazy").setup({
     },
   },
   {
-    "b0o/incline.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    config = require("config.plugins.incline").setup,
-  },
-  {
     "neovim/nvim-lspconfig",
     event = "VeryLazy",
     dependencies = { "hrsh7th/cmp-nvim-lsp", "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
@@ -590,18 +499,6 @@ require("lazy").setup({
       },
     },
     config = require("config.plugins.conform").setup,
-  },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    enabled = false,
-    event = { "BufReadPre", "BufNewFile" },
-    main = "ibl",
-    config = function()
-      require("ibl").setup({
-        indent = { char = "│" },
-        scope = { enabled = false },
-      })
-    end,
   },
 }, {
   change_detection = {

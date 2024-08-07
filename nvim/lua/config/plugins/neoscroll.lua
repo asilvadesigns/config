@@ -22,17 +22,17 @@ M.setup = function()
   local keymap = {
     -- up
     ["<leader>u"] = function()
-      neoscroll.ctrl_u({ duration = 125, easing = "sine" })
+      neoscroll.ctrl_u({ duration = 75, easing = "sine" })
     end,
     ["<C-u>"] = function()
-      neoscroll.ctrl_u({ duration = 125, easing = "sine" })
+      neoscroll.ctrl_u({ duration = 75, easing = "sine" })
     end,
     -- down
     ["<C-d>"] = function()
-      neoscroll.ctrl_d({ duration = 125, easing = "sine" })
+      neoscroll.ctrl_d({ duration = 75, easing = "sine" })
     end,
     ["<leader>d"] = function()
-      neoscroll.ctrl_d({ duration = 125, easing = "sine" })
+      neoscroll.ctrl_d({ duration = 75, easing = "sine" })
     end,
     -- full page up
     ["<C-b>"] = function()
@@ -52,15 +52,15 @@ M.setup = function()
     end,
     -- scroll top
     ["zt"] = function()
-      neoscroll.zt({ half_win_duration = 125, easing = "sine" })
+      neoscroll.zt({ half_win_duration = 75, easing = "sine" })
     end,
     -- scroll middle
     ["zz"] = function()
-      neoscroll.zz({ half_win_duration = 125, easing = "sine" })
+      neoscroll.zz({ half_win_duration = 75, easing = "sine" })
     end,
     -- scroll bottom
     ["zb"] = function()
-      neoscroll.zb({ half_win_duration = 125, easing = "sine" })
+      neoscroll.zb({ half_win_duration = 75, easing = "sine" })
     end,
   }
 

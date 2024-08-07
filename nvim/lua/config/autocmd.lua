@@ -43,15 +43,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- go to last loc when opening a buffer
-vim.api.nvim_create_autocmd("BufReadPost", {
-  callback = function()
-    local mark = vim.api.nvim_buf_get_mark(0, '"')
-    local lcount = vim.api.nvim_buf_line_count(0)
-    if mark[1] > 0 and mark[1] <= lcount then
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("BufReadPost", {
+--   callback = function()
+--     local mark = vim.api.nvim_buf_get_mark(0, '"')
+--     local lcount = vim.api.nvim_buf_line_count(0)
+--     if mark[1] > 0 and mark[1] <= lcount then
+--       pcall(vim.api.nvim_win_set_cursor, 0, mark)
+--     end
+--   end,
+-- })
 
 -- show numbers in help
 vim.api.nvim_create_autocmd("FileType", {
@@ -66,145 +66,26 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   end,
 })
 
-local cached_git_label = " ..loading"
-local cached_statusline_value = " "
-local cached_winbar_value = {}
-local render_winbar_timer = vim.loop.new_timer()
-local WINBAR_COLOR = "%#WinBar#"
-local STATUS_COLOR = "%#StatusLine#"
-
----@param excluded table<string>
----@return table<string>
-local function getVisibleWindows(excluded)
-  local visible_buffers = {}
-  local windows = vim.api.nvim_list_wins()
-
-  for _, win_id in ipairs(windows) do
-    local is_floating = vim.api.nvim_win_get_config(win_id).relative ~= ""
-    local is_empty = vim.api.nvim_win_get_buf(win_id) < 1
-
-    local buf_id = vim.api.nvim_win_get_buf(win_id)
-    local buf_filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
-    local is_excluded = vim.tbl_contains(excluded, buf_filetype)
-
-    if is_floating or is_empty or is_excluded then
-      goto continue
-    end
-
-    table.insert(visible_buffers, win_id)
-    ::continue::
-  end
-
-  return visible_buffers
-end
-
-local winbar_exclude_filetypes = {
-  "NvimTree",
-  "Outline",
-  "TelescopePrompt",
-  "Trouble",
-  "alpha",
-  "dashboard",
-  "help",
-  "lir",
-  "neogitstatus",
-  "no-neck-pain",
-  "packer",
-  "spectre_panel",
-  "startify",
-  "telescope",
-  "toggleterm",
-  -- "qf",
-}
-
-local function renderWinbar()
-
-  -- local windows = getVisibleWindows(winbar_exclude_filetypes)
-
-  -- for _, win_id in ipairs(windows) do
-  --   local buf_id = vim.api.nvim_win_get_buf(win_id)
-  --   local buf_name = vim.api.nvim_buf_get_name(buf_id)
-  --
-  --   local filename = vim.fn.fnamemodify(buf_name, ":t")
-  --   local filepath = " " .. vim.fn.fnamemodify(buf_name, ":~:.:h") .. "/" .. filename
-  --   -- local sep = "  "
-  --   -- local filepath = " " .. string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
-  --
-  --   local modified = "%#Comment# 󰆓 %*"
-  --   if vim.bo[buf_id].modified == true then
-  --     modified = "%#DiagnosticSignWarn# 󰆓 %*"
-  --   end
-  --
-  --   local diagnostics = GetDiagnostics(buf_id)
-  --   local next_winbar = WINBAR_COLOR .. filepath .. modified .. "%*" .. " " .. diagnostics
-  --
-  --   vim.api.nvim_set_option_value("winbar", next_winbar, { win = win_id })
-  -- end
-  vim.opt_local.winbar = "%{%v:lua.require('your_module_name').get_winbar()%}"
-end
-
--- local function renderStatusLine()
---   -- get filename
---   local buf_name = vim.api.nvim_buf_get_name(0)
---   local sep = "/"
---   local f_name = vim.fn.fnamemodify(buf_name, ":t")
---   local f_path = string.gsub(vim.fn.fnamemodify(buf_name, ":~:.:h"), "/", sep) .. sep
---   local f_label = f_path .. f_name
---
---   -- -- get diagnostics
---   -- local d_label = ""
---   -- local d_count = vim.diagnostic.count(0)
---   -- local square = vim.fn.nr2char(0x25aa)
---   --
---   -- if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
---   --   d_label = d_label .. " %#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
---   -- end
---   -- if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
---   --   d_label = d_label .. " %#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
---   -- end
---   -- if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
---   --   d_label = d_label .. " %#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
---   -- end
---   -- if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
---   --   d_label = d_label .. " %#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
---   -- end
---
---   -- local lazy_ready, lazy_config = pcall(require, "lazy.core.config")
---
---   -- local tmux_label = ""
---   -- local tmux_panes = ""
---   -- if vim.env.TMUX ~= nil then
---   --   tmux_panes = GetTmuxPaneCount()
---   --   tmux_label = "%#DiagnosticSignHint#" .. "" .. " " .. tmux_panes .. "%*"
---   -- end
---
---   vim.opt.statusline = STATUS_COLOR .. " " .. f_label .. "%*"
---
---   -- if lazy_ready then
---   --   if lazy_config.plugins["vim-tpipeline"]._.loaded then
---   --     vim.cmd("silent! call tpipeline#update()")
---   --   end
---   -- end
--- end
-
--- vim.api.nvim_create_autocmd({
---   "BufEnter",
---   "BufModifiedSet",
---   "DiagnosticChanged",
--- }, {
---   group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
---   callback = renderWinbar,
+-- restore cursor
+-- vim.api.nvim_create_autocmd("BufRead", {
+--   callback = function(opts)
+--     vim.api.nvim_create_autocmd("BufWinEnter", {
+--       once = true,
+--       buffer = opts.buf,
+--       callback = function()
+--         local ft = vim.bo[opts.buf].filetype
+--         local last_known_line = vim.api.nvim_buf_get_mark(opts.buf, '"')[1]
+--         if
+--           not (ft:match("commit") and ft:match("rebase"))
+--           and last_known_line > 1
+--           and last_known_line <= vim.api.nvim_buf_line_count(opts.buf)
+--         then
+--           vim.api.nvim_feedkeys([[g`"]], "nx", false)
+--         end
+--       end,
+--     })
+--   end,
 -- })
-
---
--- render_winbar_timer:start(
---   0,
---   500,
---   vim.schedule_wrap(function()
---     -- renderStatusLine()
---     renderWinbar()
---   end)
--- )
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command

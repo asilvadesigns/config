@@ -115,7 +115,7 @@ M.setup = function()
     },
     view = {
       width = 40,
-      signcolumn = "no",
+      -- signcolumn = "no",
     },
   })
 
