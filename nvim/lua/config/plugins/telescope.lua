@@ -194,11 +194,6 @@ M.setup = function()
         },
       }),
       {
-        file_ignore_patterns = {
-          "%.git/.",
-          -- "node_modules",
-          -- "package-lock.json",
-        },
         path_display = path_display,
         sorting_strategy = "ascending",
         mappings = {
@@ -240,8 +235,13 @@ M.setup = function()
         previewer = false,
         file_ignore_patterns = {
           "%.git/.",
+          -- npm
           "node_modules",
           "package-lock.json",
+          "pnpm-lock.yaml",
+          -- templ
+          "_templ%.go$",
+          "_templ%.txt$",
         },
       },
       git_files = {

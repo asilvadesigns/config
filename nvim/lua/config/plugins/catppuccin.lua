@@ -1,8 +1,6 @@
 local M = {}
 
 M.setup = function()
-  -- local utils = require("catppuccin.utils.colors")
-
   require("catppuccin").setup({
     integrations = {
       leap = true,
@@ -12,26 +10,24 @@ M.setup = function()
     },
     highlight_overrides = {
       latte = function(c)
-        -- local otherbg = utils.lighten(c.surface0, 0.86)
         local bg = c.base
 
         return {
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.text },
-          CursorLineNr = { bg = bg, fg = c.mauve },
+          CursorLineNr = { bg = bg, fg = c.overlay0 }, -- or c.muave
           CursorLineSign = { bg = bg },
           --
           NvimTreeCursorLine = { fg = c.subtext1 },
         }
       end,
       frappe = function(c)
-        -- local otherbg = utils.darken(c.surface0, 0.86)
         local bg = c.base
 
         return {
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.text },
-          CursorLineNr = { bg = bg, fg = c.mauve },
+          CursorLineNr = { bg = bg, fg = c.overlay0 }, -- or c.muave
           CursorLineSign = { bg = bg },
           --
           NvimTreeCursorLine = { fg = c.subtext1 },

@@ -27,6 +27,11 @@ require("lazy").setup({
     config = require("config.plugins.neoscroll").setup,
   },
   {
+    "johmsalas/text-case.nvim",
+    event = "VeryLazy",
+    opts = {},
+  },
+  {
     "levouh/tint.nvim",
     config = require("config.plugins.tint").setup,
   },
@@ -37,7 +42,6 @@ require("lazy").setup({
   },
   {
     "windwp/nvim-ts-autotag",
-    enabled = false,
     event = "InsertEnter",
     opts = {},
   },
@@ -222,11 +226,21 @@ require("lazy").setup({
   {
     "akinsho/bufferline.nvim",
     version = "*",
-    dependencies = { "catppuccin/nvim", "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.bufferline").setup,
   },
   {
+    "zenbones-theme/zenbones.nvim",
+    enabled = false,
+    dependencies = { "rktjmp/lush.nvim" },
+    lazy = false,
+    config = function()
+      vim.cmd("colorscheme zenburned")
+    end,
+  },
+  {
     "catppuccin/nvim",
+    enabled = true,
     lazy = false,
     name = "catppuccin",
     priority = 1000,
@@ -510,6 +524,7 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
+        "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
