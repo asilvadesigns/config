@@ -63,12 +63,29 @@ M.setup = function()
         end
       end, { "i", "s" }),
     }),
-    sources = {
-      { name = "lazydev", group_index = 0 },
-      { name = "nvim_lsp" },
-      { name = "luasnip" },
-      { name = "path" },
-    },
+    sources = cmp.config.sources({
+      { name = "path", priority_weight = 110 },
+      { name = "nvim_lsp", max_view_entries = 20, priority_weight = 100 },
+      { name = "lazydev", group_index = 0, priority_weight = 90 },
+      {
+        name = "buffer",
+        keyword_length = 5,
+        max_view_entries = 5,
+        priority_weight = 70,
+        option = {
+          get_bufnrs = function()
+            local buf = vim.api.nvim_get_current_buf()
+            local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+            if byte_size > 1024 * 1024 then -- 1 megabyte max
+              return {}
+            end
+            return { buf }
+          end,
+          indexing_interval = 1000,
+          keyword_length = 5,
+        },
+      },
+    }),
     sorting = {
       priority_weight = 1.0,
       comparators = {

@@ -10,7 +10,7 @@ require("lazy").setup({
   },
   {
     "RRethy/vim-illuminate",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     config = function()
       require("illuminate").configure({
@@ -21,6 +21,12 @@ require("lazy").setup({
     end,
   },
   ---actually helpful.
+  {
+    "olrtg/nvim-emmet",
+    config = function()
+      vim.keymap.set({ "v" }, "<C-y>", require("nvim-emmet").wrap_with_abbreviation)
+    end,
+  },
   {
     "karb94/neoscroll.nvim",
     event = "VeryLazy",
@@ -82,7 +88,22 @@ require("lazy").setup({
     config = require("config.plugins.comment").setup,
   },
   {
+    "folke/flash.nvim",
+    enabled = false,
+    event = "VeryLazy",
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
+  },
+  {
     "ggandor/leap.nvim",
+    enabled = true,
     keys = {
       {
         ";",
