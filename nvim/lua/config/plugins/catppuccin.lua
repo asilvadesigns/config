@@ -47,6 +47,8 @@ M.setup = function()
           DiagnosticUnderlineInfo = { sp = c.teal, undercurl = true },
           DiagnosticUnderlineWarn = { sp = c.yellow, undercurl = true },
           --
+          -- StatusLine = { fg = c.surface2, bg = c.mantle },
+          -- StatusLineNC = { fg = c.surface2, bg = c.mantle },
           StatusLine = { fg = c.crust, bg = c.base },
           StatusLineNC = { fg = c.crust, bg = c.base },
           --
@@ -55,7 +57,7 @@ M.setup = function()
           WinBar = { fg = c.overlay2 },
           WinBarNC = { fg = c.overlay2 },
           --
-          WinSeparator = { fg = c.base },
+          -- WinSeparator = { fg = c.base },
         }
       end,
     },

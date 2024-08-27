@@ -70,7 +70,7 @@ M.setup = function()
         git_placement = "after",
         web_devicons = {
           file = {
-            enable = false,
+            enable = true,
             color = false,
           },
           folder = {
@@ -144,15 +144,15 @@ M.setup = function()
   vim.cmd("hi! link NvimTreeDiagnosticInfoFolderHL DiagnosticSignInfo")
   vim.cmd("hi! link NvimTreeDiagnosticWarnFolderHL DiagnosticSignWarn")
 
-  vim.keymap.set("n", "<leader>j", function()
-    local filetype = vim.bo.filetype
-
-    if filetype == "NvimTree" then
-      vim.cmd("NvimTreeClose")
-    else
-      vim.cmd("NvimTreeFindFile")
-    end
-  end, {})
+  -- vim.keymap.set("n", "<leader>j", function()
+  --   local filetype = vim.bo.filetype
+  --
+  --   if filetype == "NvimTree" then
+  --     vim.cmd("NvimTreeClose")
+  --   else
+  --     vim.cmd("NvimTreeFindFile")
+  --   end
+  -- end, {})
 end
 
 return M

@@ -66,7 +66,7 @@ vim.opt.laststatus = 0
 local str = string.rep('—', 500)
 vim.opt.statusline = str
 vim.opt.signcolumn = "yes"
--- vim.opt.winbar = " "
+vim.opt.winbar = " "
 
 -- terminal
 vim.opt.termguicolors = true

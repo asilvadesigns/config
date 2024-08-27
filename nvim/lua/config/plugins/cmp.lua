@@ -116,14 +116,14 @@ M.setup = function()
     experimental = {
       ghost_text = false,
     },
-    formatting = {
-      expandable_indicator = true,
-      fields = { "kind", "abbr", "menu" },
-      format = require("lspkind").cmp_format({
-        maxwidth = 50,
-        with_text = false,
-      }),
-    },
+    -- formatting = {
+    --   expandable_indicator = true,
+    --   fields = { "kind", "abbr", "menu" },
+    --   -- format = require("lspkind").cmp_format({
+    --   --   maxwidth = 50,
+    --   --   with_text = false,
+    --   -- }),
+    -- },
   })
 
   -- cmp.setup.cmdline({ "/", "?" }, {

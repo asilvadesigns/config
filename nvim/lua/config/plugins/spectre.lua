@@ -1,7 +1,18 @@
 local M = {}
 
 M.setup = function()
-  require("spectre").setup({})
+  require("spectre").setup({
+    replace_engine = {
+      ["sed"] = {
+        cmd = "sed",
+        args = {
+          "-i",
+          "",
+          "-E",
+        },
+      },
+    },
+  })
 
   vim.cmd("hi! link SpectreSearch DiagnosticVirtualTextError")
   vim.cmd("hi! link SpectreReplace DiagnosticVirtualTextHint")

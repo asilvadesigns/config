@@ -224,6 +224,12 @@ M.setup = function()
             classAttributes = {
               "class",
               "className",
+              "x-transition:enter",
+              "x-transition:enter-start",
+              "x-transition:enter-end",
+              "x-transition:leave",
+              "x-transition:leave-start",
+              "x-transition:leave-end",
             },
             includeLanguages = {
               templ = "html",

@@ -3,6 +3,8 @@ vim.g.maplocalleader = ","
 
 require("config.initial")
 
+require("config.winbar")
+
 require("config.autocmd")
 require("config.command")
 require("config.filetype")
@@ -10,4 +12,3 @@ require("config.keymaps")
 require("config.options")
 require("config.plugins")
 
-require("config.winbar")

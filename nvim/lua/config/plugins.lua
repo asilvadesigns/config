@@ -10,7 +10,7 @@ require("lazy").setup({
   },
   {
     "RRethy/vim-illuminate",
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     config = function()
       require("illuminate").configure({
@@ -23,6 +23,7 @@ require("lazy").setup({
   ---actually helpful.
   {
     "olrtg/nvim-emmet",
+    event = "VeryLazy",
     config = function()
       vim.keymap.set({ "v" }, "<C-y>", require("nvim-emmet").wrap_with_abbreviation)
     end,
@@ -39,6 +40,7 @@ require("lazy").setup({
   },
   {
     "levouh/tint.nvim",
+    enabled = false,
     config = require("config.plugins.tint").setup,
   },
   {
@@ -154,7 +156,7 @@ require("lazy").setup({
   {
     "stevearc/oil.nvim",
     cmd = "Oil",
-    keys = { { "<leader>x", "<CMD>Oil<CR>" } },
+    keys = { { "<leader><space>", "<CMD>Oil<CR>" } },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.oil").setup,
   },
@@ -246,6 +248,7 @@ require("lazy").setup({
   },
   {
     "akinsho/bufferline.nvim",
+    event = "VeryLazy",
     version = "*",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.bufferline").setup,
@@ -272,13 +275,16 @@ require("lazy").setup({
     event = "VeryLazy",
     dependencies = {
       -- Snippet Engine
-      "L3MON4D3/LuaSnip",
+      {
+        "L3MON4D3/LuaSnip",
+        build = "make install_jsregexp",
+      },
       "saadparwaiz1/cmp_luasnip",
       -- LSP completion
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
       -- LSP kind
-      "onsails/lspkind.nvim",
+      -- "onsails/lspkind.nvim",
     },
     config = require("config.plugins.cmp").setup,
   },
@@ -324,9 +330,32 @@ require("lazy").setup({
   },
   {
     "nvim-tree/nvim-tree.lua",
-    event = "VeryLazy",
+    keys = {
+      {
+        "<leader>j",
+        function()
+          local filetype = vim.bo.filetype
+
+          if filetype == "NvimTree" then
+            vim.cmd("NvimTreeClose")
+          else
+            vim.cmd("NvimTreeFindFile")
+          end
+        end,
+        mode = "n",
+      },
+    },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.nvim-tree").setup,
+  },
+  {
+    "rmagatti/auto-session",
+    lazy = false,
+    opts = {
+      session_lens = {
+        load_on_setup = false,
+      },
+    },
   },
   {
     "folke/persistence.nvim",
@@ -440,8 +469,12 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    event = "VeryLazy",
     build = ":TSUpdate",
-    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+    dependencies = {
+      -- "nvim-treesitter/nvim-treesitter-context",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
     config = require("config.plugins.treesitter").setup,
   },
   {
@@ -456,6 +489,7 @@ require("lazy").setup({
   },
   {
     "kevinhwang91/nvim-ufo",
+    -- lazy = false,
     event = "VeryLazy",
     dependencies = {
       "kevinhwang91/promise-async",
@@ -475,34 +509,20 @@ require("lazy").setup({
     config = require("config.plugins.ufo").setup,
   },
   {
-    "folke/zen-mode.nvim",
-    cmd = { "ZenMode" },
+    "shortcuts/no-neck-pain.nvim",
+    cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
     keys = {
       {
         "<leader>z",
         function()
-          vim.cmd("ZenMode")
+          vim.cmd("NoNeckPain")
         end,
         mode = "n",
       },
     },
-    config = require("config.plugins.zen-mode").setup,
+    version = "*",
+    config = require("config.plugins.no-neck-pain").setup,
   },
-  -- {
-  --   "shortcuts/no-neck-pain.nvim",
-  --   cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
-  --   keys = {
-  --     {
-  --       "<leader>z",
-  --       function()
-  --         vim.cmd("NoNeckPain")
-  --       end,
-  --       mode = "n",
-  --     },
-  --   },
-  --   version = "*",
-  --   config = require("config.plugins.no-neck-pain").setup,
-  -- },
   { "Bilal2453/luvit-meta", lazy = true },
   {
     "folke/lazydev.nvim",

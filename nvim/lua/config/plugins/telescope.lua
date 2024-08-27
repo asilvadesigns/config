@@ -18,7 +18,7 @@ M.setup = function()
   -- local path_display = {
   --   "filename_first",
   -- }
-  local path_display = nil
+  -- local path_display = nil
 
   local conf = require("telescope.config").values
   local finders = require("telescope.finders")
@@ -174,91 +174,105 @@ M.setup = function()
   })
 
   telescope.setup({
-    -- @see: https://github.com/nvim-telescope/telescope.nvim/issues/848#issuecomment-1584291014
-    defaults = vim.tbl_extend(
-      "force",
-      themes.get_dropdown({
-        borderchars = {
-          { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-          prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-          results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-          preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-        },
-        layout_config = {
-          width = function(_, max_columns, _)
-            return math.min(max_columns, 100)
-          end,
-          height = function(_, _, max_lines)
-            return math.min(max_lines, 24)
-          end,
-        },
-      }),
-      {
-        path_display = path_display,
-        sorting_strategy = "ascending",
-        mappings = {
-          i = {
-            ["<C-u>"] = false,
-            ["<esc>"] = actions.close,
-            ["<C-n>"] = actions.cycle_history_next,
-            ["<C-p>"] = actions.cycle_history_prev,
-          },
-        },
-      }
-    ),
-    extensions = {
-      fzf = {
-        case_mode = "smart_case",
-        fuzzy = true,
-        override_file_sorter = true,
-        override_generic_sorter = true,
+    defaults = themes.get_dropdown({
+      borderchars = {
+        { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+        results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+        preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
       },
-    },
-    pickers = {
-      buffers = {
-        disable_devicons = true,
-        ignore_current_buffer = true,
-        only_cwd = true,
-        path_display = path_display,
-        sort_mru = true,
+      layout_config = {
+        width = function(_, max_columns, _)
+          return math.min(max_columns, 100)
+        end,
+        height = function(_, _, max_lines)
+          return math.min(max_lines, 24)
+        end,
       },
-      colorscheme = {
-        enable_preview = true,
-      },
-      commands = {
-        sort_mru = true,
-      },
-      find_files = {
-        disable_devicons = true,
-        hidden = true,
-        path_display = path_display,
-        previewer = false,
-        file_ignore_patterns = {
-          "%.git/.",
-          -- npm
-          "node_modules",
-          "package-lock.json",
-          "pnpm-lock.yaml",
-          -- templ
-          "_templ%.go$",
-          "_templ%.txt$",
+      mappings = {
+        i = {
+          ["<C-u>"] = false,
+          ["<esc>"] = actions.close,
+          ["<C-n>"] = actions.cycle_history_next,
+          ["<C-p>"] = actions.cycle_history_prev,
         },
       },
-      git_files = {
-        disable_devicons = true,
-        path_display = path_display,
-        previewer = false,
-      },
-      oldfiles = {
-        disable_devicons = true,
-        only_cwd = true,
-        path_display = path_display,
-        previewer = false,
-        sort_mru = true,
-      },
-      help_tags = {},
-    },
+    }),
   })
+  -- telescope.setup({
+  --   -- @see: https://github.com/nvim-telescope/telescope.nvim/issues/848#issuecomment-1584291014
+  --   defaults = vim.tbl_extend(
+  --     "force",
+  --     themes.get_dropdown({
+  --       borderchars = {
+  --         { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+  --         prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+  --         results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+  --         preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+  --       },
+  --       layout_config = {
+  --         width = function(_, max_columns, _)
+  --           return math.min(max_columns, 100)
+  --         end,
+  --         height = function(_, _, max_lines)
+  --           return math.min(max_lines, 24)
+  --         end,
+  --       },
+  --     }),
+  --     {
+  --       -- sorting_strategy = "ascending",
+  --     }
+  --   ),
+  --   extensions = {
+  --     fzf = {
+  --       case_mode = "smart_case",
+  --       fuzzy = true,
+  --       override_file_sorter = true,
+  --       override_generic_sorter = true,
+  --     },
+  --   },
+  --   pickers = {
+  --     buffers = {
+  --       disable_devicons = true,
+  --       ignore_current_buffer = true,
+  --       only_cwd = true,
+  --       sort_mru = true,
+  --     },
+  --     colorscheme = {
+  --       enable_preview = true,
+  --     },
+  --     commands = {
+  --       sort_mru = true,
+  --     },
+  --     find_files = {
+  --       sort_mru = true,
+  --       disable_devicons = true,
+  --       hidden = true,
+  --       previewer = false,
+  --       file_ignore_patterns = {
+  --         "%.git/.",
+  --         -- npm
+  --         "node_modules",
+  --         "package-lock.json",
+  --         "pnpm-lock.yaml",
+  --         -- templ
+  --         "_templ%.go$",
+  --         "_templ%.txt$",
+  --       },
+  --     },
+  --     git_files = {
+  --       disable_devicons = true,
+  --       previewer = false,
+  --     },
+  --     oldfiles = {
+  --       disable_devicons = true,
+  --       only_cwd = true,
+  --       previewer = false,
+  --       sort_mru = true,
+  --     },
+  --     help_tags = {},
+  --   },
+  -- })
 
   telescope.load_extension("fzf")
   telescope.load_extension("ui-select")

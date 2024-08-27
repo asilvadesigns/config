@@ -1,6 +1,21 @@
 local M = {}
 
 ---@return string
+local function get_tmux_panes()
+  -- Run the command and capture the output
+  local handle = io.popen("tmux list-panes | wc -l")
+  if handle ~= nil then
+    local result = handle:read("*a")
+    handle:close()
+    -- Trim any whitespace from the output
+    result = result:gsub("%s+", "")
+    return result
+  end
+
+  return ""
+end
+
+---@return string
 local function get_diagnostics()
   local d_count = vim.diagnostic.count(0)
   local d_label = ""
@@ -43,7 +58,7 @@ local function get_filename()
   -- local sep = "  "
   -- local filepath = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
 
-  return filepath .. "/" .. "%*%#Normal#" ..  filename .. "%*"
+  return filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
 end
 
 ---@return nil

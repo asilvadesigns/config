@@ -7,6 +7,7 @@ M.setup = function()
         enabled = false,
       },
     },
+    width = 120,
   })
 end
 

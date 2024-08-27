@@ -1,40 +1,3 @@
----@param buf_id number
-function GetDiagnostics(buf_id)
-  local d_label = ""
-  local d_count = vim.diagnostic.count(buf_id)
-  local square = vim.fn.nr2char(0x25aa)
-
-  if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
-    d_label = d_label .. "%#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
-  end
-  if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
-    d_label = d_label .. "%#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
-  end
-  if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
-    d_label = d_label .. "%#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
-  end
-  if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
-    d_label = d_label .. "%#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
-  end
-
-  return d_label
-end
-
-function GetTmuxPaneCount()
-  -- Run the command and capture the output
-  local handle = io.popen("tmux list-panes | wc -l")
-  if handle ~= nil then
-    local result = handle:read("*a")
-    handle:close()
-    -- Trim any whitespace from the output
-    result = result:gsub("%s+", "")
-    return result
-  end
-
-  return ""
-end
-
---
 -- highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
@@ -67,25 +30,25 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 })
 
 -- restore cursor
--- vim.api.nvim_create_autocmd("BufRead", {
---   callback = function(opts)
---     vim.api.nvim_create_autocmd("BufWinEnter", {
---       once = true,
---       buffer = opts.buf,
---       callback = function()
---         local ft = vim.bo[opts.buf].filetype
---         local last_known_line = vim.api.nvim_buf_get_mark(opts.buf, '"')[1]
---         if
---           not (ft:match("commit") and ft:match("rebase"))
---           and last_known_line > 1
---           and last_known_line <= vim.api.nvim_buf_line_count(opts.buf)
---         then
---           vim.api.nvim_feedkeys([[g`"]], "nx", false)
---         end
---       end,
---     })
---   end,
--- })
+vim.api.nvim_create_autocmd("BufRead", {
+  callback = function(opts)
+    vim.api.nvim_create_autocmd("BufWinEnter", {
+      once = true,
+      buffer = opts.buf,
+      callback = function()
+        local ft = vim.bo[opts.buf].filetype
+        local last_known_line = vim.api.nvim_buf_get_mark(opts.buf, '"')[1]
+        if
+          not (ft:match("commit") and ft:match("rebase"))
+          and last_known_line > 1
+          and last_known_line <= vim.api.nvim_buf_line_count(opts.buf)
+        then
+          vim.api.nvim_feedkeys([[g`"]], "nx", false)
+        end
+      end,
+    })
+  end,
+})
 
 -- Automatically reload the file if it is changed outside of Nvim, see https://unix.stackexchange.com/a/383044/221410.
 -- It seems that `checktime` does not work in command line. We need to check if we are in command
