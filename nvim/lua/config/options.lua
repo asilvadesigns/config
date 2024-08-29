@@ -106,7 +106,7 @@ end
 
 vim.diagnostic.config({
   underline = true,
-  virtual_text = true,
+  virtual_text = false,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = square,
@@ -115,12 +115,12 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.WARN] = square,
     },
     -- NOTE: cool to highlight but too much.
-    -- numhl = {
-    --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-    --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-    --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-    --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-    -- },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+    },
   },
 })
 

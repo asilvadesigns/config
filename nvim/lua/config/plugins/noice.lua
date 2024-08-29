@@ -36,6 +36,11 @@ M.setup = function()
     },
     lsp = {
       progress = { enabled = true },
+      signature = {
+        auto_open = {
+          trigger = false,
+        },
+      },
     },
     presets = {
       bottom_search = true,

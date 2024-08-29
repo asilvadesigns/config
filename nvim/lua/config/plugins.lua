@@ -45,11 +45,13 @@ require("lazy").setup({
   },
   {
     "windwp/nvim-autopairs",
+    enabled = false,
     event = "InsertEnter",
     opts = {},
   },
   {
     "windwp/nvim-ts-autotag",
+    enabled = false,
     event = "InsertEnter",
     opts = {},
   },
