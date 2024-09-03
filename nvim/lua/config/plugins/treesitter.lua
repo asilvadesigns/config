@@ -1,8 +1,6 @@
 local M = {}
 
 M.setup = function()
-  vim.treesitter.language.register("mdx", "markdown")
-  vim.treesitter.language.register("templ", "templ")
 
   ---@diagnostic disable-next-line: missing-fields
   require("nvim-treesitter.configs").setup({
@@ -111,7 +109,9 @@ M.setup = function()
 
   -- local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
   -- ft_to_parser.mdx = "markdown"
-  -- vim.treesitter.language.register("mdx", { "markdown" })
+
+  vim.treesitter.language.register("markdown", "mdx")
+  vim.treesitter.language.register("templ", "templ")
   vim.cmd("TSEnable all highlight")
 end
 

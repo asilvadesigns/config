@@ -198,6 +198,17 @@ M.setup = function()
         },
       },
     }),
+    pickers = {
+      find_files = {
+        previewer = false,
+      },
+      git_files = {
+        previewer = false,
+      },
+      oldfiles = {
+        previewer = false,
+      },
+    },
   })
   -- telescope.setup({
   --   -- @see: https://github.com/nvim-telescope/telescope.nvim/issues/848#issuecomment-1584291014

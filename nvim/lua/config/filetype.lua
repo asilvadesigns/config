@@ -1,7 +1,7 @@
 vim.filetype.add({
   extension = {
     env = "sh",
-    mdx = "markdown",
+    mdx = "mdx",
     templ = "templ",
   },
   filename = {
