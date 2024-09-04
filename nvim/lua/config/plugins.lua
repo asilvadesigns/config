@@ -20,6 +20,23 @@ require("lazy").setup({
       })
     end,
   },
+  {
+    "levouh/tint.nvim",
+    enabled = false,
+    config = require("config.plugins.tint").setup,
+  },
+  {
+    "windwp/nvim-autopairs",
+    enabled = false,
+    event = "InsertEnter",
+    opts = {},
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    enabled = false,
+    event = "InsertEnter",
+    opts = {},
+  },
   ---actually helpful.
   {
     "olrtg/nvim-emmet",
@@ -36,23 +53,6 @@ require("lazy").setup({
   {
     "johmsalas/text-case.nvim",
     event = "VeryLazy",
-    opts = {},
-  },
-  {
-    "levouh/tint.nvim",
-    enabled = false,
-    config = require("config.plugins.tint").setup,
-  },
-  {
-    "windwp/nvim-autopairs",
-    enabled = false,
-    event = "InsertEnter",
-    opts = {},
-  },
-  {
-    "windwp/nvim-ts-autotag",
-    enabled = false,
-    event = "InsertEnter",
     opts = {},
   },
   {
@@ -298,22 +298,31 @@ require("lazy").setup({
   {
     "MagicDuck/grug-far.nvim",
     event = "VeryLazy",
-    -- keys = {
-    --   {
-    --     "<c-f>",
-    --     function()
-    --       require("grug-far").with_visual_selection()
-    --     end,
-    --     mode = "v",
-    --   },
-    -- llh5o!
-    -- }c
+    keys = {
+      {
+        "f",
+        function()
+          require("grug-far").with_visual_selection({
+            prefills = { paths = vim.fn.expand("%") },
+          })
+        end,
+        mode = "v",
+      },
+      {
+        "F",
+        function()
+          require("grug-far").with_visual_selection()
+        end,
+        mode = "v",
+      },
+    },
     config = require("config.plugins.grug-far").setup,
   },
   {
     "folke/noice.nvim",
     enabled = true,
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    lazy = false,
     dependencies = {
       "MunifTanjim/nui.nvim",
       {
@@ -492,8 +501,8 @@ require("lazy").setup({
   },
   {
     "kevinhwang91/nvim-ufo",
-    -- lazy = false,
-    event = "VeryLazy",
+    lazy = false,
+    -- event = "VeryLazy",
     dependencies = {
       "kevinhwang91/promise-async",
       {
