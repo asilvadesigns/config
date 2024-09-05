@@ -18,7 +18,10 @@ vim.opt.cursorline = true
 
 -- folding
 vim.opt.conceallevel = 0
-vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+-- vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+-- vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+
 vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
@@ -34,9 +37,9 @@ vim.opt.smartindent = true
 vim.opt.tabstop = 2
 
 -- invisible chars
-vim.opt.list = false -- TODO: persist via prefs plugin
-
 vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
+vim.opt.list = true -- TODO: persist via prefs plugin
+
 vim.opt.showbreak = "↳  "
 
 -- numberline

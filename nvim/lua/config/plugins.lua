@@ -231,17 +231,7 @@ require("lazy").setup({
     config = require("config.plugins.bufferline").setup,
   },
   {
-    "zenbones-theme/zenbones.nvim",
-    enabled = false,
-    dependencies = { "rktjmp/lush.nvim" },
-    lazy = false,
-    config = function()
-      vim.cmd("colorscheme zenburned")
-    end,
-  },
-  {
     "catppuccin/nvim",
-    enabled = true,
     lazy = false,
     name = "catppuccin",
     priority = 1000,
@@ -550,7 +540,7 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
-        "matchparen",
+        -- "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
