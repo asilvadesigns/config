@@ -1,19 +1,19 @@
 local M = {}
 
----@return string
-local function get_tmux_panes()
-  -- Run the command and capture the output
-  local handle = io.popen("tmux list-panes | wc -l")
-  if handle ~= nil then
-    local result = handle:read("*a")
-    handle:close()
-    -- Trim any whitespace from the output
-    result = result:gsub("%s+", "")
-    return result
-  end
-
-  return ""
-end
+-- ---@return string
+-- local function get_tmux_panes()
+--   -- Run the command and capture the output
+--   local handle = io.popen("tmux list-panes | wc -l")
+--   if handle ~= nil then
+--     local result = handle:read("*a")
+--     handle:close()
+--     -- Trim any whitespace from the output
+--     result = result:gsub("%s+", "")
+--     return result
+--   end
+--
+--   return ""
+-- end
 
 ---@param buf_id integer
 ---@return string
@@ -40,6 +40,18 @@ end
 
 ---@param buf_id integer
 ---@return string
+local function get_modified(buf_id)
+  local is_modified = vim.api.nvim_get_option_value("modified", { buf = buf_id })
+
+  if is_modified then
+    return "+"
+  end
+
+  return ""
+end
+
+---@param buf_id integer
+---@return string
 local function get_filename(buf_id)
   local bufname = vim.api.nvim_buf_get_name(buf_id)
   local filename = vim.fn.fnamemodify(bufname, ":t")
@@ -61,7 +73,7 @@ local function get_filename(buf_id)
   -- local sep = "  "
   -- local filepath = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
 
-  return filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
+  return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
 end
 
 ---@return nil
@@ -73,13 +85,14 @@ local function main()
 
     if is_floating then
       vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
-    else
-      vim.api.nvim_set_option_value(
-        "winbar",
-        " " .. get_filename(buf_id) .. " " .. get_diagnostics(buf_id),
-        { win = win_id }
-      )
+      break
     end
+
+    vim.api.nvim_set_option_value(
+      "winbar",
+      " " .. get_filename(buf_id) .. " " .. get_modified(buf_id) .. " " .. get_diagnostics(buf_id),
+      { win = win_id }
+    )
   end
 end
 

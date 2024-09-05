@@ -4,6 +4,7 @@ M.setup = function()
   local neoscroll = require("neoscroll")
 
   neoscroll.setup({
+    mappings = {},
     easing = "sine",
     pre_hook = function()
       vim.opt.eventignore:append({

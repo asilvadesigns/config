@@ -49,15 +49,15 @@ M.setup = function()
           --
           -- StatusLine = { fg = c.surface2, bg = c.mantle },
           -- StatusLineNC = { fg = c.surface2, bg = c.mantle },
-          StatusLine = { fg = c.crust, bg = c.base },
-          StatusLineNC = { fg = c.crust, bg = c.base },
+          StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
+          StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
           --
           -- NvimTreeNormal = { bg = c.mantle },
           --
           WinBar = { fg = c.overlay2 },
           WinBarNC = { fg = c.overlay2 },
           --
-          -- WinSeparator = { fg = c.base },
+          WinSeparator = { fg = c.surface0 },
         }
       end,
     },

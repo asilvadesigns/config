@@ -92,20 +92,6 @@ require("lazy").setup({
     config = require("config.plugins.comment").setup,
   },
   {
-    "folke/flash.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    opts = {},
-    -- stylua: ignore
-    keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-    },
-  },
-  {
     "ggandor/leap.nvim",
     enabled = true,
     keys = {
@@ -184,20 +170,6 @@ require("lazy").setup({
     cmd = { "Spectre" },
     keys = {
       { "<C-s>", "<cmd>Spectre<cr>", desc = "Search" },
-      {
-        "<C-f>",
-        function()
-          require("spectre").open_file_search({ select_word = true })
-        end,
-        desc = "Search current file",
-      },
-      -- {
-      --   "<C-r>",
-      --   function()
-      --     require("spectre").open_visual({ select_word = true, path = "" })
-      --   end,
-      --   desc = "Search word",
-      -- },
     },
     config = require("config.plugins.spectre").setup,
   },
@@ -305,9 +277,7 @@ require("lazy").setup({
       {
         "f",
         function()
-          require("grug-far").with_visual_selection({
-            prefills = { paths = vim.fn.expand("%") },
-          })
+          require("grug-far").with_visual_selection({ prefills = { paths = vim.fn.expand("%") } })
         end,
         mode = "v",
       },
@@ -323,8 +293,6 @@ require("lazy").setup({
   },
   {
     "folke/noice.nvim",
-    enabled = true,
-    -- event = "VeryLazy",
     lazy = false,
     dependencies = {
       "MunifTanjim/nui.nvim",
@@ -515,7 +483,7 @@ require("lazy").setup({
             ft_ignore = { "NvimTree", "Outline" },
             segments = {
               -- number column
-              { text = { " ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
+              { text = { "  ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
               -- fold column
               { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
             },
