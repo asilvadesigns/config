@@ -120,7 +120,10 @@ require("lazy").setup({
         end,
       },
     },
-    opts = {},
+    config = function()
+      vim.cmd("hi! link LeapBackdrop NvimContainer")
+      -- vim.cmd("hi! link LeapLabel @text.note")
+    end,
   },
   {
     "akinsho/git-conflict.nvim",
@@ -502,7 +505,6 @@ require("lazy").setup({
   {
     "kevinhwang91/nvim-ufo",
     lazy = false,
-    -- event = "VeryLazy",
     dependencies = {
       "kevinhwang91/promise-async",
       {
@@ -510,8 +512,11 @@ require("lazy").setup({
         config = function()
           require("statuscol").setup({
             relculright = true,
+            ft_ignore = { "NvimTree", "Outline" },
             segments = {
+              -- number column
               { text = { " ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
+              -- fold column
               { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
             },
           })

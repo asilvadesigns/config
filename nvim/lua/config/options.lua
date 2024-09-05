@@ -19,7 +19,7 @@ vim.opt.cursorline = true
 -- folding
 vim.opt.conceallevel = 0
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
+vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
@@ -63,7 +63,7 @@ vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 
 -- statusline && winbar
 vim.opt.laststatus = 0
-local str = string.rep('—', 500)
+local str = string.rep("—", 500)
 vim.opt.statusline = str
 vim.opt.signcolumn = "yes"
 vim.opt.winbar = " "
@@ -76,8 +76,14 @@ vim.opt.linebreak = true
 vim.opt.wrap = false
 
 -- diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "[d", function()
+  vim.diagnostic.jump({ count = -1, float = true })
+end, { desc = "Go to previous diagnostic message" })
+
+vim.keymap.set("n", "]d", function()
+  vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = "Go to next diagnostic message" })
+
 vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic message" })
 
 -- jumplist

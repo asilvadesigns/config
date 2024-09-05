@@ -15,9 +15,10 @@ local function get_tmux_panes()
   return ""
 end
 
+---@param buf_id integer
 ---@return string
-local function get_diagnostics()
-  local d_count = vim.diagnostic.count(0)
+local function get_diagnostics(buf_id)
+  local d_count = vim.diagnostic.count(buf_id)
   local d_label = ""
   local square = vim.fn.nr2char(0x25aa)
 
@@ -37,11 +38,13 @@ local function get_diagnostics()
   return d_label
 end
 
+---@param buf_id integer
 ---@return string
-local function get_filename()
-  local filename = vim.fn.expand("%:t")
-  local filepath = vim.fn.expand("%:~:.:h")
-  local filetype = vim.bo.filetype
+local function get_filename(buf_id)
+  local bufname = vim.api.nvim_buf_get_name(buf_id)
+  local filename = vim.fn.fnamemodify(bufname, ":t")
+  local filepath = vim.fn.fnamemodify(bufname, ":~:.:h")
+  local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
 
   if filetype == "oil" then
     return vim.fn.expand("%:~:h")
@@ -63,12 +66,20 @@ end
 
 ---@return nil
 local function main()
-  local is_floating = vim.api.nvim_win_get_config(0).relative ~= ""
+  for _, win_id in ipairs(vim.api.nvim_list_wins()) do
+    local buf_id = vim.api.nvim_win_get_buf(win_id)
+    local win_config = vim.api.nvim_win_get_config(win_id)
+    local is_floating = win_config.relative ~= ""
 
-  if is_floating then
-    vim.opt_local.winbar = nil
-  else
-    vim.opt_local.winbar = " " .. get_filename() .. " " .. get_diagnostics()
+    if is_floating then
+      vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
+    else
+      vim.api.nvim_set_option_value(
+        "winbar",
+        " " .. get_filename(buf_id) .. " " .. get_diagnostics(buf_id),
+        { win = win_id }
+      )
+    end
   end
 end
 

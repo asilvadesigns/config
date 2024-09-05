@@ -14,7 +14,7 @@ M.setup = function()
 
         return {
           CursorLine = { bg = bg },
-          CursorLineFold = { bg = bg, fg = c.text },
+          CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- or c.muave
           CursorLineSign = { bg = bg },
           --
@@ -26,7 +26,7 @@ M.setup = function()
 
         return {
           CursorLine = { bg = bg },
-          CursorLineFold = { bg = bg, fg = c.text },
+          CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- or c.muave
           CursorLineSign = { bg = bg },
           --
