@@ -125,6 +125,21 @@ M.setup = function()
       vue = { "biome", "prettier" },
       yaml = { "biome", "prettier" },
     },
+    formatters = {
+      biome = {
+        cwd = require("conform.util").root_file({ "biome.json" }),
+        require_cwd = true,
+        args = {
+          "check",
+          "--apply-unsafe",
+          "--formatter-enabled=true",
+          "--organize-imports-enabled=true",
+          "--skip-errors",
+          "--stdin-file-path",
+          "$FILENAME",
+        },
+      },
+    },
   })
 
   vim.api.nvim_create_user_command("Format", function()
@@ -133,7 +148,7 @@ M.setup = function()
 
     if #formatters == 0 then
       vim.notify("No formatters available for this buffer, using lsp", vim.log.levels.WARN)
-      conform.format({ async = false, lsp_fallback = true })
+      conform.format({ async = false, lsp_format = "fallback" })
       return
     end
 
@@ -146,7 +161,8 @@ M.setup = function()
     vim.notify("Available formatters: " .. formatter_list, vim.log.levels.INFO)
 
     -- Invoke the formatter
-    conform.format({ async = false, lsp_fallback = true })
+    vim.notify("Should use: " .. formatter_names[1], vim.log.levels.INFO)
+    conform.format({ async = false, lsp_format = "never", formatters = { formatter_names[1] } })
   end, {})
 
   -- vim.api.nvim_create_user_command("Format", function()

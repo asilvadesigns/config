@@ -82,11 +82,11 @@ style = "Bold Italic"
 
 [font.offset]
 x = 0
-y = 4 # 4
+y = 0 # 4
 
 [font.glyph_offset]
 x = 0
-y = 2 # 2
+y = 0 # 2
 
 [font.italic]
 family = "JetBrainsMono Nerd Font Mono"

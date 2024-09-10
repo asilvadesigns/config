@@ -39,7 +39,7 @@ M.setup = function()
     "tailwindcss",
     "taplo",
     "templ",
-    "tsserver",
+    "ts_ls",
     "yamlls",
   }
 
@@ -50,7 +50,7 @@ M.setup = function()
   }
 
   require("mason").setup({
-    ui = { border = "single" }, -- "rounded"
+    ui = { border = "single" },
   })
 
   vim.cmd("hi! link MasonNormal Normal")
@@ -59,7 +59,6 @@ M.setup = function()
     vim.cmd("MasonInstall " .. table.concat(servers, " "))
     local registry = require("mason-registry")
 
-    ---@see https://github.com/williamboman/mason-lspconfig.nvim/issues/113#issuecomment-1471346816
     for _, pkg_name in ipairs(formatters) do
       local ok, pkg = pcall(registry.get_package, pkg_name)
       if ok then
@@ -251,8 +250,8 @@ M.setup = function()
         on_attach = on_attach,
       })
     end,
-    ["tsserver"] = function()
-      require("lspconfig").tsserver.setup({
+    ["ts_ls"] = function()
+      require("lspconfig").ts_ls.setup({
         capabilities = capabilities,
         on_attach = on_attach,
         root_dir = require("lspconfig.util").root_pattern(".git"),

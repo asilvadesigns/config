@@ -3,6 +3,7 @@ local M = {}
 M.setup = function()
   require("grug-far").setup({
     startInInsertMode = false,
+    searchOnInsertLeave = true,
     keymaps = {
       replace = { n = "<localleader>r" },
       qflist = { n = "<localleader>q" },
