@@ -511,7 +511,11 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     event = "VeryLazy",
-    dependencies = { "hrsh7th/cmp-nvim-lsp", "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "williamboman/mason-lspconfig.nvim",
+      "williamboman/mason.nvim",
+    },
     config = require("config.plugins.lsp").setup,
   },
   {

@@ -1,0 +1,23 @@
+{
+  "root": "/Users/asilva/dev/go-components",
+  "hash": "BliCejZUxH",
+  "settings": {
+    "componentsView": "list",
+    "componentsGraphShowNodeModules": false,
+    "componentsGraphShowGlobalComponents": true,
+    "componentsGraphShowPages": false,
+    "componentsGraphShowLayouts": false,
+    "componentsGraphShowWorkspace": true,
+    "interactionCloseOnOutsideClick": false,
+    "showExperimentalFeatures": false,
+    "showHelpButtons": true,
+    "showPanel": true,
+    "scale": 1,
+    "minimizePanelInactive": 5000,
+    "hiddenTabs": [],
+    "pinnedTabs": [],
+    "hiddenTabCategories": [],
+    "sidebarExpanded": false,
+    "sidebarScrollable": false
+  }
+}

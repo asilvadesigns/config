@@ -40,6 +40,7 @@ M.setup = function()
     "taplo",
     "templ",
     "ts_ls",
+    "volar",
     "yamlls",
   }
 
@@ -81,7 +82,6 @@ M.setup = function()
         on_attach = on_attach,
       })
     end,
-
     ["cssls"] = function()
       require("lspconfig").cssls.setup({
         capabilities = capabilities,
@@ -169,6 +169,7 @@ M.setup = function()
       })
     end,
     ["html"] = function()
+      ---@diagnostic disable-next-line: missing-fields
       require("lspconfig").html.setup({
         capabilities = capabilities,
         filetypes = { "astro", "html", "templ" },
@@ -210,6 +211,7 @@ M.setup = function()
           "templ",
           "typescript",
           "typescriptreact",
+          "vue",
         },
         init_options = { userLanguages = { templ = "html" } },
         on_attach = on_attach,
@@ -237,13 +239,6 @@ M.setup = function()
         },
       })
     end,
-    -- ["sqlls"] = function ()
-    --   require("lspconfig").sqlls.setup({
-    --     capabilities = capabilities,
-    --     on_attach = on_attach,
-    --     root_dir = require("lspconfig.util").root_pattern(".git"),
-    --   })
-    -- end,
     ["templ"] = function()
       require("lspconfig").templ.setup({
         capabilities = capabilities,
@@ -251,12 +246,46 @@ M.setup = function()
       })
     end,
     ["ts_ls"] = function()
+      local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
+
       require("lspconfig").ts_ls.setup({
         capabilities = capabilities,
         on_attach = on_attach,
         root_dir = require("lspconfig.util").root_pattern(".git"),
+        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+        init_options = {
+          preferences = {
+            importModuleSpecifierPreference = "non-relative",
+          },
+          plugins = {
+            {
+              name = "@vue/typescript-plugin",
+              location = volar_path .. "/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin",
+              languages = { "javascript", "typescripti", "vue" },
+            },
+          },
+        },
       })
     end,
+    -- ["volar"] = function()
+    --   return;
+    --   -- local ts_lib = require("mason-registry").get_package("typescript-language-server"):get_install_path()
+    --   --   .. "/node_modules/typescript/lib"
+    --
+    --   require("lspconfig").volar.setup({
+    --     capabilities = capabilities,
+    --     on_attach = on_attach,
+    --     init_options = {
+    --       vue = {
+    --         hybridMode = false,
+    --       },
+    --     },
+    --     --   typescript = {
+    --     --     tsdk = ts_lib,
+    --     --   },
+    --     -- },
+    --   })
+    -- end,
     ["yamlls"] = function()
       require("lspconfig").yamlls.setup({
         capabilities = vim.tbl_extend("force", capabilities, {

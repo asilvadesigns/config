@@ -211,12 +211,23 @@ M.setup = function()
     pickers = {
       find_files = {
         previewer = false,
+        file_ignore_patterns = {
+          "%.git/.",
+          -- npm
+          "node_modules",
+          "package-lock.json",
+          "pnpm-lock.yaml",
+          -- templ
+          "_templ%.go$",
+          "_templ%.txt$",
+        },
       },
       git_files = {
         previewer = false,
       },
       oldfiles = {
         previewer = false,
+        only_cwd = true
       },
     },
   })
