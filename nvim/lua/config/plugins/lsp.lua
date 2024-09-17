@@ -252,7 +252,6 @@ M.setup = function()
         capabilities = capabilities,
         on_attach = on_attach,
         root_dir = require("lspconfig.util").root_pattern(".git"),
-        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
         init_options = {
           preferences = {
             importModuleSpecifierPreference = "non-relative",
@@ -261,31 +260,28 @@ M.setup = function()
             {
               name = "@vue/typescript-plugin",
               location = volar_path .. "/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin",
-              languages = { "javascript", "typescripti", "vue" },
+              languages = { "vue" },
             },
           },
         },
       })
     end,
-    -- ["volar"] = function()
-    --   return;
-    --   -- local ts_lib = require("mason-registry").get_package("typescript-language-server"):get_install_path()
-    --   --   .. "/node_modules/typescript/lib"
-    --
-    --   require("lspconfig").volar.setup({
-    --     capabilities = capabilities,
-    --     on_attach = on_attach,
-    --     init_options = {
-    --       vue = {
-    --         hybridMode = false,
-    --       },
-    --     },
-    --     --   typescript = {
-    --     --     tsdk = ts_lib,
-    --     --   },
-    --     -- },
-    --   })
-    -- end,
+    ["volar"] = function()
+      local ts_path = require("mason-registry").get_package("typescript-language-server"):get_install_path()
+
+      require("lspconfig").volar.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        init_options = {
+          vue = {
+            hybridMode = false,
+          },
+          typescript = {
+            tsdk = ts_path .. "/node_modules/typescript/lib",
+          },
+        },
+      })
+    end,
     ["yamlls"] = function()
       require("lspconfig").yamlls.setup({
         capabilities = vim.tbl_extend("force", capabilities, {

@@ -69,16 +69,8 @@ M.setup = function()
     ["Save"] = { cmd = "wa" },
     ["Save and quit force"] = { cmd = "wqa!" },
     ["Search"] = { cmd = "Spectre" },
-    ["Search (local)"] = {
-      cmd = function()
-        require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } })
-      end,
-    },
-    ["Search (global)"] = {
-      cmd = function()
-        require("grug-far").open()
-      end,
-    },
+    ["Search (local)"] = { cmd = "GrugFarLocal" },
+    ["Search (global)"] = { cmd = "GrugFarGlobal" },
     ["Symbols"] = { cmd = builtin.lsp_document_symbols },
     ["Symbols (Outline)"] = { cmd = "Outline" },
     ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
@@ -227,7 +219,7 @@ M.setup = function()
       },
       oldfiles = {
         previewer = false,
-        only_cwd = true
+        only_cwd = true,
       },
     },
   })

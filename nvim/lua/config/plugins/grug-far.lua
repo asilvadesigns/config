@@ -3,7 +3,7 @@ local M = {}
 M.setup = function()
   require("grug-far").setup({
     startInInsertMode = false,
-    searchOnInsertLeave = true,
+    -- searchOnInsertLeave = true,
     keymaps = {
       replace = { n = "<localleader>r" },
       qflist = { n = "<localleader>q" },
@@ -26,6 +26,23 @@ M.setup = function()
   })
 
   vim.cmd("hi! link GrugFarResultsMatch DiagnosticVirtualTextError")
+
+  vim.api.nvim_create_user_command("GrugFarLocal", function()
+    require("grug-far").open({
+      prefills = {
+        paths = vim.fn.expand("%"),
+        search = "",
+      },
+    })
+  end, {})
+
+  vim.api.nvim_create_user_command("GrugFarGlobal", function()
+    require("grug-far").open({
+      prefills = {
+        search = "",
+      },
+    })
+  end, {})
 end
 
 return M
