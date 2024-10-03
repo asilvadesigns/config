@@ -208,6 +208,7 @@ M.setup = function()
           "javascript",
           "react",
           "scss",
+          "svelte",
           "templ",
           "typescript",
           "typescriptreact",

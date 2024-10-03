@@ -63,6 +63,7 @@ M.setup = function()
     ["Markdown Preview"] = { cmd = "MarkdownPreviewToggle" },
     ["Noice dismiss"] = { cmd = "Noice dismiss" },
     ["Noice messages"] = { cmd = "Noice telescope" },
+    ["Open (Finder)"] = { cmd = "!open ." },
     ["Quit force"] = { cmd = "qa!" },
     ["Rename File"] = { cmd = "RenameFile" },
     ["Restart LSP"] = { cmd = "LspRestart" },

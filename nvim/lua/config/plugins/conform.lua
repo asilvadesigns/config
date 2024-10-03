@@ -46,6 +46,10 @@ M.setup = function()
       vue = { "biome-check", "prettier" },
       yaml = { "biome-check", "prettier" },
     },
+    -- ["biome-check"] = {
+    --   command = "biome-check",
+    --   args = { "check", "--fix", "--stdin-file-path", "$FILENAME" },
+    -- },
   })
 
   local function find_closest_config_file(config_names, current_file)

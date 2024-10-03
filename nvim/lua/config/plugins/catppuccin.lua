@@ -3,14 +3,17 @@ local M = {}
 M.setup = function()
   require("catppuccin").setup({
     integrations = {
-      leap = true,
-      notify = true,
+      leap = false,
+      notify = false,
       nvimtree = false,
-      ufo = true,
+      ufo = false,
     },
+    -- highlight_overrides
+    -- color_overrides = {},
     highlight_overrides = {
       latte = function(c)
-        local bg = c.base
+        -- local bg = c.base
+        local bg = c.surface0
 
         return {
           CursorLine = { bg = bg },
@@ -18,11 +21,12 @@ M.setup = function()
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- or c.muave
           CursorLineSign = { bg = bg },
           --
-          NvimTreeCursorLine = { fg = c.subtext1 },
+          -- NvimTreeCursorLine = { fg = c.subtext1 },
         }
       end,
       frappe = function(c)
-        local bg = c.base
+        -- local bg = c.base
+        local bg = c.surface0
 
         return {
           CursorLine = { bg = bg },
@@ -30,7 +34,7 @@ M.setup = function()
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- or c.muave
           CursorLineSign = { bg = bg },
           --
-          NvimTreeCursorLine = { fg = c.subtext1 },
+          -- NvimTreeCursorLine = { fg = c.subtext1 },
         }
       end,
       all = function(c)

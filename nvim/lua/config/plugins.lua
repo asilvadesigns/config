@@ -3,6 +3,14 @@ vim.cmd("hi! link LazyNormal Normal")
 require("lazy").setup({
   ---might delete forever.
   {
+    "axelvc/template-string.nvim",
+    enabled = false,
+    event = "InsertEnter",
+    opts = {
+      remove_template_string = true,
+    },
+  },
+  {
     "andymass/vim-matchup",
     enabled = false,
     event = "BufReadPost",
@@ -27,17 +35,23 @@ require("lazy").setup({
   },
   {
     "windwp/nvim-autopairs",
-    enabled = true,
+    enabled = false,
     event = "InsertEnter",
     opts = {},
   },
   {
     "windwp/nvim-ts-autotag",
-    enabled = true,
+    enabled = false,
     event = "InsertEnter",
     opts = {},
   },
+  ---dependencies
+  { "nvim-tree/nvim-web-devicons", lazy = true },
   ---actually helpful.
+  {
+    "pteroctopus/faster.nvim",
+    opts = {},
+  },
   {
     "olrtg/nvim-emmet",
     event = "VeryLazy",
@@ -78,9 +92,9 @@ require("lazy").setup({
     event = "VeryLazy",
     opts = {},
   },
+  { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
   {
     "numToStr/Comment.nvim",
-    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
     keys = {
       { "gcc", mode = "n", desc = "Comment toggle current line" },
       { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
@@ -148,14 +162,12 @@ require("lazy").setup({
     "stevearc/oil.nvim",
     cmd = "Oil",
     keys = { { "<leader><space>", "<CMD>Oil<CR>" } },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.oil").setup,
   },
   {
     "hedyhli/outline.nvim",
     cmd = { "Outline", "OutlineOpen" },
     dependencies = {
-      "nvim-tree/nvim-web-devicons",
       "nvim-treesitter/nvim-treesitter",
     },
     opts = {
@@ -197,16 +209,8 @@ require("lazy").setup({
     opts = {},
   },
   {
-    "axelvc/template-string.nvim",
-    event = "InsertEnter",
-    opts = {
-      remove_template_string = true,
-    },
-  },
-  {
     "folke/trouble.nvim",
     cmd = { "ToggleTrouble", "Trouble" },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.trouble").setup,
   },
   {
@@ -227,7 +231,6 @@ require("lazy").setup({
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
     version = "*",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.bufferline").setup,
   },
   {
@@ -318,7 +321,6 @@ require("lazy").setup({
         mode = "n",
       },
     },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = require("config.plugins.nvim-tree").setup,
   },
   {
@@ -475,7 +477,7 @@ require("lazy").setup({
               -- number column
               { text = { "  ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
               -- fold column
-              { text = { " ", require("statuscol.builtin").foldfunc, " " }, click = "v:lua.ScFa" },
+              { text = { " ", require("statuscol.builtin").foldfunc }, click = "v:lua.ScFa" },
             },
           })
         end,
@@ -508,19 +510,16 @@ require("lazy").setup({
       },
     },
   },
+  { "hrsh7th/cmp-nvim-lsp", lazy = true },
+  { "williamboman/mason-lspconfig.nvim", lazy = true },
+  { "williamboman/mason.nvim", lazy = true },
   {
     "neovim/nvim-lspconfig",
     event = "VeryLazy",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "williamboman/mason-lspconfig.nvim",
-      "williamboman/mason.nvim",
-    },
     config = require("config.plugins.lsp").setup,
   },
   {
     "stevearc/conform.nvim",
-    dependencies = { "neovim/nvim-lspconfig" },
     event = "VeryLazy",
     cmd = { "Format" },
     keys = {
