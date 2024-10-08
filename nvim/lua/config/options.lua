@@ -16,6 +16,9 @@ vim.opt.clipboard = "unnamedplus"
 -- cursorline
 vim.opt.cursorline = true
 
+-- colorscheme
+-- vim.cmd('colorscheme retrobox')
+
 -- folding
 vim.opt.conceallevel = 0
 -- vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
@@ -23,6 +26,7 @@ vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 -- vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
+vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
@@ -44,7 +48,8 @@ vim.opt.showbreak = "↳  "
 
 -- numberline
 vim.opt.number = true -- TODO: persist via prefs plugin
-vim.opt.relativenumber = true -- TODO: persist via prefs plugin
+vim.opt.relativenumber = true-- TODO: persist via prefs plugin
+vim.opt.numberwidth = 5 -- TODO: persist via prefs plugin
 
 -- searching
 vim.opt.grepformat = "%f:%l:%c:%m"

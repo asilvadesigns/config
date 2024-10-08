@@ -202,6 +202,9 @@ M.setup = function()
       },
     }),
     pickers = {
+      colorscheme = {
+        enable_preview = true,
+      },
       find_files = {
         previewer = false,
         file_ignore_patterns = {
@@ -300,6 +303,7 @@ M.setup = function()
   -- })
 
   telescope.load_extension("fzf")
+  telescope.load_extension("textcase")
   telescope.load_extension("ui-select")
 
   vim.keymap.set("n", "<leader>a", function()

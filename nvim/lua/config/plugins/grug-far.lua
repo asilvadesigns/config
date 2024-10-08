@@ -3,7 +3,9 @@ local M = {}
 M.setup = function()
   require("grug-far").setup({
     startInInsertMode = false,
+    -- normalModeSearch = false,
     -- searchOnInsertLeave = true,
+    disableBufferLineNumbers = false,
     keymaps = {
       replace = { n = "<localleader>r" },
       qflist = { n = "<localleader>q" },
@@ -23,6 +25,7 @@ M.setup = function()
       toggleShowCommand = { n = "<localleader>p" },
       swapEngine = { n = "" },
     },
+    wrap = false,
   })
 
   vim.cmd("hi! link GrugFarResultsMatch DiagnosticVirtualTextError")

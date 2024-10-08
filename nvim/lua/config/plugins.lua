@@ -1,14 +1,11 @@
 vim.cmd("hi! link LazyNormal Normal")
 
 require("lazy").setup({
-  ---might delete forever.
   {
     "axelvc/template-string.nvim",
     enabled = false,
     event = "InsertEnter",
-    opts = {
-      remove_template_string = true,
-    },
+    opts = { remove_template_string = true },
   },
   {
     "andymass/vim-matchup",
@@ -17,21 +14,9 @@ require("lazy").setup({
     config = require("config.plugins.matchup").setup,
   },
   {
-    "RRethy/vim-illuminate",
-    enabled = false,
-    event = "VeryLazy",
-    config = function()
-      require("illuminate").configure({
-        filetypes_denylist = { "NvimTree", "oil", "spectre_panel", "trouble" },
-        delay = 100,
-        large_file_cutoff = 5000,
-      })
-    end,
-  },
-  {
-    "levouh/tint.nvim",
-    enabled = false,
-    config = require("config.plugins.tint").setup,
+    "folke/noice.nvim",
+    lazy = false,
+    config = require("config.plugins.noice").setup,
   },
   {
     "windwp/nvim-autopairs",
@@ -45,28 +30,29 @@ require("lazy").setup({
     event = "InsertEnter",
     opts = {},
   },
-  ---dependencies
-  { "nvim-tree/nvim-web-devicons", lazy = true },
-  ---actually helpful.
-  {
-    "pteroctopus/faster.nvim",
-    opts = {},
-  },
+  { lazy = true, "nvim-lua/plenary.nvim" },
+  { lazy = true, "nvim-tree/nvim-web-devicons" },
+  --
+  -- emmet
   {
     "olrtg/nvim-emmet",
-    event = "VeryLazy",
+    ft = { "html", "templ", "typescriptreact", "javascriptreact" },
     config = function()
       vim.keymap.set({ "v" }, "<C-y>", require("nvim-emmet").wrap_with_abbreviation)
     end,
   },
   {
-    "karb94/neoscroll.nvim",
-    event = "VeryLazy",
-    config = require("config.plugins.neoscroll").setup,
-  },
-  {
     "johmsalas/text-case.nvim",
-    event = "VeryLazy",
+    cmd = {
+      "TextCaseOpenTelescope",
+      "TextCaseOpenTelescopeQuickChange",
+      "TextCaseOpenTelescopeLSPChange",
+      "TextCaseStartReplacingCommand",
+    },
+    keys = {
+      "ga", -- Default invocation prefix
+      { "ga.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "x" }, desc = "Telescope" },
+    },
     opts = {},
   },
   {
@@ -92,22 +78,8 @@ require("lazy").setup({
     event = "VeryLazy",
     opts = {},
   },
-  { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
-  {
-    "numToStr/Comment.nvim",
-    keys = {
-      { "gcc", mode = "n", desc = "Comment toggle current line" },
-      { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
-      { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
-      { "gbc", mode = "n", desc = "Comment toggle current block" },
-      { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-      { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
-    },
-    config = require("config.plugins.comment").setup,
-  },
   {
     "ggandor/leap.nvim",
-    enabled = true,
     keys = {
       {
         ";",
@@ -127,7 +99,6 @@ require("lazy").setup({
   },
   {
     "akinsho/git-conflict.nvim",
-    event = "VeryLazy",
     cmd = {
       "GitConflictChooseBoth",
       "GitConflictChooseNone",
@@ -141,13 +112,12 @@ require("lazy").setup({
   },
   {
     "tpope/vim-fugitive",
-    event = "VeryLazy",
     cmd = { "Gdiffsplit", "Git", "Gvdiffsplit" },
   },
   {
     "NeogitOrg/neogit",
     cmd = "Neogit",
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "sindrets/diffview.nvim" },
+    dependencies = { "nvim-telescope/telescope.nvim", "sindrets/diffview.nvim" },
     config = require("config.plugins.neogit").setup,
   },
   {
@@ -157,25 +127,6 @@ require("lazy").setup({
     build = function()
       vim.fn["mkdp#util#install"]()
     end,
-  },
-  {
-    "stevearc/oil.nvim",
-    cmd = "Oil",
-    keys = { { "<leader><space>", "<CMD>Oil<CR>" } },
-    config = require("config.plugins.oil").setup,
-  },
-  {
-    "hedyhli/outline.nvim",
-    cmd = { "Outline", "OutlineOpen" },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-    opts = {
-      outline_window = {
-        width = 40,
-        relative_width = false,
-      },
-    },
   },
   {
     "nvim-pack/nvim-spectre",
@@ -229,10 +180,12 @@ require("lazy").setup({
   },
   {
     "akinsho/bufferline.nvim",
-    event = "VeryLazy",
+    event = { "TabNew", "TabEnter" },
     version = "*",
     config = require("config.plugins.bufferline").setup,
   },
+  --
+  -- colorscheme
   {
     "catppuccin/nvim",
     lazy = false,
@@ -240,32 +193,21 @@ require("lazy").setup({
     priority = 1000,
     config = require("config.plugins.catppuccin").setup,
   },
+  --
+  -- completion
+  { lazy = true, "L3MON4D3/LuaSnip" },
+  { lazy = true, "hrsh7th/cmp-nvim-lsp" },
+  { lazy = true, "hrsh7th/cmp-path" },
+  { lazy = true, "saadparwaiz1/cmp_luasnip" },
   {
     "hrsh7th/nvim-cmp",
     event = "VeryLazy",
-    dependencies = {
-      -- Snippet Engine
-      {
-        "L3MON4D3/LuaSnip",
-        build = "make install_jsregexp",
-      },
-      "saadparwaiz1/cmp_luasnip",
-      -- LSP completion
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-path",
-      -- LSP kind
-      -- "onsails/lspkind.nvim",
-    },
     config = require("config.plugins.cmp").setup,
   },
-  {
-    "mfussenegger/nvim-lint",
-    cmd = { "Lint", "LintWithBiome", "LintWithEslint" },
-    config = require("config.plugins.lint").setup,
-  },
+  --
+  -- search
   {
     "MagicDuck/grug-far.nvim",
-    event = "VeryLazy",
     keys = {
       {
         "f",
@@ -282,28 +224,27 @@ require("lazy").setup({
         mode = "v",
       },
     },
+    cmd = {
+      "GrugFarLocal",
+      "GrugFarGlobal",
+    },
     config = require("config.plugins.grug-far").setup,
   },
+  --
+  -- interface
+  { lazy = true, "MunifTanjim/nui.nvim" },
   {
-    "folke/noice.nvim",
-    lazy = false,
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      {
-        "rcarriga/nvim-notify",
-        config = function()
-          ---@diagnostic disable-next-line: missing-fields
-          require("notify").setup({
-            render = "wrapped-compact",
-            stages = "static",
-            timeout = 1500,
-            top_down = false,
-          })
-        end,
-      },
+    lazy = true,
+    "rcarriga/nvim-notify",
+    opts = {
+      render = "wrapped-compact",
+      stages = "static",
+      timeout = 1500,
+      top_down = false,
     },
-    config = require("config.plugins.noice").setup,
   },
+  --
+  -- file tree
   {
     "nvim-tree/nvim-tree.lua",
     keys = {
@@ -324,19 +265,42 @@ require("lazy").setup({
     config = require("config.plugins.nvim-tree").setup,
   },
   {
+    "stevearc/oil.nvim",
+    cmd = "Oil",
+    keys = { { "<leader><space>", "<CMD>Oil<CR>" } },
+    config = require("config.plugins.oil").setup,
+  },
+  --
+  -- session
+  {
     "rmagatti/auto-session",
     lazy = false,
     opts = {
-      session_lens = {
-        load_on_setup = false,
-      },
+      auto_session_enabled = true,
+      auto_session_create_enabled = true,
+      auto_save_enabled = true,
+      auto_restore_enabled = true,
+      session_lens = { load_on_setup = false },
+      save_all_autocmds = false,
+      save_cursorline = false,
+      save_buffers = false,
+      save_folds = false,
+      save_tabs = false,
+      save_terminal_session = false,
+      save_file_history = false,
+      save_registers = false,
+      save_jumplist = false,
+      save_marks = false,
+      save_globals = false,
+      save_options = false,
     },
   },
+  --
+  -- scrolling
   {
-    "folke/persistence.nvim",
-    enabled = false,
-    lazy = false,
-    config = require("config.plugins.persistence").setup,
+    "karb94/neoscroll.nvim",
+    event = "VeryLazy",
+    config = require("config.plugins.neoscroll").setup,
   },
   {
     "dstein64/nvim-scrollview",
@@ -344,6 +308,8 @@ require("lazy").setup({
     event = "VeryLazy",
     config = require("config.plugins.scrollview").setup,
   },
+  --
+  -- splits
   {
     "mrjones2014/smart-splits.nvim",
     keys = {
@@ -425,36 +391,44 @@ require("lazy").setup({
     },
     opts = {},
   },
+  -- telescope
+  { lazy = true, "nvim-telescope/telescope-ui-select.nvim" },
+  { lazy = true, "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   {
     "nvim-telescope/telescope.nvim",
     cmd = { "Telescope" },
     keys = { "<leader>a", "<leader>c", "<leader>e", "<leader>f", "<leader>l" },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-ui-select.nvim",
-      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-    },
     config = require("config.plugins.telescope").setup,
+  },
+  --
+  -- commenting
+  { lazy = true, "JoosepAlviste/nvim-ts-context-commentstring" },
+  {
+    "numToStr/Comment.nvim",
+    keys = {
+      { "gcc", mode = "n", desc = "Comment toggle current line" },
+      { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
+      { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
+      { "gbc", mode = "n", desc = "Comment toggle current block" },
+      { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
+      { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
+    },
+    config = require("config.plugins.comment").setup,
   },
   {
     "folke/todo-comments.nvim",
     cmd = { "TodoTelescope", "TodoLocList" },
-    dependencies = { "nvim-lua/plenary.nvim" },
     config = require("config.plugins.todos").setup,
   },
+  -- treesitter
+  { lazy = true, "nvim-treesitter/nvim-treesitter-textobjects" },
   {
     "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
     build = ":TSUpdate",
-    dependencies = {
-      -- "nvim-treesitter/nvim-treesitter-context",
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
     config = require("config.plugins.treesitter").setup,
   },
   {
     "Wansmer/treesj",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
     keys = {
       { "<leader>tj", mode = "n", ":TSJJoin<CR>", silent = true },
       { "<leader>tm", mode = "n", ":TSJToggle<CR>", silent = true },
@@ -462,6 +436,7 @@ require("lazy").setup({
     },
     opts = {},
   },
+  -- folding
   {
     "kevinhwang91/nvim-ufo",
     lazy = false,
@@ -469,22 +444,67 @@ require("lazy").setup({
       "kevinhwang91/promise-async",
       {
         "luukvbaal/statuscol.nvim",
-        config = function()
-          require("statuscol").setup({
+        opts = function()
+          local builtin = require("statuscol.builtin")
+
+          return {
             relculright = true,
             ft_ignore = { "NvimTree", "Outline" },
             segments = {
-              -- number column
-              { text = { "  ", require("statuscol.builtin").lnumfunc }, click = "v:lua.ScLa" },
-              -- fold column
-              { text = { " ", require("statuscol.builtin").foldfunc }, click = "v:lua.ScFa" },
+              { text = { " ", builtin.lnumfunc }, click = "v:lua.ScLa" },
+              { text = { " ", builtin.foldfunc }, click = "v:lua.ScFa" },
             },
-          })
+          }
         end,
       },
     },
     config = require("config.plugins.ufo").setup,
   },
+  --
+  -- language server
+  { lazy = true, "Bilal2453/luvit-meta" },
+  { lazy = true, "hrsh7th/cmp-nvim-lsp" },
+  { lazy = true, "williamboman/mason-lspconfig.nvim" },
+  { lazy = true, "williamboman/mason.nvim" },
+  {
+    "folke/lazydev.nvim",
+    event = "VeryLazy",
+    opts = {
+      library = {
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    event = "VeryLazy",
+    config = require("config.plugins.lsp").setup,
+  },
+  --
+  -- linting
+  {
+    "mfussenegger/nvim-lint",
+    cmd = { "Lint", "LintWithBiome", "LintWithEslint" },
+    config = require("config.plugins.lint").setup,
+  },
+  --
+  -- formatting
+  {
+    "stevearc/conform.nvim",
+    cmd = { "Format" },
+    keys = {
+      {
+        "<leader>m",
+        function()
+          vim.cmd("Format")
+        end,
+        mode = "n",
+      },
+    },
+    config = require("config.plugins.conform").setup,
+  },
+  --
+  -- zen mode
   {
     "shortcuts/no-neck-pain.nvim",
     cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
@@ -500,45 +520,15 @@ require("lazy").setup({
     version = "*",
     config = require("config.plugins.no-neck-pain").setup,
   },
-  { "Bilal2453/luvit-meta", lazy = true },
-  {
-    "folke/lazydev.nvim",
-    ft = "lua",
-    opts = {
-      library = {
-        { path = "luvit-meta/library", words = { "vim%.uv" } },
-      },
-    },
-  },
-  { "hrsh7th/cmp-nvim-lsp", lazy = true },
-  { "williamboman/mason-lspconfig.nvim", lazy = true },
-  { "williamboman/mason.nvim", lazy = true },
-  {
-    "neovim/nvim-lspconfig",
-    event = "VeryLazy",
-    config = require("config.plugins.lsp").setup,
-  },
-  {
-    "stevearc/conform.nvim",
-    event = "VeryLazy",
-    cmd = { "Format" },
-    keys = {
-      {
-        "<leader>m",
-        function()
-          vim.cmd("Format")
-        end,
-        mode = "n",
-      },
-    },
-    config = require("config.plugins.conform").setup,
-  },
 }, {
   change_detection = {
     enabled = false,
     notify = true,
   },
   concurrency = 6,
+  defaults = {
+    lazy = true,
+  },
   performance = {
     rtp = {
       disabled_plugins = {
