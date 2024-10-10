@@ -12,8 +12,8 @@ M.setup = function()
     -- color_overrides = {},
     highlight_overrides = {
       latte = function(c)
-        -- local bg = c.base
-        local bg = c.surface0
+        local bg = c.base
+        -- local bg = c.surface0
 
         return {
           CursorLine = { bg = bg },
@@ -25,8 +25,8 @@ M.setup = function()
         }
       end,
       frappe = function(c)
-        -- local bg = c.base
-        local bg = c.surface0
+        local bg = c.base
+        -- local bg = c.surface0
 
         return {
           CursorLine = { bg = bg },
