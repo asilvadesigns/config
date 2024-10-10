@@ -14,11 +14,6 @@ require("lazy").setup({
     config = require("config.plugins.matchup").setup,
   },
   {
-    "folke/noice.nvim",
-    lazy = false,
-    config = require("config.plugins.noice").setup,
-  },
-  {
     "windwp/nvim-autopairs",
     enabled = false,
     event = "InsertEnter",
@@ -243,6 +238,12 @@ require("lazy").setup({
       top_down = false,
     },
   },
+  {
+    "folke/noice.nvim",
+    lazy = false,
+    -- event = "VeryLazy",
+    config = require("config.plugins.noice").setup,
+  },
   --
   -- file tree
   {
@@ -424,6 +425,8 @@ require("lazy").setup({
   { lazy = true, "nvim-treesitter/nvim-treesitter-textobjects" },
   {
     "nvim-treesitter/nvim-treesitter",
+    event = "VeryLazy",
+    -- lazy = false,
     build = ":TSUpdate",
     config = require("config.plugins.treesitter").setup,
   },
@@ -444,14 +447,15 @@ require("lazy").setup({
       "kevinhwang91/promise-async",
       {
         "luukvbaal/statuscol.nvim",
+        enabled = false,
         opts = function()
           local builtin = require("statuscol.builtin")
 
           return {
             relculright = true,
-            ft_ignore = { "NvimTree", "Outline" },
+            ft_ignore = { "NvimTree" },
             segments = {
-              { text = { " ", builtin.lnumfunc }, click = "v:lua.ScLa" },
+              { text = { "  ", builtin.lnumfunc }, click = "v:lua.ScLa" },
               { text = { " ", builtin.foldfunc }, click = "v:lua.ScFa" },
             },
           }

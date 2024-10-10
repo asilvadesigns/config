@@ -53,8 +53,14 @@ M.setup = function()
           --
           -- StatusLine = { fg = c.surface2, bg = c.mantle },
           -- StatusLineNC = { fg = c.surface2, bg = c.mantle },
+
+          -- NOTE: use if you want to have no statusline
           StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
           StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
+
+          -- NOTE: use if you want to have a global statusline
+          -- StatusLine = { fg = c.surface2, bg = c.base }, -- was c.crust
+          -- StatusLineNC = { fg = c.surface2, bg = c.base }, -- was c.crust
           --
           -- NvimTreeNormal = { bg = c.mantle },
           --

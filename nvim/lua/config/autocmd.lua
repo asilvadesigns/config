@@ -30,7 +30,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 })
 
 -- restore cursor
-vim.api.nvim_create_autocmd("BufRead", {
+vim.api.nvim_create_autocmd("BufReadPre", {
   callback = function(opts)
     vim.api.nvim_create_autocmd("BufWinEnter", {
       once = true,

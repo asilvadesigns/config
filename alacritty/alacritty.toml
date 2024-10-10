@@ -10,16 +10,17 @@ import = [
 [colors]
 draw_bold_text_with_bright_colors = false
 
-# [colors.cursor]
-# cursor = "0x7286fd"
-# text = "0xeee8d5"
+[colors.cursor]
+cursor = "0xe78284"
+# text = "0xA6D189"
 
 [cursor]
 thickness = 0.2
-blink_interval = 750
+blink_interval = 500
+blink_timeout = 0
 
 [cursor.style]
-blinking = "On"
+blinking = "Always"
 shape = "Block"
 
 [keyboard]

@@ -1,5 +1,3 @@
-local M = {}
-
 -- ---@return string
 -- local function get_tmux_panes()
 --   -- Run the command and capture the output
@@ -97,7 +95,7 @@ local function main()
 end
 
 vim.api.nvim_create_autocmd({
-  "BufEnter",
+  "BufReadPre",
   "BufModifiedSet",
   "DiagnosticChanged",
   "TabClosed",
@@ -107,5 +105,3 @@ vim.api.nvim_create_autocmd({
     vim.schedule(main)
   end,
 })
-
-return M
