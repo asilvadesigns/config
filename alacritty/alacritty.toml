@@ -1,4 +1,6 @@
 import = [
+  # custom
+  # "~/.config/alacritty/alacritty-themes/custom.toml",
   # dark
   "~/.config/alacritty/catppuccin-frappe.toml",
   # "~/.config/alacritty/monokai-pro.toml",
@@ -16,7 +18,7 @@ cursor = "0xe78284"
 
 [cursor]
 thickness = 0.2
-blink_interval = 500
+blink_interval = 400
 blink_timeout = 0
 
 [cursor.style]
@@ -83,11 +85,11 @@ style = "Bold Italic"
 
 [font.offset]
 x = 0
-y = 0 # 4
+y = 4 # 4 or 0
 
 [font.glyph_offset]
 x = 0
-y = 0 # 2
+y = 2 # 2 or 0
 
 [font.italic]
 family = "JetBrainsMono Nerd Font Mono"

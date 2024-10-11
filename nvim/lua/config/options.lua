@@ -47,8 +47,8 @@ vim.opt.list = false -- TODO: persist via prefs plugin
 vim.opt.showbreak = "↳  "
 
 -- numberline
-vim.opt.number = false -- TODO: persist via prefs plugin
-vim.opt.relativenumber = false -- TODO: persist via prefs plugin
+vim.opt.number = true -- TODO: persist via prefs plugin
+vim.opt.relativenumber = true -- TODO: persist via prefs plugin
 -- vim.opt.numberwidth = 5 -- TODO: persist via prefs plugin
 
 -- searching

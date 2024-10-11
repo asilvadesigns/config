@@ -314,81 +314,23 @@ require("lazy").setup({
   {
     "mrjones2014/smart-splits.nvim",
     keys = {
+      -- stylua: ignore start
       -- resize
-      {
-        "<S-Down>",
-        function()
-          require("smart-splits").resize_down()
-        end,
-      },
-      {
-        "<S-Left>",
-        function()
-          require("smart-splits").resize_left()
-        end,
-      },
-      {
-        "<S-Right>",
-        function()
-          require("smart-splits").resize_right()
-        end,
-      },
-      {
-        "<S-Up>",
-        function()
-          require("smart-splits").resize_up()
-        end,
-      },
+      { "<S-Down>", function() require("smart-splits").resize_down() end },
+      { "<S-Left>", function() require("smart-splits").resize_left() end },
+      { "<S-Right>", function() require("smart-splits").resize_right() end },
+      { "<S-Up>", function() require("smart-splits").resize_up() end },
       -- moving
-      {
-        "<C-h>",
-        function()
-          require("smart-splits").move_cursor_left()
-        end,
-      },
-      {
-        "<C-j>",
-        function()
-          require("smart-splits").move_cursor_down()
-        end,
-      },
-      {
-        "<C-k>",
-        function()
-          require("smart-splits").move_cursor_up()
-        end,
-      },
-      {
-        "<C-l>",
-        function()
-          require("smart-splits").move_cursor_right()
-        end,
-      },
+      { "<C-h>", function() require("smart-splits").move_cursor_left() end },
+      { "<C-j>", function() require("smart-splits").move_cursor_down() end },
+      { "<C-k>", function() require("smart-splits").move_cursor_up() end },
+      { "<C-l>", function() require("smart-splits").move_cursor_right() end },
       -- swapping
-      {
-        "<leader><leader>h",
-        function()
-          require("smart-splits").swap_buf_left()
-        end,
-      },
-      {
-        "<leader><leader>j",
-        function()
-          require("smart-splits").swap_buf_down()
-        end,
-      },
-      {
-        "<leader><leader>k",
-        function()
-          require("smart-splits").swap_buf_up()
-        end,
-      },
-      {
-        "<leader><leader>l",
-        function()
-          require("smart-splits").swap_buf_right()
-        end,
-      },
+      { "<leader><leader>h", function() require("smart-splits").swap_buf_left() end },
+      { "<leader><leader>j", function() require("smart-splits").swap_buf_down() end },
+      { "<leader><leader>k", function() require("smart-splits").swap_buf_up() end },
+      { "<leader><leader>l", function() require("smart-splits").swap_buf_right() end },
+      -- stylua: ignore end
     },
     opts = {},
   },
@@ -537,7 +479,7 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
-        -- "matchparen",
+        "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
