@@ -75,6 +75,7 @@ M.setup = function()
     ["Symbols"] = { cmd = builtin.lsp_document_symbols },
     ["Symbols (Outline)"] = { cmd = "Outline" },
     ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
+    ["Buf Only"] = { cmd = "only|bd|e#" },
     ["Tab Close"] = { cmd = "tabclose" },
     ["Tab New"] = { cmd = "tabnew" },
     ["Tab Next"] = { cmd = "tabnext" },

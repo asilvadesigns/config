@@ -2,7 +2,7 @@ vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
 -- require("config.colors")
-require("config.winbar")
+-- require("config.winbar")
 require("config.initial")
 require("config.autocmd")
 require("config.command")

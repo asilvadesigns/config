@@ -44,13 +44,13 @@ M.setup = function()
       neoscroll.ctrl_f({ duration = 450, easing = "sine" })
     end,
     -- line down
-    ["<C-y>"] = function()
-      neoscroll.scroll(-0.1, { move_cursor = false, duration = 100, easing = "sine" })
-    end,
+    -- ["<C-y>"] = function()
+    --   neoscroll.scroll(-0.1, { move_cursor = false, duration = 100, easing = "sine" })
+    -- end,
     -- line up
-    ["<C-e>"] = function()
-      neoscroll.scroll(0.1, { move_cursor = false, duration = 100, easing = "sine" })
-    end,
+    -- ["<C-e>"] = function()
+    --   neoscroll.scroll(0.1, { move_cursor = false, duration = 100, easing = "sine" })
+    -- end,
     -- scroll top
     ["zt"] = function()
       neoscroll.zt({ half_win_duration = 50, easing = "sine" })

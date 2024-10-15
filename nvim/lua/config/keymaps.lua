@@ -114,6 +114,7 @@ vim.keymap.set("n", "<Up>", ":resize -1<CR>", keymap_opts)
 
 -- easily exit insert mode in terminal
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
+vim.keymap.set("t", "<C-c>", [[<C-\><C-n>]])
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 vim.keymap.set("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })

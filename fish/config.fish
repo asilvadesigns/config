@@ -27,6 +27,15 @@ set -gx BAT_CONFIG_PATH "$HOME/.config/bat/bat.conf"
 # fish
 set -g fish_greeting;
 
+# vi mode
+set fish_vi_key_bindings;
+set fish_cursor_default block;
+set fish_cursor_insert line;
+set fish_cursor_replace_one underscore;
+set fish_cursor_replace underscore;
+set fish_cursor_external line;
+set fish_cursor_visual block;
+
 # fzf (THEME: https://github.com/catppuccin/fzf)
 # frappe (DARK)
 # set -gx FZF_DEFAULT_OPTS "\

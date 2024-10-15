@@ -13,6 +13,10 @@ M.setup = function()
   -- },
   cmp.setup({
     preselect = cmp.PreselectMode.None,
+    completion = {
+      autocomplete = false,
+      completeopt = "menu,menuone,noselect",
+    },
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)

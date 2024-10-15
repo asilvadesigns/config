@@ -74,7 +74,7 @@ vim.opt.laststatus = 0
 local str = string.rep("—", 500)
 vim.opt.statusline = str
 vim.opt.signcolumn = "yes"
-vim.opt.winbar = " "
+-- vim.opt.winbar = " "
 
 -- local function statuscolumn()
 --   return "%s%=%{v:relnum?v:relnum:v:lnum}  "

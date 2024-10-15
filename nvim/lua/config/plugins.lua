@@ -10,7 +10,12 @@ require("lazy").setup({
   {
     "andymass/vim-matchup",
     enabled = false,
-    event = "BufReadPost",
+    event = "VeryLazy",
+    init = function()
+      vim.g.loaded_matchparen = 0
+      vim.g.loaded_matchit = 0
+      vim.g.matchup_surround_enabled = 1
+    end,
     config = require("config.plugins.matchup").setup,
   },
   {
@@ -175,7 +180,7 @@ require("lazy").setup({
   },
   {
     "akinsho/bufferline.nvim",
-    event = { "TabNew", "TabEnter" },
+    enabled = false,
     version = "*",
     config = require("config.plugins.bufferline").setup,
   },
