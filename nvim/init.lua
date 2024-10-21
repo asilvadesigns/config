@@ -1,8 +1,11 @@
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
--- require("config.colors")
--- require("config.winbar")
+-- local colors = require("config.colors")
+-- colors.setup()
+-- vim.cmd("colorscheme minimal")
+
+require("config.winbar")
 require("config.initial")
 require("config.autocmd")
 require("config.command")

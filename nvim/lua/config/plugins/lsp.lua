@@ -55,7 +55,7 @@ M.setup = function()
   }
 
   require("mason").setup({
-    ui = { border = "single" },
+    ui = { border = "rounded" },
   })
 
   vim.cmd("hi! link MasonNormal Normal")

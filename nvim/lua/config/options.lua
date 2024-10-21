@@ -17,7 +17,8 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
 
 -- colorscheme
--- vim.cmd('colorscheme retrobox')
+-- vim.cmd('colorscheme quiet')
+-- vim.cmd('set background=light')
 
 -- folding
 vim.opt.conceallevel = 0
@@ -74,7 +75,7 @@ vim.opt.laststatus = 0
 local str = string.rep("—", 500)
 vim.opt.statusline = str
 vim.opt.signcolumn = "yes"
--- vim.opt.winbar = " "
+vim.opt.winbar = " "
 
 -- local function statuscolumn()
 --   return "%s%=%{v:relnum?v:relnum:v:lnum}  "

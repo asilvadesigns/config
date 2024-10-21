@@ -10,12 +10,7 @@ require("lazy").setup({
   {
     "andymass/vim-matchup",
     enabled = false,
-    event = "VeryLazy",
-    init = function()
-      vim.g.loaded_matchparen = 0
-      vim.g.loaded_matchit = 0
-      vim.g.matchup_surround_enabled = 1
-    end,
+    event = { "BufReadPre", "BufNewFile" },
     config = require("config.plugins.matchup").setup,
   },
   {
@@ -187,7 +182,19 @@ require("lazy").setup({
   --
   -- colorscheme
   {
+    "minimal.nvim",
+    dev = true,
+    enabled = false,
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("minimal").setup()
+      require("minimal").load()
+    end,
+  },
+  {
     "catppuccin/nvim",
+    enabled = true,
     lazy = false,
     name = "catppuccin",
     priority = 1000,
@@ -301,6 +308,61 @@ require("lazy").setup({
       save_options = false,
     },
   },
+  {
+    "echasnovski/mini.indentscope",
+    version = "*",
+    event = "CursorMoved",
+    enabled = false,
+    config = function()
+      require("mini.indentscope").setup({
+        -- Draw options
+        draw = {
+          -- Delay (in ms) between event and start of drawing scope indicator
+          delay = 48,
+
+          -- Animation rule for scope's first drawing. A function which, given
+          -- next and total step numbers, returns wait time (in ms). See
+          -- |MiniIndentscope.gen_animation| for builtin options. To disable
+          -- animation, use `require('mini.indentscope').gen_animation.none()`.
+          animation = require("mini.indentscope").gen_animation.none(),
+
+          -- Symbol priority. Increase to display on top of more symbols.
+          priority = 2,
+        },
+
+        -- Module mappings. Use `''` (empty string) to disable one.
+        mappings = {
+          -- Textobjects
+          object_scope = "",
+          object_scope_with_border = "",
+          -- Motions (jump to respective border line; if not present - body line)
+          goto_top = "",
+          goto_bottom = "",
+        },
+
+        -- Options which control scope computation
+        options = {
+          -- Type of scope's border: which line(s) with smaller indent to
+          -- categorize as border. Can be one of: 'both', 'top', 'bottom', 'none'.
+          border = "both",
+
+          -- Whether to use cursor column when computing reference indent.
+          -- Useful to see incremental scopes with horizontal cursor movements.
+          indent_at_cursor = true,
+
+          -- Whether to first check input line to be a border of adjacent scope.
+          -- Use it if you want to place cursor on function header to get scope of
+          -- its body.
+          try_as_border = false,
+        },
+
+        -- Which character to use for drawing scope indicator
+        symbol = "│",
+      })
+
+      vim.cmd("hi! link MiniIndentscopeSymbol WinSeparator")
+    end,
+  },
   --
   -- scrolling
   {
@@ -369,11 +431,12 @@ require("lazy").setup({
     config = require("config.plugins.todos").setup,
   },
   -- treesitter
-  { lazy = true, "nvim-treesitter/nvim-treesitter-textobjects" },
   {
     "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
-    -- lazy = false,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
     build = ":TSUpdate",
     config = require("config.plugins.treesitter").setup,
   },
@@ -480,10 +543,14 @@ require("lazy").setup({
   defaults = {
     lazy = true,
   },
+  dev = {
+    path = "~/.config/nvim/plugins/",
+  },
   performance = {
     rtp = {
       disabled_plugins = {
         "gzip",
+        "matchit",
         "matchparen",
         "netrwPlugin",
         "tarPlugin",
@@ -495,6 +562,6 @@ require("lazy").setup({
   },
   ui = {
     backdrop = 100,
-    border = "single", -- "rounded", "single"
+    border = "rounded", -- "rounded", "single"
   },
 })

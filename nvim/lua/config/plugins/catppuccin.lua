@@ -24,6 +24,7 @@ M.setup = function()
           CursorLineSign = { bg = bg },
           --
           NvimTreeCursorLine = { bg = bg, fg = c.text },
+          Visual = { bg = bg, bold = false },
         }
       end,
       frappe = function(c)
@@ -37,11 +38,12 @@ M.setup = function()
           CursorLineSign = { bg = bg },
           --
           NvimTreeCursorLine = { bg = bg, fg = c.text },
+          Visual = { bg = bg, bold = false },
         }
       end,
       all = function(c)
         return {
-          FloatBorder = { bg = c.base },
+          FloatBorder = { bg = c.base, fg = c.overlay0 },
           Folded = { bg = c.base },
           --
           illuminatedWord = { bg = c.surface0 },
@@ -52,19 +54,18 @@ M.setup = function()
           DiagnosticUnderlineHint = { sp = c.blue, undercurl = true },
           DiagnosticUnderlineInfo = { sp = c.teal, undercurl = true },
           DiagnosticUnderlineWarn = { sp = c.yellow, undercurl = true },
+          TelescopeTitle = { fg = c.text },
           --
           -- StatusLine = { fg = c.surface2, bg = c.mantle },
           -- StatusLineNC = { fg = c.surface2, bg = c.mantle },
 
           -- NOTE: use if you want to have no statusline
-          StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
-          StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
+          -- StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
+          -- StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
 
           -- NOTE: use if you want to have a global statusline
-          -- StatusLine = { fg = c.surface2, bg = c.base }, -- was c.crust
-          -- StatusLineNC = { fg = c.surface2, bg = c.base }, -- was c.crust
-          --
-          -- NvimTreeNormal = { bg = c.mantle },
+          StatusLine = { fg = c.surface2, bg = c.base }, -- was c.crust
+          StatusLineNC = { fg = c.surface2, bg = c.base }, -- was c.crust
           --
           WinBar = { fg = c.overlay2 },
           WinBarNC = { fg = c.overlay2 },
@@ -74,6 +75,7 @@ M.setup = function()
       end,
     },
   })
+
 
   -- # dark
   vim.cmd("colorscheme catppuccin-frappe")
