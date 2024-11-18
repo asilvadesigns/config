@@ -14,11 +14,10 @@ vim.opt.splitright = true
 vim.opt.clipboard = "unnamedplus"
 
 -- cursorline
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 -- colorscheme
 -- vim.cmd('colorscheme quiet')
--- vim.cmd('set background=light')
 
 -- folding
 vim.opt.conceallevel = 0
@@ -34,6 +33,7 @@ vim.opt.foldenable = true
 
 -- popup menu
 vim.opt.pumheight = 10
+vim.cmd("set cmdheight=0")
 
 -- indenting
 vim.opt.expandtab = true
@@ -71,11 +71,11 @@ vim.opt.smoothscroll = true
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 
 -- statusline && winbar
-vim.opt.laststatus = 0
-local str = string.rep("—", 500)
-vim.opt.statusline = str
+vim.opt.laststatus = 3
+-- local str = string.rep("—", 500)
+-- vim.opt.statusline = str
 vim.opt.signcolumn = "yes"
-vim.opt.winbar = " "
+-- vim.opt.winbar = " "
 
 -- local function statuscolumn()
 --   return "%s%=%{v:relnum?v:relnum:v:lnum}  "
@@ -92,12 +92,15 @@ vim.opt.linebreak = true
 vim.opt.wrap = false
 
 -- diagnostic keymaps
+vim.diagnostic.config({
+  float = { border = "rounded" },
+})
 vim.keymap.set("n", "[d", function()
-  vim.diagnostic.jump({ count = -1, float = true })
+  vim.diagnostic.goto_prev()
 end, { desc = "Go to previous diagnostic message" })
 
 vim.keymap.set("n", "]d", function()
-  vim.diagnostic.jump({ count = 1, float = true })
+  vim.diagnostic.goto_next()
 end, { desc = "Go to next diagnostic message" })
 
 vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic message" })

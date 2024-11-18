@@ -2,20 +2,18 @@ local M = {}
 
 M.setup = function()
   local cmp = require("cmp")
-  local compare = require("cmp.config.compare")
+  -- local compare = require("cmp.config.compare")
   local luasnip = require("luasnip")
 
   luasnip.config.setup()
 
-  -- completion = {
-  --   autocomplete = false,
-  --   completeopt = "menu,menuone,noselect",
-  -- },
   cmp.setup({
     preselect = cmp.PreselectMode.None,
-    completion = {
-      autocomplete = false,
-      completeopt = "menu,menuone,noselect",
+    -- completion = {
+    --   autocomplete = false,
+    -- },
+    window = {
+      documentation = cmp.config.window.bordered(),
     },
     snippet = {
       expand = function(args)
@@ -25,13 +23,13 @@ M.setup = function()
     mapping = cmp.mapping.preset.insert({
       -- Select the [n]ext item
       ["<C-n>"] = cmp.mapping.select_next_item(),
-      -- Select the [p]revious item
       ["<C-p>"] = cmp.mapping.select_prev_item(),
+      -- Select the [p]revious item
       -- Scroll the documentation window [b]ack / [f]orward
       ["<C-b>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
       -- Manually trigger c[o]mpletion
-      ["<C-o>"] = cmp.mapping.complete(),
+      ["<C-y>"] = cmp.mapping.complete(),
       -- Move to right in snippet expansion
       -- ["<C-l>"] = cmp.mapping(function()
       --   if luasnip.expand_or_locally_jumpable() then
@@ -74,49 +72,49 @@ M.setup = function()
       {
         name = "buffer",
         keyword_length = 5,
-        max_view_entries = 5,
-        priority_weight = 70,
-        option = {
-          get_bufnrs = function()
-            local buf = vim.api.nvim_get_current_buf()
-            local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
-            if byte_size > 1024 * 1024 then -- 1 megabyte max
-              return {}
-            end
-            return { buf }
-          end,
-          indexing_interval = 1000,
-          keyword_length = 5,
-        },
+        -- max_view_entries = 5,
+        -- priority_weight = 70,
+        -- option = {
+        --   get_bufnrs = function()
+        --     local buf = vim.api.nvim_get_current_buf()
+        --     local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+        --     if byte_size > 1024 * 1024 then -- 1 megabyte max
+        --       return {}
+        --     end
+        --     return { buf }
+        --   end,
+        --   indexing_interval = 1000,
+        --   keyword_length = 5,
+        -- },
       },
     }),
-    sorting = {
-      priority_weight = 1.0,
-      comparators = {
-        compare.offset,
-        compare.exact,
-        compare.score,
-
-        -- copied from cmp-under, but I don't think I need the plugin for this.
-        -- I might add some more of my own.
-        function(entry1, entry2)
-          local _, entry1_under = entry1.completion_item.label:find("^_+")
-          local _, entry2_under = entry2.completion_item.label:find("^_+")
-          entry1_under = entry1_under or 0
-          entry2_under = entry2_under or 0
-          if entry1_under > entry2_under then
-            return false
-          elseif entry1_under < entry2_under then
-            return true
-          end
-        end,
-
-        compare.kind,
-        compare.sort_text,
-        compare.length,
-        compare.order,
-      },
-    },
+    -- sorting = {
+    --   priority_weight = 1.0,
+    --   comparators = {
+    --     compare.offset,
+    --     compare.exact,
+    --     compare.score,
+    --
+    --     -- copied from cmp-under, but I don't think I need the plugin for this.
+    --     -- I might add some more of my own.
+    --     function(entry1, entry2)
+    --       local _, entry1_under = entry1.completion_item.label:find("^_+")
+    --       local _, entry2_under = entry2.completion_item.label:find("^_+")
+    --       entry1_under = entry1_under or 0
+    --       entry2_under = entry2_under or 0
+    --       if entry1_under > entry2_under then
+    --         return false
+    --       elseif entry1_under < entry2_under then
+    --         return true
+    --       end
+    --     end,
+    --
+    --     compare.kind,
+    --     compare.sort_text,
+    --     compare.length,
+    --     compare.order,
+    --   },
+    -- },
     experimental = {
       ghost_text = false,
     },
@@ -130,8 +128,21 @@ M.setup = function()
     -- },
   })
 
+  cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = "path" },
+    }, {
+      {
+        name = "cmdline",
+        option = {
+          ignore_cmds = { "Man", "!" },
+        },
+      },
+    }),
+  })
+
   -- cmp.setup.cmdline({ "/", "?" }, {
-  --   mapping = cmp.mapping.preset.cmdline(),
   --   sources = {
   --     { name = "buffer" },
   --   },

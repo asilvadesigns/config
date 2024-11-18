@@ -15,11 +15,6 @@ M.setup = function()
     return sorted_keys
   end
 
-  -- local path_display = {
-  --   "filename_first",
-  -- }
-  -- local path_display = nil
-
   local conf = require("telescope.config").values
   local finders = require("telescope.finders")
   local pickers = require("telescope.pickers")
@@ -201,116 +196,68 @@ M.setup = function()
           ["<C-p>"] = actions.cycle_history_prev,
         },
       },
+      prompt_prefix = "❯ ",
+      selection_caret = "❯ ",
     }),
+    -- defaults = {
+    --   -- layout_config = {
+    --   --   width = function(_, max_columns, _)
+    --   --     return math.min(max_columns, 100)
+    --   --   end,
+    --   --   height = function(_, _, max_lines)
+    --   --     return math.min(max_lines, 24)
+    --   --   end,
+    --   -- },
+    --   mappings = {
+    --     i = {
+    --       ["<C-u>"] = false,
+    --       ["<esc>"] = actions.close,
+    --       ["<C-n>"] = actions.cycle_history_next,
+    --       ["<C-p>"] = actions.cycle_history_prev,
+    --     },
+    --   },
+    -- },
+
     pickers = {
       colorscheme = {
+        disable_devicons = true,
         enable_preview = true,
       },
-      find_files = {
+      buffers = {
+        disable_devicons = true,
         previewer = false,
-        file_ignore_patterns = {
-          "%.git/.",
-          -- npm
-          "node_modules",
-          "package-lock.json",
-          "pnpm-lock.yaml",
-          -- templ
-          "_templ%.go$",
-          "_templ%.txt$",
-        },
+      },
+      find_files = {
+        disable_devicons = true,
+        previewer = false,
+        -- file_ignore_patterns = {
+        --   "%.git/.",
+        --   -- npm
+        --   "node_modules",
+        --   "package-lock.json",
+        --   "pnpm-lock.yaml",
+        --   -- templ
+        --   "_templ%.go$",
+        --   "_templ%.txt$",
+        -- },
       },
       git_files = {
+        disable_devicons = true,
         previewer = false,
       },
       oldfiles = {
-        previewer = false,
+        disable_devicons = true,
         only_cwd = true,
+        previewer = false,
       },
     },
   })
-  -- telescope.setup({
-  --   -- @see: https://github.com/nvim-telescope/telescope.nvim/issues/848#issuecomment-1584291014
-  --   defaults = vim.tbl_extend(
-  --     "force",
-  --     themes.get_dropdown({
-  --       borderchars = {
-  --         { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-  --         prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-  --         results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-  --         preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-  --       },
-  --       layout_config = {
-  --         width = function(_, max_columns, _)
-  --           return math.min(max_columns, 100)
-  --         end,
-  --         height = function(_, _, max_lines)
-  --           return math.min(max_lines, 24)
-  --         end,
-  --       },
-  --     }),
-  --     {
-  --       -- sorting_strategy = "ascending",
-  --     }
-  --   ),
-  --   extensions = {
-  --     fzf = {
-  --       case_mode = "smart_case",
-  --       fuzzy = true,
-  --       override_file_sorter = true,
-  --       override_generic_sorter = true,
-  --     },
-  --   },
-  --   pickers = {
-  --     buffers = {
-  --       disable_devicons = true,
-  --       ignore_current_buffer = true,
-  --       only_cwd = true,
-  --       sort_mru = true,
-  --     },
-  --     colorscheme = {
-  --       enable_preview = true,
-  --     },
-  --     commands = {
-  --       sort_mru = true,
-  --     },
-  --     find_files = {
-  --       sort_mru = true,
-  --       disable_devicons = true,
-  --       hidden = true,
-  --       previewer = false,
-  --       file_ignore_patterns = {
-  --         "%.git/.",
-  --         -- npm
-  --         "node_modules",
-  --         "package-lock.json",
-  --         "pnpm-lock.yaml",
-  --         -- templ
-  --         "_templ%.go$",
-  --         "_templ%.txt$",
-  --       },
-  --     },
-  --     git_files = {
-  --       disable_devicons = true,
-  --       previewer = false,
-  --     },
-  --     oldfiles = {
-  --       disable_devicons = true,
-  --       only_cwd = true,
-  --       previewer = false,
-  --       sort_mru = true,
-  --     },
-  --     help_tags = {},
-  --   },
-  -- })
 
   telescope.load_extension("fzf")
   telescope.load_extension("textcase")
   telescope.load_extension("ui-select")
 
-  vim.keymap.set("n", "<leader>a", function()
-    command_palette()
-  end)
-
+  vim.keymap.set("n", "<leader>a", command_palette)
   vim.keymap.set("n", "<leader>b", builtin.buffers)
   vim.keymap.set("n", "<leader>e", builtin.oldfiles)
   vim.keymap.set("n", "<leader>f", builtin.find_files)

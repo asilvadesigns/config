@@ -12,17 +12,28 @@ M.setup = function()
 
   local opts = { noremap = true, silent = true }
 
-  local on_attach = function(_, bufnr)
-    opts.buffer = bufnr
+  local on_attach = function(event)
+    opts.buffer = event.buf
+
     vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
     vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+    -- fzflua
+    -- vim.keymap.set("n", "gd", require("fzf-lua").lsp_definitions, opts)
+    -- vim.keymap.set("n", "gi", require("fzf-lua").lsp_implementations, opts)
+    -- vim.keymap.set("n", "gr", require("fzf-lua").lsp_references, opts)
+    -- vim.keymap.set("n", "gl", function()
+    --   require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
+    -- end, opts)
+
+    -- telescope
     vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
     vim.keymap.set("n", "gi", require("telescope.builtin").lsp_implementations, opts)
+    vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
     vim.keymap.set("n", "gl", function()
       require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
     end, opts)
-    vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
   end
 
   local servers = {
@@ -53,6 +64,14 @@ M.setup = function()
     "sql-formatter",
     "stylua",
   }
+
+  -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  --   border = "rounded",
+  -- })
+  --
+  -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+  --   border = "rounded",
+  -- })
 
   require("mason").setup({
     ui = { border = "rounded" },
@@ -193,6 +212,7 @@ M.setup = function()
       -- require("neodev").setup()
       require("lspconfig").lua_ls.setup({
         capabilities = capabilities,
+        -- handlers = handlers,
         on_attach = on_attach,
         settings = {
           Lua = {

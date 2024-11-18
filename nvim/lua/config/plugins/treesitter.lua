@@ -1,10 +1,9 @@
 local M = {}
 
 M.setup = function()
-
   ---@diagnostic disable-next-line: missing-fields
   require("nvim-treesitter.configs").setup({
-    auto_install = true,
+    auto_install = false,
     ensure_installed = {
       "bash",
       "css",
@@ -34,12 +33,12 @@ M.setup = function()
       "yaml",
     },
     matchup = {
-      enabled = true,
+      enabled = false,
       include_match_words = false,
     },
     highlight = {
-      additional_vim_regex_highlighting = false,
       enable = true,
+      additional_vim_regex_highlighting = false,
       disable = { "tmux" },
     },
     indent = {
@@ -55,40 +54,40 @@ M.setup = function()
         scope_incremental = "gss",
       },
     },
-    textobjects = {
-      move = {
-        enable = true,
-        set_jumps = true,
-        goto_previous_start = {
-          ["[f"] = { query = "@function.outer", desc = "Previous function" },
-          ["[c"] = { query = "@class.outer", desc = "Previous class" },
-          ["[p"] = { query = "@parameter.inner", desc = "Previous parameter" },
-        },
-        goto_next_start = {
-          ["]f"] = { query = "@function.outer", desc = "Next function" },
-          ["]c"] = { query = "@class.outer", desc = "Next class" },
-          ["]p"] = { query = "@parameter.inner", desc = "Next parameter" },
-        },
-      },
-      select = {
-        enable = true,
-        lookahead = true,
-        include_surrounding_whitespace = false,
-        keymaps = {
-          ["af"] = { query = "@function.outer" },
-          ["if"] = { query = "@function.inner" },
-          ["ac"] = { query = "@class.outer" },
-          ["ic"] = { query = "@class.inner" },
-          ["ai"] = { query = "@conditional.outer", desc = "around an if statement" },
-          ["ii"] = { query = "@conditional.inner", desc = "inner part of an if statement" },
-          ["al"] = { query = "@loop.outer", desc = "around a loop" },
-          ["il"] = { query = "@loop.inner", desc = "inner part of a loop" },
-          ["ap"] = { query = "@parameter.outer", desc = "around parameter" },
-          ["ip"] = { query = "@parameter.inner", desc = "inside a parameter" },
-          ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-        },
-      },
-    },
+    -- textobjects = {
+    --   move = {
+    --     enable = true,
+    --     set_jumps = true,
+    --     goto_previous_start = {
+    --       ["[f"] = { query = "@function.outer", desc = "Previous function" },
+    --       ["[c"] = { query = "@class.outer", desc = "Previous class" },
+    --       ["[p"] = { query = "@parameter.inner", desc = "Previous parameter" },
+    --     },
+    --     goto_next_start = {
+    --       ["]f"] = { query = "@function.outer", desc = "Next function" },
+    --       ["]c"] = { query = "@class.outer", desc = "Next class" },
+    --       ["]p"] = { query = "@parameter.inner", desc = "Next parameter" },
+    --     },
+    --   },
+    --   select = {
+    --     enable = true,
+    --     lookahead = true,
+    --     include_surrounding_whitespace = false,
+    --     keymaps = {
+    --       ["af"] = { query = "@function.outer" },
+    --       ["if"] = { query = "@function.inner" },
+    --       ["ac"] = { query = "@class.outer" },
+    --       ["ic"] = { query = "@class.inner" },
+    --       ["ai"] = { query = "@conditional.outer", desc = "around an if statement" },
+    --       ["ii"] = { query = "@conditional.inner", desc = "inner part of an if statement" },
+    --       ["al"] = { query = "@loop.outer", desc = "around a loop" },
+    --       ["il"] = { query = "@loop.inner", desc = "inner part of a loop" },
+    --       ["ap"] = { query = "@parameter.outer", desc = "around parameter" },
+    --       ["ip"] = { query = "@parameter.inner", desc = "inside a parameter" },
+    --       ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+    --     },
+    --   },
+    -- },
   })
 
   -- require("treesitter-context").setup({

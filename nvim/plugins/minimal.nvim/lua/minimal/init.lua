@@ -64,7 +64,6 @@ M.setup = function()
 end
 
 M.load = function()
-  vim.cmd("set background=light")
   vim.cmd("colorscheme minimal")
 end
 

@@ -1,17 +1,9 @@
-vim.cmd("hi! link LazyNormal Normal")
-
 require("lazy").setup({
   {
     "axelvc/template-string.nvim",
     enabled = false,
     event = "InsertEnter",
     opts = { remove_template_string = true },
-  },
-  {
-    "andymass/vim-matchup",
-    enabled = false,
-    event = { "BufReadPre", "BufNewFile" },
-    config = require("config.plugins.matchup").setup,
   },
   {
     "windwp/nvim-autopairs",
@@ -69,9 +61,14 @@ require("lazy").setup({
     opts = {},
   },
   {
-    "NvChad/nvim-colorizer.lua",
+    "brenoprata10/nvim-highlight-colors",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      ---@usage 'background'|'foreground'|'virtual'
+      -- render = "virtual",
+      -- virtual_symbol = '■',
+      -- virtual_symbol = '⬤',
+    },
   },
   {
     "ggandor/leap.nvim",
@@ -175,39 +172,106 @@ require("lazy").setup({
   },
   {
     "akinsho/bufferline.nvim",
-    enabled = false,
+    event = "VeryLazy",
+    enabled = true,
     version = "*",
     config = require("config.plugins.bufferline").setup,
   },
   --
   -- colorscheme
+  -- {
+  --   dir = "~/.config/nvim/colors",
+  --   name = "minimal",
+  --   lazy = false,
+  --   enabled = false,
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme("minimal")
+  --   end,
+  -- },
   {
-    "minimal.nvim",
-    dev = true,
-    enabled = false,
+    'shaunsingh/nord.nvim',
     lazy = false,
+    enabled = false,
     priority = 1000,
     config = function()
-      require("minimal").setup()
-      require("minimal").load()
+      vim.cmd("set background=dark")
+      vim.cmd.colorscheme("nord")
+    end,
+  },
+  {
+    "rmehri01/onenord.nvim",
+    lazy = false,
+    enabled = false,
+    priority = 1000,
+    config = function()
+      vim.cmd("set background=light")
+      vim.cmd.colorscheme("onenord")
+    end,
+  },
+  {
+    "zenbones-theme/zenbones.nvim",
+    -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+    -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+    -- In Vim, compat mode is turned on as Lush only works in Neovim.
+    -- dependencies = "rktjmp/lush.nvim",
+    lazy = false,
+    enabled = false,
+    priority = 1000,
+    -- you can set set configuration options here
+    config = function()
+      -- vim.g.zenbones_darken_comments = 45
+      vim.cmd("set background=light") ---or light if you want light mode
+      vim.g.zenbones_compat = 1
+      vim.cmd.colorscheme("zenbones")
+    end,
+  },
+  {
+    "ellisonleao/gruvbox.nvim",
+    lazy = false,
+    enabled = false,
+    priority = 1000,
+    config = function()
+      vim.cmd("set background=dark ") ---or light if you want light mode
+      vim.cmd.colorscheme("gruvbox")
+    end,
+  },
+  {
+    "sainnhe/gruvbox-material",
+    lazy = false,
+    enabled = false,
+    priority = 1000,
+    config = function()
+      -- Optionally configure and load the colorscheme
+      -- directly inside the plugin declaration.
+      vim.o.background = "light"
+      vim.g.gruvbox_material_background = "soft"
+      -- vim.g.gruvbox_material_better_performance = 1
+      vim.g.gruvbox_material_enable_italic = true
+      vim.g.gruvbox_material_foreground = "mix"
+      vim.cmd.colorscheme("gruvbox-material")
     end,
   },
   {
     "catppuccin/nvim",
     enabled = true,
     lazy = false,
+    -- event = "VeryLazy",
     name = "catppuccin",
-    priority = 1000,
+    -- priority = 1000,
     config = require("config.plugins.catppuccin").setup,
   },
   --
   -- completion
-  { lazy = true, "L3MON4D3/LuaSnip" },
-  { lazy = true, "hrsh7th/cmp-nvim-lsp" },
-  { lazy = true, "hrsh7th/cmp-path" },
-  { lazy = true, "saadparwaiz1/cmp_luasnip" },
   {
     "hrsh7th/nvim-cmp",
+    dependencies = {
+      "L3MON4D3/LuaSnip",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-path",
+      "saadparwaiz1/cmp_luasnip",
+    },
     event = "VeryLazy",
     config = require("config.plugins.cmp").setup,
   },
@@ -252,8 +316,8 @@ require("lazy").setup({
   },
   {
     "folke/noice.nvim",
-    lazy = false,
-    -- event = "VeryLazy",
+    enabled = true,
+    event = "VeryLazy",
     config = require("config.plugins.noice").setup,
   },
   --
@@ -360,13 +424,14 @@ require("lazy").setup({
         symbol = "│",
       })
 
-      vim.cmd("hi! link MiniIndentscopeSymbol WinSeparator")
+      vim.cmd("hi! link MiniIndentscopeSymbol Comment")
     end,
   },
   --
   -- scrolling
   {
     "karb94/neoscroll.nvim",
+    enabled = false,
     event = "VeryLazy",
     config = require("config.plugins.neoscroll").setup,
   },
@@ -406,9 +471,61 @@ require("lazy").setup({
   { lazy = true, "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   {
     "nvim-telescope/telescope.nvim",
+    enabled = true,
     cmd = { "Telescope" },
     keys = { "<leader>a", "<leader>c", "<leader>e", "<leader>f", "<leader>l" },
     config = require("config.plugins.telescope").setup,
+  },
+  -- fzf lua
+  {
+    "ibhagwan/fzf-lua",
+    enabled = false,
+    event = "VeryLazy",
+    keys = {
+      {
+        "<leader>a",
+        function()
+          require("fzf-lua").commands()
+        end,
+      },
+      {
+        "<leader>c",
+        function()
+          require("fzf-lua").fzf_exec({ "line1", "line2" }, {
+            actions = {
+              ["enter"] = function(selected)
+                vim.print("selected..." .. vim.inspect(selected))
+              end,
+            },
+          })
+        end,
+      },
+      {
+        "<leader>b",
+        function()
+          require("fzf-lua").builtin()
+        end,
+      },
+      {
+        "<leader>e",
+        function()
+          require("fzf-lua").oldfiles()
+        end,
+      },
+      {
+        "<leader>f",
+        function()
+          require("fzf-lua").files()
+        end,
+      },
+      {
+        "<leader>l",
+        function()
+          require("fzf-lua").blines()
+        end,
+      },
+    },
+    config = require("config.plugins.fzflua").setup,
   },
   --
   -- commenting
@@ -433,12 +550,58 @@ require("lazy").setup({
   -- treesitter
   {
     "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
+    lazy = false,
+    -- event = {
     build = ":TSUpdate",
+    -- NOTE: I saw this somewhere but I don't know if it actually helps
+    init = function(plugin)
+      require("lazy.core.loader").add_to_rtp(plugin)
+      require("nvim-treesitter.query_predicates")
+    end,
     config = require("config.plugins.treesitter").setup,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    event = { "VeryLazy" },
+    config = function()
+      ---@diagnostic disable-next-line: missing-fields
+      require("nvim-treesitter.configs").setup({
+        textobjects = {
+          move = {
+            enable = true,
+            set_jumps = true,
+            goto_previous_start = {
+              ["[f"] = { query = "@function.outer", desc = "Previous function" },
+              ["[c"] = { query = "@class.outer", desc = "Previous class" },
+              ["[p"] = { query = "@parameter.inner", desc = "Previous parameter" },
+            },
+            goto_next_start = {
+              ["]f"] = { query = "@function.outer", desc = "Next function" },
+              ["]c"] = { query = "@class.outer", desc = "Next class" },
+              ["]p"] = { query = "@parameter.inner", desc = "Next parameter" },
+            },
+          },
+          select = {
+            enable = true,
+            lookahead = true,
+            include_surrounding_whitespace = false,
+            keymaps = {
+              ["af"] = { query = "@function.outer" },
+              ["if"] = { query = "@function.inner" },
+              ["ac"] = { query = "@class.outer" },
+              ["ic"] = { query = "@class.inner" },
+              ["ai"] = { query = "@conditional.outer", desc = "around an if statement" },
+              ["ii"] = { query = "@conditional.inner", desc = "inner part of an if statement" },
+              ["al"] = { query = "@loop.outer", desc = "around a loop" },
+              ["il"] = { query = "@loop.inner", desc = "inner part of a loop" },
+              ["ap"] = { query = "@parameter.outer", desc = "around parameter" },
+              ["ip"] = { query = "@parameter.inner", desc = "inside a parameter" },
+              ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+            },
+          },
+        },
+      })
+    end,
   },
   {
     "Wansmer/treesj",
@@ -452,12 +615,13 @@ require("lazy").setup({
   -- folding
   {
     "kevinhwang91/nvim-ufo",
-    lazy = false,
+    enabled = false,
+    -- event = "VeryLazy",
     dependencies = {
       "kevinhwang91/promise-async",
       {
         "luukvbaal/statuscol.nvim",
-        enabled = false,
+        enabled = true,
         opts = function()
           local builtin = require("statuscol.builtin")
 
@@ -550,8 +714,8 @@ require("lazy").setup({
     rtp = {
       disabled_plugins = {
         "gzip",
-        "matchit",
-        "matchparen",
+        -- "matchit",
+        -- "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",

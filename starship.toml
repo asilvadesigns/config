@@ -16,7 +16,7 @@ $character
 [custom.tmux]
 command = "echo 'in tmux'"
 when = "[ $TMUX ]"  # Condition to check
-style = "cyan"  # Style for the text
+style = "blue"  # Style for the text
 
 [character]
 format = ' $symbol '
@@ -30,7 +30,7 @@ style = "blue"
 
 [git_branch]
 symbol = ""
-style = "purple"
+style = "blue"
 # symbol = " "
 
 [git_status]

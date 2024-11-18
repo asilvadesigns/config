@@ -53,7 +53,7 @@ end
 local function get_filename(buf_id)
   local bufname = vim.api.nvim_buf_get_name(buf_id)
   local filename = vim.fn.fnamemodify(bufname, ":t")
-  local filepath = vim.fn.fnamemodify(bufname, ":~:.:h")
+  local filepath = vim.fn.fnamemodify(bufname, ":~:h")
   local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
 
   if filetype == "oil" then
@@ -71,7 +71,8 @@ local function get_filename(buf_id)
   -- local sep = "  "
   -- local filepath = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
 
-  return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
+  -- return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
+  return "%*%#Normal#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
 end
 
 ---@return nil
@@ -89,7 +90,7 @@ local function main()
     -- .. "%=%l/%L:%c%*"
     vim.api.nvim_set_option_value(
       "winbar",
-      " " .. get_filename(buf_id) .. " " .. get_modified(buf_id) .. " " .. get_diagnostics(buf_id),
+      " " .. get_filename(buf_id) .. " " .. get_modified(buf_id) .. " " .. get_diagnostics(buf_id) .. "%=%l/%L%* ",
       { win = win_id }
     )
   end

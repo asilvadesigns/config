@@ -35,6 +35,10 @@ set fish_cursor_replace_one underscore;
 set fish_cursor_replace underscore;
 set fish_cursor_external line;
 set fish_cursor_visual block;
+# vi mode copy/paste @see: https://github.com/fish-shell/fish-shell/issues/4028
+bind yy fish_clipboard_copy
+bind Y fish_clipboard_copy
+bind p fish_clipboard_paste
 
 # fzf (THEME: https://github.com/catppuccin/fzf)
 # frappe (DARK)
@@ -51,6 +55,10 @@ set fish_cursor_visual block;
 # --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39 \
 # --color=border:#e6e9ef"
 set -gx FZF_DEFAULT_OPTS "--color=border:blue,bg+:-1"
+
+# c
+set -gx CPATH "/opt/homebrew/include"
+set -gx LIBRARY_PATH "/opt/homebrew/lib"
 
 # go
 set -gx GOPATH "$HOME/go"

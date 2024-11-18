@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # NOTES
 #
 # Shell - changing default shell
@@ -20,7 +22,7 @@ export FZF_DEFAULT_OPTS='--height=40% --layout=reverse'
 
 # Personal
 # source ~/.scripts/abrev.sh
-source ~/.scripts/alias.sh
+# source ~/.scripts/alias.sh
 
 function cc() {
   cd ~/dev && cd $(ls -1 | fzf)
@@ -29,6 +31,8 @@ function cc() {
 function branch() {
   git checkout $(git branch --sort=-committerdate | fzf)
 }
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 eval "$(starship init bash)"
 
