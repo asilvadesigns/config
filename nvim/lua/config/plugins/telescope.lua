@@ -42,10 +42,6 @@ M.setup = function()
     ["Format (default)"] = { cmd = "Format" },
     ["Git (Fugitive)"] = { cmd = "Git" },
     ["Git (Neogit)"] = { cmd = "Neogit" },
-    ["Harpoon Add"] = { cmd = "HarpoonAdd" },
-    ["Harpoon Next"] = { cmd = "HarpoonNext" },
-    ["Harpoon Open"] = { cmd = "HarpoonOpen" },
-    ["Harpoon Prev"] = { cmd = "HarpoonPrev" },
     ["Help"] = { cmd = builtin.help_tags },
     ["Highlights"] = { cmd = builtin.highlights },
     ["Keymaps"] = { cmd = "Telescope keymaps" },
@@ -68,7 +64,6 @@ M.setup = function()
     ["Search (local)"] = { cmd = "GrugFarLocal" },
     ["Search (global)"] = { cmd = "GrugFarGlobal" },
     ["Symbols"] = { cmd = builtin.lsp_document_symbols },
-    ["Symbols (Outline)"] = { cmd = "Outline" },
     ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
     ["Buf Only"] = { cmd = "only|bd|e#" },
     ["Tab Close"] = { cmd = "tabclose" },
@@ -128,7 +123,7 @@ M.setup = function()
     opts = opts or {}
     pickers
       .new(opts, {
-        prompt_title = "Command Palette",
+        prompt_title = "Actions",
         finder = finders.new_table({
           results = command_palette_results,
           entry_maker = function(entry)
@@ -199,24 +194,6 @@ M.setup = function()
       prompt_prefix = "❯ ",
       selection_caret = "❯ ",
     }),
-    -- defaults = {
-    --   -- layout_config = {
-    --   --   width = function(_, max_columns, _)
-    --   --     return math.min(max_columns, 100)
-    --   --   end,
-    --   --   height = function(_, _, max_lines)
-    --   --     return math.min(max_lines, 24)
-    --   --   end,
-    --   -- },
-    --   mappings = {
-    --     i = {
-    --       ["<C-u>"] = false,
-    --       ["<esc>"] = actions.close,
-    --       ["<C-n>"] = actions.cycle_history_next,
-    --       ["<C-p>"] = actions.cycle_history_prev,
-    --     },
-    --   },
-    -- },
 
     pickers = {
       colorscheme = {
@@ -253,16 +230,14 @@ M.setup = function()
     },
   })
 
-  telescope.load_extension("fzf")
-  telescope.load_extension("textcase")
-  telescope.load_extension("ui-select")
-
   vim.keymap.set("n", "<leader>a", command_palette)
   vim.keymap.set("n", "<leader>b", builtin.buffers)
   vim.keymap.set("n", "<leader>e", builtin.oldfiles)
   vim.keymap.set("n", "<leader>f", builtin.find_files)
   vim.keymap.set("n", "<leader>g", builtin.live_grep)
   vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)
+
+  -- telescope.load_extension("textcase")
 end
 
 return M

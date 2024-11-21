@@ -152,6 +152,14 @@ require("lazy").setup({
     opts = {},
   },
   {
+    "echasnovski/mini.cursorword",
+    event = "VeryLazy",
+    version = "*",
+    opts = {
+      delay = 25,
+    },
+  },
+  {
     "folke/trouble.nvim",
     cmd = { "ToggleTrouble", "Trouble" },
     config = require("config.plugins.trouble").setup,
@@ -190,7 +198,7 @@ require("lazy").setup({
   --   end,
   -- },
   {
-    'shaunsingh/nord.nvim',
+    "shaunsingh/nord.nvim",
     lazy = false,
     enabled = false,
     priority = 1000,

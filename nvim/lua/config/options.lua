@@ -43,8 +43,7 @@ vim.opt.tabstop = 2
 
 -- invisible chars
 vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
-vim.opt.list = false -- TODO: persist via prefs plugin
-
+vim.opt.list = false
 vim.opt.showbreak = "↳  "
 
 -- numberline

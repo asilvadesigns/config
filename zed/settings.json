@@ -7,14 +7,19 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "theme": "Solarized Light",
+  "theme": "Catppuccin Frappé",
   "buffer_font_size": 14,
   "ui_font_size": 14,
   "vim_mode": true,
   "relative_line_numbers": true,
   "tab_size": 2,
+  "buffer_line_height": "standard",
   "indent_guides": {
     "enabled": false
+  },
+  "toolbar": {
+    "breadcrumbs": false,
+    "quick_actions": false
   },
   "tab_bar": {
     "show": false

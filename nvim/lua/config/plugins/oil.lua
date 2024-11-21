@@ -2,6 +2,7 @@ local M = {}
 
 M.setup = function()
   require("oil").setup({
+    default_file_explorer = true,
     constrain_cursor = "name",
     delete_to_trash = true,
     skip_confirm_for_simple_edits = true,

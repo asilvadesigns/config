@@ -87,7 +87,6 @@ M.setup = function()
 
     if not formatter_to_use then
       formatter_to_use = formatters[1].name -- Fallback to the first available formatter
-      vim.notify("Using formatter: " .. formatter_to_use, vim.log.levels.INFO)
     end
 
     vim.notify("Using formatter: " .. formatter_to_use, vim.log.levels.INFO)

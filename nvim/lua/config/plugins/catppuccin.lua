@@ -6,6 +6,7 @@ M.setup = function()
   local latte = require("catppuccin.palettes.latte")
   local frappe = require("catppuccin.palettes.frappe")
 
+  -- require("catppuccin").setup()
   require("catppuccin").setup({
     integrations = {
       leap = false,
