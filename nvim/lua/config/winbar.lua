@@ -73,6 +73,7 @@ local function get_filename(buf_id)
 
   -- return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
   return "%*%#Normal#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
+  -- return filepath .. "/" .. filename
 end
 
 ---@return nil

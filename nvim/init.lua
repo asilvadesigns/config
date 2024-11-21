@@ -65,6 +65,7 @@ vim.opt.laststatus = 3
 -- local str = string.rep("—", 500)
 -- vim.opt.statusline = str
 vim.opt.signcolumn = "yes"
+vim.opt.statuscolumn = "%s %l "
 -- vim.opt.winbar = " "
 ---
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
@@ -171,6 +172,22 @@ vim.keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev se
 --
 -- User Diagnostics
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
+vim.diagnostic.config({
+  float = { border = "rounded" },
+})
+
+vim.keymap.set("n", "[d", function()
+  vim.diagnostic.goto_prev()
+end, { desc = "Go to previous diagnostic message" })
+
+vim.keymap.set("n", "]d", function()
+  vim.diagnostic.goto_next()
+end, { desc = "Go to next diagnostic message" })
+
+vim.keymap.set("n", "ge", vim.diagnostic.open_float, {
+  desc = "Open diagnostic message",
+})
+
 local square = vim.fn.nr2char(0x25aa)
 
 local signs = {
@@ -243,6 +260,11 @@ local function attach_file_browser(plugin_name, plugin_open)
     end,
   })
 end
+
+---
+---
+---
+-- require('config.winbar')
 
 ---
 ---
@@ -328,7 +350,7 @@ require("lazy").setup({
       "folke/snacks.nvim",
       priority = 1000,
       lazy = false,
-      enabled = false,
+      -- enabled = false,
       opts = {
         dashboard = {
           enabled = true,
@@ -422,9 +444,24 @@ require("lazy").setup({
     {
       "catppuccin/nvim",
       lazy = false,
+      enabled = false,
       name = "catppuccin",
       priority = 1000,
       config = require("config.plugins.catppuccin").setup,
+    },
+    {
+      "navarasu/onedark.nvim",
+      lazy = false,
+      name = "onedark",
+      priority = 1000,
+      config = function()
+        require("onedark").setup({
+          style = "warm", --- 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+        })
+        require("onedark").load()
+        -- vim.cmd("hi! link Winbar Normal")
+        -- vim.cmd("hi! link WinbarNC Normal")
+      end,
     },
     {
       "folke/noice.nvim",
@@ -550,12 +587,12 @@ require("lazy").setup({
       keys = {
         { "<leader>x", "<CMD>Oil<CR>" },
       },
-      init = function()
-        local oil_open_folder = function(path)
-          require("oil").open(path)
-        end
-        attach_file_browser("oil", oil_open_folder)
-      end,
+      -- init = function()
+      --   local oil_open_folder = function(path)
+      --     require("oil").open(path)
+      --   end
+      --   attach_file_browser("oil", oil_open_folder)
+      -- end,
       config = require("config.plugins.oil").setup,
     },
     {
@@ -653,6 +690,7 @@ require("lazy").setup({
         "kevinhwang91/promise-async",
         {
           "luukvbaal/statuscol.nvim",
+          enabled = false,
           opts = function()
             local builtin = require("statuscol.builtin")
 
@@ -660,8 +698,8 @@ require("lazy").setup({
               relculright = true,
               ft_ignore = { "NvimTree" },
               segments = {
-                { text = { " ", builtin.lnumfunc }, click = "v:lua.ScLa" },
-                { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" },
+                { text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
+                { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
               },
             }
           end,

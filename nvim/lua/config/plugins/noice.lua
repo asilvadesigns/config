@@ -1,11 +1,6 @@
 local M = {}
 
 M.setup = function()
-  -- require("noice").setup({
-  --   cmdline = {
-  --     view = "cmdline",
-  --   },
-  -- })
   require("noice").setup({
     cmdline = {
       enabled = true,
