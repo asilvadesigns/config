@@ -64,7 +64,7 @@ M.setup = function()
       },
     },
     diagnostics = {
-      enable = false,
+      enable = true,
       show_on_dirs = true,
       icons = {
         hint = options.signs.Hint,

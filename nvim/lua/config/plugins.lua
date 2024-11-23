@@ -359,12 +359,11 @@ require("lazy").setup({
   -- session
   {
     "rmagatti/auto-session",
-    lazy = false,
     opts = {
       auto_session_enabled = true,
       auto_session_create_enabled = true,
       auto_save_enabled = true,
-      auto_restore_enabled = true,
+      auto_restore_enabled = false,
       session_lens = { load_on_setup = false },
       save_all_autocmds = false,
       save_cursorline = false,
@@ -475,10 +474,14 @@ require("lazy").setup({
     opts = {},
   },
   -- telescope
-  { lazy = true, "nvim-telescope/telescope-ui-select.nvim" },
-  { lazy = true, "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+  -- { lazy = true, "nvim-telescope/telescope-ui-select.nvim" },
+  -- { lazy = true, "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
   {
     "nvim-telescope/telescope.nvim",
+    dependencies = {
+      { "nvim-telescope/telescope-ui-select.nvim" },
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    },
     enabled = true,
     cmd = { "Telescope" },
     keys = { "<leader>a", "<leader>c", "<leader>e", "<leader>f", "<leader>l" },

@@ -159,17 +159,14 @@ M.setup = function()
           DiagnosticUnderlineInfo = { sp = c.teal, undercurl = true },
           DiagnosticUnderlineWarn = { sp = c.yellow, undercurl = true },
           TelescopeTitle = { fg = c.text },
-          --
-          -- StatusLine = { fg = c.surface2, bg = c.mantle },
-          -- StatusLineNC = { fg = c.surface2, bg = c.mantle },
 
           -- NOTE: use if you want to have no statusline
-          -- StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
-          -- StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
+          StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
+          StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
 
           -- NOTE: use if you want to have a global statusline
-          StatusLine = { fg = c.surface2, bg = c.base }, -- was c.crust
-          StatusLineNC = { fg = c.surface2, bg = c.base }, -- was c.crust
+          -- StatusLine = { fg = c.surface2, bg = c.base }, -- was c.crust
+          -- StatusLineNC = { fg = c.surface2, bg = c.base }, -- was c.crust
           --
           WinBar = { fg = c.overlay2 },
           WinBarNC = { fg = c.overlay2 },

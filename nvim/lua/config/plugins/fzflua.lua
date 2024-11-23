@@ -46,6 +46,8 @@ M.setup = function()
       previewer = false,
     }
   })
+
+  require("fzf-lua").register_ui_select()
 end
 
 return M

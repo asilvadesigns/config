@@ -71,8 +71,8 @@ local function get_filename(buf_id)
   -- local sep = "  "
   -- local filepath = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
 
-  -- return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
-  return "%*%#Normal#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
+  return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
+  -- return "%*%#Normal#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
   -- return filepath .. "/" .. filename
 end
 

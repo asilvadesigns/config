@@ -57,23 +57,26 @@ vim.o.list = false
 vim.o.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.o.showbreak = "↳  "
 ---
-vim.opt.scrolloff = 0
-vim.opt.sidescrolloff = 0
-vim.opt.smoothscroll = true
+vim.o.scrolloff = 0
+vim.o.sidescrolloff = 0
+vim.o.smoothscroll = true
 ---
-vim.opt.laststatus = 3
--- local str = string.rep("—", 500)
+vim.o.laststatus = 0
+local str = string.rep("—", 500)
 -- vim.opt.statusline = str
+-- vim.api.nvim_set_hl(0, "Statusline", { link = "Normal" })
+-- vim.api.nvim_set_hl(0, "StatuslineNC", { link = "Normal" })
+vim.opt.statusline = str -- string.rep("—", vim.api.nvim_win_get_width(0))
 vim.opt.signcolumn = "yes"
-vim.opt.statuscolumn = "%s %l "
--- vim.opt.winbar = " "
+-- vim.opt.statuscolumn = "%s %r "
+vim.o.winbar = " "
 ---
-vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
+vim.o.sessionoptions = "buffers,curdir,winsize,winpos"
 ---
-vim.opt.termguicolors = true
+vim.o.termguicolors = true
 ---
-vim.opt.linebreak = true
-vim.opt.wrap = false
+vim.o.linebreak = true
+vim.o.wrap = false
 
 --
 --
@@ -228,43 +231,28 @@ vim.diagnostic.config({
 ---
 ---
 ---
----Create an autocmd to launch a file browser plugin when opening dirs.
----@param plugin_name string
----@param plugin_open fun(path: string) Function to open the file browser
-local function attach_file_browser(plugin_name, plugin_open)
-  local previous_buffer_name
-  vim.api.nvim_create_autocmd("BufEnter", {
-    group = vim.api.nvim_create_augroup("CustomAutocmdGroupName", { clear = true }),
-    desc = string.format("[%s] replacement for Netrw", plugin_name),
-    pattern = "*",
-    callback = function()
-      vim.schedule(function()
-        local buffer_name = vim.api.nvim_buf_get_name(0)
-        if vim.fn.isdirectory(buffer_name) == 0 then
-          _, previous_buffer_name = pcall(vim.fn.expand, "#:p:h")
-          return
-        end
-
-        -- Avoid reopening when exiting without selecting a file
-        if previous_buffer_name == buffer_name then
-          previous_buffer_name = nil
-          return
-        else
-          previous_buffer_name = buffer_name
-        end
-
-        -- Ensure no buffers remain with the directory name
-        vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = 0 })
-        plugin_open(vim.fn.expand("%:p:h"))
-      end)
-    end,
-  })
-end
+vim.filetype.add({
+  extension = {
+    env = "sh",
+    mdx = "mdx",
+    templ = "templ",
+  },
+  filename = {
+    [".envrc"] = "sh",
+    ["go.mod"] = "gomod",
+    ["go.sum"] = "gosum",
+  },
+  pattern = {
+    [".env%..*"] = "sh",
+  },
+})
 
 ---
 ---
 ---
--- require('config.winbar')
+require("config.autocmd")
+require("config.command")
+require("config.winbar")
 
 ---
 ---
@@ -303,6 +291,16 @@ require("lazy").setup({
       event = "VeryLazy",
       version = "*",
       config = function()
+        _G.cursorword_blocklist = function()
+          if vim.bo.filetype == "NvimTree" then
+            vim.b.minicursorword_disable = true
+          else
+            vim.b.minicursorword_disable = false
+          end
+        end
+
+        vim.cmd("au CursorMoved * lua _G.cursorword_blocklist()")
+
         require("mini.cursorword").setup({
           delay = 25,
         })
@@ -346,48 +344,51 @@ require("lazy").setup({
     ---
     ---
     ---
+    ---
     {
-      "folke/snacks.nvim",
-      priority = 1000,
+      "nvimdev/dashboard-nvim",
+      -- event = "VimEnter",
       lazy = false,
-      -- enabled = false,
-      opts = {
-        dashboard = {
-          enabled = true,
-          sections = {
-            { section = "keys", gap = 1, padding = 1 },
-            { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-          },
-        },
-        bigfile = { enabled = false },
-        notifier = { enabled = false },
-        quickfile = { enabled = false },
-        statuscolumn = { enabled = false },
-        words = { enabled = false },
-      },
-    },
-    {
-      "folke/persistence.nvim",
-      event = "VeryLazy", -- this will only start session saving when an actual file was opened
       config = function()
-        require("persistence").setup()
-
-        vim.api.nvim_create_user_command("LoadSession", function()
-          require("persistence").load()
-        end, {})
-
-        vim.api.nvim_create_user_command("SelectSession", function()
-          require("persistence").select()
-        end, {})
-
-        vim.api.nvim_create_user_command("LoadLastSession", function()
-          require("persistence").load({ last = true })
-        end, {})
-
-        vim.api.nvim_create_user_command("StopSession", function()
-          require("persistence").stop()
-        end, {})
+        require("dashboard").setup({
+          theme = "doom",
+          config = {
+            center = {
+              { icon = " ", key = "f", desc = "Find File", action = ":Telescope find_files" },
+              { icon = " ", key = "e", desc = "Recent Files", action = ":Telescope oldfiles" },
+              { icon = " ", key = "s", desc = "Load Session", action = ":SessionRestore" },
+              { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+            },
+          },
+        })
       end,
+    },
+    ---
+    ---
+    ---
+    {
+      "rmagatti/auto-session",
+      event = "VeryLazy",
+      cmd = { "SessionRestore" },
+      opts = {
+        auto_session_enabled = true,
+        auto_session_create_enabled = true,
+        auto_save_enabled = true,
+        auto_restore_enabled = false,
+        session_lens = { load_on_setup = false },
+        save_all_autocmds = false,
+        save_cursorline = false,
+        save_buffers = false,
+        save_folds = false,
+        save_tabs = false,
+        save_terminal_session = false,
+        save_file_history = false,
+        save_registers = false,
+        save_jumplist = false,
+        save_marks = false,
+        save_globals = false,
+        save_options = false,
+      },
     },
     ---
     ---
@@ -444,7 +445,7 @@ require("lazy").setup({
     {
       "catppuccin/nvim",
       lazy = false,
-      enabled = false,
+      enabled = true,
       name = "catppuccin",
       priority = 1000,
       config = require("config.plugins.catppuccin").setup,
@@ -452,6 +453,7 @@ require("lazy").setup({
     {
       "navarasu/onedark.nvim",
       lazy = false,
+      enabled = false,
       name = "onedark",
       priority = 1000,
       config = function()
@@ -465,8 +467,8 @@ require("lazy").setup({
     },
     {
       "folke/noice.nvim",
-      lazy = false,
-      -- event = "VeryLazy",
+      -- lazy = false,
+      event = { "VeryLazy" },
       config = require("config.plugins.noice").setup,
     },
     ---
@@ -554,22 +556,34 @@ require("lazy").setup({
     ---
     ---
     {
+      "johmsalas/text-case.nvim",
+      cmd = {
+        "TextCaseOpenTelescope",
+        "TextCaseOpenTelescopeQuickChange",
+        "TextCaseOpenTelescopeLSPChange",
+        "TextCaseStartReplacingCommand",
+      },
+      keys = {
+        "ga", -- Default invocation prefix
+        { "ga.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "x" }, desc = "Telescope" },
+      },
+      opts = {},
+    },
+    {
       lazy = true,
       "nvim-telescope/telescope-ui-select.nvim",
-      config = function()
-        require("telescope").load_extension("ui-select")
-      end,
     },
     {
       lazy = true,
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
-      config = function()
-        require("telescope").load_extension("fzf")
-      end,
     },
     {
       "nvim-telescope/telescope.nvim",
+      enabled = false,
+      cmd = {
+        "Telescope",
+      },
       keys = {
         "<leader>a",
         "<leader>e",
@@ -577,6 +591,116 @@ require("lazy").setup({
         "<leader>l",
       },
       config = require("config.plugins.telescope").setup,
+    },
+    {
+      "ibhagwan/fzf-lua",
+      cmd = { "FzfLua" },
+      keys = {
+        {
+          "<leader>a",
+          function()
+            ---@class Entry
+            ---@field cmd string | fun(): nil
+            ---@type table<string, Entry>
+            local commands = {
+              ["Commands"] = { cmd = "FzfLua commands" },
+              ["Copy file path (Absolute)"] = { cmd = "CopyAbsolutePath" },
+              ["Copy file path (Relative)"] = { cmd = "CopyRelativePath" },
+              ["Copy filetype"] = { cmd = "CopyFiletype" },
+              ["Diagnostics"] = { cmd = "Telescope diagnostics_document" },
+              ["Find Lines"] = { cmd = "FzfLua blines" },
+              ["Find Word"] = { cmd = "FzfLua grep_project" },
+              ["Format (Biome)"] = { cmd = "FormatWithBiome" },
+              ["Format (Prettier)"] = { cmd = "FormatWithPrettier" },
+              ["Format (default)"] = { cmd = "Format" },
+              ["Git (Fugitive)"] = { cmd = "Git" },
+              ["Git (Neogit)"] = { cmd = "Neogit" },
+              ["Help"] = { cmd = "FzfLua helptags" },
+              ["Highlights"] = { cmd = "FzfLua highlights" },
+              ["Keymaps"] = { cmd = "FzfLua keymaps" },
+              ["Lazy"] = { cmd = "Lazy" },
+              ["Lint (Biome)"] = { cmd = "LintWithBiome" },
+              ["Lint (EsLint)"] = { cmd = "LintWithPrettier" },
+              ["Lint (default)"] = { cmd = "Lint" },
+              ["Load Session"] = { cmd = "LoadSession" },
+              ["Mason"] = { cmd = "Mason" },
+              ["Markdown Preview"] = { cmd = "MarkdownPreviewToggle" },
+              ["Noice dismiss"] = { cmd = "Noice dismiss" },
+              ["Noice messages"] = { cmd = "Noice fzf" },
+              ["Open (Finder)"] = { cmd = "!open ." },
+              ["Quit force"] = { cmd = "qa!" },
+              ["Rename File"] = { cmd = "RenameFile" },
+              ["Restart LSP"] = { cmd = "LspRestart" },
+              ["Save"] = { cmd = "wa" },
+              ["Save and quit force"] = { cmd = "wqa!" },
+              ["Search"] = { cmd = "Spectre" },
+              ["Search (local)"] = { cmd = "GrugFarLocal" },
+              ["Search (global)"] = { cmd = "GrugFarGlobal" },
+              ["Symbols"] = { cmd = "FzfLua lsp_document_symbols" },
+              ["Symbols (Workspace)"] = { cmd = "FzfLua lsp_workspace_symbols" },
+              ["Buf Only"] = { cmd = "only|bd|e#" },
+              ["Tab Close"] = { cmd = "tabclose" },
+              ["Tab New"] = { cmd = "tabnew" },
+              ["Tab Next"] = { cmd = "tabnext" },
+              ["Tab Only"] = { cmd = "tabonly" },
+              ["Tab Previous"] = { cmd = "tabprevious" },
+              ["Todos Quickfix"] = { cmd = "TodoLocList" },
+              ["Trouble"] = { cmd = "Trouble" },
+              ["Zen Mode (no neck pain)"] = { cmd = "NoNeckPain" },
+              ["Zen Mode (decrease)"] = { cmd = "NoNeckPainWidthDown" },
+              ["Zen Mode (increase)"] = { cmd = "NoNeckPainWidthUp" },
+            }
+
+            local keys = {}
+            local n = 0
+            for k, _ in pairs(commands) do
+              n = n + 1
+              keys[n] = k
+            end
+
+            require("fzf-lua").fzf_exec(keys, {
+              actions = {
+                ["enter"] = function(selected)
+                  if selected and selected[1] then
+                    local meta = commands[selected[1]]
+
+                    if type(meta.cmd) == "function" then
+                      meta.cmd()
+                    elseif type(meta.cmd) == "string" then
+                      vim.cmd(meta.cmd)
+                    end
+                  end
+                end,
+              },
+            })
+          end,
+        },
+        {
+          "<leader>b",
+          function()
+            require("fzf-lua").buffers()
+          end,
+        },
+        {
+          "<leader>e",
+          function()
+            require("fzf-lua").oldfiles()
+          end,
+        },
+        {
+          "<leader>f",
+          function()
+            require("fzf-lua").files()
+          end,
+        },
+        {
+          "<leader>l",
+          function()
+            require("fzf-lua").blines()
+          end,
+        },
+      },
+      config = require("config.plugins.fzflua").setup,
     },
     ---
     ---
@@ -587,23 +711,18 @@ require("lazy").setup({
       keys = {
         { "<leader>x", "<CMD>Oil<CR>" },
       },
-      -- init = function()
-      --   local oil_open_folder = function(path)
-      --     require("oil").open(path)
-      --   end
-      --   attach_file_browser("oil", oil_open_folder)
-      -- end,
       config = require("config.plugins.oil").setup,
     },
+    ---
+    ---
+    ---
     {
       "nvim-tree/nvim-tree.lua",
       keys = {
         {
           "<leader>j",
           function()
-            local filetype = vim.bo.filetype
-
-            if filetype == "NvimTree" then
+            if vim.bo.filetype == "NvimTree" then
               vim.cmd("NvimTreeClose")
             else
               vim.cmd("NvimTreeFindFile")
@@ -612,6 +731,14 @@ require("lazy").setup({
           mode = "n",
         },
       },
+      init = function()
+        vim.api.nvim_create_autocmd("FileType", {
+          pattern = "NvimTree",
+          callback = function()
+            vim.opt_local.laststatus = 0
+          end,
+        })
+      end,
       config = require("config.plugins.nvim-tree").setup,
     },
     ---
@@ -630,54 +757,14 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       event = { "BufReadPre", "BufNewFile" },
       build = ":TSUpdate",
-      -- init = function(plugin)
-      --   require("lazy.core.loader").add_to_rtp(plugin)
-      --   require("nvim-treesitter.query_predicates")
-      -- end,
-      config = require("config.plugins.treesitter").setup,
-    },
-    {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      event = { "VeryLazy" },
-      config = function()
-        ---@diagnostic disable-next-line: missing-fields
-        require("nvim-treesitter.configs").setup({
-          textobjects = {
-            move = {
-              enable = true,
-              set_jumps = true,
-              goto_previous_start = {
-                ["[f"] = { query = "@function.outer", desc = "Previous function" },
-                ["[c"] = { query = "@class.outer", desc = "Previous class" },
-                ["[p"] = { query = "@parameter.inner", desc = "Previous parameter" },
-              },
-              goto_next_start = {
-                ["]f"] = { query = "@function.outer", desc = "Next function" },
-                ["]c"] = { query = "@class.outer", desc = "Next class" },
-                ["]p"] = { query = "@parameter.inner", desc = "Next parameter" },
-              },
-            },
-            select = {
-              enable = true,
-              lookahead = true,
-              include_surrounding_whitespace = false,
-              keymaps = {
-                ["af"] = { query = "@function.outer" },
-                ["if"] = { query = "@function.inner" },
-                ["ac"] = { query = "@class.outer" },
-                ["ic"] = { query = "@class.inner" },
-                ["ai"] = { query = "@conditional.outer", desc = "around an if statement" },
-                ["ii"] = { query = "@conditional.inner", desc = "inner part of an if statement" },
-                ["al"] = { query = "@loop.outer", desc = "around a loop" },
-                ["il"] = { query = "@loop.inner", desc = "inner part of a loop" },
-                ["ap"] = { query = "@parameter.outer", desc = "around parameter" },
-                ["ip"] = { query = "@parameter.inner", desc = "inside a parameter" },
-                ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-              },
-            },
-          },
-        })
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+      },
+      init = function(plugin)
+        require("lazy.core.loader").add_to_rtp(plugin)
+        require("nvim-treesitter.query_predicates")
       end,
+      config = require("config.plugins.treesitter").setup,
     },
     ---
     ---
@@ -685,7 +772,6 @@ require("lazy").setup({
     {
       "kevinhwang91/nvim-ufo",
       event = { "VeryLazy" },
-      -- lazy = false,
       dependencies = {
         "kevinhwang91/promise-async",
         {
@@ -708,7 +794,7 @@ require("lazy").setup({
       config = require("config.plugins.ufo").setup,
     },
     ---
-    ---
+    --- Plugins::Source Control
     ---
     {
       "akinsho/git-conflict.nvim",
@@ -764,7 +850,7 @@ require("lazy").setup({
     ---
     {
       "mg979/vim-visual-multi",
-      event = "VeryLazy",
+      event = "CursorMoved",
       config = function()
         vim.g.VM_theme = "iceblue"
         vim.g.VM_default_mappings = 1
@@ -838,6 +924,31 @@ require("lazy").setup({
         "Trouble",
       },
       config = require("config.plugins.trouble").setup,
+    },
+    ---
+    ---
+    ---
+    {
+      "folke/zen-mode.nvim",
+      keys = {
+        { "<leader>z", ":ZenMode<CR>", mode = "n" },
+      },
+      opts = {
+        window = {
+          backdrop = 1,
+          width = 120,
+        },
+      },
+    },
+    {
+      "shortcuts/no-neck-pain.nvim",
+      enabled = false,
+      cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
+      keys = {
+        { "<leader>z", "NoNeckPain", mode = "n" },
+      },
+      version = "*",
+      config = require("config.plugins.no-neck-pain").setup,
     },
   },
   install = {

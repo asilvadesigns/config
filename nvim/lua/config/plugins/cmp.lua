@@ -2,7 +2,7 @@ local M = {}
 
 M.setup = function()
   local cmp = require("cmp")
-  -- local compare = require("cmp.config.compare")
+  local compare = require("cmp.config.compare")
   local luasnip = require("luasnip")
 
   luasnip.config.setup()
@@ -88,33 +88,18 @@ M.setup = function()
         -- },
       },
     }),
-    -- sorting = {
-    --   priority_weight = 1.0,
-    --   comparators = {
-    --     compare.offset,
-    --     compare.exact,
-    --     compare.score,
-    --
-    --     -- copied from cmp-under, but I don't think I need the plugin for this.
-    --     -- I might add some more of my own.
-    --     function(entry1, entry2)
-    --       local _, entry1_under = entry1.completion_item.label:find("^_+")
-    --       local _, entry2_under = entry2.completion_item.label:find("^_+")
-    --       entry1_under = entry1_under or 0
-    --       entry2_under = entry2_under or 0
-    --       if entry1_under > entry2_under then
-    --         return false
-    --       elseif entry1_under < entry2_under then
-    --         return true
-    --       end
-    --     end,
-    --
-    --     compare.kind,
-    --     compare.sort_text,
-    --     compare.length,
-    --     compare.order,
-    --   },
-    -- },
+    sorting = {
+      priority_weight = 1.0,
+      comparators = {
+        compare.locality,
+        compare.recently_used,
+        compare.length,
+        compare.exact,
+        compare.kind,
+        compare.score,
+        compare.order,
+      },
+    },
     experimental = {
       ghost_text = false,
     },

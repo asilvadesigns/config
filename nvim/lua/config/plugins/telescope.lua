@@ -237,7 +237,9 @@ M.setup = function()
   vim.keymap.set("n", "<leader>g", builtin.live_grep)
   vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)
 
-  -- telescope.load_extension("textcase")
+  telescope.load_extension("fzf")
+  telescope.load_extension("textcase")
+  telescope.load_extension("ui-select")
 end
 
 return M
