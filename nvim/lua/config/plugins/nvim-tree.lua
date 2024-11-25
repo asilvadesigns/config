@@ -163,7 +163,7 @@ M.setup = function()
 
   vim.cmd("hi! link NvimTreeFolderName Delimiter")
   vim.cmd("hi! link NvimTreeFolderName Normal")
-  vim.cmd("hi! link NvimTreeNormal Delimiter")
+  vim.cmd("hi! link NvimTreeNormal Normal")
   vim.cmd("hi! link NvimTreeOpenedFolderName Delimiter")
   vim.cmd("hi! link NvimTreeRootFolder Delimiter")
 

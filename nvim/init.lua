@@ -280,8 +280,28 @@ require("lazy").setup({
       event = "VeryLazy",
       tag = "v0.2.0",
       config = function()
-        require("modes").setup()
+        require("modes").setup({
+          ignore_filetypes = {
+            "NvimTree",
+            "TelescopePrompt",
+          },
+        })
       end,
+    },
+    ---
+    ---
+    ---
+    {
+      "max397574/better-escape.nvim",
+      event = "InsertEnter",
+      opts = {
+        default_mappings = false,
+        mappings = {
+          i = {
+            k = { j = "<Esc>" },
+          },
+        },
+      },
     },
     ---
     ---
