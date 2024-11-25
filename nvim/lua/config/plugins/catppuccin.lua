@@ -9,6 +9,7 @@ M.setup = function()
   -- require("catppuccin").setup()
   require("catppuccin").setup({
     integrations = {
+      fzf = true,
       leap = false,
       notify = false,
       nvimtree = false,
@@ -119,12 +120,14 @@ M.setup = function()
       latte = function(c)
         -- local bg = c.base
         local bg = utils.darken(c.surface0, 0.20, c.base)
+        -- local darker = utils.lighten(c.surface0, 0.40, c.base)
 
         return {
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- or c.muave
           CursorLineSign = { bg = bg },
+          -- MiniCursorword = { bg = darker, underline = false },
           --
           NvimTreeCursorLine = { bg = bg, fg = c.text },
           -- Visual = { bg = bg, bold = false },
@@ -133,12 +136,14 @@ M.setup = function()
       frappe = function(c)
         -- local bg = c.base
         local bg = utils.darken(c.surface0, 0.40, c.base)
+        -- local darker = utils.lighten(c.surface0, 0.60, c.base)
 
         return {
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- or c.muave
           CursorLineSign = { bg = bg },
+          -- MiniCursorword = { bg = darker, underline = false },
           --
           NvimTreeCursorLine = { bg = bg, fg = c.text },
           -- Visual = { bg = bg, bold = false },

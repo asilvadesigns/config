@@ -20,22 +20,22 @@ M.setup = function()
     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 
     -- fzflua
-    vim.keymap.set("n", "gd", function()
-      require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
-    end, opts)
-    vim.keymap.set("n", "gi", require("fzf-lua").lsp_implementations, opts)
-    vim.keymap.set("n", "gr", require("fzf-lua").lsp_references, opts)
-    vim.keymap.set("n", "gl", function()
-      require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
-    end, opts)
-
-    -- telescope
-    -- vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
-    -- vim.keymap.set("n", "gi", require("telescope.builtin").lsp_implementations, opts)
-    -- vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
+    -- vim.keymap.set("n", "gd", function()
+    --   require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
+    -- end, opts)
+    -- vim.keymap.set("n", "gi", require("fzf-lua").lsp_implementations, opts)
+    -- vim.keymap.set("n", "gr", require("fzf-lua").lsp_references, opts)
     -- vim.keymap.set("n", "gl", function()
     --   require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
     -- end, opts)
+
+    -- telescope
+    vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
+    vim.keymap.set("n", "gi", require("telescope.builtin").lsp_implementations, opts)
+    vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
+    vim.keymap.set("n", "gl", function()
+      require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
+    end, opts)
   end
 
   local servers = {

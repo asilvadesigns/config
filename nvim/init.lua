@@ -325,8 +325,17 @@ require("lazy").setup({
           delay = 25,
         })
 
-        vim.cmd("hi! link MiniCursorword CursorLine")
-        vim.cmd("hi! link MiniCursorwordCurrent CursorLine")
+        vim.api.nvim_set_hl(0, "MiniCursorword", {
+          bg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticVirtualTextInfo"), "bg"),
+          italic = false,
+          underline = false,
+        })
+
+        vim.api.nvim_set_hl(0, "MiniCursorwordCurrent", {
+          bg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticVirtualTextInfo"), "bg"),
+          italic = false,
+          underline = false,
+        })
       end,
     },
     ---
@@ -589,18 +598,20 @@ require("lazy").setup({
       },
       opts = {},
     },
+    { "nvim-telescope/telescope-ui-select.nvim" },
     {
-      lazy = true,
-      "nvim-telescope/telescope-ui-select.nvim",
+      build = "make",
+      enabled = false,
+      "nvim-telescope/telescope-fzf-native.nvim",
     },
     {
       lazy = true,
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
+      enabled = true,
+      "natecraddock/telescope-zf-native.nvim",
     },
     {
       "nvim-telescope/telescope.nvim",
-      enabled = false,
+      enabled = true,
       cmd = {
         "Telescope",
       },
@@ -613,6 +624,7 @@ require("lazy").setup({
       config = require("config.plugins.telescope").setup,
     },
     {
+      enabled = false,
       "ibhagwan/fzf-lua",
       cmd = { "FzfLua" },
       keys = {
@@ -870,7 +882,7 @@ require("lazy").setup({
     ---
     {
       "mg979/vim-visual-multi",
-      event = "CursorMoved",
+      event = "VeryLazy",
       config = function()
         vim.g.VM_theme = "iceblue"
         vim.g.VM_default_mappings = 1
@@ -970,9 +982,26 @@ require("lazy").setup({
       version = "*",
       config = require("config.plugins.no-neck-pain").setup,
     },
+    ---
+    ---
+    ---
+    {
+      "lewis6991/gitsigns.nvim",
+      event = { "VeryLazy" },
+      opts = {
+        signcolumn = false,
+        numhl = false,
+        current_line_blame_opts = {
+          ignore_whitespace = true,
+        },
+      },
+    },
   },
   install = {
     colorscheme = { "catppucin-frappe" },
+  },
+  rocks = {
+    enabled = false,
   },
   performance = {
     rtp = {
