@@ -1,6 +1,6 @@
 local wezterm = require('wezterm')
 local smart_splits = wezterm.plugin.require('https://github.com/mrjones2014/smart-splits.nvim')
-local onedark = wezterm.color.get_builtin_schemes()['OneDark (base16)']
+-- local onedark = wezterm.color.get_builtin_schemes()['Catppuccin Frappe']
 
 local config = {}
 
@@ -11,27 +11,30 @@ if wezterm.config_builder then
 end
 
 -- Theme
-config.color_scheme = 'OneDark (base16)'
+config.color_scheme = 'catppuccin-frappe'
 config.font = wezterm.font('JetBrainsMono Nerd Font Mono')
 config.font_size = 15
 config.line_height = 1.2
 config.window_decorations = 'RESIZE'
+
+-- FPS
+config.max_fps = 120
 
 config.use_fancy_tab_bar = true
 config.window_frame = {
   font = wezterm.font('JetBrainsMono Nerd Font Mono'),
   font_size = 14.0,
 }
-config.colors = {
-  cursor_bg = '#4d88f3',
-  tab_bar = {
-    background = onedark.background,
-    active_tab = {
-      bg_color = onedark.background,
-      fg_color = onedark.foreground,
-    },
-  },
-}
+-- config.colors = {
+--   cursor_bg = '#4d88f3',
+--   tab_bar = {
+--     background = onedark.background,
+--     active_tab = {
+--       bg_color = onedark.background,
+--       fg_color = onedark.foreground,
+--     },
+--   },
+-- }
 
 -- The filled in variant of the < symbol
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.pl_right_hard_divider
