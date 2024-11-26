@@ -43,9 +43,9 @@ M.setup = function()
     },
   })
 
-  vim.cmd("hi! link OilDir NvimTreeFolderName")
-  vim.cmd("hi! link OilDirIcon NvimTreeFolderName")
-  vim.cmd("hi! link OilFile NvimTreeFolderName")
+  -- vim.cmd("hi! link OilDir NvimTreeFolderName")
+  -- vim.cmd("hi! link OilDirIcon NvimTreeFolderName")
+  -- vim.cmd("hi! link OilFile NvimTreeFolderName")
 end
 
 return M

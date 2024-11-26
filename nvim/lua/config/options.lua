@@ -94,6 +94,7 @@ vim.opt.wrap = false
 vim.diagnostic.config({
   float = { border = "rounded" },
 })
+
 vim.keymap.set("n", "[d", function()
   vim.diagnostic.goto_prev()
 end, { desc = "Go to previous diagnostic message" })

@@ -23,60 +23,58 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 ---
-vim.o.background = "dark"
-vim.o.backup = false
-vim.o.clipboard = "unnamedplus"
-vim.o.conceallevel = 0
-vim.o.cursorline = true
-vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-vim.o.pumheight = 10
-vim.o.swapfile = false
-vim.o.writebackup = false
+vim.opt.background = "dark"
+vim.opt.backup = false
+vim.opt.clipboard = "unnamedplus"
+vim.opt.conceallevel = 0
+vim.opt.cursorline = true
+vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.opt.pumheight = 10
+vim.opt.swapfile = false
+vim.opt.writebackup = false
 ---
-vim.o.number = true
-vim.o.relativenumber = true
+vim.opt.number = true
+vim.opt.relativenumber = true
 ---
-vim.o.foldcolumn = "0" -- "0" to hide folds. "1" to show.
-vim.o.foldenable = true
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 99
-vim.o.foldmethod = "indent"
--- vim.o.foldmethod = "expr"
--- vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
+vim.opt.foldenable = true
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldmethod = "indent"
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 ---
-vim.o.splitbelow = true
-vim.o.splitkeep = "cursor"
-vim.o.splitright = true
+vim.opt.splitbelow = true
+vim.opt.splitkeep = "cursor"
+vim.opt.splitright = true
 ---
-vim.o.expandtab = true
-vim.o.shiftwidth = 2
-vim.o.smartindent = true
-vim.o.tabstop = 2
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.smartindent = true
+vim.opt.tabstop = 2
 ---
-vim.o.list = false
-vim.o.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
-vim.o.showbreak = "↳  "
+vim.opt.list = false
+vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
+vim.opt.showbreak = "↳  "
 ---
-vim.o.scrolloff = 0
-vim.o.sidescrolloff = 0
-vim.o.smoothscroll = true
+vim.opt.scrolloff = 0
+vim.opt.sidescrolloff = 0
+vim.opt.smoothscroll = true
 ---
-vim.o.laststatus = 0
-local str = string.rep("—", 500)
--- vim.opt.statusline = str
--- vim.api.nvim_set_hl(0, "Statusline", { link = "Normal" })
--- vim.api.nvim_set_hl(0, "StatuslineNC", { link = "Normal" })
-vim.opt.statusline = str -- string.rep("—", vim.api.nvim_win_get_width(0))
+vim.opt.laststatus = 0
+vim.api.nvim_set_hl(0, "Statusline", { link = "Normal" })
+vim.api.nvim_set_hl(0, "StatuslineNC", { link = "Normal" })
+vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
 vim.opt.signcolumn = "yes"
--- vim.opt.statuscolumn = "%s %r "
-vim.o.winbar = " "
+-- vim.optpt.statuscolumn = "%s %r "
+-- vim.opt.winbar = " "
 ---
-vim.o.sessionoptions = "buffers,curdir,winsize,winpos"
+vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 ---
-vim.o.termguicolors = true
+vim.opt.termguicolors = true
 ---
-vim.o.linebreak = true
-vim.o.wrap = false
+vim.opt.linebreak = true
+vim.opt.wrap = false
 
 --
 --
@@ -462,36 +460,34 @@ require("lazy").setup({
     ---
     ---
     {
-      "EdenEast/nightfox.nvim",
-      lazy = false,
-      enabled = false,
-      name = "nightfox",
-      priority = 1000,
-      config = function()
-        vim.cmd("colorscheme nordfox")
-      end,
-    },
-    {
       "catppuccin/nvim",
       lazy = false,
-      enabled = true,
+      enabled = false,
       name = "catppuccin",
       priority = 1000,
       config = require("config.plugins.catppuccin").setup,
     },
     {
-      "navarasu/onedark.nvim",
-      lazy = false,
-      enabled = false,
-      name = "onedark",
-      priority = 1000,
+      "projekt0n/github-nvim-theme",
+      name = "github-theme",
+      lazy = false, -- make sure we load this during startup if it is your main colorscheme
+      priority = 1000, -- make sure to load this before all the other start plugins
       config = function()
-        require("onedark").setup({
-          style = "warm", --- 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
-        })
-        require("onedark").load()
-        -- vim.cmd("hi! link Winbar Normal")
-        -- vim.cmd("hi! link WinbarNC Normal")
+        require("github-theme").setup()
+
+        vim.cmd("colorscheme github_dark")
+        -- vim.cmd("colorscheme github_light")
+
+        vim.cmd("hi! link CursorLineFold CursorLine")
+        vim.cmd("hi! link CursorLineNr CursorLine")
+        vim.cmd("hi! link CursorLineSign CursorLine")
+
+        vim.cmd("hi! link StatusLine Normal")
+        vim.cmd("hi! link StatusLineNC Normal")
+
+        vim.cmd("hi! link WinSeparator LineNr")
+        vim.cmd("hi! link Winbar Normal")
+        vim.cmd("hi! link WinbarNC Normal")
       end,
     },
     {
@@ -763,14 +759,6 @@ require("lazy").setup({
           mode = "n",
         },
       },
-      init = function()
-        vim.api.nvim_create_autocmd("FileType", {
-          pattern = "NvimTree",
-          callback = function()
-            vim.opt_local.laststatus = 0
-          end,
-        })
-      end,
       config = require("config.plugins.nvim-tree").setup,
     },
     ---
@@ -808,7 +796,7 @@ require("lazy").setup({
         "kevinhwang91/promise-async",
         {
           "luukvbaal/statuscol.nvim",
-          enabled = false,
+          enabled = true,
           opts = function()
             local builtin = require("statuscol.builtin")
 
@@ -816,8 +804,8 @@ require("lazy").setup({
               relculright = true,
               ft_ignore = { "NvimTree" },
               segments = {
-                { text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
-                { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+                { text = { " ", builtin.lnumfunc }, click = "v:lua.ScLa" },
+                { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" },
               },
             }
           end,
@@ -961,23 +949,11 @@ require("lazy").setup({
     ---
     ---
     {
-      "folke/zen-mode.nvim",
-      keys = {
-        { "<leader>z", ":ZenMode<CR>", mode = "n" },
-      },
-      opts = {
-        window = {
-          backdrop = 1,
-          width = 120,
-        },
-      },
-    },
-    {
       "shortcuts/no-neck-pain.nvim",
-      enabled = false,
+      enabled = true,
       cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
       keys = {
-        { "<leader>z", "NoNeckPain", mode = "n" },
+        { "<leader>z", "<CMD>NoNeckPain<CR>", mode = "n" },
       },
       version = "*",
       config = require("config.plugins.no-neck-pain").setup,

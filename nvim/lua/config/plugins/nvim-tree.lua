@@ -91,7 +91,7 @@ M.setup = function()
     },
     renderer = {
       indent_markers = {
-        enable = true,
+        enable = false,
       },
       highlight_diagnostics = "all",
       icons = {
@@ -108,7 +108,7 @@ M.setup = function()
         web_devicons = {
           file = {
             enable = true,
-            color = true,
+            color = false,
           },
           folder = {
             enable = false,
@@ -156,31 +156,33 @@ M.setup = function()
     },
   })
 
-  vim.cmd("hi! link NvimTreeFolderIcon Delimiter") -- LineNr
-  -- vim.cmd("hi! link NvimTreeFileIcon Delimiter") -- LineNr
-  vim.cmd("hi! link NvimTreeIndentMarker WinSeparator") -- LineNr
-  vim.cmd("hi! link NvimTreeOpenedFolderIcon Delimiter")
+  vim.cmd("hi! link NvimTreeFolderIcon Comment") -- LineNr
+  vim.cmd("hi! link NvimTreeFileIcon Comment") -- LineNr
 
-  vim.cmd("hi! link NvimTreeFolderName Delimiter")
-  vim.cmd("hi! link NvimTreeFolderName Normal")
+  -- vim.cmd("hi! link NvimTreeIndentMarker Comment") -- LineNr
+  -- vim.cmd("hi! link NvimTreeOpenedFolderIcon Delimiter")
+  --
+  -- vim.cmd("hi! link NvimTreeFolderName Delimiter")
+  -- vim.cmd("hi! link NvimTreeFolderName Normal")
   vim.cmd("hi! link NvimTreeNormal Normal")
-  vim.cmd("hi! link NvimTreeOpenedFolderName Delimiter")
-  vim.cmd("hi! link NvimTreeRootFolder Delimiter")
-
-  vim.cmd("hi! link NvimTreeGitIgnored LineNr")
-  vim.cmd("hi! link NvimTreeGitIgnoredIcon LineNr")
-  vim.cmd("hi! link NvimTreeGitFileIgnoredHL LineNr")
-  vim.cmd("hi! link NvimTreeGitFolderIgnoredHL LineNr")
-
-  vim.cmd("hi! link NvimTreeDiagnosticErrorFileHL DiagnosticSignError")
-  vim.cmd("hi! link NvimTreeDiagnosticHintFileHL DiagnosticSignHint")
-  vim.cmd("hi! link NvimTreeDiagnosticInfoFileHL DiagnosticSignInfo")
-  vim.cmd("hi! link NvimTreeDiagnosticWarnFileHL DiagnosticSignWarn")
-
-  vim.cmd("hi! link NvimTreeDiagnosticErrorFolderHL DiagnosticSignError")
-  vim.cmd("hi! link NvimTreeDiagnosticHintFolderHL DiagnosticSignHint")
-  vim.cmd("hi! link NvimTreeDiagnosticInfoFolderHL DiagnosticSignInfo")
-  vim.cmd("hi! link NvimTreeDiagnosticWarnFolderHL DiagnosticSignWarn")
+  vim.cmd("hi! link NvimTreeEndOfBuffer Normal")
+  -- vim.cmd("hi! link NvimTreeOpenedFolderName Delimiter")
+  -- vim.cmd("hi! link NvimTreeRootFolder Delimiter")
+  --
+  -- vim.cmd("hi! link NvimTreeGitIgnored LineNr")
+  -- vim.cmd("hi! link NvimTreeGitIgnoredIcon LineNr")
+  -- vim.cmd("hi! link NvimTreeGitFileIgnoredHL LineNr")
+  -- vim.cmd("hi! link NvimTreeGitFolderIgnoredHL LineNr")
+  --
+  -- vim.cmd("hi! link NvimTreeDiagnosticErrorFileHL DiagnosticSignError")
+  -- vim.cmd("hi! link NvimTreeDiagnosticHintFileHL DiagnosticSignHint")
+  -- vim.cmd("hi! link NvimTreeDiagnosticInfoFileHL DiagnosticSignInfo")
+  -- vim.cmd("hi! link NvimTreeDiagnosticWarnFileHL DiagnosticSignWarn")
+  --
+  -- vim.cmd("hi! link NvimTreeDiagnosticErrorFolderHL DiagnosticSignError")
+  -- vim.cmd("hi! link NvimTreeDiagnosticHintFolderHL DiagnosticSignHint")
+  -- vim.cmd("hi! link NvimTreeDiagnosticInfoFolderHL DiagnosticSignInfo")
+  -- vim.cmd("hi! link NvimTreeDiagnosticWarnFolderHL DiagnosticSignWarn")
 
   -- vim.keymap.set("n", "<leader>j", function()
   --   local filetype = vim.bo.filetype

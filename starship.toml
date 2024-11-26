@@ -16,7 +16,7 @@ $character
 [custom.tmux]
 command = "echo 'in tmux'"
 when = "[ $TMUX ]"  # Condition to check
-style = "blue"  # Style for the text
+style = "cyan"  # Style for the text
 
 [character]
 format = ' $symbol '
@@ -26,15 +26,15 @@ error_symbol = ''
 [directory]
 truncation_length = 0
 truncate_to_repo = false
-style = "blue"
+# style = "blue"
 
 [git_branch]
 symbol = ""
-style = "blue"
+# style = "blue"
 # symbol = " "
 
 [git_status]
-#disabled = true
+disabled = true
 #ADDED=''
 #UNMERGED=''
 format = '([$all_status$ahead_behind]($style) )'
