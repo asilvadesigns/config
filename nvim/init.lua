@@ -62,10 +62,10 @@ vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
 vim.opt.laststatus = 0
-vim.api.nvim_set_hl(0, "Statusline", { link = "Normal" })
-vim.api.nvim_set_hl(0, "StatuslineNC", { link = "Normal" })
 vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
+
 vim.opt.signcolumn = "yes"
+vim.cmd("set cmdheight=0")
 -- vim.optpt.statuscolumn = "%s %r "
 -- vim.opt.winbar = " "
 ---
@@ -250,7 +250,7 @@ vim.filetype.add({
 ---
 require("config.autocmd")
 require("config.command")
-require("config.winbar")
+-- require("config.winbar")
 
 ---
 ---
@@ -376,6 +376,7 @@ require("lazy").setup({
       "nvimdev/dashboard-nvim",
       -- event = "VimEnter",
       lazy = false,
+      enabled = false,
       config = function()
         require("dashboard").setup({
           theme = "doom",
@@ -395,13 +396,14 @@ require("lazy").setup({
     ---
     {
       "rmagatti/auto-session",
-      event = "VeryLazy",
+      -- event = "VeryLazy",
+      lazy = false,
       cmd = { "SessionRestore" },
       opts = {
         auto_session_enabled = true,
         auto_session_create_enabled = true,
         auto_save_enabled = true,
-        auto_restore_enabled = false,
+        auto_restore_enabled = true,
         session_lens = { load_on_setup = false },
         save_all_autocmds = false,
         save_cursorline = false,
@@ -492,8 +494,8 @@ require("lazy").setup({
     },
     {
       "folke/noice.nvim",
-      -- lazy = false,
-      event = { "VeryLazy" },
+      lazy = false,
+      -- event = { "VeryLazy" },
       config = require("config.plugins.noice").setup,
     },
     ---
@@ -520,6 +522,7 @@ require("lazy").setup({
     ---
     {
       "brenoprata10/nvim-highlight-colors",
+      event = "VeryLazy",
       cmd = { "HighlightColors" },
       opts = {},
     },
@@ -745,7 +748,16 @@ require("lazy").setup({
     ---
     ---
     {
+      "b0o/incline.nvim",
+      event = "VeryLazy",
+      config = require("config.plugins.incline").setup,
+    },
+    ---
+    ---
+    ---
+    {
       "nvim-tree/nvim-tree.lua",
+      enabled = true,
       keys = {
         {
           "<leader>j",
@@ -791,12 +803,11 @@ require("lazy").setup({
     ---
     {
       "kevinhwang91/nvim-ufo",
-      event = { "VeryLazy" },
+      lazy = false,
       dependencies = {
         "kevinhwang91/promise-async",
         {
           "luukvbaal/statuscol.nvim",
-          enabled = true,
           opts = function()
             local builtin = require("statuscol.builtin")
 
@@ -1001,3 +1012,6 @@ require("lazy").setup({
     },
   },
 })
+
+vim.cmd("hi! link StatusLine WinSeparator")
+vim.cmd("hi! link StatusLineNC WinSeparator")

@@ -54,6 +54,7 @@ M.setup = function()
     end, opts("Search in directory"))
   end
 
+  vim.cmd("set laststatus=0")
   require("nvim-tree").setup({
     on_attach = my_on_attach,
     actions = {
@@ -91,7 +92,7 @@ M.setup = function()
     },
     renderer = {
       indent_markers = {
-        enable = false,
+        enable = true,
       },
       highlight_diagnostics = "all",
       icons = {
@@ -155,6 +156,7 @@ M.setup = function()
       -- signcolumn = "no",
     },
   })
+  vim.cmd("set laststatus=0")
 
   vim.cmd("hi! link NvimTreeFolderIcon Comment") -- LineNr
   vim.cmd("hi! link NvimTreeFileIcon Comment") -- LineNr
@@ -193,6 +195,18 @@ M.setup = function()
   --     vim.cmd("NvimTreeFindFile")
   --   end
   -- end, {})
+
+  -- local nt_api = require("nvim-tree.api")
+  -- nt_api.events.subscribe(nt_api.events.Event.TreeOpen, function()
+  --   -- local tree_winid = nt_api.tree.winid()
+  --   -- if tree_winid ~= nil then
+  --   --   vim.api.nvim_set_option_value("statusline", "hi.", { win = tree_winid })
+  --   -- end
+  --   vim.cmd("set laststatus=0")
+  -- end)
+  -- nt_api.events.subscribe(nt_api.events.Event.TreeClose, function()
+  --   vim.cmd("set laststatus=0")
+  -- end)
 end
 
 return M
