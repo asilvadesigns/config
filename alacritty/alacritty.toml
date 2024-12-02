@@ -102,7 +102,7 @@ import = [
   # custom
   # "~/.config/alacritty/alacritty-themes/custom.toml",
   # dark
-  # "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml",
+  "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml",
   # "~/.config/alacritty/alacritty-themes/monokai-pro.toml",
   # light
   # "~/.config/alacritty/alacritty-themes/catppuccin-latte.toml"
@@ -113,6 +113,6 @@ import = [
   # zenbones
   # "~/.config/alacritty/alacritty-themes/zenbones_light.toml",
   # github
-  "~/.config/alacritty/alacritty-themes/github_dark.toml"
+  # "~/.config/alacritty/alacritty-themes/github_dark.toml"
   # "~/.config/alacritty/alacritty-themes/github_light.toml"
 ]

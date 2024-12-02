@@ -29,6 +29,11 @@ M.setup = function()
         InclineNormalNC = { default = true, group = "Normal" },
       },
     },
+    hide = {
+      cursorline = false,
+      focused_win = false,
+      only_win = false
+    },
     render = function(props)
       local diagnostics = get_diagnostics(props)
       local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":p:."), group = "Comment" }

@@ -161,7 +161,7 @@ M.setup = function()
   vim.cmd("hi! link NvimTreeFolderIcon Comment") -- LineNr
   vim.cmd("hi! link NvimTreeFileIcon Comment") -- LineNr
 
-  -- vim.cmd("hi! link NvimTreeIndentMarker Comment") -- LineNr
+  vim.cmd("hi! link NvimTreeIndentMarker WinSeparator") -- LineNr
   -- vim.cmd("hi! link NvimTreeOpenedFolderIcon Delimiter")
   --
   -- vim.cmd("hi! link NvimTreeFolderName Delimiter")
@@ -196,17 +196,14 @@ M.setup = function()
   --   end
   -- end, {})
 
-  -- local nt_api = require("nvim-tree.api")
-  -- nt_api.events.subscribe(nt_api.events.Event.TreeOpen, function()
-  --   -- local tree_winid = nt_api.tree.winid()
-  --   -- if tree_winid ~= nil then
-  --   --   vim.api.nvim_set_option_value("statusline", "hi.", { win = tree_winid })
-  --   -- end
-  --   vim.cmd("set laststatus=0")
-  -- end)
-  -- nt_api.events.subscribe(nt_api.events.Event.TreeClose, function()
-  --   vim.cmd("set laststatus=0")
-  -- end)
+  local nt_api = require("nvim-tree.api")
+  nt_api.events.subscribe(nt_api.events.Event.TreeOpen, function()
+    vim.cmd("set laststatus=0")
+  end)
+
+  nt_api.events.subscribe(nt_api.events.Event.TreeClose, function()
+    vim.cmd("set laststatus=0")
+  end)
 end
 
 return M

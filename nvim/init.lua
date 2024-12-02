@@ -464,7 +464,7 @@ require("lazy").setup({
     {
       "catppuccin/nvim",
       lazy = false,
-      enabled = false,
+      enabled = true,
       name = "catppuccin",
       priority = 1000,
       config = require("config.plugins.catppuccin").setup,
@@ -473,12 +473,13 @@ require("lazy").setup({
       "projekt0n/github-nvim-theme",
       name = "github-theme",
       lazy = false, -- make sure we load this during startup if it is your main colorscheme
+      enabled = false,
       priority = 1000, -- make sure to load this before all the other start plugins
       config = function()
         require("github-theme").setup()
 
-        vim.cmd("colorscheme github_dark")
-        -- vim.cmd("colorscheme github_light")
+        -- vim.cmd("colorscheme github_dark")
+        vim.cmd("colorscheme github_light")
 
         vim.cmd("hi! link CursorLineFold CursorLine")
         vim.cmd("hi! link CursorLineNr CursorLine")
