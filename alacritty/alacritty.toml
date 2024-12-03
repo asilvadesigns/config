@@ -22,6 +22,8 @@ bindings = [
   { key = "S", mods = "Command|Shift", chars = "\u0000S" },
   # tmux session | picker (sesh)
   { key = "K", mods = "Command|Shift", chars = "\u0000k" },
+  # tmux session | picker (window)
+  { key = "p", mods = "Command", chars = "\u0000p" },
   # tmux | command
   { key = ";", mods = "Command", chars = "\u0000:" },
   # tmux | refresh
@@ -102,7 +104,7 @@ import = [
   # custom
   # "~/.config/alacritty/alacritty-themes/custom.toml",
   # dark
-  "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml",
+  # "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml",
   # "~/.config/alacritty/alacritty-themes/monokai-pro.toml",
   # light
   # "~/.config/alacritty/alacritty-themes/catppuccin-latte.toml"
@@ -113,6 +115,6 @@ import = [
   # zenbones
   # "~/.config/alacritty/alacritty-themes/zenbones_light.toml",
   # github
-  # "~/.config/alacritty/alacritty-themes/github_dark.toml"
+  "~/.config/alacritty/alacritty-themes/github_dark.toml"
   # "~/.config/alacritty/alacritty-themes/github_light.toml"
 ]

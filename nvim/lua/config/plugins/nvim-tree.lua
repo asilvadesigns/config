@@ -54,7 +54,7 @@ M.setup = function()
     end, opts("Search in directory"))
   end
 
-  vim.cmd("set laststatus=0")
+  -- vim.cmd("set laststatus=0")
   require("nvim-tree").setup({
     on_attach = my_on_attach,
     actions = {
@@ -156,18 +156,22 @@ M.setup = function()
       -- signcolumn = "no",
     },
   })
+
   vim.cmd("set laststatus=0")
 
-  vim.cmd("hi! link NvimTreeFolderIcon Comment") -- LineNr
-  vim.cmd("hi! link NvimTreeFileIcon Comment") -- LineNr
+  -- vim.cmd("hi! link NvimTreeFolderIcon Comment") -- LineNr
+  -- vim.cmd("hi! link NvimTreeFileIcon Comment") -- LineNr
+  --
+  -- vim.cmd("hi! link NvimTreeIndentMarker WinSeparator") -- LineNr
 
-  vim.cmd("hi! link NvimTreeIndentMarker WinSeparator") -- LineNr
   -- vim.cmd("hi! link NvimTreeOpenedFolderIcon Delimiter")
   --
   -- vim.cmd("hi! link NvimTreeFolderName Delimiter")
   -- vim.cmd("hi! link NvimTreeFolderName Normal")
-  vim.cmd("hi! link NvimTreeNormal Normal")
-  vim.cmd("hi! link NvimTreeEndOfBuffer Normal")
+
+  -- vim.cmd("hi! link NvimTreeNormal Normal")
+  -- vim.cmd("hi! link NvimTreeEndOfBuffer Normal")
+
   -- vim.cmd("hi! link NvimTreeOpenedFolderName Delimiter")
   -- vim.cmd("hi! link NvimTreeRootFolder Delimiter")
   --

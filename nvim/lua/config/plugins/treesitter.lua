@@ -55,7 +55,7 @@ M.setup = function()
       },
     },
     textobjects = {
-      enable = true,
+      enable = false,
       move = {
         enable = true,
         set_jumps = true,

@@ -6,7 +6,7 @@ M.setup = function()
   require("scrollview").setup({
     always_show = false,
     column = 1,
-    current_only = true,
+    current_only = false,
     cursor_symbol = vim.fn.nr2char(0x25aa),
     winblend_gui = 50,
     excluded_filetypes = {
