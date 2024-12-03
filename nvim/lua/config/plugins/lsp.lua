@@ -1,15 +1,21 @@
 local M = {}
 
 M.setup = function()
-  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-  -- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
+  -- if using cmp
   local capabilities = vim.tbl_deep_extend(
     "force",
     vim.lsp.protocol.make_client_capabilities(),
     require("cmp_nvim_lsp").default_capabilities()
   )
-  -- TODO: Remove this when https://github.com/neovim/neovim/issues/23291#issuecomment-1686709265 is fixed.
+
+  -- if using blink...
+  -- local capabilities = vim.tbl_deep_extend(
+  --   "force",
+  --   vim.lsp.protocol.make_client_capabilities(),
+  --   capabilities = require("blink.cmp").get_lsp_capabilities()
+  -- )
+
   capabilities.workspace.didChangeWatchedFiles = { dynamicRegistration = false }
   capabilities.textDocument.foldingRange = {
     dynamicRegistration = false,

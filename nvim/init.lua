@@ -245,6 +245,15 @@ require("config.autocmd")
 require("config.command")
 require("config.winbar")
 
+vim.api.nvim_create_autocmd("Filetype", {
+  pattern = "dashboard",
+  group = vim.api.nvim_create_augroup("Dashboard_au", { clear = true }),
+  callback = function()
+    vim.cmd("setlocal buftype=nofile")
+    vim.cmd("setlocal nonumber norelativenumber noruler")
+  end,
+})
+
 ---
 ---
 ---
@@ -272,6 +281,20 @@ require("lazy").setup({
       tag = "v0.2.0",
       config = function()
         require("modes").setup({
+          colors = {
+            --
+            -- Theme: default
+            -- copy = "#f5c359",
+            -- delete = "#c75c6a",
+            insert = "#78ccc5",
+            -- visual = "#9745be",
+            --
+            -- Theme: catppuccin
+            copy = "#e5c890",
+            delete = "#e78284",
+            -- insert = "#81c8be",
+            visual = "#8caaee",
+          },
           ignore_filetypes = {
             "NvimTree",
             "TelescopePrompt",
@@ -334,8 +357,14 @@ require("lazy").setup({
     ---
     ---
     {
+      "karb94/neoscroll.nvim",
+      enabled = true,
+      event = "VeryLazy",
+      config = require("config.plugins.neoscroll").setup,
+    },
+    {
       "dstein64/nvim-scrollview",
-      enabled = false,
+      enabled = true,
       event = "VeryLazy",
       config = require("config.plugins.scrollview").setup,
     },
@@ -374,7 +403,6 @@ require("lazy").setup({
     ---
     {
       "nvimdev/dashboard-nvim",
-      -- event = "VimEnter",
       lazy = false,
       enabled = true,
       config = function()
@@ -401,14 +429,24 @@ require("lazy").setup({
       opts = {
         session_lens = {
           load_on_setup = false,
-        }
+        },
       },
     },
     ---
     ---
     ---
     {
+      "saghen/blink.cmp",
+      enabled = false,
+      dependencies = { "L3MON4D3/LuaSnip" },
+      version = "v0.*",
+      event = "InsertEnter",
+      opts_extend = { "sources.completion.enabled_providers" },
+      config = require("config.plugins.blink").setup,
+    },
+    {
       "hrsh7th/nvim-cmp",
+      enabled = true,
       dependencies = {
         "L3MON4D3/LuaSnip",
         "hrsh7th/cmp-cmdline",
@@ -425,7 +463,8 @@ require("lazy").setup({
     {
       "neovim/nvim-lspconfig",
       dependencies = {
-        "hrsh7th/cmp-nvim-lsp",
+        -- "hrsh7th/cmp-nvim-lsp",
+        "saghen/blink.cmp",
         "williamboman/mason-lspconfig.nvim",
         "williamboman/mason.nvim",
       },
@@ -825,7 +864,10 @@ require("lazy").setup({
 
             return {
               relculright = true,
-              ft_ignore = { "NvimTree" },
+              ft_ignore = {
+                "NvimTree",
+                "dashboard",
+              },
               segments = {
                 { text = { " ", builtin.lnumfunc }, click = "v:lua.ScLa" },
                 { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" },
@@ -834,6 +876,16 @@ require("lazy").setup({
           end,
         },
       },
+      init = function()
+        vim.api.nvim_create_autocmd("FileType", {
+          pattern = { "dashboard", "NvimTree" },
+          callback = function()
+            require("ufo").detach()
+            vim.opt_local.foldenable = false
+            vim.wo.foldcolumn = "0"
+          end,
+        })
+      end,
       config = require("config.plugins.ufo").setup,
     },
     ---

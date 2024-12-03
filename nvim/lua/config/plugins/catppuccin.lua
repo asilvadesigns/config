@@ -57,7 +57,8 @@ M.setup = function()
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },
           DiagnosticUnderlineHint = { sp = c.blue, undercurl = true },
-          DiagnosticUnderlineInfo = { sp = c.teal, undercurl = true }, DiagnosticUnderlineWarn = { sp = c.yellow, undercurl = true },
+          DiagnosticUnderlineInfo = { sp = c.teal, undercurl = true },
+          DiagnosticUnderlineWarn = { sp = c.yellow, undercurl = true },
           TelescopeTitle = { fg = c.text },
 
           -- NOTE: use if you want to have no statusline
@@ -72,7 +73,10 @@ M.setup = function()
           WinBarNC = { fg = c.overlay2 },
           --
           WinSeparator = { fg = c.surface0 },
-          -- SYNTAX
+
+          NvimTreeFolderName = { fg = c.subtext0 },
+          NvimTreeOpenedFolderName = { fg = c.subtext0 },
+          NvimTreeNormal = { fg = c.overlay1, bg = c.base },
         }
       end,
     },
@@ -83,6 +87,7 @@ M.setup = function()
   -- # light
   -- vim.cmd("colorscheme catppuccin-latte")
 
+  -- vim.cmd("hi! link NvimTreeFolderName Comment")
   vim.cmd("hi! link NvimTreeIndentMarker WinSeparator")
   -- #TODO: you were going to use these to remove the underline
   -- NvimTreeDiagnosticHintIcon      ┃ 1┃NvimTreeDiagnosticHintIcon

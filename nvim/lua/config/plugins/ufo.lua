@@ -4,6 +4,15 @@ M.setup = function()
   ---@diagnostic disable-next-line: missing-fields
   require("ufo").setup({
     open_fold_hl_timeout = 0,
+    preview = {
+      mappings = {
+        scrollU = "<C-u>",
+        scrollD = "<C-d>",
+        jumpTop = "[",
+        jumpBot = "]",
+        switch = "<Tab>", -- super cool, use this to jump into floating window
+      },
+    },
     -- fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
     --   local newVirtText = {}
     --   local totalLines = vim.api.nvim_buf_line_count(0)
@@ -44,7 +53,7 @@ M.setup = function()
   vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
   vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
 
-  vim.keymap.set("n", "P", function()
+  vim.keymap.set("n", "zp", function()
     require("ufo.preview"):peekFoldedLinesUnderCursor()
   end)
 end
