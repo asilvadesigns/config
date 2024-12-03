@@ -275,7 +275,7 @@ require("lazy").setup({
     ---
     {
       "mvllow/modes.nvim",
-      event = "CursorMoved",
+      event = "VeryLazy",
       tag = "v0.2.0",
       onfig = function()
         require("modes").setup({
@@ -505,7 +505,7 @@ require("lazy").setup({
     {
       "catppuccin/nvim",
       lazy = false,
-      enabled = false,
+      enabled = true,
       name = "catppuccin",
       priority = 1000,
       config = require("config.plugins.catppuccin").setup,
@@ -514,7 +514,7 @@ require("lazy").setup({
       "projekt0n/github-nvim-theme",
       name = "github-theme",
       lazy = false, -- make sure we load this during startup if it is your main colorscheme
-      enabled = true,
+      enabled = false,
       priority = 1000, -- make sure to load this before all the other start plugins
       config = function()
         require("github-theme").setup()
@@ -538,6 +538,12 @@ require("lazy").setup({
         vim.cmd("hi! link NvimTreeFileIcon NvimTreeFolderIcon")
         vim.cmd("hi! link NvimTreeIndentMarker WinSeparator")
         vim.cmd("hi! link NvimTreeNormal Normal")
+
+        vim.cmd("hi! link LazyNormal Normal")
+
+        local c = require('github-theme.palette').load('github_dark')
+        vim.print(vim.inspect(c))
+        vim.api.nvim_set_hl(0, "FloatBorder", { fg = c.blue.base })
       end,
     },
     {
@@ -1115,6 +1121,10 @@ require("lazy").setup({
         "zipPlugin",
       },
     },
+  },
+  ui = {
+    backdrop = 100,
+    border = "rounded", -- "rounded", "single"
   },
 })
 
