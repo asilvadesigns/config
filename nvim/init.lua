@@ -61,7 +61,7 @@ vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
-vim.opt.laststatus = 0
+vim.cmd("set laststatus=0")
 vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
 
 vim.opt.signcolumn = "yes"
@@ -382,7 +382,7 @@ require("lazy").setup({
       "nvimdev/dashboard-nvim",
       -- event = "VimEnter",
       lazy = false,
-      enabled = false,
+      enabled = true,
       config = function()
         require("dashboard").setup({
           theme = "doom",
@@ -403,13 +403,13 @@ require("lazy").setup({
     {
       "rmagatti/auto-session",
       -- event = "VeryLazy",
-      lazy = false,
+      -- lazy = false,
       cmd = { "SessionRestore" },
       opts = {
         auto_session_enabled = true,
         auto_session_create_enabled = true,
         auto_save_enabled = true,
-        auto_restore_enabled = true,
+        auto_restore_enabled = false,
         session_lens = { load_on_setup = false },
         save_all_autocmds = false,
         save_cursorline = false,
@@ -443,21 +443,26 @@ require("lazy").setup({
     ---
     ---
     ---
-    { lazy = true, "hrsh7th/cmp-nvim-lsp" },
-    { lazy = true, "williamboman/mason-lspconfig.nvim" },
-    { lazy = true, "williamboman/mason.nvim" },
     {
       "neovim/nvim-lspconfig",
+      dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        "williamboman/mason-lspconfig.nvim",
+        "williamboman/mason.nvim",
+      },
       event = "VeryLazy",
       config = require("config.plugins.lsp").setup,
     },
     ---
     ---
     ---
-    { lazy = true, "Bilal2453/luvit-meta" },
     {
       "folke/lazydev.nvim",
-      ft = "lua",
+      dependencies = {
+        "Bilal2453/luvit-meta",
+      },
+      -- ft = "lua",
+      event = "VeryLazy",
       opts = {
         library = {
           {
@@ -489,6 +494,8 @@ require("lazy").setup({
       priority = 1000,
       config = function()
         vim.cmd.colorscheme("minimal")
+
+        vim.cmd("hi! link NvimTreeNormal Normal")
       end,
     },
     {
@@ -541,15 +548,14 @@ require("lazy").setup({
 
         vim.cmd("hi! link LazyNormal Normal")
 
-        local c = require('github-theme.palette').load('github_dark')
+        local c = require("github-theme.palette").load("github_dark")
         vim.print(vim.inspect(c))
         vim.api.nvim_set_hl(0, "FloatBorder", { fg = c.blue.base })
       end,
     },
     {
       "folke/noice.nvim",
-      -- lazy = false,
-      event = { "VeryLazy" },
+      event = "VeryLazy",
       config = require("config.plugins.noice").setup,
     },
     ---
@@ -656,10 +662,12 @@ require("lazy").setup({
       },
       opts = {},
     },
-    { lazy = true, "natecraddock/telescope-zf-native.nvim" },
-    { lazy = true, "nvim-telescope/telescope-ui-select.nvim" },
     {
       "nvim-telescope/telescope.nvim",
+      dependencies = {
+        "natecraddock/telescope-zf-native.nvim",
+        "nvim-telescope/telescope-ui-select.nvim",
+      },
       cmd = { "Telescope" },
       keys = {
         "<leader>a",
@@ -804,69 +812,7 @@ require("lazy").setup({
     ---
     ---
     {
-      "nvim-neo-tree/neo-tree.nvim",
-      branch = "v3.x",
-      enabled = false,
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-        "MunifTanjim/nui.nvim",
-        -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-      },
-      keys = {
-        {
-          "<leader>j",
-          function()
-            if vim.bo.filetype == "neo-tree" then
-              vim.cmd("Neotree close")
-            else
-              vim.cmd("Neotree reveal")
-            end
-          end,
-          mode = "n",
-        },
-      },
-      opts = {
-        enable_git_status = false,
-        enable_diagnostics = false,
-      },
-    },
-    -- {
-    --   "mikavilpas/yazi.nvim",
-    --   event = "VeryLazy",
-    --   keys = {
-    --     -- 👇 in this section, choose your own keymappings!
-    --     {
-    --       "<leader>j",
-    --       "<cmd>Yazi<cr>",
-    --       desc = "Open yazi at the current file",
-    --     },
-    --     -- {
-    --     --   -- Open in the current working directory
-    --     --   "<leader>cw",
-    --     --   "<cmd>Yazi cwd<cr>",
-    --     --   desc = "Open the file manager in nvim's working directory",
-    --     -- },
-    --     -- {
-    --     --   -- NOTE: this requires a version of yazi that includes
-    --     --   -- https://github.com/sxyazi/yazi/pull/1305 from 2024-07-18
-    --     --   "<c-up>",
-    --     --   "<cmd>Yazi toggle<cr>",
-    --     --   desc = "Resume the last yazi session",
-    --     -- },
-    --   },
-    --   ---@type YaziConfig
-    --   opts = {
-    --     -- if you want to open yazi instead of netrw, see below for more info
-    --     open_for_directories = false,
-    --     keymaps = {
-    --       show_help = "<f1>",
-    --     },
-    --   },
-    -- },
-    {
       "nvim-tree/nvim-tree.lua",
-      enabled = true,
       keys = {
         {
           "<leader>j",
@@ -896,16 +842,15 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      -- event = { "BufReadPre", "BufNewFile" },
       event = "VeryLazy",
       build = ":TSUpdate",
       dependencies = {
         "nvim-treesitter/nvim-treesitter-textobjects",
       },
-      -- init = function(plugin)
-      --   require("lazy.core.loader").add_to_rtp(plugin)
-      --   require("nvim-treesitter.query_predicates")
-      -- end,
+      init = function(plugin)
+        require("lazy.core.loader").add_to_rtp(plugin)
+        require("nvim-treesitter.query_predicates")
+      end,
       config = require("config.plugins.treesitter").setup,
     },
     ---
@@ -958,8 +903,38 @@ require("lazy").setup({
     {
       "NeogitOrg/neogit",
       cmd = "Neogit",
-      dependencies = { "nvim-telescope/telescope.nvim", "sindrets/diffview.nvim" },
+      dependencies = {
+        "nvim-telescope/telescope.nvim",
+        "sindrets/diffview.nvim",
+      },
       config = require("config.plugins.neogit").setup,
+    },
+    {
+      "lewis6991/gitsigns.nvim",
+      event = "VeryLazy",
+      opts = {
+        signs = {
+          add = { text = "│" },
+          change = { text = "│" },
+          delete = { text = "_" },
+          topdelete = { text = "‾" },
+          changedelete = { text = "~" },
+          untracked = { text = "┆" },
+        },
+        signs_staged = {
+          add = { text = "│" },
+          change = { text = "│" },
+          delete = { text = "_" },
+          topdelete = { text = "‾" },
+          changedelete = { text = "~" },
+          untracked = { text = "┆" },
+        },
+        signcolumn = true,
+        numhl = false,
+        current_line_blame_opts = {
+          ignore_whitespace = true,
+        },
+      },
     },
     ---
     ---
@@ -1084,15 +1059,11 @@ require("lazy").setup({
     ---
     ---
     {
-      "lewis6991/gitsigns.nvim",
-      event = { "VeryLazy" },
-      opts = {
-        signcolumn = false,
-        numhl = false,
-        current_line_blame_opts = {
-          ignore_whitespace = true,
-        },
-      },
+      "akinsho/bufferline.nvim",
+      event = "VeryLazy",
+      enabled = true,
+      version = "*",
+      config = require("config.plugins.bufferline").setup,
     },
   },
   install = {

@@ -54,7 +54,7 @@ M.setup = function()
     end, opts("Search in directory"))
   end
 
-  -- vim.cmd("set laststatus=0")
+  vim.cmd("set laststatus=0")
   require("nvim-tree").setup({
     on_attach = my_on_attach,
     actions = {
@@ -109,7 +109,7 @@ M.setup = function()
         web_devicons = {
           file = {
             enable = true,
-            color = false,
+            color = true,
           },
           folder = {
             enable = false,
@@ -156,7 +156,6 @@ M.setup = function()
       -- signcolumn = "no",
     },
   })
-
   vim.cmd("set laststatus=0")
 
   -- vim.cmd("hi! link NvimTreeFolderIcon Comment") -- LineNr
