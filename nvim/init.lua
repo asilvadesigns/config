@@ -36,11 +36,10 @@ vim.opt.writebackup = false
 vim.opt.number = true
 vim.opt.relativenumber = true
 ---
-vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
+vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
--- vim.opt.foldmethod = "indent"
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 ---
@@ -171,6 +170,7 @@ vim.keymap.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev se
 vim.keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
 --
+--
 -- User Diagnostics
 -- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
 vim.diagnostic.config({
@@ -189,16 +189,9 @@ vim.keymap.set("n", "ge", vim.diagnostic.open_float, {
   desc = "Open diagnostic message",
 })
 
-local square = vim.fn.nr2char(0x25aa)
+local signs = require("config.signs")
 
-local signs = {
-  Error = square,
-  Warn = square,
-  Hint = square,
-  Info = square,
-}
-
-for type, icon in pairs(signs) do
+for type, icon in pairs(signs.diagnostics) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, {
     text = icon,
@@ -211,10 +204,10 @@ vim.diagnostic.config({
   virtual_text = false,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = square,
-      [vim.diagnostic.severity.HINT] = square,
-      [vim.diagnostic.severity.INFO] = square,
-      [vim.diagnostic.severity.WARN] = square,
+      [vim.diagnostic.severity.ERROR] = signs.icons.square,
+      [vim.diagnostic.severity.HINT] = signs.icons.square,
+      [vim.diagnostic.severity.INFO] = signs.icons.square,
+      [vim.diagnostic.severity.WARN] = signs.icons.square,
     },
     -- NOTE: cool to highlight but too much.
     numhl = {
@@ -277,7 +270,7 @@ require("lazy").setup({
       "mvllow/modes.nvim",
       event = "VeryLazy",
       tag = "v0.2.0",
-      onfig = function()
+      config = function()
         require("modes").setup({
           ignore_filetypes = {
             "NvimTree",
@@ -307,6 +300,7 @@ require("lazy").setup({
     {
       "echasnovski/mini.cursorword",
       event = "VeryLazy",
+      enabled = false,
       version = "*",
       config = function()
         _G.cursorword_blocklist = function()
@@ -402,27 +396,12 @@ require("lazy").setup({
     ---
     {
       "rmagatti/auto-session",
-      -- event = "VeryLazy",
       -- lazy = false,
       cmd = { "SessionRestore" },
       opts = {
-        auto_session_enabled = true,
-        auto_session_create_enabled = true,
-        auto_save_enabled = true,
-        auto_restore_enabled = false,
-        session_lens = { load_on_setup = false },
-        save_all_autocmds = false,
-        save_cursorline = false,
-        save_buffers = false,
-        save_folds = false,
-        save_tabs = false,
-        save_terminal_session = false,
-        save_file_history = false,
-        save_registers = false,
-        save_jumplist = false,
-        save_marks = false,
-        save_globals = false,
-        save_options = false,
+        session_lens = {
+          load_on_setup = false,
+        }
       },
     },
     ---
@@ -475,40 +454,18 @@ require("lazy").setup({
     ---
     ---
     ---
-    {
-      "olimorris/onedarkpro.nvim",
-      lazy = false,
-      enabled = false,
-      -- name = "onedarkpro",
-      priority = 1000,
-      config = function()
-        require("onedarkpro").setup({})
-        vim.cmd("colorscheme onedark")
-      end,
-    },
-    {
-      dir = "~/.config/nvim/colors",
-      name = "minimal",
-      lazy = false,
-      enabled = false,
-      priority = 1000,
-      config = function()
-        vim.cmd.colorscheme("minimal")
-
-        vim.cmd("hi! link NvimTreeNormal Normal")
-      end,
-    },
-    {
-      "navarasu/onedark.nvim",
-      lazy = false,
-      enabled = false,
-      name = "onedark",
-      priority = 1000,
-      config = function()
-        require("onedark").setup({ style = "light" })
-        require("onedark").load()
-      end,
-    },
+    -- {
+    --   dir = "~/.config/nvim/colors",
+    --   name = "minimal",
+    --   lazy = false,
+    --   enabled = false,
+    --   priority = 1000,
+    --   config = function()
+    --     vim.cmd.colorscheme("minimal")
+    --
+    --     vim.cmd("hi! link NvimTreeNormal Normal")
+    --   end,
+    -- },
     {
       "catppuccin/nvim",
       lazy = false,
@@ -858,8 +815,7 @@ require("lazy").setup({
     ---
     {
       "kevinhwang91/nvim-ufo",
-      lazy = false,
-      enabled = false,
+      event = "VeryLazy",
       dependencies = {
         "kevinhwang91/promise-async",
         {

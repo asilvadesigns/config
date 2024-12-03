@@ -44,11 +44,8 @@ M.setup = function()
   vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
   vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
 
-  vim.keymap.set("n", "K", function()
-    local winid = require("ufo").peekFoldedLinesUnderCursor()
-    if not winid then
-      vim.lsp.buf.hover()
-    end
+  vim.keymap.set("n", "P", function()
+    require("ufo.preview"):peekFoldedLinesUnderCursor()
   end)
 end
 

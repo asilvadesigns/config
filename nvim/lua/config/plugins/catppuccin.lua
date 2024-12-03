@@ -3,10 +3,6 @@ local M = {}
 M.setup = function()
   local utils = require("catppuccin.utils.colors")
 
-  local latte = require("catppuccin.palettes.latte")
-  local frappe = require("catppuccin.palettes.frappe")
-
-  -- require("catppuccin").setup()
   require("catppuccin").setup({
     integrations = {
       fzf = true,

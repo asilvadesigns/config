@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local options = require("config.options")
+  local signs = require("config.signs")
 
   local function my_on_attach(bufnr)
     local api = require("nvim-tree.api")
@@ -54,7 +54,6 @@ M.setup = function()
     end, opts("Search in directory"))
   end
 
-  vim.cmd("set laststatus=0")
   require("nvim-tree").setup({
     on_attach = my_on_attach,
     actions = {
@@ -68,10 +67,10 @@ M.setup = function()
       enable = true,
       show_on_dirs = true,
       icons = {
-        hint = options.signs.Hint,
-        info = options.signs.Info,
-        warning = options.signs.Warn,
-        error = options.signs.Error,
+        hint = signs.diagnostics.Hint,
+        info = signs.diagnostics.Info,
+        warning = signs.diagnostics.Warn,
+        error = signs.diagnostics.Error,
       },
     },
     filesystem_watchers = {
@@ -156,7 +155,6 @@ M.setup = function()
       -- signcolumn = "no",
     },
   })
-  vim.cmd("set laststatus=0")
 
   -- vim.cmd("hi! link NvimTreeFolderIcon Comment") -- LineNr
   -- vim.cmd("hi! link NvimTreeFileIcon Comment") -- LineNr
@@ -199,14 +197,14 @@ M.setup = function()
   --   end
   -- end, {})
 
-  local nt_api = require("nvim-tree.api")
-  nt_api.events.subscribe(nt_api.events.Event.TreeOpen, function()
-    vim.cmd("set laststatus=0")
-  end)
-
-  nt_api.events.subscribe(nt_api.events.Event.TreeClose, function()
-    vim.cmd("set laststatus=0")
-  end)
+  -- local nt_api = require("nvim-tree.api")
+  -- nt_api.events.subscribe(nt_api.events.Event.TreeOpen, function()
+  --   vim.cmd("set laststatus=0")
+  -- end)
+  --
+  -- nt_api.events.subscribe(nt_api.events.Event.TreeClose, function()
+  --   vim.cmd("set laststatus=0")
+  -- end)
 end
 
 return M

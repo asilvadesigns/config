@@ -1,0 +1,36 @@
+theme = catppuccin-frappe
+keybind = cmd+r=reload_config
+
+# Font
+font-family = "JetBrainsMono Nerd Font Mono"
+adjust-cell-height = 25%
+
+# Window
+gtk-single-instance = true
+gtk-tabs-location = bottom
+gtk-wide-tabs = false
+
+macos-titlebar-style = hidden
+window-padding-balance = true
+window-padding-x = 0
+window-padding-y = 0
+
+# Keybindings
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+j=goto_split:bottom
+keybind = ctrl+k=goto_split:top
+keybind = ctrl+l=goto_split:right
+keybind = super+q=quit
+keybind = super+r=reload_config
+
+# Clipboard settings
+clipboard-read = allow
+clipboard-write = allow
+
+# Cursor Style
+cursor-style = block
+cursor-style-blink = true
+
+# Other
+#copy-on-select = clipboard
+#shell-integration-features = cursor,sudo,no-title
