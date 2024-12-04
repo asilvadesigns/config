@@ -3,7 +3,8 @@ keybind = cmd+r=reload_config
 
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
-adjust-cell-height = 10%
+font-size = 14
+adjust-cell-height = 20%
 
 # Window
 gtk-single-instance = true
@@ -15,6 +16,8 @@ window-padding-balance = true
 window-padding-x = 0
 window-padding-y = 0
 
+adjust-cursor-thickness = 2
+
 # Keybindings
 # \x02 is ctrl+b (default tmux prefix)
 # \x01 is ctrl+a (common alternative tmux prefix)
@@ -24,9 +27,61 @@ keybind = ctrl+j=goto_split:bottom
 keybind = ctrl+k=goto_split:top
 keybind = ctrl+l=goto_split:right
 keybind = super+q=quit
-keybind = super+r=reload_config
-# gotta do the rest here...
+keybind = super+shift+r=reload_config
+
+# tmux session | picker (sesh)
 keybind = super+shift+k=text:\x00k
+
+# tmux session | picker (window)
+keybind = super+p=text:\x00p
+
+# tmux | toggle status bar
+keybind = super+shift+s=text:\x00S
+
+# tmux | refresh
+keybind = super+r=text:\x00r
+
+# tmux | clear
+keybind = super+k=text:\x00C
+
+# tmux | command not sure how to input this one...
+# keybind = super+:=text:\x00\x3A
+
+# tmux split | vertically
+keybind = super+d=text:\x00v
+
+# tmux split | horizontally
+keybind = super+shift+d=text:\x00s
+
+# tmux pane | new
+keybind = super+t=text:\x00c
+
+# tmux pane | last
+keybind = super+l=text:\x00l
+
+# tmux pane | last session
+keybind = super+shift+l=text:\x00L
+
+# tmux window | prev
+keybind = ctrl+shift+tab=text:\x00p
+keybind = super+shift+[=text:\x00p
+keybind = super+shift+{=text:\x00pk
+
+# tmux window | next
+keybind = ctrl+tab=text:\x00n
+keybind = super+shift+]=text:\x00n
+keybind = super+shift+}=text:\x00n
+
+# tmux window | select by number
+keybind = super+1=text:\x001
+keybind = super+2=text:\x002
+keybind = super+3=text:\x003
+keybind = super+4=text:\x004
+keybind = super+5=text:\x005
+keybind = super+6=text:\x006
+keybind = super+7=text:\x007
+keybind = super+8=text:\x008
+keybind = super+9=text:\x009
 
 # Clipboard settings
 clipboard-read = allow

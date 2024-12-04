@@ -1,5 +1,7 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 export EDITOR=nvim
+export MANPAGER="nvim +Man!"
+export MANWIDTH=999
 
 abbr --add nr 'npm run $(fp)'
 

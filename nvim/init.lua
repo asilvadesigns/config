@@ -357,6 +357,17 @@ require("lazy").setup({
     ---
     ---
     {
+      "sphamba/smear-cursor.nvim",
+      event = "CursorMoved",
+      opts = {
+        cursor_color = "#e78284",
+        stiffness = 0.6,
+        trailing_stiffnewss = 0.1,
+        trailing_exponent = 5,
+        gamma = 1,
+      },
+    },
+    {
       "karb94/neoscroll.nvim",
       enabled = true,
       event = "VeryLazy",
@@ -364,7 +375,7 @@ require("lazy").setup({
     },
     {
       "dstein64/nvim-scrollview",
-      enabled = true,
+      enabled = false,
       event = "VeryLazy",
       config = require("config.plugins.scrollview").setup,
     },

@@ -1,9 +1,10 @@
--- highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
+-- NOTE: modes.nvim is handling this
+-- -- highlight on yank
+-- vim.api.nvim_create_autocmd("TextYankPost", {
+--   callback = function()
+--     vim.highlight.on_yank()
+--   end,
+-- })
 
 -- go to last loc when opening a buffer
 -- vim.api.nvim_create_autocmd("BufReadPost", {
