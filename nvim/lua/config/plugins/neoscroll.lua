@@ -59,6 +59,9 @@ M.setup = function()
     ["zz"] = function()
       neoscroll.zz({ half_win_duration = 50, easing = "sine" })
     end,
+    ["z."] = function()
+      neoscroll.zz({ half_win_duration = 50, easing = "sine" })
+    end,
     -- scroll bottom
     ["zb"] = function()
       neoscroll.zb({ half_win_duration = 50, easing = "sine" })

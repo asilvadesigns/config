@@ -36,7 +36,7 @@ vim.opt.writebackup = false
 vim.opt.number = true
 vim.opt.relativenumber = true
 ---
-vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
+vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
@@ -259,7 +259,7 @@ vim.api.nvim_create_autocmd("Filetype", {
 ---
 require("lazy").setup({
   spec = {
-    { lazy = true, "MunifTanjim/nui.nvim" },
+    -- { lazy = true, "MunifTanjim/nui.nvim" },
     { lazy = true, "nvim-lua/plenary.nvim" },
     { lazy = true, "nvim-tree/nvim-web-devicons" },
     ---
@@ -369,8 +369,19 @@ require("lazy").setup({
     },
     {
       "karb94/neoscroll.nvim",
-      enabled = true,
-      event = "VeryLazy",
+      keys = {
+        "<leader>u",
+        "<C-u>",
+        "<C-d>",
+        "<C-b>",
+        "<C-f>",
+        "<C-y>",
+        "<C-e>",
+        "zt",
+        "zz",
+        "z.",
+        "zb",
+      },
       config = require("config.plugins.neoscroll").setup,
     },
     {
@@ -563,6 +574,9 @@ require("lazy").setup({
     {
       "folke/noice.nvim",
       event = "VeryLazy",
+      dependencies = {
+        "MunifTanjim/nui.nvim",
+      },
       config = require("config.plugins.noice").setup,
     },
     ---
@@ -854,10 +868,10 @@ require("lazy").setup({
       dependencies = {
         "nvim-treesitter/nvim-treesitter-textobjects",
       },
-      init = function(plugin)
-        require("lazy.core.loader").add_to_rtp(plugin)
-        require("nvim-treesitter.query_predicates")
-      end,
+      -- init = function(plugin)
+      --   require("lazy.core.loader").add_to_rtp(plugin)
+      --   require("nvim-treesitter.query_predicates")
+      -- end,
       config = require("config.plugins.treesitter").setup,
     },
     ---
@@ -870,6 +884,7 @@ require("lazy").setup({
         "kevinhwang91/promise-async",
         {
           "luukvbaal/statuscol.nvim",
+          enabled = false,
           opts = function()
             local builtin = require("statuscol.builtin")
 
@@ -887,16 +902,6 @@ require("lazy").setup({
           end,
         },
       },
-      init = function()
-        vim.api.nvim_create_autocmd("FileType", {
-          pattern = { "dashboard", "NvimTree" },
-          callback = function()
-            require("ufo").detach()
-            vim.opt_local.foldenable = false
-            vim.wo.foldcolumn = "0"
-          end,
-        })
-      end,
       config = require("config.plugins.ufo").setup,
     },
     ---
@@ -931,6 +936,11 @@ require("lazy").setup({
     {
       "lewis6991/gitsigns.nvim",
       event = "VeryLazy",
+      keys = {
+        { "gj", "<CMD>Gitsigns next_hunk<CR>", "n" },
+        { "gk", "<CMD>Gitsigns prev_hunk<CR>", "n" },
+        { "gp", "<CMD>Gitsigns preview_hunk<CR>", "n" },
+      },
       opts = {
         signs = {
           add = { text = "│" },
@@ -986,7 +996,7 @@ require("lazy").setup({
     ---
     {
       "mg979/vim-visual-multi",
-      event = "VeryLazy",
+      event = "ModeChanged",
       config = function()
         vim.g.VM_theme = "iceblue"
         vim.g.VM_default_mappings = 1
@@ -1079,8 +1089,7 @@ require("lazy").setup({
     ---
     {
       "akinsho/bufferline.nvim",
-      event = "VeryLazy",
-      enabled = true,
+      event = { "TabEnter", "TabNew" },
       version = "*",
       config = require("config.plugins.bufferline").setup,
     },

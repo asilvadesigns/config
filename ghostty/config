@@ -22,10 +22,26 @@ adjust-cursor-thickness = 2
 # \x02 is ctrl+b (default tmux prefix)
 # \x01 is ctrl+a (common alternative tmux prefix)
 # \x00 is ctrl+space (common alternative tmux prefix)
-keybind = ctrl+h=goto_split:left
-keybind = ctrl+j=goto_split:bottom
-keybind = ctrl+k=goto_split:top
-keybind = ctrl+l=goto_split:right
+keybind = ctrl+shift+h=text:\x00\x1b[D
+keybind = ctrl+shift+j=text:\x00\x1b[B
+keybind = ctrl+shift+k=text:\x00\x1b[A
+keybind = ctrl+shift+l=text:\x00\x1b[C
+
+# keybind = ctrl+l=goto_split:right
+# keybind = ctrl+h=goto_split:left
+# keybind = ctrl+j=goto_split:bottom
+# keybind = ctrl+k=goto_split:top
+
+# keybind = ctrl+h=text:^h
+# keybind = ctrl+j=text:^j
+# keybind = ctrl+k=text:^k
+# keybind = ctrl+l=text:^l
+
+# keybind = ctrl+shift+h=text:\x00H
+# keybind = ctrl+shift+j=text:\x00J
+# keybind = ctrl+shift+k=text:\x00K
+# keybind = ctrl+shift+l=text:\x00L
+
 keybind = super+q=quit
 keybind = super+shift+r=reload_config
 
@@ -43,9 +59,6 @@ keybind = super+r=text:\x00r
 
 # tmux | clear
 keybind = super+k=text:\x00C
-
-# tmux | command not sure how to input this one...
-# keybind = super+:=text:\x00\x3A
 
 # tmux split | vertically
 keybind = super+d=text:\x00v
