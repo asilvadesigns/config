@@ -964,6 +964,14 @@ require("lazy").setup({
         current_line_blame_opts = {
           ignore_whitespace = true,
         },
+        preview_config = {
+          -- Options passed to nvim_open_win
+          border = "rounded",
+          style = "minimal",
+          relative = "cursor",
+          row = 0,
+          col = 1,
+        },
       },
     },
     ---
