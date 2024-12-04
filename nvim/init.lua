@@ -358,6 +358,7 @@ require("lazy").setup({
     ---
     {
       "sphamba/smear-cursor.nvim",
+      enabled = false,
       event = "CursorMoved",
       opts = {
         cursor_color = "#e78284",
