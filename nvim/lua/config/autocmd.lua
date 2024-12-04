@@ -17,23 +17,23 @@
 --   end,
 -- })
 
-local visual_event_group = vim.api.nvim_create_augroup("visual_event", { clear = true })
-
-vim.api.nvim_create_autocmd("ModeChanged", {
-  group = visual_event_group,
-  pattern = { "*:[vV\x16]*" },
-  callback = function()
-    print("VisualEnter")
-  end,
-})
-
-vim.api.nvim_create_autocmd("ModeChanged", {
-  group = visual_event_group,
-  pattern = { "[vV\x16]*:*" },
-  callback = function()
-    print("VisualLeave")
-  end,
-})
+-- local visual_event_group = vim.api.nvim_create_augroup("visual_event", { clear = true })
+--
+-- vim.api.nvim_create_autocmd("ModeChanged", {
+--   group = visual_event_group,
+--   pattern = { "*:[vV\x16]*" },
+--   callback = function()
+--     print("VisualEnter")
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd("ModeChanged", {
+--   group = visual_event_group,
+--   pattern = { "[vV\x16]*:*" },
+--   callback = function()
+--     print("VisualLeave")
+--   end,
+-- })
 
 -- show numbers in help
 vim.api.nvim_create_autocmd("FileType", {

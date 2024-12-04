@@ -7,7 +7,7 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "theme": "One Light",
+  "theme": "Gruvbox Dark Soft",
   "buffer_font_size": 14,
   "ui_font_size": 14,
   "vim_mode": true,
@@ -18,7 +18,7 @@
     "enabled": false
   },
   "toolbar": {
-    "breadcrumbs": false,
+    "breadcrumbs": true,
     "quick_actions": false
   },
   "tab_bar": {

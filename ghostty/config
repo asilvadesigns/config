@@ -3,8 +3,8 @@ keybind = cmd+r=reload_config
 
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 15
-adjust-cell-height = 20%
+font-size = 14
+# adjust-cell-height = 10%
 
 # Window
 gtk-single-instance = true
@@ -24,6 +24,8 @@ adjust-cursor-thickness = 2
 # \x02 is ctrl+b (default tmux prefix)
 # \x01 is ctrl+a (common alternative tmux prefix)
 # \x00 is ctrl+space (common alternative tmux prefix)
+# keybind = clear
+
 keybind = ctrl+shift+h=text:\x00\x1b[D
 keybind = ctrl+shift+j=text:\x00\x1b[B
 keybind = ctrl+shift+k=text:\x00\x1b[A

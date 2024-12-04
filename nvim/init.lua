@@ -383,6 +383,7 @@ require("lazy").setup({
         "z.",
         "zb",
       },
+      enabled = false,
       config = require("config.plugins.neoscroll").setup,
     },
     {
@@ -467,26 +468,22 @@ require("lazy").setup({
       opts_extend = { "sources.completion.enabled_providers" },
       config = require("config.plugins.blink").setup,
     },
+    { lazy = true, "hrsh7th/cmp-nvim-lsp" },
     {
       "hrsh7th/nvim-cmp",
       enabled = true,
       dependencies = {
         "L3MON4D3/LuaSnip",
         "hrsh7th/cmp-cmdline",
-        "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-path",
         "saadparwaiz1/cmp_luasnip",
       },
       event = "InsertEnter",
       config = require("config.plugins.cmp").setup,
     },
-    ---
-    ---
-    ---
     {
       "neovim/nvim-lspconfig",
       dependencies = {
-        -- "hrsh7th/cmp-nvim-lsp",
         "saghen/blink.cmp",
         "williamboman/mason-lspconfig.nvim",
         "williamboman/mason.nvim",
@@ -502,8 +499,7 @@ require("lazy").setup({
       dependencies = {
         "Bilal2453/luvit-meta",
       },
-      -- ft = "lua",
-      event = "VeryLazy",
+      ft = "lua",
       opts = {
         library = {
           {
@@ -516,18 +512,17 @@ require("lazy").setup({
     ---
     ---
     ---
-    -- {
-    --   dir = "~/.config/nvim/colors",
-    --   name = "minimal",
-    --   lazy = false,
-    --   enabled = false,
-    --   priority = 1000,
-    --   config = function()
-    --     vim.cmd.colorscheme("minimal")
-    --
-    --     vim.cmd("hi! link NvimTreeNormal Normal")
-    --   end,
-    -- },
+    {
+      dir = "~/.config/nvim/colors",
+      name = "minimal",
+      lazy = false,
+      enabled = false,
+      priority = 1000,
+      config = function()
+        vim.cmd.colorscheme("minimal")
+        vim.cmd("hi! link NvimTreeNormal Normal")
+      end,
+    },
     {
       "catppuccin/nvim",
       lazy = false,
@@ -604,7 +599,6 @@ require("lazy").setup({
     ---
     {
       "brenoprata10/nvim-highlight-colors",
-      event = "VeryLazy",
       cmd = { "HighlightColors" },
       opts = {},
     },
@@ -936,7 +930,7 @@ require("lazy").setup({
     },
     {
       "lewis6991/gitsigns.nvim",
-      event = "VeryLazy",
+      cmd = { "Gitsigns" },
       keys = {
         { "gj", "<CMD>Gitsigns next_hunk<CR>", "n" },
         { "gk", "<CMD>Gitsigns prev_hunk<CR>", "n" },
