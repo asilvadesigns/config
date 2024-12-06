@@ -24,8 +24,6 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 ---
-vim.opt.background = "dark"
-vim.opt.backup = false
 
 vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"
@@ -36,6 +34,7 @@ vim.opt.cursorline = true
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 vim.opt.pumheight = 10
 vim.opt.swapfile = false
+vim.opt.backup = false
 vim.opt.writebackup = false
 ---
 vim.opt.number = true
@@ -145,12 +144,23 @@ set("n", "tn", ":tabnew<CR>", { desc = "Create new tab" })
 set("n", "to", ":tabonly<CR>", { desc = "Close other tabs" })
 set("n", "tq", ":tabclose<CR>", { desc = "Close this tab" })
 
+set("n", "<leader>1", ":tabn 1<CR>", { desc = "Go to tab 1" })
+set("n", "<leader>2", ":tabn 2<CR>", { desc = "Go to tab 2" })
+set("n", "<leader>3", ":tabn 3<CR>", { desc = "Go to tab 3" })
+set("n", "<leader>4", ":tabn 4<CR>", { desc = "Go to tab 4" })
+set("n", "<leader>5", ":tabn 5<CR>", { desc = "Go to tab 5" })
+set("n", "<leader>6", ":tabn 6<CR>", { desc = "Go to tab 6" })
+set("n", "<leader>7", ":tabn 7<CR>", { desc = "Go to tab 7" })
+set("n", "<leader>8", ":tabn 8<CR>", { desc = "Go to tab 8" })
+set("n", "<leader>9", ":tabn 9<CR>", { desc = "Go to tab 9" })
+
 set("v", "<Tab>", ">gv", { desc = "Add indent" })
 set("v", "<S-Tab>", "<gv", { desc = "Remove indent " })
 -- set("v", "p", '"_dP', { desc="Paste" })
---
+
 set("t", "<esc>", [[<C-\><C-n>]])
 set("t", "<C-c>", [[<C-\><C-n>]])
+
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 set("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
 set("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
@@ -161,12 +171,7 @@ set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result
 
 --
 --
--- User Diagnostics
--- @see: https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#change-diagnostic-symbols-in-the-sign-column-gutter
-vim.diagnostic.config({
-  float = { border = "rounded" },
-})
-
+--
 set("n", "[d", vim.diagnostic.goto_prev, {
   desc = "Go to previous diagnostic message",
 })
@@ -190,8 +195,7 @@ for type, icon in pairs(signs.diagnostics) do
 end
 
 vim.diagnostic.config({
-  underline = true,
-  virtual_text = false,
+  float = { border = "rounded" },
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = signs.icons.square,
@@ -199,7 +203,6 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.INFO] = signs.icons.square,
       [vim.diagnostic.severity.WARN] = signs.icons.square,
     },
-    -- NOTE: cool to highlight but too much.
     numhl = {
       [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
       [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
@@ -207,6 +210,8 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
     },
   },
+  underline = true,
+  virtual_text = false,
 })
 
 vim.filetype.add({
@@ -244,7 +249,6 @@ require("lazy").setup({
     },
     {
       "catppuccin/nvim",
-      lazy = false,
       name = "catppuccin",
       priority = 1000,
       config = require("config.plugins.catppuccin").setup,

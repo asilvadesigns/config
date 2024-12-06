@@ -41,12 +41,12 @@ vim.api.nvim_create_autocmd("FileType", {
   command = "setlocal number relativenumber",
 })
 
--- resize splits if window got resized
-vim.api.nvim_create_autocmd({ "VimResized" }, {
-  callback = function()
-    vim.cmd("tabdo wincmd =")
-  end,
-})
+-- -- resize splits if window got resized
+-- vim.api.nvim_create_autocmd({ "VimResized" }, {
+--   callback = function()
+--     vim.cmd("tabdo wincmd =")
+--   end,
+-- })
 
 -- restore cursor
 vim.api.nvim_create_autocmd("BufReadPre", {

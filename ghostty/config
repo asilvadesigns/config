@@ -15,8 +15,8 @@ macos-titlebar-style = hidden
 window-decoration = false
 window-padding-balance = true
 window-padding-color = extend
-window-padding-x = 8
-window-padding-y = 8
+window-padding-x = 0
+window-padding-y = 0
 
 adjust-cursor-thickness = 2
 
