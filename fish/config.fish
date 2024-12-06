@@ -29,6 +29,11 @@ set -gx BAT_CONFIG_PATH "$HOME/.config/bat/bat.conf"
 # fish
 set -g fish_greeting;
 
+# ghost
+if set -q GHOSTTY_RESOURCES_DIR
+  source "$GHOSTTY_RESOURCES_DIR/shell-integration/fish/vendor_conf.d/ghostty-shell-integration.fish"
+end
+
 # vi mode
 set fish_vi_key_bindings;
 set fish_cursor_default block;

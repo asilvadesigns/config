@@ -62,7 +62,7 @@ M.setup = function()
     ["Save and quit force"] = { cmd = "wqa!" },
     ["Search"] = { cmd = "Spectre" },
     ["Search (local)"] = { cmd = "GrugFarLocal" },
-    ["Search (global)"] = { cmd = "GrugFarGlobal" },
+    ["Search (global)"] = { cmd = "GrugFar" },
     ["Symbols"] = { cmd = builtin.lsp_document_symbols },
     ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
     ["Buf Only"] = { cmd = "only|bd|e#" },
@@ -229,12 +229,33 @@ M.setup = function()
     },
   })
 
-  vim.keymap.set("n", "<leader>a", command_palette)
-  vim.keymap.set("n", "<leader>b", builtin.buffers)
-  vim.keymap.set("n", "<leader>e", builtin.oldfiles)
-  vim.keymap.set("n", "<leader>f", builtin.find_files)
-  vim.keymap.set("n", "<leader>g", builtin.live_grep)
-  vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find)
+  vim.api.nvim_create_user_command("CommandPalette", function()
+    command_palette()
+  end, {})
+
+  vim.keymap.set("n", "<leader>a", command_palette, {
+    desc = "Fuzzy actions",
+  })
+
+  vim.keymap.set("n", "<leader>b", builtin.buffers, {
+    desc = "Fuzzy buffers",
+  })
+
+  vim.keymap.set("n", "<leader>e", builtin.oldfiles, {
+    desc = "Fuzzy old files",
+  })
+
+  vim.keymap.set("n", "<leader>f", builtin.find_files, {
+    desc = "Fuzzy find files",
+  })
+
+  vim.keymap.set("n", "<leader>g", builtin.live_grep, {
+    desc = "Fuzzy live grep",
+  })
+
+  vim.keymap.set("n", "<leader>l", builtin.current_buffer_fuzzy_find, {
+    desc = "Fuzzy current buffer",
+  })
 
   -- telescope.load_extension("fzf")
   telescope.load_extension("textcase")

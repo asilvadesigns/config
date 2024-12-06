@@ -55,9 +55,9 @@ M.setup = function()
       },
     },
     textobjects = {
-      enable = false,
+      enable = true,
       move = {
-        enable = true,
+        enable = false,
         set_jumps = true,
         goto_previous_start = {
           ["[f"] = { query = "@function.outer", desc = "Previous function" },
@@ -112,6 +112,7 @@ M.setup = function()
 
   vim.treesitter.language.register("markdown", "mdx")
   vim.treesitter.language.register("templ", "templ")
+
   vim.cmd("TSEnable all highlight")
 end
 

@@ -68,7 +68,7 @@ M.setup = function()
     sources = cmp.config.sources({
       { name = "path", priority_weight = 110 },
       { name = "nvim_lsp", max_view_entries = 20, priority_weight = 100 },
-      { name = "lazydev", group_index = 0, priority_weight = 90 },
+      { name = "lazydev", group_index = 0, priority_weight = 90 }, -- folke/lazydev.nvim
       {
         name = "buffer",
         keyword_length = 5,
@@ -103,14 +103,14 @@ M.setup = function()
     experimental = {
       ghost_text = false,
     },
-    -- formatting = {
-    --   expandable_indicator = true,
-    --   fields = { "kind", "abbr", "menu" },
-    --   -- format = require("lspkind").cmp_format({
-    --   --   maxwidth = 50,
-    --   --   with_text = false,
-    --   -- }),
-    -- },
+    formatting = {
+      expandable_indicator = true,
+      fields = { "kind", "abbr", "menu" },
+      format = require("lspkind").cmp_format({
+        maxwidth = 50,
+        with_text = false,
+      }),
+    },
   })
 
   cmp.setup.cmdline(":", {

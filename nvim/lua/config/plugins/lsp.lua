@@ -1,7 +1,6 @@
 local M = {}
 
 M.setup = function()
-
   -- if using cmp
   local capabilities = vim.tbl_deep_extend(
     "force",
@@ -75,6 +74,7 @@ M.setup = function()
 
   local formatters = {
     "htmlbeautifier",
+    "prettier",
     "sql-formatter",
     "stylua",
   }
@@ -88,7 +88,9 @@ M.setup = function()
   -- })
 
   require("mason").setup({
-    ui = { border = "rounded" },
+    ui = {
+      border = "rounded",
+    },
   })
 
   vim.cmd("hi! link MasonNormal Normal")
@@ -359,7 +361,9 @@ M.setup = function()
     end
   end)
 
-  attach_lsp_to_existing_buffers()
+  vim.schedule(function()
+    attach_lsp_to_existing_buffers()
+  end)
 end
 
 return M

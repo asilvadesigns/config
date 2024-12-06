@@ -3,9 +3,7 @@ local M = {}
 M.setup = function()
   require("grug-far").setup({
     startInInsertMode = false,
-    -- normalModeSearch = false,
-    -- searchOnInsertLeave = true,
-    disableBufferLineNumbers = false,
+    normalModeSearch = true,
     keymaps = {
       replace = { n = "<localleader>r" },
       qflist = { n = "<localleader>q" },
@@ -34,18 +32,18 @@ M.setup = function()
     require("grug-far").open({
       prefills = {
         paths = vim.fn.expand("%"),
-        search = "",
+        -- search = "",
       },
     })
   end, {})
-
-  vim.api.nvim_create_user_command("GrugFarGlobal", function()
-    require("grug-far").open({
-      prefills = {
-        search = "",
-      },
-    })
-  end, {})
+  --
+  -- vim.api.nvim_create_user_command("GrugFarGlobal", function()
+  --   require("grug-far").open({
+  --     -- prefills = {
+  --     --   search = "",
+  --     -- },
+  --   })
+  -- end, {})
 end
 
 return M

@@ -1,7 +1,8 @@
 --
 --
--- Lazy
+--
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+---@diagnostic disable-next-line: undefined-field
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
   local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
@@ -19,13 +20,17 @@ vim.opt.rtp:prepend(lazypath)
 
 --
 --
--- User Options
+--
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 ---
 vim.opt.background = "dark"
 vim.opt.backup = false
-vim.opt.clipboard = "unnamedplus"
+
+vim.schedule(function()
+  vim.opt.clipboard = "unnamedplus"
+end)
+
 vim.opt.conceallevel = 0
 vim.opt.cursorline = true
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
@@ -42,6 +47,12 @@ vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+---
+-- vim.opt.grepformat = "%f:%l:%c:%m"
+-- vim.opt.grepprg = "rg --hidden --vimgrep --smart-case --"
+vim.opt.ignorecase = true
+vim.opt.inccommand = "nosplit"
+vim.opt.smartcase = true
 ---
 vim.opt.splitbelow = true
 vim.opt.splitkeep = "cursor"
@@ -60,7 +71,7 @@ vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
-vim.cmd("set laststatus=0")
+vim.opt.laststatus = 0
 vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
 
 vim.opt.signcolumn = "yes"
@@ -77,42 +88,43 @@ vim.opt.wrap = false
 
 --
 --
--- User Keymaps
-local opts = {
-  noremap = true,
-  silent = true,
-}
 --
-vim.keymap.set("n", "<Esc>", "<cmd>noh<cr>", { desc = "Clear highlight" })
---
-vim.keymap.set("i", "<c-l>", "<END>", opts)
-vim.keymap.set("i", "<c-h>", "<HOME>", opts)
---
-vim.keymap.set("n", "<ScrollWheelUp>", "<C-y>", opts)
-vim.keymap.set("n", "<ScrollWheelDown>", "<C-e>", opts)
-vim.keymap.set("i", "<ScrollWheelUp>", "<C-y>", opts)
-vim.keymap.set("i", "<ScrollWheelDown>", "<C-e>", opts)
-vim.keymap.set("v", "<ScrollWheelUp>", "<C-y>", opts)
-vim.keymap.set("v", "<ScrollWheelDown>", "<C-e>", opts)
---
-vim.keymap.set("n", "<leader>s", ":wa<CR>", opts)
-vim.keymap.set("n", "<leader>wh", "<C-w>h", opts)
-vim.keymap.set("n", "<leader>wj", "<C-w>j", opts)
-vim.keymap.set("n", "<leader>wk", "<C-w>k", opts)
-vim.keymap.set("n", "<leader>wl", "<C-w>l", opts)
-vim.keymap.set("n", "<leader>wo", "<C-w>o", opts)
-vim.keymap.set("n", "<leader>wq", "<C-w>q", opts)
-vim.keymap.set("n", "<leader>w=", "<C-w>=", opts)
-vim.keymap.set("n", "<leader>ws", "<C-w>s", opts)
-vim.keymap.set("n", "<leader>wv", "<C-w>v", opts)
-vim.keymap.set("n", "<leader>wH", "<C-w>H", opts)
-vim.keymap.set("n", "<leader>wJ", "<C-w>J", opts)
-vim.keymap.set("n", "<leader>wK", "<C-w>K", opts)
-vim.keymap.set("n", "<leader>wL", "<C-w>L", opts)
-vim.keymap.set("n", "<leader>d", "<C-d>", opts)
-vim.keymap.set("n", "<leader>u", "<C-u>", opts)
---
-vim.keymap.set("n", "<leader>qf", function()
+local set = vim.keymap.set
+
+set("n", "<Esc>", "<cmd>noh<cr>", { desc = "Clear highlight" })
+set("i", "<c-l>", "<END>", { desc = "Go to end of line" })
+set("i", "<c-h>", "<HOME>", { desc = "Go to start of line" })
+
+set("n", "<ScrollWheelUp>", "<C-y>")
+set("n", "<ScrollWheelDown>", "<C-e>")
+set("i", "<ScrollWheelUp>", "<C-y>")
+set("i", "<ScrollWheelDown>", "<C-e>")
+set("v", "<ScrollWheelUp>", "<C-y>")
+set("v", "<ScrollWheelDown>", "<C-e>")
+
+set("n", "<leader>s", ":wa<CR>", { desc = "Save all" })
+
+set("n", "<leader>wh", "<C-w>h", { desc = "Focus left window" })
+set("n", "<leader>wj", "<C-w>j", { desc = "Focus bottom window" })
+set("n", "<leader>wk", "<C-w>k", { desc = "Focus top window" })
+set("n", "<leader>wl", "<C-w>l", { desc = "Focus right window" })
+
+set("n", "<leader>wo", "<C-w>o", { desc = "Close other windows" })
+set("n", "<leader>wq", "<C-w>q", { desc = "Close this window" })
+
+set("n", "<leader>w=", "<C-w>=", { desc = "Equalize windows" })
+set("n", "<leader>ws", "<C-w>s", { desc = "Split window horizontally" })
+set("n", "<leader>wv", "<C-w>v", { desc = "Split window vertically" })
+
+set("n", "<leader>wH", "<C-w>H", { desc = "Go to the left window" })
+set("n", "<leader>wJ", "<C-w>J", { desc = "Go to the down window" })
+set("n", "<leader>wK", "<C-w>K", { desc = "Go to the up window" })
+set("n", "<leader>wL", "<C-w>L", { desc = "Go to the right window" })
+
+set("n", "<leader>d", "<C-d>", { desc = "Scroll down" })
+set("n", "<leader>u", "<C-u>", { desc = "Scroll up" })
+
+set("n", "<leader>qf", function()
   if vim.bo.filetype == "NvimTree" then
     require("nvim-tree.api").tree.close()
   end
@@ -122,52 +134,30 @@ vim.keymap.set("n", "<leader>qf", function()
   end
 
   vim.cmd(":wqa!<CR>")
-end, opts)
+end, {
+  desc = "Save and Quit",
+})
+
+set("n", "<", ":tabprevious<CR>", { desc = "Go to the previous tab" })
+set("n", ">", ":tabnext<CR>", { desc = "Go to the next tab" })
+set("n", "tl", ":tablast<CR>", { desc = "Go to the last tab" })
+set("n", "tn", ":tabnew<CR>", { desc = "Create new tab" })
+set("n", "to", ":tabonly<CR>", { desc = "Close other tabs" })
+set("n", "tq", ":tabclose<CR>", { desc = "Close this tab" })
+
+set("v", "<Tab>", ">gv", { desc = "Add indent" })
+set("v", "<S-Tab>", "<gv", { desc = "Remove indent " })
+-- set("v", "p", '"_dP', { desc="Paste" })
 --
-vim.keymap.set("n", "<", ":tabprevious<CR>", opts)
-vim.keymap.set("n", ">", ":tabnext<CR>", opts)
-vim.keymap.set("n", "tl", ":tablast<CR>", opts)
-vim.keymap.set("n", "tn", ":tabnew<CR>", opts)
-vim.keymap.set("n", "to", ":tabonly<CR>", opts)
-vim.keymap.set("n", "tq", ":tabclose<CR>", opts)
-vim.keymap.set("n", "<leader>1", ":tabn 1<CR>", opts)
-vim.keymap.set("n", "<leader>2", ":tabn 2<CR>", opts)
-vim.keymap.set("n", "<leader>3", ":tabn 3<CR>", opts)
-vim.keymap.set("n", "<leader>4", ":tabn 4<CR>", opts)
-vim.keymap.set("n", "<leader>5", ":tabn 5<CR>", opts)
-vim.keymap.set("n", "<leader>6", ":tabn 6<CR>", opts)
-vim.keymap.set("n", "<leader>7", ":tabn 7<CR>", opts)
-vim.keymap.set("n", "<leader>8", ":tabn 8<CR>", opts)
-vim.keymap.set("n", "<leader>9", ":tabn 9<CR>", opts)
---
--- vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)
--- vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", keymap_opts_with_expr)
--- vim.keymap.set("v", "k", "v:count == 0 ? 'gk' : 'k'", keymap_opts_with_expr)
--- vim.keymap.set("v", "j", "v:count == 0 ? 'gj' : 'j'", keymap_opts_with_expr)
---
-vim.keymap.set("v", "<Tab>", ">gv", opts)
-vim.keymap.set("v", "<S-Tab>", "<gv", opts)
---
-vim.keymap.set("v", "p", '"_dP', opts)
---
-vim.keymap.set("n", "<C-S-H>", ":vertical resize +3<CR>", opts)
-vim.keymap.set("n", "<C-S-L>", ":vertical resize -3<CR>", opts)
-vim.keymap.set("n", "<C-S-J>", ":resize +3<CR>", opts)
-vim.keymap.set("n", "<C-S-K>", ":resize -3<CR>", opts)
-vim.keymap.set("n", "<Down>", ":resize +1<CR>", opts)
-vim.keymap.set("n", "<Left>", ":vertical resize +1<CR>", opts)
-vim.keymap.set("n", "<Right>", ":vertical resize -1<CR>", opts)
-vim.keymap.set("n", "<Up>", ":resize -1<CR>", opts)
---
-vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
-vim.keymap.set("t", "<C-c>", [[<C-\><C-n>]])
+set("t", "<esc>", [[<C-\><C-n>]])
+set("t", "<C-c>", [[<C-\><C-n>]])
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-vim.keymap.set("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-vim.keymap.set("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-vim.keymap.set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-vim.keymap.set("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-vim.keymap.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-vim.keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+set("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+set("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+set("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
 --
 --
@@ -177,15 +167,15 @@ vim.diagnostic.config({
   float = { border = "rounded" },
 })
 
-vim.keymap.set("n", "[d", function()
-  vim.diagnostic.goto_prev()
-end, { desc = "Go to previous diagnostic message" })
+set("n", "[d", vim.diagnostic.goto_prev, {
+  desc = "Go to previous diagnostic message",
+})
 
-vim.keymap.set("n", "]d", function()
-  vim.diagnostic.goto_next()
-end, { desc = "Go to next diagnostic message" })
+set("n", "]d", vim.diagnostic.goto_next, {
+  desc = "Go to next diagnostic message",
+})
 
-vim.keymap.set("n", "ge", vim.diagnostic.open_float, {
+set("n", "ge", vim.diagnostic.open_float, {
   desc = "Open diagnostic message",
 })
 
@@ -219,9 +209,6 @@ vim.diagnostic.config({
   },
 })
 
----
----
----
 vim.filetype.add({
   extension = {
     env = "sh",
@@ -238,285 +225,168 @@ vim.filetype.add({
   },
 })
 
----
----
----
 require("config.autocmd")
 require("config.command")
 require("config.winbar")
 
-vim.api.nvim_create_autocmd("Filetype", {
-  pattern = "dashboard",
-  group = vim.api.nvim_create_augroup("Dashboard_au", { clear = true }),
-  callback = function()
-    vim.cmd("setlocal buftype=nofile")
-    vim.cmd("setlocal nonumber norelativenumber noruler")
-  end,
-})
-
----
----
----
 require("lazy").setup({
   spec = {
-    -- { lazy = true, "MunifTanjim/nui.nvim" },
-    { lazy = true, "nvim-lua/plenary.nvim" },
     { lazy = true, "nvim-tree/nvim-web-devicons" },
-    ---
-    ---
-    ---
+    {
+      "willothy/veil.nvim",
+      lazy = false,
+      config = require("config.plugins.veil").setup,
+    },
+    {
+      "rmagatti/auto-session",
+      cmd = "SessionRestore",
+      config = require("config.plugins.auto-session").setup,
+    },
+    {
+      "catppuccin/nvim",
+      lazy = false,
+      name = "catppuccin",
+      priority = 1000,
+      config = require("config.plugins.catppuccin").setup,
+    },
     {
       "stevearc/quicker.nvim",
       event = "FileType qf",
-      ---@module "quicker"
-      ---@type quicker.SetupOptions
-      opts = {},
+      config = require("config.plugins.quicker").setup,
     },
-    ---
-    ---
-    ---
     {
       "mvllow/modes.nvim",
       event = "VeryLazy",
       tag = "v0.2.0",
-      config = function()
-        require("modes").setup({
-          colors = {
-            --
-            -- Theme: default
-            -- copy = "#f5c359",
-            -- delete = "#c75c6a",
-            insert = "#78ccc5",
-            -- visual = "#9745be",
-            --
-            -- Theme: catppuccin
-            copy = "#e5c890",
-            delete = "#e78284",
-            -- insert = "#81c8be",
-            visual = "#8caaee",
-          },
-          ignore_filetypes = {
-            "NvimTree",
-            "TelescopePrompt",
-          },
-        })
-      end,
+      config = require("config.plugins.modes").setup,
     },
-    ---
-    ---
-    ---
+    {
+      "sphamba/smear-cursor.nvim",
+      event = "VeryLazy",
+      config = require("config.plugins.smear-cursor").setup,
+    },
     {
       "max397574/better-escape.nvim",
       event = "InsertEnter",
-      opts = {
-        default_mappings = false,
-        mappings = {
-          i = {
-            k = { j = "<Esc>" },
-          },
-        },
-      },
+      config = require("config.plugins.better-escape").setup,
     },
-    ---
-    ---
-    ---
     {
-      "echasnovski/mini.cursorword",
-      event = "VeryLazy",
-      enabled = false,
+      "brenoprata10/nvim-highlight-colors",
+      cmd = { "HighlightColors" },
+      opts = {},
+    },
+    {
+      "mfussenegger/nvim-lint",
+      cmd = { "Lint", "LintWithBiome", "LintWithEslint" },
+      config = require("config.plugins.lint").setup,
+    },
+    {
+      "stevearc/conform.nvim",
+      keys = { { "<leader>m", "<cmd>Format<cr>", desc = "Format" } },
+      config = require("config.plugins.conform").setup,
+    },
+    {
+      "iamcco/markdown-preview.nvim",
+      cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
+      ft = { "markdown" },
+      build = function()
+        vim.fn["mkdp#util#install"]()
+      end,
+    },
+    {
+      "stevearc/oil.nvim",
+      cmd = { "Oil" },
+      keys = { { "<leader>x", "<CMD>Oil<CR>", desc = "Show oil" } },
+      config = require("config.plugins.oil").setup,
+    },
+    {
+      "folke/todo-comments.nvim",
+      cmd = { "TodoTelescope", "TodoLocList" },
+      config = require("config.plugins.todos").setup,
+    },
+    {
+      "folke/trouble.nvim",
+      cmd = { "ToggleTrouble", "Trouble" },
+      config = require("config.plugins.trouble").setup,
+    },
+    {
+      "mg979/vim-visual-multi",
+      event = "ModeChanged",
+      config = require("config.plugins.vim-visual-multi").setup,
+    },
+    {
+      "gbprod/substitute.nvim",
+      keys = { { "X", "<CMD>lua require('substitute.exchange').visual()<CR>", mode = "x" } },
+      opts = {},
+    },
+    {
+      "kylechui/nvim-surround",
+      keys = { { "S", mode = "v" }, { "cs" }, { "ds" }, { "ys" } },
+      opts = {},
+    },
+    {
+      "akinsho/bufferline.nvim",
+      event = { "TabEnter", "TabNew" },
       version = "*",
-      config = function()
-        _G.cursorword_blocklist = function()
-          if vim.bo.filetype == "NvimTree" then
-            vim.b.minicursorword_disable = true
-          else
-            vim.b.minicursorword_disable = false
-          end
-        end
-
-        vim.cmd("au CursorMoved * lua _G.cursorword_blocklist()")
-
-        require("mini.cursorword").setup({
-          delay = 25,
-        })
-
-        vim.api.nvim_set_hl(0, "MiniCursorword", {
-          bg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticVirtualTextInfo"), "bg"),
-          italic = false,
-          underline = false,
-        })
-
-        vim.api.nvim_set_hl(0, "MiniCursorwordCurrent", {
-          bg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticVirtualTextInfo"), "bg"),
-          italic = false,
-          underline = false,
-        })
-      end,
-    },
-    ---
-    ---
-    ---
-    {
-      "sphamba/smear-cursor.nvim",
-      enabled = false,
-      event = "CursorMoved",
-      opts = {
-        cursor_color = "#e78284",
-        stiffness = 0.6,
-        trailing_stiffnewss = 0.1,
-        trailing_exponent = 5,
-        gamma = 1,
-      },
+      config = require("config.plugins.bufferline").setup,
     },
     {
-      "karb94/neoscroll.nvim",
-      keys = {
-        "<leader>u",
-        "<C-u>",
-        "<C-d>",
-        "<C-b>",
-        "<C-f>",
-        "<C-y>",
-        "<C-e>",
-        "zt",
-        "zz",
-        "z.",
-        "zb",
-      },
-      enabled = false,
-      config = require("config.plugins.neoscroll").setup,
-    },
-    {
-      "dstein64/nvim-scrollview",
-      enabled = false,
-      event = "VeryLazy",
-      config = require("config.plugins.scrollview").setup,
-    },
-    {
-      "petertriho/nvim-scrollbar",
-      event = "VeryLazy",
-      enabled = false,
-      config = function()
-        require("scrollbar").setup()
-      end,
+      "shortcuts/no-neck-pain.nvim",
+      cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
+      keys = { { "<leader>z", "<CMD>NoNeckPain<CR>", desc = "Toggle zen mode" } },
+      version = "*",
+      config = require("config.plugins.no-neck-pain").setup,
     },
     ---
     ---
     ---
-    {
-      "axelvc/template-string.nvim",
-      enabled = false,
-      event = "InsertEnter",
-      opts = { remove_template_string = true },
-    },
-    {
-      "windwp/nvim-autopairs",
-      enabled = false,
-      event = "InsertEnter",
-      opts = {},
-    },
-    {
-      "windwp/nvim-ts-autotag",
-      enabled = false,
-      event = "InsertEnter",
-      opts = {},
-    },
-    ---
-    ---
-    ---
-    ---
-    {
-      "nvimdev/dashboard-nvim",
-      lazy = false,
-      enabled = true,
-      config = function()
-        require("dashboard").setup({
-          theme = "doom",
-          config = {
-            center = {
-              { icon = " ", key = "f", desc = "Find File", action = ":Telescope find_files" },
-              { icon = " ", key = "e", desc = "Recent Files", action = ":Telescope oldfiles" },
-              { icon = " ", key = "s", desc = "Load Session", action = ":SessionRestore" },
-              { icon = " ", key = "q", desc = "Quit", action = ":qa" },
-            },
-          },
-        })
-      end,
-    },
-    ---
-    ---
-    ---
-    {
-      "rmagatti/auto-session",
-      -- lazy = false,
-      cmd = { "SessionRestore" },
-      opts = {
-        session_lens = {
-          load_on_setup = false,
-        },
-      },
-    },
-    ---
-    ---
-    ---
-    {
-      "saghen/blink.cmp",
-      enabled = false,
-      dependencies = { "L3MON4D3/LuaSnip" },
-      version = "v0.*",
-      event = "InsertEnter",
-      opts_extend = { "sources.completion.enabled_providers" },
-      config = require("config.plugins.blink").setup,
-    },
-    { lazy = true, "hrsh7th/cmp-nvim-lsp" },
     {
       "hrsh7th/nvim-cmp",
-      enabled = true,
+      event = "InsertEnter",
       dependencies = {
         "L3MON4D3/LuaSnip",
         "hrsh7th/cmp-cmdline",
+        "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-path",
+        "onsails/lspkind.nvim",
         "saadparwaiz1/cmp_luasnip",
       },
-      event = "InsertEnter",
       config = require("config.plugins.cmp").setup,
     },
     {
       "neovim/nvim-lspconfig",
+      event = "VeryLazy",
       dependencies = {
-        "saghen/blink.cmp",
         "williamboman/mason-lspconfig.nvim",
         "williamboman/mason.nvim",
       },
-      event = "VeryLazy",
       config = require("config.plugins.lsp").setup,
     },
-    ---
-    ---
-    ---
     {
       "folke/lazydev.nvim",
-      dependencies = {
-        "Bilal2453/luvit-meta",
-      },
       ft = "lua",
       opts = {
         library = {
-          {
-            path = "luvit-meta/library",
-            words = { "vim%.uv" },
-          },
+          { path = "luvit-meta/library", words = { "vim%.uv" } },
         },
       },
+    },
+    {
+      "saghen/blink.cmp",
+      enabled = false,
+      version = "v0.*",
+      event = "InsertEnter",
+      opts_extend = { "sources.completion.enabled_providers" },
+      config = require("config.plugins.blink").setup,
     },
     ---
     ---
     ---
     {
       dir = "~/.config/nvim/colors",
+      enabled = false,
       name = "minimal",
       lazy = false,
-      enabled = false,
       priority = 1000,
       config = function()
         vim.cmd.colorscheme("minimal")
@@ -524,18 +394,10 @@ require("lazy").setup({
       end,
     },
     {
-      "catppuccin/nvim",
-      lazy = false,
-      enabled = true,
-      name = "catppuccin",
-      priority = 1000,
-      config = require("config.plugins.catppuccin").setup,
-    },
-    {
       "projekt0n/github-nvim-theme",
+      enabled = false,
       name = "github-theme",
       lazy = false, -- make sure we load this during startup if it is your main colorscheme
-      enabled = false,
       priority = 1000, -- make sure to load this before all the other start plugins
       config = function()
         require("github-theme").setup()
@@ -567,50 +429,41 @@ require("lazy").setup({
         vim.api.nvim_set_hl(0, "FloatBorder", { fg = c.blue.base })
       end,
     },
+    ---
+    ---
+    ---
+    { lazy = true, "MunifTanjim/nui.nvim" },
     {
       "folke/noice.nvim",
       event = "VeryLazy",
-      dependencies = {
-        "MunifTanjim/nui.nvim",
-      },
       config = require("config.plugins.noice").setup,
     },
     ---
     ---
     ---
-    {
-      lazy = true,
-      "JoosepAlviste/nvim-ts-context-commentstring",
-    },
+    { lazy = true, "JoosepAlviste/nvim-ts-context-commentstring" },
     {
       "numToStr/Comment.nvim",
       keys = {
-        { "gcc", mode = "n", desc = "Comment toggle current line" },
-        { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
-        { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
-        { "gbc", mode = "n", desc = "Comment toggle current block" },
-        { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
         { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
+        { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
+        { "gbc", desc = "Comment toggle current block" },
+        { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
+        { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
+        { "gcc", desc = "Comment toggle current line" },
       },
       config = require("config.plugins.comment").setup,
     },
     ---
     ---
     ---
-    {
-      "brenoprata10/nvim-highlight-colors",
-      cmd = { "HighlightColors" },
-      opts = {},
-    },
     ---
     ---
     ---
     {
       "nvim-pack/nvim-spectre",
       cmd = { "Spectre" },
-      keys = {
-        { "<C-s>", "<cmd>Spectre<cr>", desc = "Search" },
-      },
+      keys = { { "<C-s>", "<cmd>Spectre<cr>", desc = "Search" } },
       config = require("config.plugins.spectre").setup,
     },
     {
@@ -632,6 +485,7 @@ require("lazy").setup({
         },
       },
       cmd = {
+        "GrugFar",
         "GrugFarLocal",
         "GrugFarGlobal",
       },
@@ -640,27 +494,12 @@ require("lazy").setup({
     ---
     ---
     ---
-    {
-      "mfussenegger/nvim-lint",
-      cmd = {
-        "Lint",
-        "LintWithBiome",
-        "LintWithEslint",
-      },
-      config = require("config.plugins.lint").setup,
-    },
-    {
-      "stevearc/conform.nvim",
-      keys = {
-        { "<leader>m", "<cmd>Format<cr>", mode = "n" },
-      },
-      config = require("config.plugins.conform").setup,
-    },
     ---
     ---
     ---
     {
       "johmsalas/text-case.nvim",
+      enabled = true,
       cmd = {
         "TextCaseOpenTelescope",
         "TextCaseOpenTelescopeQuickChange",
@@ -678,13 +517,13 @@ require("lazy").setup({
       },
       opts = {},
     },
+    { lazy = true, "natecraddock/telescope-zf-native.nvim" },
+    { lazy = true, "nvim-lua/plenary.nvim" },
+    { lazy = true, "nvim-telescope/telescope-ui-select.nvim" },
     {
       "nvim-telescope/telescope.nvim",
-      dependencies = {
-        "natecraddock/telescope-zf-native.nvim",
-        "nvim-telescope/telescope-ui-select.nvim",
-      },
-      cmd = { "Telescope" },
+      enabled = true,
+      cmd = { "Telescope", "CommandPalette" },
       keys = {
         "<leader>a",
         "<leader>e",
@@ -807,21 +646,13 @@ require("lazy").setup({
     ---
     ---
     ---
-    {
-      "stevearc/oil.nvim",
-      cmd = { "Oil" },
-      keys = {
-        { "<leader>x", "<CMD>Oil<CR>" },
-      },
-      config = require("config.plugins.oil").setup,
-    },
     ---
     ---
     ---
     {
       "b0o/incline.nvim",
-      event = "VeryLazy",
       enabled = false,
+      event = "VeryLazy",
       config = require("config.plugins.incline").setup,
     },
     ---
@@ -829,6 +660,7 @@ require("lazy").setup({
     ---
     {
       "nvim-tree/nvim-tree.lua",
+      enabled = true,
       keys = {
         {
           "<leader>j",
@@ -839,7 +671,7 @@ require("lazy").setup({
               vim.cmd("NvimTreeFindFile")
             end
           end,
-          mode = "n",
+          desc = "Toggle file tree",
         },
       },
       config = require("config.plugins.nvim-tree").setup,
@@ -850,23 +682,23 @@ require("lazy").setup({
     {
       "Wansmer/treesj",
       keys = {
-        { "<leader>tj", mode = "n", ":TSJJoin<CR>", silent = true },
-        { "<leader>tm", mode = "n", ":TSJToggle<CR>", silent = true },
-        { "<leader>ts", mode = "n", ":TSJSplit<CR>", silent = true },
+        { "<leader>tj", ":TSJJoin<CR>", silent = true, desc = "Join TS nodes" },
+        { "<leader>tm", ":TSJToggle<CR>", silent = true, desc = "Toggle TS nodes" },
+        { "<leader>ts", ":TSJSplit<CR>", silent = true, desc = "Split TS nodes" },
       },
       opts = {},
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      event = "VeryLazy",
       build = ":TSUpdate",
+      event = "VeryLazy",
       dependencies = {
         "nvim-treesitter/nvim-treesitter-textobjects",
       },
-      -- init = function(plugin)
-      --   require("lazy.core.loader").add_to_rtp(plugin)
-      --   require("nvim-treesitter.query_predicates")
-      -- end,
+      init = function(plugin)
+        require("lazy.core.loader").add_to_rtp(plugin)
+        require("nvim-treesitter.query_predicates")
+      end,
       config = require("config.plugins.treesitter").setup,
     },
     ---
@@ -922,10 +754,7 @@ require("lazy").setup({
     {
       "NeogitOrg/neogit",
       cmd = "Neogit",
-      dependencies = {
-        "nvim-telescope/telescope.nvim",
-        "sindrets/diffview.nvim",
-      },
+      dependencies = { "sindrets/diffview.nvim" },
       config = require("config.plugins.neogit").setup,
     },
     {
@@ -936,86 +765,14 @@ require("lazy").setup({
         { "gk", "<CMD>Gitsigns prev_hunk<CR>", "n" },
         { "gp", "<CMD>Gitsigns preview_hunk<CR>", "n" },
       },
-      opts = {
-        signs = {
-          add = { text = "│" },
-          change = { text = "│" },
-          delete = { text = "_" },
-          topdelete = { text = "‾" },
-          changedelete = { text = "~" },
-          untracked = { text = "┆" },
-        },
-        signs_staged = {
-          add = { text = "│" },
-          change = { text = "│" },
-          delete = { text = "_" },
-          topdelete = { text = "‾" },
-          changedelete = { text = "~" },
-          untracked = { text = "┆" },
-        },
-        signcolumn = true,
-        numhl = false,
-        current_line_blame_opts = {
-          ignore_whitespace = true,
-        },
-        preview_config = {
-          -- Options passed to nvim_open_win
-          border = "rounded",
-          style = "minimal",
-          relative = "cursor",
-          row = 0,
-          col = 1,
-        },
-      },
-    },
-    ---
-    ---
-    ---
-    {
-      "gbprod/substitute.nvim",
-      keys = {
-        {
-          "X",
-          function()
-            require("substitute.exchange").visual()
-          end,
-          mode = "x",
-        },
-      },
-      opts = {},
-    },
-    {
-      "kylechui/nvim-surround",
-      keys = {
-        { "S", mode = "v" },
-        { "cs", mode = "n" },
-        { "ds", mode = "n" },
-        { "ys", mode = "n" },
-      },
-      opts = {},
-    },
-    ---
-    ---
-    ---
-    {
-      "mg979/vim-visual-multi",
-      event = "ModeChanged",
-      config = function()
-        vim.g.VM_theme = "iceblue"
-        vim.g.VM_default_mappings = 1
-        vim.g.VM_mouse_mappings = 0
-        vim.g.VM_set_statusline = 0
-        vim.g.VM_show_warnings = 0
-        vim.g.VM_silent_exit = 1
-
-        vim.keymap.set("x", "A", "<Plug>(VM-Visual-Cursors)", {})
-      end,
+      config = require("config.plugins.gitsigns").setup,
     },
     ---
     ---
     ---
     {
       "mrjones2014/smart-splits.nvim",
+      enabled = true,
       keys = {
       -- stylua: ignore start
       -- resize
@@ -1040,65 +797,61 @@ require("lazy").setup({
     ---
     ---
     ---
+    ---
+    ---
+    ---
+    ---
+    ---
+    ---
+    ---
+    ---
+    ---
     {
-      "folke/todo-comments.nvim",
-      cmd = {
-        "TodoTelescope",
-        "TodoLocList",
+      "folke/which-key.nvim",
+      enabled = false,
+      event = "VeryLazy",
+      keys = {
+        {
+          "<leader>?",
+          function()
+            require("which-key").show({ global = false })
+          end,
+          desc = "Buffer Local Keymaps (which-key)",
+        },
       },
-      config = require("config.plugins.todos").setup,
+      opts = {
+        preset = "helix",
+        delay = 0,
+      },
     },
     ---
     ---
     ---
+    ---
+    ---
+    ---
+    ---
+    ---
+    ---
     {
-      "iamcco/markdown-preview.nvim",
-      cmd = {
-        "MarkdownPreview",
-        "MarkdownPreviewStop",
-        "MarkdownPreviewToggle",
+      "ggandor/leap.nvim",
+      keys = {
+        {
+          ";",
+          mode = { "n" },
+          function()
+            require("leap").leap({
+              labels = "sfnjklhodweimbuyvrgtaqpcxz",
+              target_windows = { vim.api.nvim_get_current_win() },
+            })
+          end,
+        },
       },
-      ft = { "markdown" },
-      build = function()
-        vim.fn["mkdp#util#install"]()
+      config = function()
+        vim.cmd("hi! link LeapBackdrop NvimContainer")
+        -- vim.cmd("hi! link LeapLabel @text.note")
       end,
     },
-    ---
-    ---
-    ---
-    {
-      "folke/trouble.nvim",
-      cmd = {
-        "ToggleTrouble",
-        "Trouble",
-      },
-      config = require("config.plugins.trouble").setup,
-    },
-    ---
-    ---
-    ---
-    {
-      "shortcuts/no-neck-pain.nvim",
-      enabled = true,
-      cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
-      keys = {
-        { "<leader>z", "<CMD>NoNeckPain<CR>", mode = "n" },
-      },
-      version = "*",
-      config = require("config.plugins.no-neck-pain").setup,
-    },
-    ---
-    ---
-    ---
-    {
-      "akinsho/bufferline.nvim",
-      event = { "TabEnter", "TabNew" },
-      version = "*",
-      config = require("config.plugins.bufferline").setup,
-    },
-  },
-  install = {
-    colorscheme = { "catppucin-frappe" },
   },
   rocks = {
     enabled = false,

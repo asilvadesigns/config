@@ -20,21 +20,29 @@ M.setup = function()
     end,
   })
 
+  local modes = {
+    "n",
+    "v",
+    "x",
+  }
+
+  vim.keymap.set(modes, "<leader>u", function()
+    neoscroll.ctrl_u({ duration = 50, easing = "sine" })
+  end, { desc = "Scroll Up" })
+
+  vim.keymap.set(modes, "<C-u>", function()
+    neoscroll.ctrl_u({ duration = 50, easing = "sine" })
+  end, { desc = "Scroll Up" })
+
+  vim.keymap.set(modes, "<leader>d", function()
+    neoscroll.ctrl_d({ duration = 50, easing = "sine" })
+  end, { desc = "Scroll Down" })
+
+  vim.keymap.set(modes, "<C-d>", function()
+    neoscroll.ctrl_d({ duration = 50, easing = "sine" })
+  end, { desc = "Scroll Down" })
+
   local keymap = {
-    -- up
-    ["<leader>u"] = function()
-      neoscroll.ctrl_u({ duration = 50, easing = "sine" })
-    end,
-    ["<C-u>"] = function()
-      neoscroll.ctrl_u({ duration = 50, easing = "sine" })
-    end,
-    -- down
-    ["<C-d>"] = function()
-      neoscroll.ctrl_d({ duration = 50, easing = "sine" })
-    end,
-    ["<leader>d"] = function()
-      neoscroll.ctrl_d({ duration = 50, easing = "sine" })
-    end,
     -- full page up
     ["<C-b>"] = function()
       neoscroll.ctrl_b({ duration = 450, easing = "sine" })
@@ -68,7 +76,6 @@ M.setup = function()
     end,
   }
 
-  local modes = { "n", "v", "x" }
   for key, func in pairs(keymap) do
     vim.keymap.set(modes, key, func)
   end
