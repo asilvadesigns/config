@@ -1,9 +1,5 @@
+---@diagnostic disable: missing-fields
 local M = {}
-
-local function has_words_before()
-  local line, col = (unpack or table.unpack)(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
 
 M.setup = function()
   require("blink.cmp").setup({
@@ -12,60 +8,40 @@ M.setup = function()
     -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
     -- see the "default configuration" section below for full documentation on how to define
     -- your own keymap.
-    ---@diagnostic disable-next-line: missing-fields
+    keymap = {
+      -- preset = "enter",
+      ["<C-o>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-e>"] = { "hide", "fallback" },
+      ["<CR>"] = { "accept", "fallback" },
+
+      ["<Tab>"] = { "snippet_forward", "fallback" },
+      ["<S-Tab>"] = { "snippet_backward", "fallback" },
+
+      ["<Up>"] = { "select_prev", "fallback" },
+      ["<Down>"] = { "select_next", "fallback" },
+      ["<C-p>"] = { "select_prev", "fallback" },
+      ["<C-n>"] = { "select_next", "fallback" },
+
+      ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+      ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+    },
     completion = {
       list = {
         selection = "manual",
       },
+      menu = {
+        draw = {
+          columns = {
+            { "kind_icon", gap = 1 },
+            { "label", "label_description" },
+          },
+        },
+      },
     },
-    keymap = { preset = "enter" },
-    -- keymap = {
-    --   ["<C-y>"] = { "show", "show_documentation", "hide_documentation" },
-    --   ["<Up>"] = { "select_prev", "fallback" },
-    --   ["<Down>"] = { "select_next", "fallback" },
-    --   ["<C-N>"] = { "select_next", "show" },
-    --   ["<C-P>"] = { "select_prev", "show" },
-    --   ["<C-J>"] = { "select_next", "fallback" },
-    --   ["<C-K>"] = { "select_prev", "fallback" },
-    --   ["<C-U>"] = { "scroll_documentation_up", "fallback" },
-    --   ["<C-D>"] = { "scroll_documentation_down", "fallback" },
-    --   ["<C-e>"] = { "hide", "fallback" },
-    --   ["<CR>"] = { "accept", "fallback" },
-    --   ["<Tab>"] = {
-    --     function(cmp)
-    --       if cmp.windows.autocomplete.win:is_open() then
-    --         return cmp.select_next()
-    --       elseif cmp.is_in_snippet() then
-    --         return cmp.snippet_forward()
-    --       elseif has_words_before() then
-    --         return cmp.show()
-    --       end
-    --     end,
-    --     "fallback",
-    --   },
-    --   ["<S-Tab>"] = {
-    --     function(cmp)
-    --       if cmp.windows.autocomplete.win:is_open() then
-    --         return cmp.select_prev()
-    --       elseif cmp.is_in_snippet() then
-    --         return cmp.snippet_backward()
-    --       end
-    --     end,
-    --     "fallback",
-    --   },
-    -- },
-
-    ---@diagnostic disable-next-line: missing-fields
     appearance = {
-      -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-      -- Useful for when your theme doesn't support blink.cmp
-      -- will be removed in a future release
       use_nvim_cmp_as_default = true,
-      -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-      -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = "mono",
     },
-
     snippets = {
       expand = function(snippet)
         require("luasnip").lsp_expand(snippet)
@@ -80,25 +56,11 @@ M.setup = function()
         require("luasnip").jump(direction)
       end,
     },
-
-    -- default list of enabled providers defined so that you can extend it
-    -- elsewhere in your config, without redefining it, via `opts_extend`
-    ---@diagnostic disable-next-line: missing-fields
     sources = {
       completion = {
-        enabled_providers = {
-          "lsp",
-          "path",
-          "snippets",
-          "buffer",
-        },
+        enabled_providers = { "lsp", "path", "luasnip", "buffer" },
       },
     },
-    -- experimental auto-brackets support
-    -- completion = { accept = { auto_brackets = { enabled = true } } }
-
-    -- experimental signature help support
-    -- signature = { enabled = true }
   })
 end
 

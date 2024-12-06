@@ -346,6 +346,7 @@ require("lazy").setup({
     ---
     {
       "hrsh7th/nvim-cmp",
+      enabled = true,
       event = "InsertEnter",
       dependencies = {
         "L3MON4D3/LuaSnip",
@@ -361,6 +362,7 @@ require("lazy").setup({
       "neovim/nvim-lspconfig",
       event = "VeryLazy",
       dependencies = {
+        -- "saghen/blink.cmp",
         "williamboman/mason-lspconfig.nvim",
         "williamboman/mason.nvim",
       },
@@ -376,10 +378,14 @@ require("lazy").setup({
       },
     },
     {
+      --- TODO: soon
       "saghen/blink.cmp",
       enabled = false,
       version = "v0.*",
       event = "InsertEnter",
+      dependencies = {
+        "L3MON4D3/LuaSnip",
+      },
       opts_extend = { "sources.completion.enabled_providers" },
       config = require("config.plugins.blink").setup,
     },

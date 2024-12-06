@@ -29,7 +29,7 @@ M.setup = function()
       ["<C-b>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
       -- Manually trigger c[o]mpletion
-      ["<C-y>"] = cmp.mapping.complete(),
+      ["<C-o>"] = cmp.mapping.complete(),
       -- Move to right in snippet expansion
       -- ["<C-l>"] = cmp.mapping(function()
       --   if luasnip.expand_or_locally_jumpable() then
