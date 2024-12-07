@@ -266,6 +266,7 @@ require("lazy").setup({
     },
     {
       "sphamba/smear-cursor.nvim",
+      enabled = false,
       event = "VeryLazy",
       config = require("config.plugins.smear-cursor").setup,
     },
@@ -299,6 +300,7 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
+      event = "VeryLazy",
       cmd = { "Oil" },
       keys = { { "<leader>x", "<CMD>Oil<CR>", desc = "Show oil" } },
       config = require("config.plugins.oil").setup,
@@ -670,7 +672,7 @@ require("lazy").setup({
     ---
     {
       "nvim-tree/nvim-tree.lua",
-      enabled = true,
+      event = "VeryLazy",
       keys = {
         {
           "<leader>j",
