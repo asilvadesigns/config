@@ -522,6 +522,14 @@ require("lazy").setup({
     ---
     {
       "johmsalas/text-case.nvim",
+      dependencies = {
+        {
+          "nvim-telescope/telescope.nvim",
+          config = function()
+            require("telescope").load_extension("textcase")
+          end,
+        },
+      },
       cmd = {
         "TextCaseOpenTelescope",
         "TextCaseOpenTelescopeQuickChange",
@@ -733,7 +741,7 @@ require("lazy").setup({
                 {
                   sign = {
                     namespace = { "gitsigns" },
-                    fillchar = " ",-- │
+                    fillchar = " ", -- │
                     maxwidth = 1,
                     colwidth = 1,
                     wrap = true,

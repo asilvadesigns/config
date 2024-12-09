@@ -259,8 +259,6 @@ M.setup = function()
     desc = "Fuzzy current buffer",
   })
 
-  -- telescope.load_extension("fzf")
-  telescope.load_extension("textcase")
   telescope.load_extension("ui-select")
   telescope.load_extension("zf-native")
 end
