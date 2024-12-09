@@ -201,7 +201,9 @@ M.setup = function()
       },
       buffers = {
         disable_devicons = true,
+        ignore_current_buffer = true,
         previewer = false,
+        show_all_buffers = false,
       },
       find_files = {
         disable_devicons = true,

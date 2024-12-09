@@ -2,8 +2,9 @@ local M = {}
 
 M.setup = function()
   require("grug-far").setup({
-    startInInsertMode = false,
+    disableBufferLineNumbers = false,
     normalModeSearch = true,
+    startInInsertMode = false,
     keymaps = {
       replace = { n = "<localleader>r" },
       qflist = { n = "<localleader>q" },
@@ -22,6 +23,11 @@ M.setup = function()
       help = { n = "g?" },
       toggleShowCommand = { n = "<localleader>p" },
       swapEngine = { n = "" },
+    },
+    folding = {
+      enabled = vim.o.foldenable,
+      foldcolumn = vim.o.foldcolumn,
+      foldlevel = vim.o.foldlevel,
     },
     wrap = false,
   })

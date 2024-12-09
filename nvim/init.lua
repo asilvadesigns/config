@@ -40,7 +40,7 @@ vim.opt.writebackup = false
 vim.opt.number = true
 vim.opt.relativenumber = true
 ---
-vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
+vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
@@ -348,8 +348,7 @@ require("lazy").setup({
     ---
     {
       "hrsh7th/nvim-cmp",
-      enabled = true,
-      event = "InsertEnter",
+      event = { "InsertEnter", "CmdlineEnter" },
       dependencies = {
         "L3MON4D3/LuaSnip",
         "hrsh7th/cmp-cmdline",
@@ -474,8 +473,20 @@ require("lazy").setup({
     ---
     {
       "nvim-pack/nvim-spectre",
-      cmd = { "Spectre" },
-      keys = { { "<C-s>", "<cmd>Spectre<cr>", desc = "Search" } },
+      cmd = "Spectre",
+      keys = {
+        {
+          "<C-s>",
+          "<cmd>Spectre<cr>",
+          desc = "Search",
+        },
+        {
+          "<C-f>",
+          ":lua require('spectre').open_visual()<CR>",
+          desc = "Replace current word (Root dir)",
+          mode = "v",
+        },
+      },
       config = require("config.plugins.spectre").setup,
     },
     {
@@ -511,7 +522,6 @@ require("lazy").setup({
     ---
     {
       "johmsalas/text-case.nvim",
-      enabled = true,
       cmd = {
         "TextCaseOpenTelescope",
         "TextCaseOpenTelescopeQuickChange",
@@ -529,18 +539,20 @@ require("lazy").setup({
       },
       opts = {},
     },
-    { lazy = true, "natecraddock/telescope-zf-native.nvim" },
-    { lazy = true, "nvim-lua/plenary.nvim" },
-    { lazy = true, "nvim-telescope/telescope-ui-select.nvim" },
     {
       "nvim-telescope/telescope.nvim",
-      enabled = true,
+      event = "VeryLazy",
       cmd = { "Telescope", "CommandPalette" },
       keys = {
         "<leader>a",
         "<leader>e",
         "<leader>f",
         "<leader>l",
+      },
+      dependencies = {
+        "natecraddock/telescope-zf-native.nvim",
+        "nvim-lua/plenary.nvim",
+        "nvim-telescope/telescope-ui-select.nvim",
       },
       config = require("config.plugins.telescope").setup,
     },
@@ -658,18 +670,6 @@ require("lazy").setup({
     ---
     ---
     ---
-    ---
-    ---
-    ---
-    {
-      "b0o/incline.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      config = require("config.plugins.incline").setup,
-    },
-    ---
-    ---
-    ---
     {
       "nvim-tree/nvim-tree.lua",
       event = "VeryLazy",
@@ -723,17 +723,24 @@ require("lazy").setup({
         "kevinhwang91/promise-async",
         {
           "luukvbaal/statuscol.nvim",
-          enabled = false,
           opts = function()
             local builtin = require("statuscol.builtin")
 
             return {
               relculright = true,
-              ft_ignore = {
-                "NvimTree",
-                "dashboard",
-              },
+              ft_ignore = { "NvimTree", "dashboard" },
               segments = {
+                {
+                  sign = {
+                    namespace = { "gitsigns" },
+                    fillchar = " ",-- │
+                    maxwidth = 1,
+                    colwidth = 1,
+                    wrap = true,
+                    foldclosed = true,
+                  },
+                  click = "v:lua.ScSa",
+                },
                 { text = { " ", builtin.lnumfunc }, click = "v:lua.ScLa" },
                 { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" },
               },
@@ -784,7 +791,6 @@ require("lazy").setup({
     ---
     {
       "mrjones2014/smart-splits.nvim",
-      enabled = true,
       keys = {
       -- stylua: ignore start
       -- resize
@@ -871,7 +877,6 @@ require("lazy").setup({
   performance = {
     rtp = {
       disabled_plugins = {
-        "editorconfig",
         "getscriptPlugin",
         "gzip",
         "matchit",
