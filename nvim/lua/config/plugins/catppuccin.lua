@@ -87,6 +87,7 @@ M.setup = function()
   -- # light
   -- vim.cmd("colorscheme catppuccin-latte")
 
+  vim.cmd("hi! link FoldColumn LineNr")
   -- vim.cmd("hi! link NvimTreeFolderName Comment")
   vim.cmd("hi! link NvimTreeIndentMarker WinSeparator")
   -- #TODO: you were going to use these to remove the underline
