@@ -1,7 +1,28 @@
 local M = {}
 
 M.setup = function()
+  local fzf = require("fzf-lua")
   local actions = require("fzf-lua.actions")
+
+  -- Custom action to send non-file entries to quickfix
+  local function custom_to_qf(selected, opts)
+    -- Get all items from the current fzf view
+    local all_items = fzf.
+    print("what is this" .. vim.inspect(all_items))
+
+    -- Create quickfix entries for all items
+    local qf_list = {}
+    for _, item in ipairs(all_items) do
+      table.insert(qf_list, { text = item })
+    end
+
+    -- Set the quickfix list and open it
+    vim.fn.setqflist(qf_list)
+    vim.cmd("copen")
+
+    -- Close the fzf window
+    actions.exit(selected, opts)
+  end
 
   require("fzf-lua").setup({
     winopts = {
@@ -10,6 +31,13 @@ M.setup = function()
       row = 0.50, -- window row position (0=top, 1=bottom)
       col = 0.50, -- window col position (0=left, 1=right)
       backdrop = 100,
+    },
+    highlights = {
+      actions = {
+        ["ctrl-q"] = function(selected)
+          custom_to_qf(selected)
+        end,
+      },
     },
     -- keymap = {
     --   fzf = {

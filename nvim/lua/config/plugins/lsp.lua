@@ -28,16 +28,13 @@ M.setup = function()
 
     vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
     vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-
-    -- fzflua
-    -- vim.keymap.set("n", "gd", function()
-    --   require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
-    -- end, opts)
-    -- vim.keymap.set("n", "gi", require("fzf-lua").lsp_implementations, opts)
-    -- vim.keymap.set("n", "gr", require("fzf-lua").lsp_references, opts)
-    -- vim.keymap.set("n", "gl", function()
-    --   require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
+    -- NOTE:: config in ./ufo.lua mapping instead
+    -- vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    -- vim.keymap.set("n", "K", function()
+    --   local winid = require("ufo").peekFoldedLinesUnderCursor()
+    --   if not winid then
+    --     vim.lsp.buf.hover()
+    --   end
     -- end, opts)
 
     -- telescope

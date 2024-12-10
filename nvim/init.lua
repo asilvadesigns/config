@@ -44,8 +44,8 @@ vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 ---
 -- vim.opt.grepformat = "%f:%l:%c:%m"
 -- vim.opt.grepprg = "rg --hidden --vimgrep --smart-case --"
@@ -549,7 +549,6 @@ require("lazy").setup({
     },
     {
       "nvim-telescope/telescope.nvim",
-      event = "VeryLazy",
       cmd = { "Telescope", "CommandPalette" },
       keys = {
         "<leader>a",
@@ -563,117 +562,6 @@ require("lazy").setup({
         "nvim-telescope/telescope-ui-select.nvim",
       },
       config = require("config.plugins.telescope").setup,
-    },
-    {
-      enabled = false,
-      "ibhagwan/fzf-lua",
-      cmd = { "FzfLua" },
-      keys = {
-        {
-          "<leader>a",
-          function()
-            ---@class Entry
-            ---@field cmd string | fun(): nil
-            ---@type table<string, Entry>
-            local commands = {
-              ["Commands"] = { cmd = "FzfLua commands" },
-              ["Copy file path (Absolute)"] = { cmd = "CopyAbsolutePath" },
-              ["Copy file path (Relative)"] = { cmd = "CopyRelativePath" },
-              ["Copy filetype"] = { cmd = "CopyFiletype" },
-              ["Diagnostics"] = { cmd = "Telescope diagnostics_document" },
-              ["Find Lines"] = { cmd = "FzfLua blines" },
-              ["Find Word"] = { cmd = "FzfLua grep_project" },
-              ["Format (Biome)"] = { cmd = "FormatWithBiome" },
-              ["Format (Prettier)"] = { cmd = "FormatWithPrettier" },
-              ["Format (default)"] = { cmd = "Format" },
-              ["Git (Fugitive)"] = { cmd = "Git" },
-              ["Git (Neogit)"] = { cmd = "Neogit" },
-              ["Help"] = { cmd = "FzfLua helptags" },
-              ["Highlights"] = { cmd = "FzfLua highlights" },
-              ["Keymaps"] = { cmd = "FzfLua keymaps" },
-              ["Lazy"] = { cmd = "Lazy" },
-              ["Lint (Biome)"] = { cmd = "LintWithBiome" },
-              ["Lint (EsLint)"] = { cmd = "LintWithPrettier" },
-              ["Lint (default)"] = { cmd = "Lint" },
-              ["Load Session"] = { cmd = "LoadSession" },
-              ["Mason"] = { cmd = "Mason" },
-              ["Markdown Preview"] = { cmd = "MarkdownPreviewToggle" },
-              ["Noice dismiss"] = { cmd = "Noice dismiss" },
-              ["Noice messages"] = { cmd = "Noice fzf" },
-              ["Open (Finder)"] = { cmd = "!open ." },
-              ["Quit force"] = { cmd = "qa!" },
-              ["Rename File"] = { cmd = "RenameFile" },
-              ["Restart LSP"] = { cmd = "LspRestart" },
-              ["Save"] = { cmd = "wa" },
-              ["Save and quit force"] = { cmd = "wqa!" },
-              ["Search"] = { cmd = "Spectre" },
-              ["Search (local)"] = { cmd = "GrugFarLocal" },
-              ["Search (global)"] = { cmd = "GrugFarGlobal" },
-              ["Symbols"] = { cmd = "FzfLua lsp_document_symbols" },
-              ["Symbols (Workspace)"] = { cmd = "FzfLua lsp_workspace_symbols" },
-              ["Buf Only"] = { cmd = "only|bd|e#" },
-              ["Tab Close"] = { cmd = "tabclose" },
-              ["Tab New"] = { cmd = "tabnew" },
-              ["Tab Next"] = { cmd = "tabnext" },
-              ["Tab Only"] = { cmd = "tabonly" },
-              ["Tab Previous"] = { cmd = "tabprevious" },
-              ["Todos Quickfix"] = { cmd = "TodoLocList" },
-              ["Trouble"] = { cmd = "Trouble" },
-              ["Zen Mode (no neck pain)"] = { cmd = "NoNeckPain" },
-              ["Zen Mode (decrease)"] = { cmd = "NoNeckPainWidthDown" },
-              ["Zen Mode (increase)"] = { cmd = "NoNeckPainWidthUp" },
-            }
-
-            local keys = {}
-            local n = 0
-            for k, _ in pairs(commands) do
-              n = n + 1
-              keys[n] = k
-            end
-
-            require("fzf-lua").fzf_exec(keys, {
-              actions = {
-                ["enter"] = function(selected)
-                  if selected and selected[1] then
-                    local meta = commands[selected[1]]
-
-                    if type(meta.cmd) == "function" then
-                      meta.cmd()
-                    elseif type(meta.cmd) == "string" then
-                      vim.cmd(meta.cmd)
-                    end
-                  end
-                end,
-              },
-            })
-          end,
-        },
-        {
-          "<leader>b",
-          function()
-            require("fzf-lua").buffers()
-          end,
-        },
-        {
-          "<leader>e",
-          function()
-            require("fzf-lua").oldfiles()
-          end,
-        },
-        {
-          "<leader>f",
-          function()
-            require("fzf-lua").files()
-          end,
-        },
-        {
-          "<leader>l",
-          function()
-            require("fzf-lua").blines()
-          end,
-        },
-      },
-      config = require("config.plugins.fzflua").setup,
     },
     ---
     ---
@@ -725,36 +613,38 @@ require("lazy").setup({
     ---
     ---
     {
-      "kevinhwang91/nvim-ufo",
+      "luukvbaal/statuscol.nvim",
       event = "VeryLazy",
+      opts = function()
+        local builtin = require("statuscol.builtin")
+
+        return {
+          relculright = true,
+          ft_ignore = { "NvimTree", "dashboard" },
+          segments = {
+            {
+              sign = {
+                namespace = { "gitsigns" },
+                fillchar = " ", -- │
+                maxwidth = 1,
+                colwidth = 1,
+                wrap = true,
+                foldclosed = true,
+              },
+              click = "v:lua.ScSa",
+            },
+            { text = { " ", builtin.lnumfunc }, click = "v:lua.ScLa" },
+            { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" },
+          },
+        }
+      end,
+    },
+    {
+      "kevinhwang91/nvim-ufo",
+      event = "BufReadPost",
       dependencies = {
         "kevinhwang91/promise-async",
-        {
-          "luukvbaal/statuscol.nvim",
-          opts = function()
-            local builtin = require("statuscol.builtin")
-
-            return {
-              relculright = true,
-              ft_ignore = { "NvimTree", "dashboard" },
-              segments = {
-                {
-                  sign = {
-                    namespace = { "gitsigns" },
-                    fillchar = " ", -- │
-                    maxwidth = 1,
-                    colwidth = 1,
-                    wrap = true,
-                    foldclosed = true,
-                  },
-                  click = "v:lua.ScSa",
-                },
-                { text = { " ", builtin.lnumfunc }, click = "v:lua.ScLa" },
-                { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" },
-              },
-            }
-          end,
-        },
+        "neovim/nvim-lspconfig",
       },
       config = require("config.plugins.ufo").setup,
     },
