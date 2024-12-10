@@ -1,14 +1,14 @@
 local M = {}
 
 M.setup = function()
-  -- if using cmp
+  -- NOTE: using cmp
   local capabilities = vim.tbl_deep_extend(
     "force",
     vim.lsp.protocol.make_client_capabilities(),
     require("cmp_nvim_lsp").default_capabilities()
   )
 
-  -- if using blink...
+  -- NOTE: using blink...
   -- local capabilities = vim.tbl_deep_extend(
   --   "force",
   --   vim.lsp.protocol.make_client_capabilities(),
@@ -20,31 +20,6 @@ M.setup = function()
     dynamicRegistration = false,
     lineFoldingOnly = true,
   }
-
-  local opts = { noremap = true, silent = true }
-
-  local on_attach = function(event)
-    opts.buffer = event.buf
-
-    vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
-    vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
-    -- NOTE:: config in ./ufo.lua mapping instead
-    -- vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-    -- vim.keymap.set("n", "K", function()
-    --   local winid = require("ufo").peekFoldedLinesUnderCursor()
-    --   if not winid then
-    --     vim.lsp.buf.hover()
-    --   end
-    -- end, opts)
-
-    -- telescope
-    vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
-    vim.keymap.set("n", "gi", require("telescope.builtin").lsp_implementations, opts)
-    vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
-    vim.keymap.set("n", "gl", function()
-      require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
-    end, opts)
-  end
 
   local servers = {
     "angularls",
@@ -85,43 +60,25 @@ M.setup = function()
   -- })
 
   require("mason").setup({
-    ui = {
-      border = "rounded",
-    },
+    ui = { border = "rounded" },
   })
-
-  vim.cmd("hi! link MasonNormal Normal")
-
-  vim.api.nvim_create_user_command("MasonInstallAll", function()
-    vim.cmd("MasonInstall " .. table.concat(servers, " "))
-    local registry = require("mason-registry")
-
-    for _, pkg_name in ipairs(formatters) do
-      local ok, pkg = pcall(registry.get_package, pkg_name)
-      if ok then
-        if not pkg:is_installed() then
-          pkg:install()
-        end
-      end
-    end
-  end, {})
 
   require("mason-lspconfig").setup({
     automatic_installation = true,
     ensure_installed = servers,
   })
 
+  vim.cmd("hi! link MasonNormal Normal")
+
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       require("lspconfig")[server_name].setup({
         capabilities = capabilities,
-        on_attach = on_attach,
       })
     end,
     ["cssls"] = function()
       require("lspconfig").cssls.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
           css = {
             lint = {
@@ -143,7 +100,6 @@ M.setup = function()
       -- NOTE: to add new schemas, find url here https://www.schemastore.org/json/
       require("lspconfig").jsonls.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
           json = {
             schemas = {
@@ -184,7 +140,6 @@ M.setup = function()
       require("lspconfig").gopls.setup({
         capabilities = capabilities,
         filetypes = { "go", "gomod", "gowork", "gotmpl" },
-        on_attach = on_attach,
         root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
         settings = {
           gopls = {
@@ -201,7 +156,6 @@ M.setup = function()
       require("lspconfig").emmet_language_server.setup({
         capabilities = capabilities,
         filetypes = { "astro", "html", "templ" },
-        on_attach = on_attach,
       })
     end,
     ["html"] = function()
@@ -209,24 +163,19 @@ M.setup = function()
       require("lspconfig").html.setup({
         capabilities = capabilities,
         filetypes = { "astro", "html", "templ" },
-        on_attach = on_attach,
       })
     end,
     ["htmx"] = function()
       require("lspconfig").htmx.setup({
         capabilities = capabilities,
         filetypes = { "html", "templ" },
-        on_attach = on_attach,
         root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
         single_file_support = true,
       })
     end,
     ["lua_ls"] = function()
-      -- require("neodev").setup()
       require("lspconfig").lua_ls.setup({
         capabilities = capabilities,
-        -- handlers = handlers,
-        on_attach = on_attach,
         settings = {
           Lua = {
             workspace = { checkThirdParty = false },
@@ -252,12 +201,6 @@ M.setup = function()
           "vue",
         },
         init_options = { userLanguages = { templ = "html" } },
-        on_attach = on_attach,
-        -- root_dir = require("lspconfig.util").root_pattern(
-        --   "tailwind.config.js",
-        --   "tailwind.config.ts",
-        --   "tailwind.config.cjs"
-        -- ),
         settings = {
           tailwindCSS = {
             classAttributes = {
@@ -280,7 +223,6 @@ M.setup = function()
     ["templ"] = function()
       require("lspconfig").templ.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
       })
     end,
     ["ts_ls"] = function()
@@ -288,7 +230,6 @@ M.setup = function()
 
       require("lspconfig").ts_ls.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
         root_dir = require("lspconfig.util").root_pattern(".git"),
         init_options = {
           preferences = {
@@ -309,7 +250,6 @@ M.setup = function()
 
       require("lspconfig").volar.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
         init_options = {
           vue = {
             hybridMode = false,
@@ -322,17 +262,26 @@ M.setup = function()
     end,
     ["yamlls"] = function()
       require("lspconfig").yamlls.setup({
-        capabilities = vim.tbl_extend("force", capabilities, {
-          textDocument = {
-            foldingRange = {
-              dynamicRegistration = false,
-              lineFoldingOnly = true,
-            },
-          },
-        }),
+        capabilities = capabilities,
         filetypes = { "yaml", "yaml.docker-compose", "yml" },
-        on_attach = on_attach,
       })
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+    callback = function(ev)
+      local opts = { silent = true, buffer = ev.buf }
+
+      vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
+      vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+      vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
+      vim.keymap.set("n", "gi", require("telescope.builtin").lsp_implementations, opts)
+      vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
+      vim.keymap.set("n", "gl", function()
+        require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
+      end, opts)
     end,
   })
 
@@ -345,6 +294,20 @@ M.setup = function()
 
     print("active lsps")
     print(vim.inspect(clients_list))
+  end, {})
+
+  vim.api.nvim_create_user_command("MasonInstallAll", function()
+    vim.cmd("MasonInstall " .. table.concat(servers, " "))
+    local registry = require("mason-registry")
+
+    for _, pkg_name in ipairs(formatters) do
+      local ok, pkg = pcall(registry.get_package, pkg_name)
+      if ok then
+        if not pkg:is_installed() then
+          pkg:install()
+        end
+      end
+    end
   end, {})
 
   ---https://github.com/wookayin/dotfiles/blob/f2c7b0944135f33db83b218afa2da89fb4b3ef1c/nvim/lua/config/lsp.lua#L318

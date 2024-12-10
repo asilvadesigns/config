@@ -9,9 +9,6 @@ M.setup = function()
 
   cmp.setup({
     preselect = cmp.PreselectMode.None,
-    -- completion = {
-    --   autocomplete = false,
-    -- },
     window = {
       documentation = cmp.config.window.bordered(),
     },
@@ -21,27 +18,11 @@ M.setup = function()
       end,
     },
     mapping = cmp.mapping.preset.insert({
-      -- Select the [n]ext item
       ["<C-n>"] = cmp.mapping.select_next_item(),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
-      -- Select the [p]revious item
-      -- Scroll the documentation window [b]ack / [f]orward
       ["<C-b>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
-      -- Manually trigger c[o]mpletion
       ["<C-o>"] = cmp.mapping.complete(),
-      -- Move to right in snippet expansion
-      -- ["<C-l>"] = cmp.mapping(function()
-      --   if luasnip.expand_or_locally_jumpable() then
-      --     luasnip.expand_or_jump()
-      --   end
-      -- end, { "i", "s" }),
-      -- -- Move to left in snippet expansion
-      -- ["<C-h>"] = cmp.mapping(function()
-      --   if luasnip.locally_jumpable(-1) then
-      --     luasnip.jump(-1)
-      --   end
-      -- end, { "i", "s" }),
       ["<CR>"] = cmp.mapping.confirm({
         behavior = cmp.ConfirmBehavior.Insert,
         select = true,
@@ -69,24 +50,7 @@ M.setup = function()
       { name = "path", priority_weight = 110 },
       { name = "nvim_lsp", max_view_entries = 20, priority_weight = 100 },
       { name = "lazydev", group_index = 0, priority_weight = 90 }, -- folke/lazydev.nvim
-      {
-        name = "buffer",
-        keyword_length = 5,
-        -- max_view_entries = 5,
-        -- priority_weight = 70,
-        -- option = {
-        --   get_bufnrs = function()
-        --     local buf = vim.api.nvim_get_current_buf()
-        --     local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
-        --     if byte_size > 1024 * 1024 then -- 1 megabyte max
-        --       return {}
-        --     end
-        --     return { buf }
-        --   end,
-        --   indexing_interval = 1000,
-        --   keyword_length = 5,
-        -- },
-      },
+      { name = "buffer", keyword_length = 5 },
     }),
     sorting = {
       priority_weight = 1.0,

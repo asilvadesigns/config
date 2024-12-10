@@ -97,9 +97,11 @@ local function main()
   end
 end
 
+--- NOTE: when to render the winbar
 vim.api.nvim_create_autocmd({
-  "BufReadPre",
   "BufModifiedSet",
+  "BufNewFile",
+  "BufReadPre",
   "DiagnosticChanged",
   "TabClosed",
 }, {

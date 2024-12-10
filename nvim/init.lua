@@ -238,9 +238,21 @@ require("lazy").setup({
   spec = {
     { lazy = true, "nvim-tree/nvim-web-devicons" },
     {
-      "willothy/veil.nvim",
-      lazy = false,
-      config = require("config.plugins.veil").setup,
+      "folke/snacks.nvim",
+      opts = {
+        dashboard = {
+          sections = {
+            { key = "s", padding = 1, desc = "[s]ession restore", action = ":SessionRestore" },
+            { key = "a", padding = 1, desc = "[a]ctions", action = ":CommandPalette" },
+            { key = "f", padding = 1, desc = "[f]ind file", action = ":Telescope find_files" },
+            { key = "e", padding = 1, desc = "r[e]cent files", action = ":Telescope oldfiles" },
+            { key = "l", padding = 1, desc = "[l]azy", action = ":Lazy" },
+            { key = "m", padding = 1, desc = "[m]ason", action = ":Mason" },
+            { key = "q", padding = 1, desc = "[q]uit", action = ":qa!" },
+            { section = "startup" },
+          },
+        },
+      },
     },
     {
       "rmagatti/auto-session",
@@ -266,7 +278,6 @@ require("lazy").setup({
     },
     {
       "sphamba/smear-cursor.nvim",
-      enabled = false,
       event = "VeryLazy",
       config = require("config.plugins.smear-cursor").setup,
     },
@@ -277,7 +288,7 @@ require("lazy").setup({
     },
     {
       "brenoprata10/nvim-highlight-colors",
-      cmd = { "HighlightColors" },
+      event = "VeryLazy",
       opts = {},
     },
     {
@@ -300,7 +311,6 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
-      event = "VeryLazy",
       cmd = { "Oil" },
       keys = { { "<leader>x", "<CMD>Oil<CR>", desc = "Show oil" } },
       config = require("config.plugins.oil").setup,
@@ -338,7 +348,6 @@ require("lazy").setup({
     },
     {
       "shortcuts/no-neck-pain.nvim",
-      cmd = { "NoNeckPain", "NoNeckPainWidthDown", "NoNeckPainWidthUp" },
       keys = { { "<leader>z", "<CMD>NoNeckPain<CR>", desc = "Toggle zen mode" } },
       version = "*",
       config = require("config.plugins.no-neck-pain").setup,
@@ -348,7 +357,11 @@ require("lazy").setup({
     ---
     {
       "hrsh7th/nvim-cmp",
-      event = { "InsertEnter", "CmdlineEnter" },
+      event = {
+        "CmdlineEnter",
+        "InsertEnter",
+        "LspAttach",
+      },
       dependencies = {
         "L3MON4D3/LuaSnip",
         "hrsh7th/cmp-cmdline",
@@ -379,7 +392,7 @@ require("lazy").setup({
       },
     },
     {
-      --- TODO: soon
+      --- NOTE: might delete this not sure right now...
       "saghen/blink.cmp",
       enabled = false,
       version = "v0.*",
@@ -389,56 +402,6 @@ require("lazy").setup({
       },
       opts_extend = { "sources.completion.enabled_providers" },
       config = require("config.plugins.blink").setup,
-    },
-    ---
-    ---
-    ---
-    {
-      dir = "~/.config/nvim/colors",
-      enabled = false,
-      name = "minimal",
-      lazy = false,
-      priority = 1000,
-      config = function()
-        vim.cmd.colorscheme("minimal")
-        vim.cmd("hi! link NvimTreeNormal Normal")
-      end,
-    },
-    {
-      "projekt0n/github-nvim-theme",
-      enabled = false,
-      name = "github-theme",
-      lazy = false, -- make sure we load this during startup if it is your main colorscheme
-      priority = 1000, -- make sure to load this before all the other start plugins
-      config = function()
-        require("github-theme").setup()
-
-        vim.cmd("colorscheme github_dark")
-        -- vim.cmd("colorscheme github_light")
-
-        vim.cmd("hi! link CursorLineFold CursorLine")
-        vim.cmd("hi! link CursorLineNr CursorLine")
-        vim.cmd("hi! link CursorLineSign CursorLine")
-
-        vim.cmd("hi! link StatusLine Normal")
-        vim.cmd("hi! link StatusLineNC Normal")
-
-        vim.cmd("hi! link WinSeparator LineNr")
-        vim.cmd("hi! link Winbar Normal")
-        vim.cmd("hi! link WinbarNC Normal")
-
-        vim.cmd("hi! link WinbarNC Normal")
-
-        vim.cmd("hi! link NvimTreeFileIcon NvimTreeFolderIcon")
-        vim.cmd("hi! link NvimTreeIndentMarker WinSeparator")
-        vim.cmd("hi! link NvimTreeNormal Normal")
-
-        vim.cmd("hi! link LazyNormal Normal")
-
-        local c = require("github-theme.palette").load("github_dark")
-        vim.print(vim.inspect(c))
-        vim.api.nvim_set_hl(0, "FloatBorder", { fg = c.blue.base })
-      end,
     },
     ---
     ---
@@ -465,9 +428,6 @@ require("lazy").setup({
       },
       config = require("config.plugins.comment").setup,
     },
-    ---
-    ---
-    ---
     ---
     ---
     ---
@@ -514,9 +474,6 @@ require("lazy").setup({
       },
       config = require("config.plugins.grug-far").setup,
     },
-    ---
-    ---
-    ---
     ---
     ---
     ---
@@ -568,7 +525,6 @@ require("lazy").setup({
     ---
     {
       "nvim-tree/nvim-tree.lua",
-      event = "VeryLazy",
       keys = {
         {
           "<leader>j",
@@ -615,41 +571,16 @@ require("lazy").setup({
     {
       "luukvbaal/statuscol.nvim",
       event = "VeryLazy",
-      opts = function()
-        local builtin = require("statuscol.builtin")
-
-        return {
-          relculright = true,
-          ft_ignore = { "NvimTree", "dashboard" },
-          segments = {
-            {
-              sign = {
-                namespace = { "gitsigns" },
-                fillchar = " ", -- │
-                maxwidth = 1,
-                colwidth = 1,
-                wrap = true,
-                foldclosed = true,
-              },
-              click = "v:lua.ScSa",
-            },
-            { text = { " ", builtin.lnumfunc }, click = "v:lua.ScLa" },
-            { text = { " ", builtin.foldfunc, " " }, click = "v:lua.ScFa" },
-          },
-        }
-      end,
+      config = require("config.plugins.statuscol").setup,
     },
     {
       "kevinhwang91/nvim-ufo",
-      event = "BufReadPost",
-      dependencies = {
-        "kevinhwang91/promise-async",
-        "neovim/nvim-lspconfig",
-      },
+      event = "LspAttach",
+      dependencies = { "kevinhwang91/promise-async" },
       config = require("config.plugins.ufo").setup,
     },
     ---
-    --- Plugins::Source Control
+    ---
     ---
     {
       "akinsho/git-conflict.nvim",
@@ -713,15 +644,6 @@ require("lazy").setup({
     ---
     ---
     ---
-    ---
-    ---
-    ---
-    ---
-    ---
-    ---
-    ---
-    ---
-    ---
     {
       "folke/which-key.nvim",
       enabled = false,
@@ -743,12 +665,6 @@ require("lazy").setup({
     ---
     ---
     ---
-    ---
-    ---
-    ---
-    ---
-    ---
-    ---
     {
       "ggandor/leap.nvim",
       keys = {
@@ -765,7 +681,7 @@ require("lazy").setup({
       },
       config = function()
         vim.cmd("hi! link LeapBackdrop NvimContainer")
-        -- vim.cmd("hi! link LeapLabel @text.note")
+        vim.cmd("hi! link LeapLabel @comment.warning")
       end,
     },
   },
