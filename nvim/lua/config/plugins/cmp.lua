@@ -70,10 +70,25 @@ M.setup = function()
     formatting = {
       expandable_indicator = true,
       fields = { "kind", "abbr", "menu" },
-      format = require("lspkind").cmp_format({
-        maxwidth = 50,
-        with_text = false,
-      }),
+      format = function(entry, item)
+        local color_item = require("nvim-highlight-colors").format(entry, {
+          kind = item.kind,
+        })
+
+        local lsp_kind_format = require("lspkind").cmp_format({
+          maxwidth = 50,
+          with_text = false,
+        })
+
+        item = lsp_kind_format(entry, item)
+
+        if color_item.abbr_hl_group then
+          item.kind_hl_group = color_item.abbr_hl_group
+          item.kind = color_item.abbr
+        end
+
+        return item
+      end,
     },
   })
 
