@@ -77,6 +77,9 @@ M.setup = function()
     },
   })
 
+  vim.cmd("set cmdheight=0")
+  vim.opt.cmdheight = 0
+
   vim.keymap.set("n", "<leader>nd", ":NoiceDismiss<CR>", { noremap = true, silent = true })
 end
 

@@ -1,6 +1,3 @@
---
---
---
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 ---@diagnostic disable-next-line: undefined-field
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -17,7 +14,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
-
 --
 --
 --
@@ -75,7 +71,6 @@ vim.opt.cmdheight = 0
 vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
 
 vim.opt.signcolumn = "yes"
-vim.cmd("set cmdheight=0")
 -- vim.optpt.statuscolumn = "%s %r "
 vim.opt.winbar = " "
 ---
@@ -240,20 +235,8 @@ require("lazy").setup({
     { lazy = true, "nvim-tree/nvim-web-devicons" },
     {
       "folke/snacks.nvim",
-      opts = {
-        dashboard = {
-          sections = {
-            { key = "s", padding = 1, desc = "Session Restore", action = ":SessionRestore" },
-            { key = "a", padding = 1, desc = "Actions", action = ":CommandPalette" },
-            { key = "f", padding = 1, desc = "Find File", action = ":Telescope find_files" },
-            { key = "e", padding = 1, desc = "Recent Files", action = ":Telescope oldfiles" },
-            { key = "l", padding = 1, desc = "Lazy", action = ":Lazy" },
-            { key = "m", padding = 1, desc = "Mason", action = ":Mason" },
-            { key = "q", padding = 1, desc = "Quit", action = ":qa!" },
-            { section = "startup" },
-          },
-        },
-      },
+      lazy = false,
+      config = require("config.plugins.snacks").setup,
     },
     {
       "rmagatti/auto-session",

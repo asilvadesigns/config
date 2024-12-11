@@ -5,23 +5,10 @@ export MANWIDTH=999
 
 abbr --add nr 'npm run $(fp)'
 
-function bb
-  set -l branch (git branch --all | fzf --reverse | tr -d `[:space:]`) 
-  echo "checking out... $branch"
-  git checkout $branch
-end
-
-function gg
-  set -l directory (ls -1 ~/dev | fzf --reverse)
-  cd ~/dev/$directory/
-end
-
 # npm run $(fp)
 function fp
   echo $(cat package.json | jq '.scripts | keys[]' | fzf --reverse | sed 's/"//g')
 end
-
-starship init fish | source
 
 # bat
 set -gx BAT_CONFIG_PATH "$HOME/.config/bat/bat.conf"
@@ -99,3 +86,6 @@ set PATH $PATH /Users/albertos/.local/bin
 
 # direnv
 direnv hook fish | source
+
+# starship must be at the end but we're trying PURE right now...
+# starship init fish | source
