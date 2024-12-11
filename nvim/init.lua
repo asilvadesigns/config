@@ -71,6 +71,7 @@ vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
 vim.opt.laststatus = 0
+vim.opt.cmdheight = 0
 vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
 
 vim.opt.signcolumn = "yes"
@@ -666,18 +667,25 @@ require("lazy").setup({
     ---
     ---
     {
+      "echasnovski/mini.cursorword",
+      event = "VeryLazy",
+      version = "*",
+      config = function()
+        require("mini.cursorword").setup({
+          delay = 50,
+        })
+
+        vim.cmd("hi! link MiniCursorword FloatShadow")
+        vim.cmd("hi! link MiniCursorwordCurrent FloatShadow")
+      end,
+    },
+    ---
+    ---
+    ---
+    {
       "ggandor/leap.nvim",
       keys = {
-        {
-          ";",
-          mode = { "n" },
-          function()
-            require("leap").leap({
-              labels = "sfnjklhodweimbuyvrgtaqpcxz",
-              target_windows = { vim.api.nvim_get_current_win() },
-            })
-          end,
-        },
+        { ";", ":lua require('leap').leap({})<CR>" },
       },
       config = function()
         vim.cmd("hi! link LeapBackdrop NvimContainer")
