@@ -676,9 +676,6 @@ require("lazy").setup({
       end,
     },
   },
-  rocks = {
-    enabled = false,
-  },
   performance = {
     rtp = {
       disabled_plugins = {
