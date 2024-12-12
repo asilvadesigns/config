@@ -668,7 +668,15 @@ require("lazy").setup({
     {
       "ggandor/leap.nvim",
       keys = {
-        { ";", ":lua require('leap').leap({})<CR>" },
+        {
+          ";",
+          function()
+            require("leap").leap({
+              target_windows = require("leap.user").get_focusable_windows(),
+            })
+          end,
+          silent = true,
+        },
       },
       config = function()
         vim.cmd("hi! link LeapBackdrop NvimContainer")
