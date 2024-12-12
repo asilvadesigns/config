@@ -227,6 +227,9 @@ M.setup = function()
     end,
     ["ts_ls"] = function()
       local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
+      local home_path = vim.fn.expand("~")
+
+      vim.notify("HOME::" .. home_path)
 
       require("lspconfig").ts_ls.setup({
         capabilities = capabilities,
@@ -236,6 +239,11 @@ M.setup = function()
             importModuleSpecifierPreference = "non-relative",
           },
           plugins = {
+            {
+              name = "ts-lit-plugin",
+              location = home_path
+                .. "/Library/Application Support/fnm/node-versions/v22.11.0/installation/lib/node_modules/ts-lit-plugin/",
+            },
             {
               name = "@vue/typescript-plugin",
               location = volar_path .. "/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin",
