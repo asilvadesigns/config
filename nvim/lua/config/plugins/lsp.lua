@@ -321,9 +321,9 @@ M.setup = function()
     end
   end)
 
-  vim.schedule(function()
+  vim.defer_fn(function()
     attach_lsp_to_existing_buffers()
-  end)
+  end, 100)
 end
 
 return M

@@ -12,7 +12,7 @@ M.setup = function()
   vim.cmd("au CursorMoved * lua _G.cursorword_blocklist()")
 
   require("mini.cursorword").setup({
-    delay = 25,
+    delay = 50,
   })
 
   vim.api.nvim_set_hl(0, "MiniCursorword", {
@@ -26,6 +26,10 @@ M.setup = function()
     italic = false,
     underline = false,
   })
+
+  -- or this..
+  -- vim.cmd("hi! link MiniCursorword FloatShadow")
+  -- vim.cmd("hi! link MiniCursorwordCurrent FloatShadow")
 end
 
 return M

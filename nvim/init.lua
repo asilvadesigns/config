@@ -653,14 +653,7 @@ require("lazy").setup({
       "echasnovski/mini.cursorword",
       event = "VeryLazy",
       version = "*",
-      config = function()
-        require("mini.cursorword").setup({
-          delay = 50,
-        })
-
-        vim.cmd("hi! link MiniCursorword FloatShadow")
-        vim.cmd("hi! link MiniCursorwordCurrent FloatShadow")
-      end,
+      config = require("config.plugins.mini").setup,
     },
     ---
     ---
@@ -683,6 +676,9 @@ require("lazy").setup({
         vim.cmd("hi! link LeapLabel @comment.warning")
       end,
     },
+  },
+  rocks = {
+    enabled = false,
   },
   performance = {
     rtp = {
