@@ -288,9 +288,19 @@ require("lazy").setup({
       config = require("config.plugins.better-escape").setup,
     },
     {
-      "brenoprata10/nvim-highlight-colors",
+      "norcalli/nvim-colorizer.lua",
       event = "VeryLazy",
-      opts = {},
+      config = function()
+        require("colorizer").setup({ "*" }, {
+          RGB = true, -- #RGB hex codes
+          RRGGBB = true, -- #RRGGBB hex codes
+          RRGGBBAA = true, -- #RRGGBBAA hex codes
+          rgb_fn = true, -- CSS rgb() and rgba() functions
+          hsl_fn = true, -- CSS hsl() and hsla() functions
+          css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+          css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        })
+      end,
     },
     {
       "mfussenegger/nvim-lint",
@@ -313,7 +323,7 @@ require("lazy").setup({
     {
       "stevearc/oil.nvim",
       cmd = { "Oil" },
-      keys = { { "<leader>x", "<CMD>Oil<CR>", desc = "Show oil" } },
+      keys = { { "<leader><Space>", "<CMD>Oil<CR>", desc = "Show oil" } },
       config = require("config.plugins.oil").setup,
     },
     {
@@ -498,6 +508,7 @@ require("lazy").setup({
               vim.cmd("NvimTreeClose")
             else
               vim.cmd("NvimTreeFindFile")
+              vim.cmd("normal! zz")
             end
           end,
           desc = "Toggle file tree",

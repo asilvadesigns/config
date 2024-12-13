@@ -25,7 +25,7 @@ M.setup = function()
     "angularls",
     "astro",
     "cssls",
-    "cssmodules_ls",
+    -- "cssmodules_ls",
     "dockerls",
     "emmet_language_server",
     "eslint",
@@ -74,6 +74,7 @@ M.setup = function()
     function(server_name)
       require("lspconfig")[server_name].setup({
         capabilities = capabilities,
+        root_dir = require("lspconfig.util").root_pattern(".git"),
       })
     end,
     ["cssls"] = function()
@@ -140,7 +141,7 @@ M.setup = function()
       require("lspconfig").gopls.setup({
         capabilities = capabilities,
         filetypes = { "go", "gomod", "gowork", "gotmpl" },
-        root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
+        -- root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
         settings = {
           gopls = {
             analyses = {
@@ -169,7 +170,7 @@ M.setup = function()
       require("lspconfig").htmx.setup({
         capabilities = capabilities,
         filetypes = { "html", "templ" },
-        root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
+        -- root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
         single_file_support = true,
       })
     end,
@@ -229,11 +230,9 @@ M.setup = function()
       local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
       local home_path = vim.fn.expand("~")
 
-      vim.notify("HOME::" .. home_path)
-
       require("lspconfig").ts_ls.setup({
         capabilities = capabilities,
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        -- root_dir = require("lspconfig.util").root_pattern(".git"),
         init_options = {
           preferences = {
             importModuleSpecifierPreference = "non-relative",

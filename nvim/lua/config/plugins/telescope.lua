@@ -34,7 +34,7 @@ M.setup = function()
     ["Copy file path (Absolute)"] = { cmd = "CopyAbsolutePath" },
     ["Copy file path (Relative)"] = { cmd = "CopyRelativePath" },
     ["Copy filetype"] = { cmd = "CopyFiletype" },
-    ["Diagnostics"] = { cmd = "Telescope diagnostics" },
+    ["Diagnostics"] = { cmd = "Trouble diagnostics" },
     ["Find Lines"] = { cmd = builtin.current_buffer_fuzzy_find },
     ["Find Word"] = { cmd = builtin.grep_string },
     ["Format (Biome)"] = { cmd = "FormatWithBiome" },
@@ -63,8 +63,7 @@ M.setup = function()
     ["Search"] = { cmd = "Spectre" },
     ["Search (local)"] = { cmd = "GrugFarLocal" },
     ["Search (global)"] = { cmd = "GrugFar" },
-    ["Symbols"] = { cmd = builtin.lsp_document_symbols },
-    ["Symbols (Workspace)"] = { cmd = builtin.lsp_workspace_symbols },
+    ["Symbols"] = { cmd = "Trouble symbols" },
     ["Buf Only"] = { cmd = "only|bd|e#" },
     ["Tab Close"] = { cmd = "tabclose" },
     ["Tab New"] = { cmd = "tabnew" },
@@ -143,13 +142,15 @@ M.setup = function()
             local selection = action_state.get_selected_entry()
             local cmd = command_palette_entries[selection.value[1]].cmd
 
-            if type(cmd) == "function" then
-              cmd()
-            end
-
-            if type(cmd) == "string" then
-              vim.cmd(cmd)
-            end
+            vim.schedule(function()
+              if type(cmd) == "function" then
+                cmd()
+              elseif type(cmd) == "string" then
+                vim.cmd(cmd)
+              else
+                print("Invalid command type: " .. type(cmd))
+              end
+            end)
           end)
           return true
         end,
@@ -169,12 +170,6 @@ M.setup = function()
 
   telescope.setup({
     defaults = themes.get_dropdown({
-      -- borderchars = {
-      --   { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-      --   prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-      --   results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-      --   preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-      -- },
       layout_config = {
         width = function(_, max_columns, _)
           return math.min(max_columns, 100)
@@ -186,7 +181,7 @@ M.setup = function()
       mappings = {
         i = {
           ["<C-u>"] = false,
-          ["<esc>"] = actions.close,
+          -- ["<esc>"] = actions.close,
           ["<C-n>"] = actions.cycle_history_next,
           ["<C-p>"] = actions.cycle_history_prev,
         },

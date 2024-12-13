@@ -46,11 +46,11 @@ M.setup = function()
       vue = { "biome-check", "prettier" },
       yaml = { "biome-check", "prettier" },
     },
-    formatters = {
-      prettier = {
-        prepend_args = { "--parser", "typescript" },
-      },
-    },
+    -- formatters = {
+    --   prettier = {
+    --     prepend_args = { "--parser", "typescript" },
+    --   },
+    -- },
     -- ["biome-check"] = {
     --   command = "biome-check",
     --   args = { "check", "--fix", "--stdin-file-path", "$FILENAME" },
