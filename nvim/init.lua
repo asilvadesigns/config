@@ -40,8 +40,9 @@ vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
--- vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+--- once ufo loads it'll take over
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 ---
 -- vim.opt.grepformat = "%f:%l:%c:%m"
 -- vim.opt.grepprg = "rg --hidden --vimgrep --smart-case --"
@@ -235,8 +236,24 @@ require("lazy").setup({
     { lazy = true, "nvim-tree/nvim-web-devicons" },
     {
       "folke/snacks.nvim",
+      priority = 1000,
       lazy = false,
       config = require("config.plugins.snacks").setup,
+    },
+    {
+      "folke/noice.nvim",
+      event = "VeryLazy",
+      config = require("config.plugins.noice").setup,
+    },
+    {
+      "folke/todo-comments.nvim",
+      cmd = { "TodoTelescope", "TodoLocList" },
+      config = require("config.plugins.todos").setup,
+    },
+    {
+      "folke/trouble.nvim",
+      cmd = { "ToggleTrouble", "Trouble" },
+      config = require("config.plugins.trouble").setup,
     },
     {
       "rmagatti/auto-session",
@@ -245,8 +262,8 @@ require("lazy").setup({
     },
     {
       "catppuccin/nvim",
-      name = "catppuccin",
       priority = 1000,
+      name = "catppuccin",
       config = require("config.plugins.catppuccin").setup,
     },
     {
@@ -300,16 +317,6 @@ require("lazy").setup({
       config = require("config.plugins.oil").setup,
     },
     {
-      "folke/todo-comments.nvim",
-      cmd = { "TodoTelescope", "TodoLocList" },
-      config = require("config.plugins.todos").setup,
-    },
-    {
-      "folke/trouble.nvim",
-      cmd = { "ToggleTrouble", "Trouble" },
-      config = require("config.plugins.trouble").setup,
-    },
-    {
       "mg979/vim-visual-multi",
       event = "ModeChanged",
       config = require("config.plugins.vim-visual-multi").setup,
@@ -336,16 +343,21 @@ require("lazy").setup({
       version = "*",
       config = require("config.plugins.no-neck-pain").setup,
     },
-    ---
-    ---
-    ---
+    {
+      "kevinhwang91/nvim-ufo",
+      event = "LspAttach",
+      dependencies = { "kevinhwang91/promise-async" },
+      config = require("config.plugins.ufo").setup,
+    },
+    {
+      "echasnovski/mini.cursorword",
+      event = "VeryLazy",
+      version = "*",
+      config = require("config.plugins.mini").setup,
+    },
     {
       "hrsh7th/nvim-cmp",
-      event = {
-        "CmdlineEnter",
-        "InsertEnter",
-        "LspAttach",
-      },
+      event = { "CmdlineEnter", "InsertEnter", "LspAttach" },
       dependencies = {
         "L3MON4D3/LuaSnip",
         "hrsh7th/cmp-cmdline",
@@ -369,11 +381,7 @@ require("lazy").setup({
     {
       "folke/lazydev.nvim",
       ft = "lua",
-      opts = {
-        library = {
-          { path = "luvit-meta/library", words = { "vim%.uv" } },
-        },
-      },
+      opts = { library = { { path = "luvit-meta/library", words = { "vim%.uv" } } } },
     },
     {
       --- NOTE: might delete this not sure right now...
@@ -386,15 +394,6 @@ require("lazy").setup({
       },
       opts_extend = { "sources.completion.enabled_providers" },
       config = require("config.plugins.blink").setup,
-    },
-    ---
-    ---
-    ---
-    { lazy = true, "MunifTanjim/nui.nvim" },
-    {
-      "folke/noice.nvim",
-      event = "VeryLazy",
-      config = require("config.plugins.noice").setup,
     },
     ---
     ---
@@ -419,22 +418,14 @@ require("lazy").setup({
       "nvim-pack/nvim-spectre",
       cmd = "Spectre",
       keys = {
-        {
-          "<C-s>",
-          "<cmd>Spectre<cr>",
-          desc = "Search",
-        },
-        {
-          "<C-f>",
-          ":lua require('spectre').open_visual()<CR>",
-          desc = "Replace current word (Root dir)",
-          mode = "v",
-        },
+        { "<C-s>", "<CMD>Spectre<CR>", desc = "Find" },
+        { "<C-f>", ":lua require('spectre').open_visual()<CR>", desc = "Find selected", mode = "v" },
       },
       config = require("config.plugins.spectre").setup,
     },
     {
       "MagicDuck/grug-far.nvim",
+      cmd = { "GrugFar", "GrugFarLocal", "GrugFarGlobal" },
       keys = {
         {
           "f",
@@ -450,11 +441,6 @@ require("lazy").setup({
           end,
           mode = "v",
         },
-      },
-      cmd = {
-        "GrugFar",
-        "GrugFarLocal",
-        "GrugFarGlobal",
       },
       config = require("config.plugins.grug-far").setup,
     },
@@ -481,7 +467,7 @@ require("lazy").setup({
         "ga", -- Default invocation prefix
         {
           "ga.",
-          "<cmd>TextCaseOpenTelescope<CR>",
+          "<CMD>TextCaseOpenTelescope<CR>",
           mode = { "n", "x" },
           desc = "Telescope",
         },
@@ -491,12 +477,7 @@ require("lazy").setup({
     {
       "nvim-telescope/telescope.nvim",
       cmd = { "Telescope", "CommandPalette" },
-      keys = {
-        "<leader>a",
-        "<leader>e",
-        "<leader>f",
-        "<leader>l",
-      },
+      keys = { "<leader>a", "<leader>e", "<leader>f", "<leader>l" },
       dependencies = {
         "natecraddock/telescope-zf-native.nvim",
         "nvim-lua/plenary.nvim",
@@ -548,20 +529,6 @@ require("lazy").setup({
         require("nvim-treesitter.query_predicates")
       end,
       config = require("config.plugins.treesitter").setup,
-    },
-    ---
-    ---
-    ---
-    {
-      "luukvbaal/statuscol.nvim",
-      event = "VeryLazy",
-      config = require("config.plugins.statuscol").setup,
-    },
-    {
-      "kevinhwang91/nvim-ufo",
-      event = "LspAttach",
-      dependencies = { "kevinhwang91/promise-async" },
-      config = require("config.plugins.ufo").setup,
     },
     ---
     ---
@@ -649,12 +616,6 @@ require("lazy").setup({
     ---
     ---
     ---
-    {
-      "echasnovski/mini.cursorword",
-      event = "VeryLazy",
-      version = "*",
-      config = require("config.plugins.mini").setup,
-    },
     ---
     ---
     ---
