@@ -28,7 +28,7 @@ M.setup = function()
     -- "cssmodules_ls",
     "dockerls",
     "emmet_language_server",
-    "eslint",
+    "eslint", -- TODO: should probably add the root util...
     "gopls",
     "html",
     "jsonls",
