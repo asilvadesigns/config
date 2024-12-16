@@ -680,3 +680,15 @@ require("lazy").setup({
 
 vim.cmd("hi! link StatusLine WinSeparator")
 vim.cmd("hi! link StatusLineNC WinSeparator")
+
+-- vim.defer_fn(function()
+--   vim.api.nvim_exec_autocmds("User", { pattern = "DeferOne" })
+-- end, 500)
+--
+-- vim.defer_fn(function()
+--   vim.api.nvim_exec_autocmds("User", { pattern = "DeferTwo" })
+-- end, 1000)
+--
+-- vim.defer_fn(function()
+--   vim.api.nvim_exec_autocmds("User", { pattern = "DeferThree" })
+-- end, 1500)

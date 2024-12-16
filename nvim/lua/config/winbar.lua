@@ -60,20 +60,11 @@ local function get_filename(buf_id)
     return vim.fn.expand("%:~:h")
   end
 
-  if filetype == "NvimTree" then
-    return ""
-  end
-
   if filename == "" then
     return ""
   end
 
-  -- local sep = "  "
-  -- local filepath = " " .. string.gsub(vim.fn.expand("%:~:.:h"), "/", sep) .. sep
-
   return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
-  -- return "%*%#Normal#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
-  -- return filepath .. "/" .. filename
 end
 
 ---@return nil
@@ -81,6 +72,7 @@ local function main()
   for _, win_id in ipairs(vim.api.nvim_list_wins()) do
     local buf_id = vim.api.nvim_win_get_buf(win_id)
     local win_config = vim.api.nvim_win_get_config(win_id)
+    local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
     local is_floating = win_config.relative ~= ""
 
     if is_floating then
@@ -88,10 +80,21 @@ local function main()
       break
     end
 
+    if filetype == "NvimTree" then
+      vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
+      break
+    end
+
     -- .. "%=%l/%L:%c%*"
     vim.api.nvim_set_option_value(
       "winbar",
-      " " .. get_filename(buf_id) .. " " .. get_modified(buf_id) .. " " .. get_diagnostics(buf_id) .. "%*%#NonText# %=%l/%L%* %*",
+      " "
+        .. get_filename(buf_id)
+        .. " "
+        .. get_modified(buf_id)
+        .. " "
+        .. get_diagnostics(buf_id)
+        .. "%*%#NonText# %=%l/%L%* %*",
       { win = win_id }
     )
   end

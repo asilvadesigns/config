@@ -100,3 +100,23 @@ vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold" }, {
     end
   end,
 })
+
+-- local DeferGroup = vim.api.nvim_create_augroup("DeferGroup", { clear = true })
+--
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = "DeferOne",
+--   group = DeferGroup,
+--   callback = function()end,
+-- })
+--
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = "DeferTwo",
+--   group = DeferGroup,
+--   callback = function()end,
+-- })
+--
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = "DeferThree",
+--   group = DeferGroup,
+--   callback = function()end,
+-- })
