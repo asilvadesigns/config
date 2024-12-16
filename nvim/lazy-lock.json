@@ -52,6 +52,7 @@
   "telescope-zf-native.nvim": { "branch": "master", "commit": "5721be27df11a19b9cd95e6a4887f16f26599802" },
   "telescope.nvim": { "branch": "master", "commit": "2eca9ba22002184ac05eddbe47a7fe2d5a384dfc" },
   "text-case.nvim": { "branch": "main", "commit": "e898cfd46fa6cde0e83abb624a16e67d2ffc6457" },
+  "tiny-inline-diagnostic.nvim": { "branch": "main", "commit": "35d46e3804c9211f2e9860e8eff5e7d0905b8254" },
   "todo-comments.nvim": { "branch": "main", "commit": "ae0a2afb47cf7395dc400e5dc4e05274bf4fb9e0" },
   "treesj": { "branch": "main", "commit": "94f6df623f2d15630b1b617abff39962024cb501" },
   "trouble.nvim": { "branch": "main", "commit": "46cf952fc115f4c2b98d4e208ed1e2dce08c9bf6" },

@@ -200,15 +200,16 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.INFO] = signs.icons.square,
       [vim.diagnostic.severity.WARN] = signs.icons.square,
     },
-    numhl = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-    },
+    -- numhl = {
+    --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+    --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+    --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+    --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+    -- },
   },
   underline = true,
-  virtual_text = false,
+  virtual_text = true,
+
 })
 
 vim.filetype.add({
@@ -366,11 +367,31 @@ require("lazy").setup({
       config = require("config.plugins.mini").setup,
     },
     {
+      "hrsh7th/cmp-cmdline",
+      event = "CmdlineEnter",
+      dependencies = { "hrsh7th/nvim-cmp" },
+      config = function()
+        local cmp = require("cmp")
+        cmp.setup.cmdline(":", {
+          mapping = cmp.mapping.preset.cmdline(),
+          sources = cmp.config.sources({
+            { name = "path" },
+          }, {
+            {
+              name = "cmdline",
+              option = {
+                ignore_cmds = { "Man", "!" },
+              },
+            },
+          }),
+        })
+      end,
+    },
+    {
       "hrsh7th/nvim-cmp",
       event = { "CmdlineEnter", "InsertEnter", "LspAttach" },
       dependencies = {
         "L3MON4D3/LuaSnip",
-        "hrsh7th/cmp-cmdline",
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-path",
         "onsails/lspkind.nvim",
@@ -634,7 +655,7 @@ require("lazy").setup({
       "ggandor/leap.nvim",
       keys = {
         {
-          ";",
+          "s",
           function()
             require("leap").leap({
               target_windows = require("leap.user").get_focusable_windows(),

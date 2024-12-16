@@ -5,53 +5,43 @@ M.setup = function()
 
   local function my_on_attach(bufnr)
     local api = require("nvim-tree.api")
-    local lib = require("nvim-tree.lib")
-
-    local function opts(desc)
-      return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-    end
 
     -- default mappings
     api.config.mappings.default_on_attach(bufnr)
 
     -- custom mappings
-    vim.keymap.set("n", "I", api.tree.toggle_enable_filters, opts("Up"))
+    vim.keymap.set("n", "I", api.tree.toggle_enable_filters, {
+      desc = "nvim-tree: Toggle filters",
+      buffer = bufnr,
+      nowait = true,
+      silent = true,
+    })
 
     vim.keymap.set("n", "f", function()
-      local node = lib.get_node_at_cursor()
-      local grugFar = require("grug-far")
-      if node then
-        -- get directory of current file if it's a file
-        local path
-        if node.type == "directory" then
-          -- Keep the full path for directories
-          path = node.absolute_path
-        else
-          -- Get the directory of the file
-          path = vim.fn.fnamemodify(node.absolute_path, ":h")
-        end
+      local node = api.tree.get_node_under_cursor()
+      local path = node.absolute_path
 
-        -- escape all spaces in the path with "\ "
-        path = path:gsub(" ", "\\ ")
-
-        local prefills = {
-          paths = path,
-        }
-
-        -- instance check
-        if not grugFar.has_instance("tree") then
-          grugFar.open({
-            instanceName = "tree",
-            prefills = prefills,
-            staticTitle = "Find and Replace from Tree",
-          })
-        else
-          grugFar.open_instance("tree")
-          -- updating the prefills without clearing the search and other fields
-          grugFar.update_instance_prefills("tree", prefills, false)
-        end
+      if node.type == "directory" then
+        path = path .. "/"
       end
-    end, opts("Search in directory"))
+
+      local grug_far = require("grug-far")
+      if not grug_far.has_instance("explorer") then
+        grug_far.open({
+          instanceName = "explorer",
+          prefills = { paths = path },
+          staticTitle = "Find and Replace from Explorer",
+        })
+      else
+        grug_far.open_instance("explorer")
+        grug_far.update_instance_prefills("explorer", { paths = path }, false)
+      end
+    end, {
+      desc = "nvim-tree: Search in directory",
+      buffer = bufnr,
+      nowait = true,
+      silent = true,
+    })
   end
 
   require("nvim-tree").setup({
@@ -108,7 +98,7 @@ M.setup = function()
         web_devicons = {
           file = {
             enable = true,
-            color = false,
+            color = true,
           },
           folder = {
             enable = false,
@@ -155,56 +145,6 @@ M.setup = function()
       -- signcolumn = "no",
     },
   })
-
-  -- vim.cmd("hi! link NvimTreeFolderIcon Comment") -- LineNr
-  -- vim.cmd("hi! link NvimTreeFileIcon Comment") -- LineNr
-  --
-  -- vim.cmd("hi! link NvimTreeIndentMarker WinSeparator") -- LineNr
-
-  -- vim.cmd("hi! link NvimTreeOpenedFolderIcon Delimiter")
-  --
-  -- vim.cmd("hi! link NvimTreeFolderName Delimiter")
-  -- vim.cmd("hi! link NvimTreeFolderName Normal")
-
-  -- vim.cmd("hi! link NvimTreeNormal Normal")
-  -- vim.cmd("hi! link NvimTreeEndOfBuffer Normal")
-
-  -- vim.cmd("hi! link NvimTreeOpenedFolderName Delimiter")
-  -- vim.cmd("hi! link NvimTreeRootFolder Delimiter")
-  --
-  -- vim.cmd("hi! link NvimTreeGitIgnored LineNr")
-  -- vim.cmd("hi! link NvimTreeGitIgnoredIcon LineNr")
-  -- vim.cmd("hi! link NvimTreeGitFileIgnoredHL LineNr")
-  -- vim.cmd("hi! link NvimTreeGitFolderIgnoredHL LineNr")
-  --
-  -- vim.cmd("hi! link NvimTreeDiagnosticErrorFileHL DiagnosticSignError")
-  -- vim.cmd("hi! link NvimTreeDiagnosticHintFileHL DiagnosticSignHint")
-  -- vim.cmd("hi! link NvimTreeDiagnosticInfoFileHL DiagnosticSignInfo")
-  -- vim.cmd("hi! link NvimTreeDiagnosticWarnFileHL DiagnosticSignWarn")
-  --
-  -- vim.cmd("hi! link NvimTreeDiagnosticErrorFolderHL DiagnosticSignError")
-  -- vim.cmd("hi! link NvimTreeDiagnosticHintFolderHL DiagnosticSignHint")
-  -- vim.cmd("hi! link NvimTreeDiagnosticInfoFolderHL DiagnosticSignInfo")
-  -- vim.cmd("hi! link NvimTreeDiagnosticWarnFolderHL DiagnosticSignWarn")
-
-  -- vim.keymap.set("n", "<leader>j", function()
-  --   local filetype = vim.bo.filetype
-  --
-  --   if filetype == "NvimTree" then
-  --     vim.cmd("NvimTreeClose")
-  --   else
-  --     vim.cmd("NvimTreeFindFile")
-  --   end
-  -- end, {})
-
-  -- local nt_api = require("nvim-tree.api")
-  -- nt_api.events.subscribe(nt_api.events.Event.TreeOpen, function()
-  --   vim.cmd("set laststatus=0")
-  -- end)
-  --
-  -- nt_api.events.subscribe(nt_api.events.Event.TreeClose, function()
-  --   vim.cmd("set laststatus=0")
-  -- end)
 end
 
 return M
