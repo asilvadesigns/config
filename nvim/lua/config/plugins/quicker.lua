@@ -2,6 +2,7 @@ local M = {}
 
 M.setup = function()
   require("quicker").setup({
+    constrain_cursor = false,
     highlight = {
       -- Use treesitter highlighting
       treesitter = true,

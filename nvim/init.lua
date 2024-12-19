@@ -27,20 +27,20 @@ end)
 
 vim.opt.conceallevel = 0
 vim.opt.cursorline = true
-vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
 vim.opt.pumheight = 10
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
 ---
-vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.number = false
+vim.opt.relativenumber = false
 ---
 vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
---- once ufo loads it'll take over
+---
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 ---
@@ -67,8 +67,8 @@ vim.opt.scrolloff = 3
 vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
-vim.opt.laststatus = 3
--- vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
+vim.opt.laststatus = 0
+vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
 
 vim.opt.signcolumn = "yes"
 -- vim.optpt.statuscolumn = "%s %r "
@@ -207,7 +207,7 @@ vim.diagnostic.config({
     -- },
   },
   underline = false,
-  virtual_text = true,
+  virtual_text = false, -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
 })
 
 vim.filetype.add({
@@ -235,6 +235,7 @@ require("config.command")
 require("lazy").setup({
   spec = {
     { lazy = true, "nvim-tree/nvim-web-devicons" },
+    { lazy = true, "nvim-lua/plenary.nvim" },
     {
       "folke/snacks.nvim",
       priority = 1000,
@@ -478,6 +479,7 @@ require("lazy").setup({
     ---
     {
       "johmsalas/text-case.nvim",
+      enabled = false,
       dependencies = {
         {
           "nvim-telescope/telescope.nvim",
@@ -505,15 +507,101 @@ require("lazy").setup({
     },
     {
       "nvim-telescope/telescope.nvim",
+      enabled = false,
       event = "User DeferOne",
-      cmd = { "Telescope", "CommandPalette" },
-      keys = { "<leader>a", "<leader>e", "<leader>f", "<leader>l" },
+      -- cmd = { "Telescope", "CommandPalette" },
+      -- keys = { "<leader>a", "<leader>e", "<leader>f", "<leader>l" },
       dependencies = {
         "natecraddock/telescope-zf-native.nvim",
-        "nvim-lua/plenary.nvim",
         "nvim-telescope/telescope-ui-select.nvim",
       },
       config = require("config.plugins.telescope").setup,
+    },
+    {
+      "ibhagwan/fzf-lua",
+      cmd = { "FzfLua" },
+      keys = {
+        {
+          "<leader>a",
+          function()
+            ---@class Entry
+            ---@field cmd string | fun(): nil
+            ---@type table<string, Entry>
+            local commands = {
+              ["Commands"] = "FzfLua commands",
+              ["Copy file path (Absolute)"] = "CopyAbsolutePath",
+              ["Copy file path (Relative)"] = "CopyRelativePath",
+              ["Copy filetype"] = "CopyFiletype",
+              ["Diagnostics"] = "Trouble diagnostics",
+              ["Find Lines"] = "FzfLua blines",
+              ["Find Word"] = "FzfLua grep_project",
+              ["Format (Biome)"] = "FormatWithBiome",
+              ["Format (Prettier)"] = "FormatWithPrettier",
+              ["Format (default)"] = "Format",
+              ["Git (Fugitive)"] = "Git",
+              ["Git (Neogit)"] = "Neogit",
+              ["Help"] = "FzfLua helptags",
+              ["Highlights"] = "FzfLua highlights",
+              ["Keymaps"] = "FzfLua keymaps",
+              ["Lazy"] = "Lazy",
+              ["Lint (Biome)"] = "LintWithBiome",
+              ["Lint (EsLint)"] = "LintWithPrettier",
+              ["Lint (default)"] = "Lint",
+              ["Load Session"] = "LoadSession",
+              ["Mason"] = "Mason",
+              ["Markdown Preview"] = "MarkdownPreviewToggle",
+              ["Noice dismiss"] = "Noice dismiss",
+              ["Noice messages"] = "Noice fzf",
+              ["Open (Finder)"] = "!open .",
+              ["Quit force"] = "qa!",
+              ["Rename File"] = "RenameFile",
+              ["Restart LSP"] = "LspRestart",
+              ["Save"] = "wa",
+              ["Save and quit force"] = "wqa!",
+              ["Search"] = "Spectre",
+              ["Search (local)"] = "GrugFarLocal",
+              ["Search (global)"] = "GrugFar",
+              ["Symbols"] = "FzfLua lsp_document_symbols",
+              ["Symbols (Workspace)"] = "FzfLua lsp_workspace_symbols",
+              ["Buf Only"] = "only|bd|e#",
+              ["Tab Close"] = "tabclose",
+              ["Tab New"] = "tabnew",
+              ["Tab Next"] = "tabnext",
+              ["Tab Only"] = "tabonly",
+              ["Tab Previous"] = "tabprevious",
+              ["Todos Quickfix"] = "TodoLocList",
+              ["Toggle Diagnostic Text"] = "ToggleDiagnosticText",
+              ["Trouble"] = "Trouble",
+              ["Zen Mode (no neck pain)"] = "NoNeckPain",
+              ["Zen Mode (decrease)"] = "NoNeckPainWidthDown",
+              ["Zen Mode (increase)"] = "NoNeckPainWidthUp",
+            }
+
+            local keys = {}
+            for k, _ in pairs(commands) do
+              table.insert(keys, k)
+            end
+
+            require("fzf-lua").fzf_exec(keys, {
+              actions = {
+                ["default"] = function(selected)
+                  local cmd = commands[selected[1]]
+                  if type(cmd) == "function" then
+                    cmd()
+                  elseif type(cmd) == "string" then
+                    vim.cmd(cmd)
+                  end
+                end,
+              },
+            })
+          end,
+        },
+        { "<leader>b", "<CMD>FzfLua buffers<CR>" },
+        { "<leader>e", "<CMD>FzfLua oldfiles<CR>" },
+        { "<leader>f", "<CMD>FzfLua files<CR>" },
+        { "<leader>l", "<CMD>FzfLua blines<CR>" },
+      },
+      config = require("config.plugins.fzflua").setup,
     },
     ---
     ---

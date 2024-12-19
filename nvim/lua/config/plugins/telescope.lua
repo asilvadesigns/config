@@ -101,6 +101,17 @@ M.setup = function()
         return label .. " " .. (vim.go.list and "" or "")
       end,
     },
+    ["Toggle Diagnostic Text"] = {
+      cmd = "ToggleDiagnosticText",
+      display = function(label)
+        local config = vim.diagnostic.config()
+        if config == nil then
+          return label .. " " .. ""
+        else
+          return label .. " " .. (config.virtual_text and "" or "")
+        end
+      end,
+    },
     ["Toggle Wrap"] = {
       cmd = "tabdo windo set wrap!",
       display = function(label)

@@ -93,6 +93,7 @@ clipboard-write = allow
 # Cursor Style
 cursor-style = block
 cursor-style-blink = true
+cursor-color = "#e78284"
 
 # Other
 #copy-on-select = clipboard

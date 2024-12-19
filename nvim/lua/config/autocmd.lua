@@ -36,10 +36,10 @@
 -- })
 
 -- show numbers in help
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "help",
-  command = "setlocal number relativenumber",
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "help",
+--   command = "setlocal number relativenumber",
+-- })
 
 -- resize splits if window got resized
 vim.api.nvim_create_autocmd("VimResized", {

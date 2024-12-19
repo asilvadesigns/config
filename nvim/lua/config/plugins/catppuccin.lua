@@ -13,6 +13,7 @@ M.setup = function()
       ufo = false,
     },
     -- highlight_overrides
+    -- default_integrations = false,
     highlight_overrides = {
       latte = function(c)
         local bg = utils.darken(c.surface0, 0.20, c.base)
@@ -52,12 +53,12 @@ M.setup = function()
           TelescopeNormal = { fg = c.subtext0 },
 
           -- NOTE: use if you want to have no statusline
-          -- StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
-          -- StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
+          StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
+          StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
 
           -- NOTE: use if you want to have a global statusline
-          StatusLine = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
-          StatusLineNC = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
+          -- StatusLine = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
+          -- StatusLineNC = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
           --
           WinBar = { fg = c.overlay2 },
           WinBarNC = { fg = c.overlay2 },

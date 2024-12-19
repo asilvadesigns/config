@@ -61,3 +61,11 @@ vim.api.nvim_create_user_command("RenameFile", function()
     end
   end)
 end, {})
+
+vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
+  local config = vim.diagnostic.config()
+
+  if config ~= nil then
+    vim.diagnostic.config({ virtual_text = not config.virtual_text })
+  end
+end, {})

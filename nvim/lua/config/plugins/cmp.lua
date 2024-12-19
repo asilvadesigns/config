@@ -9,6 +9,9 @@ M.setup = function()
 
   cmp.setup({
     preselect = cmp.PreselectMode.None,
+    completion = {
+      autocomplete = false,
+    },
     window = {
       documentation = cmp.config.window.bordered(),
     },
