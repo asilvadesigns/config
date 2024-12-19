@@ -37,6 +37,8 @@ M.setup = function()
     render = function(props)
       local diagnostics = get_diagnostics(props)
       -- local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":p:."), group = "Comment" }
+      --
+      local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t"), group = "Comment" }
 
       -- local modified = { " 󰆓 ", group = "Comment" }
       -- if vim.bo[props.buf].modified == true then
@@ -46,7 +48,7 @@ M.setup = function()
       return {
         diagnostics,
         -- modified,
-        -- filename,
+        filename,
       }
     end,
   })

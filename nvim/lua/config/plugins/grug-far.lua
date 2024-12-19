@@ -2,9 +2,10 @@ local M = {}
 
 M.setup = function()
   require("grug-far").setup({
-    disableBufferLineNumbers = false,
+    disableBufferLineNumbers = true,
     normalModeSearch = true,
     startInInsertMode = false,
+    maxSearchMatches = 500,
     keymaps = {
       abort = { n = "<localleader>b" },
       close = { n = "<localleader>c" },
@@ -32,6 +33,7 @@ M.setup = function()
     wrap = false,
   })
 
+  vim.cmd("hi! link GrugFarInputLabel String")
   vim.cmd("hi! link GrugFarResultsMatch DiffText")
   vim.cmd("hi! link GrugFarResultsMatchRemoved NeogitDiffDelete")
   vim.cmd("hi! link GrugFarResultsMatchAdded NeogitDiffAdd")

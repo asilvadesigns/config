@@ -2,6 +2,14 @@ local M = {}
 
 M.setup = function()
   require("quicker").setup({
+    highlight = {
+      -- Use treesitter highlighting
+      treesitter = true,
+      -- Use LSP semantic token highlighting
+      lsp = true,
+      -- Load the referenced buffers to apply more accurate highlights (may be slow)
+      load_buffers = false,
+    },
     keys = {
       {
         ">",

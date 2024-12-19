@@ -236,17 +236,6 @@ require("lazy").setup({
   spec = {
     { lazy = true, "nvim-tree/nvim-web-devicons" },
     {
-      "Bekaboo/dropbar.nvim",
-      config = function()
-        require("dropbar").setup()
-
-        local dropbar_api = require("dropbar.api")
-        vim.keymap.set("n", "<leader><space>", dropbar_api.pick, { desc = "Pick symbols in winbar" })
-        vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
-        vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
-      end,
-    },
-    {
       "folke/snacks.nvim",
       priority = 1000,
       lazy = false,
@@ -458,8 +447,8 @@ require("lazy").setup({
       "nvim-pack/nvim-spectre",
       cmd = "Spectre",
       keys = {
-        { "<C-s>", "<CMD>Spectre<CR>", desc = "Find" },
-        { "<C-f>", ":lua require('spectre').open_visual()<CR>", desc = "Find selected", mode = "v" },
+        { "F", "<CMD>Spectre<CR>", desc = "Find", mode = "n" },
+        { "f", ":lua require('spectre').open_visual()<CR>", desc = "Find selected", mode = "v" },
       },
       config = require("config.plugins.spectre").setup,
     },
@@ -468,14 +457,14 @@ require("lazy").setup({
       cmd = { "GrugFar", "GrugFarLocal", "GrugFarGlobal" },
       keys = {
         {
-          "f",
+          "<C-s>",
           function()
             require("grug-far").with_visual_selection({ prefills = { paths = vim.fn.expand("%") } })
           end,
           mode = "v",
         },
         {
-          "F",
+          "<C-f>",
           function()
             require("grug-far").with_visual_selection()
           end,
