@@ -1,6 +1,7 @@
 local M = {}
 
 M.setup = function()
+  ---@diagnostic disable-next-line: missing-fields
   require("noice").setup({
     cmdline = {
       enabled = true,

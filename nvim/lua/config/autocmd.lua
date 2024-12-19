@@ -101,22 +101,36 @@ vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold" }, {
   end,
 })
 
--- local DeferGroup = vim.api.nvim_create_augroup("DeferGroup", { clear = true })
---
--- vim.api.nvim_create_autocmd("User", {
---   pattern = "DeferOne",
---   group = DeferGroup,
---   callback = function()end,
+local DeferGroup = vim.api.nvim_create_augroup("DeferGroup", { clear = true })
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "DeferOne",
+  group = DeferGroup,
+  callback = function() end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "DeferTwo",
+  group = DeferGroup,
+  callback = function() end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "DeferThree",
+  group = DeferGroup,
+  callback = function() end,
+})
+
+-- vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+--   callback = function()
+--     vim.wo.winhighlight = "CursorLineNr:CursorLineNrActive"
+--   end,
 -- })
 --
--- vim.api.nvim_create_autocmd("User", {
---   pattern = "DeferTwo",
---   group = DeferGroup,
---   callback = function()end,
+-- vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
+--   callback = function()
+--     vim.wo.winhighlight = "CursorLineNr:CursorLineNr"
+--   end,
 -- })
 --
--- vim.api.nvim_create_autocmd("User", {
---   pattern = "DeferThree",
---   group = DeferGroup,
---   callback = function()end,
--- })
+-- vim.api.nvim_set_hl(0, "CursorLineNrActive", { fg = "Yellow", bold = true })

@@ -1,21 +1,19 @@
 local M = {}
 
 M.setup = function()
-  -- NOTE: using cmp
+  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+
   local capabilities = vim.tbl_deep_extend(
     "force",
     vim.lsp.protocol.make_client_capabilities(),
     require("cmp_nvim_lsp").default_capabilities()
   )
 
-  -- NOTE: using blink...
-  -- local capabilities = vim.tbl_deep_extend(
-  --   "force",
-  --   vim.lsp.protocol.make_client_capabilities(),
-  --   require("blink.cmp").get_lsp_capabilities()
-  -- )
-
-  capabilities.workspace.didChangeWatchedFiles = { dynamicRegistration = false }
+  -- NOTE: using blink
+  -- local capabilities = require("blink.cmp").get_lsp_capabilities()
+  -- capabilities["workspace"] = {
+  --   didChangeWatchedFiles = { dynamicRegistration = false },
+  -- }
   capabilities.textDocument.foldingRange = {
     dynamicRegistration = false,
     lineFoldingOnly = true,
@@ -24,10 +22,11 @@ M.setup = function()
   local servers = {
     "angularls",
     "astro",
+    "clangd",
     "cssls",
     -- "cssmodules_ls",
     "dockerls",
-    "emmet_language_server",
+    -- "emmet_language_server",
     "eslint", -- TODO: should probably add the root util...
     "gopls",
     "html",
@@ -51,13 +50,15 @@ M.setup = function()
     "stylua",
   }
 
-  -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  --   border = "rounded",
-  -- })
-  --
-  -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  --   border = "rounded",
-  -- })
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = "rounded",
+  })
+
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    border = "rounded",
+  })
+
+  -- local navic = require("nvim-navic")
 
   require("mason").setup({
     ui = { border = "rounded" },
@@ -70,16 +71,23 @@ M.setup = function()
 
   vim.cmd("hi! link MasonNormal Normal")
 
+  local on_attach = function(client, bufnr)
+    -- if client.server_capabilities.documentSymbolProvider then
+    --   navic.attach(client, bufnr)
+    -- end
+  end
+
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       require("lspconfig")[server_name].setup({
         capabilities = capabilities,
-        root_dir = require("lspconfig.util").root_pattern(".git"),
+        on_attach = on_attach,
       })
     end,
     ["cssls"] = function()
       require("lspconfig").cssls.setup({
         capabilities = capabilities,
+        on_attach = on_attach,
         settings = {
           css = {
             lint = {
@@ -96,11 +104,11 @@ M.setup = function()
         },
       })
     end,
-    -- server overrides
     ["jsonls"] = function()
       -- NOTE: to add new schemas, find url here https://www.schemastore.org/json/
       require("lspconfig").jsonls.setup({
         capabilities = capabilities,
+        on_attach = on_attach,
         settings = {
           json = {
             schemas = {
@@ -140,8 +148,7 @@ M.setup = function()
     ["gopls"] = function()
       require("lspconfig").gopls.setup({
         capabilities = capabilities,
-        filetypes = { "go", "gomod", "gowork", "gotmpl" },
-        -- root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
+        on_attach = on_attach,
         settings = {
           gopls = {
             analyses = {
@@ -153,30 +160,10 @@ M.setup = function()
         },
       })
     end,
-    ["emmet_language_server"] = function()
-      require("lspconfig").emmet_language_server.setup({
-        capabilities = capabilities,
-        filetypes = { "astro", "html", "templ" },
-      })
-    end,
-    ["html"] = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require("lspconfig").html.setup({
-        capabilities = capabilities,
-        filetypes = { "astro", "html", "templ" },
-      })
-    end,
-    ["htmx"] = function()
-      require("lspconfig").htmx.setup({
-        capabilities = capabilities,
-        filetypes = { "html", "templ" },
-        -- root_dir = require("lspconfig.util").root_pattern("go.mod", "go.work", ".git"),
-        single_file_support = true,
-      })
-    end,
     ["lua_ls"] = function()
       require("lspconfig").lua_ls.setup({
         capabilities = capabilities,
+        on_attach = on_attach,
         settings = {
           Lua = {
             workspace = { checkThirdParty = false },
@@ -185,54 +172,13 @@ M.setup = function()
         },
       })
     end,
-    ["tailwindcss"] = function()
-      require("lspconfig").tailwindcss.setup({
-        capabilities = capabilities,
-        filetypes = {
-          "astro",
-          "css",
-          "html",
-          "javascript",
-          "react",
-          "scss",
-          "svelte",
-          "templ",
-          "typescript",
-          "typescriptreact",
-          "vue",
-        },
-        init_options = { userLanguages = { templ = "html" } },
-        settings = {
-          tailwindCSS = {
-            classAttributes = {
-              "class",
-              "className",
-              "x-transition:enter",
-              "x-transition:enter-start",
-              "x-transition:enter-end",
-              "x-transition:leave",
-              "x-transition:leave-start",
-              "x-transition:leave-end",
-            },
-            includeLanguages = {
-              templ = "html",
-            },
-          },
-        },
-      })
-    end,
-    ["templ"] = function()
-      require("lspconfig").templ.setup({
-        capabilities = capabilities,
-      })
-    end,
     ["ts_ls"] = function()
       local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
       local home_path = vim.fn.expand("~")
 
       require("lspconfig").ts_ls.setup({
         capabilities = capabilities,
-        -- root_dir = require("lspconfig.util").root_pattern(".git"),
+        on_attach = on_attach,
         init_options = {
           preferences = {
             importModuleSpecifierPreference = "non-relative",
@@ -257,6 +203,7 @@ M.setup = function()
 
       require("lspconfig").volar.setup({
         capabilities = capabilities,
+        on_attach = on_attach,
         init_options = {
           vue = {
             hybridMode = false,
@@ -265,12 +212,6 @@ M.setup = function()
             tsdk = ts_path .. "/node_modules/typescript/lib",
           },
         },
-      })
-    end,
-    ["yamlls"] = function()
-      require("lspconfig").yamlls.setup({
-        capabilities = capabilities,
-        filetypes = { "yaml", "yaml.docker-compose", "yml" },
       })
     end,
   })
@@ -283,12 +224,24 @@ M.setup = function()
       vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
       vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
       vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+      -- telescope
       vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
       vim.keymap.set("n", "gi", require("telescope.builtin").lsp_implementations, opts)
       vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
       vim.keymap.set("n", "gl", function()
         require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
       end, opts)
+
+      -- fzflua
+      -- vim.keymap.set("n", "gd", function()
+      --   require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
+      -- end, opts)
+      -- vim.keymap.set("n", "gi", require("fzf-lua").lsp_implementations, opts)
+      -- vim.keymap.set("n", "gr", require("fzf-lua").lsp_references, opts)
+      -- vim.keymap.set("n", "gl", function()
+      --   require("telescope.builtin").lsp_definitions({ jump_type = "vsplit" })
+      -- end, opts)
     end,
   })
 
@@ -317,7 +270,7 @@ M.setup = function()
     end
   end, {})
 
-  ---https://github.com/wookayin/dotfiles/blob/f2c7b0944135f33db83b218afa2da89fb4b3ef1c/nvim/lua/config/lsp.lua#L318
+  --- https://github.com/wookayin/dotfiles/blob/f2c7b0944135f33db83b218afa2da89fb4b3ef1c/nvim/lua/config/lsp.lua#L318
   local attach_lsp_to_existing_buffers = vim.schedule_wrap(function()
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
       local valid = vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_get_option_value("buflisted", { buf = bufnr })
@@ -330,7 +283,7 @@ M.setup = function()
 
   vim.defer_fn(function()
     attach_lsp_to_existing_buffers()
-  end, 100)
+  end, 400)
 end
 
 return M

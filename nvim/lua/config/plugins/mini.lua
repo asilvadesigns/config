@@ -26,10 +26,6 @@ M.setup = function()
     italic = false,
     underline = false,
   })
-
-  -- or this..
-  -- vim.cmd("hi! link MiniCursorword FloatShadow")
-  -- vim.cmd("hi! link MiniCursorwordCurrent FloatShadow")
 end
 
 return M

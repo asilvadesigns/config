@@ -180,10 +180,10 @@ M.setup = function()
       },
       mappings = {
         i = {
-          ["<C-u>"] = false,
-          -- ["<esc>"] = actions.close,
           ["<C-n>"] = actions.cycle_history_next,
           ["<C-p>"] = actions.cycle_history_prev,
+          ["<C-u>"] = false,
+          ["<esc>"] = actions.close,
         },
       },
       prompt_prefix = "❯ ",
@@ -201,18 +201,24 @@ M.setup = function()
         show_all_buffers = false,
       },
       find_files = {
+        find_command = { "rg", "--no-config", "--files", "--sortr=modified" },
         disable_devicons = true,
+        hidden = true,
         previewer = false,
-        -- file_ignore_patterns = {
-        --   "%.git/.",
-        --   -- npm
-        --   "node_modules",
-        --   "package-lock.json",
-        --   "pnpm-lock.yaml",
-        --   -- templ
-        --   "_templ%.go$",
-        --   "_templ%.txt$",
-        -- },
+        file_ignore_patterns = {
+          "%.git/.",
+          -- npm
+          "node_modules",
+          "package-lock.json",
+          "pnpm-lock.yaml",
+          -- templ
+          "_templ%.go$",
+          "_templ%.txt$",
+        },
+      },
+      current_buffer_fuzzy_find = {
+        results_ts_highlight = true,
+        previewer = false,
       },
       git_files = {
         disable_devicons = true,
@@ -256,6 +262,13 @@ M.setup = function()
 
   telescope.load_extension("ui-select")
   telescope.load_extension("zf-native")
+
+  vim.api.nvim_set_hl(0, "TelescopeMatching", {
+    bg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticVirtualTextWarn"), "bg"),
+    fg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticVirtualTextWarn"), "fg"),
+    italic = false,
+    underline = false,
+  })
 end
 
 return M

@@ -12,6 +12,7 @@ M.setup = function()
       "NvimTree",
       "TelescopePrompt",
     },
+    -- set_cursorline = false,
   })
 end
 

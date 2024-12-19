@@ -63,17 +63,16 @@ vim.opt.list = false
 vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 ---
-vim.opt.scrolloff = 0
+vim.opt.scrolloff = 3
 vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
-vim.opt.laststatus = 0
-vim.opt.cmdheight = 0
-vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
+vim.opt.laststatus = 3
+-- vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
 
 vim.opt.signcolumn = "yes"
 -- vim.optpt.statuscolumn = "%s %r "
-vim.opt.winbar = " "
+-- vim.opt.winbar = " "
 ---
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 ---
@@ -207,9 +206,8 @@ vim.diagnostic.config({
     --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
     -- },
   },
-  underline = true,
+  underline = false,
   virtual_text = true,
-
 })
 
 vim.filetype.add({
@@ -230,11 +228,24 @@ vim.filetype.add({
 
 require("config.autocmd")
 require("config.command")
-require("config.winbar")
+-- require("config.winbar")
+--
 
+---@diagnostic disable-next-line: missing-fields
 require("lazy").setup({
   spec = {
     { lazy = true, "nvim-tree/nvim-web-devicons" },
+    {
+      "Bekaboo/dropbar.nvim",
+      config = function()
+        require("dropbar").setup()
+
+        local dropbar_api = require("dropbar.api")
+        vim.keymap.set("n", "<leader><space>", dropbar_api.pick, { desc = "Pick symbols in winbar" })
+        vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
+        vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
+      end,
+    },
     {
       "folke/snacks.nvim",
       priority = 1000,
@@ -277,6 +288,11 @@ require("lazy").setup({
       event = "VeryLazy",
       tag = "v0.2.0",
       config = require("config.plugins.modes").setup,
+    },
+    {
+      "b0o/incline.nvim",
+      event = "User DeferTwo",
+      config = require("config.plugins.incline").setup,
     },
     {
       "sphamba/smear-cursor.nvim",
@@ -324,7 +340,7 @@ require("lazy").setup({
     {
       "stevearc/oil.nvim",
       cmd = { "Oil" },
-      keys = { { "<leader><Space>", "<CMD>Oil<CR>", desc = "Show oil" } },
+      keys = { { "<leader>x", "<CMD>Oil<CR>", desc = "Show oil" } },
       config = require("config.plugins.oil").setup,
     },
     {
@@ -401,7 +417,7 @@ require("lazy").setup({
     },
     {
       "neovim/nvim-lspconfig",
-      event = "VeryLazy",
+      event = "User DeferThree",
       dependencies = {
         -- "saghen/blink.cmp",
         "williamboman/mason-lspconfig.nvim",
@@ -415,20 +431,13 @@ require("lazy").setup({
       opts = { library = { { path = "luvit-meta/library", words = { "vim%.uv" } } } },
     },
     {
-      --- NOTE: might delete this not sure right now...
       "saghen/blink.cmp",
+      -- lazy = true,
       enabled = false,
       version = "v0.*",
-      event = "InsertEnter",
-      dependencies = {
-        "L3MON4D3/LuaSnip",
-      },
-      opts_extend = { "sources.completion.enabled_providers" },
+      opts_extend = { "sources.default" },
       config = require("config.plugins.blink").setup,
     },
-    ---
-    ---
-    ---
     { lazy = true, "JoosepAlviste/nvim-ts-context-commentstring" },
     {
       "numToStr/Comment.nvim",
@@ -507,6 +516,7 @@ require("lazy").setup({
     },
     {
       "nvim-telescope/telescope.nvim",
+      event = "User DeferOne",
       cmd = { "Telescope", "CommandPalette" },
       keys = { "<leader>a", "<leader>e", "<leader>f", "<leader>l" },
       dependencies = {
@@ -553,13 +563,7 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
       event = "VeryLazy",
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-      },
-      init = function(plugin)
-        require("lazy.core.loader").add_to_rtp(plugin)
-        require("nvim-treesitter.query_predicates")
-      end,
+      dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       config = require("config.plugins.treesitter").setup,
     },
     ---
@@ -604,22 +608,22 @@ require("lazy").setup({
     {
       "mrjones2014/smart-splits.nvim",
       keys = {
-      -- stylua: ignore start
-      -- resize
-      { "<S-Down>", function() require("smart-splits").resize_down() end },
-      { "<S-Left>", function() require("smart-splits").resize_left() end },
-      { "<S-Right>", function() require("smart-splits").resize_right() end },
-      { "<S-Up>", function() require("smart-splits").resize_up() end },
-      -- moving
-      { "<C-h>", function() require("smart-splits").move_cursor_left() end },
-      { "<C-j>", function() require("smart-splits").move_cursor_down() end },
-      { "<C-k>", function() require("smart-splits").move_cursor_up() end },
-      { "<C-l>", function() require("smart-splits").move_cursor_right() end },
-      -- swapping
-      { "<leader><leader>h", function() require("smart-splits").swap_buf_left() end },
-      { "<leader><leader>j", function() require("smart-splits").swap_buf_down() end },
-      { "<leader><leader>k", function() require("smart-splits").swap_buf_up() end },
-      { "<leader><leader>l", function() require("smart-splits").swap_buf_right() end },
+        -- stylua: ignore start
+        -- resize
+        { "<S-Down>",          function() require("smart-splits").resize_down() end },
+        { "<S-Left>",          function() require("smart-splits").resize_left() end },
+        { "<S-Right>",         function() require("smart-splits").resize_right() end },
+        { "<S-Up>",            function() require("smart-splits").resize_up() end },
+        -- moving
+        { "<C-h>",             function() require("smart-splits").move_cursor_left() end },
+        { "<C-j>",             function() require("smart-splits").move_cursor_down() end },
+        { "<C-k>",             function() require("smart-splits").move_cursor_up() end },
+        { "<C-l>",             function() require("smart-splits").move_cursor_right() end },
+        -- swapping
+        { "<leader><leader>h", function() require("smart-splits").swap_buf_left() end },
+        { "<leader><leader>j", function() require("smart-splits").swap_buf_down() end },
+        { "<leader><leader>k", function() require("smart-splits").swap_buf_up() end },
+        { "<leader><leader>l", function() require("smart-splits").swap_buf_right() end },
         -- stylua: ignore end
       },
       opts = {},
@@ -699,17 +703,14 @@ require("lazy").setup({
   },
 })
 
-vim.cmd("hi! link StatusLine WinSeparator")
-vim.cmd("hi! link StatusLineNC WinSeparator")
+vim.defer_fn(function()
+  vim.api.nvim_exec_autocmds("User", { pattern = "DeferOne" })
+end, 100)
 
--- vim.defer_fn(function()
---   vim.api.nvim_exec_autocmds("User", { pattern = "DeferOne" })
--- end, 500)
---
--- vim.defer_fn(function()
---   vim.api.nvim_exec_autocmds("User", { pattern = "DeferTwo" })
--- end, 1000)
---
--- vim.defer_fn(function()
---   vim.api.nvim_exec_autocmds("User", { pattern = "DeferThree" })
--- end, 1500)
+vim.defer_fn(function()
+  vim.api.nvim_exec_autocmds("User", { pattern = "DeferTwo" })
+end, 200)
+
+vim.defer_fn(function()
+  vim.api.nvim_exec_autocmds("User", { pattern = "DeferThree" })
+end, 300)

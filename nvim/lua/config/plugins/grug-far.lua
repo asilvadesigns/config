@@ -6,23 +6,23 @@ M.setup = function()
     normalModeSearch = true,
     startInInsertMode = false,
     keymaps = {
-      replace = { n = "<localleader>r" },
-      qflist = { n = "<localleader>q" },
-      syncLocations = { n = "<localleader>s" },
-      syncLine = { n = "<localleader>l" },
+      abort = { n = "<localleader>b" },
       close = { n = "<localleader>c" },
-      historyOpen = { n = "<localleader>t" },
+      gotoLocation = { n = "<enter>" },
+      help = { n = "g?" },
       historyAdd = { n = "<localleader>a" },
-      refresh = { n = "<localleader>R" },
+      historyOpen = { n = "<localleader>t" },
       openLocation = { n = "<localleader>o" },
       openNextLocation = { n = "<down>" },
       openPrevLocation = { n = "<up>" },
-      gotoLocation = { n = "<enter>" },
       pickHistoryEntry = { n = "<enter>" },
-      abort = { n = "<localleader>b" },
-      help = { n = "g?" },
-      toggleShowCommand = { n = "<localleader>p" },
+      qflist = { n = "<localleader>q" },
+      refresh = { n = "<localleader>R" },
+      replace = { n = "<localleader>r" },
       swapEngine = { n = "" },
+      syncLine = { n = "<localleader>l" },
+      syncLocations = { n = "<localleader>s" },
+      toggleShowCommand = { n = "<localleader>p" },
     },
     folding = {
       enabled = vim.o.foldenable,
@@ -32,24 +32,13 @@ M.setup = function()
     wrap = false,
   })
 
-  vim.cmd("hi! link GrugFarResultsMatch DiagnosticVirtualTextError")
+  vim.cmd("hi! link GrugFarResultsMatch DiffText")
+  vim.cmd("hi! link GrugFarResultsMatchRemoved NeogitDiffDelete")
+  vim.cmd("hi! link GrugFarResultsMatchAdded NeogitDiffAdd")
 
   vim.api.nvim_create_user_command("GrugFarLocal", function()
-    require("grug-far").open({
-      prefills = {
-        paths = vim.fn.expand("%"),
-        -- search = "",
-      },
-    })
+    require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } })
   end, {})
-  --
-  -- vim.api.nvim_create_user_command("GrugFarGlobal", function()
-  --   require("grug-far").open({
-  --     -- prefills = {
-  --     --   search = "",
-  --     -- },
-  --   })
-  -- end, {})
 end
 
 return M

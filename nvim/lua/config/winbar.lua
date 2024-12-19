@@ -67,40 +67,41 @@ local function get_filename(buf_id)
   return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
 end
 
----@return nil
-local function main()
-  for _, win_id in ipairs(vim.api.nvim_list_wins()) do
-    local buf_id = vim.api.nvim_win_get_buf(win_id)
-    local win_config = vim.api.nvim_win_get_config(win_id)
-    local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
-    local is_floating = win_config.relative ~= ""
+local last_winbar = {}
 
-    if is_floating then
+---
+---
+---
+local RenderGroup = vim.api.nvim_create_augroup("update_winbar", { clear = true })
+
+local function update_winbar(win_id)
+  local buf_id = vim.api.nvim_win_get_buf(win_id)
+  local win_config = vim.api.nvim_win_get_config(win_id)
+
+  local filetype = vim.bo[buf_id].filetype
+  local is_floating = win_config.relative ~= ""
+
+  if is_floating or filetype == "NvimTree" or filetype == "toggleterm" then
+    if last_winbar[win_id] then
       vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
-      break
+      last_winbar[win_id] = nil
     end
+  else
+    local new_winbar = " "
+      .. get_filename(buf_id)
+      .. " "
+      .. get_modified(buf_id)
+      .. " "
+      .. get_diagnostics(buf_id)
+      .. "%*%#NonText# %=%l/%L%* %*"
 
-    if filetype == "NvimTree" then
-      vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
-      break
+    if new_winbar ~= last_winbar[win_id] then
+      vim.api.nvim_set_option_value("winbar", new_winbar, { win = win_id })
+      last_winbar[win_id] = new_winbar
     end
-
-    -- .. "%=%l/%L:%c%*"
-    vim.api.nvim_set_option_value(
-      "winbar",
-      " "
-        .. get_filename(buf_id)
-        .. " "
-        .. get_modified(buf_id)
-        .. " "
-        .. get_diagnostics(buf_id)
-        .. "%*%#NonText# %=%l/%L%* %*",
-      { win = win_id }
-    )
   end
 end
 
---- NOTE: when to render the winbar
 vim.api.nvim_create_autocmd({
   "BufModifiedSet",
   "BufNewFile",
@@ -108,8 +109,12 @@ vim.api.nvim_create_autocmd({
   "DiagnosticChanged",
   "TabClosed",
 }, {
-  group = vim.api.nvim_create_augroup("render_ui", { clear = true }),
-  callback = function()
-    vim.schedule(main)
+  group = RenderGroup,
+  callback = function(args)
+    vim.schedule(function()
+      for _, win in ipairs(vim.fn.win_findbuf(args.buf)) do
+        update_winbar(win)
+      end
+    end)
   end,
 })
