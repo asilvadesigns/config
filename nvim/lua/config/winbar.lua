@@ -113,6 +113,17 @@ end, {})
 
 local function render(args)
   vim.schedule(function()
+    local status_ok, incline = pcall(require, "incline")
+    if _G.winbar_enabled then
+      if status_ok then
+        incline.disable()
+      end
+    else
+      if status_ok then
+        incline.enable()
+      end
+    end
+
     for _, win in ipairs(vim.fn.win_findbuf(args.buf)) do
       if _G.winbar_enabled then
         update_winbar(win)
