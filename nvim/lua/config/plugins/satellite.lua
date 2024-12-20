@@ -12,6 +12,7 @@ M.setup = function()
     },
     marks = {
       enable = false,
+      show_builtins = false,
     },
     width = 1,
   })
