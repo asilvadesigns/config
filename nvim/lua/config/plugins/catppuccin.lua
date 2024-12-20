@@ -12,8 +12,6 @@ M.setup = function()
       nvimtree = false,
       ufo = false,
     },
-    -- highlight_overrides
-    -- default_integrations = false,
     highlight_overrides = {
       latte = function(c)
         local bg = utils.darken(c.surface0, 0.20, c.base)
@@ -45,10 +43,10 @@ M.setup = function()
           illuminatedCurWord = { bg = c.surface0 },
           --
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
-          DiagnosticUnderlineError = { sp = c.red, undercurl = true },
-          DiagnosticUnderlineHint = { sp = c.blue, undercurl = true },
-          DiagnosticUnderlineInfo = { sp = c.teal, undercurl = true },
-          DiagnosticUnderlineWarn = { sp = c.yellow, undercurl = true },
+          DiagnosticUnderlineError = { sp = c.red, underline = true },
+          DiagnosticUnderlineHint = { sp = c.blue, underline = true },
+          DiagnosticUnderlineInfo = { sp = c.teal, underline = true },
+          DiagnosticUnderlineWarn = { sp = c.yellow, underline = true },
           TelescopeTitle = { fg = c.text },
           TelescopeNormal = { fg = c.subtext0 },
 

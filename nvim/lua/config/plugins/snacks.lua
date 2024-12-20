@@ -52,7 +52,8 @@ M.setup = function()
     },
     ---@class snacks.statuscolumn.Config
     statuscolumn = {
-      left = { "git", "mark", "sign" }, -- priority of signs on the left (high to low)
+      -- "sign"
+      left = { "git", "mark" }, -- priority of signs on the left (high to low)
       right = { "fold" }, -- priority of signs on the right (high to low)
       folds = {
         open = false, -- show open fold icons
@@ -65,17 +66,17 @@ M.setup = function()
       refresh = 50, -- refresh at most every 50ms
     },
     ---@class snacks.scroll.Config
-    scroll = {
-      animate = {
-        duration = { step = 15, total = 75 }, --5 && 125 is good
-        easing = "inOutSine",
-      },
-      spamming = 10, -- threshold for spamming detection
-      -- what buffers to animate
-      filter = function(buf)
-        return vim.g.snacks_scroll ~= false and vim.b[buf].snacks_scroll ~= false and vim.bo[buf].buftype ~= "terminal"
-      end,
-    },
+    -- scroll = {
+    --   animate = {
+    --     duration = { step = 15, total = 75 }, --5 && 125 is good
+    --     easing = "inOutSine",
+    --   },
+    --   spamming = 10, -- threshold for spamming detection
+    --   -- what buffers to animate
+    --   filter = function(buf)
+    --     return vim.g.snacks_scroll ~= false and vim.b[buf].snacks_scroll ~= false and vim.bo[buf].buftype ~= "terminal"
+    --   end,
+    -- },
   })
 end
 

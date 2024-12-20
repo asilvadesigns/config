@@ -69,6 +69,8 @@ vim.opt.smoothscroll = true
 ---
 vim.opt.laststatus = 0
 vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
+-- vim.o.statusline = "%{%v:lua.require'nvim-navic'.get_location()%}"
+-- vim.o.statusline = ""
 
 vim.opt.signcolumn = "yes"
 -- vim.optpt.statuscolumn = "%s %r "
@@ -206,7 +208,7 @@ vim.diagnostic.config({
     --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
     -- },
   },
-  underline = false,
+  underline = true,
   virtual_text = false, -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
 })
 
@@ -228,6 +230,7 @@ vim.filetype.add({
 
 require("config.autocmd")
 require("config.command")
+-- require("config.statusline")
 -- require("config.winbar")
 --
 
@@ -245,6 +248,7 @@ require("lazy").setup({
     {
       "folke/noice.nvim",
       event = "VeryLazy",
+      dependencies = { "MunifTanjim/nui.nvim" },
       config = require("config.plugins.noice").setup,
     },
     {
@@ -261,6 +265,11 @@ require("lazy").setup({
       "rmagatti/auto-session",
       cmd = "SessionRestore",
       config = require("config.plugins.auto-session").setup,
+    },
+    {
+      "lewis6991/satellite.nvim",
+      event = "VeryLazy",
+      config = require("config.plugins.satellite").setup,
     },
     {
       "catppuccin/nvim",
@@ -418,7 +427,11 @@ require("lazy").setup({
     {
       "folke/lazydev.nvim",
       ft = "lua",
-      opts = { library = { { path = "luvit-meta/library", words = { "vim%.uv" } } } },
+      opts = {
+        library = {
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        },
+      },
     },
     {
       "saghen/blink.cmp",
@@ -547,34 +560,20 @@ require("lazy").setup({
               ["Lint (Biome)"] = "LintWithBiome",
               ["Lint (EsLint)"] = "LintWithPrettier",
               ["Lint (default)"] = "Lint",
-              ["Load Session"] = "LoadSession",
               ["Mason"] = "Mason",
               ["Markdown Preview"] = "MarkdownPreviewToggle",
-              ["Noice dismiss"] = "Noice dismiss",
-              ["Noice messages"] = "Noice fzf",
-              ["Open (Finder)"] = "!open .",
-              ["Quit force"] = "qa!",
               ["Rename File"] = "RenameFile",
               ["Restart LSP"] = "LspRestart",
-              ["Save"] = "wa",
-              ["Save and quit force"] = "wqa!",
               ["Search"] = "Spectre",
               ["Search (local)"] = "GrugFarLocal",
               ["Search (global)"] = "GrugFar",
               ["Symbols"] = "FzfLua lsp_document_symbols",
               ["Symbols (Workspace)"] = "FzfLua lsp_workspace_symbols",
               ["Buf Only"] = "only|bd|e#",
-              ["Tab Close"] = "tabclose",
-              ["Tab New"] = "tabnew",
-              ["Tab Next"] = "tabnext",
-              ["Tab Only"] = "tabonly",
-              ["Tab Previous"] = "tabprevious",
               ["Todos Quickfix"] = "TodoLocList",
               ["Toggle Diagnostic Text"] = "ToggleDiagnosticText",
               ["Trouble"] = "Trouble",
               ["Zen Mode (no neck pain)"] = "NoNeckPain",
-              ["Zen Mode (decrease)"] = "NoNeckPainWidthDown",
-              ["Zen Mode (increase)"] = "NoNeckPainWidthUp",
             }
 
             local keys = {}

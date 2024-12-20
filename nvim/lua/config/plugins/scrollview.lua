@@ -1,14 +1,14 @@
 local M = {}
 
 M.setup = function()
-  local options = require("config.options")
+  local signs = require("config.signs")
 
   require("scrollview").setup({
     always_show = false,
     column = 1,
     current_only = false,
-    cursor_symbol = vim.fn.nr2char(0x25aa),
-    winblend_gui = 50,
+    -- cursor_symbol = vim.fn.nr2char(0x25aa),
+    winblend_gui = 75,
     excluded_filetypes = {
       "NvimTree",
       "Outline",
@@ -42,10 +42,12 @@ M.setup = function()
     },
   })
 
-  vim.g.scrollview_diagnostics_error_symbol = options.signs.Error
-  vim.g.scrollview_diagnostics_hint_symbol = options.signs.Hint
-  vim.g.scrollview_diagnostics_info_symbol = options.signs.Info
-  vim.g.scrollview_diagnostics_warn_symbol = options.signs.Warn
+  vim.g.scrollview_diagnostics_error_symbol = signs.diagnostics.Error
+  vim.g.scrollview_diagnostics_hint_symbol = signs.diagnostics.Hint
+  vim.g.scrollview_diagnostics_info_symbol = signs.diagnostics.Info
+  vim.g.scrollview_diagnostics_warn_symbol = signs.diagnostics.Warn
+
+  vim.cmd("hi! link ScrollViewCursor @function")
 
   vim.api.nvim_create_autocmd("DiagnosticChanged", {
     callback = function()
