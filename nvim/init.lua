@@ -27,6 +27,7 @@ end)
 
 vim.opt.conceallevel = 0
 vim.opt.cursorline = true
+vim.opt.guicursor = "a:blinkon100"
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
 vim.opt.pumheight = 10
 vim.opt.swapfile = false
