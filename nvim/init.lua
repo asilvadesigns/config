@@ -231,8 +231,8 @@ vim.filetype.add({
 
 require("config.autocmd")
 require("config.command")
+require("config.winbar")
 -- require("config.statusline")
--- require("config.winbar")
 --
 
 ---@diagnostic disable-next-line: missing-fields
@@ -266,11 +266,6 @@ require("lazy").setup({
       "rmagatti/auto-session",
       cmd = "SessionRestore",
       config = require("config.plugins.auto-session").setup,
-    },
-    {
-      "lewis6991/satellite.nvim",
-      event = "VeryLazy",
-      config = require("config.plugins.satellite").setup,
     },
     {
       "catppuccin/nvim",
@@ -307,17 +302,7 @@ require("lazy").setup({
     {
       "norcalli/nvim-colorizer.lua",
       event = "VeryLazy",
-      config = function()
-        require("colorizer").setup({ "*" }, {
-          RGB = true, -- #RGB hex codes
-          RRGGBB = true, -- #RRGGBB hex codes
-          RRGGBBAA = true, -- #RRGGBBAA hex codes
-          rgb_fn = true, -- CSS rgb() and rgba() functions
-          hsl_fn = true, -- CSS hsl() and hsla() functions
-          css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-          css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-        })
-      end,
+      config = require("config.plugins.nvim-colorizer").setup,
     },
     {
       "mfussenegger/nvim-lint",
@@ -574,6 +559,7 @@ require("lazy").setup({
               ["Symbols"] = "FzfLua lsp_document_symbols",
               ["Todos Quickfix"] = "TodoLocList",
               ["Toggle Diagnostic Text"] = "ToggleDiagnosticText",
+              ["Toggle Winbar"] = "ToggleWinbar",
               ["Trouble"] = "Trouble",
               ["Zen Mode (no neck pain)"] = "NoNeckPain",
             }
@@ -680,6 +666,11 @@ require("lazy").setup({
       },
       config = require("config.plugins.gitsigns").setup,
     },
+    {
+      "lewis6991/satellite.nvim",
+      event = "VeryLazy",
+      config = require("config.plugins.satellite").setup,
+    },
     ---
     ---
     ---
@@ -760,8 +751,8 @@ require("lazy").setup({
       disabled_plugins = {
         "getscriptPlugin",
         "gzip",
-        "matchit",
-        "matchparen",
+        -- "matchit",
+        -- "matchparen",
         "netrwPlugin",
         "osc52",
         "remotePlugin",

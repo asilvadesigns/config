@@ -67,13 +67,9 @@ local function get_filename(buf_id)
   return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
 end
 
-local last_winbar = {}
-
 ---
 ---
 ---
-local RenderGroup = vim.api.nvim_create_augroup("update_winbar", { clear = true })
-
 local function update_winbar(win_id)
   local buf_id = vim.api.nvim_win_get_buf(win_id)
   local win_config = vim.api.nvim_win_get_config(win_id)
@@ -82,10 +78,7 @@ local function update_winbar(win_id)
   local is_floating = win_config.relative ~= ""
 
   if is_floating or filetype == "NvimTree" or filetype == "toggleterm" then
-    if last_winbar[win_id] then
-      vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
-      last_winbar[win_id] = nil
-    end
+    vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
   else
     local new_winbar = " "
       .. get_filename(buf_id)
@@ -95,26 +88,48 @@ local function update_winbar(win_id)
       .. get_diagnostics(buf_id)
       .. "%*%#NonText# %=%l/%L%* %*"
 
-    if new_winbar ~= last_winbar[win_id] then
-      vim.api.nvim_set_option_value("winbar", new_winbar, { win = win_id })
-      last_winbar[win_id] = new_winbar
-    end
+    vim.api.nvim_set_option_value("winbar", new_winbar, { win = win_id })
   end
 end
 
-vim.api.nvim_create_autocmd({
-  "BufModifiedSet",
-  "BufNewFile",
-  "BufReadPre",
-  "DiagnosticChanged",
-  "TabClosed",
-}, {
+local function disable_winbar(win_id)
+  vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
+end
+
+_G.winbar_enabled = false
+
+local RenderGroup = vim.api.nvim_create_augroup("update_winbar", { clear = true })
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "RefreshWinbar",
   group = RenderGroup,
-  callback = function(args)
-    vim.schedule(function()
-      for _, win in ipairs(vim.fn.win_findbuf(args.buf)) do
+  callback = function() end,
+})
+
+vim.api.nvim_create_user_command("ToggleWinbar", function()
+  _G.winbar_enabled = not _G.winbar_enabled
+  vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
+end, {})
+
+local function render(args)
+  vim.schedule(function()
+    for _, win in ipairs(vim.fn.win_findbuf(args.buf)) do
+      if _G.winbar_enabled then
         update_winbar(win)
+      else
+        disable_winbar(win)
       end
-    end)
-  end,
+    end
+  end)
+end
+
+vim.api.nvim_create_autocmd({ "BufModifiedSet", "BufNewFile", "BufReadPre", "DiagnosticChanged", "TabClosed" }, {
+  group = RenderGroup,
+  callback = render,
+})
+
+vim.api.nvim_create_autocmd({ "User" }, {
+  group = RenderGroup,
+  pattern = "RefreshWinbar",
+  callback = render,
 })
