@@ -64,7 +64,7 @@ vim.opt.list = false
 vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  "
 ---
-vim.opt.scrolloff = 3
+vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
@@ -135,6 +135,9 @@ set("n", "<leader>qf", function()
 end, {
   desc = "Save and Quit",
 })
+
+set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 set("n", "<", ":tabprevious<CR>", { desc = "Go to the previous tab" })
 set("n", ">", ":tabnext<CR>", { desc = "Go to the next tab" })
@@ -660,8 +663,8 @@ require("lazy").setup({
       "lewis6991/gitsigns.nvim",
       cmd = { "Gitsigns" },
       keys = {
-        { "gj", "<CMD>Gitsigns next_hunk<CR>", "n" },
-        { "gk", "<CMD>Gitsigns prev_hunk<CR>", "n" },
+        { "]g", "<CMD>Gitsigns next_hunk<CR>", "n" },
+        { "[g", "<CMD>Gitsigns prev_hunk<CR>", "n" },
         { "gp", "<CMD>Gitsigns preview_hunk<CR>", "n" },
       },
       config = require("config.plugins.gitsigns").setup,
