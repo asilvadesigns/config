@@ -303,9 +303,9 @@ require("lazy").setup({
       config = require("config.plugins.better-escape").setup,
     },
     {
-      "norcalli/nvim-colorizer.lua",
+      "eero-lehtinen/oklch-color-picker.nvim",
       event = "VeryLazy",
-      config = require("config.plugins.nvim-colorizer").setup,
+      opts = {},
     },
     {
       "mfussenegger/nvim-lint",
