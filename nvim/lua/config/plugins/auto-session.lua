@@ -7,11 +7,18 @@ M.setup = function()
     },
     pre_save_cmds = {
       function()
-        --- NOTE: close all floating windows
-        for _, win in ipairs(vim.api.nvim_list_wins()) do
-          local config = vim.api.nvim_win_get_config(win)
-          if config.relative ~= "" then
-            vim.api.nvim_win_close(win, false)
+        for _, win_id in ipairs(vim.api.nvim_list_wins()) do
+          local win_config = vim.api.nvim_win_get_config(win_id)
+          local buf_id = vim.api.nvim_win_get_buf(win_id)
+
+          --- NOTE: close all floating windows
+          if win_config.relative ~= "" then
+            vim.api.nvim_win_close(win_id, false)
+          end
+
+          --- NOTE: close all search windows
+          if vim.bo[buf_id].filetype == "grug-far" then
+            vim.api.nvim_win_close(win_id, false)
           end
         end
       end,

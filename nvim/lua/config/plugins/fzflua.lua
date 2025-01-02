@@ -70,14 +70,16 @@ M.setup = function()
       col = 0.50, -- window col position (0=left, 1=right)
       backdrop = 100,
     },
-    -- keymap = {
-    --   builtin = {
-    --     ["ctrl-q"] = "select-all+accept",
-    --   },
-    --   fzf = {
-    --     ["ctrl-q"] = "select-all+accept",
-    --   },
-    -- },
+    keymap = {
+      builtin = {
+        ["ctrl-q"] = "select-all+accept",
+      },
+      fzf = {
+        ["ctrl-q"] = "select-all+accept",
+      },
+    },
+    ---
+    ---pickers
     blines = { previewer = false },
     btags = { git_icons = false },
     commands = { previewer = false },
@@ -94,5 +96,3 @@ M.setup = function()
 
   require("fzf-lua").register_ui_select()
 end
-
-return M

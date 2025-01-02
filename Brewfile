@@ -1,6 +1,7 @@
 tap "homebrew/bundle"
 tap "joshmedeski/sesh"
 tap "planetscale/tap"
+brew "ast-grep"
 brew "atuin"
 brew "bat"
 brew "colima"

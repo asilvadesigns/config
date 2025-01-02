@@ -4,7 +4,7 @@ keybind = cmd+r=reload_config
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 14
-adjust-cell-height = 20%
+adjust-cell-height = 10%
 
 # Window
 gtk-single-instance = true

@@ -2,10 +2,13 @@ local M = {}
 
 M.setup = function()
   require("grug-far").setup({
-    disableBufferLineNumbers = true,
-    normalModeSearch = true,
-    startInInsertMode = false,
-    maxSearchMatches = 500,
+    -- disableBufferLineNumbers = true,
+    -- normalModeSearch = true,
+    -- startInInsertMode = false,
+    -- maxSearchMatches = 500,
+    -- engine = "astgrep",
+    resultsHighlight = false,
+    inputsHighlight = false,
     keymaps = {
       abort = { n = "<localleader>b" },
       close = { n = "<localleader>c" },
@@ -25,12 +28,12 @@ M.setup = function()
       syncLocations = { n = "<localleader>s" },
       toggleShowCommand = { n = "<localleader>p" },
     },
-    folding = {
-      enabled = vim.o.foldenable,
-      foldcolumn = vim.o.foldcolumn,
-      foldlevel = vim.o.foldlevel,
-    },
-    wrap = false,
+    -- folding = {
+    --   enabled = vim.o.foldenable,
+    --   foldcolumn = vim.o.foldcolumn,
+    --   foldlevel = vim.o.foldlevel,
+    -- },
+    -- wrap = false,
   })
 
   vim.cmd("hi! link GrugFarInputLabel String")

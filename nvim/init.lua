@@ -27,12 +27,15 @@ end)
 
 vim.opt.conceallevel = 0
 vim.opt.cursorline = true
-vim.opt.guicursor = "a:blinkon100"
+-- vim.opt.guicursor = "a:blinkon100"
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
 vim.opt.pumheight = 10
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
+vim.opt.wrap = false
+---
+vim.opt.synmaxcol = 256
 ---
 vim.opt.number = false
 vim.opt.relativenumber = false
@@ -60,9 +63,9 @@ vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
 vim.opt.tabstop = 2
 ---
-vim.opt.list = false
-vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
-vim.opt.showbreak = "↳  "
+-- vim.opt.list = false
+-- vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
+-- vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
 ---
 vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
@@ -81,8 +84,6 @@ vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 ---
 vim.opt.termguicolors = true
 ---
-vim.opt.linebreak = true
-vim.opt.wrap = false
 
 --
 --
@@ -283,6 +284,7 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
+      enabled = false,
       event = "VeryLazy",
       tag = "v0.2.0",
       config = require("config.plugins.modes").setup,
@@ -304,6 +306,7 @@ require("lazy").setup({
     },
     {
       "eero-lehtinen/oklch-color-picker.nvim",
+      enabled = false,
       event = "VeryLazy",
       opts = {},
     },
@@ -314,6 +317,7 @@ require("lazy").setup({
     },
     {
       "stevearc/conform.nvim",
+      cmd = { "Format", "FormatWithBiome", "FormatWithPrettier" },
       keys = { { "<leader>m", "<cmd>Format<cr>", desc = "Format" } },
       config = require("config.plugins.conform").setup,
     },
@@ -365,13 +369,20 @@ require("lazy").setup({
       config = require("config.plugins.ufo").setup,
     },
     {
-      "echasnovski/mini.cursorword",
-      event = "VeryLazy",
-      version = "*",
-      config = require("config.plugins.mini").setup,
+      "RRethy/vim-illuminate",
+      enabled = false,
+      event = "LspAttach",
+      config = require("config.plugins.illuminate").setup,
     },
+    -- {
+    --   "echasnovski/mini.cursorword",
+    --   event = "VeryLazy",
+    --   version = "*",
+    --   config = require("config.plugins.mini").setup,
+    -- },
     {
       "hrsh7th/cmp-cmdline",
+      enabled = false,
       event = "CmdlineEnter",
       dependencies = { "hrsh7th/nvim-cmp" },
       config = function()
@@ -393,6 +404,7 @@ require("lazy").setup({
     },
     {
       "hrsh7th/nvim-cmp",
+      enabled = false,
       event = { "CmdlineEnter", "InsertEnter", "LspAttach" },
       dependencies = {
         "L3MON4D3/LuaSnip",
@@ -426,8 +438,9 @@ require("lazy").setup({
       "saghen/blink.cmp",
       -- lazy = true,
       enabled = false,
-      version = "v0.*",
+      version = "*",
       opts_extend = { "sources.default" },
+      dependencies = "rafamadriz/friendly-snippets",
       config = require("config.plugins.blink").setup,
     },
     { lazy = true, "JoosepAlviste/nvim-ts-context-commentstring" },
@@ -729,6 +742,7 @@ require("lazy").setup({
     ---
     {
       "ggandor/leap.nvim",
+      enabled = false,
       keys = {
         {
           "s",
@@ -754,8 +768,8 @@ require("lazy").setup({
       disabled_plugins = {
         "getscriptPlugin",
         "gzip",
-        -- "matchit",
-        -- "matchparen",
+        "matchit",
+        "matchparen",
         "netrwPlugin",
         "osc52",
         "remotePlugin",

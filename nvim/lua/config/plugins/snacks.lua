@@ -4,7 +4,7 @@ M.setup = function()
   require("snacks").setup({
     ---@class snacks.indent.Config
     indent = {
-      enabled = true,
+      enabled = false,
       only_current = true,
       scope = {
         enabled = false,
@@ -15,8 +15,14 @@ M.setup = function()
         animate = { enabled = false },
       },
     },
+    ---@class snacks.bigfile.Config
+    bigfile = {
+      enabled = false,
+      size = 1 * 1024 * 1024, -- 1.0MB
+    },
     ---@class snacks.dashboard.Config
     dashboard = {
+      enabled = true,
       sections = {
         { key = "s", padding = 1, desc = "Session Restore", action = ":SessionRestore" },
         { key = "a", padding = 1, desc = "Actions", action = ":CommandPalette" },
@@ -30,6 +36,7 @@ M.setup = function()
     },
     ---@class snacks.statuscolumn.Config
     statuscolumn = {
+      enabled = true,
       -- "sign"
       left = { "git", "mark" }, -- priority of signs on the left (high to low)
       right = { "fold" }, -- priority of signs on the right (high to low)
