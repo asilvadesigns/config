@@ -1,8 +1,9 @@
 local M = {}
 
 M.setup = function()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 
+  -- NOTE: using cmp
   -- local capabilities = vim.tbl_deep_extend(
   --   "force",
   --   vim.lsp.protocol.make_client_capabilities(),
@@ -10,10 +11,12 @@ M.setup = function()
   -- )
 
   -- NOTE: using blink
-  -- local capabilities = require("blink.cmp").get_lsp_capabilities()
-  -- capabilities["workspace"] = {
-  --   didChangeWatchedFiles = { dynamicRegistration = false },
-  -- }
+  local capabilities = require("blink.cmp").get_lsp_capabilities()
+
+  capabilities["workspace"] = {
+    didChangeWatchedFiles = { dynamicRegistration = false },
+  }
+
   capabilities.textDocument.foldingRange = {
     dynamicRegistration = false,
     lineFoldingOnly = true,

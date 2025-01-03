@@ -8,7 +8,9 @@ M.setup = function()
     },
     completion = {
       list = {
-        selection = "manual",
+        selection = function(ctx)
+          return ctx.mode == "cmdline" and "auto_insert" or "preselect"
+        end,
       },
       menu = {
         draw = {
@@ -26,6 +28,12 @@ M.setup = function()
     },
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
+      providers = {
+        lsp = {
+          name = "LSP",
+          module = "blink.cmp.sources.lsp",
+        },
+      },
     },
   })
 end

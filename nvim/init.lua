@@ -26,14 +26,16 @@ vim.schedule(function()
 end)
 
 vim.opt.conceallevel = 0
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 -- vim.opt.guicursor = "a:blinkon100"
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
 vim.opt.pumheight = 10
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
+
 vim.opt.wrap = false
+vim.opt.linebreak = false
 ---
 vim.opt.synmaxcol = 256
 ---
@@ -81,6 +83,8 @@ vim.opt.signcolumn = "yes"
 -- vim.opt.winbar = " "
 ---
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
+-- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
 ---
 vim.opt.termguicolors = true
 ---
@@ -91,6 +95,7 @@ vim.opt.termguicolors = true
 local set = vim.keymap.set
 
 set("n", "<Esc>", "<cmd>noh<cr>", { desc = "Clear highlight" })
+
 set("i", "<c-l>", "<END>", { desc = "Go to end of line" })
 set("i", "<c-h>", "<HOME>", { desc = "Go to start of line" })
 
@@ -284,7 +289,6 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
-      enabled = false,
       event = "VeryLazy",
       tag = "v0.2.0",
       config = require("config.plugins.modes").setup,
@@ -296,6 +300,7 @@ require("lazy").setup({
     },
     {
       "sphamba/smear-cursor.nvim",
+      enabled = false,
       event = "VeryLazy",
       config = require("config.plugins.smear-cursor").setup,
     },
@@ -335,10 +340,15 @@ require("lazy").setup({
       keys = { { "<leader>x", "<CMD>Oil<CR>", desc = "Show oil" } },
       config = require("config.plugins.oil").setup,
     },
+    -- {
+    --   "mg979/vim-visual-multi",
+    --   event = "ModeChanged",
+    --   config = require("config.plugins.vim-visual-multi").setup,
+    -- },
     {
-      "mg979/vim-visual-multi",
-      event = "ModeChanged",
-      config = require("config.plugins.vim-visual-multi").setup,
+      "jake-stewart/multicursor.nvim",
+      branch = "1.0",
+      config = require("config.plugins.multicursor").setup,
     },
     {
       "gbprod/substitute.nvim",
@@ -436,8 +446,6 @@ require("lazy").setup({
     },
     {
       "saghen/blink.cmp",
-      -- lazy = true,
-      enabled = false,
       version = "*",
       opts_extend = { "sources.default" },
       dependencies = "rafamadriz/friendly-snippets",
@@ -535,75 +543,7 @@ require("lazy").setup({
     {
       "ibhagwan/fzf-lua",
       cmd = { "FzfLua" },
-      keys = {
-        {
-          "<leader>a",
-          function()
-            ---@class Entry
-            ---@field cmd string | fun(): nil
-            ---@type table<string, Entry>
-            local commands = {
-              ["Commands"] = "FzfLua commands",
-              ["Copy file path (Absolute)"] = "CopyAbsolutePath",
-              ["Copy file path (Relative)"] = "CopyRelativePath",
-              ["Copy filetype"] = "CopyFiletype",
-              ["Diagnostics"] = "Trouble diagnostics",
-              ["Find Lines"] = "FzfLua blines",
-              ["Find Word"] = "FzfLua grep_project",
-              ["Format (Biome)"] = "FormatWithBiome",
-              ["Format (Prettier)"] = "FormatWithPrettier",
-              ["Format (default)"] = "Format",
-              ["Git (Fugitive)"] = "Git",
-              ["Git (Neogit)"] = "Neogit",
-              ["Help"] = "FzfLua helptags",
-              ["Highlights"] = "FzfLua highlights",
-              ["Keymaps"] = "FzfLua keymaps",
-              ["Lazy"] = "Lazy",
-              ["Lint (Biome)"] = "LintWithBiome",
-              ["Lint (EsLint)"] = "LintWithPrettier",
-              ["Lint (default)"] = "Lint",
-              ["Mason"] = "Mason",
-              ["Markdown Preview"] = "MarkdownPreviewToggle",
-              ["Remove All Marks"] = "delm! | delm A-Z0-9",
-              ["Remove Other Buffers"] = "only|bd|e#",
-              ["Rename File"] = "RenameFile",
-              ["Restart LSP"] = "LspRestart",
-              ["Search (global)"] = "GrugFar",
-              ["Search (local)"] = "GrugFarLocal",
-              ["Search"] = "Spectre",
-              ["Symbols (Workspace)"] = "FzfLua lsp_workspace_symbols",
-              ["Symbols"] = "FzfLua lsp_document_symbols",
-              ["Todos Quickfix"] = "TodoLocList",
-              ["Toggle Diagnostic Text"] = "ToggleDiagnosticText",
-              ["Toggle Winbar"] = "ToggleWinbar",
-              ["Trouble"] = "Trouble",
-              ["Zen Mode (no neck pain)"] = "NoNeckPain",
-            }
-
-            local keys = {}
-            for k, _ in pairs(commands) do
-              table.insert(keys, k)
-            end
-
-            require("fzf-lua").fzf_exec(keys, {
-              actions = {
-                ["default"] = function(selected)
-                  local cmd = commands[selected[1]]
-                  if type(cmd) == "function" then
-                    cmd()
-                  elseif type(cmd) == "string" then
-                    vim.cmd(cmd)
-                  end
-                end,
-              },
-            })
-          end,
-        },
-        { "<leader>b", "<CMD>FzfLua buffers<CR>" },
-        { "<leader>e", "<CMD>FzfLua oldfiles<CR>" },
-        { "<leader>f", "<CMD>FzfLua files<CR>" },
-        { "<leader>l", "<CMD>FzfLua blines<CR>" },
-      },
+      event = { "User DeferThree" },
       config = require("config.plugins.fzflua").setup,
     },
     ---
@@ -651,6 +591,8 @@ require("lazy").setup({
     ---
     {
       "akinsho/git-conflict.nvim",
+      event = "User DeferThree",
+      version = "v2.1.0",
       cmd = {
         "GitConflictChooseBoth",
         "GitConflictChooseNone",
@@ -684,6 +626,7 @@ require("lazy").setup({
     },
     {
       "lewis6991/satellite.nvim",
+      enabled = false,
       event = "VeryLazy",
       config = require("config.plugins.satellite").setup,
     },
@@ -742,7 +685,6 @@ require("lazy").setup({
     ---
     {
       "ggandor/leap.nvim",
-      enabled = false,
       keys = {
         {
           "s",

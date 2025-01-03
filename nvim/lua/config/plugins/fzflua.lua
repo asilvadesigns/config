@@ -1,5 +1,51 @@
 local M = {}
 
+---@class Entry
+---@field cmd string | fun(): nil
+---@type table<string, Entry>
+local commands = {
+  ["Commands"] = "FzfLua commands",
+  ["Copy file path (Absolute)"] = "CopyAbsolutePath",
+  ["Copy file path (Relative)"] = "CopyRelativePath",
+  ["Copy filetype"] = "CopyFiletype",
+  ["Diagnostics"] = "Trouble diagnostics",
+  ["Find Lines"] = "FzfLua blines",
+  ["Find Word"] = "FzfLua grep_project",
+  ["Format (Biome)"] = "FormatWithBiome",
+  ["Format (Prettier)"] = "FormatWithPrettier",
+  ["Format (default)"] = "Format",
+  ["Git (Fugitive)"] = "Git",
+  ["Git (Neogit)"] = "Neogit",
+  ["Help"] = "FzfLua helptags",
+  ["Highlights"] = "FzfLua highlights",
+  ["Keymaps"] = "FzfLua keymaps",
+  ["Lazy"] = "Lazy",
+  ["Lint (Biome)"] = "LintWithBiome",
+  ["Lint (EsLint)"] = "LintWithPrettier",
+  ["Lint (default)"] = "Lint",
+  ["Mason"] = "Mason",
+  ["Markdown Preview"] = "MarkdownPreviewToggle",
+  ["Remove All Marks"] = "delm! | delm A-Z0-9",
+  ["Remove Other Buffers"] = "only|bd|e#",
+  ["Rename File"] = "RenameFile",
+  ["Restart LSP"] = "LspRestart",
+  ["Search (global)"] = "GrugFar",
+  ["Search (local)"] = "GrugFarLocal",
+  ["Search"] = "Spectre",
+  ["Symbols (Workspace)"] = "FzfLua lsp_workspace_symbols",
+  ["Symbols"] = "FzfLua lsp_document_symbols",
+  ["Todos Quickfix"] = "TodoLocList",
+  ["Toggle Diagnostic Text"] = "ToggleDiagnosticText",
+  ["Toggle Winbar"] = "ToggleWinbar",
+  ["Trouble"] = "Trouble",
+  ["Zen Mode (no neck pain)"] = "NoNeckPain",
+}
+
+local keys = {}
+for k, _ in pairs(commands) do
+  table.insert(keys, k)
+end
+
 M.setup = function()
   -- local function file_to_qf(selected)
   --   local qf_list = {}
@@ -82,17 +128,42 @@ M.setup = function()
     ---pickers
     blines = { previewer = false },
     btags = { git_icons = false },
+    buffers = { cwd_only = true },
     commands = { previewer = false },
     complete_file = { previewer = false, git_icons = false },
-    diagnostics = { git_icons = false },
+    diagnostics = { git_icons = false, cwd_only = true },
     files = { previewer = false, git_icons = false },
     grep = { git_icons = false },
     highlights = { previewer = true },
-    lsp = { git_icons = false },
-    oldfiles = { previewer = false },
+    lsp = { git_icons = false, cwd_only = true },
+    oldfiles = { previewer = false, cwd_only = true, include_current_session = true },
     quickfix = { git_icons = false },
     tags = { git_icons = false },
   })
 
+  local command_palette = function()
+    require("fzf-lua").fzf_exec(keys, {
+      actions = {
+        ["default"] = function(selected)
+          local cmd = commands[selected[1]]
+          if type(cmd) == "function" then
+            cmd()
+          elseif type(cmd) == "string" then
+            vim.cmd(cmd)
+          end
+        end,
+      },
+    })
+  end
+
+  vim.api.nvim_create_user_command("CommandPalette", command_palette, {})
+  vim.keymap.set("n", "<leader>a", command_palette, { desc = "Fuzzy actions" })
+  vim.keymap.set("n", "<leader>b", "<CMD>FzfLua buffers<CR>", { desc = "Fuzzy buffers" })
+  vim.keymap.set("n", "<leader>e", "<CMD>FzfLua oldfiles<CR>", { desc = "Fuzzy oldfiles" })
+  vim.keymap.set("n", "<leader>f", "<CMD>FzfLua files<CR>", { desc = "Fuzzy files" })
+  vim.keymap.set("n", "<leader>l", "<CMD>FzfLua blines<CR>", { desc = "Fuzzy buffer lines" })
+
   require("fzf-lua").register_ui_select()
 end
+
+return M
