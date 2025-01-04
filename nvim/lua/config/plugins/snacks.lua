@@ -17,8 +17,18 @@ M.setup = function()
     },
     ---@class snacks.bigfile.Config
     bigfile = {
-      enabled = false,
+      enabled = true,
+      notify = true,
       size = 1 * 1024 * 1024, -- 1.0MB
+      ---@param ctx {buf: number, ft:string}
+      setup = function(ctx)
+        -- vim.cmd([[NoMatchParen]])
+        Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
+        -- vim.b.minianimate_disable = true
+        vim.schedule(function()
+          vim.bo[ctx.buf].syntax = ctx.ft
+        end)
+      end,
     },
     ---@class snacks.dashboard.Config
     dashboard = {

@@ -5,6 +5,11 @@ M.setup = function()
   require("blink.cmp").setup({
     keymap = {
       preset = "enter",
+      cmdline = {
+        ["<CR>"] = { "accept", "fallback" },
+        ["<Tab>"] = { "select_next", "fallback" },
+        ["<S-Tab>"] = { "select_prev", "fallback" },
+      },
     },
     completion = {
       list = {

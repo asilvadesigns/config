@@ -26,8 +26,8 @@ vim.schedule(function()
 end)
 
 vim.opt.conceallevel = 0
-vim.opt.cursorline = false
--- vim.opt.guicursor = "a:blinkon100"
+vim.opt.cursorline = true
+vim.cmd("set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175")
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
 vim.opt.pumheight = 10
 vim.opt.swapfile = false
@@ -94,7 +94,8 @@ vim.opt.termguicolors = true
 --
 local set = vim.keymap.set
 
-set("n", "<Esc>", "<cmd>noh<cr>", { desc = "Clear highlight" })
+-- overridden by multicursor
+set("n", "<esc>", ":nohl<CR>", { desc = "Clear highlight" })
 
 set("i", "<c-l>", "<END>", { desc = "Go to end of line" })
 set("i", "<c-h>", "<HOME>", { desc = "Go to start of line" })
@@ -289,6 +290,7 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
+      enabled = false,
       event = "VeryLazy",
       tag = "v0.2.0",
       config = require("config.plugins.modes").setup,
@@ -347,6 +349,7 @@ require("lazy").setup({
     -- },
     {
       "jake-stewart/multicursor.nvim",
+      event = "VeryLazy",
       branch = "1.0",
       config = require("config.plugins.multicursor").setup,
     },
@@ -391,41 +394,6 @@ require("lazy").setup({
     --   config = require("config.plugins.mini").setup,
     -- },
     {
-      "hrsh7th/cmp-cmdline",
-      enabled = false,
-      event = "CmdlineEnter",
-      dependencies = { "hrsh7th/nvim-cmp" },
-      config = function()
-        local cmp = require("cmp")
-        cmp.setup.cmdline(":", {
-          mapping = cmp.mapping.preset.cmdline(),
-          sources = cmp.config.sources({
-            { name = "path" },
-          }, {
-            {
-              name = "cmdline",
-              option = {
-                ignore_cmds = { "Man", "!" },
-              },
-            },
-          }),
-        })
-      end,
-    },
-    {
-      "hrsh7th/nvim-cmp",
-      enabled = false,
-      event = { "CmdlineEnter", "InsertEnter", "LspAttach" },
-      dependencies = {
-        "L3MON4D3/LuaSnip",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-path",
-        "onsails/lspkind.nvim",
-        "saadparwaiz1/cmp_luasnip",
-      },
-      config = require("config.plugins.cmp").setup,
-    },
-    {
       "neovim/nvim-lspconfig",
       event = "User DeferThree",
       dependencies = {
@@ -447,6 +415,7 @@ require("lazy").setup({
     {
       "saghen/blink.cmp",
       version = "*",
+      event = { "CmdlineEnter", "InsertEnter" },
       opts_extend = { "sources.default" },
       dependencies = "rafamadriz/friendly-snippets",
       config = require("config.plugins.blink").setup,

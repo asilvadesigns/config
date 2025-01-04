@@ -1,17 +1,19 @@
 theme = catppuccin-frappe
-keybind = cmd+r=reload_config
+# keybind = cmd+r=reload_config
 
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 14
-adjust-cell-height = 10%
+adjust-cell-height = 8
 
 # Window
-gtk-single-instance = true
-gtk-tabs-location = bottom
-gtk-wide-tabs = false
+# gtk-single-instance = true
+# gtk-tabs-location = bottom
+# gtk-wide-tabs = false
 
+# tabs
 macos-titlebar-style = hidden
+# true
 window-decoration = false
 window-padding-color = extend-always
 window-padding-x = 0
@@ -93,7 +95,7 @@ clipboard-write = allow
 # Cursor Style
 cursor-style = block
 cursor-style-blink = true
-cursor-color = "#e78284"
+cursor-color = "#85c1dc"
 
 # Other
 #copy-on-select = clipboard

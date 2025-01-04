@@ -64,7 +64,7 @@ M.setup = function()
     elseif mc.hasCursors() then
       mc.clearCursors()
     else
-      -- Default <esc> handler.
+      vim.cmd("nohl")
     end
   end)
   --
