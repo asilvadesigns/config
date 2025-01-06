@@ -4,7 +4,7 @@ theme = catppuccin-frappe
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 14
-adjust-cell-height = 8
+adjust-cell-height = 30%
 
 # Window
 # gtk-single-instance = true
@@ -70,7 +70,7 @@ keybind = super+shift+l=text:\x00L
 # tmux window | prev
 keybind = ctrl+shift+tab=text:\x00p
 keybind = super+shift+[=text:\x00p
-keybind = super+shift+{=text:\x00pk
+keybind = super+shift+{=text:\x00p
 
 # tmux window | next
 keybind = ctrl+tab=text:\x00n
@@ -100,4 +100,3 @@ cursor-color = "#85c1dc"
 # Other
 #copy-on-select = clipboard
 #shell-integration-features = cursor,sudo,no-title
-#pp

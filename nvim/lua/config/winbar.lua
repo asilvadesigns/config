@@ -77,7 +77,7 @@ local function update_winbar(win_id)
   local filetype = vim.bo[buf_id].filetype
   local is_floating = win_config.relative ~= ""
 
-  if is_floating or filetype == "NvimTree" or filetype == "toggleterm" then
+  if is_floating or filetype == "NvimTree" or filetype == "toggleterm" or filetype == "snacks_dashboard" then
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
   else
     local new_winbar = " "
@@ -86,7 +86,7 @@ local function update_winbar(win_id)
       .. get_modified(buf_id)
       .. " "
       .. get_diagnostics(buf_id)
-      .. "%*%#NonText# %=%l/%L%* %*"
+      .. "%*%#NonText# %=%l/%L %*"
 
     vim.api.nvim_set_option_value("winbar", new_winbar, { win = win_id })
   end
@@ -96,7 +96,7 @@ local function disable_winbar(win_id)
   vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
 end
 
-_G.winbar_enabled = false
+_G.winbar_enabled = true
 
 local RenderGroup = vim.api.nvim_create_augroup("update_winbar", { clear = true })
 
@@ -111,7 +111,7 @@ vim.api.nvim_create_user_command("ToggleWinbar", function()
   vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
 end, {})
 
-local function render(args)
+local function render()
   vim.schedule(function()
     local status_ok, incline = pcall(require, "incline")
     if _G.winbar_enabled then
@@ -124,7 +124,7 @@ local function render(args)
       end
     end
 
-    for _, win in ipairs(vim.fn.win_findbuf(args.buf)) do
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
       if _G.winbar_enabled then
         update_winbar(win)
       else

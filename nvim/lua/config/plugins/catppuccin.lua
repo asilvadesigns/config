@@ -58,8 +58,8 @@ M.setup = function()
           -- StatusLine = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
           -- StatusLineNC = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
           --
-          WinBar = { fg = c.overlay2 },
-          WinBarNC = { fg = c.overlay2 },
+          WinBar = { fg = c.surface2 },
+          WinBarNC = { fg = c.surface2 },
           --
           WinSeparator = { fg = c.surface0 },
 

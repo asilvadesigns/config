@@ -45,6 +45,7 @@ M.setup = function()
   end
 
   require("nvim-tree").setup({
+    sync_root_with_cwd = true,
     on_attach = my_on_attach,
     actions = {
       open_file = {
@@ -133,7 +134,7 @@ M.setup = function()
       },
     },
     update_focused_file = {
-      enable = true,
+      enable = false, -- just use <leader>j for this, see below
       update_root = {
         enable = false,
         ignore_list = {},

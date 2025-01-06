@@ -119,6 +119,7 @@ M.setup = function()
     keymap = {
       builtin = {
         ["ctrl-q"] = "select-all+accept",
+        ["<Esc>"] = "hide", ---https://github.com/ibhagwan/fzf-lua?tab=readme-ov-file#resume
       },
       fzf = {
         ["ctrl-q"] = "select-all+accept",
@@ -162,6 +163,16 @@ M.setup = function()
   vim.keymap.set("n", "<leader>e", "<CMD>FzfLua oldfiles<CR>", { desc = "Fuzzy oldfiles" })
   vim.keymap.set("n", "<leader>f", "<CMD>FzfLua files<CR>", { desc = "Fuzzy files" })
   vim.keymap.set("n", "<leader>l", "<CMD>FzfLua blines<CR>", { desc = "Fuzzy buffer lines" })
+  vim.keymap.set("n", "<leader>p", function()
+    require("fzf-lua").files({
+      cmd = "fd . ~/dev/ --type d --max-depth 1",
+      actions = {
+        ["default"] = function(selected)
+          vim.cmd("cd " .. selected[1]:match("~/.*"))
+        end,
+      },
+    })
+  end, { desc = "Fuzzy directories" })
 
   require("fzf-lua").register_ui_select()
 end

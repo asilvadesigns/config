@@ -41,8 +41,8 @@ vim.opt.linebreak = false
 ---
 vim.opt.synmaxcol = 256
 ---
-vim.opt.number = false
-vim.opt.relativenumber = false
+vim.opt.number = true
+vim.opt.relativenumber = true
 ---
 vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
@@ -306,11 +306,6 @@ require("lazy").setup({
       config = require("config.plugins.modes").setup,
     },
     {
-      "b0o/incline.nvim",
-      event = "User DeferTwo",
-      config = require("config.plugins.incline").setup,
-    },
-    {
       "sphamba/smear-cursor.nvim",
       enabled = false,
       event = "VeryLazy",
@@ -323,8 +318,7 @@ require("lazy").setup({
     },
     {
       "eero-lehtinen/oklch-color-picker.nvim",
-      enabled = false,
-      event = "VeryLazy",
+      event = "User DeferFour",
       opts = {},
     },
     {
