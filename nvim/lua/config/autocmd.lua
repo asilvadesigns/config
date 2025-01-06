@@ -121,16 +121,8 @@ vim.api.nvim_create_autocmd("User", {
   callback = function() end,
 })
 
--- vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
---   callback = function()
---     vim.wo.winhighlight = "CursorLineNr:CursorLineNrActive"
---   end,
--- })
---
--- vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
---   callback = function()
---     vim.wo.winhighlight = "CursorLineNr:CursorLineNr"
---   end,
--- })
---
--- vim.api.nvim_set_hl(0, "CursorLineNrActive", { fg = "Yellow", bold = true })
+vim.api.nvim_create_autocmd("User", {
+  pattern = "DeferFour",
+  group = DeferGroup,
+  callback = function() end,
+})

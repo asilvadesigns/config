@@ -147,4 +147,13 @@ M.setup = function()
   })
 end
 
+vim.keymap.set("n", "<leader>j", function()
+  if vim.bo.filetype == "NvimTree" then
+    vim.cmd("NvimTreeClose")
+  else
+    vim.cmd("NvimTreeFindFile")
+    vim.cmd("normal! zz")
+  end
+end, { desc = "Toggle file tree" })
+
 return M

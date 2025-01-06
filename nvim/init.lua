@@ -348,15 +348,9 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
-      cmd = { "Oil" },
-      keys = { { "<leader>x", "<CMD>Oil<CR>", desc = "Show oil" } },
+      event = "User DeferFour",
       config = require("config.plugins.oil").setup,
     },
-    -- {
-    --   "mg979/vim-visual-multi",
-    --   event = "ModeChanged",
-    --   config = require("config.plugins.vim-visual-multi").setup,
-    -- },
     {
       "jake-stewart/multicursor.nvim",
       event = "VeryLazy",
@@ -522,7 +516,7 @@ require("lazy").setup({
     {
       "ibhagwan/fzf-lua",
       cmd = { "FzfLua" },
-      event = { "User DeferThree" },
+      event = "User DeferThree",
       config = require("config.plugins.fzflua").setup,
     },
     ---
@@ -530,20 +524,7 @@ require("lazy").setup({
     ---
     {
       "nvim-tree/nvim-tree.lua",
-      keys = {
-        {
-          "<leader>j",
-          function()
-            if vim.bo.filetype == "NvimTree" then
-              vim.cmd("NvimTreeClose")
-            else
-              vim.cmd("NvimTreeFindFile")
-              vim.cmd("normal! zz")
-            end
-          end,
-          desc = "Toggle file tree",
-        },
-      },
+      event = "User DeferFour",
       config = require("config.plugins.nvim-tree").setup,
     },
     ---
@@ -721,3 +702,7 @@ end, 200)
 vim.defer_fn(function()
   vim.api.nvim_exec_autocmds("User", { pattern = "DeferThree" })
 end, 300)
+
+vim.defer_fn(function()
+  vim.api.nvim_exec_autocmds("User", { pattern = "DeferFour" })
+end, 400)

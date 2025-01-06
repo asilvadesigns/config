@@ -23,6 +23,7 @@ M.setup = function()
       ---@param ctx {buf: number, ft:string}
       setup = function(ctx)
         -- vim.cmd([[NoMatchParen]])
+        ---@diagnostic disable-next-line: missing-fields
         Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
         -- vim.b.minianimate_disable = true
         vim.schedule(function()

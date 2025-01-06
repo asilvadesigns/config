@@ -43,6 +43,8 @@ M.setup = function()
     },
   })
 
+  vim.keymap.set("n", "<leader>x", ":Oil<CR>", { desc = "Show Oil" })
+
   -- vim.cmd("hi! link OilDir NvimTreeFolderName")
   -- vim.cmd("hi! link OilDirIcon NvimTreeFolderName")
   -- vim.cmd("hi! link OilFile NvimTreeFolderName")
