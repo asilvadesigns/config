@@ -27,7 +27,9 @@ end)
 
 vim.opt.conceallevel = 0
 vim.opt.cursorline = true
-vim.cmd("set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175")
+vim.cmd(
+  "set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175"
+)
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
 vim.opt.pumheight = 10
 vim.opt.swapfile = false
@@ -88,6 +90,14 @@ vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 ---
 vim.opt.termguicolors = true
 ---
+if vim.g.neovide then
+  vim.o.guifont = "JetBrainsMono Nerd Font Mono"
+  vim.g.neovide_floating_shadow = false
+  vim.g.neovide_floating_z_height = 10
+  vim.g.neovide_light_angle_degrees = 45
+  vim.g.neovide_light_radius = 5
+  vim.g.neovide_scroll_animation_length = 0.05
+end
 
 --
 --
