@@ -34,7 +34,7 @@ local commands = {
   ["Search"] = "Spectre",
   ["Symbols (Workspace)"] = "FzfLua lsp_workspace_symbols",
   ["Symbols"] = "FzfLua lsp_document_symbols",
-  ["Todos Quickfix"] = "TodoLocList",
+  ["Todos"] = "TodoFzfLua",
   ["Toggle Diagnostic Text"] = "ToggleDiagnosticText",
   ["Toggle Winbar"] = "ToggleWinbar",
   ["Trouble"] = "Trouble",
@@ -162,6 +162,7 @@ M.setup = function()
   vim.keymap.set("n", "<leader>b", "<CMD>FzfLua buffers<CR>", { desc = "Fuzzy buffers" })
   vim.keymap.set("n", "<leader>e", "<CMD>FzfLua oldfiles<CR>", { desc = "Fuzzy oldfiles" })
   vim.keymap.set("n", "<leader>f", "<CMD>FzfLua files<CR>", { desc = "Fuzzy files" })
+  vim.keymap.set("n", "<leader>g", "<CMD>FzfLua live_grep<CR>", { desc = "Fuzzy grep" })
   vim.keymap.set("n", "<leader>l", "<CMD>FzfLua blines<CR>", { desc = "Fuzzy buffer lines" })
   vim.keymap.set("n", "<leader>p", function()
     require("fzf-lua").files({

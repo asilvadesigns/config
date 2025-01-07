@@ -2,9 +2,7 @@ local M = {}
 
 M.setup = function()
   require("illuminate").configure({
-    filetypes_denylist = {
-      "grug-far",
-    },
+    filetypes_denylist = { "grug-far" },
     delay = 50,
   })
 

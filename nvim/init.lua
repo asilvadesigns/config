@@ -148,10 +148,8 @@ set("n", "<leader>qf", function()
     require("oil").close()
   end
 
-  vim.cmd(":wqa!<CR>")
-end, {
-  desc = "Save and Quit",
-})
+  vim.cmd("qa!")
+end, { desc = "Save and Quit" })
 
 set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -252,8 +250,6 @@ vim.filetype.add({
 require("config.autocmd")
 require("config.command")
 require("config.winbar")
--- require("config.statusline")
---
 
 ---@diagnostic disable-next-line: missing-fields
 require("lazy").setup({
@@ -274,13 +270,23 @@ require("lazy").setup({
     },
     {
       "folke/todo-comments.nvim",
-      cmd = { "TodoTelescope", "TodoLocList" },
+      cmd = { "TodoFzfLua", "TodoLocList" },
       config = require("config.plugins.todos").setup,
     },
     {
       "folke/trouble.nvim",
       cmd = { "ToggleTrouble", "Trouble" },
       config = require("config.plugins.trouble").setup,
+    },
+    {
+      "folke/ts-comments.nvim",
+      event = "VeryLazy",
+      opts = {},
+    },
+    {
+      "folke/lazydev.nvim",
+      ft = "lua",
+      opts = { library = { { path = "${3rd}/luv/library", words = { "vim%.uv" } } } },
     },
     {
       "rmagatti/auto-session",
@@ -300,9 +306,8 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
-      enabled = false,
       event = "VeryLazy",
-      tag = "v0.2.0",
+      tag = "v0.2.1",
       config = require("config.plugins.modes").setup,
     },
     {
@@ -380,35 +385,20 @@ require("lazy").setup({
       config = require("config.plugins.ufo").setup,
     },
     {
-      "RRethy/vim-illuminate",
-      enabled = false,
-      event = "LspAttach",
-      config = require("config.plugins.illuminate").setup,
+      "b0o/incline.nvim",
+      event = "User DeferTwo",
+      config = require("config.plugins.incline").setup,
     },
-    -- {
-    --   "echasnovski/mini.cursorword",
-    --   event = "VeryLazy",
-    --   version = "*",
-    --   config = require("config.plugins.mini").setup,
-    -- },
+    {
+      "nvim-tree/nvim-tree.lua",
+      event = "User DeferFour",
+      config = require("config.plugins.nvim-tree").setup,
+    },
     {
       "neovim/nvim-lspconfig",
       event = "User DeferThree",
-      dependencies = {
-        -- "saghen/blink.cmp",
-        "williamboman/mason-lspconfig.nvim",
-        "williamboman/mason.nvim",
-      },
+      dependencies = { "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
       config = require("config.plugins.lsp").setup,
-    },
-    {
-      "folke/lazydev.nvim",
-      ft = "lua",
-      opts = {
-        library = {
-          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-        },
-      },
     },
     {
       "saghen/blink.cmp",
@@ -418,22 +408,6 @@ require("lazy").setup({
       dependencies = "rafamadriz/friendly-snippets",
       config = require("config.plugins.blink").setup,
     },
-    { lazy = true, "JoosepAlviste/nvim-ts-context-commentstring" },
-    {
-      "numToStr/Comment.nvim",
-      keys = {
-        { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
-        { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-        { "gbc", desc = "Comment toggle current block" },
-        { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
-        { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
-        { "gcc", desc = "Comment toggle current line" },
-      },
-      config = require("config.plugins.comment").setup,
-    },
-    ---
-    ---
-    ---
     {
       "nvim-pack/nvim-spectre",
       cmd = "Spectre",
@@ -464,9 +438,6 @@ require("lazy").setup({
       },
       config = require("config.plugins.grug-far").setup,
     },
-    ---
-    ---
-    ---
     {
       "johmsalas/text-case.nvim",
       enabled = false,
@@ -499,8 +470,6 @@ require("lazy").setup({
       "nvim-telescope/telescope.nvim",
       enabled = false,
       event = "User DeferOne",
-      -- cmd = { "Telescope", "CommandPalette" },
-      -- keys = { "<leader>a", "<leader>e", "<leader>f", "<leader>l" },
       dependencies = {
         "natecraddock/telescope-zf-native.nvim",
         "nvim-telescope/telescope-ui-select.nvim",
@@ -512,14 +481,6 @@ require("lazy").setup({
       cmd = { "FzfLua" },
       event = "User DeferThree",
       config = require("config.plugins.fzflua").setup,
-    },
-    ---
-    ---
-    ---
-    {
-      "nvim-tree/nvim-tree.lua",
-      event = "User DeferFour",
-      config = require("config.plugins.nvim-tree").setup,
     },
     ---
     ---

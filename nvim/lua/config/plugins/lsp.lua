@@ -1,19 +1,9 @@
 local M = {}
 
 M.setup = function()
-  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-  -- NOTE: using cmp
-  -- local capabilities = vim.tbl_deep_extend(
-  --   "force",
-  --   vim.lsp.protocol.make_client_capabilities(),
-  --   require("cmp_nvim_lsp").default_capabilities()
-  -- )
-
-  -- NOTE: using blink
   local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-  capabilities["workspace"] = {
+  capabilities.workspace = {
     didChangeWatchedFiles = { dynamicRegistration = false },
   }
 
@@ -30,7 +20,7 @@ M.setup = function()
     -- "cssmodules_ls",
     "dockerls",
     -- "emmet_language_server",
-    "eslint", -- TODO: should probably add the root util...
+    "eslint", -- NOTE: should probably add the root util...
     "gopls",
     "html",
     "jsonls",
@@ -74,23 +64,15 @@ M.setup = function()
 
   vim.cmd("hi! link MasonNormal Normal")
 
-  local on_attach = function(client, bufnr)
-    -- if client.server_capabilities.documentSymbolProvider then
-    --   navic.attach(client, bufnr)
-    -- end
-  end
-
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       require("lspconfig")[server_name].setup({
         capabilities = capabilities,
-        on_attach = on_attach,
       })
     end,
     ["cssls"] = function()
       require("lspconfig").cssls.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
           css = {
             lint = {
@@ -111,7 +93,6 @@ M.setup = function()
       -- NOTE: to add new schemas, find url here https://www.schemastore.org/json/
       require("lspconfig").jsonls.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
           json = {
             schemas = {
@@ -151,7 +132,6 @@ M.setup = function()
     ["gopls"] = function()
       require("lspconfig").gopls.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
           gopls = {
             analyses = {
@@ -166,7 +146,6 @@ M.setup = function()
     ["lua_ls"] = function()
       require("lspconfig").lua_ls.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
         settings = {
           Lua = {
             workspace = { checkThirdParty = false },
@@ -181,7 +160,6 @@ M.setup = function()
 
       require("lspconfig").ts_ls.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
         init_options = {
           preferences = {
             importModuleSpecifierPreference = "non-relative",
@@ -206,7 +184,6 @@ M.setup = function()
 
       require("lspconfig").volar.setup({
         capabilities = capabilities,
-        on_attach = on_attach,
         init_options = {
           vue = {
             hybridMode = false,
