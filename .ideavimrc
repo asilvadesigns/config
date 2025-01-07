@@ -1,0 +1,65 @@
+" plugins
+set exchange
+set highlightedyank
+set ideajoin
+set ignorecase
+set incsearch
+set multiple-cursors
+set surround
+set NERDTree
+
+" use system clipboard
+set clipboard+=unnamed
+
+" relative number line
+" set nu rnu
+
+" normal mode mappings
+let mapleader=","
+
+nnoremap <leader><space> :action ShowNavBar<cr>
+" nnoremap <leader>. :action CodeInsightEditorActions<cr>
+nnoremap <leader>t :action ShowIntentionActions<cr>
+nnoremap <leader>a :action GotoAction<cr>
+nnoremap <leader>b :action ShowBookmarks<cr>
+" nnoremap <leader>c :action GotoClass<cr>
+nnoremap <leader>e :action RecentFiles<cr>
+nnoremap <leader>f :action GotoFile<cr>
+nnoremap <leader>l :action RecentLocations<cr>
+nnoremap <leader>m :action ReformatCode<cr>
+nnoremap == :action ReformatWithPrettierAction<cr>
+nnoremap <leader>rn :action RenameElement<cr>
+nnoremap <leader>s :action SaveAll<cr>
+" nnoremap <leader>t :action ActivateTerminalToolWindow<cr>
+nnoremap <leader>u :action EmmetUpdateTag<cr>
+nnoremap <leader>j :action SelectInProjectView<cr>
+
+nnoremap ge :action ShowErrorDescription<cr>
+nnoremap gh :action QuickJavaDoc<cr>
+nnoremap gi :action GotoImplementation<cr>
+nnoremap gu :action ShowUsages<cr>
+
+nnoremap ]d :action GotoNextError<cr>
+nnoremap [d :action GoToPreviousError<cr>
+
+nnoremap <leader>ne :action GotoNextError<cr>
+nnoremap <leader>pe :action GotoPreviousError<cr>
+" nnoremap <leader>nc :action EmmetUpdateTag<cr>
+" nnoremap <leader>pc :action EmmetUpdateTag<cr>
+
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+
+nnoremap ; :action AceAction<CR>
+"nnoremap ; :action AceWordAction<CR>
+
+" insert mode mappings
+inoremap <c-h> <c-o>I
+inoremap <c-l> <c-o>A
+inoremap <c-u> <esc>v0c
+inoremap kj <esc>
+
+" visual mode mappings
+vnoremap A :action EditorAddCaretPerSelectedLine<cr>
