@@ -61,12 +61,12 @@ M.setup = function()
           -- StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
 
           -- NOTE: use if you want to have a global statusline
-          StatusLine = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
-          StatusLineNC = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
-          WDiagnosticSignError = { fg = c.red, bg = c.surface0 },
-          WDiagnosticSignHint = { fg = c.blue, bg = c.surface0 },
-          WDiagnosticSignInfo = { fg = c.teal, bg = c.surface0 },
-          WDiagnosticSignWarn = { fg = c.yellow, bg = c.surface0 },
+          StatusLine = { fg = c.overlay1, bg = c.base }, -- or c.surface0
+          StatusLineNC = { fg = c.overlay1, bg = c.base },
+          WDiagnosticSignError = { fg = c.red, bg = c.base },
+          WDiagnosticSignHint = { fg = c.blue, bg = c.base },
+          WDiagnosticSignInfo = { fg = c.teal, bg = c.base },
+          WDiagnosticSignWarn = { fg = c.yellow, bg = c.base },
 
           --
           WinBar = { fg = c.surface2 },

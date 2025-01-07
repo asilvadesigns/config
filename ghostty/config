@@ -2,7 +2,7 @@ theme = catppuccin-frappe
 
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 14
+font-size = 15
 adjust-cell-height = 30%
 
 # Window
@@ -11,6 +11,7 @@ adjust-cell-height = 30%
 # gtk-wide-tabs = false
 
 # tabs
+# hidden or transparent
 macos-titlebar-style = hidden
 # true
 window-decoration = false
