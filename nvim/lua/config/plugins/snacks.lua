@@ -61,6 +61,11 @@ M.setup = function()
       },
       refresh = 50, -- refresh at most every 50ms
     },
+    ---@class snacks.input.Config
+    input = {
+      enabled = false,
+      prompt_pos = ""
+    },
     ---@class snacks.scroll.Config
     -- scroll = {
     --   animate = {

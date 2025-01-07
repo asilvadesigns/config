@@ -1,36 +1,43 @@
--- ---@return string
--- local function get_tmux_panes()
---   -- Run the command and capture the output
---   local handle = io.popen("tmux list-panes | wc -l")
---   if handle ~= nil then
---     local result = handle:read("*a")
---     handle:close()
---     -- Trim any whitespace from the output
---     result = result:gsub("%s+", "")
---     return result
---   end
---
---   return ""
+_G.winbar_enabled = false
+-- if (_G.winbar_enabled) then
+--   vim.opt.winbar = " "
 -- end
-
+--
+--
 ---@param buf_id integer
+---@param highlight boolean
 ---@return string
-local function get_diagnostics(buf_id)
+local function get_diagnostics(buf_id, highlight)
   local d_count = vim.diagnostic.count(buf_id)
   local d_label = ""
   local square = vim.fn.nr2char(0x25aa)
 
-  if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
-    d_label = d_label .. " %#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
-  end
-  if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
-    d_label = d_label .. " %#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
-  end
-  if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
-    d_label = d_label .. " %#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
-  end
-  if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
-    d_label = d_label .. " %#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
+  if highlight then
+    if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
+      d_label = d_label .. " %#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
+    end
+    if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
+      d_label = d_label .. " %#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
+    end
+    if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
+      d_label = d_label .. " %#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
+    end
+    if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
+      d_label = d_label .. " %#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
+    end
+  else
+    if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
+      d_label = d_label .. " %#WDiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
+    end
+    if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
+      d_label = d_label .. " %#WDiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
+    end
+    if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
+      d_label = d_label .. " %#WDiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
+    end
+    if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
+      d_label = d_label .. " %#WDiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
+    end
   end
 
   return d_label
@@ -49,8 +56,9 @@ local function get_modified(buf_id)
 end
 
 ---@param buf_id integer
+---@param highlight boolean
 ---@return string
-local function get_filename(buf_id)
+local function get_filename(buf_id, highlight)
   local bufname = vim.api.nvim_buf_get_name(buf_id)
   local filename = vim.fn.fnamemodify(bufname, ":t")
   local filepath = vim.fn.fnamemodify(bufname, ":~:h")
@@ -64,12 +72,13 @@ local function get_filename(buf_id)
     return ""
   end
 
-  return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
+  if highlight then
+    return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
+  end
+
+  return filepath .. "/" .. filename
 end
 
----
----
----
 local function update_winbar(win_id)
   local buf_id = vim.api.nvim_win_get_buf(win_id)
   local win_config = vim.api.nvim_win_get_config(win_id)
@@ -81,22 +90,35 @@ local function update_winbar(win_id)
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
   else
     local new_winbar = " "
-      .. get_filename(buf_id)
+      .. get_filename(buf_id, true)
       .. " "
       .. get_modified(buf_id)
       .. " "
-      .. get_diagnostics(buf_id)
+      .. get_diagnostics(buf_id, true)
       .. "%*%#NonText# %=%l/%L %*"
 
     vim.api.nvim_set_option_value("winbar", new_winbar, { win = win_id })
   end
 end
 
+local function update_statusline(win_id)
+  local buf_id = vim.api.nvim_win_get_buf(win_id)
+
+  -- stylua: ignore start
+  local new_statusline = " "
+    .. get_filename(buf_id, false)
+    .. " "
+    .. get_diagnostics(buf_id, false)
+    .. "%=%l/%L"
+    .. " "
+  -- stylua: ignore end
+
+  vim.api.nvim_set_option_value("statusline", new_statusline, { win = win_id })
+end
+
 local function disable_winbar(win_id)
   vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
 end
-
-_G.winbar_enabled = true
 
 local RenderGroup = vim.api.nvim_create_augroup("update_winbar", { clear = true })
 
@@ -113,6 +135,10 @@ end, {})
 
 local function render()
   vim.schedule(function()
+    -- statusline
+    update_statusline(0)
+
+    -- winbar
     local status_ok, incline = pcall(require, "incline")
     if _G.winbar_enabled then
       if status_ok then

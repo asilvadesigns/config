@@ -3,6 +3,11 @@ local M = {}
 M.setup = function()
   local utils = require("catppuccin.utils.colors")
 
+  vim.api.nvim_set_hl(0, "WDiagnosticSignError", {})
+  vim.api.nvim_set_hl(0, "WDiagnosticSignHint", {})
+  vim.api.nvim_set_hl(0, "WDiagnosticSignInfo", {})
+  vim.api.nvim_set_hl(0, "WDiagnosticSignWarn", {})
+
   require("catppuccin").setup({
     integrations = {
       fzf = true,
@@ -47,16 +52,22 @@ M.setup = function()
           DiagnosticUnderlineHint = { sp = c.blue, underline = true },
           DiagnosticUnderlineInfo = { sp = c.teal, underline = true },
           DiagnosticUnderlineWarn = { sp = c.yellow, underline = true },
+
           TelescopeTitle = { fg = c.text },
           TelescopeNormal = { fg = c.subtext0 },
 
           -- NOTE: use if you want to have no statusline
-          StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
-          StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
+          -- StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
+          -- StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
 
           -- NOTE: use if you want to have a global statusline
-          -- StatusLine = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
-          -- StatusLineNC = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
+          StatusLine = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
+          StatusLineNC = { fg = c.overlay1, bg = c.surface0 }, -- was c.crust
+          WDiagnosticSignError = { fg = c.red, bg = c.surface0 },
+          WDiagnosticSignHint = { fg = c.blue, bg = c.surface0 },
+          WDiagnosticSignInfo = { fg = c.teal, bg = c.surface0 },
+          WDiagnosticSignWarn = { fg = c.yellow, bg = c.surface0 },
+
           --
           WinBar = { fg = c.surface2 },
           WinBarNC = { fg = c.surface2 },
@@ -78,6 +89,7 @@ M.setup = function()
 
   vim.cmd("hi! link FoldColumn LineNr")
   vim.cmd("hi! link NvimTreeIndentMarker WinSeparator")
+
   -- #TODO: you were going to use these to remove the underline
   -- NvimTreeDiagnosticHintIcon      ┃ 1┃NvimTreeDiagnosticHintIcon
   -- NvimTreeDiagnosticInfoIcon      ┃ 1┃NvimTreeDiagnosticInfoIcon

@@ -10,20 +10,14 @@ M.setup = function()
         cmdline = { icon = " ", lang = "vim", pattern = "^:", view = "cmdline" },
         search_down = { icon = "  ", kind = "search", lang = "regex", pattern = "^/" },
         search_up = { icon = "  ", kind = "search", lang = "regex", pattern = "^%?" },
+        input = { view = "cmdline_popup" },
         help = false,
-        input = false,
         lua = false,
       },
     },
-    messages = {
-      enabled = true,
-    },
-    notify = {
-      enabled = false,
-    },
-    popupmenu = {
-      enabled = true,
-    },
+    messages = { enabled = true },
+    notify = { enabled = false },
+    popupmenu = { enabled = true },
     lsp = {
       override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -38,9 +32,9 @@ M.setup = function()
       },
     },
     presets = {
-      --   bottom_search = false,
-      --   command_palette = false, -- position the cmdline and popupmenu together
-      --   -- long_message_to_split = true, -- long messages will be sent to a split
+      -- bottom_search = false,
+      -- command_palette = false, -- position the cmdline and popupmenu together
+      long_message_to_split = true, -- long messages will be sent to a split
       --   -- inc_rename = false, -- enables an input dialog for inc-rename.nvim
       lsp_doc_border = true, -- add a border to hover docs and signature help
     },
@@ -65,9 +59,6 @@ M.setup = function()
       },
     },
   })
-
-  -- vim.cmd("set cmdheight=0")
-  -- vim.opt.cmdheight = 0
 
   vim.keymap.set("n", "<leader>nd", ":NoiceDismiss<CR>", { noremap = true, silent = true })
 end

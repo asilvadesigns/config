@@ -7,23 +7,15 @@ local get_diagnostics = function(props)
   local square = vim.fn.nr2char(0x25aa)
 
   if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
-    -- table.insert(d_label, { " " .. d_count[vim.diagnostic.severity.ERROR], group = "DiagnosticSignError" })
-    -- table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.ERROR], group = "DiagnosticSignError" })
     table.insert(d_label, { square, group = "DiagnosticSignError" })
   end
   if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
-    -- table.insert(d_label, { " " .. d_count[vim.diagnostic.severity.HINT], group = "DiagnosticSignHint" })
-    -- table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.HINT], group = "DiagnosticSignHint" })
     table.insert(d_label, { square, group = "DiagnosticSignHint" })
   end
   if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
-    -- table.insert(d_label, { " " .. d_count[vim.diagnostic.severity.INFO], group = "DiagnosticSignInfo" })
-    -- table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.INFO], group = "DiagnosticSignInfo" })
     table.insert(d_label, { square, group = "DiagnosticSignInfo" })
   end
   if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
-    -- table.insert(d_label, { " " .. d_count[vim.diagnostic.severity.WARN], group = "DiagnosticSignWarn" })
-    -- table.insert(d_label, { " " .. square .. d_count[vim.diagnostic.severity.WARN], group = "DiagnosticSignWarn" })
     table.insert(d_label, { square, group = "DiagnosticSignWarn" })
   end
 
@@ -53,22 +45,9 @@ M.setup = function()
     },
     render = function(props)
       local diagnostics = get_diagnostics(props)
-      -- local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":p:."), group = "Comment" }
-
       local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t"), group = "Comment" }
-      -- local filetype = " " .. vim.api.nvim_get_option_value("filetype", { buf = props.buf })
 
-      -- local modified = { " 󰆓 ", group = "Comment" }
-      -- if vim.bo[props.buf].modified == true then
-      --   modified = { " 󰆓 ", group = "DiagnosticSignWarn" }
-      -- end
-
-      return {
-        diagnostics,
-        -- modified,
-        filename,
-        -- filetype,
-      }
+      return { diagnostics, filename }
     end,
   })
 

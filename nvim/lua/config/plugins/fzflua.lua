@@ -35,6 +35,7 @@ local commands = {
   ["Symbols (Workspace)"] = "FzfLua lsp_workspace_symbols",
   ["Symbols"] = "FzfLua lsp_document_symbols",
   ["Todos"] = "TodoFzfLua",
+  ["Toggle Color Picker"] = "ColorPickerToggle",
   ["Toggle Diagnostic Text"] = "ToggleDiagnosticText",
   ["Toggle Winbar"] = "ToggleWinbar",
   ["Trouble"] = "Trouble",

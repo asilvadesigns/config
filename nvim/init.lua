@@ -75,8 +75,8 @@ vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
-vim.opt.laststatus = 0
-vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
+vim.opt.laststatus = 3
+-- vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
 -- vim.o.statusline = "%{%v:lua.require'nvim-navic'.get_location()%}"
 -- vim.o.statusline = ""
 
@@ -324,7 +324,8 @@ require("lazy").setup({
     {
       "eero-lehtinen/oklch-color-picker.nvim",
       event = "User DeferFour",
-      opts = {},
+      cmd = { "ColorPickerToggle" },
+      config = require("config.plugins.color-picker").setup,
     },
     {
       "mfussenegger/nvim-lint",

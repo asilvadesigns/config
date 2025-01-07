@@ -7,6 +7,7 @@ M.setup = function()
     -- startInInsertMode = false,
     -- maxSearchMatches = 500,
     -- engine = "astgrep",
+    windowCreationCommand = "vsplit",
     resultsHighlight = false,
     inputsHighlight = false,
     keymaps = {
