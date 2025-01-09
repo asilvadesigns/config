@@ -37,6 +37,7 @@ local commands = {
   ["Todos"] = "TodoFzfLua",
   ["Toggle Color Picker"] = "ColorPickerToggle",
   ["Toggle Diagnostic Text"] = "ToggleDiagnosticText",
+  ["Toggle Statusline"] = "ToggleStatusline",
   ["Toggle Winbar"] = "ToggleWinbar",
   ["Trouble"] = "Trouble",
   ["Zen Mode (no neck pain)"] = "NoNeckPain",

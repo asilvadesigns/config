@@ -41,7 +41,7 @@ keybind = super+shift+r=reload_config
 keybind = super+shift+k=text:\x00k
 
 # tmux session | picker (window)
-keybind = super+p=text:\x00p
+# keybind = super+p=text:\x00p
 
 # tmux | toggle status bar
 keybind = super+shift+s=text:\x00S
@@ -57,6 +57,9 @@ keybind = super+d=text:\x00v
 
 # tmux split | horizontally
 keybind = super+shift+d=text:\x00s
+
+# tmux split | toggle terminal
+keybind = ctrl+`=text:\x00`
 
 # tmux pane | new
 keybind = super+t=text:\x00c

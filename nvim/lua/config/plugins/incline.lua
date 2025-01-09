@@ -19,9 +19,6 @@ local get_diagnostics = function(props)
     table.insert(d_label, { square, group = "DiagnosticSignWarn" })
   end
 
-  --- padding
-  table.insert(d_label, " ")
-
   return { d_label }
 end
 
@@ -44,10 +41,18 @@ M.setup = function()
       buftypes = {},
     },
     render = function(props)
-      local diagnostics = get_diagnostics(props)
-      local filename = { vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t"), group = "Comment" }
+      if _G.statusline_enabled then
+        local diagnostics = get_diagnostics(props)
+        return { diagnostics }
+      else
+        local diagnostics = get_diagnostics(props)
+        local filename = {
+          vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t"),
+          group = "Comment",
+        }
 
-      return { diagnostics, filename }
+        return { diagnostics, { " " }, filename }
+      end
     end,
   })
 

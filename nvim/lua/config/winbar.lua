@@ -1,9 +1,14 @@
+-- TODO: implement cache.
+_G.statusline_enabled = true
+if _G.statusline_enabled then
+  vim.opt.statusline = ""
+end
+
 _G.winbar_enabled = false
--- if (_G.winbar_enabled) then
---   vim.opt.winbar = " "
--- end
---
---
+if _G.winbar_enabled then
+  vim.opt.winbar = ""
+end
+
 ---@param buf_id integer
 ---@param highlight boolean
 ---@return string
@@ -79,7 +84,7 @@ local function get_filename(buf_id, highlight)
   return filepath .. "/" .. filename
 end
 
-local function update_winbar(win_id)
+local function enable_winbar(win_id)
   local buf_id = vim.api.nvim_win_get_buf(win_id)
   local win_config = vim.api.nvim_win_get_config(win_id)
 
@@ -101,7 +106,12 @@ local function update_winbar(win_id)
   end
 end
 
-local function update_statusline(win_id)
+local function disable_winbar(win_id)
+  vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
+end
+
+local function enable_statusline(win_id)
+  vim.opt.laststatus = 3
   local buf_id = vim.api.nvim_win_get_buf(win_id)
 
   -- stylua: ignore start
@@ -116,29 +126,23 @@ local function update_statusline(win_id)
   vim.api.nvim_set_option_value("statusline", new_statusline, { win = win_id })
 end
 
-local function disable_winbar(win_id)
-  vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
+local function disable_statusline(win_id)
+  vim.opt.laststatus = 0
+  vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(win_id))
 end
 
-local RenderGroup = vim.api.nvim_create_augroup("update_winbar", { clear = true })
-
-vim.api.nvim_create_autocmd("User", {
-  pattern = "RefreshWinbar",
-  group = RenderGroup,
-  callback = function() end,
-})
-
-vim.api.nvim_create_user_command("ToggleWinbar", function()
-  _G.winbar_enabled = not _G.winbar_enabled
-  vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
-end, {})
-
-local function render()
+local function render_statusline()
   vim.schedule(function()
-    -- statusline
-    update_statusline(0)
+    if _G.statusline_enabled then
+      enable_statusline(0)
+    else
+      disable_statusline(0)
+    end
+  end)
+end
 
-    -- winbar
+local function render_winbar()
+  vim.schedule(function()
     local status_ok, incline = pcall(require, "incline")
     if _G.winbar_enabled then
       if status_ok then
@@ -152,7 +156,7 @@ local function render()
 
     for _, win in ipairs(vim.api.nvim_list_wins()) do
       if _G.winbar_enabled then
-        update_winbar(win)
+        enable_winbar(win)
       else
         disable_winbar(win)
       end
@@ -160,13 +164,51 @@ local function render()
   end)
 end
 
-vim.api.nvim_create_autocmd({ "BufModifiedSet", "BufNewFile", "BufReadPre", "DiagnosticChanged", "TabClosed" }, {
+local RenderGroup = vim.api.nvim_create_augroup("update_group", { clear = true })
+
+--- Create Statusline autocmd and command
+vim.api.nvim_create_autocmd("User", {
+  pattern = "RefreshStatusline",
   group = RenderGroup,
-  callback = render,
+  callback = function() end,
 })
 
+vim.api.nvim_create_user_command("ToggleStatusline", function()
+  _G.statusline_enabled = not _G.statusline_enabled
+  vim.api.nvim_exec_autocmds("User", { pattern = "RefreshStatusline" })
+end, {})
+
+--- Create Winbar autocmd and command
+vim.api.nvim_create_autocmd("User", {
+  pattern = "RefreshWinbar",
+  group = RenderGroup,
+  callback = function() end,
+})
+
+vim.api.nvim_create_user_command("ToggleWinbar", function()
+  _G.winbar_enabled = not _G.winbar_enabled
+  vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
+end, {})
+
+--- Render Statusline and Winbar on autocmds...
+vim.api.nvim_create_autocmd({ "BufModifiedSet", "BufNewFile", "BufReadPre", "DiagnosticChanged", "TabClosed" }, {
+  group = RenderGroup,
+  callback = function()
+    render_statusline()
+    render_winbar()
+  end,
+})
+
+--- Render Statusline on vim.cmd("RefreshStatusline")
+vim.api.nvim_create_autocmd({ "User" }, {
+  group = RenderGroup,
+  pattern = "RefreshStatusline",
+  callback = render_statusline,
+})
+
+--- Render Winbar on vim.cmd("RefreshWinbar")
 vim.api.nvim_create_autocmd({ "User" }, {
   group = RenderGroup,
   pattern = "RefreshWinbar",
-  callback = render,
+  callback = render_winbar,
 })

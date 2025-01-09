@@ -75,14 +75,9 @@ vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
-vim.opt.laststatus = 3
--- vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(0))
--- vim.o.statusline = "%{%v:lua.require'nvim-navic'.get_location()%}"
--- vim.o.statusline = ""
 
 vim.opt.signcolumn = "yes"
 -- vim.optpt.statuscolumn = "%s %r "
--- vim.opt.winbar = " "
 ---
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
