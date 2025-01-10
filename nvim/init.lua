@@ -222,7 +222,7 @@ vim.diagnostic.config({
     --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
     -- },
   },
-  underline = true,
+  underline = false,
   virtual_text = false, -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
 })
 
@@ -622,7 +622,7 @@ require("lazy").setup({
         "getscriptPlugin",
         "gzip",
         "matchit",
-        "matchparen",
+        -- "matchparen",
         "netrwPlugin",
         "osc52",
         "remotePlugin",

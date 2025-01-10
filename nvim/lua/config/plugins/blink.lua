@@ -5,13 +5,19 @@ M.setup = function()
   require("blink.cmp").setup({
     keymap = {
       preset = "enter",
+      ["<C-y>"] = { "show", "show_documentation", "hide_documentation" },
       cmdline = {
         ["<CR>"] = { "accept", "fallback" },
-        ["<Tab>"] = { "select_next", "fallback" },
+        ["<Tab>"] = { "show", "select_next", "fallback" },
         ["<S-Tab>"] = { "select_prev", "fallback" },
       },
     },
     completion = {
+      trigger = {
+        show_on_insert_on_trigger_character = false,
+        show_on_keyword = false,
+        show_on_trigger_character = false,
+      },
       list = {
         selection = {
           preselect = function(ctx)
@@ -29,7 +35,7 @@ M.setup = function()
         },
       },
       documentation = {
-        auto_show = false,
+        auto_show = true,
       },
     },
     appearance = {

@@ -1,10 +1,12 @@
 local M = {}
 
-local get_diagnostics = function(props)
-  local d_label = {}
-  local d_count = vim.diagnostic.count(props.buf)
+local square = vim.fn.nr2char(0x25aa)
 
-  local square = vim.fn.nr2char(0x25aa)
+---@param bufnr integer
+---@return table<string>
+local function get_diagnostics(bufnr)
+  local d_label = {}
+  local d_count = vim.diagnostic.count(bufnr)
 
   if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
     table.insert(d_label, { square, group = "DiagnosticSignError" })
@@ -42,16 +44,23 @@ M.setup = function()
     },
     render = function(props)
       if _G.statusline_enabled then
-        local diagnostics = get_diagnostics(props)
-        return { diagnostics }
+        local diagnostics = get_diagnostics(props.buf)
+        local current = " "
+        if props.focused then
+          current = square
+        end
+        return { diagnostics, current }
       else
-        local diagnostics = get_diagnostics(props)
+        local diagnostics = get_diagnostics(props.buf)
         local filename = {
           vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t"),
           group = "Comment",
         }
-
-        return { diagnostics, { " " }, filename }
+        local current = " "
+        if props.focused then
+          current = square
+        end
+        return { diagnostics, { " " }, filename, current }
       end
     end,
   })
