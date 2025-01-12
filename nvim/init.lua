@@ -1,3 +1,17 @@
+if vim.env.PROF then
+  -- example for lazy.nvim
+  -- change this to the correct path for your plugin manager
+  local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
+  vim.opt.rtp:append(snacks)
+  require("snacks.profiler").startup({
+    startup = {
+      event = "VimEnter", -- stop profiler on this event. Defaults to `VimEnter`
+      -- event = "UIEnter",
+      -- event = "VeryLazy",
+    },
+  })
+end
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 ---@diagnostic disable-next-line: undefined-field
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -222,8 +236,9 @@ vim.diagnostic.config({
     --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
     -- },
   },
+  -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
   underline = false,
-  virtual_text = false, -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
+  virtual_text = true,
 })
 
 vim.filetype.add({
@@ -242,8 +257,46 @@ vim.filetype.add({
   },
 })
 
-require("config.autocmd")
-require("config.command")
+---
+--- Autocmds
+---
+vim.api.nvim_create_autocmd("VimResized", {
+  callback = function()
+    local current_tab = vim.fn.tabpagenr()
+    vim.cmd("tabdo wincmd =")
+    vim.cmd("tabnext " .. current_tab)
+  end,
+})
+
+---
+--- Commands
+---
+--- @param value string
+local function print_and_copy(value)
+  vim.cmd("call setreg('+', '" .. vim.fn.escape(value, "'") .. "')")
+  print("Copied: " .. value)
+end
+
+vim.api.nvim_create_user_command("CopyFiletype", function()
+  print_and_copy(vim.bo.filetype)
+end, {})
+
+vim.api.nvim_create_user_command("CopyAbsolutePath", function()
+  print_and_copy(vim.fn.expand("%:~p"))
+end, {})
+
+vim.api.nvim_create_user_command("CopyRelativePath", function()
+  print_and_copy(vim.fn.fnamemodify(vim.fn.expand("%"), ":~:."))
+end, {})
+
+vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
+  local config = vim.diagnostic.config()
+
+  if config ~= nil then
+    vim.diagnostic.config({ virtual_text = not config.virtual_text })
+  end
+end, {})
+
 require("config.winbar")
 
 ---@diagnostic disable-next-line: missing-fields
@@ -318,7 +371,7 @@ require("lazy").setup({
     },
     {
       "eero-lehtinen/oklch-color-picker.nvim",
-      event = "User DeferFour",
+      event = "VeryLazy", -- User DeferFour,
       cmd = { "ColorPickerToggle" },
       config = require("config.plugins.color-picker").setup,
     },
@@ -343,7 +396,7 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
-      event = "User DeferFour",
+      event = "VeryLazy", -- User DeferFour,
       config = require("config.plugins.oil").setup,
     },
     {
@@ -382,17 +435,17 @@ require("lazy").setup({
     },
     {
       "b0o/incline.nvim",
-      event = "User DeferTwo",
+      event = "VeryLazy", -- User DeferTwo,
       config = require("config.plugins.incline").setup,
     },
     {
       "nvim-tree/nvim-tree.lua",
-      event = "User DeferFour",
+      event = "VeryLazy", -- User DeferFour,
       config = require("config.plugins.nvim-tree").setup,
     },
     {
       "neovim/nvim-lspconfig",
-      event = "User DeferThree",
+      event = "VeryLazy", -- User DeferThree,
       dependencies = { "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
       config = require("config.plugins.lsp").setup,
     },
@@ -465,7 +518,7 @@ require("lazy").setup({
     {
       "nvim-telescope/telescope.nvim",
       enabled = false,
-      event = "User DeferOne",
+      event = "VeryLazy", -- User DeferOne,
       dependencies = {
         "natecraddock/telescope-zf-native.nvim",
         "nvim-telescope/telescope-ui-select.nvim",
@@ -475,7 +528,7 @@ require("lazy").setup({
     {
       "ibhagwan/fzf-lua",
       cmd = { "FzfLua" },
-      event = "User DeferThree",
+      event = "VeryLazy", -- User DeferThree,
       config = require("config.plugins.fzflua").setup,
     },
     ---
@@ -502,7 +555,7 @@ require("lazy").setup({
     ---
     {
       "akinsho/git-conflict.nvim",
-      event = "User DeferThree",
+      event = "VeryLazy", -- User DeferThree,
       version = "v2.1.0",
       cmd = {
         "GitConflictChooseBoth",
@@ -641,19 +694,3 @@ require("lazy").setup({
     border = "rounded", -- "rounded", "single"
   },
 })
-
-vim.defer_fn(function()
-  vim.api.nvim_exec_autocmds("User", { pattern = "DeferOne" })
-end, 100)
-
-vim.defer_fn(function()
-  vim.api.nvim_exec_autocmds("User", { pattern = "DeferTwo" })
-end, 200)
-
-vim.defer_fn(function()
-  vim.api.nvim_exec_autocmds("User", { pattern = "DeferThree" })
-end, 300)
-
-vim.defer_fn(function()
-  vim.api.nvim_exec_autocmds("User", { pattern = "DeferFour" })
-end, 400)

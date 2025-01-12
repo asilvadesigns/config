@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local signs = require("config.signs")
+  -- local signs = require("config.signs")
 
   local function my_on_attach(bufnr)
     local api = require("nvim-tree.api")
@@ -55,14 +55,14 @@ M.setup = function()
       },
     },
     diagnostics = {
-      enable = true,
-      show_on_dirs = true,
-      icons = {
-        hint = signs.diagnostics.Hint,
-        info = signs.diagnostics.Info,
-        warning = signs.diagnostics.Warn,
-        error = signs.diagnostics.Error,
-      },
+      enable = false,
+      show_on_dirs = false,
+      -- icons = {
+      --   hint = signs.diagnostics.Hint,
+      --   info = signs.diagnostics.Info,
+      --   warning = signs.diagnostics.Warn,
+      --   error = signs.diagnostics.Error,
+      -- },
     },
     filesystem_watchers = {
       ignore_dirs = {
@@ -77,7 +77,7 @@ M.setup = function()
       always_show_folders = false,
     },
     git = {
-      enable = true,
+      enable = false,
       ignore = false,
     },
     renderer = {

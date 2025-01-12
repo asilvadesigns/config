@@ -2,6 +2,10 @@ local M = {}
 
 M.setup = function()
   require("snacks").setup({
+    ---@class snacks.profiler.Config
+    profiler = {
+      enabled = true,
+    },
     ---@class snacks.indent.Config
     indent = {
       enabled = false,
@@ -82,6 +86,11 @@ M.setup = function()
     },
   })
 end
+
+-- -- Toggle the profiler
+-- Snacks.toggle.profiler():map("<leader>pp")
+-- -- Toggle the profiler highlights
+-- Snacks.toggle.profiler_highlights():map("<leader>ph")
 
 vim.cmd("hi! link SnacksIndent WinSeparator")
 

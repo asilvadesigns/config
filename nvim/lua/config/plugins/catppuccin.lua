@@ -89,20 +89,6 @@ M.setup = function()
 
   vim.cmd("hi! link FoldColumn LineNr")
   vim.cmd("hi! link NvimTreeIndentMarker WinSeparator")
-
-  -- #TODO: you were going to use these to remove the underline
-  -- NvimTreeDiagnosticHintIcon      ┃ 1┃NvimTreeDiagnosticHintIcon
-  -- NvimTreeDiagnosticInfoIcon      ┃ 1┃NvimTreeDiagnosticInfoIcon
-  -- NvimTreeDiagnosticWarnIcon      ┃ 1┃NvimTreeDiagnosticWarnIcon
-  -- NvimTreeDiagnosticErrorIcon     ┃ 1┃NvimTreeDiagnosticErrorIcon
-  -- NvimTreeDiagnosticHintFileHL    ┃ 1┃NvimTreeDiagnosticHintFileHL
-  -- NvimTreeDiagnosticInfoFileHL    ┃ 1┃NvimTreeDiagnosticInfoFileHL
-  -- NvimTreeDiagnosticWarnFileHL    ┃ 1┃NvimTreeDiagnosticWarnFileHL
-  -- NvimTreeDiagnosticErrorFileHL   ┃ 1┃NvimTreeDiagnosticErrorFileHL
-  -- NvimTreeDiagnosticHintFolderHL  ┃ 1┃NvimTreeDiagnosticHintFolderHL
-  -- NvimTreeDiagnosticInfoFolderHL  ┃ 1┃NvimTreeDiagnosticInfoFolderHL
-  -- NvimTreeDiagnosticWarnFolderHL  ┃ 1┃NvimTreeDiagnosticWarnFolderHL
-  -- NvimTreeDiagnosticErrorFolderHL ┃ 1┃NvimTreeDiagnosticErrorFolderHL
 end
 
 return M
