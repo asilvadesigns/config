@@ -1,10 +1,13 @@
--- TODO: implement cache.
-_G.statusline_enabled = true
+--- NOTE: when enabled, we show a full global status with diagnostics
+--- NOTE: when disabled, we hide any statusline
+_G.statusline_enabled = false
 if _G.statusline_enabled then
   vim.opt.statusline = ""
 end
 
-_G.winbar_enabled = false
+--- NOTE: when enabled, we show a full winbar per window with diagnostics
+--- NOTE: when disabled, we show the filename with incline with diagnostics
+_G.winbar_enabled = true
 if _G.winbar_enabled then
   vim.opt.winbar = ""
 end

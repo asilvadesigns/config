@@ -55,10 +55,10 @@ vim.opt.linebreak = false
 ---
 vim.opt.synmaxcol = 256
 ---
-vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.number = false
+vim.opt.relativenumber = false
 ---
-vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
+vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
@@ -90,8 +90,7 @@ vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
 
-vim.opt.signcolumn = "yes"
--- vim.optpt.statuscolumn = "%s %r "
+-- vim.opt.signcolumn = "yes"
 ---
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
@@ -222,20 +221,21 @@ end
 
 vim.diagnostic.config({
   float = { border = "rounded" },
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = signs.icons.square,
-      [vim.diagnostic.severity.HINT] = signs.icons.square,
-      [vim.diagnostic.severity.INFO] = signs.icons.square,
-      [vim.diagnostic.severity.WARN] = signs.icons.square,
-    },
-    -- numhl = {
-    --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-    --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-    --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-    --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-    -- },
-  },
+  signs = false,
+  -- {
+  --   text = {
+  --     [vim.diagnostic.severity.ERROR] = signs.icons.square,
+  --     [vim.diagnostic.severity.HINT] = signs.icons.square,
+  --     [vim.diagnostic.severity.INFO] = signs.icons.square,
+  --     [vim.diagnostic.severity.WARN] = signs.icons.square,
+  --   },
+  --   -- numhl = {
+  --   --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+  --   --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+  --   --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+  --   --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+  --   -- },
+  -- },
   -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
   underline = false,
   virtual_text = true,

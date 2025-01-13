@@ -3,7 +3,7 @@ theme = catppuccin-frappe
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 15
-adjust-cell-height = 30%
+# adjust-cell-height = 30%
 
 # Window
 # gtk-single-instance = true
