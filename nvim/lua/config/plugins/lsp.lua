@@ -51,7 +51,12 @@ M.setup = function()
     border = "rounded",
   })
 
-  -- local navic = require("nvim-navic")
+  vim.lsp.handlers["textDocument/definition"] = function(err, result, ctx, config)
+    vim.lsp.handlers["textDocument/definition"](err, result, ctx, config)
+    vim.defer_fn(function()
+      vim.cmd("normal! zz")
+    end, 10)
+  end
 
   require("mason").setup({
     ui = { border = "rounded" },

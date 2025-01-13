@@ -50,7 +50,7 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
 
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.linebreak = false
 ---
 vim.opt.synmaxcol = 256
@@ -197,13 +197,13 @@ set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result
 --
 --
 --
-set("n", "[d", vim.diagnostic.goto_prev, {
-  desc = "Go to previous diagnostic message",
-})
+set("n", "[d", function()
+  vim.diagnostic.jump({ count = -1, float = true })
+end, { desc = "Go to previous diagnostic message" })
 
-set("n", "]d", vim.diagnostic.goto_next, {
-  desc = "Go to next diagnostic message",
-})
+set("n", "]d", function()
+  vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = "Go to next diagnostic message" })
 
 set("n", "ge", vim.diagnostic.open_float, {
   desc = "Open diagnostic message",
@@ -354,6 +354,7 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
+      enabled = false,
       event = "VeryLazy",
       tag = "v0.2.1",
       config = require("config.plugins.modes").setup,
