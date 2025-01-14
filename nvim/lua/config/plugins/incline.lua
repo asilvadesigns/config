@@ -60,7 +60,7 @@ M.setup = function()
         if props.focused then
           current = square
         end
-        return { diagnostics, { " " }, filename, current }
+        return { diagnostics, current, { " " }, filename }
       end
     end,
   })

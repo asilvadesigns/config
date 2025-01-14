@@ -40,7 +40,7 @@ vim.schedule(function()
 end)
 
 vim.opt.conceallevel = 0
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.cmd(
   "set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175"
 )
@@ -353,19 +353,6 @@ require("lazy").setup({
       config = require("config.plugins.quicker").setup,
     },
     {
-      "mvllow/modes.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      tag = "v0.2.1",
-      config = require("config.plugins.modes").setup,
-    },
-    {
-      "sphamba/smear-cursor.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      config = require("config.plugins.smear-cursor").setup,
-    },
-    {
       "max397574/better-escape.nvim",
       event = "InsertEnter",
       config = require("config.plugins.better-escape").setup,
@@ -489,44 +476,6 @@ require("lazy").setup({
       config = require("config.plugins.grug-far").setup,
     },
     {
-      "johmsalas/text-case.nvim",
-      enabled = false,
-      dependencies = {
-        {
-          "nvim-telescope/telescope.nvim",
-          config = function()
-            require("telescope").load_extension("textcase")
-          end,
-        },
-      },
-      cmd = {
-        "TextCaseOpenTelescope",
-        "TextCaseOpenTelescopeQuickChange",
-        "TextCaseOpenTelescopeLSPChange",
-        "TextCaseStartReplacingCommand",
-      },
-      keys = {
-        "ga", -- Default invocation prefix
-        {
-          "ga.",
-          "<CMD>TextCaseOpenTelescope<CR>",
-          mode = { "n", "x" },
-          desc = "Telescope",
-        },
-      },
-      opts = {},
-    },
-    {
-      "nvim-telescope/telescope.nvim",
-      enabled = false,
-      event = "VeryLazy", -- User DeferOne,
-      dependencies = {
-        "natecraddock/telescope-zf-native.nvim",
-        "nvim-telescope/telescope-ui-select.nvim",
-      },
-      config = require("config.plugins.telescope").setup,
-    },
-    {
       "ibhagwan/fzf-lua",
       cmd = { "FzfLua" },
       event = "VeryLazy", -- User DeferThree,
@@ -590,15 +539,6 @@ require("lazy").setup({
       config = require("config.plugins.gitsigns").setup,
     },
     {
-      "lewis6991/satellite.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      config = require("config.plugins.satellite").setup,
-    },
-    ---
-    ---
-    ---
-    {
       "mrjones2014/smart-splits.nvim",
       keys = {
         -- stylua: ignore start
@@ -621,9 +561,84 @@ require("lazy").setup({
       },
       opts = {},
     },
+    {
+      "ggandor/leap.nvim",
+      keys = {
+        {
+          "s",
+          function()
+            require("leap").leap({
+              target_windows = require("leap.user").get_focusable_windows(),
+            })
+          end,
+          silent = true,
+        },
+      },
+      config = function()
+        vim.cmd("hi! link LeapBackdrop NvimContainer")
+        vim.cmd("hi! link LeapLabel @comment.warning")
+      end,
+    },
     ---
     ---
     ---
+    {
+      "lewis6991/satellite.nvim",
+      enabled = false,
+      event = "VeryLazy",
+      config = require("config.plugins.satellite").setup,
+    },
+    {
+      "johmsalas/text-case.nvim",
+      enabled = false,
+      dependencies = {
+        {
+          "nvim-telescope/telescope.nvim",
+          config = function()
+            require("telescope").load_extension("textcase")
+          end,
+        },
+      },
+      cmd = {
+        "TextCaseOpenTelescope",
+        "TextCaseOpenTelescopeQuickChange",
+        "TextCaseOpenTelescopeLSPChange",
+        "TextCaseStartReplacingCommand",
+      },
+      keys = {
+        "ga", -- Default invocation prefix
+        {
+          "ga.",
+          "<CMD>TextCaseOpenTelescope<CR>",
+          mode = { "n", "x" },
+          desc = "Telescope",
+        },
+      },
+      opts = {},
+    },
+    {
+      "nvim-telescope/telescope.nvim",
+      enabled = false,
+      event = "VeryLazy", -- User DeferOne,
+      dependencies = {
+        "natecraddock/telescope-zf-native.nvim",
+        "nvim-telescope/telescope-ui-select.nvim",
+      },
+      config = require("config.plugins.telescope").setup,
+    },
+    {
+      "mvllow/modes.nvim",
+      enabled = false,
+      event = "VeryLazy",
+      tag = "v0.2.1",
+      config = require("config.plugins.modes").setup,
+    },
+    {
+      "sphamba/smear-cursor.nvim",
+      enabled = false,
+      event = "VeryLazy",
+      config = require("config.plugins.smear-cursor").setup,
+    },
     {
       "folke/which-key.nvim",
       enabled = false,
@@ -648,24 +663,6 @@ require("lazy").setup({
     ---
     ---
     ---
-    {
-      "ggandor/leap.nvim",
-      keys = {
-        {
-          "s",
-          function()
-            require("leap").leap({
-              target_windows = require("leap.user").get_focusable_windows(),
-            })
-          end,
-          silent = true,
-        },
-      },
-      config = function()
-        vim.cmd("hi! link LeapBackdrop NvimContainer")
-        vim.cmd("hi! link LeapLabel @comment.warning")
-      end,
-    },
   },
   rocks = {
     enabled = false,

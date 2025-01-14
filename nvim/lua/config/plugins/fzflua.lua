@@ -138,7 +138,7 @@ M.setup = function()
     files = { previewer = false, git_icons = false },
     grep = { git_icons = false },
     highlights = { previewer = true },
-    lsp = { git_icons = false, cwd_only = true },
+    lsp = { git_icons = false, cwd_only = false },
     oldfiles = { previewer = false, cwd_only = true, include_current_session = true },
     quickfix = { git_icons = false },
     tags = { git_icons = false },

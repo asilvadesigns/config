@@ -1,13 +1,13 @@
 --- NOTE: when enabled, we show a full global status with diagnostics
 --- NOTE: when disabled, we hide any statusline
-_G.statusline_enabled = false
+_G.statusline_enabled = true
 if _G.statusline_enabled then
   vim.opt.statusline = ""
 end
 
 --- NOTE: when enabled, we show a full winbar per window with diagnostics
 --- NOTE: when disabled, we show the filename with incline with diagnostics
-_G.winbar_enabled = true
+_G.winbar_enabled = false
 if _G.winbar_enabled then
   vim.opt.winbar = ""
 end
@@ -64,12 +64,12 @@ local function get_modified(buf_id)
 end
 
 ---@param buf_id integer
----@param highlight boolean
+---@param isolate_filename boolean
 ---@return string
-local function get_filename(buf_id, highlight)
+local function get_filename(buf_id, isolate_filename)
   local bufname = vim.api.nvim_buf_get_name(buf_id)
+  local filepath = vim.fn.fnamemodify(bufname, ":p")
   local filename = vim.fn.fnamemodify(bufname, ":t")
-  local filepath = vim.fn.fnamemodify(bufname, ":~:h")
   local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
 
   if filetype == "oil" then
@@ -80,11 +80,11 @@ local function get_filename(buf_id, highlight)
     return ""
   end
 
-  if highlight then
+  if isolate_filename then
     return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
   end
 
-  return filepath .. "/" .. filename
+  return vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. "/" .. vim.fn.fnamemodify(bufname, ":.")
 end
 
 local function enable_winbar(win_id)
@@ -103,7 +103,7 @@ local function enable_winbar(win_id)
       .. get_modified(buf_id)
       .. " "
       .. get_diagnostics(buf_id, true)
-      .. "%*%#NonText# %=%l/%L %*"
+      .. "%*%#NonText# %=%l/%L:%c %*"
 
     vim.api.nvim_set_option_value("winbar", new_winbar, { win = win_id })
   end
@@ -122,7 +122,7 @@ local function enable_statusline(win_id)
     .. get_filename(buf_id, false)
     .. " "
     .. get_diagnostics(buf_id, false)
-    .. "%=%l/%L"
+    .. "%=%l/%L:%c"
     .. " "
   -- stylua: ignore end
 

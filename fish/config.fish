@@ -50,9 +50,10 @@ bind p fish_clipboard_paste
 # --color=border:#e6e9ef"
 set -gx FZF_DEFAULT_OPTS "--color=border:blue,bg+:-1"
 
-# c
+# c && c++
 set -gx CPATH "/opt/homebrew/include"
 set -gx LIBRARY_PATH "/opt/homebrew/lib"
+set -gx PATH "/usr/local/include" $PATH;
 
 # go
 set -gx GOPATH "$HOME/go"

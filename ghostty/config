@@ -4,6 +4,10 @@ theme = catppuccin-frappe
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 15
 adjust-cell-height = 10%
+# disable ligatures
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
 
 # Window
 # gtk-single-instance = true

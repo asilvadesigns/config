@@ -39,6 +39,12 @@ M.setup = function()
         }
       end,
       all = function(c)
+        -- local statusline_bg = c.base
+        -- local statusline_fg = c.surface0
+        --
+        local statusline_bg = c.surface0
+        local statusline_fg = c.overlay1
+
         return {
           FloatBorder = { bg = c.base, fg = c.overlay0 },
           Folded = { bg = c.base },
@@ -56,17 +62,13 @@ M.setup = function()
           TelescopeTitle = { fg = c.text },
           TelescopeNormal = { fg = c.subtext0 },
 
-          -- NOTE: use if you want to have no statusline
-          -- StatusLine = { fg = c.surface0, bg = c.base }, -- was c.crust
-          -- StatusLineNC = { fg = c.surface0, bg = c.base }, -- was c.crust
+          StatusLine = { fg = statusline_fg, bg = statusline_bg },
+          StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
 
-          -- NOTE: use if you want to have a global statusline
-          StatusLine = { fg = c.overlay1, bg = c.base }, -- or c.surface0
-          StatusLineNC = { fg = c.overlay1, bg = c.base },
-          WDiagnosticSignError = { fg = c.red, bg = c.base },
-          WDiagnosticSignHint = { fg = c.blue, bg = c.base },
-          WDiagnosticSignInfo = { fg = c.teal, bg = c.base },
-          WDiagnosticSignWarn = { fg = c.yellow, bg = c.base },
+          WDiagnosticSignError = { fg = c.red, bg = statusline_bg },
+          WDiagnosticSignHint = { fg = c.blue, bg = statusline_bg },
+          WDiagnosticSignInfo = { fg = c.teal, bg = statusline_bg },
+          WDiagnosticSignWarn = { fg = c.yellow, bg = statusline_bg },
 
           --
           WinBar = { fg = c.surface2 },

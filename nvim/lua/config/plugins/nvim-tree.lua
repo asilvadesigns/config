@@ -134,7 +134,7 @@ M.setup = function()
       },
     },
     update_focused_file = {
-      enable = false, -- just use <leader>j for this, see below
+      enable = true, -- just use <leader>j for this, see below
       update_root = {
         enable = false,
         ignore_list = {},
