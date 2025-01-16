@@ -438,6 +438,13 @@ require("lazy").setup({
       config = require("config.plugins.lsp").setup,
     },
     {
+      "wurli/visimatch.nvim",
+      event = "CursorMoved",
+      opts = {
+        chars_lower_limit = 3,
+      },
+    },
+    {
       "saghen/blink.cmp",
       version = "*",
       event = { "CmdlineEnter", "InsertEnter" },
@@ -449,7 +456,7 @@ require("lazy").setup({
       "nvim-pack/nvim-spectre",
       cmd = "Spectre",
       keys = {
-        { "F", "<CMD>Spectre<CR>", desc = "Find", mode = "n" },
+        -- { "F", "<CMD>Spectre<CR>", desc = "Find", mode = "n" },
         { "f", ":lua require('spectre').open_visual()<CR>", desc = "Find selected", mode = "v" },
       },
       config = require("config.plugins.spectre").setup,
@@ -481,9 +488,6 @@ require("lazy").setup({
       event = "VeryLazy", -- User DeferThree,
       config = require("config.plugins.fzflua").setup,
     },
-    ---
-    ---
-    ---
     {
       "Wansmer/treesj",
       keys = {

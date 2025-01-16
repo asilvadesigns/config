@@ -131,15 +131,15 @@ M.setup = function()
     ---pickers
     blines = { previewer = false },
     btags = { git_icons = false },
-    buffers = { cwd_only = true },
+    buffers = { formatter = "path.filename_first", cwd_only = true },
     commands = { previewer = false },
     complete_file = { previewer = false, git_icons = false },
     diagnostics = { git_icons = false, cwd_only = true },
-    files = { previewer = false, git_icons = false },
+    files = { formatter = "path.filename_first", previewer = false, git_icons = false },
     grep = { git_icons = false },
     highlights = { previewer = true },
     lsp = { git_icons = false, cwd_only = false },
-    oldfiles = { previewer = false, cwd_only = true, include_current_session = true },
+    oldfiles = { formatter = "path.filename_first", previewer = false, cwd_only = true, include_current_session = true },
     quickfix = { git_icons = false },
     tags = { git_icons = false },
   })

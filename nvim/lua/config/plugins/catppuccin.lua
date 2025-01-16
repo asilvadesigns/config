@@ -55,8 +55,8 @@ M.setup = function()
           --
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
           DiagnosticUnderlineError = { sp = c.red, underline = true },
-          DiagnosticUnderlineHint = { sp = c.blue, underline = true },
-          DiagnosticUnderlineInfo = { sp = c.teal, underline = true },
+          DiagnosticUnderlineHint = { sp = c.teal, underline = true },
+          DiagnosticUnderlineInfo = { sp = c.blue, underline = true },
           DiagnosticUnderlineWarn = { sp = c.yellow, underline = true },
 
           TelescopeTitle = { fg = c.text },
@@ -66,8 +66,8 @@ M.setup = function()
           StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
 
           WDiagnosticSignError = { fg = c.red, bg = statusline_bg },
-          WDiagnosticSignHint = { fg = c.blue, bg = statusline_bg },
-          WDiagnosticSignInfo = { fg = c.teal, bg = statusline_bg },
+          WDiagnosticSignHint = { fg = c.teal, bg = statusline_bg },
+          WDiagnosticSignInfo = { fg = c.blue, bg = statusline_bg },
           WDiagnosticSignWarn = { fg = c.yellow, bg = statusline_bg },
 
           --

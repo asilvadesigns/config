@@ -8,16 +8,11 @@ M.setup = function()
     },
     ---@class snacks.indent.Config
     indent = {
-      enabled = false,
+      enabled = true,
       only_current = true,
-      scope = {
-        enabled = false,
-        animate = { enabled = false },
-      },
-      chunk = {
-        enabled = false,
-        animate = { enabled = false },
-      },
+      animate = { enabled = false },
+      chunk = { enabled = false },
+      scope = { enabled = false },
     },
     ---@class snacks.bigfile.Config
     bigfile = {

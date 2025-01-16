@@ -64,11 +64,10 @@ local function get_modified(buf_id)
 end
 
 ---@param buf_id integer
----@param isolate_filename boolean
+---@param uniquely_highlight_filename boolean
 ---@return string
-local function get_filename(buf_id, isolate_filename)
+local function get_filename(buf_id, uniquely_highlight_filename)
   local bufname = vim.api.nvim_buf_get_name(buf_id)
-  local filepath = vim.fn.fnamemodify(bufname, ":p")
   local filename = vim.fn.fnamemodify(bufname, ":t")
   local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
 
@@ -80,11 +79,34 @@ local function get_filename(buf_id, isolate_filename)
     return ""
   end
 
-  if isolate_filename then
-    return "%*%#NonText#" .. filepath .. "/" .. "%*%#Normal#" .. filename .. "%*"
+  local path_of_cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+  local path_of_buf_with_filename = vim.fn.fnamemodify(bufname, ":.")
+  local path_of_buf_with_no_filename = string.gsub(path_of_buf_with_filename, filename, "")
+
+  local icon, icon_highlight, colored_icon = "", "", ""
+  local devicons = require("nvim-web-devicons")
+  if devicons.has_loaded() then
+    icon, icon_highlight = devicons.get_icon_by_filetype(filetype)
   end
 
-  return vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. "/" .. vim.fn.fnamemodify(bufname, ":.")
+  if icon then
+    colored_icon = string.format(" %%#%s#%s%%*", icon_highlight, icon)
+  end
+
+  if uniquely_highlight_filename then
+    return "%*"
+      .. "%#NonText#"
+      .. path_of_cwd
+      .. "/"
+      .. path_of_buf_with_no_filename
+      .. "%*"
+      .. "%#Normal#"
+      .. filename
+      .. "%*"
+      .. colored_icon
+  end
+
+  return path_of_cwd .. "/" .. path_of_buf_with_filename .. "%*" .. colored_icon
 end
 
 local function enable_winbar(win_id)
@@ -117,14 +139,12 @@ local function enable_statusline(win_id)
   vim.opt.laststatus = 3
   local buf_id = vim.api.nvim_win_get_buf(win_id)
 
-  -- stylua: ignore start
   local new_statusline = " "
     .. get_filename(buf_id, false)
     .. " "
     .. get_diagnostics(buf_id, false)
     .. "%=%l/%L:%c"
     .. " "
-  -- stylua: ignore end
 
   vim.api.nvim_set_option_value("statusline", new_statusline, { win = win_id })
 end
