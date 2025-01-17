@@ -125,7 +125,7 @@ local function enable_winbar(win_id)
       .. get_modified(buf_id)
       .. " "
       .. get_diagnostics(buf_id, true)
-      .. "%*%#NonText# %=%l/%L:%c %*"
+      .. "%*%#NonText# %=󰆤 %l/%L:%c %*"
 
     vim.api.nvim_set_option_value("winbar", new_winbar, { win = win_id })
   end
@@ -137,16 +137,24 @@ end
 
 local function enable_statusline(win_id)
   vim.opt.laststatus = 3
+
   local buf_id = vim.api.nvim_win_get_buf(win_id)
+  local win_config = vim.api.nvim_win_get_config(win_id)
 
-  local new_statusline = " "
-    .. get_filename(buf_id, false)
-    .. " "
-    .. get_diagnostics(buf_id, false)
-    .. "%=%l/%L:%c"
-    .. " "
+  local filetype = vim.bo[buf_id].filetype
+  local is_floating = win_config.relative ~= ""
 
-  vim.api.nvim_set_option_value("statusline", new_statusline, { win = win_id })
+  if is_floating or filetype == "NvimTree" or filetype == "toggleterm" or filetype == "snacks_dashboard" then
+    vim.api.nvim_set_option_value("statusline", nil, { win = win_id })
+  else
+    local new_statusline = " "
+      .. get_filename(buf_id, false)
+      .. " "
+      .. get_diagnostics(buf_id, false)
+      .. "%=󰆤 %l/%L:%c"
+      .. " "
+    vim.api.nvim_set_option_value("statusline", new_statusline, { win = win_id })
+  end
 end
 
 local function disable_statusline(win_id)

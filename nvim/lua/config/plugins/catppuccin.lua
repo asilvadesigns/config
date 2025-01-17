@@ -24,7 +24,7 @@ M.setup = function()
         return {
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
-          CursorLineNr = { bg = bg, fg = c.muave }, -- or c.muave
+          CursorLineNr = { bg = bg, fg = c.mauve }, -- or c.muave
           CursorLineSign = { bg = bg },
         }
       end,
@@ -34,7 +34,7 @@ M.setup = function()
         return {
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
-          CursorLineNr = { bg = bg, fg = c.muave }, -- or c.overlay2
+          CursorLineNr = { bg = bg, fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },
         }
       end,
@@ -46,6 +46,7 @@ M.setup = function()
         local statusline_fg = c.overlay1
 
         return {
+          ["@variable.builtin"] = { fg = c.mauve },
           FloatBorder = { bg = c.base, fg = c.overlay0 },
           Folded = { bg = c.base },
           NormalFloat = { bg = c.base },
@@ -76,9 +77,11 @@ M.setup = function()
           --
           WinSeparator = { fg = c.surface0 },
 
+          NvimTreeExecFile = { fg = c.overlay1 },
           NvimTreeFolderName = { fg = c.subtext0 },
-          NvimTreeOpenedFolderName = { fg = c.subtext0 },
           NvimTreeNormal = { fg = c.overlay1, bg = c.base },
+          NvimTreeOpenedFolderName = { fg = c.subtext0 },
+          NvimTreeSpecialFile = { fg = c.overlay1 },
         }
       end,
     },

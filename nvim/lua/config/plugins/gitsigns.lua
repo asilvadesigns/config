@@ -22,6 +22,7 @@ M.setup = function()
     numhl = false,
     current_line_blame_opts = {
       ignore_whitespace = true,
+      delay = 200, --default 1000
     },
     preview_config = {
       -- Options passed to nvim_open_win

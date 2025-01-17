@@ -29,6 +29,7 @@ local formatter_data = {
 M.setup = function()
   require("conform").setup({
     formatters_by_ft = {
+      c = { "clang-format" },
       css = { "biome-check", "prettier", "stylelint" },
       go = { "goimports", "gofmt" },
       html = { "htmlbeautifier", "prettier" },

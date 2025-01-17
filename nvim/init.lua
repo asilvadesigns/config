@@ -50,7 +50,7 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
 
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.linebreak = false
 ---
 vim.opt.synmaxcol = 256
@@ -484,6 +484,7 @@ require("lazy").setup({
     },
     {
       "ibhagwan/fzf-lua",
+      enabled = false,
       cmd = { "FzfLua" },
       event = "VeryLazy", -- User DeferThree,
       config = require("config.plugins.fzflua").setup,

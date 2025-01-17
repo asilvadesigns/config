@@ -1,7 +1,107 @@
 local M = {}
 
+---@class PaletteEntry
+---@field text string
+---@field cmd string | fun(): nil
+---@type table<string, PaletteEntry>
+local palette_items = {
+  {
+    text = "Commands",
+    cmd = function()
+      Snacks.picker.commands()
+    end,
+  },
+  { text = "Copy file path (Absolute)", cmd = "CopyAbsolutePath" },
+  { text = "Copy file path (Relative)", cmd = "CopyRelativePath" },
+  { text = "Copy filetype", cmd = "CopyFiletype" },
+  { text = "Diagnostics", cmd = "Trouble diagnostics" },
+  { text = "Format (Biome)", cmd = "FormatWithBiome" },
+  { text = "Format (Prettier)", cmd = "FormatWithPrettier" },
+  { text = "Format (default)", cmd = "Format" },
+  { text = "Git (Fugitive)", cmd = "Git" },
+  { text = "Git (Neogit)", cmd = "Neogit" },
+  {
+    text = "Help",
+    cmd = function()
+      Snacks.picker.help()
+    end,
+  },
+  {
+    text = "Highlights",
+    cmd = function()
+      Snacks.picker.highlights()
+    end,
+  },
+  {
+    text = "Keymaps",
+    cmd = function()
+      Snacks.picker.keymaps()
+    end,
+  },
+  { text = "Lazy", cmd = "Lazy" },
+  { text = "Lint (Biome)", cmd = "LintWithBiome" },
+  { text = "Lint (EsLint)", cmd = "LintWithPrettier" },
+  { text = "Lint (default)", cmd = "Lint" },
+  { text = "Mason", cmd = "Mason" },
+  { text = "Markdown Preview", cmd = "MarkdownPreviewToggle" },
+  { text = "Remove All Marks", cmd = "delm! | delm A-Z0-9" },
+  { text = "Remove Other Buffers", cmd = "only|bd|e#" },
+  { text = "Rename File", cmd = "RenameFile" },
+  { text = "Restart LSP", cmd = "LspRestart" },
+  { text = "Search (global)", cmd = "GrugFar" },
+  { text = "Search (local)", cmd = "GrugFarLocal" },
+  { text = "Search", cmd = "Spectre" },
+  {
+    text = "Symbols",
+    cmd = function()
+      Snacks.picker.lsp_symbols()
+    end,
+  },
+  { text = "Todos", cmd = "TodoFzfLua" },
+  { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
+  { text = "Toggle Diagnostic Text", cmd = "ToggleDiagnosticText" },
+  { text = "Toggle Statusline", cmd = "ToggleStatusline" },
+  { text = "Toggle Winbar", cmd = "ToggleWinbar" },
+  { text = "Trouble", cmd = "Trouble" },
+  { text = "Zen Mode (no neck pain)", cmd = "NoNeckPain" },
+}
+
 M.setup = function()
   require("snacks").setup({
+    ---@class snacks.picker.Config
+    picker = {
+      enabled = true,
+      layout = {
+        layout = { backdrop = false, box = "vertical" },
+        preview = false,
+        reverse = false,
+      },
+      sources = {
+        ["command_palette"] = {
+          format = "text",
+          items = palette_items,
+          confirm = function(picker, item)
+            local cmd = item.cmd
+            if type(cmd) == "function" then
+              cmd()
+            elseif type(cmd) == "string" then
+              vim.cmd(cmd)
+            end
+            picker:close()
+          end,
+        },
+      },
+      ui_select = true,
+      win = {
+        input = {
+          keys = {
+            ["<C-c>"] = { "close" },
+            ["<Esc>"] = { "close", mode = { "n", "i" } },
+            ["<c-u>"] = { "list_scroll_up", mode = { "n" } },
+          },
+        },
+      },
+    },
     ---@class snacks.profiler.Config
     profiler = {
       enabled = true,
@@ -88,5 +188,34 @@ end
 -- Snacks.toggle.profiler_highlights():map("<leader>ph")
 
 vim.cmd("hi! link SnacksIndent WinSeparator")
+
+vim.keymap.set("n", "<leader>a", function()
+  ---@diagnostic disable-next-line: undefined-field
+  Snacks.picker.command_palette()
+end, { desc = "Fuzzy actions" })
+
+vim.keymap.set("n", "<leader>b", function()
+  Snacks.picker.buffers()
+end, { desc = "Fuzzy buffers" })
+
+vim.keymap.set("n", "<leader>e", function()
+  Snacks.picker.recent()
+end, { desc = "Fuzzy oldfiles" })
+
+vim.keymap.set("n", "<leader>;", function()
+  Snacks.picker.resume()
+end, { desc = "Fuzzy resume" })
+
+vim.keymap.set("n", "<leader>f", function()
+  Snacks.picker.files()
+end, { desc = "Fuzzy files" })
+
+vim.keymap.set("n", "<leader>g", function()
+  Snacks.picker.grep()
+end, { desc = "Fuzzy grep" })
+
+vim.keymap.set("n", "<leader>l", function()
+  Snacks.picker.lines()
+end, { desc = "Fuzzy buffer lines" })
 
 return M
