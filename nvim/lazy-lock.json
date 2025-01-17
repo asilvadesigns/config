@@ -41,7 +41,7 @@
   "satellite.nvim": { "branch": "main", "commit": "bce591cb5e379bd989623993c604c774633e7ed9" },
   "smart-splits.nvim": { "branch": "master", "commit": "7266722346df921535ca3f317164a62069436b7c" },
   "smear-cursor.nvim": { "branch": "main", "commit": "051fe67e0081da273e07cd33ab8357d6b720f08f" },
-  "snacks.nvim": { "branch": "main", "commit": "790447f3ad7e81473915fcd9a4db714ef55380b7" },
+  "snacks.nvim": { "branch": "main", "commit": "cb845408dbc795582ea1567fba2bf4ba64c777ac" },
   "substitute.nvim": { "branch": "main", "commit": "97f49d16f8eea7967d41db4f657dd63af53eeba1" },
   "telescope.nvim": { "branch": "master", "commit": "2eca9ba22002184ac05eddbe47a7fe2d5a384dfc" },
   "text-case.nvim": { "branch": "main", "commit": "e898cfd46fa6cde0e83abb624a16e67d2ffc6457" },
