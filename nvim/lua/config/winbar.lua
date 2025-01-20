@@ -89,9 +89,9 @@ local function get_filename(buf_id, uniquely_highlight_filename)
     icon, icon_highlight = devicons.get_icon_by_filetype(filetype)
   end
 
-  if icon then
-    colored_icon = string.format(" %%#%s#%s%%*", icon_highlight, icon)
-  end
+  -- if icon then
+  --   colored_icon = string.format(" %%#%s#%s%%*", icon_highlight, icon)
+  -- end
 
   if uniquely_highlight_filename then
     return "%*"
@@ -102,11 +102,13 @@ local function get_filename(buf_id, uniquely_highlight_filename)
       .. "%*"
       .. "%#Normal#"
       .. filename
-      .. "%*"
-      .. colored_icon
+      .. "%* "
+      .. icon
+      -- .. colored_icon
   end
 
-  return path_of_cwd .. "/" .. path_of_buf_with_filename .. "%*" .. colored_icon
+  -- return path_of_cwd .. "/" .. path_of_buf_with_filename .. "%*" .. colored_icon
+  return path_of_cwd .. "/" .. path_of_buf_with_filename .. "%* " .. icon
 end
 
 local function enable_winbar(win_id)
@@ -135,6 +137,8 @@ local function disable_winbar(win_id)
   vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
 end
 
+local last_status = ""
+
 local function enable_statusline(win_id)
   vim.opt.laststatus = 3
 
@@ -145,7 +149,8 @@ local function enable_statusline(win_id)
   local is_floating = win_config.relative ~= ""
 
   if is_floating or filetype == "NvimTree" or filetype == "toggleterm" or filetype == "snacks_dashboard" then
-    vim.api.nvim_set_option_value("statusline", nil, { win = win_id })
+    vim.api.nvim_set_option_value("statusline", last_status, { win = win_id })
+    return
   else
     local new_statusline = " "
       .. get_filename(buf_id, false)
@@ -153,7 +158,8 @@ local function enable_statusline(win_id)
       .. get_diagnostics(buf_id, false)
       .. "%=󰆤 %l/%L:%c"
       .. " "
-    vim.api.nvim_set_option_value("statusline", new_statusline, { win = win_id })
+    last_status = new_statusline
+    vim.api.nvim_set_option_value("statusline", last_status, { win = win_id })
   end
 end
 

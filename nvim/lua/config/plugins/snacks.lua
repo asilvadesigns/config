@@ -72,8 +72,7 @@ M.setup = function()
     picker = {
       enabled = true,
       layout = {
-        layout = { backdrop = false, box = "vertical" },
-        preview = false,
+        preset = "dropdown", ---{ backdrop = false, box = "vertical" },
         reverse = false,
       },
       sources = {
@@ -108,11 +107,11 @@ M.setup = function()
     },
     ---@class snacks.indent.Config
     indent = {
-      enabled = true,
+      enabled = false,
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
-      scope = { enabled = false },
+      scope = { enabled = true },
     },
     ---@class snacks.bigfile.Config
     bigfile = {
@@ -214,8 +213,17 @@ vim.keymap.set("n", "<leader>g", function()
   Snacks.picker.grep()
 end, { desc = "Fuzzy grep" })
 
+vim.keymap.set("n", "<leader>p", function()
+  Snacks.picker.projects()
+end, { desc = "Fuzzy projects" })
+
 vim.keymap.set("n", "<leader>l", function()
-  Snacks.picker.lines()
+  Snacks.picker.lines({
+    layout = {
+      preset = "dropdown",
+      reverse = false,
+    },
+  })
 end, { desc = "Fuzzy buffer lines" })
 
 return M
