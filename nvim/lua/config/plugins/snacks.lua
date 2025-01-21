@@ -5,12 +5,7 @@ local M = {}
 ---@field cmd string | fun(): nil
 ---@type table<string, PaletteEntry>
 local palette_items = {
-  {
-    text = "Commands",
-    cmd = function()
-      Snacks.picker.commands()
-    end,
-  },
+  { text = "Commands", cmd = "lua Snacks.picker.commands()" },
   { text = "Copy file path (Absolute)", cmd = "CopyAbsolutePath" },
   { text = "Copy file path (Relative)", cmd = "CopyRelativePath" },
   { text = "Copy filetype", cmd = "CopyFiletype" },
@@ -20,24 +15,9 @@ local palette_items = {
   { text = "Format (default)", cmd = "Format" },
   { text = "Git (Fugitive)", cmd = "Git" },
   { text = "Git (Neogit)", cmd = "Neogit" },
-  {
-    text = "Help",
-    cmd = function()
-      Snacks.picker.help()
-    end,
-  },
-  {
-    text = "Highlights",
-    cmd = function()
-      Snacks.picker.highlights()
-    end,
-  },
-  {
-    text = "Keymaps",
-    cmd = function()
-      Snacks.picker.keymaps()
-    end,
-  },
+  { text = "Help", cmd = "lua Snacks.picker.help()" },
+  { text = "Highlights", cmd = "lua Snacks.picker.highlights()" },
+  { text = "Keymaps", cmd = "lua Snacks.picker.keymaps()" },
   { text = "Lazy", cmd = "Lazy" },
   { text = "Lint (Biome)", cmd = "LintWithBiome" },
   { text = "Lint (EsLint)", cmd = "LintWithPrettier" },
@@ -51,12 +31,7 @@ local palette_items = {
   { text = "Search (global)", cmd = "GrugFar" },
   { text = "Search (local)", cmd = "GrugFarLocal" },
   { text = "Search", cmd = "Spectre" },
-  {
-    text = "Symbols",
-    cmd = function()
-      Snacks.picker.lsp_symbols()
-    end,
-  },
+  { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
   { text = "Todos", cmd = "TodoFzfLua" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
   { text = "Toggle Diagnostic Text", cmd = "ToggleDiagnosticText" },
@@ -75,18 +50,28 @@ M.setup = function()
         preset = "dropdown", ---{ backdrop = false, box = "vertical" },
         reverse = false,
       },
+      formatters = {
+        file = {
+          filename_first = true,
+        },
+      },
+      icons = {
+        files = {
+          enabled = false,
+        },
+      },
       sources = {
         ["command_palette"] = {
           format = "text",
           items = palette_items,
           confirm = function(picker, item)
+            picker:close()
             local cmd = item.cmd
             if type(cmd) == "function" then
               cmd()
             elseif type(cmd) == "string" then
               vim.cmd(cmd)
             end
-            picker:close()
           end,
         },
       },
@@ -134,9 +119,9 @@ M.setup = function()
       enabled = true,
       sections = {
         { key = "s", padding = 1, desc = "Session Restore", action = ":SessionRestore" },
-        { key = "a", padding = 1, desc = "Actions", action = ":CommandPalette" },
-        { key = "f", padding = 1, desc = "Find File", action = ":FzfLua files" }, --:Telescope find_files
-        { key = "e", padding = 1, desc = "Recent Files", action = ":FzfLua oldfiles" }, --:Telescope oldfiles
+        { key = "a", padding = 1, desc = "Actions", action = ":lua Snacks.picker.command_palette()" },
+        { key = "f", padding = 1, desc = "Find File", action = ":lua Snacks.picker.files()" }, --:Telescope find_files
+        { key = "e", padding = 1, desc = "Recent Files", action = "lua Snacks.picker.recent()" }, --:Telescope oldfiles
         { key = "l", padding = 1, desc = "Lazy", action = ":Lazy" },
         { key = "m", padding = 1, desc = "Mason", action = ":Mason" },
         { key = "q", padding = 1, desc = "Quit", action = ":qa!" },
@@ -150,7 +135,7 @@ M.setup = function()
       left = { "git", "mark" }, -- priority of signs on the left (high to low)
       right = { "fold" }, -- priority of signs on the right (high to low)
       folds = {
-        open = false, -- show open fold icons
+        open = true, -- show open fold icons
         git_hl = false, -- use Git Signs hl for fold icons
       },
       git = {

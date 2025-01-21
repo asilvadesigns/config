@@ -12,6 +12,15 @@ if _G.winbar_enabled then
   vim.opt.winbar = ""
 end
 
+local excluded_filetypes = {
+  ["NeogitStatus"] = true,
+  ["NvimTree"] = true,
+  ["help"] = true,
+  ["snacks_dashboard"] = true,
+  ["spectre_panel"] = true,
+  ["toggleterm"] = true,
+}
+
 ---@param buf_id integer
 ---@param highlight boolean
 ---@return string
@@ -104,7 +113,7 @@ local function get_filename(buf_id, uniquely_highlight_filename)
       .. filename
       .. "%* "
       .. icon
-      -- .. colored_icon
+    -- .. colored_icon
   end
 
   -- return path_of_cwd .. "/" .. path_of_buf_with_filename .. "%*" .. colored_icon
@@ -118,7 +127,7 @@ local function enable_winbar(win_id)
   local filetype = vim.bo[buf_id].filetype
   local is_floating = win_config.relative ~= ""
 
-  if is_floating or filetype == "NvimTree" or filetype == "toggleterm" or filetype == "snacks_dashboard" then
+  if is_floating or excluded_filetypes[filetype] ~= nil then
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
   else
     local new_winbar = " "
@@ -148,7 +157,7 @@ local function enable_statusline(win_id)
   local filetype = vim.bo[buf_id].filetype
   local is_floating = win_config.relative ~= ""
 
-  if is_floating or filetype == "NvimTree" or filetype == "toggleterm" or filetype == "snacks_dashboard" then
+  if is_floating or excluded_filetypes[filetype] ~= nil then
     vim.api.nvim_set_option_value("statusline", last_status, { win = win_id })
     return
   else

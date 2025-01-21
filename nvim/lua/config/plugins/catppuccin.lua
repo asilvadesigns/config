@@ -7,12 +7,14 @@ M.setup = function()
   vim.api.nvim_set_hl(0, "WDiagnosticSignHint", {})
   vim.api.nvim_set_hl(0, "WDiagnosticSignInfo", {})
   vim.api.nvim_set_hl(0, "WDiagnosticSignWarn", {})
+  vim.api.nvim_set_hl(0, "WVisiMatch", {})
 
   require("catppuccin").setup({
     integrations = {
       fzf = true,
       grug_far = true,
       leap = false,
+      illuminate = true,
       notify = false,
       nvimtree = false,
       ufo = false,
@@ -24,7 +26,7 @@ M.setup = function()
         return {
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
-          CursorLineNr = { bg = bg, fg = c.mauve }, -- or c.muave
+          CursorLineNr = { bg = bg, fg = c.overlay0 }, --, fg = c.mauve }, -- or c.muave
           CursorLineSign = { bg = bg },
         }
       end,
@@ -34,7 +36,7 @@ M.setup = function()
         return {
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
-          CursorLineNr = { bg = bg, fg = c.mauve }, -- or c.overlay2
+          CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },
         }
       end,
@@ -51,8 +53,8 @@ M.setup = function()
           Folded = { bg = c.base },
           NormalFloat = { bg = c.base },
           --
-          illuminatedWord = { bg = c.surface0 },
-          illuminatedCurWord = { bg = c.surface0 },
+          -- illuminatedWord = { bg = c.mauve },
+          -- illuminatedCurWord = { bg = c.mauve },
           --
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
           DiagnosticUnderlineError = { sp = c.red, underline = true },
@@ -70,6 +72,7 @@ M.setup = function()
           WDiagnosticSignHint = { fg = c.teal, bg = statusline_bg },
           WDiagnosticSignInfo = { fg = c.blue, bg = statusline_bg },
           WDiagnosticSignWarn = { fg = c.yellow, bg = statusline_bg },
+          WVisiMatch = { bg = c.surface0, underline = true },
 
           --
           WinBar = { fg = c.surface2 },

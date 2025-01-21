@@ -2,7 +2,7 @@ theme = catppuccin-frappe
 
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 15
+font-size = 14
 adjust-cell-height = 10%
 # disable ligatures
 font-feature = -calt

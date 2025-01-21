@@ -206,7 +206,7 @@ M.setup = function()
     callback = function(ev)
       local opts = { silent = true, buffer = ev.buf }
 
-      vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
+      vim.keymap.set("n", "g.", vim.lsp.buf.code_action, opts)
       vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
       vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 

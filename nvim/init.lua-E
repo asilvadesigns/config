@@ -1,4 +1,4 @@
-kif vim.env.PROF then
+if vim.env.PROF then
   -- example for lazy.nvim
   -- change this to the correct path for your plugin manager
   local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
@@ -40,7 +40,7 @@ vim.schedule(function()
 end)
 
 vim.opt.conceallevel = 0
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 vim.cmd(
   "set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175"
 )
@@ -55,8 +55,8 @@ vim.opt.linebreak = false
 ---
 vim.opt.synmaxcol = 256
 ---
-vim.opt.number = false
-vim.opt.relativenumber = false
+vim.opt.number = true
+vim.opt.relativenumber = true
 ---
 vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
@@ -268,6 +268,24 @@ vim.api.nvim_create_autocmd("VimResized", {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
+  callback = function()
+    vim.defer_fn(function()
+      if vim.fn.system("git rev-parse --is-inside-work-tree") == "true\n" then
+        vim.api.nvim_exec_autocmds("User", { pattern = "LoadGitPlugins" })
+      end
+    end, 500)
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "VimEnter" }, {
+  vim.defer_fn(function()
+    if vim.env.TMUX ~= nil then
+      vim.api.nvim_exec_autocmds("User", { pattern = "InTmux" })
+    end
+  end, 750),
+})
+
 ---
 --- Commands
 ---
@@ -354,7 +372,7 @@ require("lazy").setup({
     },
     {
       "eero-lehtinen/oklch-color-picker.nvim",
-      event = "VeryLazy", -- User DeferFour,
+      event = "VeryLazy",
       cmd = { "ColorPickerToggle" },
       config = require("config.plugins.color-picker").setup,
     },
@@ -379,7 +397,7 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
-      event = "VeryLazy", -- User DeferFour,
+      event = "VeryLazy",
       config = require("config.plugins.oil").setup,
     },
     {
@@ -418,24 +436,29 @@ require("lazy").setup({
     },
     {
       "b0o/incline.nvim",
-      event = "VeryLazy", -- User DeferTwo,
+      event = "VeryLazy",
       config = require("config.plugins.incline").setup,
     },
     {
       "nvim-tree/nvim-tree.lua",
-      event = "VeryLazy", -- User DeferFour,
+      event = "VeryLazy",
       config = require("config.plugins.nvim-tree").setup,
     },
     {
       "neovim/nvim-lspconfig",
-      event = "VeryLazy", -- User DeferThree,
+      event = "VeryLazy",
       dependencies = { "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
       config = require("config.plugins.lsp").setup,
     },
     {
+      "echasnovski/mini.cursorword",
+      event = "VeryLazy",
+      config = require("config.plugins.mini").setup,
+    },
+    {
       "wurli/visimatch.nvim",
-      event = "CursorMoved",
-      opts = { chars_lower_limit = 3 },
+      event = "VeryLazy",
+      opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
     },
     {
       "lewis6991/satellite.nvim",
@@ -449,7 +472,7 @@ require("lazy").setup({
         { "gD", "<CMD>Glance definitions<CR>", { desc = "Glance definitions" } },
         { "gR", "<CMD>Glance references<CR>", { desc = "Glance references" } },
         { "gY", "<CMD>Glance type_definitions<CR>", { desc = "Glance type_definitions" } },
-        { "gM", "<CMD>Glance implementations<CR>", { desc = "Glance implementations" } },
+        { "gI", "<CMD>Glance implementations<CR>", { desc = "Glance implementations" } },
       },
       opts = {},
     },
@@ -509,32 +532,24 @@ require("lazy").setup({
     },
     {
       "akinsho/git-conflict.nvim",
-      event = "VeryLazy", -- User DeferThree,
+      event = "User LoadGitPlugins",
       version = "v2.1.0",
-      cmd = {
-        "GitConflictChooseBoth",
-        "GitConflictChooseNone",
-        "GitConflictChooseOurs",
-        "GitConflictChooseTheirs",
-        "GitConflictListQf",
-        "GitConflictNextConflict",
-        "GitConflictPrevConflict",
-      },
       config = require("config.plugins.git-conflict").setup,
     },
     {
       "tpope/vim-fugitive",
+      event = "User LoadGitPlugins",
       cmd = { "Gdiffsplit", "Git", "Gvdiffsplit" },
     },
     {
       "NeogitOrg/neogit",
-      cmd = "Neogit",
+      event = "User LoadGitPlugins",
       dependencies = { "sindrets/diffview.nvim" },
       config = require("config.plugins.neogit").setup,
     },
     {
       "lewis6991/gitsigns.nvim",
-      cmd = { "Gitsigns" },
+      event = "User LoadGitPlugins",
       keys = {
         { "]g", "<CMD>Gitsigns next_hunk<CR>", "n" },
         { "[g", "<CMD>Gitsigns prev_hunk<CR>", "n" },
@@ -544,26 +559,8 @@ require("lazy").setup({
     },
     {
       "mrjones2014/smart-splits.nvim",
-      keys = {
-        -- stylua: ignore start
-        -- resize
-        { "<S-Down>",          function() require("smart-splits").resize_down() end },
-        { "<S-Left>",          function() require("smart-splits").resize_left() end },
-        { "<S-Right>",         function() require("smart-splits").resize_right() end },
-        { "<S-Up>",            function() require("smart-splits").resize_up() end },
-        -- moving
-        { "<C-h>",             function() require("smart-splits").move_cursor_left() end },
-        { "<C-j>",             function() require("smart-splits").move_cursor_down() end },
-        { "<C-k>",             function() require("smart-splits").move_cursor_up() end },
-        { "<C-l>",             function() require("smart-splits").move_cursor_right() end },
-        -- swapping
-        { "<leader><leader>h", function() require("smart-splits").swap_buf_left() end },
-        { "<leader><leader>j", function() require("smart-splits").swap_buf_down() end },
-        { "<leader><leader>k", function() require("smart-splits").swap_buf_up() end },
-        { "<leader><leader>l", function() require("smart-splits").swap_buf_right() end },
-        -- stylua: ignore end
-      },
-      opts = {},
+      event = "User LoadTmuxPlugins",
+      config = require("config.plugins.smart-splits").setup,
     },
     {
       "ggandor/leap.nvim",
@@ -617,7 +614,7 @@ require("lazy").setup({
     {
       "nvim-telescope/telescope.nvim",
       enabled = false,
-      event = "VeryLazy", -- User DeferOne,
+      event = "VeryLazy",
       dependencies = {
         "natecraddock/telescope-zf-native.nvim",
         "nvim-telescope/telescope-ui-select.nvim",
@@ -660,6 +657,12 @@ require("lazy").setup({
       enabled = false,
       event = "InsertEnter",
       config = require("config.plugins.better-escape").setup,
+    },
+    {
+      "RRethy/vim-illuminate",
+      enabled = false,
+      event = "CursorMoved",
+      config = require("config.plugins.illuminate").setup,
     },
   },
   rocks = {

@@ -3,7 +3,7 @@ local M = {}
 M.setup = function()
   ---@diagnostic disable-next-line: missing-fields
   require("satellite").setup({
-    current_only = false,
+    current_only = true,
     excluded_filetypes = {
       "NvimTree",
     },
