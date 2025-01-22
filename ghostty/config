@@ -23,7 +23,6 @@ window-padding-color = extend-always
 window-padding-x = 0
 window-padding-y = 0
 window-padding-balance = true
-window-step-resize = true
 
 adjust-cursor-thickness = 2
 

@@ -279,11 +279,13 @@ vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
 })
 
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
-  vim.defer_fn(function()
-    if vim.env.TMUX ~= nil then
-      vim.api.nvim_exec_autocmds("User", { pattern = "LoadTmuxPlugins" })
-    end
-  end, 750),
+  callback = function()
+    vim.defer_fn(function()
+      if vim.env.TMUX ~= nil then
+        vim.api.nvim_exec_autocmds("User", { pattern = "LoadTmuxPlugins" })
+      end
+    end, 750)
+  end,
 })
 
 ---
