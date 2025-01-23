@@ -43,21 +43,6 @@ M.setup = function()
     "stylua",
   }
 
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = "rounded",
-  })
-
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-    border = "rounded",
-  })
-
-  vim.lsp.handlers["textDocument/definition"] = function(err, result, ctx, config)
-    vim.lsp.handlers["textDocument/definition"](err, result, ctx, config)
-    vim.defer_fn(function()
-      vim.cmd("normal! zz")
-    end, 10)
-  end
-
   require("mason").setup({
     ui = { border = "rounded" },
   })
@@ -208,7 +193,9 @@ M.setup = function()
 
       vim.keymap.set("n", "g.", vim.lsp.buf.code_action, opts)
       vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+      vim.keymap.set("n", "K", function()
+        vim.lsp.buf.hover({ border = "rounded" })
+      end, opts)
 
       -- telescope
       -- vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)

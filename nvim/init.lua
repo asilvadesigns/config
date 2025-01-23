@@ -3,12 +3,9 @@ if vim.env.PROF then
   -- change this to the correct path for your plugin manager
   local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
   vim.opt.rtp:append(snacks)
+  ---@diagnostic disable-next-line: missing-fields
   require("snacks.profiler").startup({
-    startup = {
-      event = "VimEnter", -- stop profiler on this event. Defaults to `VimEnter`
-      -- event = "UIEnter",
-      -- event = "VeryLazy",
-    },
+    startup = { event = "VimEnter" },
   })
 end
 
@@ -50,7 +47,7 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
 
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.linebreak = false
 ---
 vim.opt.synmaxcol = 256
@@ -83,14 +80,14 @@ vim.opt.tabstop = 2
 ---
 -- vim.opt.list = false
 -- vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
--- vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
+vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
 ---
 vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
 
--- vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "yes"
 ---
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
@@ -110,44 +107,42 @@ end
 --
 --
 --
-local set = vim.keymap.set
-
 -- overridden by multicursor
-set("n", "<esc>", ":nohl<CR>", { desc = "Clear highlight" })
+vim.keymap.set("n", "<esc>", ":nohl<CR>", { desc = "Clear highlight" })
 
-set("i", "<c-l>", "<END>", { desc = "Go to end of line" })
-set("i", "<c-h>", "<HOME>", { desc = "Go to start of line" })
+vim.keymap.set("i", "<c-l>", "<END>", { desc = "Go to end of line" })
+vim.keymap.set("i", "<c-h>", "<HOME>", { desc = "Go to start of line" })
 
-set("n", "<ScrollWheelUp>", "<C-y>")
-set("n", "<ScrollWheelDown>", "<C-e>")
-set("i", "<ScrollWheelUp>", "<C-y>")
-set("i", "<ScrollWheelDown>", "<C-e>")
-set("v", "<ScrollWheelUp>", "<C-y>")
-set("v", "<ScrollWheelDown>", "<C-e>")
+vim.keymap.set("n", "<ScrollWheelUp>", "<C-y>")
+vim.keymap.set("n", "<ScrollWheelDown>", "<C-e>")
+vim.keymap.set("i", "<ScrollWheelUp>", "<C-y>")
+vim.keymap.set("i", "<ScrollWheelDown>", "<C-e>")
+vim.keymap.set("v", "<ScrollWheelUp>", "<C-y>")
+vim.keymap.set("v", "<ScrollWheelDown>", "<C-e>")
 
-set("n", "<leader>s", ":wa<CR>", { desc = "Save all", silent = true })
+vim.keymap.set("n", "<leader>s", ":wa<CR>", { desc = "Save all", silent = true })
 
-set("n", "<leader>wh", "<C-w>h", { desc = "Focus left window" })
-set("n", "<leader>wj", "<C-w>j", { desc = "Focus bottom window" })
-set("n", "<leader>wk", "<C-w>k", { desc = "Focus top window" })
-set("n", "<leader>wl", "<C-w>l", { desc = "Focus right window" })
+vim.keymap.set("n", "<leader>wh", "<C-w>h", { desc = "Focus left window" })
+vim.keymap.set("n", "<leader>wj", "<C-w>j", { desc = "Focus bottom window" })
+vim.keymap.set("n", "<leader>wk", "<C-w>k", { desc = "Focus top window" })
+vim.keymap.set("n", "<leader>wl", "<C-w>l", { desc = "Focus right window" })
 
-set("n", "<leader>wo", "<C-w>o", { desc = "Close other windows" })
-set("n", "<leader>wq", "<C-w>q", { desc = "Close this window" })
+vim.keymap.set("n", "<leader>wo", "<C-w>o", { desc = "Close other windows" })
+vim.keymap.set("n", "<leader>wq", "<C-w>q", { desc = "Close this window" })
 
-set("n", "<leader>w=", "<C-w>=", { desc = "Equalize windows" })
-set("n", "<leader>ws", "<C-w>s", { desc = "Split window horizontally" })
-set("n", "<leader>wv", "<C-w>v", { desc = "Split window vertically" })
+vim.keymap.set("n", "<leader>w=", "<C-w>=", { desc = "Equalize windows" })
+vim.keymap.set("n", "<leader>ws", "<C-w>s", { desc = "Split window horizontally" })
+vim.keymap.set("n", "<leader>wv", "<C-w>v", { desc = "Split window vertically" })
 
-set("n", "<leader>wH", "<C-w>H", { desc = "Go to the left window" })
-set("n", "<leader>wJ", "<C-w>J", { desc = "Go to the down window" })
-set("n", "<leader>wK", "<C-w>K", { desc = "Go to the up window" })
-set("n", "<leader>wL", "<C-w>L", { desc = "Go to the right window" })
+vim.keymap.set("n", "<leader>wH", "<C-w>H", { desc = "Go to the left window" })
+vim.keymap.set("n", "<leader>wJ", "<C-w>J", { desc = "Go to the down window" })
+vim.keymap.set("n", "<leader>wK", "<C-w>K", { desc = "Go to the up window" })
+vim.keymap.set("n", "<leader>wL", "<C-w>L", { desc = "Go to the right window" })
 
-set("n", "<leader>d", "<C-d>", { desc = "Scroll down" })
-set("n", "<leader>u", "<C-u>", { desc = "Scroll up" })
+vim.keymap.set("n", "<leader>d", "<C-d>", { desc = "Scroll down" })
+vim.keymap.set("n", "<leader>u", "<C-u>", { desc = "Scroll up" })
 
-set("n", "<leader>qf", function()
+vim.keymap.set("n", "<leader>qf", function()
   if vim.bo.filetype == "NvimTree" then
     require("nvim-tree.api").tree.close()
   end
@@ -159,53 +154,53 @@ set("n", "<leader>qf", function()
   vim.cmd("qa!")
 end, { desc = "Save and Quit" })
 
-set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-set("n", "<", ":tabprevious<CR>", { desc = "Go to the previous tab" })
-set("n", ">", ":tabnext<CR>", { desc = "Go to the next tab" })
-set("n", "tl", ":tablast<CR>", { desc = "Go to the last tab" })
-set("n", "tn", ":tabnew<CR>", { desc = "Create new tab" })
-set("n", "to", ":tabonly<CR>", { desc = "Close other tabs" })
-set("n", "tq", ":tabclose<CR>", { desc = "Close this tab" })
+vim.keymap.set("n", "<", ":tabprevious<CR>", { desc = "Go to the previous tab" })
+vim.keymap.set("n", ">", ":tabnext<CR>", { desc = "Go to the next tab" })
+vim.keymap.set("n", "tl", ":tablast<CR>", { desc = "Go to the last tab" })
+vim.keymap.set("n", "tn", ":tabnew<CR>", { desc = "Create new tab" })
+vim.keymap.set("n", "to", ":tabonly<CR>", { desc = "Close other tabs" })
+vim.keymap.set("n", "tq", ":tabclose<CR>", { desc = "Close this tab" })
 
-set("n", "<leader>1", ":tabn 1<CR>", { desc = "Go to tab 1" })
-set("n", "<leader>2", ":tabn 2<CR>", { desc = "Go to tab 2" })
-set("n", "<leader>3", ":tabn 3<CR>", { desc = "Go to tab 3" })
-set("n", "<leader>4", ":tabn 4<CR>", { desc = "Go to tab 4" })
-set("n", "<leader>5", ":tabn 5<CR>", { desc = "Go to tab 5" })
-set("n", "<leader>6", ":tabn 6<CR>", { desc = "Go to tab 6" })
-set("n", "<leader>7", ":tabn 7<CR>", { desc = "Go to tab 7" })
-set("n", "<leader>8", ":tabn 8<CR>", { desc = "Go to tab 8" })
-set("n", "<leader>9", ":tabn 9<CR>", { desc = "Go to tab 9" })
+vim.keymap.set("n", "<leader>1", ":tabn 1<CR>", { desc = "Go to tab 1" })
+vim.keymap.set("n", "<leader>2", ":tabn 2<CR>", { desc = "Go to tab 2" })
+vim.keymap.set("n", "<leader>3", ":tabn 3<CR>", { desc = "Go to tab 3" })
+vim.keymap.set("n", "<leader>4", ":tabn 4<CR>", { desc = "Go to tab 4" })
+vim.keymap.set("n", "<leader>5", ":tabn 5<CR>", { desc = "Go to tab 5" })
+vim.keymap.set("n", "<leader>6", ":tabn 6<CR>", { desc = "Go to tab 6" })
+vim.keymap.set("n", "<leader>7", ":tabn 7<CR>", { desc = "Go to tab 7" })
+vim.keymap.set("n", "<leader>8", ":tabn 8<CR>", { desc = "Go to tab 8" })
+vim.keymap.set("n", "<leader>9", ":tabn 9<CR>", { desc = "Go to tab 9" })
 
-set("v", "<Tab>", ">gv", { desc = "Add indent" })
-set("v", "<S-Tab>", "<gv", { desc = "Remove indent " })
--- set("v", "p", '"_dP', { desc="Paste" })
+vim.keymap.set("v", "<Tab>", ">gv", { desc = "Add indent" })
+vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Remove indent " })
+-- vim.keymap.set("v", "p", '"_dP', { desc="Paste" })
 
-set("t", "<esc>", [[<C-\><C-n>]])
-set("t", "<C-c>", [[<C-\><C-n>]])
+vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
+vim.keymap.set("t", "<C-c>", [[<C-\><C-n>]])
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-set("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-set("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-set("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+vim.keymap.set("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+vim.keymap.set("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+vim.keymap.set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+vim.keymap.set("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+vim.keymap.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+vim.keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
 --
 --
 --
-set("n", "[d", function()
+vim.keymap.set("n", "[d", function()
   vim.diagnostic.jump({ count = -1, float = true })
 end, { desc = "Go to previous diagnostic message" })
 
-set("n", "]d", function()
+vim.keymap.set("n", "]d", function()
   vim.diagnostic.jump({ count = 1, float = true })
 end, { desc = "Go to next diagnostic message" })
 
-set("n", "ge", vim.diagnostic.open_float, {
+vim.keymap.set("n", "ge", vim.diagnostic.open_float, {
   desc = "Open diagnostic message",
 })
 
@@ -221,23 +216,22 @@ end
 
 vim.diagnostic.config({
   float = { border = "rounded" },
-  signs = false,
-  -- {
-  --   text = {
-  --     [vim.diagnostic.severity.ERROR] = signs.icons.square,
-  --     [vim.diagnostic.severity.HINT] = signs.icons.square,
-  --     [vim.diagnostic.severity.INFO] = signs.icons.square,
-  --     [vim.diagnostic.severity.WARN] = signs.icons.square,
-  --   },
-  --   -- numhl = {
-  --   --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-  --   --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-  --   --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-  --   --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-  --   -- },
-  -- },
+  signs = {
+    --   text = {
+    --     [vim.diagnostic.severity.ERROR] = signs.icons.square,
+    --     [vim.diagnostic.severity.HINT] = signs.icons.square,
+    --     [vim.diagnostic.severity.INFO] = signs.icons.square,
+    --     [vim.diagnostic.severity.WARN] = signs.icons.square,
+    --   },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+    },
+  },
   -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
-  underline = false,
+  underline = true,
   virtual_text = true,
 })
 
@@ -268,6 +262,13 @@ vim.api.nvim_create_autocmd("VimResized", {
   end,
 })
 
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
+
 vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
   callback = function()
     vim.defer_fn(function()
@@ -282,9 +283,21 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
   callback = function()
     vim.defer_fn(function()
       if vim.env.TMUX ~= nil then
+        vim.api.nvim_exec_autocmds("User", { pattern = "LoadSessionPlugins" })
+      end
+    end, 250)
+
+    vim.defer_fn(function()
+      if vim.env.TMUX ~= nil then
         vim.api.nvim_exec_autocmds("User", { pattern = "LoadTmuxPlugins" })
       end
     end, 750)
+
+    vim.defer_fn(function()
+      if vim.env.TMUX ~= nil then
+        vim.api.nvim_exec_autocmds("User", { pattern = "LoadUIPlugins" })
+      end
+    end, 1000)
   end,
 })
 
@@ -333,7 +346,7 @@ require("lazy").setup({
     {
       "folke/noice.nvim",
       event = "VeryLazy",
-      dependencies = { "MunifTanjim/nui.nvim" },
+      dependencies = { lazy = true, "MunifTanjim/nui.nvim" },
       config = require("config.plugins.noice").setup,
     },
     {
@@ -358,7 +371,8 @@ require("lazy").setup({
     },
     {
       "rmagatti/auto-session",
-      cmd = "SessionRestore",
+      event = "User LoadSessionPlugins",
+      cmd = { "SessionRestore" },
       config = require("config.plugins.auto-session").setup,
     },
     {
@@ -403,12 +417,6 @@ require("lazy").setup({
       config = require("config.plugins.oil").setup,
     },
     {
-      "jake-stewart/multicursor.nvim",
-      event = "VeryLazy",
-      branch = "1.0",
-      config = require("config.plugins.multicursor").setup,
-    },
-    {
       "gbprod/substitute.nvim",
       keys = { { "X", "<CMD>lua require('substitute.exchange').visual()<CR>", mode = "x" } },
       opts = {},
@@ -438,6 +446,7 @@ require("lazy").setup({
     },
     {
       "b0o/incline.nvim",
+      enabled = false,
       event = "VeryLazy",
       config = require("config.plugins.incline").setup,
     },
@@ -453,19 +462,17 @@ require("lazy").setup({
       config = require("config.plugins.lsp").setup,
     },
     {
-      "echasnovski/mini.cursorword",
-      event = "VeryLazy",
-      config = require("config.plugins.mini").setup,
-    },
-    {
-      "wurli/visimatch.nvim",
-      event = "VeryLazy",
-      opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
-    },
-    {
-      "lewis6991/satellite.nvim",
-      event = "VeryLazy",
-      config = require("config.plugins.satellite").setup,
+      "rachartier/tiny-inline-diagnostic.nvim",
+      event = "LspAttach", -- Or `LspAttach`
+      priority = 1000, -- needs to be loaded in first
+      config = function()
+        require("tiny-inline-diagnostic").setup({
+          options = {
+            show_source = true,
+          },
+        })
+        vim.diagnostic.config({ virtual_text = false })
+      end,
     },
     {
       "dnlhc/glance.nvim",
@@ -532,6 +539,14 @@ require("lazy").setup({
       dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       config = require("config.plugins.treesitter").setup,
     },
+    ---
+    --- GIT
+    {
+      "NeogitOrg/neogit",
+      event = "User LoadGitPlugins",
+      dependencies = { "sindrets/diffview.nvim" },
+      config = require("config.plugins.neogit").setup,
+    },
     {
       "akinsho/git-conflict.nvim",
       event = "User LoadGitPlugins",
@@ -544,14 +559,8 @@ require("lazy").setup({
       cmd = { "Gdiffsplit", "Git", "Gvdiffsplit" },
     },
     {
-      "NeogitOrg/neogit",
-      event = "User LoadGitPlugins",
-      dependencies = { "sindrets/diffview.nvim" },
-      config = require("config.plugins.neogit").setup,
-    },
-    {
       "lewis6991/gitsigns.nvim",
-      event = "User LoadGitPlugins",
+      cmd = "Gitsigns",
       keys = {
         { "]g", "<CMD>Gitsigns next_hunk<CR>", "n" },
         { "[g", "<CMD>Gitsigns prev_hunk<CR>", "n" },
@@ -563,6 +572,19 @@ require("lazy").setup({
       "mrjones2014/smart-splits.nvim",
       event = "User LoadTmuxPlugins",
       config = require("config.plugins.smart-splits").setup,
+    },
+    ---
+    --- UI
+    {
+      "jake-stewart/multicursor.nvim",
+      event = "User LoadUIPlugins",
+      branch = "1.0",
+      config = require("config.plugins.multicursor").setup,
+    },
+    {
+      "wurli/visimatch.nvim",
+      event = "User LoadUIPlugins",
+      opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
     },
     {
       "ggandor/leap.nvim",
@@ -582,93 +604,6 @@ require("lazy").setup({
         vim.cmd("hi! link LeapLabel @comment.warning")
       end,
     },
-    ---
-    ---
-    ---
-    {
-      "johmsalas/text-case.nvim",
-      enabled = false,
-      dependencies = {
-        {
-          "nvim-telescope/telescope.nvim",
-          config = function()
-            require("telescope").load_extension("textcase")
-          end,
-        },
-      },
-      cmd = {
-        "TextCaseOpenTelescope",
-        "TextCaseOpenTelescopeQuickChange",
-        "TextCaseOpenTelescopeLSPChange",
-        "TextCaseStartReplacingCommand",
-      },
-      keys = {
-        "ga", -- Default invocation prefix
-        {
-          "ga.",
-          "<CMD>TextCaseOpenTelescope<CR>",
-          mode = { "n", "x" },
-          desc = "Telescope",
-        },
-      },
-      opts = {},
-    },
-    {
-      "nvim-telescope/telescope.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      dependencies = {
-        "natecraddock/telescope-zf-native.nvim",
-        "nvim-telescope/telescope-ui-select.nvim",
-      },
-      config = require("config.plugins.telescope").setup,
-    },
-    {
-      "mvllow/modes.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      tag = "v0.2.1",
-      config = require("config.plugins.modes").setup,
-    },
-    {
-      "sphamba/smear-cursor.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      config = require("config.plugins.smear-cursor").setup,
-    },
-    {
-      "folke/which-key.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      keys = {
-        {
-          "<leader>?",
-          function()
-            require("which-key").show({ global = false })
-          end,
-          desc = "Buffer Local Keymaps (which-key)",
-        },
-      },
-      opts = {
-        preset = "helix",
-        delay = 0,
-      },
-    },
-    {
-      "max397574/better-escape.nvim",
-      enabled = false,
-      event = "InsertEnter",
-      config = require("config.plugins.better-escape").setup,
-    },
-    {
-      "RRethy/vim-illuminate",
-      enabled = false,
-      event = "CursorMoved",
-      config = require("config.plugins.illuminate").setup,
-    },
-  },
-  rocks = {
-    enabled = false,
   },
   performance = {
     rtp = {
@@ -677,6 +612,7 @@ require("lazy").setup({
         "gzip",
         "matchit",
         -- "matchparen",
+        "editorconfig",
         "netrwPlugin",
         "osc52",
         "remotePlugin",
@@ -692,6 +628,6 @@ require("lazy").setup({
   },
   ui = {
     backdrop = 100,
-    border = "rounded", -- "rounded", "single"
+    border = "rounded",
   },
 })

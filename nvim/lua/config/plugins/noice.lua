@@ -17,50 +17,21 @@ M.setup = function()
     },
     messages = { enabled = true },
     notify = { enabled = false },
-    popupmenu = { enabled = true },
+    popupmenu = { enabled = false },
     lsp = {
       override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
         ["cmp.entry.get_documentation"] = true,
       },
-      progress = { enabled = true },
-      signature = {
-        auto_open = {
-          trigger = false,
-        },
-      },
+      progress = { enabled = false },
+      signature = { auto_open = { trigger = false } },
     },
     presets = {
-      -- bottom_search = false,
-      -- command_palette = false, -- position the cmdline and popupmenu together
       long_message_to_split = true, -- long messages will be sent to a split
-      --   -- inc_rename = false, -- enables an input dialog for inc-rename.nvim
       lsp_doc_border = true, -- add a border to hover docs and signature help
     },
-    routes = {
-      {
-        -- skip "-- insert --"
-        view = "notify",
-        filter = { event = "msg_showmode" },
-        opts = { skip = true },
-      },
-      {
-        -- skip "No information available"
-        view = "notify",
-        filter = { event = "msg_show", find = "No information available" },
-        opts = { skip = true },
-      },
-      {
-        -- skip "written"
-        view = "notify",
-        filter = { event = "msg_show", find = "written" },
-        opts = { skip = true },
-      },
-    },
   })
-
-  vim.keymap.set("n", "<leader>nd", ":NoiceDismiss<CR>", { noremap = true, silent = true })
 end
 
 return M

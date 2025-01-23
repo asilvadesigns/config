@@ -2,6 +2,7 @@ local M = {}
 
 M.setup = function()
   require("auto-session").setup({
+    auto_restore = false,
     session_lens = {
       load_on_setup = false,
     },

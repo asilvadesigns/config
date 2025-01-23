@@ -77,7 +77,7 @@ M.setup = function()
     local current_file = vim.api.nvim_buf_get_name(0)
 
     if #formatters == 0 then
-      vim.notify("No formatters available for this buffer, using lsp", vim.log.levels.WARN)
+      vim.notify("Formatted with lsp", vim.log.levels.WARN)
       conform.format({ async = false, lsp_format = "fallback" })
       return
     end
@@ -95,7 +95,7 @@ M.setup = function()
       formatter_to_use = formatters[1].name -- Fallback to the first available formatter
     end
 
-    vim.notify("Using formatter: " .. formatter_to_use, vim.log.levels.INFO)
+    vim.notify("Formatted with " .. formatter_to_use, vim.log.levels.INFO)
     conform.format({ async = false, lsp_format = "never", formatters = { formatter_to_use } })
   end, {})
 

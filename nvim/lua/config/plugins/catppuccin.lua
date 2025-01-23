@@ -72,7 +72,7 @@ M.setup = function()
           WDiagnosticSignHint = { fg = c.teal, bg = statusline_bg },
           WDiagnosticSignInfo = { fg = c.blue, bg = statusline_bg },
           WDiagnosticSignWarn = { fg = c.yellow, bg = statusline_bg },
-          WVisiMatch = { bg = c.surface0, underline = true },
+          WVisiMatch = { bg = c.surface0 },
 
           --
           WinBar = { fg = c.surface2 },

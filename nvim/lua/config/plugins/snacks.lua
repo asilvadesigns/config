@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local M = {}
 
 ---@class PaletteEntry
@@ -22,8 +23,9 @@ local palette_items = {
   { text = "Lint (Biome)", cmd = "LintWithBiome" },
   { text = "Lint (EsLint)", cmd = "LintWithPrettier" },
   { text = "Lint (default)", cmd = "Lint" },
-  { text = "Mason", cmd = "Mason" },
   { text = "Markdown Preview", cmd = "MarkdownPreviewToggle" },
+  { text = "Mason", cmd = "Mason" },
+  { text = "Notifications", cmd = "lua Snacks.notifier.show_history()" },
   { text = "Remove All Marks", cmd = "delm! | delm A-Z0-9" },
   { text = "Remove Other Buffers", cmd = "only|bd|e#" },
   { text = "Rename File", cmd = "RenameFile" },
@@ -64,6 +66,9 @@ M.setup = function()
         ["command_palette"] = {
           format = "text",
           items = palette_items,
+          layout = {
+            preview = false,
+          },
           confirm = function(picker, item)
             picker:close()
             local cmd = item.cmd
@@ -121,12 +126,19 @@ M.setup = function()
         { key = "s", padding = 1, desc = "Session Restore", action = ":SessionRestore" },
         { key = "a", padding = 1, desc = "Actions", action = ":lua Snacks.picker.command_palette()" },
         { key = "f", padding = 1, desc = "Find File", action = ":lua Snacks.picker.files()" }, --:Telescope find_files
-        { key = "e", padding = 1, desc = "Recent Files", action = "lua Snacks.picker.recent()" }, --:Telescope oldfiles
+        { key = "e", padding = 1, desc = "Recent Files", action = ":lua Snacks.picker.recent()" }, --:Telescope oldfiles
         { key = "l", padding = 1, desc = "Lazy", action = ":Lazy" },
         { key = "m", padding = 1, desc = "Mason", action = ":Mason" },
         { key = "q", padding = 1, desc = "Quit", action = ":qa!" },
         { section = "startup" },
       },
+    },
+    ---@class snacks.notifier.Config
+    notifier = {
+      enabled = true,
+      style = "compact",
+      width = { min = 40, max = 40 },
+      timeout = 1000,
     },
     ---@class snacks.statuscolumn.Config
     statuscolumn = {
@@ -203,12 +215,29 @@ vim.keymap.set("n", "<leader>p", function()
 end, { desc = "Fuzzy projects" })
 
 vim.keymap.set("n", "<leader>l", function()
+  ---@diagnostic disable-next-line: missing-fields
   Snacks.picker.lines({
     layout = {
       preset = "dropdown",
+      preview = "preview",
       reverse = false,
     },
   })
 end, { desc = "Fuzzy buffer lines" })
+
+vim.api.nvim_create_autocmd("LspProgress", {
+  ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+  callback = function(ev)
+    local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+    vim.notify(vim.lsp.status(), "info", {
+      id = "lsp_progress",
+      title = "LSP Progress",
+      opts = function(notif)
+        notif.icon = ev.data.params.value.kind == "end" and " "
+          or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+      end,
+    })
+  end,
+})
 
 return M
