@@ -47,7 +47,7 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
 
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.linebreak = false
 ---
 vim.opt.synmaxcol = 256
@@ -77,6 +77,8 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
 vim.opt.tabstop = 2
+---
+vim.opt.laststatus = 0
 ---
 -- vim.opt.list = false
 -- vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
@@ -217,18 +219,18 @@ end
 vim.diagnostic.config({
   float = { border = "rounded" },
   signs = {
-    --   text = {
-    --     [vim.diagnostic.severity.ERROR] = signs.icons.square,
-    --     [vim.diagnostic.severity.HINT] = signs.icons.square,
-    --     [vim.diagnostic.severity.INFO] = signs.icons.square,
-    --     [vim.diagnostic.severity.WARN] = signs.icons.square,
-    --   },
-    numhl = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-    },
+    -- text = {
+    --   [vim.diagnostic.severity.ERROR] = signs.icons.square,
+    --   [vim.diagnostic.severity.HINT] = signs.icons.square,
+    --   [vim.diagnostic.severity.INFO] = signs.icons.square,
+    --   [vim.diagnostic.severity.WARN] = signs.icons.square,
+    -- },
+    -- numhl = {
+    --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+    --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+    --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+    --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+    -- },
   },
   -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
   underline = true,
@@ -413,7 +415,7 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
-      event = "VeryLazy",
+      lazy = false,
       config = require("config.plugins.oil").setup,
     },
     {
@@ -445,12 +447,6 @@ require("lazy").setup({
       config = require("config.plugins.ufo").setup,
     },
     {
-      "b0o/incline.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      config = require("config.plugins.incline").setup,
-    },
-    {
       "nvim-tree/nvim-tree.lua",
       event = "VeryLazy",
       config = require("config.plugins.nvim-tree").setup,
@@ -460,19 +456,6 @@ require("lazy").setup({
       event = "VeryLazy",
       dependencies = { "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
       config = require("config.plugins.lsp").setup,
-    },
-    {
-      "rachartier/tiny-inline-diagnostic.nvim",
-      event = "LspAttach", -- Or `LspAttach`
-      priority = 1000, -- needs to be loaded in first
-      config = function()
-        require("tiny-inline-diagnostic").setup({
-          options = {
-            show_source = true,
-          },
-        })
-        vim.diagnostic.config({ virtual_text = false })
-      end,
     },
     {
       "dnlhc/glance.nvim",

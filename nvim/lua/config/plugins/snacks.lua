@@ -49,8 +49,17 @@ M.setup = function()
     picker = {
       enabled = true,
       layout = {
-        preset = "dropdown", ---{ backdrop = false, box = "vertical" },
+        preset = "dropdown",
+        preview = false,
         reverse = false,
+      },
+      layouts = {
+        dropdown = {
+          layout = {
+            max_height = 30,
+            row = 6,
+          },
+        },
       },
       formatters = {
         file = {
@@ -71,12 +80,14 @@ M.setup = function()
           },
           confirm = function(picker, item)
             picker:close()
-            local cmd = item.cmd
-            if type(cmd) == "function" then
-              cmd()
-            elseif type(cmd) == "string" then
-              vim.cmd(cmd)
-            end
+            vim.schedule(function()
+              local cmd = item.cmd
+              if type(cmd) == "function" then
+                cmd()
+              elseif type(cmd) == "string" then
+                vim.cmd(cmd)
+              end
+            end)
           end,
         },
       },
@@ -89,6 +100,13 @@ M.setup = function()
             ["<c-u>"] = { "list_scroll_up", mode = { "n" } },
           },
         },
+      },
+    },
+    ---@type table<string, snacks.win.Config>
+    styles = {
+      notification_history = {
+        backdrop = false,
+        position = "bottom",
       },
     },
     ---@class snacks.profiler.Config
@@ -137,8 +155,8 @@ M.setup = function()
     notifier = {
       enabled = true,
       style = "compact",
-      width = { min = 40, max = 40 },
       timeout = 1000,
+      width = { min = 40, max = 40 },
     },
     ---@class snacks.statuscolumn.Config
     statuscolumn = {
@@ -191,11 +209,11 @@ vim.keymap.set("n", "<leader>a", function()
 end, { desc = "Fuzzy actions" })
 
 vim.keymap.set("n", "<leader>b", function()
-  Snacks.picker.buffers()
+  Snacks.picker.buffers({ filter = { cwd = true }})
 end, { desc = "Fuzzy buffers" })
 
 vim.keymap.set("n", "<leader>e", function()
-  Snacks.picker.recent()
+  Snacks.picker.recent({ filter = { cwd = true }})
 end, { desc = "Fuzzy oldfiles" })
 
 vim.keymap.set("n", "<leader>;", function()

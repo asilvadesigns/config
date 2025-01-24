@@ -2,8 +2,11 @@
   "auto_update_extensions": {
     "catppuccin": false
   },
+  "experimental.theme_overrides": {
+    "border.variant": "#00000000"
+  },
   "theme": "One Dark",
-  "buffer_font_size": 14,
+  "buffer_font_size": 17.0,
   "ui_font_size": 14,
   "vim_mode": true,
   "ui_font_family": "JetBrainsMono Nerd Font Mono",

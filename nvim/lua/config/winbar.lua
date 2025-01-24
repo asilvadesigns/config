@@ -1,15 +1,20 @@
 --- NOTE: when enabled, we show a full global status with diagnostics
 --- NOTE: when disabled, we hide any statusline
-_G.statusline_enabled = true
+_G.statusline_enabled = false
 if _G.statusline_enabled then
   vim.opt.statusline = ""
+else
+  vim.opt.laststatus = 0
+  vim.opt.statusline = "%{repeat('─', winwidth('.'))}"
 end
 
 --- NOTE: when enabled, we show a full winbar per window with diagnostics
 --- NOTE: when disabled, we show the filename with incline with diagnostics
-_G.winbar_enabled = false
+_G.winbar_enabled = true
 if _G.winbar_enabled then
   vim.opt.winbar = ""
+else
+  vim.opt.winbar = nil
 end
 
 local excluded_filetypes = {
@@ -91,13 +96,16 @@ local function get_filename(buf_id, uniquely_highlight_filename)
 
   local path_of_cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
   local path_of_buf_with_filename = vim.fn.fnamemodify(bufname, ":.")
-  local path_of_buf_with_no_filename = string.gsub(path_of_buf_with_filename, filename, "")
 
   local icon, icon_highlight, colored_icon = "", "", ""
   local devicons = require("nvim-web-devicons")
   if devicons.has_loaded() then
     icon, icon_highlight = devicons.get_icon_by_filetype(filetype)
   end
+
+  local relative_path = vim.fn.fnamemodify(bufname, ":.:h")
+  local path_of_buf_with_no_filename =
+    vim.fn.fnamemodify(relative_path, ":s?^" .. vim.fn.escape(vim.fn.getcwd(), "\\") .. "/??")
 
   -- if icon then
   --   colored_icon = string.format(" %%#%s#%s%%*", icon_highlight, icon)
@@ -109,15 +117,14 @@ local function get_filename(buf_id, uniquely_highlight_filename)
       .. path_of_cwd
       .. "/"
       .. path_of_buf_with_no_filename
+      .. "/"
       .. "%*"
       .. "%#Normal#"
       .. filename
       .. "%* "
       .. icon
-    -- .. colored_icon
   end
 
-  -- return path_of_cwd .. "/" .. path_of_buf_with_filename .. "%*" .. colored_icon
   return path_of_cwd .. "/" .. path_of_buf_with_filename .. "%* " .. icon
 end
 
@@ -173,9 +180,9 @@ local function enable_statusline(win_id)
   end
 end
 
-local function disable_statusline(win_id)
+local function disable_statusline()
   vim.opt.laststatus = 0
-  vim.opt.statusline = string.rep("—", vim.api.nvim_win_get_width(win_id))
+  vim.opt.statusline = "%{repeat('─', winwidth('.'))}"
 end
 
 local function render_statusline()
@@ -183,7 +190,7 @@ local function render_statusline()
     if _G.statusline_enabled then
       enable_statusline(0)
     else
-      disable_statusline(0)
+      disable_statusline()
     end
   end)
 end

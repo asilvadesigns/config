@@ -94,7 +94,7 @@ M.setup = function()
           },
           folder = {
             enable = false,
-            color = false,
+            color = true,
           },
         },
         glyphs = {

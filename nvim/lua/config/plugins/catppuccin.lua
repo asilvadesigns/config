@@ -41,14 +41,15 @@ M.setup = function()
         }
       end,
       all = function(c)
-        -- local statusline_bg = c.base
-        -- local statusline_fg = c.surface0
+        local statusline_bg = c.base
+        local statusline_fg = c.surface0
         --
-        local statusline_bg = c.surface0
-        local statusline_fg = c.overlay1
+        -- local statusline_bg = c.surface0
+        -- local statusline_fg = c.overlay1
 
         return {
-          ["@variable.builtin"] = { fg = c.mauve },
+          ["@variable.builtin"] = { fg = c.lavender },
+          ["@variable.parameter"] = { fg = c.lavender },
           FloatBorder = { bg = c.base, fg = c.overlay0 },
           Folded = { bg = c.base },
           NormalFloat = { bg = c.base },
@@ -89,6 +90,10 @@ M.setup = function()
       end,
     },
   })
+
+  -- Prevent LSP from overwriting treesitter color settings
+  -- https://github.com/NvChad/NvChad/issues/1907
+  vim.highlight.priorities.semantic_tokens = 95
 
   -- # dark
   vim.cmd("colorscheme catppuccin-frappe")
