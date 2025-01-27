@@ -30,6 +30,8 @@ M.setup = function()
       end,
     },
   })
+
+  vim.keymap.set("n", "<leader>s", "<CMD>SessionSearch<CR>", { desc = "Fuzzy files" })
 end
 
 return M

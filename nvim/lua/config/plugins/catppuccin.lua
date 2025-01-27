@@ -86,6 +86,8 @@ M.setup = function()
           NvimTreeNormal = { fg = c.overlay1, bg = c.base },
           NvimTreeOpenedFolderName = { fg = c.subtext0 },
           NvimTreeSpecialFile = { fg = c.overlay1 },
+
+          SnacksPickerMatch = { fg = c.red },
         }
       end,
     },

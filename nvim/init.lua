@@ -37,7 +37,7 @@ vim.schedule(function()
 end)
 
 vim.opt.conceallevel = 0
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.cmd(
   "set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175"
 )
@@ -78,7 +78,7 @@ vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
 vim.opt.tabstop = 2
 ---
-vim.opt.laststatus = 0
+vim.cmd("set nomodeline")
 ---
 -- vim.opt.list = false
 -- vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
@@ -121,8 +121,6 @@ vim.keymap.set("i", "<ScrollWheelUp>", "<C-y>")
 vim.keymap.set("i", "<ScrollWheelDown>", "<C-e>")
 vim.keymap.set("v", "<ScrollWheelUp>", "<C-y>")
 vim.keymap.set("v", "<ScrollWheelDown>", "<C-e>")
-
-vim.keymap.set("n", "<leader>s", ":wa<CR>", { desc = "Save all", silent = true })
 
 vim.keymap.set("n", "<leader>wh", "<C-w>h", { desc = "Focus left window" })
 vim.keymap.set("n", "<leader>wj", "<C-w>j", { desc = "Focus bottom window" })
@@ -402,7 +400,7 @@ require("lazy").setup({
     {
       "stevearc/conform.nvim",
       cmd = { "Format", "FormatWithBiome", "FormatWithPrettier" },
-      keys = { { "<leader>m", "<cmd>Format<cr>", desc = "Format" } },
+      keys = { { "<leader>m", "<CMD>Format<cr>", desc = "Format" } },
       config = require("config.plugins.conform").setup,
     },
     {
@@ -414,10 +412,56 @@ require("lazy").setup({
       end,
     },
     {
-      "stevearc/oil.nvim",
-      lazy = false,
-      config = require("config.plugins.oil").setup,
+      "max397574/better-escape.nvim",
+      event = "InsertEnter",
+      config = require("config.plugins.better-escape").setup,
     },
+    {
+      "echasnovski/mini.nvim",
+      version = "*",
+      keys = {
+        { "<leader>x", "<CMD>lua MiniFiles.open(vim.api.nvim_buf_get_name(0), false)<CR>", { desc = "mini files" } },
+      },
+      config = function()
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "MiniFilesWindowOpen",
+          callback = function(args)
+            local win_id = args.data.win_id
+
+            -- -- Customize window-local settings
+            -- vim.wo[win_id].winblend = 50
+            local config = vim.api.nvim_win_get_config(win_id)
+            config.border = "rounded"
+            -- config.title = "hello"
+            config.title_pos = "left"
+            vim.api.nvim_win_set_config(win_id, config)
+          end,
+        })
+
+        require("mini.files").setup({
+          mappings = {
+            close = "q",
+            go_in = "l",
+            go_in_plus = "<CR>", --go_in_plus = "L",
+            go_out = "h",
+            go_out_plus = "H",
+            mark_goto = "", --mark_goto = "'",
+            mark_set = "", --mark_set = "m",
+            reset = "<BS>",
+            reveal_cwd = "@",
+            show_help = "g?",
+            synchronize = "=",
+            trim_left = "<",
+            trim_right = ">",
+          },
+        })
+      end,
+    },
+    -- {
+    --   "stevearc/oil.nvim",
+    --   lazy = false,
+    --   config = require("config.plugins.oil").setup,
+    -- },
     {
       "gbprod/substitute.nvim",
       keys = { { "X", "<CMD>lua require('substitute.exchange').visual()<CR>", mode = "x" } },
@@ -516,10 +560,16 @@ require("lazy").setup({
       opts = {},
     },
     {
+      "andymass/vim-matchup",
+      event = "VeryLazy",
+      init = require("config.plugins.matchup").init,
+      config = require("config.plugins.matchup").setup,
+    },
+    {
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
       event = "VeryLazy",
-      dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+      dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "andymass/vim-matchup" },
       config = require("config.plugins.treesitter").setup,
     },
     ---
@@ -594,7 +644,7 @@ require("lazy").setup({
         "getscriptPlugin",
         "gzip",
         "matchit",
-        -- "matchparen",
+        "matchparen",
         "editorconfig",
         "netrwPlugin",
         "osc52",

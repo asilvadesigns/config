@@ -78,12 +78,29 @@ local function get_modified(buf_id)
   return ""
 end
 
+local function get_filepath_and_filename(buf_id)
+  local bufname = vim.api.nvim_buf_get_name(buf_id)
+  local filename = vim.fn.fnamemodify(bufname, ":t")
+  local cwd = vim.fn.getcwd()
+
+  -- Ensure cwd ends with a separator
+  cwd = cwd:gsub("([^/])$", "%1/")
+
+  -- Remove the cwd prefix from bufname
+  local filepath = bufname:gsub("^" .. vim.pesc(cwd), "")
+
+  -- Remove the filename from filepath
+  filepath = filepath:gsub(vim.pesc(filename) .. "$", "")
+
+  return filepath, filename
+end
+
 ---@param buf_id integer
 ---@param uniquely_highlight_filename boolean
 ---@return string
 local function get_filename(buf_id, uniquely_highlight_filename)
-  local bufname = vim.api.nvim_buf_get_name(buf_id)
-  local filename = vim.fn.fnamemodify(bufname, ":t")
+  local filepath, filename = get_filepath_and_filename(buf_id)
+
   local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
 
   if filetype == "oil" then
@@ -94,38 +111,30 @@ local function get_filename(buf_id, uniquely_highlight_filename)
     return ""
   end
 
-  local path_of_cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-  local path_of_buf_with_filename = vim.fn.fnamemodify(bufname, ":.")
-
-  local icon, icon_highlight, colored_icon = "", "", ""
+  local icon, icon_highlight = "", ""
   local devicons = require("nvim-web-devicons")
   if devicons.has_loaded() then
     icon, icon_highlight = devicons.get_icon_by_filetype(filetype)
   end
 
-  local relative_path = vim.fn.fnamemodify(bufname, ":.:h")
-  local path_of_buf_with_no_filename =
-    vim.fn.fnamemodify(relative_path, ":s?^" .. vim.fn.escape(vim.fn.getcwd(), "\\") .. "/??")
-
-  -- if icon then
-  --   colored_icon = string.format(" %%#%s#%s%%*", icon_highlight, icon)
-  -- end
+  if icon then
+    icon = string.format(" %%#%s#%s%%*", icon_highlight, icon)
+  end
 
   if uniquely_highlight_filename then
     return "%*"
       .. "%#NonText#"
-      .. path_of_cwd
-      .. "/"
-      .. path_of_buf_with_no_filename
-      .. "/"
+      -- .. path_of_cwd
+      -- .. "/"
+      .. filepath
       .. "%*"
       .. "%#Normal#"
       .. filename
-      .. "%* "
+      .. "%*"
       .. icon
   end
 
-  return path_of_cwd .. "/" .. path_of_buf_with_filename .. "%* " .. icon
+  return filepath .. "/" .. filename .. "%*" .. icon
 end
 
 local function enable_winbar(win_id)
