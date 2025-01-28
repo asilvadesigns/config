@@ -6,6 +6,7 @@ M.setup = function()
     session_lens = {
       load_on_setup = false,
     },
+    log_level = vim.log.levels.ERROR,
     pre_save_cmds = {
       function()
         for _, win_id in ipairs(vim.api.nvim_list_wins()) do

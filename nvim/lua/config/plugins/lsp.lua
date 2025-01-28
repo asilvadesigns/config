@@ -13,7 +13,7 @@ M.setup = function()
   }
 
   local servers = {
-    "angularls",
+    -- "angularls", -- NOTE: disabled for now. @see https://github.com/neovim/nvim-lspconfig/issues/3593
     "astro",
     "clangd",
     "cssls",

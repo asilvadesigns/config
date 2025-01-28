@@ -43,6 +43,8 @@ local palette_items = {
   { text = "Zen Mode (no neck pain)", cmd = "NoNeckPain" },
 }
 
+local MAX_WIDTH = 80
+
 M.setup = function()
   require("snacks").setup({
     ---@class snacks.picker.Config
@@ -57,13 +59,18 @@ M.setup = function()
         dropdown = {
           layout = {
             max_height = 30,
+            max_width = MAX_WIDTH,
             row = 6,
           },
         },
       },
+      matcher = {
+        cwd_bonus = true,
+      },
       formatters = {
         file = {
           filename_first = true,
+          truncate = MAX_WIDTH,
         },
       },
       icons = {
@@ -115,11 +122,11 @@ M.setup = function()
     },
     ---@class snacks.indent.Config
     indent = {
-      enabled = false,
+      enabled = true,
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
-      scope = { enabled = true },
+      scope = { enabled = false },
     },
     ---@class snacks.bigfile.Config
     bigfile = {
@@ -141,7 +148,14 @@ M.setup = function()
     dashboard = {
       enabled = true,
       sections = {
-        { key = "s", padding = 1, desc = "Session Restore", action = ":SessionRestore" },
+        {
+          key = "s",
+          padding = 1,
+          desc = "Session Restore",
+          action = function()
+            require("auto-session").RestoreSession(vim.fn.getcwd(), { show_message = false })
+          end,
+        },
         { key = "a", padding = 1, desc = "Actions", action = ":lua Snacks.picker.command_palette()" },
         { key = "f", padding = 1, desc = "Find File", action = ":lua Snacks.picker.files()" }, --:Telescope find_files
         { key = "e", padding = 1, desc = "Recent Files", action = ":lua Snacks.picker.recent()" }, --:Telescope oldfiles
@@ -209,11 +223,11 @@ vim.keymap.set("n", "<leader>a", function()
 end, { desc = "Fuzzy actions" })
 
 vim.keymap.set("n", "<leader>b", function()
-  Snacks.picker.buffers({ filter = { cwd = true }})
+  Snacks.picker.buffers({ filter = { cwd = true } })
 end, { desc = "Fuzzy buffers" })
 
 vim.keymap.set("n", "<leader>e", function()
-  Snacks.picker.recent({ filter = { cwd = true }})
+  Snacks.picker.recent({ filter = { cwd = true } })
 end, { desc = "Fuzzy oldfiles" })
 
 vim.keymap.set("n", "<leader>;", function()

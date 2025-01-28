@@ -561,7 +561,7 @@ require("lazy").setup({
     },
     {
       "andymass/vim-matchup",
-      event = "VeryLazy",
+      event = "User LoadUIPlugins",
       init = require("config.plugins.matchup").init,
       config = require("config.plugins.matchup").setup,
     },

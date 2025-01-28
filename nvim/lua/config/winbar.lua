@@ -111,15 +111,15 @@ local function get_filename(buf_id, uniquely_highlight_filename)
     return ""
   end
 
-  local icon, icon_highlight = "", ""
-  local devicons = require("nvim-web-devicons")
-  if devicons.has_loaded() then
-    icon, icon_highlight = devicons.get_icon_by_filetype(filetype)
-  end
-
-  if icon then
-    icon = string.format(" %%#%s#%s%%*", icon_highlight, icon)
-  end
+  -- local icon, icon_highlight = "", ""
+  -- local devicons = require("nvim-web-devicons")
+  -- if devicons.has_loaded() then
+  --   icon, icon_highlight = devicons.get_icon_by_filetype(filetype)
+  -- end
+  --
+  -- if icon then
+  --   icon = string.format(" %%#%s#%s%%*", icon_highlight, icon)
+  -- end
 
   if uniquely_highlight_filename then
     return "%*"
@@ -131,10 +131,10 @@ local function get_filename(buf_id, uniquely_highlight_filename)
       .. "%#Normal#"
       .. filename
       .. "%*"
-      .. icon
+      -- .. icon
   end
 
-  return filepath .. "/" .. filename .. "%*" .. icon
+  return filepath .. "/" .. filename .. "%*"-- .. icon
 end
 
 local function enable_winbar(win_id)
