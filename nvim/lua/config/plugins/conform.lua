@@ -99,6 +99,10 @@ M.setup = function()
     conform.format({ async = false, lsp_format = "never", formatters = { formatter_to_use } })
   end, {})
 
+  vim.api.nvim_create_user_command("FormatWithLsp", function()
+    require("conform").format({ async = true, lsp_format = "prefer" })
+  end, {})
+
   vim.api.nvim_create_user_command("FormatWithBiome", function()
     require("conform").format({ async = true, lsp_format = "never", formatters = { "biome-check" } })
   end, {})

@@ -29,6 +29,10 @@ set fish_cursor_replace_one underscore;
 set fish_cursor_replace underscore;
 set fish_cursor_external line;
 set fish_cursor_visual block;
+
+# Setting this because fish's fish_vi_cursor is not detecting ghostty's term capabilities
+set fish_vi_force_cursor
+
 # vi mode copy/paste @see: https://github.com/fish-shell/fish-shell/issues/4028
 bind yy fish_clipboard_copy
 bind Y fish_clipboard_copy

@@ -8,7 +8,11 @@ M.setup = function()
       ["<C-y>"] = { "show", "show_documentation", "hide_documentation" },
       cmdline = {
         ["<CR>"] = { "accept", "fallback" },
+        --
+        ["<Down>"] = { "show", "select_next", "fallback" },
         ["<Tab>"] = { "show", "select_next", "fallback" },
+        --
+        ["<Up>"] = { "select_prev", "fallback" },
         ["<S-Tab>"] = { "select_prev", "fallback" },
       },
     },

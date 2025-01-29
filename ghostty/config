@@ -105,4 +105,5 @@ cursor-color = "#85c1dc"
 
 # Other
 #copy-on-select = clipboard
-#shell-integration-features = cursor,sudo,no-title
+shell-integration = fish
+# shell-integration-features = cursor,sudo,no-title

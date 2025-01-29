@@ -1,6 +1,4 @@
 if vim.env.PROF then
-  -- example for lazy.nvim
-  -- change this to the correct path for your plugin manager
   local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
   vim.opt.rtp:append(snacks)
   ---@diagnostic disable-next-line: missing-fields
@@ -29,7 +27,7 @@ vim.opt.rtp:prepend(lazypath)
 --
 --
 vim.g.mapleader = ","
-vim.g.maplocalleader = ","
+vim.g.maplocalleader = " "
 ---
 
 vim.schedule(function()
@@ -41,7 +39,7 @@ vim.opt.cursorline = false
 vim.cmd(
   "set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175"
 )
-vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
+vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
 vim.opt.pumheight = 10
 vim.opt.swapfile = false
 vim.opt.backup = false
@@ -80,8 +78,8 @@ vim.opt.tabstop = 2
 ---
 vim.cmd("set nomodeline")
 ---
--- vim.opt.list = false
--- vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
+vim.opt.list = true
+vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
 ---
 vim.opt.scrolloff = 0
@@ -142,6 +140,10 @@ vim.keymap.set("n", "<leader>wL", "<C-w>L", { desc = "Go to the right window" })
 vim.keymap.set("n", "<leader>d", "<C-d>", { desc = "Scroll down" })
 vim.keymap.set("n", "<leader>u", "<C-u>", { desc = "Scroll up" })
 
+vim.keymap.set("n", "<leader>s", function()
+  vim.cmd("w")
+end, { desc = "Save" })
+
 vim.keymap.set("n", "<leader>qf", function()
   if vim.bo.filetype == "NvimTree" then
     require("nvim-tree.api").tree.close()
@@ -193,11 +195,11 @@ vim.keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev se
 --
 --
 vim.keymap.set("n", "[d", function()
-  vim.diagnostic.jump({ count = -1, float = true })
+  vim.diagnostic.jump({ count = -1, float = false })
 end, { desc = "Go to previous diagnostic message" })
 
 vim.keymap.set("n", "]d", function()
-  vim.diagnostic.jump({ count = 1, float = true })
+  vim.diagnostic.jump({ count = 1, float = false })
 end, { desc = "Go to next diagnostic message" })
 
 vim.keymap.set("n", "ge", vim.diagnostic.open_float, {
@@ -217,12 +219,12 @@ end
 vim.diagnostic.config({
   float = { border = "rounded" },
   signs = {
-    -- text = {
-    --   [vim.diagnostic.severity.ERROR] = signs.icons.square,
-    --   [vim.diagnostic.severity.HINT] = signs.icons.square,
-    --   [vim.diagnostic.severity.INFO] = signs.icons.square,
-    --   [vim.diagnostic.severity.WARN] = signs.icons.square,
-    -- },
+    text = {
+      [vim.diagnostic.severity.ERROR] = signs.icons.square,
+      [vim.diagnostic.severity.HINT] = signs.icons.square,
+      [vim.diagnostic.severity.INFO] = signs.icons.square,
+      [vim.diagnostic.severity.WARN] = signs.icons.square,
+    },
     -- numhl = {
     --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
     --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
@@ -346,7 +348,7 @@ require("lazy").setup({
     {
       "folke/noice.nvim",
       event = "VeryLazy",
-      dependencies = { lazy = true, "MunifTanjim/nui.nvim" },
+      dependencies = { "MunifTanjim/nui.nvim" },
       config = require("config.plugins.noice").setup,
     },
     {
@@ -367,7 +369,12 @@ require("lazy").setup({
     {
       "folke/lazydev.nvim",
       ft = "lua",
-      opts = { library = { { path = "${3rd}/luv/library", words = { "vim%.uv" } } } },
+      opts = {
+        library = {
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+          { path = "snacks.nvim", words = { "Snacks" } },
+        },
+      },
     },
     {
       "rmagatti/auto-session",
@@ -399,9 +406,15 @@ require("lazy").setup({
     },
     {
       "stevearc/conform.nvim",
-      cmd = { "Format", "FormatWithBiome", "FormatWithPrettier" },
+      cmd = { "Format", "FormatWithBiome", "FormatWithLsp", "FormatWithPrettier" },
       keys = { { "<leader>m", "<CMD>Format<cr>", desc = "Format" } },
       config = require("config.plugins.conform").setup,
+    },
+    {
+      "rachartier/tiny-inline-diagnostic.nvim",
+      event = "VeryLazy",
+      priority = 1000,
+      config = require("config.plugins.tiny-inline-diagnostic").setup,
     },
     {
       "iamcco/markdown-preview.nvim",
@@ -416,52 +429,52 @@ require("lazy").setup({
       event = "InsertEnter",
       config = require("config.plugins.better-escape").setup,
     },
-    {
-      "echasnovski/mini.nvim",
-      version = "*",
-      keys = {
-        { "<leader>x", "<CMD>lua MiniFiles.open(vim.api.nvim_buf_get_name(0), false)<CR>", { desc = "mini files" } },
-      },
-      config = function()
-        vim.api.nvim_create_autocmd("User", {
-          pattern = "MiniFilesWindowOpen",
-          callback = function(args)
-            local win_id = args.data.win_id
-
-            -- -- Customize window-local settings
-            -- vim.wo[win_id].winblend = 50
-            local config = vim.api.nvim_win_get_config(win_id)
-            config.border = "rounded"
-            -- config.title = "hello"
-            config.title_pos = "left"
-            vim.api.nvim_win_set_config(win_id, config)
-          end,
-        })
-
-        require("mini.files").setup({
-          mappings = {
-            close = "q",
-            go_in = "l",
-            go_in_plus = "<CR>", --go_in_plus = "L",
-            go_out = "h",
-            go_out_plus = "H",
-            mark_goto = "", --mark_goto = "'",
-            mark_set = "", --mark_set = "m",
-            reset = "<BS>",
-            reveal_cwd = "@",
-            show_help = "g?",
-            synchronize = "=",
-            trim_left = "<",
-            trim_right = ">",
-          },
-        })
-      end,
-    },
     -- {
-    --   "stevearc/oil.nvim",
-    --   lazy = false,
-    --   config = require("config.plugins.oil").setup,
+    --   "echasnovski/mini.nvim",
+    --   version = "*",
+    --   keys = {
+    --     { "<leader>x", "<CMD>lua MiniFiles.open(vim.api.nvim_buf_get_name(0), false)<CR>", { desc = "mini files" } },
+    --   },
+    --   config = function()
+    --     vim.api.nvim_create_autocmd("User", {
+    --       pattern = "MiniFilesWindowOpen",
+    --       callback = function(args)
+    --         local win_id = args.data.win_id
+    --
+    --         -- -- Customize window-local settings
+    --         -- vim.wo[win_id].winblend = 50
+    --         local config = vim.api.nvim_win_get_config(win_id)
+    --         config.border = "rounded"
+    --         -- config.title = "hello"
+    --         config.title_pos = "left"
+    --         vim.api.nvim_win_set_config(win_id, config)
+    --       end,
+    --     })
+    --
+    --     require("mini.files").setup({
+    --       mappings = {
+    --         close = "q",
+    --         go_in = "l",
+    --         go_in_plus = "<CR>", --go_in_plus = "L",
+    --         go_out = "h",
+    --         go_out_plus = "H",
+    --         mark_goto = "", --mark_goto = "'",
+    --         mark_set = "", --mark_set = "m",
+    --         reset = "<BS>",
+    --         reveal_cwd = "@",
+    --         show_help = "g?",
+    --         synchronize = "=",
+    --         trim_left = "<",
+    --         trim_right = ">",
+    --       },
+    --     })
+    --   end,
     -- },
+    {
+      "stevearc/oil.nvim",
+      event = "User LoadUIPlugins",
+      config = require("config.plugins.oil").setup,
+    },
     {
       "gbprod/substitute.nvim",
       keys = { { "X", "<CMD>lua require('substitute.exchange').visual()<CR>", mode = "x" } },

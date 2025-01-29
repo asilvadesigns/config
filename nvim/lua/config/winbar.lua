@@ -134,7 +134,7 @@ local function get_filename(buf_id, uniquely_highlight_filename)
       -- .. icon
   end
 
-  return filepath .. "/" .. filename .. "%*"-- .. icon
+  return filepath .. filename .. "%*"-- .. icon
 end
 
 local function enable_winbar(win_id)
@@ -148,7 +148,7 @@ local function enable_winbar(win_id)
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
   else
     local new_winbar = " "
-      .. get_filename(buf_id, true)
+      .. get_filename(buf_id, false)
       .. " "
       .. get_modified(buf_id)
       .. " "

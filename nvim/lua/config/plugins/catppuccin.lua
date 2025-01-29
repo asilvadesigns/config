@@ -58,13 +58,15 @@ M.setup = function()
           -- illuminatedCurWord = { bg = c.mauve },
           --
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
-          DiagnosticUnderlineError = { sp = c.red, underline = true },
-          DiagnosticUnderlineHint = { sp = c.teal, underline = true },
-          DiagnosticUnderlineInfo = { sp = c.blue, underline = true },
-          DiagnosticUnderlineWarn = { sp = c.yellow, underline = true },
+          DiagnosticUnderlineError = { sp = c.red, undercurl = true },
+          DiagnosticUnderlineHint = { sp = c.teal, undercurl = true },
+          DiagnosticUnderlineInfo = { sp = c.blue, undercurl = true },
+          DiagnosticUnderlineWarn = { sp = c.yellow, undercurl = true },
 
           TelescopeTitle = { fg = c.text },
           TelescopeNormal = { fg = c.subtext0 },
+
+          GrugFarResultsPath = { fg = c.text, bg = c.mantle, underline = true },
 
           StatusLine = { fg = statusline_fg, bg = statusline_bg },
           StatusLineNC = { fg = statusline_fg, bg = statusline_bg },

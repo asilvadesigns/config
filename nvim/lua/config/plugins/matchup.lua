@@ -22,7 +22,7 @@ end
 M.setup = function()
   require("nvim-treesitter.configs").setup({
     matchup = {
-      enabled = true,
+      enabled = false,
       include_match_words = false,
     },
   })

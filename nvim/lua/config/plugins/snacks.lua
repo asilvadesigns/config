@@ -12,6 +12,7 @@ local palette_items = {
   { text = "Copy filetype", cmd = "CopyFiletype" },
   { text = "Diagnostics", cmd = "Trouble diagnostics" },
   { text = "Format (Biome)", cmd = "FormatWithBiome" },
+  { text = "Format (Lsp)", cmd = "FormatWithLsp" },
   { text = "Format (Prettier)", cmd = "FormatWithPrettier" },
   { text = "Format (default)", cmd = "Format" },
   { text = "Git (Fugitive)", cmd = "Git" },
@@ -36,7 +37,17 @@ local palette_items = {
   { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
   { text = "Todos", cmd = "TodoFzfLua" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
-  { text = "Toggle Diagnostic Text", cmd = "ToggleDiagnosticText" },
+  {
+    text = "Toggle Diagnostic Text",
+    cmd = function()
+      local status_ok, _ = pcall(require, "tiny-inline-diagnostic")
+      if status_ok then
+        vim.cmd("ToggleDiagnosticTiny")
+      else
+        vim.cmd("ToggleDiagnosticText")
+      end
+    end,
+  },
   { text = "Toggle Statusline", cmd = "ToggleStatusline" },
   { text = "Toggle Winbar", cmd = "ToggleWinbar" },
   { text = "Trouble", cmd = "Trouble" },
@@ -176,7 +187,7 @@ M.setup = function()
     statuscolumn = {
       enabled = true,
       -- "sign"
-      left = { "git", "mark" }, -- priority of signs on the left (high to low)
+      left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
       right = { "fold" }, -- priority of signs on the right (high to low)
       folds = {
         open = true, -- show open fold icons
@@ -187,11 +198,6 @@ M.setup = function()
         patterns = { "GitSign", "MiniDiffSign" },
       },
       refresh = 50, -- refresh at most every 50ms
-    },
-    ---@class snacks.input.Config
-    input = {
-      enabled = false,
-      prompt_pos = "",
     },
     ---@class snacks.scroll.Config
     scroll = {

@@ -2,12 +2,12 @@ local M = {}
 
 M.setup = function()
   require("grug-far").setup({
-    -- disableBufferLineNumbers = true,
+    disableBufferLineNumbers = false,
     -- normalModeSearch = true,
     -- startInInsertMode = false,
     -- maxSearchMatches = 500,
     -- engine = "astgrep",
-    windowCreationCommand = "vsplit",
+    -- windowCreationCommand = "vsplit",
     resultsHighlight = false,
     inputsHighlight = false,
     keymaps = {
@@ -23,7 +23,7 @@ M.setup = function()
       pickHistoryEntry = { n = "<enter>" },
       qflist = { n = "<localleader>q" },
       refresh = { n = "<localleader>R" },
-      replace = { n = "<localleader>r" },
+      replace = "", -- { n = "<localleader>r" },
       swapEngine = { n = "" },
       syncLine = { n = "<localleader>l" },
       syncLocations = { n = "<localleader>s" },
