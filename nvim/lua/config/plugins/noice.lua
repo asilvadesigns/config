@@ -10,7 +10,7 @@ M.setup = function()
         cmdline = { icon = " ", lang = "vim", pattern = "^:", view = "cmdline" },
         search_down = { icon = "  ", kind = "search", lang = "regex", pattern = "^/" },
         search_up = { icon = "  ", kind = "search", lang = "regex", pattern = "^%?" },
-        input = { view = "cmdline_popup" },
+        -- input = false, -- { view = "cmdline_popup" },
         help = false,
         lua = false,
       },
@@ -20,9 +20,9 @@ M.setup = function()
     popupmenu = { enabled = false },
     lsp = {
       override = {
+        ["cmp.entry.get_documentation"] = true,
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
-        ["cmp.entry.get_documentation"] = true,
       },
       progress = { enabled = false },
       signature = { auto_open = { trigger = false } },

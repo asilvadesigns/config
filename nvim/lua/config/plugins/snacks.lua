@@ -120,6 +120,10 @@ M.setup = function()
         },
       },
     },
+    ---@class snacks.input.Config
+    input = {
+      enabled = false,
+    },
     ---@type table<string, snacks.win.Config>
     styles = {
       notification_history = {

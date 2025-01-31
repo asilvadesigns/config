@@ -131,10 +131,10 @@ local function get_filename(buf_id, uniquely_highlight_filename)
       .. "%#Normal#"
       .. filename
       .. "%*"
-      -- .. icon
+    -- .. icon
   end
 
-  return filepath .. filename .. "%*"-- .. icon
+  return filepath .. filename .. "%*" -- .. icon
 end
 
 local function enable_winbar(win_id)
@@ -195,36 +195,32 @@ local function disable_statusline()
 end
 
 local function render_statusline()
-  vim.schedule(function()
-    if _G.statusline_enabled then
-      enable_statusline(0)
-    else
-      disable_statusline()
-    end
-  end)
+  if _G.statusline_enabled then
+    enable_statusline(0)
+  else
+    disable_statusline()
+  end
 end
 
 local function render_winbar()
-  vim.schedule(function()
-    local status_ok, incline = pcall(require, "incline")
-    if _G.winbar_enabled then
-      if status_ok then
-        incline.disable()
-      end
-    else
-      if status_ok then
-        incline.enable()
-      end
+  local status_ok, incline = pcall(require, "incline")
+  if _G.winbar_enabled then
+    if status_ok then
+      incline.disable()
     end
+  else
+    if status_ok then
+      incline.enable()
+    end
+  end
 
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-      if _G.winbar_enabled then
-        enable_winbar(win)
-      else
-        disable_winbar(win)
-      end
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if _G.winbar_enabled then
+      enable_winbar(win)
+    else
+      disable_winbar(win)
     end
-  end)
+  end
 end
 
 local RenderGroup = vim.api.nvim_create_augroup("update_group", { clear = true })
