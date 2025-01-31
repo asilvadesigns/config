@@ -284,22 +284,18 @@ vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
   callback = function()
     vim.defer_fn(function()
-      if vim.env.TMUX ~= nil then
-        vim.api.nvim_exec_autocmds("User", { pattern = "LoadSessionPlugins" })
-      end
-    end, 250)
+      vim.api.nvim_exec_autocmds("User", { pattern = "LoadSessionPlugins" })
+    end, 100)
+
+    vim.defer_fn(function()
+      vim.api.nvim_exec_autocmds("User", { pattern = "LoadUIPlugins" })
+    end, 200)
 
     vim.defer_fn(function()
       if vim.env.TMUX ~= nil then
         vim.api.nvim_exec_autocmds("User", { pattern = "LoadTmuxPlugins" })
       end
-    end, 750)
-
-    vim.defer_fn(function()
-      if vim.env.TMUX ~= nil then
-        vim.api.nvim_exec_autocmds("User", { pattern = "LoadUIPlugins" })
-      end
-    end, 1000)
+    end, 300)
   end,
 })
 
@@ -505,7 +501,7 @@ require("lazy").setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
-      event = "VeryLazy",
+      event = "User LoadUIPlugins",
       config = require("config.plugins.nvim-tree").setup,
     },
     {

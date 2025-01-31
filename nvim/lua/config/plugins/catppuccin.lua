@@ -20,32 +20,13 @@ M.setup = function()
       ufo = false,
     },
     highlight_overrides = {
-      latte = function(c)
-        local bg = utils.darken(c.surface0, 0.20, c.base)
-
-        return {
-          CursorLine = { bg = bg },
-          CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
-          CursorLineNr = { bg = bg, fg = c.overlay0 }, --, fg = c.mauve }, -- or c.muave
-          CursorLineSign = { bg = bg },
-        }
-      end,
-      frappe = function(c)
-        local bg = utils.darken(c.surface0, 0.40, c.base)
-
-        return {
-          CursorLine = { bg = bg },
-          CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
-          CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2
-          CursorLineSign = { bg = bg },
-        }
-      end,
       all = function(c)
         local statusline_bg = c.base
         local statusline_fg = c.surface0
         --
         -- local statusline_bg = c.surface0
         -- local statusline_fg = c.overlay1
+        local bg = utils.darken(c.surface0, 0.40, c.base)
 
         return {
           ["@variable.builtin"] = { fg = c.lavender },
@@ -53,6 +34,16 @@ M.setup = function()
           FloatBorder = { bg = c.base, fg = c.overlay0 },
           Folded = { bg = c.base },
           NormalFloat = { bg = c.base },
+          ---
+          ---
+          ---
+          CursorLine = { bg = bg },
+          CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
+          CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2
+          CursorLineSign = { bg = bg },
+          ---
+          MatchParen = { bg = c.surface1, style = {} },
+          Visual = { bg = c.surface1, style = {} },
           --
           -- illuminatedWord = { bg = c.mauve },
           -- illuminatedCurWord = { bg = c.mauve },
@@ -90,6 +81,7 @@ M.setup = function()
           NvimTreeSpecialFile = { fg = c.overlay1 },
 
           SnacksPickerMatch = { fg = c.red },
+
         }
       end,
     },

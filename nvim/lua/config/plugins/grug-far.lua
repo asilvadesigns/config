@@ -2,13 +2,12 @@ local M = {}
 
 M.setup = function()
   require("grug-far").setup({
-    disableBufferLineNumbers = false,
     -- normalModeSearch = true,
     -- startInInsertMode = false,
     -- maxSearchMatches = 500,
     -- engine = "astgrep",
     -- windowCreationCommand = "vsplit",
-    resultsHighlight = false,
+    resultsHighlight = true,
     inputsHighlight = false,
     keymaps = {
       abort = { n = "<localleader>b" },
@@ -29,12 +28,15 @@ M.setup = function()
       syncLocations = { n = "<localleader>s" },
       toggleShowCommand = { n = "<localleader>p" },
     },
+    prefills = {
+      flags = "-U",
+    },
     -- folding = {
     --   enabled = vim.o.foldenable,
     --   foldcolumn = vim.o.foldcolumn,
     --   foldlevel = vim.o.foldlevel,
     -- },
-    -- wrap = false,
+    wrap = false,
   })
 
   vim.cmd("hi! link GrugFarInputLabel String")
@@ -43,7 +45,11 @@ M.setup = function()
   vim.cmd("hi! link GrugFarResultsMatchAdded NeogitDiffAdd")
 
   vim.api.nvim_create_user_command("GrugFarLocal", function()
-    require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } })
+    require("grug-far").open({
+      prefills = {
+        paths = vim.fn.expand("%"),
+      },
+    })
   end, {})
 end
 
