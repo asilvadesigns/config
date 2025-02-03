@@ -6,9 +6,10 @@ M.setup = function()
     -- startInInsertMode = false,
     -- maxSearchMatches = 500,
     -- engine = "astgrep",
-    -- windowCreationCommand = "vsplit",
+    windowCreationCommand = "tab split", -- vsplit, botright split, tab split
     resultsHighlight = true,
     inputsHighlight = false,
+    maxLineLength = 200,
     keymaps = {
       abort = { n = "<localleader>b" },
       close = { n = "<localleader>c" },
@@ -39,10 +40,12 @@ M.setup = function()
     wrap = false,
   })
 
+  vim.cmd("hi! link GrugFarHelpWinActionDescription Comment")
   vim.cmd("hi! link GrugFarInputLabel String")
+  vim.cmd("hi! link GrugFarInputPlaceholder DiagnosticVirtualTextInfo")
   vim.cmd("hi! link GrugFarResultsMatch DiffText")
-  vim.cmd("hi! link GrugFarResultsMatchRemoved NeogitDiffDelete")
   vim.cmd("hi! link GrugFarResultsMatchAdded NeogitDiffAdd")
+  vim.cmd("hi! link GrugFarResultsMatchRemoved NeogitDiffDelete")
 
   vim.api.nvim_create_user_command("GrugFarLocal", function()
     require("grug-far").open({

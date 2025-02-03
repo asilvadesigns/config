@@ -15,6 +15,7 @@ M.setup = function()
       silent = true,
     })
 
+    -- search directory with grug
     vim.keymap.set("n", "f", function()
       local node = api.tree.get_node_under_cursor()
       local path = node.absolute_path

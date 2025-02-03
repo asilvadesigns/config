@@ -50,8 +50,8 @@ vim.opt.linebreak = false
 ---
 vim.opt.synmaxcol = 256
 ---
-vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.number = false
+vim.opt.relativenumber = false
 ---
 vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
@@ -363,6 +363,11 @@ require("lazy").setup({
       opts = {},
     },
     {
+      "folke/flash.nvim",
+      event = "User LoadUIPlugins",
+      config = require("config.plugins.flash").setup,
+    },
+    {
       "folke/lazydev.nvim",
       ft = "lua",
       opts = {
@@ -425,47 +430,6 @@ require("lazy").setup({
       event = "InsertEnter",
       config = require("config.plugins.better-escape").setup,
     },
-    -- {
-    --   "echasnovski/mini.nvim",
-    --   version = "*",
-    --   keys = {
-    --     { "<leader>x", "<CMD>lua MiniFiles.open(vim.api.nvim_buf_get_name(0), false)<CR>", { desc = "mini files" } },
-    --   },
-    --   config = function()
-    --     vim.api.nvim_create_autocmd("User", {
-    --       pattern = "MiniFilesWindowOpen",
-    --       callback = function(args)
-    --         local win_id = args.data.win_id
-    --
-    --         -- -- Customize window-local settings
-    --         -- vim.wo[win_id].winblend = 50
-    --         local config = vim.api.nvim_win_get_config(win_id)
-    --         config.border = "rounded"
-    --         -- config.title = "hello"
-    --         config.title_pos = "left"
-    --         vim.api.nvim_win_set_config(win_id, config)
-    --       end,
-    --     })
-    --
-    --     require("mini.files").setup({
-    --       mappings = {
-    --         close = "q",
-    --         go_in = "l",
-    --         go_in_plus = "<CR>", --go_in_plus = "L",
-    --         go_out = "h",
-    --         go_out_plus = "H",
-    --         mark_goto = "", --mark_goto = "'",
-    --         mark_set = "", --mark_set = "m",
-    --         reset = "<BS>",
-    --         reveal_cwd = "@",
-    --         show_help = "g?",
-    --         synchronize = "=",
-    --         trim_left = "<",
-    --         trim_right = ">",
-    --       },
-    --     })
-    --   end,
-    -- },
     {
       "stevearc/oil.nvim",
       event = "User LoadUIPlugins",
@@ -530,31 +494,24 @@ require("lazy").setup({
       config = require("config.plugins.blink").setup,
     },
     {
-      "nvim-pack/nvim-spectre",
-      cmd = "Spectre",
-      keys = {
-        -- { "F", "<CMD>Spectre<CR>", desc = "Find", mode = "n" },
-        { "f", ":lua require('spectre').open_visual()<CR>", desc = "Find selected", mode = "v" },
-      },
-      config = require("config.plugins.spectre").setup,
-    },
-    {
       "MagicDuck/grug-far.nvim",
       cmd = { "GrugFar", "GrugFarLocal", "GrugFarGlobal" },
       keys = {
         {
-          "<C-s>",
+          "f",
+          mode = "v",
           function()
             require("grug-far").with_visual_selection({ prefills = { paths = vim.fn.expand("%") } })
           end,
-          mode = "v",
+          desc = "Find selected in file",
         },
         {
-          "<C-f>",
+          "F",
+          mode = "v",
           function()
             require("grug-far").with_visual_selection()
           end,
-          mode = "v",
+          desc = "Find selected in project",
         },
       },
       config = require("config.plugins.grug-far").setup,
@@ -627,24 +584,6 @@ require("lazy").setup({
       "wurli/visimatch.nvim",
       event = "User LoadUIPlugins",
       opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
-    },
-    {
-      "ggandor/leap.nvim",
-      keys = {
-        {
-          "s",
-          function()
-            require("leap").leap({
-              target_windows = require("leap.user").get_focusable_windows(),
-            })
-          end,
-          silent = true,
-        },
-      },
-      config = function()
-        vim.cmd("hi! link LeapBackdrop NvimContainer")
-        vim.cmd("hi! link LeapLabel @comment.warning")
-      end,
     },
   },
   performance = {

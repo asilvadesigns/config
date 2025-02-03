@@ -20,7 +20,6 @@ end
 local excluded_filetypes = {
   ["NeogitStatus"] = true,
   ["NvimTree"] = true,
-  ["grug-far"] = true,
   ["help"] = true,
   ["snacks_dashboard"] = true,
   ["spectre_panel"] = true,
@@ -203,17 +202,6 @@ local function render_statusline()
 end
 
 local function render_winbar()
-  local status_ok, incline = pcall(require, "incline")
-  if _G.winbar_enabled then
-    if status_ok then
-      incline.disable()
-    end
-  else
-    if status_ok then
-      incline.enable()
-    end
-  end
-
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     if _G.winbar_enabled then
       enable_winbar(win)
