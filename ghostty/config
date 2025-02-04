@@ -4,6 +4,8 @@ theme = catppuccin-frappe
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 16
 adjust-cell-height = 20%
+adjust-cursor-height = 20%
+adjust-cursor-thickness = 3
 # disable ligatures
 font-feature = -calt
 font-feature = -liga
@@ -23,8 +25,6 @@ window-padding-color = extend-always
 window-padding-x = 0
 window-padding-y = 0
 window-padding-balance = true
-
-adjust-cursor-thickness = 2
 
 # Keybindings
 # \x02 is ctrl+b (default tmux prefix)
