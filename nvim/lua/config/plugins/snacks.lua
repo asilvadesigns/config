@@ -204,7 +204,7 @@ M.setup = function()
     },
     ---@class snacks.scroll.Config
     scroll = {
-      enabled = false,
+      enabled = true,
       animate = {
         duration = { step = 15, total = 75 }, --5 && 125 is good
         easing = "inOutSine",

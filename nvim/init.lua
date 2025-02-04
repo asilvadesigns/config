@@ -343,6 +343,7 @@ require("lazy").setup({
     },
     {
       "folke/noice.nvim",
+      enabled = false,
       event = "VeryLazy",
       dependencies = { "MunifTanjim/nui.nvim" },
       config = require("config.plugins.noice").setup,
