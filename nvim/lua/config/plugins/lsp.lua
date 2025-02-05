@@ -263,7 +263,7 @@ M.setup = function()
 
   vim.defer_fn(function()
     attach_lsp_to_existing_buffers()
-  end, 400)
+  end, 1000)
 end
 
 return M

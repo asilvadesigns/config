@@ -21,10 +21,7 @@ font-feature = -dlig
 # gtk-tabs-location = bottom
 # gtk-wide-tabs = false
 
-# tabs
-# hidden or transparent
 macos-titlebar-style = hidden
-# true
 window-decoration = false
 window-padding-color = extend-always
 window-padding-x = 0

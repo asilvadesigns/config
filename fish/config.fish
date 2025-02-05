@@ -93,4 +93,4 @@ set PATH $PATH /Users/albertos/.local/bin
 direnv hook fish | source
 
 # starship must be at the end but we're trying PURE right now...
-# starship init fish | source
+starship init fish | source

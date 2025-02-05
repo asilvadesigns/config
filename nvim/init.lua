@@ -481,14 +481,14 @@ require("lazy").setup({
     },
     {
       "neovim/nvim-lspconfig",
-      event = "VeryLazy",
+      event = "User LoadUIPlugins",
       dependencies = { "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
       config = require("config.plugins.lsp").setup,
     },
     {
       "saghen/blink.cmp",
       version = "*",
-      event = { "CmdlineEnter", "InsertEnter", "User LoadUIPlugins" },
+      event = { "CmdlineEnter", "InsertEnter" },
       opts_extend = { "sources.default" },
       dependencies = "rafamadriz/friendly-snippets",
       config = require("config.plugins.blink").setup,
@@ -525,12 +525,12 @@ require("lazy").setup({
       },
       opts = {},
     },
-    -- {
-    --   "andymass/vim-matchup",
-    --   event = "User LoadUIPlugins",
-    --   init = require("config.plugins.matchup").init,
-    --   config = require("config.plugins.matchup").setup,
-    -- },
+    {
+      "andymass/vim-matchup",
+      event = "User LoadUIPlugins",
+      init = require("config.plugins.matchup").init,
+      config = require("config.plugins.matchup").setup,
+    },
     {
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
@@ -575,14 +575,25 @@ require("lazy").setup({
       event = "User LoadUIPlugins",
       opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
     },
+    {
+      "RRethy/vim-illuminate",
+      event = "LspAttach",
+      config = require("config.plugins.illuminate").setup,
+    },
+    {
+      "akinsho/bufferline.nvim",
+      event = { "TabEnter", "TabNew" },
+      version = "*",
+      config = require("config.plugins.bufferline").setup,
+    },
   },
   performance = {
     rtp = {
       disabled_plugins = {
         "getscriptPlugin",
         "gzip",
-        -- "matchit",
-        -- "matchparen",
+        "matchit",
+        "matchparen",
         "editorconfig",
         "netrwPlugin",
         "osc52",

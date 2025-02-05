@@ -41,7 +41,7 @@ M.setup = function()
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },
           ---
-          -- MatchParen = { bg = c.surface1, style = {} },
+          MatchParen = { bg = c.surface1, fg = c.lavender, style = {} },
           Visual = { bg = c.surface1, style = {} },
           --
           -- illuminatedWord = { bg = c.mauve },
@@ -77,6 +77,7 @@ M.setup = function()
           NvimTreeFolderName = { fg = c.subtext0 },
           NvimTreeNormal = { fg = c.overlay1, bg = c.base },
           NvimTreeOpenedFolderName = { fg = c.subtext0 },
+          NvimTreeRootFolder = { fg = c.overlay1 },
           NvimTreeSpecialFile = { fg = c.overlay1 },
 
           SnacksPickerMatch = { fg = c.red },

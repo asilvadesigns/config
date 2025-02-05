@@ -152,7 +152,7 @@ local function enable_winbar(win_id)
       .. get_modified(buf_id)
       .. " "
       .. get_diagnostics(buf_id, true)
-      -- .. "%*%#NonText# %=󰆤 %l/%L:%c %*"
+      .. "%*%#NonText# %= %l/%L:%c %*"
 
     vim.api.nvim_set_option_value("winbar", new_winbar, { win = win_id })
   end

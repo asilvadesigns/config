@@ -26,11 +26,11 @@ error_symbol = ''
 [directory]
 truncation_length = 0
 truncate_to_repo = false
-# style = "blue"
+style = "blue"
 
 [git_branch]
 symbol = ""
-# style = "blue"
+style = "blue"
 # symbol = " "
 
 [git_status]
