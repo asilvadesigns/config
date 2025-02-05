@@ -13,4 +13,4 @@ wsl = false
 
 [font]
 normal = ["JetBrainsMono Nerd Font Mono"] # Will use the bundled Fira Code Nerd Font by default
-size = 14.0
+size = 16.0

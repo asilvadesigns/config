@@ -1,5 +1,14 @@
+-- local workEnv = os.getenv("WORK_ENV")
+
+local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+-- if workEnv ~= nil then
+--   snacks = vim.fn.expand(workEnv .. "lazy/snacks.nvim")
+--   lazypath = vim.fn.expand(workEnv .. "lazy/lazy.nvim")
+-- end
+
 if vim.env.PROF then
-  local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
   vim.opt.rtp:append(snacks)
   ---@diagnostic disable-next-line: missing-fields
   require("snacks.profiler").startup({
@@ -7,8 +16,6 @@ if vim.env.PROF then
   })
 end
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
----@diagnostic disable-next-line: undefined-field
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
   local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
@@ -35,10 +42,10 @@ vim.schedule(function()
 end)
 
 vim.opt.conceallevel = 0
-vim.opt.cursorline = false
-vim.cmd(
-  "set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175"
-)
+vim.opt.cursorline = true
+-- vim.cmd(
+--   "set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175"
+-- )
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
 vim.opt.pumheight = 10
 vim.opt.swapfile = false
@@ -57,6 +64,8 @@ vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
+---
+vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
 ---
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -78,19 +87,23 @@ vim.opt.tabstop = 2
 ---
 vim.cmd("set nomodeline")
 ---
-vim.opt.list = true
-vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
-vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
+-- vim.opt.list = true
+-- vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
+-- vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
 ---
 vim.opt.scrolloff = 0
 vim.opt.sidescrolloff = 0
 vim.opt.smoothscroll = true
 ---
-
+vim.opt.cmdheight = 0
 vim.opt.signcolumn = "yes"
 ---
-vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
--- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.opt.sessionoptions = "buffers,curdir,help,winsize,winpos"
+-- perfomance
+vim.opt.redrawtime = 1500
+vim.opt.timeoutlen = 200
+vim.opt.ttimeoutlen = 10
+vim.opt.updatetime = 100
 
 ---
 vim.opt.termguicolors = true
@@ -101,7 +114,15 @@ if vim.g.neovide then
   vim.g.neovide_floating_z_height = 10
   vim.g.neovide_light_angle_degrees = 45
   vim.g.neovide_light_radius = 5
-  vim.g.neovide_scroll_animation_length = 0.05
+  -- vim.g.neovide_scroll_animation_length = 0.05
+  vim.g.neovide_position_animation_length = 0
+  vim.g.neovide_cursor_animation_length = 0.00
+  vim.g.neovide_cursor_trail_size = 0
+  vim.g.neovide_cursor_animate_in_insert_mode = false
+  vim.g.neovide_cursor_animate_command_line = false
+  vim.g.neovide_scroll_animation_far_lines = 0
+  vim.g.neovide_scroll_animation_length = 0.00
+  -- TODO: at some point add hotkeys for modifying font size.
 end
 
 --
@@ -195,11 +216,11 @@ vim.keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev se
 --
 --
 vim.keymap.set("n", "[d", function()
-  vim.diagnostic.jump({ count = -1, float = false })
+  vim.diagnostic.jump({ count = -1, float = true })
 end, { desc = "Go to previous diagnostic message" })
 
 vim.keymap.set("n", "]d", function()
-  vim.diagnostic.jump({ count = 1, float = false })
+  vim.diagnostic.jump({ count = 1, float = true })
 end, { desc = "Go to next diagnostic message" })
 
 vim.keymap.set("n", "ge", vim.diagnostic.open_float, {
@@ -233,8 +254,9 @@ vim.diagnostic.config({
     -- },
   },
   -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
-  underline = true,
-  virtual_text = true,
+  underline = false,
+  virtual_text = false,
+  virtual_lines = false,
 })
 
 vim.filetype.add({
@@ -332,6 +354,7 @@ require("config.winbar")
 
 ---@diagnostic disable-next-line: missing-fields
 require("lazy").setup({
+  root = vim.fn.expand("~/dev/lazy/plugins"),
   spec = {
     { lazy = true, "nvim-tree/nvim-web-devicons" },
     { lazy = true, "nvim-lua/plenary.nvim" },
@@ -344,7 +367,7 @@ require("lazy").setup({
     {
       "folke/noice.nvim",
       enabled = false,
-      event = "VeryLazy",
+      lazy = false,
       dependencies = { "MunifTanjim/nui.nvim" },
       config = require("config.plugins.noice").setup,
     },
@@ -363,11 +386,11 @@ require("lazy").setup({
       event = "VeryLazy",
       opts = {},
     },
-    {
-      "folke/flash.nvim",
-      event = "User LoadUIPlugins",
-      config = require("config.plugins.flash").setup,
-    },
+    -- {
+    --   "folke/flash.nvim",
+    --   event = "User LoadUIPlugins",
+    --   config = require("config.plugins.flash").setup,
+    -- },
     {
       "folke/lazydev.nvim",
       ft = "lua",
@@ -397,8 +420,7 @@ require("lazy").setup({
     },
     {
       "eero-lehtinen/oklch-color-picker.nvim",
-      event = "VeryLazy",
-      cmd = { "ColorPickerToggle" },
+      event = "User LoadUIPlugins",
       config = require("config.plugins.color-picker").setup,
     },
     {
@@ -411,12 +433,6 @@ require("lazy").setup({
       cmd = { "Format", "FormatWithBiome", "FormatWithLsp", "FormatWithPrettier" },
       keys = { { "<leader>m", "<CMD>Format<cr>", desc = "Format" } },
       config = require("config.plugins.conform").setup,
-    },
-    {
-      "rachartier/tiny-inline-diagnostic.nvim",
-      event = "VeryLazy",
-      priority = 1000,
-      config = require("config.plugins.tiny-inline-diagnostic").setup,
     },
     {
       "iamcco/markdown-preview.nvim",
@@ -447,12 +463,6 @@ require("lazy").setup({
       opts = {},
     },
     {
-      "akinsho/bufferline.nvim",
-      event = { "TabEnter", "TabNew" },
-      version = "*",
-      config = require("config.plugins.bufferline").setup,
-    },
-    {
       "shortcuts/no-neck-pain.nvim",
       keys = { { "<leader>z", "<CMD>NoNeckPain<CR>", desc = "Toggle zen mode" } },
       version = "*",
@@ -476,20 +486,9 @@ require("lazy").setup({
       config = require("config.plugins.lsp").setup,
     },
     {
-      "dnlhc/glance.nvim",
-      cmd = "Glance",
-      keys = {
-        { "gD", "<CMD>Glance definitions<CR>", { desc = "Glance definitions" } },
-        { "gR", "<CMD>Glance references<CR>", { desc = "Glance references" } },
-        { "gY", "<CMD>Glance type_definitions<CR>", { desc = "Glance type_definitions" } },
-        { "gI", "<CMD>Glance implementations<CR>", { desc = "Glance implementations" } },
-      },
-      opts = {},
-    },
-    {
       "saghen/blink.cmp",
       version = "*",
-      event = { "CmdlineEnter", "InsertEnter" },
+      event = { "CmdlineEnter", "InsertEnter", "User LoadUIPlugins" },
       opts_extend = { "sources.default" },
       dependencies = "rafamadriz/friendly-snippets",
       config = require("config.plugins.blink").setup,
@@ -526,16 +525,16 @@ require("lazy").setup({
       },
       opts = {},
     },
-    {
-      "andymass/vim-matchup",
-      event = "User LoadUIPlugins",
-      init = require("config.plugins.matchup").init,
-      config = require("config.plugins.matchup").setup,
-    },
+    -- {
+    --   "andymass/vim-matchup",
+    --   event = "User LoadUIPlugins",
+    --   init = require("config.plugins.matchup").init,
+    --   config = require("config.plugins.matchup").setup,
+    -- },
     {
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
-      event = "VeryLazy",
+      event = "User LoadUIPlugins",
       dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "andymass/vim-matchup" },
       config = require("config.plugins.treesitter").setup,
     },
@@ -557,16 +556,6 @@ require("lazy").setup({
       "tpope/vim-fugitive",
       event = "User LoadGitPlugins",
       cmd = { "Gdiffsplit", "Git", "Gvdiffsplit" },
-    },
-    {
-      "lewis6991/gitsigns.nvim",
-      cmd = "Gitsigns",
-      keys = {
-        { "]g", "<CMD>Gitsigns next_hunk<CR>", "n" },
-        { "[g", "<CMD>Gitsigns prev_hunk<CR>", "n" },
-        { "gp", "<CMD>Gitsigns preview_hunk<CR>", "n" },
-      },
-      config = require("config.plugins.gitsigns").setup,
     },
     {
       "mrjones2014/smart-splits.nvim",
@@ -592,8 +581,8 @@ require("lazy").setup({
       disabled_plugins = {
         "getscriptPlugin",
         "gzip",
-        "matchit",
-        "matchparen",
+        -- "matchit",
+        -- "matchparen",
         "editorconfig",
         "netrwPlugin",
         "osc52",

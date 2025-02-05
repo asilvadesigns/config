@@ -74,7 +74,7 @@ M.setup = function()
     },
     renderer = {
       indent_markers = {
-        enable = true,
+        enable = false,
       },
       highlight_diagnostics = "all",
       icons = {

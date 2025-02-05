@@ -1,10 +1,15 @@
+# theme = catppuccin-latte
 theme = catppuccin-frappe
+# theme = "Monokai Pro Light Sun"
+# theme = "Builtin Solarized Light"
 
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 16
-adjust-cell-height = 20%
-adjust-cursor-height = 20%
+font-thicken = false
+font-thicken-strength = 1
+adjust-cell-height = 10%
+adjust-cursor-height = 10%
 adjust-cursor-thickness = 3
 # disable ligatures
 font-feature = -calt

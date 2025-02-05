@@ -1,10 +1,13 @@
 local M = {}
 
 M.setup = function()
-  local capabilities = require("blink.cmp").get_lsp_capabilities()
+  -- local capabilities = require("blink.cmp").get_lsp_capabilities()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
 
   capabilities.workspace = {
-    didChangeWatchedFiles = { dynamicRegistration = false },
+    didChangeWatchedFiles = {
+      dynamicRegistration = false,
+    },
   }
 
   capabilities.textDocument.foldingRange = {
@@ -13,14 +16,12 @@ M.setup = function()
   }
 
   local servers = {
-    -- "angularls", -- NOTE: disabled for now. @see https://github.com/neovim/nvim-lspconfig/issues/3593
+    "angularls",
     "astro",
     "clangd",
     "cssls",
-    -- "cssmodules_ls",
     "dockerls",
-    -- "emmet_language_server",
-    "eslint", -- NOTE: should probably add the root util...
+    "eslint",
     "gopls",
     "html",
     "jsonls",
@@ -80,7 +81,7 @@ M.setup = function()
       })
     end,
     ["jsonls"] = function()
-      -- NOTE: to add new schemas, find url here https://www.schemastore.org/json/
+      -- NOTE: new schemas see here https://www.schemastore.org/json/
       require("lspconfig").jsonls.setup({
         capabilities = capabilities,
         settings = {

@@ -37,7 +37,7 @@ M.setup = function()
   require("oklch-color-picker").setup({
     highlight = {
       style = "virtual_left",
-      enabled = false, --should_enable("INIT", buf_id),
+      enabled = true, --should_enable("INIT", buf_id),
     },
   })
 

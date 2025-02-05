@@ -136,7 +136,7 @@ M.setup = function()
     },
     ---@class snacks.indent.Config
     indent = {
-      enabled = true,
+      enabled = false,
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
@@ -204,7 +204,7 @@ M.setup = function()
     },
     ---@class snacks.scroll.Config
     scroll = {
-      enabled = true,
+      enabled = false,
       animate = {
         duration = { step = 15, total = 75 }, --5 && 125 is good
         easing = "inOutSine",

@@ -21,14 +21,13 @@ M.setup = function()
     },
     highlight_overrides = {
       all = function(c)
-        local statusline_bg = c.base
-        local statusline_fg = c.surface0
-        --
-        -- local statusline_bg = c.surface0
-        -- local statusline_fg = c.overlay1
+        local statusline_bg = c.surface0
+        local statusline_fg = c.overlay1
+
         local bg = utils.darken(c.surface0, 0.40, c.base)
 
         return {
+          ["@constructor.lua"] = { fg = c.subtext0 },
           ["@variable.builtin"] = { fg = c.lavender },
           ["@variable.parameter"] = { fg = c.lavender },
           FloatBorder = { bg = c.base, fg = c.overlay0 },
@@ -42,7 +41,7 @@ M.setup = function()
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },
           ---
-          MatchParen = { bg = c.surface1, style = {} },
+          -- MatchParen = { bg = c.surface1, style = {} },
           Visual = { bg = c.surface1, style = {} },
           --
           -- illuminatedWord = { bg = c.mauve },
@@ -81,7 +80,6 @@ M.setup = function()
           NvimTreeSpecialFile = { fg = c.overlay1 },
 
           SnacksPickerMatch = { fg = c.red },
-
         }
       end,
     },
