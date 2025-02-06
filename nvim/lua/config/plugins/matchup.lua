@@ -16,6 +16,7 @@ M.init = function()
   vim.g.matchup_override_vimtex = 1 -- Override vimtex's matching in LaTeX files
   vim.g.matchup_surround_enabled = 1 -- Enable surrounding functionality
   vim.g.matchup_text_obj_enabled = 0 -- Disable text objects like i%, a%
+  vim.g.matchup_enable_matchwords = 0 -- Disable matching words
   vim.o.matchpairs = "(:),{:},[:],<:>" -- Set matching pairs, including angle brackets
 end
 

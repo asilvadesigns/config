@@ -577,6 +577,7 @@ require("lazy").setup({
     },
     {
       "RRethy/vim-illuminate",
+      enabled = false,
       event = "LspAttach",
       config = require("config.plugins.illuminate").setup,
     },

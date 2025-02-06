@@ -1,7 +1,6 @@
 local M = {}
 
 M.setup = function()
-  -- local capabilities = require("blink.cmp").get_lsp_capabilities()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
 
   capabilities.workspace = {
@@ -27,13 +26,13 @@ M.setup = function()
     "jsonls",
     "lua_ls",
     "prismals",
-    "pyright",
+    -- "pyright",
     "sqlls",
     "tailwindcss",
     "taplo",
-    "templ",
+    -- "templ",
     "ts_ls",
-    "volar",
+    -- "volar",
     "yamlls",
   }
 
@@ -194,31 +193,19 @@ M.setup = function()
 
       vim.keymap.set("n", "g.", vim.lsp.buf.code_action, opts)
       vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
+
       vim.keymap.set("n", "K", function()
         vim.lsp.buf.hover({ border = "rounded" })
       end, opts)
 
-      -- telescope
-      -- vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
-      -- vim.keymap.set("n", "gi", require("telescope.builtin").lsp_implementations, opts)
-      -- vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
-
-      -- fzflua
-      -- vim.keymap.set("n", "gd", function()
-      --   require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
-      -- end, opts)
-      -- vim.keymap.set("n", "gi", function()
-      --   require("fzf-lua").lsp_implementations({ jump_to_single_result = true })
-      -- end, opts)
-      -- vim.keymap.set("n", "gr", require("fzf-lua").lsp_references, opts)
-
-      -- picker
       vim.keymap.set("n", "gd", function()
         Snacks.picker.lsp_definitions()
       end, opts)
+
       vim.keymap.set("n", "gi", function()
         Snacks.picker.lsp_implementations()
       end, opts)
+
       vim.keymap.set("n", "gr", function()
         Snacks.picker.lsp_references()
       end, opts)
@@ -263,7 +250,7 @@ M.setup = function()
 
   vim.defer_fn(function()
     attach_lsp_to_existing_buffers()
-  end, 1000)
+  end, 100)
 end
 
 return M
