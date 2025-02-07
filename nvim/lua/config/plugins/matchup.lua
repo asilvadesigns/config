@@ -27,6 +27,13 @@ M.setup = function()
       include_match_words = false,
     },
   })
+
+  vim.api.nvim_set_hl(0, "MatchParen", {
+    bg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticVirtualTextWarn"), "bg"),
+    fg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticVirtualTextWarn"), "fg"),
+    italic = false,
+    underline = true,
+  })
 end
 
 return M

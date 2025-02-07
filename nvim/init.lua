@@ -1,16 +1,10 @@
--- local workEnv = os.getenv("WORK_ENV")
+---@diagnostic disable: missing-fields
 
 local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
--- if workEnv ~= nil then
---   snacks = vim.fn.expand(workEnv .. "lazy/snacks.nvim")
---   lazypath = vim.fn.expand(workEnv .. "lazy/lazy.nvim")
--- end
-
 if vim.env.PROF then
   vim.opt.rtp:append(snacks)
-  ---@diagnostic disable-next-line: missing-fields
   require("snacks.profiler").startup({
     startup = { event = "VimEnter" },
   })
@@ -356,7 +350,7 @@ require("config.winbar")
 require("lazy").setup({
   root = vim.fn.expand("~/dev/lazy/plugins"),
   spec = {
-    { lazy = true, "nvim-tree/nvim-web-devicons" },
+    { lazy = true, "nvim-tree/nvim-web-devicons", opts = { color_icons = false } },
     { lazy = true, "nvim-lua/plenary.nvim" },
     {
       "folke/snacks.nvim",
@@ -527,6 +521,7 @@ require("lazy").setup({
     },
     {
       "andymass/vim-matchup",
+      enabled = false,
       event = "User LoadUIPlugins",
       init = require("config.plugins.matchup").init,
       config = require("config.plugins.matchup").setup,
@@ -574,12 +569,6 @@ require("lazy").setup({
       "wurli/visimatch.nvim",
       event = "User LoadUIPlugins",
       opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
-    },
-    {
-      "RRethy/vim-illuminate",
-      enabled = false,
-      event = "LspAttach",
-      config = require("config.plugins.illuminate").setup,
     },
     {
       "akinsho/bufferline.nvim",

@@ -41,11 +41,8 @@ M.setup = function()
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },
           ---
-          MatchParen = { bg = c.surface1, fg = c.lavender, style = {} },
+          -- MatchParen = { bg = c.surface1, fg = c.lavender, style = {} },
           Visual = { bg = c.surface1, style = {} },
-          --
-          -- illuminatedWord = { bg = c.mauve },
-          -- illuminatedCurWord = { bg = c.mauve },
           --
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },
@@ -81,6 +78,7 @@ M.setup = function()
           NvimTreeSpecialFile = { fg = c.overlay1 },
 
           SnacksPickerMatch = { fg = c.red },
+          SnacksIndentScope = { fg = c.surface2 },
         }
       end,
     },
@@ -88,7 +86,7 @@ M.setup = function()
 
   -- Prevent LSP from overwriting treesitter color settings
   -- https://github.com/NvChad/NvChad/issues/1907
-  vim.highlight.priorities.semantic_tokens = 95
+  -- vim.highlight.priorities.semantic_tokens = 95
 
   -- # dark
   vim.cmd("colorscheme catppuccin-frappe")

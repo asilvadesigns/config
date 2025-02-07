@@ -37,6 +37,16 @@ local palette_items = {
   { text = "Todos", cmd = "TodoFzfLua" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
   {
+    text = "Toggle Indent Lines",
+    cmd = function()
+      if Snacks.indent.enabled then
+        Snacks.indent.disable()
+      else
+        Snacks.indent.enable()
+      end
+    end,
+  },
+  {
     text = "Toggle Diagnostic Text",
     cmd = function()
       local status_ok, _ = pcall(require, "tiny-inline-diagnostic")
@@ -136,11 +146,11 @@ M.setup = function()
     },
     ---@class snacks.indent.Config
     indent = {
-      enabled = false,
+      enabled = true,
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
-      scope = { enabled = false },
+      scope = { enabled = false }, --use this for current scope
     },
     ---@class snacks.bigfile.Config
     bigfile = {
@@ -190,7 +200,8 @@ M.setup = function()
     statuscolumn = {
       enabled = true,
       -- "sign"
-      left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
+      -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
+      left = { "sign" }, -- priority of signs on the left (high to low)
       -- right = { "fold" }, -- priority of signs on the right (high to low)
       right = { "" }, -- priority of signs on the right (high to low)
       folds = {
@@ -264,6 +275,9 @@ vim.keymap.set("n", "<leader>l", function()
       preview = "preview",
       reverse = false,
     },
+    -- sort = {
+    --   fields = { "idx" }, --- could add "score:desc", for fuzzy match score
+    -- },
   })
 end, { desc = "Fuzzy buffer lines" })
 
