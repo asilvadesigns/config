@@ -352,11 +352,11 @@ require("lazy").setup({
       event = "VeryLazy",
       opts = {},
     },
-    -- {
-    --   "folke/flash.nvim",
-    --   event = "VeryLazy",
-    --   config = require("config.plugins.flash").setup,
-    -- },
+    {
+      "folke/flash.nvim",
+      event = "VeryLazy",
+      config = require("config.plugins.flash").setup,
+    },
     {
       "folke/lazydev.nvim",
       ft = "lua",
