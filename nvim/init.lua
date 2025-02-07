@@ -287,34 +287,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
-  callback = function()
-    vim.defer_fn(function()
-      if vim.fn.system("git rev-parse --is-inside-work-tree") == "true\n" then
-        vim.api.nvim_exec_autocmds("User", { pattern = "LoadGitPlugins" })
-      end
-    end, 500)
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-  callback = function()
-    vim.defer_fn(function()
-      vim.api.nvim_exec_autocmds("User", { pattern = "LoadSessionPlugins" })
-    end, 100)
-
-    vim.defer_fn(function()
-      vim.api.nvim_exec_autocmds("User", { pattern = "LoadUIPlugins" })
-    end, 200)
-
-    vim.defer_fn(function()
-      if vim.env.TMUX ~= nil then
-        vim.api.nvim_exec_autocmds("User", { pattern = "LoadTmuxPlugins" })
-      end
-    end, 300)
-  end,
-})
-
 ---
 --- Commands
 ---
@@ -382,7 +354,7 @@ require("lazy").setup({
     },
     -- {
     --   "folke/flash.nvim",
-    --   event = "User LoadUIPlugins",
+    --   event = "VeryLazy",
     --   config = require("config.plugins.flash").setup,
     -- },
     {
@@ -397,7 +369,7 @@ require("lazy").setup({
     },
     {
       "rmagatti/auto-session",
-      event = "User LoadSessionPlugins",
+      event = "VeryLazy",
       cmd = { "SessionRestore" },
       config = require("config.plugins.auto-session").setup,
     },
@@ -414,7 +386,7 @@ require("lazy").setup({
     },
     {
       "eero-lehtinen/oklch-color-picker.nvim",
-      event = "User LoadUIPlugins",
+      event = "VeryLazy",
       config = require("config.plugins.color-picker").setup,
     },
     {
@@ -443,7 +415,7 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
-      event = "User LoadUIPlugins",
+      event = "VeryLazy",
       config = require("config.plugins.oil").setup,
     },
     {
@@ -470,12 +442,12 @@ require("lazy").setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
-      event = "User LoadUIPlugins",
+      event = "VeryLazy",
       config = require("config.plugins.nvim-tree").setup,
     },
     {
       "neovim/nvim-lspconfig",
-      event = "User LoadUIPlugins",
+      event = "VeryLazy",
       dependencies = { "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
       config = require("config.plugins.lsp").setup,
     },
@@ -522,14 +494,14 @@ require("lazy").setup({
     {
       "andymass/vim-matchup",
       enabled = false,
-      event = "User LoadUIPlugins",
+      event = "VeryLazy",
       init = require("config.plugins.matchup").init,
       config = require("config.plugins.matchup").setup,
     },
     {
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
-      event = "User LoadUIPlugins",
+      event = "VeryLazy",
       dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "andymass/vim-matchup" },
       config = require("config.plugins.treesitter").setup,
     },
@@ -537,37 +509,37 @@ require("lazy").setup({
     --- GIT
     {
       "NeogitOrg/neogit",
-      event = "User LoadGitPlugins",
+      event = "VeryLazy",
       dependencies = { "sindrets/diffview.nvim" },
       config = require("config.plugins.neogit").setup,
     },
     {
       "akinsho/git-conflict.nvim",
-      event = "User LoadGitPlugins",
+      event = "VeryLazy",
       version = "v2.1.0",
       config = require("config.plugins.git-conflict").setup,
     },
     {
       "tpope/vim-fugitive",
-      event = "User LoadGitPlugins",
+      event = "VeryLazy",
       cmd = { "Gdiffsplit", "Git", "Gvdiffsplit" },
     },
     {
       "mrjones2014/smart-splits.nvim",
-      event = "User LoadTmuxPlugins",
+      event = "VeryLazy",
       config = require("config.plugins.smart-splits").setup,
     },
     ---
     --- UI
     {
       "jake-stewart/multicursor.nvim",
-      event = "User LoadUIPlugins",
+      event = "VeryLazy",
       branch = "1.0",
       config = require("config.plugins.multicursor").setup,
     },
     {
       "wurli/visimatch.nvim",
-      event = "User LoadUIPlugins",
+      event = "VeryLazy",
       opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
     },
     {
