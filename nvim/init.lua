@@ -248,7 +248,7 @@ vim.diagnostic.config({
     -- },
   },
   -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
-  underline = false,
+  underline = true,
   virtual_text = false,
   virtual_lines = false,
 })
