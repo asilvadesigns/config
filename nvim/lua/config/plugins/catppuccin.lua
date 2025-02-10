@@ -2,6 +2,7 @@ local M = {}
 
 M.setup = function()
   local utils = require("catppuccin.utils.colors")
+  local frappe = require("catppuccin.palettes.frappe")
 
   vim.api.nvim_set_hl(0, "WDiagnosticSignError", {})
   vim.api.nvim_set_hl(0, "WDiagnosticSignHint", {})
@@ -18,6 +19,35 @@ M.setup = function()
       notify = false,
       nvimtree = false,
       ufo = false,
+    },
+    color_overrides = {
+      frappe = {
+        flamingo = utils.darken(frappe.flamingo, 0.8, frappe.base),
+        pink = utils.darken(frappe.pink, 0.8, frappe.base),
+        mauve = utils.darken(frappe.mauve, 0.8, frappe.base),
+        red = utils.darken(frappe.red, 0.8, frappe.base),
+        maroon = utils.darken(frappe.maroon, 0.8, frappe.base),
+        peach = utils.darken(frappe.peach, 0.8, frappe.base),
+        yellow = utils.darken(frappe.yellow, 0.8, frappe.base),
+        green = utils.darken(frappe.green, 0.8, frappe.base),
+        teal = utils.darken(frappe.teal, 0.8, frappe.base),
+        sky = utils.darken(frappe.sky, 0.8, frappe.base),
+        sapphire = utils.darken(frappe.sapphire, 0.8, frappe.base),
+        blue = utils.darken(frappe.blue, 0.8, frappe.base),
+        lavender = utils.darken(frappe.lavender, 0.8, frappe.base),
+        text = utils.darken(frappe.text, 0.8, frappe.base),
+        -- subtext1 = utils.darken(frappe.subtext1, 0.8, frappe.subtext1),
+        -- subtext0 = utils.darken(frappe.subtext0, 0.8, frappe.subtext0),
+        -- overlay2 = utils.darken(frappe.overlay2, 0.8, frappe.overlay2),
+        -- overlay1 = utils.darken(frappe.overlay1, 0.8, frappe.overlay1),
+        -- overlay0 = utils.darken(frappe.overlay0, 0.8, frappe.overlay0),
+        -- surface2 = utils.darken(frappe.surface2, 0.8, frappe.surface2),
+        -- surface1 = utils.darken(frappe.surface1, 0.8, frappe.surface1),
+        -- surface0 = utils.darken(frappe.surface0, 0.8, frappe.surface0),
+        -- base = frappe.base,
+        -- mantle = frappe.mantle,
+        -- crust = frappe.crust,
+      },
     },
     highlight_overrides = {
       all = function(c)

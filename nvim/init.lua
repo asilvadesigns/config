@@ -397,7 +397,7 @@ require("lazy").setup({
     {
       "stevearc/conform.nvim",
       cmd = { "Format", "FormatWithBiome", "FormatWithLsp", "FormatWithPrettier" },
-      keys = { { "<leader>m", "<CMD>Format<cr>", desc = "Format" } },
+      keys = { { "<leader>m", "<CMD>Format<CR>", desc = "Format" } },
       config = require("config.plugins.conform").setup,
     },
     {
@@ -479,6 +479,7 @@ require("lazy").setup({
           end,
           desc = "Find selected in project",
         },
+        { "<C-S>", "<CMD>GrugFar<CR>", desc = "Find in project" },
       },
       config = require("config.plugins.grug-far").setup,
     },
