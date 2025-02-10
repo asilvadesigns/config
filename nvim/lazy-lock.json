@@ -31,8 +31,8 @@
   "plenary.nvim": { "branch": "master", "commit": "3707cdb1e43f5cea73afb6037e6494e7ce847a66" },
   "promise-async": { "branch": "main", "commit": "119e8961014c9bfaf1487bf3c2a393d254f337e2" },
   "quicker.nvim": { "branch": "master", "commit": "92e0f61a5d6422424cf7728ad323d2a06e3ab2d5" },
-  "smart-splits.nvim": { "branch": "master", "commit": "7f72bc445106fa041f79ee73e72505c093d0da10" },
-  "snacks.nvim": { "branch": "main", "commit": "6f398f5528a18ada905d43dfca570596513ad4fa" },
+  "smart-splits.nvim": { "branch": "master", "commit": "740a2e2bb3bf525f4e21f9748233480ebb0709a3" },
+  "snacks.nvim": { "branch": "main", "commit": "9f088d5c66b8dc49b7926019ce02f243337a3d89" },
   "substitute.nvim": { "branch": "main", "commit": "97f49d16f8eea7967d41db4f657dd63af53eeba1" },
   "todo-comments.nvim": { "branch": "main", "commit": "304a8d204ee787d2544d8bc23cd38d2f929e7cc5" },
   "treesj": { "branch": "main", "commit": "48c1a7539f376fd40ceb9cf12d697040fcf90649" },
@@ -40,5 +40,6 @@
   "ts-comments.nvim": { "branch": "main", "commit": "872dcfa0418f4a33b7437fb4d9f4e89f2f000d74" },
   "vim-fugitive": { "branch": "master", "commit": "b068eaf1e6cbe35d1ac100d435cd7f7b74a5c87d" },
   "vim-matchup": { "branch": "master", "commit": "aca23ce53ebfe34e02c4fe07e29e9133a2026481" },
+  "vimade": { "branch": "master", "commit": "0ec1bbb1b6126d73b4ed8d243e3b047abb9e52ff" },
   "visimatch.nvim": { "branch": "main", "commit": "2a87d29db400e3e2f40c6107fdd3ffb415ba8da8" }
 }
