@@ -1,12 +1,11 @@
 lastupdatecheck: 0
 recentrepos:
+    - /Users/albertos/.config
     - /Users/albertos/dev/elements-theme-picker
     - /Users/albertos/dev/elements
-    - /Users/albertos/dev/elements-fix-progressive-filter-chip-gap-visual-alignment
     - /Users/albertos/dev/kaizen-ui
     - /Users/albertos/dev/kaizen-ui-fix-text-input-styles
     - /Users/albertos/dev/kaizen-ui-new-documentation
-    - /Users/albertos/.config
     - /Users/albertos/dev/picasso-web-ui
     - /Users/albertos/dev/kaizen-ui-banner-button-styles
 startuppopupversion: 5
