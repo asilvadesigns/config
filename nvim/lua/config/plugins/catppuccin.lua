@@ -3,9 +3,9 @@ local M = {}
 M.setup = function()
   local is_dark = true
 
-  local utils = require("catppuccin.utils.colors")
   -- local frappe = require("catppuccin.palettes.frappe")
-  --
+  -- local hsluv = require("catppuccin.lib.hsluv")
+  local utils = require("catppuccin.utils.colors")
 
   vim.api.nvim_set_hl(0, "WDiagnosticSignError", {})
   vim.api.nvim_set_hl(0, "WDiagnosticSignHint", {})
@@ -13,43 +13,48 @@ M.setup = function()
   vim.api.nvim_set_hl(0, "WDiagnosticSignWarn", {})
   vim.api.nvim_set_hl(0, "WVisiMatch", {})
 
+  -- local key = frappe.text
+
   require("catppuccin").setup({
     integrations = {
       fzf = true,
       grug_far = true,
-      leap = false,
       illuminate = true,
+      leap = false,
       notify = false,
       nvimtree = false,
+      treesitter_context = false,
       ufo = false,
     },
     -- color_overrides = {
     --   frappe = {
-    --     flamingo = utils.darken(frappe.flamingo, 0.8, frappe.base),
-    --     pink = utils.darken(frappe.pink, 0.8, frappe.base),
-    --     mauve = utils.darken(frappe.mauve, 0.8, frappe.base),
-    --     red = utils.darken(frappe.red, 0.8, frappe.base),
-    --     maroon = utils.darken(frappe.maroon, 0.8, frappe.base),
-    --     peach = utils.darken(frappe.peach, 0.8, frappe.base),
-    --     yellow = utils.darken(frappe.yellow, 0.8, frappe.base),
-    --     green = utils.darken(frappe.green, 0.8, frappe.base),
-    --     teal = utils.darken(frappe.teal, 0.8, frappe.base),
-    --     sky = utils.darken(frappe.sky, 0.8, frappe.base),
-    --     sapphire = utils.darken(frappe.sapphire, 0.8, frappe.base),
-    --     blue = utils.darken(frappe.blue, 0.8, frappe.base),
-    --     lavender = utils.darken(frappe.lavender, 0.8, frappe.base),
-    --     text = utils.darken(frappe.text, 0.8, frappe.base),
-    --     -- subtext1 = utils.darken(frappe.subtext1, 0.8, frappe.subtext1),
-    --     -- subtext0 = utils.darken(frappe.subtext0, 0.8, frappe.subtext0),
-    --     -- overlay2 = utils.darken(frappe.overlay2, 0.8, frappe.overlay2),
-    --     -- overlay1 = utils.darken(frappe.overlay1, 0.8, frappe.overlay1),
-    --     -- overlay0 = utils.darken(frappe.overlay0, 0.8, frappe.overlay0),
-    --     -- surface2 = utils.darken(frappe.surface2, 0.8, frappe.surface2),
-    --     -- surface1 = utils.darken(frappe.surface1, 0.8, frappe.surface1),
-    --     -- surface0 = utils.darken(frappe.surface0, 0.8, frappe.surface0),
-    --     -- base = frappe.base,
-    --     -- mantle = frappe.mantle,
-    --     -- crust = frappe.crust,
+    --     flamingo = utils.blend(frappe.flamingo, key, 0.8),
+    --     pink = utils.blend(frappe.pink, key, 0.8),
+    --     mauve = utils.blend(frappe.mauve, key, 0.8),
+    --     red = utils.blend(frappe.red, key, 0.8),
+    --     maroon = utils.blend(frappe.maroon, key, 0.8),
+    --     peach = utils.blend(frappe.peach, key, 0.8),
+    --     yellow = utils.blend(frappe.yellow, key, 0.8),
+    --     green = utils.blend(frappe.green, key, 0.8),
+    --     teal = utils.blend(frappe.teal, key, 0.8),
+    --     sky = utils.blend(frappe.sky, key, 0.8),
+    --     sapphire = utils.blend(frappe.sapphire, key, 0.8),
+    --     blue = utils.blend(frappe.mauve, key, 0.8),
+    --     lavender = utils.blend(frappe.lavender, key, 0.8),
+    --     text = utils.blend(frappe.text, key, 0.8),
+    --
+    --     subtext1 = utils.blend(frappe.subtext1, key, 0.95),
+    --     subtext0 = utils.blend(frappe.subtext0, key, 0.95),
+    --     overlay2 = utils.blend(frappe.overlay2, key, 0.95),
+    --     overlay1 = utils.blend(frappe.overlay1, key, 0.95),
+    --     overlay0 = utils.blend(frappe.overlay0, key, 0.95),
+    --     surface2 = utils.blend(frappe.surface2, key, 0.95),
+    --     surface1 = utils.blend(frappe.surface1, key, 0.95),
+    --     surface0 = utils.blend(frappe.surface0, key, 0.95),
+    --
+    --     base = utils.blend(frappe.base, key, 0.99),
+    --     mantle = frappe.mantle,
+    --     crust = frappe.crust,
     --   },
     -- },
     highlight_overrides = {
@@ -90,6 +95,8 @@ M.setup = function()
 
           StatusLine = { fg = statusline_fg, bg = statusline_bg },
           StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
+          -- StatusLine = { fg = c.surface2, bg = c.base },
+          -- StatusLineNC = { fg = c.surface2, bg = c.base },
 
           WDiagnosticSignError = { fg = c.red, bg = statusline_bg },
           WDiagnosticSignHint = { fg = c.teal, bg = statusline_bg },
@@ -97,14 +104,15 @@ M.setup = function()
           WDiagnosticSignWarn = { fg = c.yellow, bg = statusline_bg },
           WVisiMatch = { bg = c.surface0 },
 
-          --
           WinBar = { fg = c.overlay0 },
           WinBarNC = { fg = c.surface2 },
-          --
+          SnacksIndent = { fg = c.surface0 },
           WinSeparator = { fg = c.surface0 },
+          -- WinSeparator = { fg = c.base },
 
           NvimTreeExecFile = { fg = c.overlay1 },
           NvimTreeFolderName = { fg = c.subtext0 },
+          NvimTreeIndentMarker = { fg = c.surface0 },
           NvimTreeNormal = { fg = c.overlay1, bg = c.base },
           NvimTreeOpenedFolderName = { fg = c.subtext0 },
           NvimTreeRootFolder = { fg = c.overlay1 },
@@ -112,14 +120,13 @@ M.setup = function()
 
           SnacksPickerMatch = { fg = c.red },
           SnacksIndentScope = { fg = c.surface2 },
+
+          TreesitterContextBottom = { fg = c.overlay0, underline = false },
+          TreesitterContextLineNumberBottom = { fg = c.overlay0, underline = false },
         }
       end,
     },
   })
-
-  -- Prevent LSP from overwriting treesitter color settings
-  -- https://github.com/NvChad/NvChad/issues/1907
-  -- vim.highlight.priorities.semantic_tokens = 95
 
   -- # dark
   if is_dark then
@@ -129,7 +136,6 @@ M.setup = function()
   end
 
   vim.cmd("hi! link FoldColumn LineNr")
-  vim.cmd("hi! link NvimTreeIndentMarker WinSeparator")
 end
 
 return M

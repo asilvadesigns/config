@@ -1,15 +1,21 @@
 # theme = catppuccin-latte
 theme = catppuccin-frappe
-# theme = "Monokai Pro Light Sun"
-# theme = "Builtin Solarized Light"
 
 # Font
 font-family = "JetBrainsMono Nerd Font Mono"
+
+# 32" 4k
 font-size = 16
+adjust-cell-height = 4
+adjust-cursor-height = 4
+
+# 14" 2k
+# font-size = 14
+# adjust-cell-height = 4
+# adjust-cursor-height = 4
+
 font-thicken = false
 font-thicken-strength = 1
-adjust-cell-height = 10%
-adjust-cursor-height = 10%
 adjust-cursor-thickness = 3
 # disable ligatures
 font-feature = -calt
@@ -62,6 +68,9 @@ keybind = super+d=text:\x00v
 
 # tmux split | horizontally
 keybind = super+shift+d=text:\x00s
+
+# tmux command
+keybind = super+;=text:\x00:
 
 # tmux split | toggle terminal
 keybind = ctrl+`=text:\x00`

@@ -121,7 +121,6 @@ end
 
 --
 --
---
 -- overridden by multicursor
 vim.keymap.set("n", "<esc>", ":nohl<CR>", { desc = "Clear highlight" })
 
@@ -233,20 +232,21 @@ end
 
 vim.diagnostic.config({
   float = { border = "rounded" },
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = signs.icons.square,
-      [vim.diagnostic.severity.HINT] = signs.icons.square,
-      [vim.diagnostic.severity.INFO] = signs.icons.square,
-      [vim.diagnostic.severity.WARN] = signs.icons.square,
-    },
-    -- numhl = {
-    --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-    --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-    --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-    --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-    -- },
-  },
+  signs = false,
+  -- signs = {
+  --   -- text = {
+  --   --   [vim.diagnostic.severity.ERROR] = " ", --signs.icons.square,
+  --   --   [vim.diagnostic.severity.HINT] = " ", --signs.icons.square,
+  --   --   [vim.diagnostic.severity.INFO] = " ", --signs.icons.square,
+  --   --   [vim.diagnostic.severity.WARN] = " ",--signs.icons.square,
+  --   -- },
+  --   -- numhl = {
+  --   --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+  --   --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+  --   --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+  --   --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+  --   -- },
+  -- },
   -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
   underline = true,
   virtual_text = false,
@@ -332,8 +332,8 @@ require("lazy").setup({
     },
     {
       "folke/noice.nvim",
-      enabled = false,
       lazy = false,
+      event = "VeryLazy",
       dependencies = { "MunifTanjim/nui.nvim" },
       config = require("config.plugins.noice").setup,
     },
@@ -353,11 +353,6 @@ require("lazy").setup({
       opts = {},
     },
     {
-      "folke/flash.nvim",
-      event = "VeryLazy",
-      config = require("config.plugins.flash").setup,
-    },
-    {
       "folke/lazydev.nvim",
       ft = "lua",
       opts = {
@@ -369,9 +364,13 @@ require("lazy").setup({
     },
     {
       "rmagatti/auto-session",
-      event = "VeryLazy",
       cmd = { "SessionRestore" },
       config = require("config.plugins.auto-session").setup,
+    },
+    {
+      "nvim-treesitter/nvim-treesitter-context",
+      event = "VeryLazy",
+      config = require("config.plugins.treesitter-context").setup,
     },
     {
       "tadaa/vimade",
@@ -519,7 +518,7 @@ require("lazy").setup({
     --- GIT
     {
       "NeogitOrg/neogit",
-      event = "VeryLazy",
+      cmd = { "Neogit" },
       dependencies = { "sindrets/diffview.nvim" },
       config = require("config.plugins.neogit").setup,
     },
@@ -531,7 +530,6 @@ require("lazy").setup({
     },
     {
       "tpope/vim-fugitive",
-      event = "VeryLazy",
       cmd = { "Gdiffsplit", "Git", "Gvdiffsplit" },
     },
     {

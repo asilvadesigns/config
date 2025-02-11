@@ -1,6 +1,6 @@
 --- NOTE: when enabled, we show a full global status with diagnostics
 --- NOTE: when disabled, we hide any statusline
-_G.statusline_enabled = false
+_G.statusline_enabled = true
 if _G.statusline_enabled then
   vim.opt.statusline = ""
 else
@@ -26,15 +26,32 @@ local excluded_filetypes = {
   ["toggleterm"] = true,
 }
 
----@param buf_id integer
----@param highlight boolean
+---@param buf_id integer | nil
+---@param should_use_custom_highlight boolean
+---@param should_highlight boolean
 ---@return string
-local function get_diagnostics(buf_id, highlight)
+local function get_diagnostics(buf_id, should_use_custom_highlight, should_highlight)
   local d_count = vim.diagnostic.count(buf_id)
   local d_label = ""
   local square = vim.fn.nr2char(0x25aa)
 
-  if highlight then
+  if not should_highlight then
+    if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
+      d_label = d_label .. " %#DiagnosticSignError#" .. "" .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
+    end
+    if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
+      d_label = d_label .. " %#DiagnosticSignHint#" .. "" .. d_count[vim.diagnostic.severity.HINT] .. "%*"
+    end
+    if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
+      d_label = d_label .. " %#DiagnosticSignInfo#" .. "" .. d_count[vim.diagnostic.severity.INFO] .. "%*"
+    end
+    if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
+      d_label = d_label .. " %#DiagnosticSignWarn#" .. "" .. d_count[vim.diagnostic.severity.WARN] .. "%*"
+    end
+    return d_label
+  end
+
+  if should_use_custom_highlight then
     if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
       d_label = d_label .. " %#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
     end
@@ -151,8 +168,8 @@ local function enable_winbar(win_id)
       .. " "
       .. get_modified(buf_id)
       .. " "
-      .. get_diagnostics(buf_id, true)
-      .. "%*%#NonText# %= %l/%L:%c %*"
+      .. get_diagnostics(buf_id, true, true)
+      .. "%*%#NonText# %= %l/%L:%-3c %*"
 
     vim.api.nvim_set_option_value("winbar", new_winbar, { win = win_id })
   end
@@ -177,14 +194,16 @@ local function enable_statusline(win_id)
     vim.api.nvim_set_option_value("statusline", last_status, { win = win_id })
     return
   else
-    local new_statusline = " "
-      .. get_filename(buf_id, false)
+    local statusline = " "
+      -- .. get_filename(buf_id, false)
+      -- .. " "
+      .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:")
+      -- .. " "
+      -- .. get_diagnostics(nil, false, false)
+      .. "%= %l/%L:%-3c %y"
       .. " "
-      .. get_diagnostics(buf_id, false)
-      .. "%=󰆤 %l/%L:%c"
-      .. " "
-    last_status = new_statusline
-    vim.api.nvim_set_option_value("statusline", last_status, { win = win_id })
+    last_status = statusline
+    vim.api.nvim_set_option_value("statusline", statusline, { win = win_id })
   end
 end
 

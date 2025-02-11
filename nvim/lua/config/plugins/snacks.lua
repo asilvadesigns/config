@@ -37,16 +37,6 @@ local palette_items = {
   { text = "Todos", cmd = "TodoFzfLua" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
   {
-    text = "Toggle Indent Lines",
-    cmd = function()
-      if Snacks.indent.enabled then
-        Snacks.indent.disable()
-      else
-        Snacks.indent.enable()
-      end
-    end,
-  },
-  {
     text = "Toggle Diagnostic Text",
     cmd = function()
       local status_ok, _ = pcall(require, "tiny-inline-diagnostic")
@@ -57,6 +47,17 @@ local palette_items = {
       end
     end,
   },
+  {
+    text = "Toggle Indent Lines",
+    cmd = function()
+      if Snacks.indent.enabled then
+        Snacks.indent.disable()
+      else
+        Snacks.indent.enable()
+      end
+    end,
+  },
+  { text = "Toggle Treesitter Context", cmd = "ToggleTreesitterContext" },
   { text = "Toggle Statusline", cmd = "ToggleStatusline" },
   { text = "Toggle Winbar", cmd = "ToggleWinbar" },
   { text = "Trouble", cmd = "Trouble" },
@@ -71,7 +72,7 @@ M.setup = function()
     picker = {
       enabled = true,
       layout = {
-        preset = "dropdown",
+        preset = "dropdown", -- dropdown, vscode
         preview = false,
         reverse = false,
       },
@@ -198,7 +199,7 @@ M.setup = function()
     },
     ---@class snacks.statuscolumn.Config
     statuscolumn = {
-      enabled = true,
+      enabled = false,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
       left = { "sign" }, -- priority of signs on the left (high to low)
@@ -216,7 +217,7 @@ M.setup = function()
     },
     ---@class snacks.scroll.Config
     scroll = {
-      enabled = false,
+      enabled = true,
       animate = {
         duration = { step = 15, total = 75 }, --5 && 125 is good
         easing = "inOutSine",
