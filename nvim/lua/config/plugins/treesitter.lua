@@ -44,9 +44,6 @@ M.setup = function()
         end
       end,
     },
-    matchup = {
-      enable = false,
-    },
     indent = {
       enable = false,
     },
@@ -61,7 +58,7 @@ M.setup = function()
       },
     },
     textobjects = {
-      enable = true,
+      enable = false,
       move = {
         enable = false,
         set_jumps = true,

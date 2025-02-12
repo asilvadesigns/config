@@ -211,7 +211,7 @@ vim.api.nvim_create_user_command("ToggleWinbar", function()
 end, {})
 
 --- Render Statusline and Winbar on autocmds...
-vim.api.nvim_create_autocmd({ "BufModifiedSet", "BufNewFile", "BufReadPre", "DiagnosticChanged", "TabClosed" }, {
+vim.api.nvim_create_autocmd({ "BufModifiedSet", "BufNewFile", "BufReadPost", "DiagnosticChanged", "TabClosed" }, {
   group = RenderGroup,
   callback = function()
     render_statusline()

@@ -1,7 +1,14 @@
 ---@diagnostic disable: missing-fields
 
-local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local use_other_directory = false
+
+local root = vim.fn.stdpath("data")
+if use_other_directory then
+  root = vim.fn.expand("~/dev")
+end
+
+local snacks = root .. "/lazy/snacks.nvim"
+local lazypath = root .. "/lazy/lazy.nvim"
 
 if vim.env.PROF then
   vim.opt.rtp:append(snacks)
@@ -24,12 +31,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
---
---
---
+
 vim.g.mapleader = ","
 vim.g.maplocalleader = " "
----
 
 vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"
@@ -316,14 +320,22 @@ vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
   end
 end, {})
 
+-- vim.cmd("colorscheme ex-catppuccin-frappe")
+--
 require("config.winbar")
 
----@diagnostic disable-next-line: missing-fields
 require("lazy").setup({
-  root = vim.fn.expand("~/dev/lazy/plugins"),
+  root = root .. "/lazy/plugins",
   spec = {
-    { lazy = true, "nvim-tree/nvim-web-devicons", opts = { color_icons = false } },
-    { lazy = true, "nvim-lua/plenary.nvim" },
+    {
+      "nvim-tree/nvim-web-devicons",
+      lazy = true,
+      opts = { color_icons = false },
+    },
+    {
+      "nvim-lua/plenary.nvim",
+      lazy = true,
+    },
     {
       "folke/snacks.nvim",
       priority = 1000,
@@ -332,15 +344,10 @@ require("lazy").setup({
     },
     {
       "folke/noice.nvim",
-      lazy = false,
+      enabled = false,
       event = "VeryLazy",
       dependencies = { "MunifTanjim/nui.nvim" },
       config = require("config.plugins.noice").setup,
-    },
-    {
-      "folke/todo-comments.nvim",
-      cmd = { "TodoFzfLua", "TodoLocList" },
-      config = require("config.plugins.todos").setup,
     },
     {
       "folke/trouble.nvim",
@@ -386,6 +393,22 @@ require("lazy").setup({
       priority = 1000,
       name = "catppuccin",
       config = require("config.plugins.catppuccin").setup,
+    },
+    {
+      "aileot/ex-colors.nvim",
+      enabled = false,
+      lazy = true,
+      cmd = "ExColors",
+      config = function()
+        require("ex-colors").setup({
+          included_patterns = require("ex-colors.presets").recommended.included_patterns + {
+            "^GrugFar%u",
+            "^NvimTree%u",
+            "^Snacks%u",
+            "^TreesitterContext%u",
+          },
+        })
+      end,
     },
     {
       "stevearc/quicker.nvim",
@@ -450,12 +473,32 @@ require("lazy").setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
-      event = "VeryLazy",
+      keys = {
+        {
+          "<leader>j",
+          function()
+            if vim.bo.filetype == "NvimTree" then
+              vim.cmd("NvimTreeClose")
+            else
+              local current_file = vim.fn.expand("%:p")
+              local cwd = vim.fn.getcwd()
+
+              if vim.fn.filereadable(current_file) == 1 and string.sub(current_file, 1, #cwd) == cwd then
+                vim.cmd("NvimTreeFindFile")
+                vim.cmd("normal! zz")
+              else
+                vim.cmd("NvimTreeOpen")
+              end
+            end
+          end,
+          { desc = "Toggle file tree" },
+        },
+      },
       config = require("config.plugins.nvim-tree").setup,
     },
     {
       "neovim/nvim-lspconfig",
-      event = "VeryLazy",
+      event = { "BufReadPost", "BufNewfile" },
       dependencies = { "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
       config = require("config.plugins.lsp").setup,
     },
@@ -501,32 +544,17 @@ require("lazy").setup({
       opts = {},
     },
     {
-      "andymass/vim-matchup",
-      enabled = false,
-      event = "VeryLazy",
-      init = require("config.plugins.matchup").init,
-      config = require("config.plugins.matchup").setup,
-    },
-    {
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
-      event = "VeryLazy",
-      dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "andymass/vim-matchup" },
+      event = "BufReadPre",
+      dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       config = require("config.plugins.treesitter").setup,
     },
-    ---
-    --- GIT
     {
       "NeogitOrg/neogit",
       cmd = { "Neogit" },
       dependencies = { "sindrets/diffview.nvim" },
       config = require("config.plugins.neogit").setup,
-    },
-    {
-      "akinsho/git-conflict.nvim",
-      event = "VeryLazy",
-      version = "v2.1.0",
-      config = require("config.plugins.git-conflict").setup,
     },
     {
       "tpope/vim-fugitive",
@@ -537,8 +565,6 @@ require("lazy").setup({
       event = "VeryLazy",
       config = require("config.plugins.smart-splits").setup,
     },
-    ---
-    --- UI
     {
       "jake-stewart/multicursor.nvim",
       event = "VeryLazy",
@@ -560,11 +586,12 @@ require("lazy").setup({
   performance = {
     rtp = {
       disabled_plugins = {
+        "editorconfig",
         "getscriptPlugin",
         "gzip",
+        "man",
         "matchit",
         "matchparen",
-        "editorconfig",
         "netrwPlugin",
         "osc52",
         "remotePlugin",

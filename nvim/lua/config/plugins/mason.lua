@@ -52,8 +52,6 @@ M.setup = function()
     ensure_installed = servers,
   })
 
-  vim.cmd("hi! link MasonNormal Normal")
-
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       vim.lsp.config[server_name] = {

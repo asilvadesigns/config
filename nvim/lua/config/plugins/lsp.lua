@@ -52,8 +52,6 @@ M.setup = function()
     ensure_installed = servers,
   })
 
-  vim.cmd("hi! link MasonNormal Normal")
-
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       require("lspconfig")[server_name].setup({
@@ -192,6 +190,7 @@ M.setup = function()
       local opts = { silent = true, buffer = ev.buf }
 
       vim.keymap.set("n", "g.", vim.lsp.buf.code_action, opts)
+
       vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
 
       vim.keymap.set("n", "K", function()
@@ -212,33 +211,8 @@ M.setup = function()
     end,
   })
 
-  vim.api.nvim_create_user_command("GetActiveLSPs", function()
-    local clients = vim.lsp.get_clients()
-    local clients_list = {}
-    for _, client in pairs(clients) do
-      table.insert(clients_list, client.name)
-    end
-
-    print("active lsps")
-    print(vim.inspect(clients_list))
-  end, {})
-
-  vim.api.nvim_create_user_command("MasonInstallAll", function()
-    vim.cmd("MasonInstall " .. table.concat(servers, " "))
-    local registry = require("mason-registry")
-
-    for _, pkg_name in ipairs(formatters) do
-      local ok, pkg = pcall(registry.get_package, pkg_name)
-      if ok then
-        if not pkg:is_installed() then
-          pkg:install()
-        end
-      end
-    end
-  end, {})
-
-  --- https://github.com/wookayin/dotfiles/blob/f2c7b0944135f33db83b218afa2da89fb4b3ef1c/nvim/lua/config/lsp.lua#L318
-  local attach_lsp_to_existing_buffers = vim.schedule_wrap(function()
+  vim.defer_fn(function()
+    --- NOTE: https://github.com/wookayin/dotfiles/blob/f2c7b0944135f33db83b218afa2da89fb4b3ef1c/nvim/lua/config/lsp.lua#L318
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
       local valid = vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_get_option_value("buflisted", { buf = bufnr })
       if valid and vim.bo[bufnr].buftype == "" then
@@ -246,11 +220,7 @@ M.setup = function()
         vim.api.nvim_exec_autocmds("FileType", { group = augroup_lspconfig, buffer = bufnr })
       end
     end
-  end)
-
-  vim.defer_fn(function()
-    attach_lsp_to_existing_buffers()
-  end, 100)
+  end, 1000)
 end
 
 return M

@@ -7,12 +7,6 @@ M.setup = function()
   -- local hsluv = require("catppuccin.lib.hsluv")
   local utils = require("catppuccin.utils.colors")
 
-  vim.api.nvim_set_hl(0, "WDiagnosticSignError", {})
-  vim.api.nvim_set_hl(0, "WDiagnosticSignHint", {})
-  vim.api.nvim_set_hl(0, "WDiagnosticSignInfo", {})
-  vim.api.nvim_set_hl(0, "WDiagnosticSignWarn", {})
-  vim.api.nvim_set_hl(0, "WVisiMatch", {})
-
   -- local key = frappe.text
 
   require("catppuccin").setup({
@@ -71,49 +65,26 @@ M.setup = function()
           ["@tag.builtin.tsx"] = { fg = c.subtext0 },
           ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext0 },
           ---
-          FloatBorder = { bg = c.base, fg = c.overlay0 },
-          Folded = { bg = c.base },
-          NormalFloat = { bg = c.base },
-          ---
-          ---
-          ---
+          -- MatchParen = { bg = c.surface1, fg = c.lavender, style = {} },
+          -- StatusLine = { fg = statusline_fg, bg = statusline_bg },
+          -- StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
+          -- WinSeparator = { fg = c.surface0 },
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },
-          ---
-          -- MatchParen = { bg = c.surface1, fg = c.lavender, style = {} },
-          Visual = { bg = c.surface1, style = {} },
-          --
-          DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },
           DiagnosticUnderlineHint = { sp = c.teal, undercurl = true },
           DiagnosticUnderlineInfo = { sp = c.blue, undercurl = true },
           DiagnosticUnderlineWarn = { sp = c.yellow, undercurl = true },
-
-          TelescopeTitle = { fg = c.text },
-          TelescopeNormal = { fg = c.subtext0 },
-
+          DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
+          FloatBorder = { bg = c.base, fg = c.overlay0 },
+          Folded = { bg = c.base },
           GrugFarResultsPath = { fg = c.text, bg = c.mantle, underline = true },
-
-          -- StatusLine = { fg = statusline_fg, bg = statusline_bg },
-          -- StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
-          StatusLine = { fg = c.surface2, bg = c.base },
-          StatusLineNC = { fg = c.surface2, bg = c.base },
-
-          WDiagnosticSignError = { fg = c.red, bg = statusline_bg },
-          WDiagnosticSignHint = { fg = c.teal, bg = statusline_bg },
-          WDiagnosticSignInfo = { fg = c.blue, bg = statusline_bg },
-          WDiagnosticSignWarn = { fg = c.yellow, bg = statusline_bg },
-          WVisiMatch = { bg = c.surface0 },
-
-          WinBar = { fg = c.overlay0 },
-          WinBarNC = { fg = c.surface2 },
-          SnacksIndent = { fg = c.surface0 },
-          -- WinSeparator = { fg = c.surface0 },
-          WinSeparator = { fg = c.base },
-
+          MasonNormal = { bg = c.base },
+          NormalFloat = { bg = c.base },
           NvimTreeCursorLine = { fg = c.blue, bg = c.base },
+          NvimTreeCursorLineNr = { fg = c.blue, bg = c.base },
           NvimTreeExecFile = { fg = c.overlay1 },
           NvimTreeFolderName = { fg = c.subtext0 },
           NvimTreeIndentMarker = { fg = c.surface0 },
@@ -121,12 +92,18 @@ M.setup = function()
           NvimTreeOpenedFolderName = { fg = c.subtext0 },
           NvimTreeRootFolder = { fg = c.overlay1 },
           NvimTreeSpecialFile = { fg = c.overlay1 },
-
-          SnacksPickerMatch = { fg = c.red },
+          SnacksIndent = { fg = c.surface0 },
           SnacksIndentScope = { fg = c.surface2 },
-
+          SnacksPickerMatch = { fg = c.red },
+          StatusLine = { fg = c.surface2, bg = c.base },
+          StatusLineNC = { fg = c.surface2, bg = c.base },
           TreesitterContextBottom = { fg = c.overlay0, underline = false },
           TreesitterContextLineNumberBottom = { fg = c.overlay0, underline = false },
+          Visual = { bg = c.surface1, style = {} },
+          WVisiMatch = { bg = c.surface0 },
+          WinBar = { fg = c.overlay0 },
+          WinBarNC = { fg = c.surface2 },
+          WinSeparator = { fg = c.base },
         }
       end,
     },

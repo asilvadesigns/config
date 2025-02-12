@@ -35,7 +35,6 @@ local palette_items = {
   { text = "Search (file)", cmd = "GrugFarLocal" },
   { text = "Search (project)", cmd = "GrugFar" },
   { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
-  { text = "Todos", cmd = "TodoFzfLua" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
   {
     text = "Toggle Diagnostic Text",
@@ -152,7 +151,7 @@ M.setup = function()
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
-      scope = { enabled = false }, --use this for current scope
+      scope = { enabled = true }, --use this for current scope
     },
     ---@class snacks.bigfile.Config
     bigfile = {
@@ -200,10 +199,10 @@ M.setup = function()
     },
     ---@class snacks.statuscolumn.Config
     statuscolumn = {
-      enabled = false,
+      enabled = true,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
-      left = { "sign" }, -- priority of signs on the left (high to low)
+      left = { "" }, -- priority of signs on the left (high to low)
       -- right = { "fold" }, -- priority of signs on the right (high to low)
       right = { "" }, -- priority of signs on the right (high to low)
       folds = {
@@ -237,8 +236,6 @@ end
 -- Snacks.toggle.profiler():map("<leader>pp")
 -- -- Toggle the profiler highlights
 -- Snacks.toggle.profiler_highlights():map("<leader>ph")
-
-vim.cmd("hi! link SnacksIndent WinSeparator")
 
 vim.keymap.set("n", "<leader>a", function()
   ---@diagnostic disable-next-line: undefined-field

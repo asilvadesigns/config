@@ -15,9 +15,6 @@ M.setup = function()
         lua = false,
       },
     },
-    messages = { enabled = true },
-    notify = { enabled = false },
-    popupmenu = { enabled = false },
     lsp = {
       override = {
         ["cmp.entry.get_documentation"] = true,
@@ -30,6 +27,9 @@ M.setup = function()
     presets = {
       lsp_doc_border = true, -- add a border to hover docs and signature help
     },
+    messages = { enabled = true },
+    notify = { enabled = false },
+    popupmenu = { enabled = false },
   })
 end
 
