@@ -1,5 +1,3 @@
---- NOTE: when enabled, we show a full global status with diagnostics
---- NOTE: when disabled, we hide any statusline
 _G.statusline_enabled = true
 if _G.statusline_enabled then
   vim.opt.statusline = ""
@@ -8,8 +6,6 @@ else
   vim.opt.statusline = "%{repeat('─', winwidth('.'))}"
 end
 
---- NOTE: when enabled, we show a full winbar per window with diagnostics
---- NOTE: when disabled, we show the filename with incline with diagnostics
 _G.winbar_enabled = true
 if _G.winbar_enabled then
   vim.opt.winbar = ""
@@ -17,6 +13,13 @@ else
   vim.opt.winbar = nil
 end
 
+--- @type table<integer, string>
+local statusline_cache = {}
+
+--- @type table<integer, string>
+local filename_cache = {}
+
+--- @type table<string, boolean>
 local excluded_filetypes = {
   ["NeogitStatus"] = true,
   ["NvimTree"] = true,
@@ -27,131 +30,87 @@ local excluded_filetypes = {
   ["toggleterm"] = true,
 }
 
+local square = vim.fn.nr2char(0x25aa)
+local severity = vim.diagnostic.severity
+local severity_order = { severity.ERROR, severity.WARN, severity.INFO, severity.HINT }
+local severity_hl = {
+  [severity.ERROR] = "DiagnosticSignError",
+  [severity.WARN] = "DiagnosticSignWarn",
+  [severity.INFO] = "DiagnosticSignInfo",
+  [severity.HINT] = "DiagnosticSignHint",
+}
+local severity_icon = {
+  [severity.ERROR] = "",
+  [severity.WARN] = "",
+  [severity.INFO] = "",
+  [severity.HINT] = "",
+}
+
 ---@param buf_id integer | nil
----@param should_use_custom_highlight boolean
----@param should_highlight boolean
 ---@return string
-local function get_diagnostics(buf_id, should_use_custom_highlight, should_highlight)
+local function get_diagnostics(buf_id)
   local d_count = vim.diagnostic.count(buf_id)
-  local d_label = ""
-  local square = vim.fn.nr2char(0x25aa)
+  local d_parts = {}
 
-  if not should_highlight then
-    if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
-      d_label = d_label .. " %#DiagnosticSignError#" .. "" .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
-    end
-    if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
-      d_label = d_label .. " %#DiagnosticSignHint#" .. "" .. d_count[vim.diagnostic.severity.HINT] .. "%*"
-    end
-    if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
-      d_label = d_label .. " %#DiagnosticSignInfo#" .. "" .. d_count[vim.diagnostic.severity.INFO] .. "%*"
-    end
-    if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
-      d_label = d_label .. " %#DiagnosticSignWarn#" .. "" .. d_count[vim.diagnostic.severity.WARN] .. "%*"
-    end
-    return d_label
-  end
-
-  if should_use_custom_highlight then
-    if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
-      d_label = d_label .. " %#DiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
-    end
-    if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
-      d_label = d_label .. " %#DiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
-    end
-    if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
-      d_label = d_label .. " %#DiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
-    end
-    if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
-      d_label = d_label .. " %#DiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
-    end
-  else
-    if d_count[vim.diagnostic.severity.ERROR] and d_count[vim.diagnostic.severity.ERROR] > 0 then
-      d_label = d_label .. " %#WDiagnosticSignError#" .. square .. d_count[vim.diagnostic.severity.ERROR] .. "%*"
-    end
-    if d_count[vim.diagnostic.severity.HINT] and d_count[vim.diagnostic.severity.HINT] > 0 then
-      d_label = d_label .. " %#WDiagnosticSignHint#" .. square .. d_count[vim.diagnostic.severity.HINT] .. "%*"
-    end
-    if d_count[vim.diagnostic.severity.INFO] and d_count[vim.diagnostic.severity.INFO] > 0 then
-      d_label = d_label .. " %#WDiagnosticSignInfo#" .. square .. d_count[vim.diagnostic.severity.INFO] .. "%*"
-    end
-    if d_count[vim.diagnostic.severity.WARN] and d_count[vim.diagnostic.severity.WARN] > 0 then
-      d_label = d_label .. " %#WDiagnosticSignWarn#" .. square .. d_count[vim.diagnostic.severity.WARN] .. "%*"
+  for _, sev in ipairs(severity_order) do
+    local count = d_count[sev]
+    if count and count > 0 then
+      table.insert(d_parts, string.format(" %%#%s#%s %d%%*", severity_hl[sev], severity_icon[sev], count))
     end
   end
 
-  return d_label
+  return table.concat(d_parts)
 end
 
 ---@param buf_id integer
 ---@return string
 local function get_modified(buf_id)
-  local is_modified = vim.api.nvim_get_option_value("modified", { buf = buf_id })
-
-  if is_modified then
-    return "+"
+  if vim.api.nvim_get_option_value("modified", { buf = buf_id }) then
+    return "%#Normal#󰈸%*"
+  else
+    return "󰈸"
   end
-
-  return ""
-end
-
-local function get_filepath_and_filename(buf_id)
-  local bufname = vim.api.nvim_buf_get_name(buf_id)
-  local filename = vim.fn.fnamemodify(bufname, ":t")
-  local cwd = vim.fn.getcwd()
-
-  -- Ensure cwd ends with a separator
-  cwd = cwd:gsub("([^/])$", "%1/")
-
-  -- Remove the cwd prefix from bufname
-  local filepath = bufname:gsub("^" .. vim.pesc(cwd), "")
-
-  -- Remove the filename from filepath
-  filepath = filepath:gsub(vim.pesc(filename) .. "$", "")
-
-  return filepath, filename
 end
 
 ---@param buf_id integer
----@param uniquely_highlight_filename boolean
 ---@return string
-local function get_filename(buf_id, uniquely_highlight_filename)
-  local filepath, filename = get_filepath_and_filename(buf_id)
-
-  local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
-
-  if filetype == "oil" then
-    return vim.fn.expand("%:~:h")
+local function get_filename(buf_id)
+  if filename_cache[buf_id] ~= nil then
+    return filename_cache[buf_id]
   end
 
+  local api = vim.api
+  local fn = vim.fn
+
+  local bufname = api.nvim_buf_get_name(buf_id)
+  local filetype = vim.bo[buf_id].filetype
+
+  if filetype == "oil" then
+    return fn.expand("%:~:h")
+  end
+
+  local filename = fn.fnamemodify(bufname, ":t")
   if filename == "" then
     return ""
   end
 
-  -- local icon, icon_highlight = "", ""
-  -- local devicons = require("nvim-web-devicons")
-  -- if devicons.has_loaded() then
-  --   icon, icon_highlight = devicons.get_icon_by_filetype(filetype)
-  -- end
-  --
-  -- if icon then
-  --   icon = string.format(" %%#%s#%s%%*", icon_highlight, icon)
-  -- end
-
-  if uniquely_highlight_filename then
-    return "%*"
-      .. "%#NonText#"
-      -- .. path_of_cwd
-      -- .. "/"
-      .. filepath
-      .. "%*"
-      .. "%#Normal#"
-      .. filename
-      .. "%*"
-    -- .. icon
+  local cwd = fn.getcwd()
+  if cwd:sub(-1) ~= "/" then
+    cwd = cwd .. "/"
   end
 
-  return filepath .. filename .. "%*" -- .. icon
+  local filepath = bufname
+  if bufname:sub(1, #cwd) == cwd then
+    filepath = bufname:sub(#cwd + 1)
+  end
+
+  local filename_start = filepath:find(filename .. "$")
+  if filename_start then
+    filepath = filepath:sub(1, filename_start - 1)
+  end
+
+  filename_cache[buf_id] = filepath .. filename .. "%*"
+  return filename_cache[buf_id]
 end
 
 local function enable_winbar(win_id)
@@ -164,24 +123,26 @@ local function enable_winbar(win_id)
   if is_floating or excluded_filetypes[filetype] ~= nil then
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
   else
-    local new_winbar = " "
-      .. get_filename(buf_id, false)
+    local winbar = " "
+      .. get_filename(buf_id)
       .. " "
       .. get_modified(buf_id)
       .. " "
-      .. get_diagnostics(buf_id, true, true)
-      .. "%*%#NonText# %= %l/%L:%-3c %*"
+      .. get_diagnostics(buf_id)
+      .. "%*%#NonText# %= %l:%-3c %*"
 
-    vim.api.nvim_set_option_value("winbar", new_winbar, { win = win_id })
+    vim.api.nvim_set_option_value("winbar", winbar, { win = win_id })
   end
 end
 
+--- @param win_id integer
+--- @return nil
 local function disable_winbar(win_id)
   vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
 end
 
-local last_status = ""
-
+--- @param win_id integer
+--- @return nil
 local function enable_statusline(win_id)
   vim.opt.laststatus = 3
 
@@ -192,19 +153,10 @@ local function enable_statusline(win_id)
   local is_floating = win_config.relative ~= ""
 
   if is_floating or excluded_filetypes[filetype] ~= nil then
-    vim.api.nvim_set_option_value("statusline", last_status, { win = win_id })
-    return
+    vim.api.nvim_set_option_value("statusline", statusline_cache[win_id], { win = win_id })
   else
-    local statusline = " "
-      -- .. get_filename(buf_id, false)
-      -- .. " "
-      .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:")
-      -- .. " "
-      -- .. get_diagnostics(nil, false, false)
-      .. "%= %l/%L:%-3c %y"
-      .. " "
-    last_status = statusline
-    vim.api.nvim_set_option_value("statusline", statusline, { win = win_id })
+    statusline_cache[win_id] = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:") .. "%= %l/%L:%-3c %y" .. " "
+    vim.api.nvim_set_option_value("statusline", statusline_cache[win_id], { win = win_id })
   end
 end
 
@@ -213,6 +165,7 @@ local function disable_statusline()
   vim.opt.statusline = "%{repeat('─', winwidth('.'))}"
 end
 
+--- Renderers
 local function render_statusline()
   if _G.statusline_enabled then
     enable_statusline(0)

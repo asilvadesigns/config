@@ -68,6 +68,9 @@ M.setup = function()
           ["@constructor.lua"] = { fg = c.subtext0 },
           ["@variable.builtin"] = { fg = c.lavender },
           ["@variable.parameter"] = { fg = c.lavender },
+          ["@tag.builtin.tsx"] = { fg = c.subtext0 },
+          ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext0 },
+          ---
           FloatBorder = { bg = c.base, fg = c.overlay0 },
           Folded = { bg = c.base },
           NormalFloat = { bg = c.base },
