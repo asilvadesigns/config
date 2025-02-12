@@ -93,10 +93,10 @@ M.setup = function()
 
           GrugFarResultsPath = { fg = c.text, bg = c.mantle, underline = true },
 
-          StatusLine = { fg = statusline_fg, bg = statusline_bg },
-          StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
-          -- StatusLine = { fg = c.surface2, bg = c.base },
-          -- StatusLineNC = { fg = c.surface2, bg = c.base },
+          -- StatusLine = { fg = statusline_fg, bg = statusline_bg },
+          -- StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
+          StatusLine = { fg = c.surface2, bg = c.base },
+          StatusLineNC = { fg = c.surface2, bg = c.base },
 
           WDiagnosticSignError = { fg = c.red, bg = statusline_bg },
           WDiagnosticSignHint = { fg = c.teal, bg = statusline_bg },
@@ -107,9 +107,10 @@ M.setup = function()
           WinBar = { fg = c.overlay0 },
           WinBarNC = { fg = c.surface2 },
           SnacksIndent = { fg = c.surface0 },
-          WinSeparator = { fg = c.surface0 },
-          -- WinSeparator = { fg = c.base },
+          -- WinSeparator = { fg = c.surface0 },
+          WinSeparator = { fg = c.base },
 
+          NvimTreeCursorLine = { fg = c.blue, bg = c.base },
           NvimTreeExecFile = { fg = c.overlay1 },
           NvimTreeFolderName = { fg = c.subtext0 },
           NvimTreeIndentMarker = { fg = c.surface0 },

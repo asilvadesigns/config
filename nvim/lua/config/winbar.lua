@@ -21,6 +21,7 @@ local excluded_filetypes = {
   ["NeogitStatus"] = true,
   ["NvimTree"] = true,
   ["help"] = true,
+  ["no-neck-pain"] = true,
   ["snacks_dashboard"] = true,
   ["spectre_panel"] = true,
   ["toggleterm"] = true,
