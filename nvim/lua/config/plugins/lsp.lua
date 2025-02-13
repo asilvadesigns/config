@@ -211,7 +211,7 @@ M.setup = function()
     end,
   })
 
-  vim.defer_fn(function()
+  local start_lsp = vim.schedule_wrap(function()
     --- NOTE: https://github.com/wookayin/dotfiles/blob/f2c7b0944135f33db83b218afa2da89fb4b3ef1c/nvim/lua/config/lsp.lua#L318
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
       local valid = vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_get_option_value("buflisted", { buf = bufnr })
@@ -220,7 +220,11 @@ M.setup = function()
         vim.api.nvim_exec_autocmds("FileType", { group = augroup_lspconfig, buffer = bufnr })
       end
     end
-  end, 1000)
+  end)
+
+  vim.defer_fn(function()
+    start_lsp()
+  end, 100)
 end
 
 return M

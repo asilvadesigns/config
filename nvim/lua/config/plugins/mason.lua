@@ -1,27 +1,17 @@
+---@diagnostic disable: missing-fields
 local M = {}
 
 M.setup = function()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-  capabilities.workspace = {
-    didChangeWatchedFiles = {
-      dynamicRegistration = false,
-    },
-  }
-
-  capabilities.textDocument.foldingRange = {
-    dynamicRegistration = false,
-    lineFoldingOnly = true,
-  }
+  local capabilities = require("blink.cmp").get_lsp_capabilities()
 
   local servers = {
     "angularls",
     "astro",
     "clangd",
-    "cssls",
+    "cssls", --good
     "dockerls",
     "eslint",
-    "gopls",
+    "gopls", --good
     "html",
     "jsonls",
     "lua_ls",
@@ -36,153 +26,236 @@ M.setup = function()
     "yamlls",
   }
 
-  local formatters = {
-    "htmlbeautifier",
-    "prettier",
-    "sql-formatter",
-    "stylua",
-  }
-
   require("mason").setup({
+    log_level = vim.log.levels.INFO,
     ui = { border = "rounded" },
   })
 
-  require("mason-lspconfig").setup({
-    automatic_installation = true,
-    ensure_installed = servers,
-  })
+  --- @see https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/cssls.lua
+  vim.lsp.config.cssls = {
+    capabilities = capabilities,
+    cmd = {
+      "vscode-css-language-server",
+      "--stdio",
+    },
+    filetypes = {
+      "css",
+      "scss",
+      "less",
+    },
+    init_options = {
+      provideFormatter = true,
+    },
+    root_markers = {
+      ".git",
+      "package.json",
+    },
+    single_file_support = true,
+    settings = {
+      css = {
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+      scss = {
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+    },
+  }
+  vim.lsp.enable("cssls")
 
-  require("mason-lspconfig").setup_handlers({
-    function(server_name)
-      vim.lsp.config[server_name] = {
-        capabilities = capabilities,
-      }
-    end,
-    ["cssls"] = function()
-      vim.lsp.config.cssls = {
-        capabilities = capabilities,
-        settings = {
-          css = {
-            lint = {
-              -- fixes unknown @tailwind rule for css files
-              unknownAtRules = "ignore",
-            },
+  --- @see https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/jsonls.lua
+  vim.lsp.config.jsonls = {
+    capabilities = capabilities,
+    cmd = {
+      "vscode-json-language-server",
+      "--stdio",
+    },
+    filetypes = {
+      "json",
+      "jsonc",
+    },
+    init_options = {
+      provideFormatter = true,
+    },
+    root_markers = {
+      ".git",
+      "package.json",
+    },
+    settings = {
+      json = {
+        schemas = {
+          {
+            fileMatch = { "sqlc.json" },
+            url = { "https://json.schemastore.org/sqlc-2.0.json" },
           },
-          scss = {
-            lint = {
-              -- fixes unknown @tailwind rule for sass files
-              unknownAtRules = "ignore",
-            },
+          {
+            fileMatch = { "jsconfig.json" },
+            url = "https://json.schemastore.org/jsconfig",
           },
-        },
-      }
-    end,
-    ["jsonls"] = function()
-      -- NOTE: new schemas see here https://www.schemastore.org/json/
-      vim.lsp.config.jsonls = {
-        capabilities = capabilities,
-        settings = {
-          json = {
-            schemas = {
-              {
-                fileMatch = { "sqlc.json" },
-                url = { "https://json.schemastore.org/sqlc-2.0.json" },
-              },
-              {
-                fileMatch = { "jsconfig.json" },
-                url = "https://json.schemastore.org/jsconfig",
-              },
-              {
-                fileMatch = { "tsconfig.json" },
-                url = "https://json.schemastore.org/tsconfig",
-              },
-              {
-                fileMatch = { "turbo.json" },
-                url = "https://turbo.build/schema.json",
-              },
-              {
-                fileMatch = { "package.json" },
-                url = "https://json.schemastore.org/package",
-              },
-              {
-                fileMatch = { ".prettierrc.json", ".prettierrc" },
-                url = "https://json.schemastore.org/prettierrc.json",
-              },
-              {
-                fileMatch = { ".eslintrc.json" },
-                url = "https://json.schemastore.org/eslintrc.json",
-              },
-            },
+          {
+            fileMatch = { "tsconfig.json" },
+            url = "https://json.schemastore.org/tsconfig",
+          },
+          {
+            fileMatch = { "turbo.json" },
+            url = "https://turbo.build/schema.json",
+          },
+          {
+            fileMatch = { "package.json" },
+            url = "https://json.schemastore.org/package",
+          },
+          {
+            fileMatch = { ".prettierrc.json", ".prettierrc" },
+            url = "https://json.schemastore.org/prettierrc.json",
+          },
+          {
+            fileMatch = { ".eslintrc.json" },
+            url = "https://json.schemastore.org/eslintrc.json",
           },
         },
-      }
-    end,
-    ["gopls"] = function()
-      vim.lsp.config.gopls = {
-        capabilities = capabilities,
-        settings = {
-          gopls = {
-            analyses = {
-              unusedparams = true,
-            },
-            completeUnimported = true,
-            usePlaceholders = true,
-          },
-        },
-      }
-    end,
-    ["lua_ls"] = function()
-      vim.lsp.config.lua_ls = {
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-          },
-        },
-      }
-    end,
-    ["ts_ls"] = function()
-      local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
-      local home_path = vim.fn.expand("~")
+      },
+    },
+  }
+  vim.lsp.enable("jsonls")
 
-      vim.lsp.config.ts_ls = {
-        capabilities = capabilities,
-        init_options = {
-          preferences = {
-            importModuleSpecifierPreference = "non-relative",
-          },
-          plugins = {
-            {
-              name = "ts-lit-plugin",
-              location = home_path
-                .. "/Library/Application Support/fnm/node-versions/v22.11.0/installation/lib/node_modules/ts-lit-plugin/",
-            },
-            {
-              name = "@vue/typescript-plugin",
-              location = volar_path .. "/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin",
-              languages = { "vue" },
-            },
-          },
+  --- @see https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/gopls.lua
+  vim.lsp.config.gopls = {
+    capabilities = capabilities,
+    cmd = {
+      "gopls",
+    },
+    filetypes = {
+      "go",
+      "gomod",
+      "gowork",
+      "gotmpl",
+    },
+    root_markers = {
+      ".git",
+      "go.mod",
+      "go.sum",
+    },
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
         },
-      }
-    end,
-    ["volar"] = function()
-      local ts_path = require("mason-registry").get_package("typescript-language-server"):get_install_path()
+        completeUnimported = true,
+        usePlaceholders = true,
+      },
+    },
+  }
+  vim.lsp.enable("gopls")
 
-      vim.lsp.config.volar = {
-        capabilities = capabilities,
-        init_options = {
-          vue = {
-            hybridMode = false,
-          },
-          typescript = {
-            tsdk = ts_path .. "/node_modules/typescript/lib",
-          },
+  --- @see https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/html.lua
+  vim.lsp.config.html = {
+    cmd = {
+      "vscode-html-language-server",
+      "--stdio",
+    },
+    filetypes = {
+      "html",
+      "templ",
+    },
+    root_markers = {
+      ".git",
+      "package.json",
+    },
+    single_file_support = true,
+    settings = {},
+    init_options = {
+      provideFormatter = true,
+      embeddedLanguages = {
+        css = true,
+        javascript = true,
+      },
+      configurationSection = {
+        "html",
+        "css",
+        "javascript",
+      },
+    },
+  }
+
+  --- @see https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/lua_ls.lua
+  vim.lsp.config["lua_ls"] = {
+    capabilities = capabilities,
+    cmd = { "lua-language-server" },
+    filetypes = { "lua" },
+    root_markers = {
+      ".luarc.json",
+      ".luarc.jsonc",
+      ".luacheckrc",
+      ".stylua.toml",
+      "stylua.toml",
+      "selene.toml",
+      "selene.yml",
+    },
+    settings = {
+      Lua = {
+        runtime = {
+          version = "LuaJIT",
+          path = vim.split(package.path, ";"),
         },
-      }
-    end,
-  })
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          checkThirdParty = false,
+        },
+        telemetry = {
+          enable = false,
+        },
+      },
+    },
+  }
+  vim.lsp.enable("lua_ls")
+
+
+  --- @see https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/tailwindcss.lua
+
+  --- TODO: incomplete lsp configuration
+  local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
+  local home_path = vim.fn.expand("~")
+  vim.lsp.config.ts_ls = {
+    capabilities = capabilities,
+    init_options = {
+      preferences = {
+        importModuleSpecifierPreference = "non-relative",
+      },
+      plugins = {
+        {
+          name = "ts-lit-plugin",
+          location = home_path
+            .. "/Library/Application Support/fnm/node-versions/v22.11.0/installation/lib/node_modules/ts-lit-plugin/",
+        },
+        {
+          name = "@vue/typescript-plugin",
+          location = volar_path .. "/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin",
+          languages = { "vue" },
+        },
+      },
+    },
+  }
+  -- vim.lsp.enable("ts_ls")
+
+  --- TODO: incomplete lsp configuration
+  local ts_path = require("mason-registry").get_package("typescript-language-server"):get_install_path()
+  vim.lsp.config.volar = {
+    capabilities = capabilities,
+    init_options = {
+      vue = {
+        hybridMode = false,
+      },
+      typescript = {
+        tsdk = ts_path .. "/node_modules/typescript/lib",
+      },
+    },
+  }
+  -- vim.lsp.enable("volar")
 
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -190,6 +263,7 @@ M.setup = function()
       local opts = { silent = true, buffer = ev.buf }
 
       vim.keymap.set("n", "g.", vim.lsp.buf.code_action, opts)
+
       vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
 
       vim.keymap.set("n", "K", function()
@@ -209,46 +283,6 @@ M.setup = function()
       end, opts)
     end,
   })
-
-  vim.api.nvim_create_user_command("GetActiveLSPs", function()
-    local clients = vim.lsp.get_clients()
-    local clients_list = {}
-    for _, client in pairs(clients) do
-      table.insert(clients_list, client.name)
-    end
-
-    print("active lsps")
-    print(vim.inspect(clients_list))
-  end, {})
-
-  vim.api.nvim_create_user_command("MasonInstallAll", function()
-    vim.cmd("MasonInstall " .. table.concat(servers, " "))
-    local registry = require("mason-registry")
-
-    for _, pkg_name in ipairs(formatters) do
-      local ok, pkg = pcall(registry.get_package, pkg_name)
-      if ok then
-        if not pkg:is_installed() then
-          pkg:install()
-        end
-      end
-    end
-  end, {})
-
-  --- --- https://github.com/wookayin/dotfiles/blob/f2c7b0944135f33db83b218afa2da89fb4b3ef1c/nvim/lua/config/lsp.lua#L318
-  --- local attach_lsp_to_existing_buffers = vim.schedule_wrap(function()
-  ---   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-  ---     local valid = vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_get_option_value("buflisted", { buf = bufnr })
-  ---     if valid and vim.bo[bufnr].buftype == "" then
-  ---       local augroup_lspconfig = vim.api.nvim_create_augroup("lspconfig", { clear = false })
-  ---       vim.api.nvim_exec_autocmds("FileType", { group = augroup_lspconfig, buffer = bufnr })
-  ---     end
-  ---   end
-  --- end)
-  ---
-  --- vim.defer_fn(function()
-  ---   attach_lsp_to_existing_buffers()
-  --- end, 100)
 end
 
 return M

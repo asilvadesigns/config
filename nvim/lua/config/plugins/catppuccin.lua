@@ -92,6 +92,7 @@ M.setup = function()
           NvimTreeOpenedFolderName = { fg = c.subtext0 },
           NvimTreeRootFolder = { fg = c.overlay1 },
           NvimTreeSpecialFile = { fg = c.overlay1 },
+          QuickFixLine = { bg = c.mantle },
           SnacksIndent = { fg = c.surface0 },
           SnacksIndentScope = { fg = c.surface2 },
           SnacksPickerMatch = { fg = c.red },

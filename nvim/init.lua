@@ -65,8 +65,9 @@ vim.opt.foldlevelstart = 99
 ---
 vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
 ---
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+---
 ---
 -- vim.opt.grepformat = "%f:%l:%c:%m"
 -- vim.opt.grepprg = "rg --hidden --vimgrep --smart-case --"
@@ -375,11 +376,6 @@ require("lazy").setup({
       config = require("config.plugins.auto-session").setup,
     },
     {
-      "nvim-treesitter/nvim-treesitter-context",
-      event = "VeryLazy",
-      config = require("config.plugins.treesitter-context").setup,
-    },
-    {
       "tadaa/vimade",
       event = "VeryLazy",
       opts = {
@@ -395,29 +391,13 @@ require("lazy").setup({
       config = require("config.plugins.catppuccin").setup,
     },
     {
-      "aileot/ex-colors.nvim",
-      enabled = false,
-      lazy = true,
-      cmd = "ExColors",
-      config = function()
-        require("ex-colors").setup({
-          included_patterns = require("ex-colors.presets").recommended.included_patterns + {
-            "^GrugFar%u",
-            "^NvimTree%u",
-            "^Snacks%u",
-            "^TreesitterContext%u",
-          },
-        })
-      end,
-    },
-    {
       "stevearc/quicker.nvim",
       event = "FileType qf",
       config = require("config.plugins.quicker").setup,
     },
     {
       "eero-lehtinen/oklch-color-picker.nvim",
-      event = "VeryLazy",
+      cmd = { "ColorPickerToggle" },
       config = require("config.plugins.color-picker").setup,
     },
     {
@@ -446,7 +426,7 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
-      event = "VeryLazy",
+      keys = { { "<leader>x", "<CMD>Oil<CR>", { desc = "Show Oil" } } },
       config = require("config.plugins.oil").setup,
     },
     {
@@ -473,35 +453,25 @@ require("lazy").setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
-      keys = {
-        {
-          "<leader>j",
-          function()
-            if vim.bo.filetype == "NvimTree" then
-              vim.cmd("NvimTreeClose")
-            else
-              local current_file = vim.fn.expand("%:p")
-              local cwd = vim.fn.getcwd()
-
-              if vim.fn.filereadable(current_file) == 1 and string.sub(current_file, 1, #cwd) == cwd then
-                vim.cmd("NvimTreeFindFile")
-                vim.cmd("normal! zz")
-              else
-                vim.cmd("NvimTreeOpen")
-              end
-            end
-          end,
-          { desc = "Toggle file tree" },
-        },
-      },
+      keys = { { "<leader>j", "<CMD>ToggleFindFile<CR>" } },
       config = require("config.plugins.nvim-tree").setup,
     },
     {
       "neovim/nvim-lspconfig",
-      event = { "BufReadPost", "BufNewfile" },
-      dependencies = { "williamboman/mason-lspconfig.nvim", "williamboman/mason.nvim" },
+      event = "VeryLazy",
+      dependencies = {
+        "williamboman/mason-lspconfig.nvim",
+        "williamboman/mason.nvim",
+      },
       config = require("config.plugins.lsp").setup,
     },
+    -- {
+    -- -- NOTE: in progress
+    --   "williamboman/mason.nvim",
+    --   event = "VeryLazy",
+    --   dependencies = { "saghen/blink.cmp" },
+    --   config = require("config.plugins.mason").setup,
+    -- },
     {
       "saghen/blink.cmp",
       version = "*",
@@ -546,9 +516,14 @@ require("lazy").setup({
     {
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
-      event = "BufReadPre",
+      event = "LspAttach",
       dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       config = require("config.plugins.treesitter").setup,
+    },
+    {
+      "nvim-treesitter/nvim-treesitter-context",
+      cmd = { "ToggleTreesitterContext" },
+      config = require("config.plugins.treesitter-context").setup,
     },
     {
       "NeogitOrg/neogit",
@@ -562,7 +537,25 @@ require("lazy").setup({
     },
     {
       "mrjones2014/smart-splits.nvim",
-      event = "VeryLazy",
+      keys = {
+        -- stylua: ignore start
+        -- Resize
+        { "<S-Down>", function() require('smart-splits').resize_down() end, desc = "Resize down" },
+        { "<S-Left>", function() require('smart-splits').resize_left() end, desc = "Resize left" },
+        { "<S-Right>", function() require('smart-splits').resize_right() end, desc = "Resize right" },
+        { "<S-Up>", function() require('smart-splits').resize_up() end, desc = "Resize up" },
+        -- Moving
+        { "<C-h>", function() require('smart-splits').move_cursor_left() end, desc = "Move cursor left" },
+        { "<C-j>", function() require('smart-splits').move_cursor_down() end, desc = "Move cursor down" },
+        { "<C-k>", function() require('smart-splits').move_cursor_up() end, desc = "Move cursor up" },
+        { "<C-l>", function() require('smart-splits').move_cursor_right() end, desc = "Move cursor right" },
+        -- Swapping
+        { "<leader><leader>h", function() require('smart-splits').swap_buf_left() end, desc = "Swap buffer left" },
+        { "<leader><leader>j", function() require('smart-splits').swap_buf_down() end, desc = "Swap buffer down" },
+        { "<leader><leader>k", function() require('smart-splits').swap_buf_up() end, desc = "Swap buffer up" },
+        { "<leader><leader>l", function() require('smart-splits').swap_buf_right() end, desc = "Swap buffer right" },
+        -- stylua: ignore end
+      },
       config = require("config.plugins.smart-splits").setup,
     },
     {
@@ -573,7 +566,7 @@ require("lazy").setup({
     },
     {
       "wurli/visimatch.nvim",
-      event = "VeryLazy",
+      keys = { "V", "v" },
       opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
     },
     {
@@ -581,6 +574,25 @@ require("lazy").setup({
       event = { "TabEnter", "TabNew" },
       version = "*",
       config = require("config.plugins.bufferline").setup,
+    },
+    ---
+    ---
+    --- NOTE: useless for now
+    {
+      "aileot/ex-colors.nvim",
+      enabled = false,
+      lazy = true,
+      cmd = "ExColors",
+      config = function()
+        require("ex-colors").setup({
+          included_patterns = require("ex-colors.presets").recommended.included_patterns + {
+            "^GrugFar%u",
+            "^NvimTree%u",
+            "^Snacks%u",
+            "^TreesitterContext%u",
+          },
+        })
+      end,
     },
   },
   performance = {

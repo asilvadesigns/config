@@ -147,7 +147,7 @@ M.setup = function()
     },
     ---@class snacks.indent.Config
     indent = {
-      enabled = true,
+      enabled = false,
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
@@ -195,11 +195,14 @@ M.setup = function()
       enabled = true,
       style = "compact",
       timeout = 1000,
-      width = { min = 40, max = 40 },
+      width = {
+        min = 40,
+        max = 40,
+      },
     },
     ---@class snacks.statuscolumn.Config
     statuscolumn = {
-      enabled = true,
+      enabled = false,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
       left = { "" }, -- priority of signs on the left (high to low)
@@ -210,16 +213,21 @@ M.setup = function()
         git_hl = false, -- use Git Signs hl for fold icons
       },
       git = {
-        -- patterns to match Git signs
-        patterns = { "GitSign", "MiniDiffSign" },
+        patterns = {
+          "GitSign",
+          "MiniDiffSign",
+        },
       },
-      refresh = 50, -- refresh at most every 50ms
+      refresh = 50,
     },
     ---@class snacks.scroll.Config
     scroll = {
-      enabled = true,
+      enabled = false,
       animate = {
-        duration = { step = 15, total = 75 }, --5 && 125 is good
+        duration = {
+          step = 15,
+          total = 75,
+        }, --5 && 125 is good
         easing = "inOutSine",
         fps = 60,
       },

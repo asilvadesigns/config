@@ -5,7 +5,7 @@ M.setup = function()
     constrain_cursor = false,
     highlight = {
       -- Use treesitter highlighting
-      treesitter = false,
+      treesitter = true,
       -- Use LSP semantic token highlighting
       lsp = false,
       -- Load the referenced buffers to apply more accurate highlights (may be slow)

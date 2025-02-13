@@ -139,20 +139,20 @@ M.setup = function()
   })
 end
 
--- vim.keymap.set("n", "<leader>j", function()
---   if vim.bo.filetype == "NvimTree" then
---     vim.cmd("NvimTreeClose")
---   else
---     local current_file = vim.fn.expand("%:p")
---     local cwd = vim.fn.getcwd()
---
---     if vim.fn.filereadable(current_file) == 1 and string.sub(current_file, 1, #cwd) == cwd then
---       vim.cmd("NvimTreeFindFile")
---       vim.cmd("normal! zz")
---     else
---       vim.cmd("NvimTreeOpen")
---     end
---   end
--- end, { desc = "Toggle file tree" })
+vim.api.nvim_create_user_command("ToggleFindFile", function()
+  if vim.bo.filetype == "NvimTree" then
+    vim.cmd("NvimTreeClose")
+  else
+    local current_file = vim.fn.expand("%:p")
+    local cwd = vim.fn.getcwd()
+
+    if vim.fn.filereadable(current_file) == 1 and string.sub(current_file, 1, #cwd) == cwd then
+      vim.cmd("NvimTreeFindFile")
+      vim.cmd("normal! zz")
+    else
+      vim.cmd("NvimTreeOpen")
+    end
+  end
+end, {})
 
 return M
