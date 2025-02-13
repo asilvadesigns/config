@@ -32,7 +32,7 @@
   "promise-async": { "branch": "main", "commit": "119e8961014c9bfaf1487bf3c2a393d254f337e2" },
   "quicker.nvim": { "branch": "master", "commit": "5e272a7b88892c4313f25b09a11e2ae5ebc68ba5" },
   "smart-splits.nvim": { "branch": "master", "commit": "740a2e2bb3bf525f4e21f9748233480ebb0709a3" },
-  "snacks.nvim": { "branch": "main", "commit": "3a97922a88a9d8abe3757f99403fcb5e06482d9e" },
+  "snacks.nvim": { "branch": "main", "commit": "885c1409e898b2f6f806cdb31f6ca9d7d84b4ff3" },
   "substitute.nvim": { "branch": "main", "commit": "97f49d16f8eea7967d41db4f657dd63af53eeba1" },
   "treesj": { "branch": "main", "commit": "48c1a7539f376fd40ceb9cf12d697040fcf90649" },
   "trouble.nvim": { "branch": "main", "commit": "85bedb7eb7fa331a2ccbecb9202d8abba64d37b3" },

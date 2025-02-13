@@ -1,5 +1,6 @@
 ---@diagnostic disable: missing-fields
 
+local use_optimized_colors = true
 local use_other_directory = false
 
 local root = vim.fn.stdpath("data")
@@ -321,8 +322,10 @@ vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
   end
 end, {})
 
--- vim.cmd("colorscheme ex-catppuccin-frappe")
---
+if use_optimized_colors then
+  vim.cmd("colorscheme ex-catppuccin-frappe")
+end
+
 require("config.winbar")
 
 require("lazy").setup({
@@ -386,9 +389,15 @@ require("lazy").setup({
     },
     {
       "catppuccin/nvim",
+      enabled = not use_optimized_colors,
       priority = 1000,
       name = "catppuccin",
       config = require("config.plugins.catppuccin").setup,
+    },
+    {
+      "aileot/ex-colors.nvim",
+      cmd = "ExColors",
+      config = require("config.plugins.ex-colors").setup,
     },
     {
       "stevearc/quicker.nvim",
@@ -574,25 +583,6 @@ require("lazy").setup({
       event = { "TabEnter", "TabNew" },
       version = "*",
       config = require("config.plugins.bufferline").setup,
-    },
-    ---
-    ---
-    --- NOTE: useless for now
-    {
-      "aileot/ex-colors.nvim",
-      enabled = false,
-      lazy = true,
-      cmd = "ExColors",
-      config = function()
-        require("ex-colors").setup({
-          included_patterns = require("ex-colors.presets").recommended.included_patterns + {
-            "^GrugFar%u",
-            "^NvimTree%u",
-            "^Snacks%u",
-            "^TreesitterContext%u",
-          },
-        })
-      end,
     },
   },
   performance = {
