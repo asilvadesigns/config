@@ -379,15 +379,6 @@ require("lazy").setup({
       config = require("config.plugins.auto-session").setup,
     },
     {
-      "tadaa/vimade",
-      event = "VeryLazy",
-      opts = {
-        recipe = { "default", { animate = true } },
-        ncmode = "windows",
-        fadelevel = 0.75,
-      },
-    },
-    {
       "catppuccin/nvim",
       enabled = not use_optimized_colors,
       priority = 1000,

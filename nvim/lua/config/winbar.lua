@@ -119,15 +119,25 @@ local function enable_winbar(win_id)
   local filetype = vim.bo[buf_id].filetype
   local is_floating = win_config.relative ~= ""
 
+  local is_active = vim.api.nvim_get_current_win() == win_id
+
+  local is_active_icon = ""
+  if is_active then
+    is_active_icon = ""
+  end
+
   if is_floating or excluded_filetypes[filetype] ~= nil then
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
   else
     local winbar = " "
+      .. is_active_icon
+      .. " "
       .. get_filename(buf_id)
       .. " "
       .. get_modified(buf_id)
       .. " "
       .. get_diagnostics(buf_id)
+      .. ""
       .. "%*%#NonText# %= %l:%-3c %*"
 
     vim.api.nvim_set_option_value("winbar", winbar, { win = win_id })
@@ -210,7 +220,14 @@ vim.api.nvim_create_user_command("ToggleWinbar", function()
 end, {})
 
 --- Render Statusline and Winbar on autocmds...
-vim.api.nvim_create_autocmd({ "BufModifiedSet", "BufNewFile", "BufReadPost", "DiagnosticChanged", "TabClosed" }, {
+vim.api.nvim_create_autocmd({
+  "BufModifiedSet",
+  "BufNewFile",
+  "BufReadPost",
+  "DiagnosticChanged",
+  "TabClosed",
+  "WinEnter",
+}, {
   group = RenderGroup,
   callback = function()
     render_statusline()
