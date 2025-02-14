@@ -1,10 +1,11 @@
 ---@diagnostic disable: missing-fields
 
+local show_invisible_chars = false
 local use_optimized_colors = true
-local use_other_directory = false
+local use_alternate_directory = true
 
 local root = vim.fn.stdpath("data")
-if use_other_directory then
+if use_alternate_directory then
   root = vim.fn.expand("~/dev")
 end
 
@@ -40,60 +41,38 @@ vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"
 end)
 
-vim.opt.conceallevel = 0
 vim.opt.cursorline = false
--- vim.cmd(
---   "set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175"
--- )
+vim.opt.guicursor =
+  "n-v-c:blocki,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff250-blinkon250,sm:block-blinkwait500-blinkoff250-blinkon250"
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
-vim.opt.pumheight = 10
 vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.writebackup = false
-
-vim.opt.wrap = false
-vim.opt.linebreak = false
 ---
 vim.opt.synmaxcol = 256
 ---
-vim.opt.number = false
-vim.opt.relativenumber = false
----
 vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
-vim.opt.foldenable = true
 vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 99
 ---
 vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
 ---
 -- vim.opt.foldmethod = "expr"
 -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 ---
----
 -- vim.opt.grepformat = "%f:%l:%c:%m"
 -- vim.opt.grepprg = "rg --hidden --vimgrep --smart-case --"
 vim.opt.ignorecase = true
-vim.opt.inccommand = "nosplit"
 vim.opt.smartcase = true
 ---
 vim.opt.splitbelow = true
-vim.opt.splitkeep = "cursor"
 vim.opt.splitright = true
 ---
 vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
+vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 ---
-vim.cmd("set nomodeline")
----
--- vim.opt.list = true
--- vim.opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
--- vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
----
-vim.opt.scrolloff = 0
-vim.opt.sidescrolloff = 0
-vim.opt.smoothscroll = true
+vim.opt.list = show_invisible_chars
+vim.opt.listchars = "tab:»·,nbsp:+,space:·,trail:·,extends:→,precedes:←"
+vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
 ---
 vim.opt.cmdheight = 0
 vim.opt.signcolumn = "yes"
@@ -101,12 +80,11 @@ vim.opt.signcolumn = "yes"
 vim.opt.sessionoptions = "buffers,curdir,help,winsize,winpos"
 -- perfomance
 vim.opt.redrawtime = 1500
-vim.opt.timeoutlen = 200
-vim.opt.ttimeoutlen = 10
-vim.opt.updatetime = 100
-
+-- vim.opt.timeoutlen = 200 -- time in ms to wait for a mapped sequence to complete.
+-- vim.opt.ttimeoutlen = 10 -- time in ms to wait for a keycode sequence to complete.
+vim.opt.updatetime = 100 -- time in ms to wait for swap file to be written to disk.
 ---
-vim.opt.termguicolors = true
+-- vim.opt.termguicolors = true
 ---
 if vim.g.neovide then
   vim.o.guifont = "JetBrainsMono Nerd Font Mono"
@@ -293,6 +271,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = vim.api.nvim_create_augroup("user-lazy-done", { clear = true }),
+  callback = function()
+    vim.defer_fn(function()
+      vim.api.nvim_exec_autocmds("User", { pattern = "SuperLazy" })
+    end, 200)
+  end,
+})
+
 ---
 --- Commands
 ---
@@ -316,10 +303,14 @@ end, {})
 
 vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
   local config = vim.diagnostic.config()
-
   if config ~= nil then
     vim.diagnostic.config({ virtual_text = not config.virtual_text })
   end
+end, {})
+
+vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
+  show_invisible_chars = not show_invisible_chars
+  vim.opt.list = show_invisible_chars
 end, {})
 
 if use_optimized_colors then
@@ -335,10 +326,6 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
       lazy = true,
       opts = { color_icons = false },
-    },
-    {
-      "nvim-lua/plenary.nvim",
-      lazy = true,
     },
     {
       "folke/snacks.nvim",
@@ -426,7 +413,7 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
-      keys = { { "<leader>x", "<CMD>Oil<CR>", { desc = "Show Oil" } } },
+      event = "User SuperLazy",
       config = require("config.plugins.oil").setup,
     },
     {
@@ -453,7 +440,7 @@ require("lazy").setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
-      keys = { { "<leader>j", "<CMD>ToggleFindFile<CR>" } },
+      event = "User SuperLazy",
       config = require("config.plugins.nvim-tree").setup,
     },
     {
@@ -488,7 +475,9 @@ require("lazy").setup({
           "f",
           mode = "v",
           function()
-            require("grug-far").with_visual_selection({ prefills = { paths = vim.fn.expand("%") } })
+            require("grug-far").with_visual_selection({
+              prefills = { paths = vim.fn.expand("%") },
+            })
           end,
           desc = "Find selected in file",
         },
@@ -505,6 +494,30 @@ require("lazy").setup({
       config = require("config.plugins.grug-far").setup,
     },
     {
+      "ggandor/leap.nvim",
+      keys = {
+        {
+          "s",
+          function()
+            require("leap").leap({
+              target_windows = require("leap.user").get_focusable_windows(),
+            })
+          end,
+        },
+        {
+          "gs",
+          function()
+            require("leap.remote").action()
+          end,
+        },
+      },
+      config = function()
+        require("leap").opts.safe_labels = {} -- dont jump to first match.
+        vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "NonText" }) -- darken everything
+        vim.api.nvim_set_hl(0, "LeapLabel", { link = "DiagnosticVirtualTextInfo" }) -- darken everything
+      end,
+    },
+    {
       "Wansmer/treesj",
       keys = {
         { "<leader>tj", ":TSJJoin<CR>", silent = true, desc = "Join TS nodes" },
@@ -516,7 +529,8 @@ require("lazy").setup({
     {
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
-      event = "LspAttach",
+      -- event = "LspAttach",
+      lazy = false,
       dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       config = require("config.plugins.treesitter").setup,
     },

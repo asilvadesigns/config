@@ -139,7 +139,7 @@ M.setup = function()
   })
 end
 
-vim.api.nvim_create_user_command("ToggleFindFile", function()
+vim.keymap.set("n", "<leader>j", function()
   if vim.bo.filetype == "NvimTree" then
     vim.cmd("NvimTreeClose")
   else
@@ -153,6 +153,6 @@ vim.api.nvim_create_user_command("ToggleFindFile", function()
       vim.cmd("NvimTreeOpen")
     end
   end
-end, {})
+end, { desc = "Open file in file tree" })
 
 return M

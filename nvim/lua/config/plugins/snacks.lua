@@ -57,6 +57,7 @@ local palette_items = {
       end
     end,
   },
+  { text = "Toggle Invisible Chars", cmd = "ToggleInvisibleChars" },
   { text = "Toggle Treesitter Context", cmd = "ToggleTreesitterContext" },
   { text = "Toggle Statusline", cmd = "ToggleStatusline" },
   { text = "Toggle Winbar", cmd = "ToggleWinbar" },
