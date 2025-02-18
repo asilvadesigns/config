@@ -93,9 +93,6 @@ M.setup = function()
           ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext1 },
           ---
           -- MatchParen = { bg = c.surface1, fg = c.lavender, style = {} },
-          -- StatusLine = { fg = statusline_fg, bg = statusline_bg },
-          -- StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
-          -- WinSeparator = { fg = c.surface0 },
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2
@@ -125,13 +122,15 @@ M.setup = function()
           SnacksPickerMatch = { fg = c.red },
           StatusLine = { fg = c.surface2, bg = c.base },
           StatusLineNC = { fg = c.surface2, bg = c.base },
+          -- StatusLine = { fg = statusline_fg, bg = statusline_bg },
+          -- StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
           TreesitterContextBottom = { fg = c.overlay0, underline = false },
           TreesitterContextLineNumberBottom = { fg = c.overlay0, underline = false },
           Visual = { bg = c.surface1, style = {} },
           WVisiMatch = { bg = c.surface0 },
           WinBar = { fg = c.overlay0 },
           WinBarNC = { fg = c.surface2 },
-          WinSeparator = { fg = c.base },
+          WinSeparator = { fg = c.base }, -- or c.surface0
         }
       end,
     },
