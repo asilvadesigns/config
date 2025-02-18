@@ -1,4 +1,4 @@
-_G.statusline_enabled = true
+_G.statusline_enabled = false
 if _G.statusline_enabled then
   vim.opt.statusline = ""
 else
@@ -6,7 +6,7 @@ else
   vim.opt.statusline = "%{repeat('─', winwidth('.'))}"
 end
 
-_G.winbar_enabled = true
+_G.winbar_enabled = false
 if _G.winbar_enabled then
   vim.opt.winbar = ""
 else
@@ -103,9 +103,12 @@ local function get_filename(buf_id)
     filepath = bufname:sub(#cwd + 1)
   end
 
-  local filename_start = filepath:find(filename .. "$")
-  if filename_start then
-    filepath = filepath:sub(1, filename_start - 1)
+  -- local filename_start = filepath:find(filename .. "$")
+  -- if filename_start then
+  --   filepath = filepath:sub(1, filename_start - 1)
+  -- end
+  if filepath:sub(-#filename) == filename then
+    filepath = filepath:sub(1, -#filename - 1)
   end
 
   filename_cache[buf_id] = filepath .. filename .. "%*"

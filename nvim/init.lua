@@ -1,8 +1,9 @@
 ---@diagnostic disable: missing-fields
 
-local show_invisible_chars = false
-local use_optimized_colors = true
-local use_alternate_directory = true
+local show_invisible_chars = true
+local use_alternate_directory = false
+local use_optimized_colors = false
+local use_statusline = false
 
 local root = vim.fn.stdpath("data")
 if use_alternate_directory then
@@ -41,7 +42,7 @@ vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"
 end)
 
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 vim.opt.guicursor =
   "n-v-c:blocki,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff250-blinkon250,sm:block-blinkwait500-blinkoff250-blinkon250"
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
@@ -49,13 +50,16 @@ vim.opt.swapfile = false
 ---
 vim.opt.synmaxcol = 256
 ---
-vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
+vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
 vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.schedule(function()
+  vim.opt.foldmethod = "expr"
+  vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+end)
 ---
 vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
 ---
--- vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 ---
 -- vim.opt.grepformat = "%f:%l:%c:%m"
 -- vim.opt.grepprg = "rg --hidden --vimgrep --smart-case --"
@@ -71,11 +75,22 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 ---
 vim.opt.list = show_invisible_chars
-vim.opt.listchars = "tab:»·,nbsp:+,space:·,trail:·,extends:→,precedes:←"
+vim.opt.listchars = "tab:  ,nbsp:+,trail:·,extends:→,precedes:←" -- space:·,tab:»·, NOTE: tab must have 2 characters
 vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
+vim.opt.wrap = false
 ---
 vim.opt.cmdheight = 0
 vim.opt.signcolumn = "yes"
+
+---
+if use_statusline then
+  vim.opt.laststatus = 2
+else
+  vim.opt.laststatus = 0
+  vim.opt.statusline = "%{repeat(' ', winwidth('.'))}"
+end
+---
+
 ---
 vim.opt.sessionoptions = "buffers,curdir,help,winsize,winpos"
 -- perfomance
@@ -289,6 +304,10 @@ local function print_and_copy(value)
   print("Copied: " .. value)
 end
 
+vim.api.nvim_create_user_command("BufOnly", function()
+  vim.cmd("%bdelete|edit #|normal`")
+end, {})
+
 vim.api.nvim_create_user_command("CopyFiletype", function()
   print_and_copy(vim.bo.filetype)
 end, {})
@@ -313,11 +332,22 @@ vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
   vim.opt.list = show_invisible_chars
 end, {})
 
+vim.api.nvim_create_user_command("ToggleStatusline", function()
+  if use_statusline then
+    vim.opt.laststatus = 0
+    vim.opt.statusline = "%{repeat(' ', winwidth('.'))}"
+  else
+    vim.opt.laststatus = 2
+    vim.opt.statusline = nil
+  end
+  use_statusline = not use_statusline
+end, {})
+
 if use_optimized_colors then
   vim.cmd("colorscheme ex-catppuccin-frappe")
 end
 
-require("config.winbar")
+-- require("config.winbar")
 
 require("lazy").setup({
   root = root .. "/lazy/plugins",
@@ -325,7 +355,10 @@ require("lazy").setup({
     {
       "nvim-tree/nvim-web-devicons",
       lazy = true,
-      opts = { color_icons = false },
+    },
+    {
+      "nvim-lua/plenary.nvim",
+      lazy = true,
     },
     {
       "folke/snacks.nvim",
@@ -528,9 +561,8 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      build = ":TSUpdate",
-      -- event = "LspAttach",
       lazy = false,
+      build = ":TSUpdate",
       dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       config = require("config.plugins.treesitter").setup,
     },
@@ -541,13 +573,9 @@ require("lazy").setup({
     },
     {
       "NeogitOrg/neogit",
-      cmd = { "Neogit" },
+      event = "User SuperLazy",
       dependencies = { "sindrets/diffview.nvim" },
       config = require("config.plugins.neogit").setup,
-    },
-    {
-      "tpope/vim-fugitive",
-      cmd = { "Gdiffsplit", "Git", "Gvdiffsplit" },
     },
     {
       "mrjones2014/smart-splits.nvim",

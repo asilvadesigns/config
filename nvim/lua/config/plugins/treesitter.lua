@@ -45,7 +45,7 @@ M.setup = function()
       end,
     },
     indent = {
-      enable = false,
+      enable = true,
     },
     incremental_selection = {
       enable = false,
@@ -60,7 +60,7 @@ M.setup = function()
     textobjects = {
       enable = true,
       move = {
-        enable = false,
+        enable = true,
         set_jumps = true,
         goto_previous_start = {
           ["[f"] = { query = "@function.outer", desc = "Previous function" },

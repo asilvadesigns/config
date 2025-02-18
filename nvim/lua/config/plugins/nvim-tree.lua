@@ -91,11 +91,11 @@ M.setup = function()
         web_devicons = {
           file = {
             enable = true,
-            color = true,
+            color = false,
           },
           folder = {
             enable = false,
-            color = true,
+            color = false,
           },
         },
         glyphs = {

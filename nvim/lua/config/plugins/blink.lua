@@ -1,12 +1,40 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
+_G.is_cmdline_mode = false
+_G.is_completion_enabled = true
+
 M.setup = function()
+  vim.api.nvim_create_user_command("ToggleCompletion", function()
+    _G.is_completion_enabled = not _G.is_completion_enabled
+  end, {})
+
+  vim.api.nvim_create_autocmd("CmdlineEnter", {
+    callback = function()
+      _G.is_cmdline_mode = true
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("CmdlineLeave", {
+    callback = function()
+      _G.is_cmdline_mode = false
+    end,
+  })
+
   require("blink.cmp").setup({
+    enabled = function()
+      if _G.is_cmdline_mode then
+        return true
+      end
+
+      return vim.bo.buftype ~= "prompt" and _G.is_completion_enabled
+    end,
     keymap = {
       preset = "enter",
       ["<C-y>"] = { "show", "show_documentation", "hide_documentation" },
-      cmdline = {
+    },
+    cmdline = {
+      keymap = {
         ["<CR>"] = { "accept", "fallback" },
         --
         ["<Down>"] = { "show", "select_next", "fallback" },
@@ -15,6 +43,10 @@ M.setup = function()
         ["<Up>"] = { "select_prev", "fallback" },
         ["<S-Tab>"] = { "select_prev", "fallback" },
       },
+    },
+    signature = {
+      enabled = true,
+      window = { border = "rounded" },
     },
     completion = {
       trigger = {
@@ -31,6 +63,7 @@ M.setup = function()
         },
       },
       menu = {
+        border = "rounded",
         draw = {
           columns = { { "kind_icon", gap = 1 }, { "label", "label_description" } },
           treesitter = { "lsp" },
@@ -38,6 +71,7 @@ M.setup = function()
       },
       documentation = {
         auto_show = true,
+        window = { border = "rounded" },
       },
     },
     appearance = {
@@ -55,6 +89,11 @@ M.setup = function()
       },
     },
   })
+
+  vim.cmd("hi! link BlinkCmpDocBorder FloatBorder")
+  vim.cmd("hi! link BlinkCmpMenuBorder FloatBorder")
+  vim.cmd("hi! link BlinkCmpSignatureHelpBorder FloatBorder")
+  vim.cmd("hi! link BlinkCmpMenu NormalFloat")
 end
 
 return M
