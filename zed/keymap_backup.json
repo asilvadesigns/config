@@ -23,20 +23,20 @@
       ", w s": "pane::SplitUp",
       ", w o": "workspace::CloseInactiveTabsAndPanes",
       ", w q": "pane::CloseAllItems",
-      ", w l": "workspace::ActivatePaneRight",
-      ", w h": "workspace::ActivatePaneLeft",
-      ", w k": "workspace::ActivatePaneUp",
-      ", w j": "workspace::ActivatePaneDown"
+      ", w l": ["workspace::ActivatePaneInDirection", "Right"],
+      ", w h": ["workspace::ActivatePaneInDirection", "Left"],
+      ", w k": ["workspace::ActivatePaneInDirection", "Up"],
+      ", w j": ["workspace::ActivatePaneInDirection", "Down"]
     }
   },
   // other modes?
   {
     "context": "Editor && VimControl && !VimWaiting && !menu",
     "bindings": {
-      "ctrl-l": "workspace::ActivatePaneRight",
-      "ctrl-h": "workspace::ActivatePaneLeft",
-      "ctrl-k": "workspace::ActivatePaneUp",
-      "ctrl-j": "workspace::ActivatePaneDown"
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
     }
   }
 ]

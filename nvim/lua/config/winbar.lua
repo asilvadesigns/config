@@ -1,4 +1,4 @@
-_G.statusline_enabled = false
+_G.statusline_enabled = true
 if _G.statusline_enabled then
   vim.opt.statusline = ""
 else
@@ -6,7 +6,7 @@ else
   vim.opt.statusline = "%{repeat('─', winwidth('.'))}"
 end
 
-_G.winbar_enabled = false
+_G.winbar_enabled = true
 if _G.winbar_enabled then
   vim.opt.winbar = ""
 else
@@ -67,7 +67,7 @@ local function get_modified(buf_id)
   if vim.api.nvim_get_option_value("modified", { buf = buf_id }) then
     return "%#Normal#󰈸%*"
   else
-    return "󰈸"
+    return " "
   end
 end
 
@@ -122,12 +122,12 @@ local function enable_winbar(win_id)
   local filetype = vim.bo[buf_id].filetype
   local is_floating = win_config.relative ~= ""
 
-  local is_active = vim.api.nvim_get_current_win() == win_id
-
-  local is_active_icon = ""
-  if is_active then
-    is_active_icon = ""
-  end
+  -- local is_active = vim.api.nvim_get_current_win() == win_id
+  -- local is_active_icon = ""
+  -- if is_active then
+  --   is_active_icon = ""
+  -- end
+  local is_active_icon = ""
 
   if is_floating or excluded_filetypes[filetype] ~= nil then
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })

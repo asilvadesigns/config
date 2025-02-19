@@ -224,6 +224,9 @@ M.setup = function()
 
   vim.defer_fn(function()
     start_lsp()
+    --
+    -- vim.opt.foldmethod = "expr"
+    -- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
   end, 100)
 end
 

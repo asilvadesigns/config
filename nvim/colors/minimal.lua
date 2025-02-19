@@ -9,26 +9,15 @@ M.setup = function()
   vim.o.background = "dark"
   vim.g.colors_name = "minimal"
 
-  -- -- local bg = "#fdf6e3" -- #0f3d38
-  -- local bg = "#0f3d38" -- #fdf6e3
-
   local bg_mute = "#eee8d5"
   local bg_darker = "#93a1a1"
-  -- local fg = '#002b36'
-
-  -- -- local fg = "#073642" --#99e6dd
-  -- local fg = "#99e6dd" --#073642
-
-  local fg_lighter = "#acbcc2"
 
   local gray = "#67787b"
-  -- local blue = "#268bd2"
   local blue = "#268bd2"
   local green = "#008078"
   local purple = "#55599e"
   local magenta = "#d33682"
   local violet = "#6c71c4"
-  -- local yellow = "#7f6e3e"
   local yellow = "#b58900"
   local cyan = "#859900"
   local green_mute = "#b7e8ac"
@@ -48,18 +37,13 @@ M.setup = function()
   }
 
   local dark = {
-    -- fg = "#1cba76",
-    -- fg = "#99e6dd",
     fg = "#8ADCB4",
-
-    -- bg = "#142e39",
-    -- bg = "#0f3d38",
     bg = "#0E4D64",
-    -- bg = "#086A59",
   }
 
   local c = light
 
+  -- assume we don't have treesitter
   -- Prevent LSP from overwriting treesitter color settings
   -- https://github.com/NvChad/NvChad/issues/1907
   vim.highlight.priorities.semantic_tokens = 95

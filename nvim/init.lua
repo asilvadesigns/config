@@ -2,8 +2,6 @@
 
 local show_invisible_chars = true
 local use_alternate_directory = false
-local use_optimized_colors = false
-local use_statusline = false
 
 local root = vim.fn.stdpath("data")
 if use_alternate_directory then
@@ -38,69 +36,40 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ","
 vim.g.maplocalleader = " "
 
+vim.opt.cmdheight = 0
+vim.opt.cursorline = true
+vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
+vim.opt.expandtab = true
+vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
+vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
+vim.opt.foldenable = true
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.guicursor =
+  "n-v-c:blocki,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff250-blinkon250,sm:block-blinkwait500-blinkoff250-blinkon250"
+vim.opt.ignorecase = true
+vim.opt.list = show_invisible_chars
+vim.opt.listchars = "tab:  ,nbsp:+,trail:·,extends:→,precedes:←" -- space:·,tab:»·, NOTE: tab must have 2 characters
+vim.opt.redrawtime = 1500
+vim.opt.scrolloff = 1
+vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
+vim.opt.shiftwidth = 2
+vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
+vim.opt.signcolumn = "yes"
+vim.opt.smartcase = true
+vim.opt.smartindent = true
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.swapfile = false
+vim.opt.synmaxcol = 256
+vim.opt.tabstop = 2
+vim.opt.updatetime = 100
+vim.opt.wrap = false
+
 vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"
 end)
 
-vim.opt.cursorline = true
-vim.opt.guicursor =
-  "n-v-c:blocki,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff250-blinkon250,sm:block-blinkwait500-blinkoff250-blinkon250"
-vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
-vim.opt.swapfile = false
----
-vim.opt.synmaxcol = 256
----
-vim.opt.foldcolumn = "1" -- "0" to hide folds. "1" to show.
-vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 99
-vim.schedule(function()
-  vim.opt.foldmethod = "expr"
-  vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-end)
----
-vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
----
----
--- vim.opt.grepformat = "%f:%l:%c:%m"
--- vim.opt.grepprg = "rg --hidden --vimgrep --smart-case --"
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
----
-vim.opt.splitbelow = true
-vim.opt.splitright = true
----
-vim.opt.expandtab = true
-vim.opt.smartindent = true
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
----
-vim.opt.list = show_invisible_chars
-vim.opt.listchars = "tab:  ,nbsp:+,trail:·,extends:→,precedes:←" -- space:·,tab:»·, NOTE: tab must have 2 characters
-vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
-vim.opt.wrap = false
----
-vim.opt.cmdheight = 0
-vim.opt.signcolumn = "yes"
-
----
-if use_statusline then
-  vim.opt.laststatus = 2
-else
-  vim.opt.laststatus = 0
-  vim.opt.statusline = "%{repeat(' ', winwidth('.'))}"
-end
----
-
----
-vim.opt.sessionoptions = "buffers,curdir,help,winsize,winpos"
--- perfomance
-vim.opt.redrawtime = 1500
--- vim.opt.timeoutlen = 200 -- time in ms to wait for a mapped sequence to complete.
--- vim.opt.ttimeoutlen = 10 -- time in ms to wait for a keycode sequence to complete.
-vim.opt.updatetime = 100 -- time in ms to wait for swap file to be written to disk.
----
--- vim.opt.termguicolors = true
----
 if vim.g.neovide then
   vim.o.guifont = "JetBrainsMono Nerd Font Mono"
   vim.g.neovide_floating_shadow = false
@@ -118,9 +87,6 @@ if vim.g.neovide then
   -- TODO: at some point add hotkeys for modifying font size.
 end
 
---
---
--- overridden by multicursor
 vim.keymap.set("n", "<esc>", ":nohl<CR>", { desc = "Clear highlight" })
 
 vim.keymap.set("i", "<c-l>", "<END>", { desc = "Go to end of line" })
@@ -196,7 +162,7 @@ vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Remove indent " })
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-c>", [[<C-\><C-n>]])
 
--- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
+-- @see: https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 vim.keymap.set("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
 vim.keymap.set("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
 vim.keymap.set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
@@ -204,9 +170,6 @@ vim.keymap.set("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev se
 vim.keymap.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 vim.keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
---
---
---
 vim.keymap.set("n", "[d", function()
   vim.diagnostic.jump({ count = -1, float = true })
 end, { desc = "Go to previous diagnostic message" })
@@ -320,6 +283,23 @@ vim.api.nvim_create_user_command("CopyRelativePath", function()
   print_and_copy(vim.fn.fnamemodify(vim.fn.expand("%"), ":~:."))
 end, {})
 
+vim.api.nvim_create_user_command("CopyHighlightGroup", function()
+  local line = vim.fn.line(".")
+  local col = vim.fn.col(".")
+
+  local captures = vim.treesitter.get_captures_at_pos(0, line - 1, col - 1)
+  if #captures > 0 then
+    vim.notify("treesitter::")
+    print_and_copy(captures[#captures].capture)
+    return
+  end
+
+  local synID = vim.fn.synID(line, col, 1)
+  local synName = vim.fn.synIDattr(synID, "name")
+  vim.notify("OG colors::")
+  print_and_copy(synName)
+end, {})
+
 vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
   local config = vim.diagnostic.config()
   if config ~= nil then
@@ -332,22 +312,8 @@ vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
   vim.opt.list = show_invisible_chars
 end, {})
 
-vim.api.nvim_create_user_command("ToggleStatusline", function()
-  if use_statusline then
-    vim.opt.laststatus = 0
-    vim.opt.statusline = "%{repeat(' ', winwidth('.'))}"
-  else
-    vim.opt.laststatus = 2
-    vim.opt.statusline = nil
-  end
-  use_statusline = not use_statusline
-end, {})
-
-if use_optimized_colors then
-  vim.cmd("colorscheme ex-catppuccin-frappe")
-end
-
--- require("config.winbar")
+require("config.tabbar")
+require("config.winbar")
 
 require("lazy").setup({
   root = root .. "/lazy/plugins",
@@ -363,15 +329,7 @@ require("lazy").setup({
     {
       "folke/snacks.nvim",
       priority = 1000,
-      lazy = false,
       config = require("config.plugins.snacks").setup,
-    },
-    {
-      "folke/noice.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      dependencies = { "MunifTanjim/nui.nvim" },
-      config = require("config.plugins.noice").setup,
     },
     {
       "folke/trouble.nvim",
@@ -400,15 +358,9 @@ require("lazy").setup({
     },
     {
       "catppuccin/nvim",
-      enabled = not use_optimized_colors,
       priority = 1000,
       name = "catppuccin",
       config = require("config.plugins.catppuccin").setup,
-    },
-    {
-      "aileot/ex-colors.nvim",
-      cmd = "ExColors",
-      config = require("config.plugins.ex-colors").setup,
     },
     {
       "stevearc/quicker.nvim",
@@ -421,23 +373,10 @@ require("lazy").setup({
       config = require("config.plugins.color-picker").setup,
     },
     {
-      "mfussenegger/nvim-lint",
-      cmd = { "Lint", "LintWithBiome", "LintWithEslint" },
-      config = require("config.plugins.lint").setup,
-    },
-    {
       "stevearc/conform.nvim",
       cmd = { "Format", "FormatWithBiome", "FormatWithLsp", "FormatWithPrettier" },
       keys = { { "<leader>m", "<CMD>Format<CR>", desc = "Format" } },
       config = require("config.plugins.conform").setup,
-    },
-    {
-      "iamcco/markdown-preview.nvim",
-      cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
-      ft = { "markdown" },
-      build = function()
-        vim.fn["mkdp#util#install"]()
-      end,
     },
     {
       "max397574/better-escape.nvim",
@@ -464,12 +403,6 @@ require("lazy").setup({
       keys = { { "<leader>z", "<CMD>NoNeckPain<CR>", desc = "Toggle zen mode" } },
       version = "*",
       config = require("config.plugins.no-neck-pain").setup,
-    },
-    {
-      "kevinhwang91/nvim-ufo",
-      event = "LspAttach",
-      dependencies = { "kevinhwang91/promise-async" },
-      config = require("config.plugins.ufo").setup,
     },
     {
       "nvim-tree/nvim-tree.lua",
@@ -560,17 +493,6 @@ require("lazy").setup({
       opts = {},
     },
     {
-      "nvim-treesitter/nvim-treesitter",
-      build = ":TSUpdate",
-      dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
-      config = require("config.plugins.treesitter").setup,
-    },
-    {
-      "nvim-treesitter/nvim-treesitter-context",
-      cmd = { "ToggleTreesitterContext" },
-      config = require("config.plugins.treesitter-context").setup,
-    },
-    {
       "NeogitOrg/neogit",
       event = "User SuperLazy",
       dependencies = { "sindrets/diffview.nvim" },
@@ -580,21 +502,10 @@ require("lazy").setup({
       "mrjones2014/smart-splits.nvim",
       keys = {
         -- stylua: ignore start
-        -- Resize
-        { "<S-Down>", function() require('smart-splits').resize_down() end, desc = "Resize down" },
-        { "<S-Left>", function() require('smart-splits').resize_left() end, desc = "Resize left" },
-        { "<S-Right>", function() require('smart-splits').resize_right() end, desc = "Resize right" },
-        { "<S-Up>", function() require('smart-splits').resize_up() end, desc = "Resize up" },
-        -- Moving
         { "<C-h>", function() require('smart-splits').move_cursor_left() end, desc = "Move cursor left" },
         { "<C-j>", function() require('smart-splits').move_cursor_down() end, desc = "Move cursor down" },
         { "<C-k>", function() require('smart-splits').move_cursor_up() end, desc = "Move cursor up" },
         { "<C-l>", function() require('smart-splits').move_cursor_right() end, desc = "Move cursor right" },
-        -- Swapping
-        { "<leader><leader>h", function() require('smart-splits').swap_buf_left() end, desc = "Swap buffer left" },
-        { "<leader><leader>j", function() require('smart-splits').swap_buf_down() end, desc = "Swap buffer down" },
-        { "<leader><leader>k", function() require('smart-splits').swap_buf_up() end, desc = "Swap buffer up" },
-        { "<leader><leader>l", function() require('smart-splits').swap_buf_right() end, desc = "Swap buffer right" },
         -- stylua: ignore end
       },
       config = require("config.plugins.smart-splits").setup,
@@ -610,11 +521,21 @@ require("lazy").setup({
       keys = { "V", "v" },
       opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
     },
+    ---
+    ---
+    --- Chopping Block
     {
-      "akinsho/bufferline.nvim",
-      event = { "TabEnter", "TabNew" },
-      version = "*",
-      config = require("config.plugins.bufferline").setup,
+      "kevinhwang91/nvim-ufo",
+      event = "User SuperLazy",
+      dependencies = { "kevinhwang91/promise-async" },
+      config = require("config.plugins.ufo").setup,
+    },
+    {
+      "nvim-treesitter/nvim-treesitter",
+      enabled = false,
+      event = "VeryLazy",
+      build = ":TSUpdate",
+      config = require("config.plugins.treesitter").setup,
     },
   },
   performance = {

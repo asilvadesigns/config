@@ -11,12 +11,14 @@ M.setup = function()
 
   require("catppuccin").setup({
     integrations = {
+      bufferline = false,
       fzf = false,
       grug_far = true,
       illuminate = false,
       leap = false,
       notify = false,
       nvimtree = false,
+      treesitter = true,
       treesitter_context = false,
       ufo = false,
     },
@@ -120,17 +122,18 @@ M.setup = function()
           SnacksIndent = { fg = c.surface0 },
           SnacksIndentScope = { fg = c.surface2 },
           SnacksPickerMatch = { fg = c.red },
-          StatusLine = { fg = c.surface2, bg = c.base },
-          StatusLineNC = { fg = c.surface2, bg = c.base },
-          -- StatusLine = { fg = statusline_fg, bg = statusline_bg },
-          -- StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
+          -- StatusLine = { fg = c.surface2, bg = c.base },
+          -- StatusLineNC = { fg = c.surface2, bg = c.base },
+          StatusLine = { fg = statusline_fg, bg = statusline_bg },
+          StatusLineNC = { fg = statusline_fg, bg = statusline_bg },
+          TabLine = { bg = c.mantle },
           TreesitterContextBottom = { fg = c.overlay0, underline = false },
           TreesitterContextLineNumberBottom = { fg = c.overlay0, underline = false },
           Visual = { bg = c.surface1, style = {} },
           WVisiMatch = { bg = c.surface0 },
           WinBar = { fg = c.overlay0 },
           WinBarNC = { fg = c.surface2 },
-          WinSeparator = { fg = c.base }, -- or c.surface0
+          WinSeparator = { fg = c.surface0 }, -- or c.base
         }
       end,
     },

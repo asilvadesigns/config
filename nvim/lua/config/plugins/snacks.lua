@@ -36,6 +36,7 @@ local palette_items = {
   { text = "Search (project)", cmd = "GrugFar" },
   { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
+  { text = "Toggle Completion", cmd = "ToggleCompletion" },
   {
     text = "Toggle Diagnostic Text",
     cmd = function()
@@ -203,14 +204,14 @@ M.setup = function()
     },
     ---@class snacks.statuscolumn.Config
     statuscolumn = {
-      enabled = true,
+      enabled = false,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
       left = { "" }, -- priority of signs on the left (high to low)
-      right = { "fold" }, -- priority of signs on the right (high to low)
-      -- right = { "" }, -- priority of signs on the right (high to low)
+      -- right = { "fold" }, -- priority of signs on the right (high to low)
+      right = { "" }, -- priority of signs on the right (high to low)
       folds = {
-        open = true, -- show open fold icons
+        open = false, -- show open fold icons
         git_hl = false, -- use Git Signs hl for fold icons
       },
       git = {
