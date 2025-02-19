@@ -74,7 +74,6 @@ M.setup = function()
       enabled = true,
       layout = {
         preset = "dropdown", -- dropdown, vscode
-        preview = false,
         reverse = false,
       },
       layouts = {
@@ -131,22 +130,18 @@ M.setup = function()
         },
       },
     },
-    ---@class snacks.input.Config
     input = {
       enabled = false,
     },
-    ---@type table<string, snacks.win.Config>
     styles = {
       notification_history = {
         backdrop = false,
         position = "bottom",
       },
     },
-    ---@class snacks.profiler.Config
     profiler = {
       enabled = true,
     },
-    ---@class snacks.indent.Config
     indent = {
       enabled = false,
       only_current = true,
@@ -154,7 +149,6 @@ M.setup = function()
       chunk = { enabled = false },
       scope = { enabled = true }, --use this for current scope
     },
-    ---@class snacks.bigfile.Config
     bigfile = {
       enabled = true,
       notify = true,
@@ -170,7 +164,6 @@ M.setup = function()
         end)
       end,
     },
-    ---@class snacks.dashboard.Config
     dashboard = {
       enabled = true,
       sections = {
@@ -191,7 +184,6 @@ M.setup = function()
         { section = "startup" },
       },
     },
-    ---@class snacks.notifier.Config
     notifier = {
       enabled = true,
       style = "compact",
@@ -201,7 +193,6 @@ M.setup = function()
         max = 40,
       },
     },
-    ---@class snacks.statuscolumn.Config
     statuscolumn = {
       enabled = false,
       -- "sign"
@@ -221,18 +212,17 @@ M.setup = function()
       },
       refresh = 50,
     },
-    ---@class snacks.scroll.Config
     scroll = {
-      enabled = false,
+      enabled = true,
       animate = {
-        duration = {
-          step = 15,
-          total = 75,
-        }, --5 && 125 is good
-        easing = "inOutSine",
-        fps = 60,
+        duration = { step = 10, total = 85 },
+        easing = "outSine",
       },
-      spamming = 10, -- threshold for spamming detection
+      animate_repeat = {
+        delay = 25,
+        duration = { step = 0, total = 0 },
+        easing = "linear",
+      },
       -- what buffers to animate
       filter = function(buf)
         return vim.g.snacks_scroll ~= false and vim.b[buf].snacks_scroll ~= false and vim.bo[buf].buftype ~= "terminal"
