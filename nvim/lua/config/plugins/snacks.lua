@@ -74,6 +74,7 @@ M.setup = function()
       enabled = true,
       layout = {
         preset = "dropdown", -- dropdown, vscode
+        preview = false,
         reverse = false,
       },
       layouts = {
