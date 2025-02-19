@@ -399,6 +399,16 @@ require("lazy").setup({
       opts = {},
     },
     {
+      "windwp/nvim-autopairs",
+      event = "InsertEnter",
+      opts = {},
+    },
+    {
+      "windwp/nvim-ts-autotag",
+      event = "User SuperLazy",
+      opts = {},
+    },
+    {
       "shortcuts/no-neck-pain.nvim",
       keys = { { "<leader>z", "<CMD>NoNeckPain<CR>", desc = "Toggle zen mode" } },
       version = "*",
@@ -478,7 +488,8 @@ require("lazy").setup({
         },
       },
       config = function()
-        require("leap").opts.safe_labels = {} -- dont jump to first match.
+        require("leap").opts.safe_labels = {}
+        require("leap").opts.highlight_unlabeled_phase_one_targets = true
         vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "NonText" }) -- darken everything
         vim.api.nvim_set_hl(0, "LeapLabel", { link = "DiagnosticVirtualTextInfo" }) -- darken everything
       end,
@@ -521,21 +532,17 @@ require("lazy").setup({
       keys = { "V", "v" },
       opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
     },
-    ---
-    ---
-    --- Chopping Block
-    {
-      "kevinhwang91/nvim-ufo",
-      event = "User SuperLazy",
-      dependencies = { "kevinhwang91/promise-async" },
-      config = require("config.plugins.ufo").setup,
-    },
     {
       "nvim-treesitter/nvim-treesitter",
-      enabled = false,
       event = "VeryLazy",
       build = ":TSUpdate",
       config = require("config.plugins.treesitter").setup,
+    },
+    {
+      "kevinhwang91/nvim-ufo",
+      event = "User TreesitterReady",
+      dependencies = { "kevinhwang91/promise-async" },
+      config = require("config.plugins.ufo").setup,
     },
   },
   performance = {

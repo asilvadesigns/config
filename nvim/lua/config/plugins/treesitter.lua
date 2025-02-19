@@ -36,7 +36,7 @@ M.setup = function()
       "yaml",
     },
     highlight = {
-      enable = false,
+      enable = true,
       disable = function(_, buf)
         local max_filesize = 100 * 1024 -- 100 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -98,6 +98,10 @@ M.setup = function()
 
   vim.treesitter.language.register("markdown", "mdx")
   vim.treesitter.language.register("templ", "templ")
+
+  vim.schedule(function()
+    vim.api.nvim_exec_autocmds("User", { pattern = "TreesitterReady" })
+  end)
 end
 
 return M

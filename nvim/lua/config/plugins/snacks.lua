@@ -59,7 +59,6 @@ local palette_items = {
     end,
   },
   { text = "Toggle Invisible Chars", cmd = "ToggleInvisibleChars" },
-  { text = "Toggle Treesitter Context", cmd = "ToggleTreesitterContext" },
   { text = "Toggle Statusline", cmd = "ToggleStatusline" },
   { text = "Toggle Winbar", cmd = "ToggleWinbar" },
   { text = "Trouble", cmd = "Trouble" },
@@ -259,6 +258,10 @@ end, { desc = "Fuzzy buffers" })
 vim.keymap.set("n", "<leader>e", function()
   Snacks.picker.recent({ filter = { cwd = true } })
 end, { desc = "Fuzzy oldfiles" })
+
+vim.keymap.set("n", "<leader>o", function()
+  Snacks.picker.lsp_symbols()
+end, { desc = "Fuzzy symbols" })
 
 vim.keymap.set("n", "<leader>;", function()
   Snacks.picker.resume()

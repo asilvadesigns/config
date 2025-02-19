@@ -9,10 +9,18 @@ M.init = function()
   vim.o.background = "dark"
   vim.g.colors_name = "dark"
 
-  local c = {
+  local mine = {
     bg = "#21383d",
+    -- bg = "#15272b",
     fg = "#127363",
   }
+
+  local material = {
+    bg = "#222937",
+    fg = "#545c6c"
+  }
+
+  local c = mine
 
   -- cursor
   vim.api.nvim_set_hl(0, "CursorLine", { bg = c.bg })

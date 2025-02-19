@@ -1,4 +1,4 @@
-_G.statusline_enabled = true
+_G.statusline_enabled = false
 if _G.statusline_enabled then
   vim.opt.statusline = ""
 else
