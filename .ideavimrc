@@ -11,26 +11,24 @@ set NERDTree
 " use system clipboard
 set clipboard+=unnamed
 
-" relative number line
-" set nu rnu
-
 " normal mode mappings
 let mapleader=","
 
 nnoremap <leader><space> :action ShowNavBar<cr>
-" nnoremap <leader>. :action CodeInsightEditorActions<cr>
+nnoremap g. :action CodeInsightEditorActions<cr>
 nnoremap <leader>t :action ShowIntentionActions<cr>
 nnoremap <leader>a :action GotoAction<cr>
 nnoremap <leader>b :action ShowBookmarks<cr>
+nnoremap <leader>o :action FileStructurePopup<cr>
 " nnoremap <leader>c :action GotoClass<cr>
 nnoremap <leader>e :action RecentFiles<cr>
+nnoremap <leader>z :action ToggleDistractionFreeMode<cr>
 nnoremap <leader>f :action GotoFile<cr>
 nnoremap <leader>l :action RecentLocations<cr>
 nnoremap <leader>m :action ReformatCode<cr>
 nnoremap == :action ReformatWithPrettierAction<cr>
 nnoremap <leader>rn :action RenameElement<cr>
 nnoremap <leader>s :action SaveAll<cr>
-" nnoremap <leader>t :action ActivateTerminalToolWindow<cr>
 nnoremap <leader>u :action EmmetUpdateTag<cr>
 nnoremap <leader>j :action SelectInProjectView<cr>
 
@@ -42,15 +40,19 @@ nnoremap gu :action ShowUsages<cr>
 nnoremap ]d :action GotoNextError<cr>
 nnoremap [d :action GoToPreviousError<cr>
 
-nnoremap <leader>ne :action GotoNextError<cr>
-nnoremap <leader>pe :action GotoPreviousError<cr>
-" nnoremap <leader>nc :action EmmetUpdateTag<cr>
-" nnoremap <leader>pc :action EmmetUpdateTag<cr>
-
 nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
+nnoremap <leader>z :action ToggleDistractionFreeMode<cr>
+nnoremap <leader>wh <c-w>h
+nnoremap <leader>wj <c-w>j
+nnoremap <leader>wk <c-w>k
+nnoremap <leader>wl <c-w>l
+nnoremap <leader>wv <c-w>v
+nnoremap <leader>wq <c-w>c
+nnoremap <leader>wo <c-w>o
+nnoremap <leader>ws <c-w>s
 
 nnoremap ; :action AceAction<CR>
 "nnoremap ; :action AceWordAction<CR>
