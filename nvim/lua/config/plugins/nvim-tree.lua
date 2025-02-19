@@ -69,7 +69,7 @@ M.setup = function()
       always_show_folders = false,
     },
     git = {
-      enable = false,
+      enable = true,
       ignore = false,
     },
     renderer = {
