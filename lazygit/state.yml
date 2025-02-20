@@ -1,22 +1,13 @@
 lastupdatecheck: 0
 recentrepos:
-    - /Users/albertos/dev/sandbox-raw-messages-panel
-    - /Users/albertos/.config
-    - /Users/albertos/dev/elements-theme-picker
-    - /Users/albertos/dev/elements
-    - /Users/albertos/dev/kaizen-ui
-    - /Users/albertos/dev/kaizen-ui-fix-text-input-styles
-    - /Users/albertos/dev/kaizen-ui-new-documentation
-    - /Users/albertos/dev/picasso-web-ui
-    - /Users/albertos/dev/kaizen-ui-banner-button-styles
+- /Users/asilva/dev/avatar-health
 startuppopupversion: 5
-lastversion: 0.45.2
+lastversion: 0.41.0
 customcommandshistory:
-    - qa
+- qa
 hidecommandlog: false
 ignorewhitespaceindiffview: false
 diffcontextsize: 3
-renamesimilaritythreshold: 50
 localbranchsortorder: recency
 remotebranchsortorder: alphabetical
 gitlogorder: topo-order

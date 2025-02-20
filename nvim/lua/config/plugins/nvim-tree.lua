@@ -118,7 +118,7 @@ M.setup = function()
             staged = "✓",
             unmerged = "",
             renamed = "➜",
-            untracked = "★",
+            untracked = "",
             deleted = "",
             ignored = "󱙝", -- 󰊠
           },

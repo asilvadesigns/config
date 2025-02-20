@@ -195,12 +195,11 @@ M.setup = function()
       },
     },
     statuscolumn = {
-      enabled = false,
+      enabled = true,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
-      left = { "" }, -- priority of signs on the left (high to low)
-      -- right = { "fold" }, -- priority of signs on the right (high to low)
-      right = { "" }, -- priority of signs on the right (high to low)
+      left = {}, -- priority of signs on the left (high to low)
+      right = { "fold" }, -- priority of signs on the right (high to low)
       folds = {
         open = false, -- show open fold icons
         git_hl = false, -- use Git Signs hl for fold icons
