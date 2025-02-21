@@ -36,6 +36,11 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ","
 vim.g.maplocalleader = " "
 
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 vim.opt.cmdheight = 0
 vim.opt.cursorline = true
 vim.opt.diffopt = "internal,filler,closeoff,linematch:60"

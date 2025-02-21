@@ -10,8 +10,8 @@ font-family = "Iosevka Nerd Font Mono"
 
 # 32" 4k
 font-size = 16
-adjust-cell-height = 4
-adjust-cursor-height = 4
+# adjust-cell-height = 4
+# adjust-cursor-height = 4
 
 # 14" 2k
 # font-size = 14
