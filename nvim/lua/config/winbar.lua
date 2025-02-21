@@ -139,9 +139,10 @@ local function enable_winbar(win_id)
       .. " "
       .. get_modified(buf_id)
       .. " "
+      .. "%="
       .. get_diagnostics(buf_id)
-      .. ""
-      .. "%*%#NonText# %= %l:%-3c %*"
+      .. " "
+    -- .. "%*%#NonText# %= %l:%-3c %*"
 
     vim.api.nvim_set_option_value("winbar", winbar, { win = win_id })
   end

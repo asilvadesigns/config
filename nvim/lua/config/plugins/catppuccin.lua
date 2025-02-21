@@ -3,11 +3,7 @@ local M = {}
 M.setup = function()
   local is_dark = true
 
-  -- local frappe = require("catppuccin.palettes.frappe")
-  -- local hsluv = require("catppuccin.lib.hsluv")
   local utils = require("catppuccin.utils.colors")
-
-  -- local key = frappe.text
 
   require("catppuccin").setup({
     integrations = {
@@ -22,64 +18,38 @@ M.setup = function()
       treesitter_context = false,
       ufo = false,
     },
-    color_overrides = {
-      latte = {
-        flamingo = "#d7827e", -- Rose
-        pink = "#b4637a", -- Love
-        mauve = "#907aa9", -- Iris
-        red = "#b4637a", -- Love
-        maroon = "#d7827e", -- Rose
-        peach = "#ea9d34", -- Gold
-        yellow = "#ea9d34", -- Gold
-        green = "#286983", -- Pine
-        teal = "#56949f", -- Foam
-        sky = "#56949f", -- Foam
-        sapphire = "#56949f", -- Foam
-        blue = "#286983", -- Pine
-        lavender = "#907aa9", -- Iris
-        text = "#575279", -- Text
-        -- subtext1 = "#6e6a86", -- Subtle
-        -- subtext0 = "#797593", -- Muted
-        -- overlay2 = "#908caa", -- Overlay
-        -- overlay1 = "#9a97b7", -- Surface1
-        -- overlay0 = "#aca9c6", -- Surface2
-        -- surface2 = "#b9b6d2", -- Surface2
-        -- surface1 = "#e0def4", -- Surface1
-        -- surface0 = "#f2e9de", -- Base
-        base = "#f2e9de", -- Base
-        mantle = "#fffaf3", -- Not explicitly in Rose Pine Dawn, but a lighter shade of Base
-        crust = "#fffaf3", -- Same as mantle
-      },
-      --   frappe = {
-      --     flamingo = utils.blend(frappe.flamingo, key, 0.8),
-      --     pink = utils.blend(frappe.pink, key, 0.8),
-      --     mauve = utils.blend(frappe.mauve, key, 0.8),
-      --     red = utils.blend(frappe.red, key, 0.8),
-      --     maroon = utils.blend(frappe.maroon, key, 0.8),
-      --     peach = utils.blend(frappe.peach, key, 0.8),
-      --     yellow = utils.blend(frappe.yellow, key, 0.8),
-      --     green = utils.blend(frappe.green, key, 0.8),
-      --     teal = utils.blend(frappe.teal, key, 0.8),
-      --     sky = utils.blend(frappe.sky, key, 0.8),
-      --     sapphire = utils.blend(frappe.sapphire, key, 0.8),
-      --     blue = utils.blend(frappe.mauve, key, 0.8),
-      --     lavender = utils.blend(frappe.lavender, key, 0.8),
-      --     text = utils.blend(frappe.text, key, 0.8),
-      --
-      --     subtext1 = utils.blend(frappe.subtext1, key, 0.95),
-      --     subtext0 = utils.blend(frappe.subtext0, key, 0.95),
-      --     overlay2 = utils.blend(frappe.overlay2, key, 0.95),
-      --     overlay1 = utils.blend(frappe.overlay1, key, 0.95),
-      --     overlay0 = utils.blend(frappe.overlay0, key, 0.95),
-      --     surface2 = utils.blend(frappe.surface2, key, 0.95),
-      --     surface1 = utils.blend(frappe.surface1, key, 0.95),
-      --     surface0 = utils.blend(frappe.surface0, key, 0.95),
-      --
-      --     base = utils.blend(frappe.base, key, 0.99),
-      --     mantle = frappe.mantle,
-      --     crust = frappe.crust,
-      --   },
-    },
+    -- color_overrides = {
+    --   latte = {
+    --     rosewater = "#dc8a78",
+    --     flamingo = "#dd7878",
+    --     pink = "#ea76cb",
+    --     maroon = "#e64553",
+    --     sky = "#04a5e5",
+    --     sapphire = "#209fb5",
+    --     lavender = "#7287fd",
+    --
+    --     blue = "#278bd2", --
+    --     green = "#859901", --
+    --     mauve = "#6c71c4", --
+    --     peach = "#cb4c16", --
+    --     red = "#dc322f", --
+    --     teal = "#2ba198", --
+    --     yellow = "#b58801",
+    --
+    --     text = "#657b83",
+    --     subtext1 = utils.darken("#657b83", 0.90, "#eee8d5"),
+    --     subtext0 = utils.darken("#657b83", 0.85, "#eee8d5"),
+    --     overlay2 = utils.darken("#657b83", 0.80, "#eee8d5"),
+    --     overlay1 = utils.darken("#657b83", 0.75, "#eee8d5"),
+    --     overlay0 = utils.darken("#657b83", 0.70, "#eee8d5"),
+    --     surface2 = utils.darken("#657b83", 0.65, "#eee8d5"),
+    --     surface1 = utils.darken("#657b83", 0.60, "#eee8d5"),
+    --     surface0 = utils.darken("#657b83", 0.55, "#eee8d5"),
+    --     base = "#eee8d5",
+    --     mantle = "#eee8d5",
+    --     crust = "#eee8d5",
+    --   },
+    -- },
     highlight_overrides = {
       all = function(c)
         local statusline_bg = c.surface0

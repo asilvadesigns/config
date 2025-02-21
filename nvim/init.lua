@@ -371,7 +371,7 @@ require("lazy").setup({
     },
     {
       "eero-lehtinen/oklch-color-picker.nvim",
-      cmd = { "ColorPickerToggle" },
+      event = "User SuperLazy",
       config = require("config.plugins.color-picker").setup,
     },
     {

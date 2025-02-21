@@ -250,7 +250,11 @@ vim.keymap.set("n", "<leader>e", function()
 end, { desc = "Fuzzy oldfiles" })
 
 vim.keymap.set("n", "<leader>o", function()
-  Snacks.picker.lsp_symbols()
+  Snacks.picker.lsp_symbols({
+    layout = {
+      preview = true,
+    },
+  })
 end, { desc = "Fuzzy symbols" })
 
 vim.keymap.set("n", "<leader>;", function()

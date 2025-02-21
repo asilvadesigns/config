@@ -25,11 +25,11 @@ M.setup = function()
         end
       end,
     },
-    -- post_restore_cmds = {
-    --   function()
-    --     vim.opt.cmdheight = 0
-    --   end,
-    -- },
+    post_restore_cmds = {
+      function()
+        vim.opt.cmdheight = 0
+      end,
+    },
   })
 
   -- vim.keymap.set("n", "<leader>s", "<CMD>SessionSearch<CR>", { desc = "Fuzzy files" })
