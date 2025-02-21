@@ -9,7 +9,7 @@ theme = catppuccin-frappe
 font-family = "Iosevka Nerd Font Mono"
 
 # 32" 4k
-font-size = 16
+font-size = 18
 # adjust-cell-height = 4
 # adjust-cursor-height = 4
 
@@ -33,7 +33,8 @@ font-feature = -dlig
 
 macos-titlebar-style = hidden
 window-decoration = false
-window-padding-color = extend-always
+window-padding-color = background
+# or extend, extend-always
 window-padding-x = 0
 window-padding-y = 0
 window-padding-balance = true
