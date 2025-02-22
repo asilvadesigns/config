@@ -3,6 +3,7 @@ local M = {}
 M.setup = function()
   local is_dark = true
 
+  local frappe = require("catppuccin.palettes.frappe")
   local utils = require("catppuccin.utils.colors")
 
   require("catppuccin").setup({
@@ -18,38 +19,41 @@ M.setup = function()
       treesitter_context = false,
       ufo = false,
     },
-    -- color_overrides = {
-    --   latte = {
-    --     rosewater = "#dc8a78",
-    --     flamingo = "#dd7878",
-    --     pink = "#ea76cb",
-    --     maroon = "#e64553",
-    --     sky = "#04a5e5",
-    --     sapphire = "#209fb5",
-    --     lavender = "#7287fd",
-    --
-    --     blue = "#278bd2", --
-    --     green = "#859901", --
-    --     mauve = "#6c71c4", --
-    --     peach = "#cb4c16", --
-    --     red = "#dc322f", --
-    --     teal = "#2ba198", --
-    --     yellow = "#b58801",
-    --
-    --     text = "#657b83",
-    --     subtext1 = utils.darken("#657b83", 0.90, "#eee8d5"),
-    --     subtext0 = utils.darken("#657b83", 0.85, "#eee8d5"),
-    --     overlay2 = utils.darken("#657b83", 0.80, "#eee8d5"),
-    --     overlay1 = utils.darken("#657b83", 0.75, "#eee8d5"),
-    --     overlay0 = utils.darken("#657b83", 0.70, "#eee8d5"),
-    --     surface2 = utils.darken("#657b83", 0.65, "#eee8d5"),
-    --     surface1 = utils.darken("#657b83", 0.60, "#eee8d5"),
-    --     surface0 = utils.darken("#657b83", 0.55, "#eee8d5"),
-    --     base = "#eee8d5",
-    --     mantle = "#eee8d5",
-    --     crust = "#eee8d5",
-    --   },
-    -- },
+    color_overrides = {
+      --   latte = {
+      --     rosewater = "#dc8a78",
+      --     flamingo = "#dd7878",
+      --     pink = "#ea76cb",
+      --     maroon = "#e64553",
+      --     sky = "#04a5e5",
+      --     sapphire = "#209fb5",
+      --     lavender = "#7287fd",
+      --
+      --     blue = "#278bd2", --
+      --     green = "#859901", --
+      --     mauve = "#6c71c4", --
+      --     peach = "#cb4c16", --
+      --     red = "#dc322f", --
+      --     teal = "#2ba198", --
+      --     yellow = "#b58801",
+      --
+      --     text = "#657b83",
+      --     subtext1 = utils.darken("#657b83", 0.90, "#eee8d5"),
+      --     subtext0 = utils.darken("#657b83", 0.85, "#eee8d5"),
+      --     overlay2 = utils.darken("#657b83", 0.80, "#eee8d5"),
+      --     overlay1 = utils.darken("#657b83", 0.75, "#eee8d5"),
+      --     overlay0 = utils.darken("#657b83", 0.70, "#eee8d5"),
+      --     surface2 = utils.darken("#657b83", 0.65, "#eee8d5"),
+      --     surface1 = utils.darken("#657b83", 0.60, "#eee8d5"),
+      --     surface0 = utils.darken("#657b83", 0.55, "#eee8d5"),
+      --     base = "#eee8d5",
+      --     mantle = "#eee8d5",
+      --     crust = "#eee8d5",
+      --   },
+      frappe = {
+        green = utils.darken(frappe.green, 0.85, frappe.base),
+      },
+    },
     highlight_overrides = {
       all = function(c)
         local statusline_bg = c.surface0
@@ -64,7 +68,6 @@ M.setup = function()
           ["@tag.builtin.tsx"] = { fg = c.mauve },
           ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext1 },
           ---
-          -- MatchParen = { bg = c.surface1, fg = c.lavender, style = {} },
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2
@@ -78,6 +81,11 @@ M.setup = function()
           Folded = { bg = c.base },
           GrugFarResultsPath = { fg = c.text, bg = c.mantle, underline = true },
           MasonNormal = { bg = c.base },
+          MatchParen = {
+            bg = utils.darken(c.teal, 0.2, c.base),
+            fg = c.teal,
+            style = {},
+          },
           NormalFloat = { bg = c.base },
           NvimTreeCursorLine = { fg = c.blue, bg = c.base },
           NvimTreeCursorLineNr = { fg = c.blue, bg = c.base },

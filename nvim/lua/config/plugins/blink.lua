@@ -3,6 +3,7 @@ local M = {}
 
 _G.is_cmdline_mode = false
 _G.is_completion_enabled = true
+_G.should_disable_after_insert_leave = false
 
 M.setup = function()
   vim.api.nvim_create_user_command("ToggleCompletion", function()
@@ -18,6 +19,25 @@ M.setup = function()
   vim.api.nvim_create_autocmd("CmdlineLeave", {
     callback = function()
       _G.is_cmdline_mode = false
+    end,
+  })
+
+  vim.keymap.set("i", "<C-y>", function()
+    if _G.is_completion_enabled then
+      return
+    end
+    _G.is_completion_enabled = true
+    _G.should_disable_after_insert_leave = true
+    require("blink-cmp").show()
+  end, {})
+
+  vim.api.nvim_create_autocmd("InsertLeave", {
+    group = vim.api.nvim_create_augroup("thing", { clear = true }),
+    callback = function()
+      if _G.should_disable_after_insert_leave then
+        _G.is_completion_enabled = false
+        _G.should_disable_after_insert_leave = false
+      end
     end,
   })
 

@@ -551,6 +551,13 @@ require("lazy").setup({
       dependencies = { "kevinhwang91/promise-async" },
       config = require("config.plugins.ufo").setup,
     },
+    {
+      "andymass/vim-matchup",
+      enabled = false,
+      event = "User TreesitterReady",
+      init = require("config.plugins.matchup").init,
+      config = require("config.plugins.matchup").setup,
+    },
   },
   performance = {
     rtp = {
@@ -559,8 +566,8 @@ require("lazy").setup({
         "getscriptPlugin",
         "gzip",
         "man",
-        "matchit",
-        "matchparen",
+        -- "matchit",
+        -- "matchparen",
         "netrwPlugin",
         "osc52",
         "remotePlugin",
