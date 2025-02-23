@@ -28,6 +28,9 @@ M.setup = function()
     if not _G.config_is_completion_enabled then
       _G.config_is_completion_enabled = true
       _G.state_should_disable_after_insert_leave = true
+      vim.schedule(function()
+        require("blink.cmp").show()
+      end)
     end
   end, {})
 
