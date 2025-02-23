@@ -473,6 +473,7 @@ require("lazy").setup({
           desc = "Find selected in project",
         },
         { "<C-S>", "<CMD>GrugFar<CR>", desc = "Find in project" },
+        { "<C-F>", "<CMD>GrugFarLocal<CR>", desc = "Find in file" },
       },
       config = require("config.plugins.grug-far").setup,
     },

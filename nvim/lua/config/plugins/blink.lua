@@ -61,6 +61,8 @@ M.setup = function()
     keymap = {
       preset = "enter",
       ["<C-y>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-p>"] = { "select_prev", "fallback" },
+      ["<C-n>"] = { "select_next", "fallback" },
     },
     cmdline = {
       keymap = {
