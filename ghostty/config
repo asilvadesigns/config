@@ -1,5 +1,7 @@
 # theme = catppuccin-latte
 theme = catppuccin-frappe
+# theme = nord
+# theme = nord-light
 # theme = catppuccin-macchiato
 # theme = rose-pine-dawn
 # theme = "Builtin Solarized Light"
@@ -9,9 +11,9 @@ theme = catppuccin-frappe
 font-family = "Iosevka Nerd Font Mono"
 
 # 32" 4k
-font-size = 18
-# adjust-cell-height = 4
-# adjust-cursor-height = 4
+font-size = 16
+adjust-cell-height = -2
+adjust-cursor-height = -2
 
 # 14" 2k
 # font-size = 14

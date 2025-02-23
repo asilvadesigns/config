@@ -20,38 +20,79 @@ M.setup = function()
       ufo = false,
     },
     color_overrides = {
-      --   latte = {
-      --     rosewater = "#dc8a78",
-      --     flamingo = "#dd7878",
-      --     pink = "#ea76cb",
-      --     maroon = "#e64553",
-      --     sky = "#04a5e5",
-      --     sapphire = "#209fb5",
-      --     lavender = "#7287fd",
-      --
-      --     blue = "#278bd2", --
-      --     green = "#859901", --
-      --     mauve = "#6c71c4", --
-      --     peach = "#cb4c16", --
-      --     red = "#dc322f", --
-      --     teal = "#2ba198", --
-      --     yellow = "#b58801",
-      --
-      --     text = "#657b83",
-      --     subtext1 = utils.darken("#657b83", 0.90, "#eee8d5"),
-      --     subtext0 = utils.darken("#657b83", 0.85, "#eee8d5"),
-      --     overlay2 = utils.darken("#657b83", 0.80, "#eee8d5"),
-      --     overlay1 = utils.darken("#657b83", 0.75, "#eee8d5"),
-      --     overlay0 = utils.darken("#657b83", 0.70, "#eee8d5"),
-      --     surface2 = utils.darken("#657b83", 0.65, "#eee8d5"),
-      --     surface1 = utils.darken("#657b83", 0.60, "#eee8d5"),
-      --     surface0 = utils.darken("#657b83", 0.55, "#eee8d5"),
-      --     base = "#eee8d5",
-      --     mantle = "#eee8d5",
-      --     crust = "#eee8d5",
-      --   },
+      -- latte = {
+      --   rosewater = "#4C566A", -- Polar Night 4 (Darkest accent)
+      --   flamingo = "#4C566A", -- Same as rosewater
+      --   pink = "#5C7EAB", -- Adjusted Nord blue for better contrast
+      --   mauve = "#5C7EAB", -- Same as pink
+      --   red = "#B8545F", -- Darker Aurora red for clarity
+      --   maroon = "#B8545F", -- Same as red
+      --   peach = "#C37C4C", -- Darkened Aurora orange for better legibility
+      --   yellow = "#D9B263", -- Slightly deeper Aurora yellow
+      --   green = "#8FAF78", -- Adjusted for better contrast
+      --   teal = "#7CA5A8", -- Darkened Frost teal for visibility
+      --   sky = "#6F9DB8", -- Tweaked Frost light blue
+      --   sapphire = "#6B84A3", -- Adjusted Polar Night blue
+      --   blue = "#4C7099", -- Darker Nord blue for better UI contrast
+      --   lavender = "#6B84A3", -- Same as sapphire
+      --   text = "#2E3440", -- Polar Night 0 (Main text, deep blackish-blue)
+      --   subtext1 = "#3A414E", -- Darkened slightly for better contrast
+      --   subtext0 = "#4A5363", -- More readable than before
+      --   overlay2 = "#5E6776", -- Softer but distinguishable
+      --   overlay1 = "#717C8D", -- Balanced for UI clarity
+      --   overlay0 = "#8590A3", -- Good transition, readable but not overwhelming
+      --   surface2 = "#9DA9BA", -- More contrast for UI elements
+      --   surface1 = "#B6C0D0", -- Mid-layer UI tone
+      --   surface0 = "#CDD5E1", -- Snow Storm 3, softened but still visible
+      --   base = "#E5E9F0", -- Snow Storm 2 (Balanced background)
+      --   mantle = "#DBE1E8", -- Subtle contrast from base
+      --   crust = "#D1D8E0", -- Deepest UI layer for soft depth
+      -- },
+      -- frappe = {
+      --   rosewater = "#D8DEE9", -- Snow Storm 3
+      --   flamingo = "#D8DEE9", -- Same as rosewater
+      --   pink = "#B48EAD", -- Aurora pink
+      --   mauve = "#B48EAD", -- Same as pink
+      --   red = "#BF616A", -- Aurora red
+      --   maroon = "#BF616A", -- Same as red
+      --   peach = "#D08770", -- Aurora orange
+      --   yellow = "#EBCB8B", -- Aurora yellow
+      --   green = "#A3BE8C", -- Aurora green
+      --   teal = "#8FBCBB", -- Frost teal
+      --   sky = "#88C0D0", -- Frost light blue
+      --   sapphire = "#81A1C1", -- Polar Night blue
+      --   blue = "#5E81AC", -- Main Nord blue
+      --   lavender = "#81A1C1", -- Same as sapphire
+      --   text = "#ECEFF4", -- Snow Storm 1
+      --   subtext1 = "#E5E9F0", -- Snow Storm 2 (lighter subtext)
+      --   subtext0 = "#D8DEE9", -- Snow Storm 3 (darker subtext)
+      --   overlay2 = "#A5ABB6", -- Adjusted for Nord contrast
+      --   overlay1 = "#949BA6", -- Closer to Nord’s dim foreground
+      --   overlay0 = "#7E8691", -- Soft contrast, better readability
+      --   surface2 = "#606874", -- Inspired by Nord's lighter accents
+      --   surface1 = "#515965", -- Mid-tone
+      --   surface0 = "#434C5E", -- Polar Night 3
+      --   base = "#2E3440", -- Main background (Polar Night 0)
+      --   mantle = "#3B4252", -- Slightly darker than base (Polar Night 1)
+      --   crust = "#242933", -- Custom deeper background
+      -- },
       frappe = {
+        lavender = utils.darken(frappe.lavender, 0.85, frappe.base),
+        mauve = utils.darken(frappe.mauve, 0.85, frappe.base),
         green = utils.darken(frappe.green, 0.85, frappe.base),
+        peach = utils.darken(frappe.peach, 0.85, frappe.base),
+        yellow = utils.darken(frappe.yellow, 0.85, frappe.base),
+        --
+        subtext1 = utils.darken(frappe.subtext1, 0.65, frappe.base),
+        subtext0 = utils.darken(frappe.subtext0, 0.65, frappe.base),
+        overlay2 = utils.darken(frappe.overlay2, 0.65, frappe.base),
+        overlay1 = utils.darken(frappe.overlay1, 0.65, frappe.base),
+        overlay0 = utils.darken(frappe.overlay0, 0.65, frappe.base),
+        surface2 = utils.darken(frappe.surface2, 0.65, frappe.base),
+        surface1 = utils.darken(frappe.surface1, 0.65, frappe.base),
+        surface0 = utils.darken(frappe.surface0, 0.65, frappe.base),
+        --
+        text = utils.darken(frappe.text, 0.85, frappe.base),
       },
     },
     highlight_overrides = {
@@ -82,8 +123,8 @@ M.setup = function()
           GrugFarResultsPath = { fg = c.text, bg = c.mantle, underline = true },
           MasonNormal = { bg = c.base },
           MatchParen = {
-            bg = utils.darken(c.teal, 0.2, c.base),
-            fg = c.teal,
+            bg = utils.darken(c.yellow, 0.2, c.base),
+            fg = c.yellow,
             style = {},
           },
           NormalFloat = { bg = c.base },

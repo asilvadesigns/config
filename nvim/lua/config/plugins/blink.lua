@@ -1,53 +1,59 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
-_G.is_cmdline_mode = false
-_G.is_completion_enabled = true
-_G.should_disable_after_insert_leave = false
+_G.config_is_completion_enabled = false
+_G.state_did_init = false -- NOTE: _G.config_is_completion_enabled won't work if enabled was not previously called, no idea why.
+_G.state_is_cmdline_mode = false
+_G.state_should_disable_after_insert_leave = false
 
 M.setup = function()
   vim.api.nvim_create_user_command("ToggleCompletion", function()
-    _G.is_completion_enabled = not _G.is_completion_enabled
+    _G.config_is_completion_enabled = not _G.config_is_completion_enabled
   end, {})
 
   vim.api.nvim_create_autocmd("CmdlineEnter", {
     callback = function()
-      _G.is_cmdline_mode = true
+      _G.state_is_cmdline_mode = true
     end,
   })
 
   vim.api.nvim_create_autocmd("CmdlineLeave", {
     callback = function()
-      _G.is_cmdline_mode = false
+      _G.state_is_cmdline_mode = false
     end,
   })
 
+  --- NOTE: assuming I only want completion on demand if generally disabled
   vim.keymap.set("i", "<C-y>", function()
-    if _G.is_completion_enabled then
-      return
+    if not _G.config_is_completion_enabled then
+      _G.config_is_completion_enabled = true
+      _G.state_should_disable_after_insert_leave = true
     end
-    _G.is_completion_enabled = true
-    _G.should_disable_after_insert_leave = true
-    require("blink-cmp").show()
   end, {})
 
+  local yolo = vim.api.nvim_create_augroup("smdh", { clear = true })
   vim.api.nvim_create_autocmd("InsertLeave", {
-    group = vim.api.nvim_create_augroup("thing", { clear = true }),
+    group = yolo,
     callback = function()
-      if _G.should_disable_after_insert_leave then
-        _G.is_completion_enabled = false
-        _G.should_disable_after_insert_leave = false
+      if _G.state_should_disable_after_insert_leave then
+        _G.config_is_completion_enabled = false
+        _G.state_should_disable_after_insert_leave = false
       end
     end,
   })
 
   require("blink.cmp").setup({
     enabled = function()
-      if _G.is_cmdline_mode then
+      if not _G.state_did_init then
+        _G.state_did_init = true
         return true
       end
 
-      return vim.bo.buftype ~= "prompt" and _G.is_completion_enabled
+      if _G.state_is_cmdline_mode then
+        return true
+      end
+
+      return vim.bo.buftype ~= "prompt" and _G.config_is_completion_enabled
     end,
     keymap = {
       preset = "enter",
