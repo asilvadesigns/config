@@ -54,7 +54,7 @@ vim.opt.guicursor =
   "n-v-c:blocki,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff250-blinkon250,sm:block-blinkwait500-blinkoff250-blinkon250"
 vim.opt.ignorecase = true
 vim.opt.list = show_invisible_chars
-vim.opt.listchars = "tab:  ,nbsp:+,trail:·,extends:→,precedes:←" -- space:·,tab:»·, NOTE: tab must have 2 characters
+vim.opt.listchars = "tab:  ,nbsp:+,trail:·,extends:,precedes:" -- space:·,tab:»·, NOTE: tab must have 2 characters
 vim.opt.redrawtime = 1500
 vim.opt.scrolloff = 1
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"

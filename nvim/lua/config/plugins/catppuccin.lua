@@ -6,6 +6,12 @@ M.setup = function()
   local frappe = require("catppuccin.palettes.frappe")
   local utils = require("catppuccin.utils.colors")
 
+  local function desaturate(color, amount)
+    local h, s, l = utils.rgb_to_hsl(color)
+    s = math.max(0, s - amount) -- Reduce saturation
+    return utils.hsl_to_rgb(h, s, l)
+  end
+
   require("catppuccin").setup({
     integrations = {
       bufferline = false,
@@ -79,6 +85,7 @@ M.setup = function()
       frappe = {
         lavender = utils.darken(frappe.lavender, 0.85, frappe.base),
         mauve = utils.darken(frappe.mauve, 0.85, frappe.base),
+        -- mauve = desaturate(frappe.mauve, 0.1),
         green = utils.darken(frappe.green, 0.85, frappe.base),
         peach = utils.darken(frappe.peach, 0.85, frappe.base),
         yellow = utils.darken(frappe.yellow, 0.85, frappe.base),

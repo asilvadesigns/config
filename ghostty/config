@@ -11,7 +11,7 @@ theme = catppuccin-frappe
 font-family = "Iosevka Nerd Font Mono"
 
 # 32" 4k
-font-size = 16
+font-size = 17
 adjust-cell-height = -2
 adjust-cursor-height = -2
 
