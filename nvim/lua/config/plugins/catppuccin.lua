@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local is_dark = true
+  local is_dark = false
 
   local frappe = require("catppuccin.palettes.frappe")
   local utils = require("catppuccin.utils.colors")
@@ -26,6 +26,64 @@ M.setup = function()
       ufo = false,
     },
     color_overrides = {
+      latte = {
+        base = "#faf4ed",
+        mantle = "#ebe5df",
+        crust = "#dcd7cd",
+        text = "#575279",
+        subtext1 = "#5d596f",
+        subtext0 = "#6e6a86",
+        overlay2 = "#817c9c",
+        overlay1 = "#9893a5",
+        overlay0 = "#b8b3c7",
+        surface2 = "#cecacd",
+        surface1 = "#dfdad9",
+        surface0 = "#e9e3da",
+        red = "#b4637a",
+        green = "#618774",
+        yellow = "#ea9d34",
+        blue = "#286983",
+        magenta = "#907aa9",
+        cyan = "#56949f",
+        lavender = "#907aa9",
+        pink = "#d7827e",
+        mauve = "#907aa9",
+        flamingo = "#d7827e",
+        rosewater = "#d7827e",
+        peach = "#fe640b",
+        teal = "#56949f",
+        sky = "#31748f",
+        sapphire = "#31748f",
+        maroon = "#b4637a",
+        -- base = "#faf4ed",
+        -- mantle = "#ebe5df",
+        -- crust = "#dcd7cd",
+        -- text = "#575279",
+        -- subtext1 = "#6e6a86",
+        -- subtext0 = "#817c9c",
+        -- overlay2 = "#9893a5",
+        -- overlay1 = "#b8b3c7",
+        -- overlay0 = "#cecacd",
+        -- surface2 = "#dfdad9",
+        -- surface1 = "#f2e9e1",
+        -- surface0 = "#f4ede8",
+        -- red = "#b4637a",
+        -- green = "#618774",
+        -- yellow = "#ea9d34",
+        -- blue = "#286983",
+        -- magenta = "#907aa9",
+        -- cyan = "#56949f",
+        -- lavender = "#907aa9",
+        -- pink = "#d7827e",
+        -- mauve = "#907aa9",
+        -- flamingo = "#d7827e",
+        -- rosewater = "#d7827e",
+        -- peach = "#fe640b",
+        -- teal = "#56949f",
+        -- sky = "#31748f",
+        -- sapphire = "#31748f",
+        -- maroon = "#b4637a",
+      },
       -- latte = {
       --   rosewater = "#4C566A", -- Polar Night 4 (Darkest accent)
       --   flamingo = "#4C566A", -- Same as rosewater
@@ -115,7 +173,6 @@ M.setup = function()
           ["@variable.parameter"] = { fg = c.lavender },
           ["@tag.builtin.tsx"] = { fg = c.mauve },
           ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext1 },
-          ---
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2

@@ -5,7 +5,7 @@
   "experimental.theme_overrides": {
     "border.variant": "#00000000"
   },
-  "theme": "Catppuccin Frappé",
+  "theme": "Dawnfox",
   "buffer_font_size": 18.0,
   "ui_font_size": 16,
   "vim_mode": true,
