@@ -217,7 +217,7 @@ vim.diagnostic.config({
   --   -- },
   -- },
   -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
-  underline = true,
+  underline = false, -- sometimes usefull
   virtual_text = false,
   virtual_lines = false,
 })
@@ -386,14 +386,14 @@ require("lazy").setup({
       config = require("config.plugins.conform").setup,
     },
     {
-      "max397574/better-escape.nvim",
-      event = "InsertEnter",
-      config = require("config.plugins.better-escape").setup,
-    },
-    {
       "stevearc/oil.nvim",
       event = "User SuperLazy",
       config = require("config.plugins.oil").setup,
+    },
+    {
+      "axelvc/template-string.nvim",
+      ft = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+      opts = {},
     },
     {
       "gbprod/substitute.nvim",
@@ -407,6 +407,7 @@ require("lazy").setup({
     },
     {
       "windwp/nvim-autopairs",
+      enabled = false,
       event = "InsertEnter",
       opts = {},
     },

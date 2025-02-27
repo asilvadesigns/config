@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local is_dark = false
+  local is_dark = true
 
   local frappe = require("catppuccin.palettes.frappe")
   local utils = require("catppuccin.utils.colors")
@@ -55,110 +55,54 @@ M.setup = function()
         sky = "#31748f",
         sapphire = "#31748f",
         maroon = "#b4637a",
-        -- base = "#faf4ed",
-        -- mantle = "#ebe5df",
-        -- crust = "#dcd7cd",
-        -- text = "#575279",
-        -- subtext1 = "#6e6a86",
-        -- subtext0 = "#817c9c",
-        -- overlay2 = "#9893a5",
-        -- overlay1 = "#b8b3c7",
-        -- overlay0 = "#cecacd",
-        -- surface2 = "#dfdad9",
-        -- surface1 = "#f2e9e1",
-        -- surface0 = "#f4ede8",
-        -- red = "#b4637a",
-        -- green = "#618774",
-        -- yellow = "#ea9d34",
-        -- blue = "#286983",
-        -- magenta = "#907aa9",
-        -- cyan = "#56949f",
-        -- lavender = "#907aa9",
-        -- pink = "#d7827e",
-        -- mauve = "#907aa9",
-        -- flamingo = "#d7827e",
-        -- rosewater = "#d7827e",
-        -- peach = "#fe640b",
-        -- teal = "#56949f",
-        -- sky = "#31748f",
-        -- sapphire = "#31748f",
-        -- maroon = "#b4637a",
       },
-      -- latte = {
-      --   rosewater = "#4C566A", -- Polar Night 4 (Darkest accent)
-      --   flamingo = "#4C566A", -- Same as rosewater
-      --   pink = "#5C7EAB", -- Adjusted Nord blue for better contrast
-      --   mauve = "#5C7EAB", -- Same as pink
-      --   red = "#B8545F", -- Darker Aurora red for clarity
-      --   maroon = "#B8545F", -- Same as red
-      --   peach = "#C37C4C", -- Darkened Aurora orange for better legibility
-      --   yellow = "#D9B263", -- Slightly deeper Aurora yellow
-      --   green = "#8FAF78", -- Adjusted for better contrast
-      --   teal = "#7CA5A8", -- Darkened Frost teal for visibility
-      --   sky = "#6F9DB8", -- Tweaked Frost light blue
-      --   sapphire = "#6B84A3", -- Adjusted Polar Night blue
-      --   blue = "#4C7099", -- Darker Nord blue for better UI contrast
-      --   lavender = "#6B84A3", -- Same as sapphire
-      --   text = "#2E3440", -- Polar Night 0 (Main text, deep blackish-blue)
-      --   subtext1 = "#3A414E", -- Darkened slightly for better contrast
-      --   subtext0 = "#4A5363", -- More readable than before
-      --   overlay2 = "#5E6776", -- Softer but distinguishable
-      --   overlay1 = "#717C8D", -- Balanced for UI clarity
-      --   overlay0 = "#8590A3", -- Good transition, readable but not overwhelming
-      --   surface2 = "#9DA9BA", -- More contrast for UI elements
-      --   surface1 = "#B6C0D0", -- Mid-layer UI tone
-      --   surface0 = "#CDD5E1", -- Snow Storm 3, softened but still visible
-      --   base = "#E5E9F0", -- Snow Storm 2 (Balanced background)
-      --   mantle = "#DBE1E8", -- Subtle contrast from base
-      --   crust = "#D1D8E0", -- Deepest UI layer for soft depth
-      -- },
-      -- frappe = {
-      --   rosewater = "#D8DEE9", -- Snow Storm 3
-      --   flamingo = "#D8DEE9", -- Same as rosewater
-      --   pink = "#B48EAD", -- Aurora pink
-      --   mauve = "#B48EAD", -- Same as pink
-      --   red = "#BF616A", -- Aurora red
-      --   maroon = "#BF616A", -- Same as red
-      --   peach = "#D08770", -- Aurora orange
-      --   yellow = "#EBCB8B", -- Aurora yellow
-      --   green = "#A3BE8C", -- Aurora green
-      --   teal = "#8FBCBB", -- Frost teal
-      --   sky = "#88C0D0", -- Frost light blue
-      --   sapphire = "#81A1C1", -- Polar Night blue
-      --   blue = "#5E81AC", -- Main Nord blue
-      --   lavender = "#81A1C1", -- Same as sapphire
-      --   text = "#ECEFF4", -- Snow Storm 1
-      --   subtext1 = "#E5E9F0", -- Snow Storm 2 (lighter subtext)
-      --   subtext0 = "#D8DEE9", -- Snow Storm 3 (darker subtext)
-      --   overlay2 = "#A5ABB6", -- Adjusted for Nord contrast
-      --   overlay1 = "#949BA6", -- Closer to Nord’s dim foreground
-      --   overlay0 = "#7E8691", -- Soft contrast, better readability
-      --   surface2 = "#606874", -- Inspired by Nord's lighter accents
-      --   surface1 = "#515965", -- Mid-tone
-      --   surface0 = "#434C5E", -- Polar Night 3
-      --   base = "#2E3440", -- Main background (Polar Night 0)
-      --   mantle = "#3B4252", -- Slightly darker than base (Polar Night 1)
-      --   crust = "#242933", -- Custom deeper background
-      -- },
       frappe = {
-        lavender = utils.darken(frappe.lavender, 0.85, frappe.base),
-        mauve = utils.darken(frappe.mauve, 0.85, frappe.base),
-        -- mauve = desaturate(frappe.mauve, 0.1),
-        green = utils.darken(frappe.green, 0.85, frappe.base),
-        peach = utils.darken(frappe.peach, 0.85, frappe.base),
-        yellow = utils.darken(frappe.yellow, 0.85, frappe.base),
-        --
-        subtext1 = utils.darken(frappe.subtext1, 0.65, frappe.base),
-        subtext0 = utils.darken(frappe.subtext0, 0.65, frappe.base),
-        overlay2 = utils.darken(frappe.overlay2, 0.65, frappe.base),
-        overlay1 = utils.darken(frappe.overlay1, 0.65, frappe.base),
-        overlay0 = utils.darken(frappe.overlay0, 0.65, frappe.base),
-        surface2 = utils.darken(frappe.surface2, 0.65, frappe.base),
-        surface1 = utils.darken(frappe.surface1, 0.65, frappe.base),
-        surface0 = utils.darken(frappe.surface0, 0.65, frappe.base),
-        --
-        text = utils.darken(frappe.text, 0.85, frappe.base),
+        base = "#2e3440",
+        mantle = "#292e39",
+        crust = "#242933",
+        text = "#cdcecf",
+        subtext1 = "#b6beca",
+        subtext0 = "#a3adc8",
+        overlay2 = "#60728a",
+        overlay1 = "#5a6884",
+        overlay0 = "#545f7e",
+        surface2 = "#4c566a",
+        surface1 = "#434c5e",
+        surface0 = "#3b4252",
+        blue = "#81a1c1",
+        lavender = "#b48ead",
+        sapphire = "#88c0d0",
+        sky = "#8fbcbb",
+        teal = "#8fbcbb",
+        green = "#a3be8c",
+        yellow = "#ebcb8b",
+        peach = "#d08770",
+        maroon = "#bf616a",
+        red = "#bf616a",
+        mauve = "#b48ead",
+        pink = "#b48ead",
+        flamingo = "#d08770",
+        rosewater = "#e5e9f0",
       },
+      -- frappe = {
+      --   lavender = utils.darken(frappe.lavender, 0.85, frappe.base),
+      --   mauve = utils.darken(frappe.mauve, 0.85, frappe.base),
+      --   -- mauve = desaturate(frappe.mauve, 0.1),
+      --   green = utils.darken(frappe.green, 0.85, frappe.base),
+      --   peach = utils.darken(frappe.peach, 0.85, frappe.base),
+      --   yellow = utils.darken(frappe.yellow, 0.85, frappe.base),
+      --   --
+      --   subtext1 = utils.darken(frappe.subtext1, 0.65, frappe.base),
+      --   subtext0 = utils.darken(frappe.subtext0, 0.65, frappe.base),
+      --   overlay2 = utils.darken(frappe.overlay2, 0.65, frappe.base),
+      --   overlay1 = utils.darken(frappe.overlay1, 0.65, frappe.base),
+      --   overlay0 = utils.darken(frappe.overlay0, 0.65, frappe.base),
+      --   surface2 = utils.darken(frappe.surface2, 0.65, frappe.base),
+      --   surface1 = utils.darken(frappe.surface1, 0.65, frappe.base),
+      --   surface0 = utils.darken(frappe.surface0, 0.65, frappe.base),
+      --   --
+      --   text = utils.darken(frappe.text, 0.85, frappe.base),
+      -- },
     },
     highlight_overrides = {
       all = function(c)
@@ -169,10 +113,11 @@ M.setup = function()
 
         return {
           ["@constructor.lua"] = { fg = c.subtext0 },
+          ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext1 },
+          ["@tag.builtin.tsx"] = { fg = c.mauve },
+          -- ["@variable"] = { fg = c.teal },
           ["@variable.builtin"] = { fg = c.lavender },
           ["@variable.parameter"] = { fg = c.lavender },
-          ["@tag.builtin.tsx"] = { fg = c.mauve },
-          ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext1 },
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2

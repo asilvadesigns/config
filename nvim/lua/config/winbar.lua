@@ -103,15 +103,11 @@ local function get_filename(buf_id)
     filepath = bufname:sub(#cwd + 1)
   end
 
-  -- local filename_start = filepath:find(filename .. "$")
-  -- if filename_start then
-  --   filepath = filepath:sub(1, filename_start - 1)
-  -- end
   if filepath:sub(-#filename) == filename then
     filepath = filepath:sub(1, -#filename - 1)
   end
 
-  filename_cache[buf_id] = filepath .. filename .. "%*"
+  filename_cache[buf_id] = "%*%#DevIconConfig#" .. filename .. "%* " .. filepath .. "%*"
   return filename_cache[buf_id]
 end
 

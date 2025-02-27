@@ -213,7 +213,7 @@ M.setup = function()
       refresh = 50,
     },
     scroll = {
-      enabled = true,
+      enabled = false,
       animate = {
         duration = { step = 10, total = 85 },
         easing = "outSine",

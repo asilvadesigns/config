@@ -2,7 +2,7 @@
 local M = {}
 
 _G.config_is_completion_enabled = false
-_G.state_did_init = false -- NOTE: _G.config_is_completion_enabled won't work if enabled was not previously called, no idea why.
+_G.state_did_init = false
 _G.state_is_cmdline_mode = false
 _G.state_should_disable_after_insert_leave = false
 
@@ -46,18 +46,18 @@ M.setup = function()
   })
 
   require("blink.cmp").setup({
-    enabled = function()
-      if not _G.state_did_init then
-        _G.state_did_init = true
-        return true
-      end
-
-      if _G.state_is_cmdline_mode then
-        return true
-      end
-
-      return vim.bo.buftype ~= "prompt" and _G.config_is_completion_enabled
-    end,
+    -- enabled = function()
+    --   if not _G.state_did_init then
+    --     _G.state_did_init = true
+    --     return true
+    --   end
+    --
+    --   if _G.state_is_cmdline_mode then
+    --     return true
+    --   end
+    --
+    --   return vim.bo.buftype ~= "prompt" and _G.config_is_completion_enabled
+    -- end,
     keymap = {
       preset = "enter",
       ["<C-y>"] = { "show", "show_documentation", "hide_documentation" },
@@ -65,8 +65,11 @@ M.setup = function()
       ["<C-n>"] = { "select_next", "fallback" },
     },
     cmdline = {
+      completion = {
+        menu = { auto_show = true },
+      },
       keymap = {
-        ["<CR>"] = { "accept", "fallback" },
+        -- ["<CR>"] = { "accept", "fallback" },
         --
         ["<Down>"] = { "show", "select_next", "fallback" },
         ["<Tab>"] = { "show", "select_next", "fallback" },
@@ -83,16 +86,16 @@ M.setup = function()
       trigger = {
         show_on_insert_on_trigger_character = false,
       },
-      list = {
-        selection = {
-          preselect = function(ctx)
-            return ctx.mode ~= "cmdline"
-          end,
-          auto_insert = function(ctx)
-            return ctx.mode == "cmdline"
-          end,
-        },
-      },
+      -- list = {
+      --   selection = {
+      --     preselect = function(ctx)
+      --       return ctx.mode ~= "cmdline"
+      --     end,
+      --     auto_insert = function(ctx)
+      --       return ctx.mode == "cmdline"
+      --     end,
+      --   },
+      -- },
       menu = {
         border = "rounded",
         draw = {
