@@ -1,12 +1,18 @@
-# theme = catppuccin-latte
-# theme = catppuccin-frappe
 # theme = nord
-theme = nordfox
 # theme = nord-light
 # theme = catppuccin-macchiato
 # theme = rose-pine-dawn
 # theme = "Builtin Solarized Light"
-# theme = "dawnfox"
+
+# Catppuccin
+# theme = catppuccin-latte
+# theme = catppuccin-frappe
+
+# NightFox
+theme = nordfox
+# theme = dawnfox
+
+# Monokai Pro
 
 # Font
 # font-family = "JetBrainsMono Nerd Font Mono"

@@ -1,5 +1,7 @@
 ---@diagnostic disable: missing-fields
 
+_G.grug_instance = "grug-instance"
+
 local show_invisible_chars = true
 local use_alternate_directory = false
 
@@ -458,10 +460,22 @@ require("lazy").setup({
         {
           "f",
           mode = "v",
+          --- TODO: write logic to handle searching within the grug-far instance...
           function()
-            require("grug-far").with_visual_selection({
-              prefills = { paths = vim.fn.expand("%") },
-            })
+            local grugfar = require("grug-far")
+            local options = {
+              instanceName = _G.grug_instance,
+              prefills = {
+                paths = vim.fn.expand("%"),
+                search = grugfar.get_current_visual_selection(),
+              },
+            }
+            if grugfar.has_instance(options.instanceName) then
+              grugfar.update_instance_prefills(options.instanceName, options.prefills, false)
+              grugfar.open_instance(options.instanceName)
+            else
+              grugfar.toggle_instance(options)
+            end
           end,
           desc = "Find selected in file",
         },
@@ -469,12 +483,63 @@ require("lazy").setup({
           "F",
           mode = "v",
           function()
-            require("grug-far").with_visual_selection()
+            local grugfar = require("grug-far")
+            local options = {
+              instanceName = _G.grug_instance,
+              prefills = {
+                paths = "",
+                search = grugfar.get_current_visual_selection(),
+              },
+            }
+            if grugfar.has_instance(options.instanceName) then
+              grugfar.update_instance_prefills(options.instanceName, options.prefills, false)
+              grugfar.open_instance(options.instanceName)
+            else
+              grugfar.toggle_instance(options)
+            end
           end,
           desc = "Find selected in project",
         },
-        { "<C-S>", "<CMD>GrugFar<CR>", desc = "Find in project" },
-        { "<C-F>", "<CMD>GrugFarLocal<CR>", desc = "Find in file" },
+        {
+          "<C-S>",
+          function()
+            local grugfar = require("grug-far")
+            local options = {
+              instanceName = _G.grug_instance,
+              prefills = {
+                paths = "",
+                search = "",
+              },
+            }
+            if grugfar.has_instance(options.instanceName) then
+              grugfar.update_instance_prefills(options.instanceName, options.prefills, false)
+              grugfar.open_instance(options.instanceName)
+            else
+              grugfar.toggle_instance(options)
+            end
+          end,
+          desc = "Find in project",
+        },
+        {
+          "<C-F>",
+          function()
+            local grugfar = require("grug-far")
+            local options = {
+              instanceName = _G.grug_instance,
+              prefills = {
+                paths = vim.fn.expand("%"),
+                search = "",
+              },
+            }
+            if grugfar.has_instance(options.instanceName) then
+              grugfar.update_instance_prefills(options.instanceName, options.prefills, false)
+              grugfar.open_instance(options.instanceName)
+            else
+              grugfar.toggle_instance(options)
+            end
+          end,
+          desc = "Find in file",
+        },
       },
       config = require("config.plugins.grug-far").setup,
     },

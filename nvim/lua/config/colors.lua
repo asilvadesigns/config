@@ -1,0 +1,88 @@
+local M = {}
+
+M.light = {
+  dawnfox = {
+    base = "#faf4ed",
+    mantle = "#ebe5df",
+    crust = "#dcd7cd",
+    text = "#575279",
+    subtext1 = "#6e6a86",
+    subtext0 = "#817c9c",
+    overlay2 = "#9893a5",
+    overlay1 = "#b8b3c7",
+    overlay0 = "#d0ccd8",
+    surface2 = "#dfdad9",
+    surface1 = "#e4dfd7",
+    surface0 = "#e9e4dc",
+    blue = "#286983",
+    lavender = "#907aa9",
+    sapphire = "#56949f",
+    sky = "#31748f",
+    teal = "#56949f",
+    green = "#618774",
+    yellow = "#ea9d34",
+    peach = "#d7827e",
+    maroon = "#b4637a",
+    red = "#b4637a",
+    mauve = "#907aa9",
+    magenta = "#ea9d34",
+    pink = "#d7827e",
+    cyan = "#56949f",
+    flamingo = "#b4637a",
+    rosewater = "#d7827e",
+  },
+}
+
+M.dark = {
+  nightfox = {
+    base = "#2e3440",
+    mantle = "#292e39",
+    crust = "#242933",
+    text = "#cdcecf",
+    subtext1 = "#b6beca",
+    subtext0 = "#a3adc8",
+    overlay2 = "#60728a",
+    overlay1 = "#5a6884",
+    overlay0 = "#545f7e",
+    surface2 = "#4c566a",
+    surface1 = "#434c5e",
+    surface0 = "#3b4252",
+    blue = "#81a1c1",
+    lavender = "#b48ead",
+    sapphire = "#88c0d0",
+    sky = "#8fbcbb",
+    -- teal = "#8fbcbb",
+    green = "#a3be8c",
+    yellow = "#ebcb8b",
+    peach = "#d08770",
+    maroon = "#bf616a",
+    -- red = "#bf616a",
+    mauve = "#b48ead",
+    -- pink = "#b48ead",
+    flamingo = "#d08770",
+    rosewater = "#e5e9f0",
+  },
+
+}
+
+return M
+
+-- frappe = {
+--   lavender = utils.darken(frappe.lavender, 0.85, frappe.base),
+--   mauve = utils.darken(frappe.mauve, 0.85, frappe.base),
+--   -- mauve = desaturate(frappe.mauve, 0.1),
+--   green = utils.darken(frappe.green, 0.85, frappe.base),
+--   peach = utils.darken(frappe.peach, 0.85, frappe.base),
+--   yellow = utils.darken(frappe.yellow, 0.85, frappe.base),
+--   --
+--   subtext1 = utils.darken(frappe.subtext1, 0.65, frappe.base),
+--   subtext0 = utils.darken(frappe.subtext0, 0.65, frappe.base),
+--   overlay2 = utils.darken(frappe.overlay2, 0.65, frappe.base),
+--   overlay1 = utils.darken(frappe.overlay1, 0.65, frappe.base),
+--   overlay0 = utils.darken(frappe.overlay0, 0.65, frappe.base),
+--   surface2 = utils.darken(frappe.surface2, 0.65, frappe.base),
+--   surface1 = utils.darken(frappe.surface1, 0.65, frappe.base),
+--   surface0 = utils.darken(frappe.surface0, 0.65, frappe.base),
+--   --
+--   text = utils.darken(frappe.text, 0.85, frappe.base),
+-- },
