@@ -1,5 +1,3 @@
-# theme = nord
-# theme = nord-light
 # theme = catppuccin-macchiato
 # theme = rose-pine-dawn
 # theme = "Builtin Solarized Light"
@@ -13,6 +11,12 @@ theme = nordfox
 # theme = dawnfox
 
 # Monokai Pro
+# theme = "Monokai Pro Machine"
+# theme = "Monokai Pro Light Sun"
+
+# Nord
+# theme = nord
+# theme = nord-light
 
 # Font
 # font-family = "JetBrainsMono Nerd Font Mono"
