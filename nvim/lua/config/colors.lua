@@ -31,6 +31,43 @@ M.light = {
     flamingo = "#D08770", -- Nord orange
     rosewater = "#EBCB8B", -- Nord yellow,
   },
+  nordgrok = {
+    -- Backgrounds (Snow Storm)
+    base = "#ECEFF4", -- Nord6: Brightest white for the main background
+    mantle = "#E5E9F0", -- Nord5: Slightly dimmer white for secondary backgrounds
+    crust = "#D8DEE9", -- Nord4: Soft white for subtle contrasts
+
+    -- Foregrounds (Polar Night)
+    text = "#2E3440", -- Nord0: Deepest black for primary text
+    subtext1 = "#3B4252", -- Nord1: Dark gray for secondary text
+    subtext0 = "#434C5E", -- Nord2: Medium gray for less prominent text
+
+    -- Overlays (Darker Polar Night shades)
+    overlay2 = "#4C566A", -- Nord3: Light gray for overlays
+    overlay1 = "#434C5E", -- Nord2: Medium gray
+    overlay0 = "#3B4252", -- Nord1: Darker gray
+
+    -- Surface layers (Mixed Polar Night and Frost)
+    surface2 = "#5E81AC", -- Nord10: Deep blue as a subtle surface accent
+    surface1 = "#4C566A", -- Nord3: Light gray for surfaces
+    surface0 = "#3B4252", -- Nord1: Dark gray for base surfaces
+
+    -- Accents (Frost and Aurora)
+    rosewater = "#8FBCBB", -- Nord7: Teal-like blue for a soft accent
+    flamingo = "#BF616A", -- Nord11: Red for a warm accent
+    pink = "#B48EAD", -- Nord15: Purple for a playful touch
+    mauve = "#5E81AC", -- Nord10: Deep blue for a cool accent
+    red = "#BF616A", -- Nord11: Red reused for consistency
+    maroon = "#D08770", -- Nord12: Orange for a distinct warm tone
+    peach = "#D08770", -- Nord12: Orange reused for harmony
+    yellow = "#EBCB8B", -- Nord13: Yellow for brightness
+    green = "#A3BE8C", -- Nord14: Green for a natural feel
+    teal = "#88C0D0", -- Nord8: Light blue for a frost-like teal
+    sky = "#81A1C1", -- Nord9: Mid blue for a sky-like tone
+    sapphire = "#5E81AC", -- Nord10: Deep blue reused
+    blue = "#81A1C1", -- Nord9: Mid blue for a cool accent
+    lavender = "#88C0D0", -- Nord8: Light blue for a pastel lavender
+  },
   dawnfox = {
     base = "#faf4ed",
     mantle = "#ebe5df",
@@ -123,6 +160,43 @@ M.dark = {
     cyan = "#88C0D0", -- Frost blue
     flamingo = "#D08770", -- Nord orange
     rosewater = "#EBCB8B", -- Nord yellow
+  },
+  nordgrok = {
+    -- Backgrounds (Polar Night)
+    base = "#2E3440", -- Nord0: Deepest black for the main background
+    mantle = "#3B4252", -- Nord1: Slightly lighter for secondary backgrounds
+    crust = "#434C5E", -- Nord2: Even lighter for subtle contrasts
+
+    -- Foregrounds (Snow Storm)
+    text = "#ECEFF4", -- Nord6: Brightest white for primary text
+    subtext1 = "#E5E9F0", -- Nord5: Slightly dimmer white for secondary text
+    subtext0 = "#D8DEE9", -- Nord4: Soft white for less prominent text
+
+    -- Overlays (Mid-grays from Polar Night)
+    overlay2 = "#4C566A", -- Nord3: Light gray for overlays
+    overlay1 = "#434C5E", -- Nord2: Medium gray
+    overlay0 = "#3B4252", -- Nord1: Darker gray
+
+    -- Surface layers (Interpolated grays)
+    surface2 = "#5E81AC", -- Nord10: Deep blue as a subtle surface accent
+    surface1 = "#4C566A", -- Nord3: Light gray for surfaces
+    surface0 = "#3B4252", -- Nord1: Dark gray for base surfaces
+
+    -- Accents (Frost and Aurora)
+    rosewater = "#8FBCBB", -- Nord7: Teal-like blue for a soft accent
+    flamingo = "#BF616A", -- Nord11: Red for a warm accent
+    pink = "#B48EAD", -- Nord15: Purple for a playful touch
+    mauve = "#5E81AC", -- Nord10: Deep blue for a cool accent
+    red = "#BF616A", -- Nord11: Red reused for consistency
+    maroon = "#D08770", -- Nord12: Orange for a distinct warm tone
+    peach = "#D08770", -- Nord12: Orange reused for harmony
+    yellow = "#EBCB8B", -- Nord13: Yellow for brightness
+    green = "#A3BE8C", -- Nord14: Green for a natural feel
+    teal = "#88C0D0", -- Nord8: Light blue for a frost-like teal
+    sky = "#81A1C1", -- Nord9: Mid blue for a sky-like tone
+    sapphire = "#5E81AC", -- Nord10: Deep blue reused
+    blue = "#81A1C1", -- Nord9: Mid blue for a cool accent
+    lavender = "#88C0D0", -- Nord8: Light blue for a pastel lavender
   },
   nightfox = {
     base = "#2e3440",
