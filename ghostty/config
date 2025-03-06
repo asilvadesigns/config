@@ -1,20 +1,28 @@
-# theme = catppuccin-macchiato
-# theme = rose-pine-dawn
+### One
+# theme = "OneHalfLight"
+theme = "OneHalfDark"
+
+### Solarized
 # theme = "Builtin Solarized Light"
+# theme = "Builtin Solarized Dark"
 
-# Catppuccin
+### Catppuccin
 # theme = catppuccin-latte
-# theme = catppuccin-frappe
+theme = catppuccin-frappe
 
-# NightFox
-theme = nordfox
+### NightFox
+# theme = nordfox
 # theme = dawnfox
 
-# Monokai Pro
+### Monokai Pro
 # theme = "Monokai Pro Machine"
 # theme = "Monokai Pro Light Sun"
 
-# Nord
+### Github
+# theme = "Github-Dark-Dimmed"
+# theme = "Github-Light-Default"
+
+### Nord
 # theme = nord
 # theme = nord-light
 

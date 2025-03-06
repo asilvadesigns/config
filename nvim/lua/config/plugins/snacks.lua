@@ -195,7 +195,7 @@ M.setup = function()
       },
     },
     statuscolumn = {
-      enabled = false,
+      enabled = true,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
       left = {}, -- priority of signs on the left (high to low)
