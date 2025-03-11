@@ -71,6 +71,9 @@ set -gx PATH $PNPM_HOME $PATH;
 set -gx PATH "/Library/Frameworks/Python.framework/Versions/3.10/bin" $PATH;
 set -gx PATH "/Library/Frameworks/Python.framework/Versions/3.11/bin" $PATH;
 
+# neovim
+set -gx PATH "$HOME/.local/share/nvim/mason/bin" $PATH;
+
 # fnm
 set -gx PATH "$HOME/Library/Caches/fnm_multishells/39562_1707258676146/bin" $PATH;
 set -gx FNM_DIR "$HOME/Library/Application Support/fnm";

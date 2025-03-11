@@ -98,8 +98,14 @@ end
 
 vim.keymap.set("n", "<esc>", ":nohl<CR>", { desc = "Clear highlight" })
 
-vim.keymap.set("i", "<c-l>", "<END>", { desc = "Go to end of line" })
-vim.keymap.set("i", "<c-h>", "<HOME>", { desc = "Go to start of line" })
+vim.keymap.set("i", "<c-l>", "<ESC>A", { desc = "Go to end of line" })
+vim.keymap.set("i", "<c-h>", "<ESC>I", { desc = "Go to start of line" })
+
+vim.keymap.set("n", "z1", "<CMD>setlocal foldlevel=0<CR>", { desc = "Fold level 1" })
+vim.keymap.set("n", "z2", "<CMD>setlocal foldlevel=1<CR>", { desc = "Fold level 2" })
+vim.keymap.set("n", "z3", "<CMD>setlocal foldlevel=2<CR>", { desc = "Fold level 3" })
+vim.keymap.set("n", "z4", "<CMD>setlocal foldlevel=3<CR>", { desc = "Fold level 4" })
+vim.keymap.set("n", "z0", "<CMD>setlocal foldlevel=99<CR>", { desc = "Reset fold level" })
 
 vim.keymap.set("n", "<ScrollWheelUp>", "<C-y>")
 vim.keymap.set("n", "<ScrollWheelDown>", "<C-e>")
@@ -219,8 +225,8 @@ vim.diagnostic.config({
   --   -- },
   -- },
   -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
-  underline = false, -- sometimes usefull
-  virtual_text = false,
+  underline = true, -- sometimes usefull
+  virtual_text = true,
   virtual_lines = false,
 })
 
@@ -337,7 +343,7 @@ require("lazy").setup({
     },
     {
       "folke/snacks.nvim",
-      priority = 1000,
+      lazy = false,
       config = require("config.plugins.snacks").setup,
     },
     {
@@ -367,7 +373,7 @@ require("lazy").setup({
     },
     {
       "catppuccin/nvim",
-      priority = 1000,
+      lazy = false,
       name = "catppuccin",
       config = require("config.plugins.catppuccin").setup,
     },
@@ -377,9 +383,23 @@ require("lazy").setup({
       config = require("config.plugins.quicker").setup,
     },
     {
-      "eero-lehtinen/oklch-color-picker.nvim",
+      "brenoprata10/nvim-highlight-colors",
       event = "User SuperLazy",
+      opts = {
+        render = 'background'
+      },
+    },
+    {
+      "eero-lehtinen/oklch-color-picker.nvim",
+      enabled = false,
+      version = "*",
+      event = "VeryLazy",
       config = require("config.plugins.color-picker").setup,
+    },
+    {
+      "lewis6991/satellite.nvim",
+      event = "User SuperLazy",
+      config = require("config.plugins.satellite").setup,
     },
     {
       "stevearc/conform.nvim",
@@ -609,6 +629,7 @@ require("lazy").setup({
     {
       "nvim-treesitter/nvim-treesitter",
       event = "VeryLazy",
+      dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       build = ":TSUpdate",
       config = require("config.plugins.treesitter").setup,
     },

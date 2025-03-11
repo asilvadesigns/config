@@ -7,7 +7,7 @@ local M = {}
 ---@type table<string, PaletteEntry>
 local palette_items = {
   { text = "Commands", cmd = "lua Snacks.picker.commands()" },
-  { text = "Colorschemes", cmd = "lua Snacks.picker.colorschemes()" },
+  { text = "Colorschemes", cmd = 'lua Snacks.picker.colorschemes({ layout = { preview = "colorscheme" } })' },
   { text = "Copy file path (Absolute)", cmd = "CopyAbsolutePath" },
   { text = "Copy file path (Relative)", cmd = "CopyRelativePath" },
   { text = "Copy filetype", cmd = "CopyFiletype" },

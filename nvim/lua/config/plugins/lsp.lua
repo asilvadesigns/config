@@ -142,6 +142,18 @@ M.setup = function()
         },
       })
     end,
+    -- ["sqlls"] = function()
+    --   require("lspconfig").sqlls.setup({
+    --     capabilities = capabilities,
+    --     -- cmd = { "sql-language-server", "up", "--method", "stdio" },
+    --     -- cmd = { "/Users/albertos/.local/share/nvim/mason/bin/sql-language-server", "up", "--method", "stdio" },
+    --     -- /Users/albertos/.local/share/nvim/mason/bin/sql-language-server
+    --     filetypes = { "sql" },
+    --     root_dir = require("lspconfig").util.root_pattern(".sqllsrc.json"),
+    --     single_file_support = true,
+    --     verbose = true,
+    --   })
+    -- end,
     ["ts_ls"] = function()
       local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
       local home_path = vim.fn.expand("~")

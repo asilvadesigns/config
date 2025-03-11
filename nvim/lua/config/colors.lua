@@ -143,6 +143,34 @@ M.light = {
     flamingo = "#b4637a",
     rosewater = "#d7827e",
   },
+  vscode = {
+    base = "#ffffff", -- Editor Background
+    mantle = "#f3f3f3", -- Slightly darker background
+    crust = "#ebebeb", -- Sidebar background
+    text = "#333333", -- Default Text
+    subtext1 = "#444444", -- Secondary Text
+    subtext0 = "#555555", -- Muted Text
+    overlay2 = "#666666", -- Comments, Invisibles, Line Highlighting
+    overlay1 = "#777777", -- Mid-tone Grey
+    overlay0 = "#888888", -- Selection Background
+    surface2 = "#cccccc", -- Lighter selection background
+    surface1 = "#dddddd", -- Popover background
+    surface0 = "#f3f3f3", -- Lighter background elements
+    blue = "#0451a5",
+    lavender = "#af00db",
+    sapphire = "#007acc",
+    sky = "#3794ff",
+    teal = "#007acc",
+    green = "#008000",
+    yellow = "#b89500",
+    peach = "#d18616",
+    maroon = "#c50f1f",
+    red = "#c50f1f",
+    mauve = "#af00db",
+    pink = "#d16d92",
+    flamingo = "#d18616",
+    rosewater = "#b89500",
+  },
 }
 
 M.dark = {
@@ -299,6 +327,34 @@ M.dark = {
     pink = "#d33682",
     flamingo = "#cb4b16",
     rosewater = "#eee8d5",
+  },
+  vscode = {
+    base = "#1e1e1e", -- Editor Background
+    mantle = "#252526", -- Slightly lighter background
+    crust = "#2d2d2d", -- Sidebar background
+    text = "#d4d4d4", -- Default Text
+    subtext1 = "#c5c5c5", -- Secondary Text
+    subtext0 = "#a3a3a3", -- Muted Text
+    overlay2 = "#858585", -- Comments, Invisibles, Line Highlighting
+    overlay1 = "#6a6a6a", -- Darker Grey
+    overlay0 = "#4e4e4e", -- Selection Background
+    surface2 = "#3c3c3c", -- Lighter selection background
+    surface1 = "#2f2f2f", -- Popover background
+    surface0 = "#252526", -- Darker background elements
+    blue = "#569cd6",
+    lavender = "#c586c0",
+    sapphire = "#4ec9b0",
+    sky = "#9cdcfe",
+    teal = "#4ec9b0",
+    green = "#608b4e",
+    yellow = "#dcdcaa",
+    peach = "#ce9178",
+    maroon = "#d16969",
+    red = "#d16969",
+    mauve = "#c586c0",
+    pink = "#d16d92",
+    flamingo = "#ce9178",
+    rosewater = "#d7ba7d",
   },
 }
 

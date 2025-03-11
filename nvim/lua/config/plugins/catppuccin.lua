@@ -25,27 +25,33 @@ M.setup = function()
       treesitter_context = false,
       ufo = false,
     },
-    -- color_overrides = {
-    --   latte = require("config.colors").light.github,
-    --   frappe = require("config.colors").dark.github,
-    -- },
+    color_overrides = {
+      latte = require("config.colors").light.vscode,
+      frappe = require("config.colors").dark.vscode,
+    },
     highlight_overrides = {
       all = function(c)
         local statusline_bg = c.surface0
         local statusline_fg = c.overlay1
 
-        local bg = utils.darken(c.surface0, 0.40, c.base)
+        local bg = ""
+        if is_dark then
+          bg = utils.darken(c.surface0, 0.40, c.base)
+        else
+          bg = utils.darken(c.surface0, 0.20, c.base)
+        end
 
         return {
-          -- ["@constructor.lua"] = { fg = c.subtext0 },
+          ["@constructor.lua"] = { fg = c.subtext0 },
+          ["@punctuation.bracket"] = { fg = c.subtext0 },
           -- ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext1 },
           -- ["@tag.builtin.tsx"] = { fg = c.mauve },
           -- -- ["@variable"] = { fg = c.teal },
-          -- ["@variable.builtin"] = { fg = c.lavender },
-          -- ["@variable.parameter"] = { fg = c.lavender },
+          ["@variable.builtin"] = { fg = c.text },
+          ["@variable.parameter"] = { fg = c.text },
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
-          CursorLineNr = { bg = bg, fg = c.overlay0 }, -- , fg = c.mauve }, -- or c.overlay2
+          CursorLineNr = { bg = bg, fg = c.teal }, -- , fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },
           DiagnosticUnderlineHint = { sp = c.teal, undercurl = true },

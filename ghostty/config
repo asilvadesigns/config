@@ -1,6 +1,10 @@
 ### One
 # theme = "OneHalfLight"
-theme = "OneHalfDark"
+# theme = "OneHalfDark"
+
+### Solarized
+theme = "vscode-dark"
+# theme = "vscode-light"
 
 ### Solarized
 # theme = "Builtin Solarized Light"
@@ -8,7 +12,7 @@ theme = "OneHalfDark"
 
 ### Catppuccin
 # theme = catppuccin-latte
-theme = catppuccin-frappe
+# theme = catppuccin-frappe
 
 ### NightFox
 # theme = nordfox
@@ -40,13 +44,13 @@ adjust-cursor-height = -2
 # adjust-cell-height = 4
 # adjust-cursor-height = 4
 
-font-thicken = false
+font-thicken = true
 font-thicken-strength = 1
 adjust-cursor-thickness = 3
 # disable ligatures
-# font-feature = -calt
-# font-feature = -liga
-# font-feature = -dlig
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
 
 # Window
 # gtk-single-instance = true
@@ -55,8 +59,8 @@ adjust-cursor-thickness = 3
 
 macos-titlebar-style = hidden
 window-decoration = false
-window-padding-color = extend-always
-# or extend, extend-always
+window-padding-color = background
+# or background, extend, extend-always
 window-padding-x = 0
 window-padding-y = 0
 window-padding-balance = true
