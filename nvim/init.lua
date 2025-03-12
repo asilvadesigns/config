@@ -383,17 +383,9 @@ require("lazy").setup({
       config = require("config.plugins.quicker").setup,
     },
     {
-      "brenoprata10/nvim-highlight-colors",
-      event = "User SuperLazy",
-      opts = {
-        render = 'background'
-      },
-    },
-    {
       "eero-lehtinen/oklch-color-picker.nvim",
-      enabled = false,
       version = "*",
-      event = "VeryLazy",
+      event = "User SuperLazy",
       config = require("config.plugins.color-picker").setup,
     },
     {
