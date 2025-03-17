@@ -2,7 +2,7 @@
 # theme = "OneHalfLight"
 # theme = "OneHalfDark"
 
-### Solarized
+### VS Code
 theme = "vscode-dark"
 # theme = "vscode-light"
 
@@ -44,7 +44,7 @@ adjust-cursor-height = -2
 # adjust-cell-height = 4
 # adjust-cursor-height = 4
 
-font-thicken = true
+font-thicken = false
 font-thicken-strength = 1
 adjust-cursor-thickness = 3
 # disable ligatures

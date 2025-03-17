@@ -626,6 +626,11 @@ require("lazy").setup({
       config = require("config.plugins.treesitter").setup,
     },
     {
+      "andymass/vim-matchup",
+      event = "User SuperLazy",
+      init = require("config.plugins.matchup").init,
+    },
+    {
       "kevinhwang91/nvim-ufo",
       event = "User TreesitterReady",
       dependencies = { "kevinhwang91/promise-async" },
@@ -640,7 +645,7 @@ require("lazy").setup({
         "gzip",
         "man",
         "matchit",
-        -- "matchparen",
+        "matchparen",
         "netrwPlugin",
         "osc52",
         "remotePlugin",

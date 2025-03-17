@@ -7,7 +7,7 @@ M.init = function()
   -- vim.g.matchup_matchparen_deferred_hide_delay = 50  -- Delay before hiding highlight
   vim.g.matchup_matchparen_deferred_show_delay = 50 -- Delay before showing highlight
   vim.g.matchup_matchparen_fallback = 0 -- Disable fallback to Vim's built-in matchparen
-  vim.g.matchup_matchparen_hi_surround_always = 1 -- Always highlight surrounding delimiters
+  vim.g.matchup_matchparen_hi_surround_always = 0 -- Always highlight surrounding delimiters
   vim.g.matchup_matchparen_timeout = 300 -- Timeout for finding matches (in ms)
   vim.g.matchup_matchparen_insert_timeout = 60 -- Timeout for insert mode (in ms)
   vim.g.matchup_matchparen_offscreen = {} -- Disable off-screen match display
@@ -26,19 +26,19 @@ M.init = function()
   }
 end
 
-M.setup = function()
-  require("nvim-treesitter.configs").setup({
-    matchup = {
-      enabled = true,
-      include_match_words = false,
-    },
-  })
-
-  -- vim.api.nvim_set_hl(0, "MatchParen", {
-  --   bg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticVirtualTextInfo"), "bg"),
-  --   italic = false,
-  --   underline = false,
-  -- })
-end
+-- M.setup = function()
+--   require("nvim-treesitter.configs").setup({
+--     matchup = {
+--       enabled = true,
+--       include_match_words = false,
+--     },
+--   })
+--
+--   -- vim.api.nvim_set_hl(0, "MatchParen", {
+--   --   bg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticVirtualTextInfo"), "bg"),
+--   --   italic = false,
+--   --   underline = false,
+--   -- })
+-- end
 
 return M
