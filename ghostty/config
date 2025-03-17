@@ -1,9 +1,9 @@
 ### One
 # theme = "OneHalfLight"
-# theme = "OneHalfDark"
+theme = "OneHalfDark"
 
 ### VS Code
-theme = "vscode-dark"
+# theme = "vscode-dark"
 # theme = "vscode-light"
 
 ### Solarized

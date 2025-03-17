@@ -26,8 +26,8 @@ M.setup = function()
       ufo = false,
     },
     color_overrides = {
-      latte = require("config.colors").light.vscode,
-      frappe = require("config.colors").dark.vscode,
+      latte = require("config.colors").light.one,
+      frappe = require("config.colors").dark.one,
     },
     highlight_overrides = {
       all = function(c)
