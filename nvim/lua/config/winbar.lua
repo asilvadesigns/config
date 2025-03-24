@@ -224,6 +224,7 @@ vim.api.nvim_create_autocmd({
   "BufModifiedSet",
   "BufNewFile",
   "BufReadPost",
+  "BufWritePost",
   "DiagnosticChanged",
   "TabClosed",
   "WinEnter",
