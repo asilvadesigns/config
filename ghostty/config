@@ -1,13 +1,13 @@
 ### One
 # theme = "OneHalfLight"
-theme = "OneHalfDark"
+# theme = "OneHalfDark"
 
 ### VS Code
 # theme = "vscode-dark"
 # theme = "vscode-light"
 
 ### Solarized
-# theme = "Builtin Solarized Light"
+theme = "Builtin Solarized Light"
 # theme = "Builtin Solarized Dark"
 
 ### Catppuccin

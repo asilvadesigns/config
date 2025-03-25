@@ -1,16 +1,9 @@
 local M = {}
 
 M.setup = function()
-  local is_dark = true
+  local is_dark = false
 
-  local frappe = require("catppuccin.palettes.frappe")
   local utils = require("catppuccin.utils.colors")
-
-  local function desaturate(color, amount)
-    local h, s, l = utils.rgb_to_hsl(color)
-    s = math.max(0, s - amount) -- Reduce saturation
-    return utils.hsl_to_rgb(h, s, l)
-  end
 
   require("catppuccin").setup({
     integrations = {
@@ -26,7 +19,7 @@ M.setup = function()
       ufo = false,
     },
     color_overrides = {
-      latte = require("config.colors").light.one,
+      latte = require("config.colors").light.solarized,
       frappe = require("config.colors").dark.one,
     },
     highlight_overrides = {
