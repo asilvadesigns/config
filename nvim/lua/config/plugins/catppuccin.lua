@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local is_dark = false
+  local is_dark = true
 
   local utils = require("catppuccin.utils.colors")
 
@@ -20,7 +20,7 @@ M.setup = function()
     },
     color_overrides = {
       latte = require("config.colors").light.solarized,
-      frappe = require("config.colors").dark.one,
+      frappe = require("config.colors").dark.solarized,
     },
     highlight_overrides = {
       all = function(c)
@@ -35,13 +35,14 @@ M.setup = function()
         end
 
         return {
-          ["@constructor.lua"] = { fg = c.subtext0 },
-          ["@punctuation.bracket"] = { fg = c.subtext0 },
-          -- ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext1 },
-          -- ["@tag.builtin.tsx"] = { fg = c.mauve },
-          -- -- ["@variable"] = { fg = c.teal },
-          ["@variable.builtin"] = { fg = c.text },
-          ["@variable.parameter"] = { fg = c.text },
+          -- ["@constructor.lua"] = { fg = c.subtext0 },
+          -- ["@punctuation.bracket"] = { fg = c.subtext0 },
+          -- -- ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext1 },
+          -- -- ["@tag.builtin.tsx"] = { fg = c.mauve },
+          -- -- -- ["@variable"] = { fg = c.teal },
+          -- ["@variable.builtin"] = { fg = c.text },
+          -- ["@variable.parameter"] = { fg = c.text },
+
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.teal }, -- , fg = c.mauve }, -- or c.overlay2
@@ -61,8 +62,8 @@ M.setup = function()
             style = {},
           },
           NormalFloat = { bg = c.base },
-          NvimTreeCursorLine = { fg = c.blue, bg = c.base },
-          NvimTreeCursorLineNr = { fg = c.blue, bg = c.base },
+          NvimTreeCursorLine = { fg = c.blue, bg = bg }, -- or c.base
+          NvimTreeCursorLineNr = { fg = c.blue, bg = bg }, -- or c.base
           NvimTreeExecFile = { fg = c.overlay1 },
           NvimTreeFolderName = { fg = c.subtext0 },
           NvimTreeIndentMarker = { fg = c.surface0 },

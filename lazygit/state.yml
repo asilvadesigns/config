@@ -1,13 +1,14 @@
 lastupdatecheck: 0
 recentrepos:
-- /Users/asilva/dev/avatar-health
+    - /Users/albertos/dev/libddb-raw-messages-panel
 startuppopupversion: 5
-lastversion: 0.41.0
+lastversion: 0.45.2
 customcommandshistory:
-- qa
+    - qa
 hidecommandlog: false
 ignorewhitespaceindiffview: false
 diffcontextsize: 3
+renamesimilaritythreshold: 50
 localbranchsortorder: recency
 remotebranchsortorder: alphabetical
 gitlogorder: topo-order

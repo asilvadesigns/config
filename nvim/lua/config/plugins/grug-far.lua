@@ -3,7 +3,7 @@ local M = {}
 M.setup = function()
   require("grug-far").setup({
     -- normalModeSearch = true,
-    startInInsertMode = false,
+    startInInsertMode = true,
     -- maxSearchMatches = 500,
     -- engine = "astgrep",
     -- windowCreationCommand = "tab split", -- vsplit, botright split, tab split

@@ -153,12 +153,15 @@ M.setup = function()
     bigfile = {
       enabled = true,
       notify = true,
-      size = 1 * 1024 * 1024, -- 1.0MB
+      size = 1 * 100 * 1024, -- 100KB
       ---@param ctx {buf: number, ft:string}
       setup = function(ctx)
-        -- vim.cmd([[NoMatchParen]])
+        vim.notify("killing thing!")
         ---@diagnostic disable-next-line: missing-fields
         Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
+        vim.cmd("SatelliteDisable")
+        vim.cmd("NoMatchParen")
+        vim.cmd("TSBufDisable highlight")
         -- vim.b.minianimate_disable = true
         vim.schedule(function()
           vim.bo[ctx.buf].syntax = ctx.ft
@@ -213,7 +216,7 @@ M.setup = function()
       refresh = 50,
     },
     scroll = {
-      enabled = false,
+      enabled = true,
       animate = {
         duration = { step = 10, total = 85 },
         easing = "outSine",

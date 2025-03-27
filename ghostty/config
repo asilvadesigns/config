@@ -7,8 +7,8 @@
 # theme = "vscode-light"
 
 ### Solarized
-theme = "Builtin Solarized Light"
-# theme = "Builtin Solarized Dark"
+# theme = "iTerm2 Solarized Light"
+theme = "iTerm2 Solarized Dark"
 
 ### Catppuccin
 # theme = catppuccin-latte
@@ -78,6 +78,18 @@ keybind = ctrl+shift+l=text:\x00\x1b[C
 
 keybind = super+q=quit
 keybind = super+shift+r=reload_config
+
+# neovim | symbols
+keybind = super+shift+o=text:,o
+
+# neovim | files
+keybind = super+p=text:,f
+
+# neovim | actions
+keybind = super+shift+p=text:,a
+
+# neovim | save
+keybind = super+s=text:,s
 
 # tmux session | picker (sesh)
 keybind = super+shift+k=text:\x00k

@@ -9,5 +9,7 @@
   line-numbers = true
   navigate = true
   side-by-side = true
-  syntax-theme = base16
+  ; just run: delta --show-syntax-themes
+  ; syntax-theme = "Solarized (light)"
+  syntax-theme = "Solarized (dark)"
   true-color = always
