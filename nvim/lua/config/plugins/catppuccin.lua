@@ -1,8 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local is_dark = true
-
+  local is_dark = false
   local utils = require("catppuccin.utils.colors")
 
   require("catppuccin").setup({
@@ -19,8 +18,8 @@ M.setup = function()
       ufo = false,
     },
     color_overrides = {
-      latte = require("config.colors").light.solarized,
-      frappe = require("config.colors").dark.solarized,
+      latte = require("config.colors").light.vscode,
+      frappe = require("config.colors").dark.vscode,
     },
     highlight_overrides = {
       all = function(c)
@@ -31,7 +30,7 @@ M.setup = function()
         if is_dark then
           bg = utils.darken(c.surface0, 0.40, c.base)
         else
-          bg = utils.darken(c.surface0, 0.20, c.base)
+          bg = utils.darken(c.surface0, 0.60, c.base)
         end
 
         return {

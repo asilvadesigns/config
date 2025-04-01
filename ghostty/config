@@ -4,11 +4,11 @@
 
 ### VS Code
 # theme = "vscode-dark"
-# theme = "vscode-light"
+theme = "vscode-light"
 
 ### Solarized
 # theme = "iTerm2 Solarized Light"
-theme = "iTerm2 Solarized Dark"
+# theme = "iTerm2 Solarized Dark"
 
 ### Catppuccin
 # theme = catppuccin-latte
@@ -44,7 +44,7 @@ adjust-cursor-height = -2
 # adjust-cell-height = 4
 # adjust-cursor-height = 4
 
-font-thicken = false
+font-thicken = true
 font-thicken-strength = 1
 adjust-cursor-thickness = 3
 # disable ligatures

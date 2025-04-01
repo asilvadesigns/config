@@ -107,7 +107,7 @@ local function get_filename(buf_id)
     filepath = filepath:sub(1, -#filename - 1)
   end
 
-  filename_cache[buf_id] = "%*%#DevIconConfig#" .. filename .. "%* " .. filepath .. "%*"
+  filename_cache[buf_id] = "%*" .. filepath .. "%*%#DevIconConfig#" .. filename .. "%*"
   return filename_cache[buf_id]
 end
 

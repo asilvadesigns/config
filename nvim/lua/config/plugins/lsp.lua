@@ -30,7 +30,7 @@ M.setup = function()
     "sqlls",
     "tailwindcss",
     "taplo",
-    -- "templ",
+    "templ",
     "ts_ls",
     -- "volar",
     "yamlls",
@@ -75,6 +75,14 @@ M.setup = function()
             },
           },
         },
+      })
+    end,
+    ["html"] = function()
+      local defaults = require("lspconfig.configs.html").default_config
+
+      require("lspconfig").html.setup({
+        capabilities = capabilities,
+        filetypes = vim.list_extend({ "templ" }, defaults.filetypes),
       })
     end,
     ["jsonls"] = function()
@@ -154,6 +162,26 @@ M.setup = function()
     --     verbose = true,
     --   })
     -- end,
+    ["tailwindcss"] = function()
+      local defaults = require("lspconfig.configs.tailwindcss").default_config
+
+      require("lspconfig").tailwindcss.setup({
+        capabilities = capabilities,
+        filetypes = vim.list_extend({ "go" }, defaults.filetypes),
+        setttings = {
+          tailwindCSS = {
+            includeLanguages = {
+              templ = "html",
+            },
+            experimental = {
+              classRegex = {
+                'Class\\("([^"]*)"\\)',
+              },
+            },
+          },
+        },
+      })
+    end,
     ["ts_ls"] = function()
       local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
       local home_path = vim.fn.expand("~")
