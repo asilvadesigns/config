@@ -18,7 +18,7 @@ M.setup = function()
       ufo = false,
     },
     color_overrides = {
-      latte = require("config.colors").light.vscode,
+      latte = require("config.colors").light.github,
       frappe = require("config.colors").dark.vscode,
     },
     highlight_overrides = {
@@ -30,7 +30,7 @@ M.setup = function()
         if is_dark then
           bg = utils.darken(c.surface0, 0.40, c.base)
         else
-          bg = utils.darken(c.surface0, 0.60, c.base)
+          bg = utils.darken(c.surface0, 0.30, c.base)
         end
 
         return {

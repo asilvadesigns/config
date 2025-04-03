@@ -247,9 +247,57 @@ vim.filetype.add({
 })
 
 ---
+--- Utils
+---
+local function debounce(func, timeout)
+  local timer = nil
+
+  return function(...)
+    local args = { ... }
+    if timer then
+      timer:stop()
+      timer:close()
+    end
+
+    timer = vim.loop.new_timer()
+    if timer ~= nil then
+      timer:start(
+        timeout,
+        0,
+        vim.schedule_wrap(function()
+          func(unpack(args))
+        end)
+      )
+    end
+  end
+end
+
+---
 --- Autocmds
 ---
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  group = vim.api.nvim_create_augroup("reload-file-static", { clear = true }),
+  desc = "Reload buffer on focus",
+  callback = function()
+    if vim.fn.getcmdwintype() == "" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+-- vim.api.nvim_create_autocmd({ "CursorHold" }, {
+--   group = vim.api.nvim_create_augroup("reload-file-dyanmic", { clear = true }),
+--   desc = "Reload buffer on focus",
+--   callback = debounce(function()
+--     if vim.fn.getcmdwintype() == "" then
+--       vim.cmd("checktime")
+--     end
+--   end, 1000),
+-- })
+
 vim.api.nvim_create_autocmd("VimResized", {
+  group = vim.api.nvim_create_augroup("vim-resized", { clear = true }),
+  desc = "Resset buffer size on window resize",
   callback = function()
     local current_tab = vim.fn.tabpagenr()
     vim.cmd("tabdo wincmd =")
@@ -259,6 +307,7 @@ vim.api.nvim_create_autocmd("VimResized", {
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+  desc = "Highlight yanked lines",
   callback = function()
     vim.highlight.on_yank()
   end,
@@ -266,6 +315,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("user-lazy-done", { clear = true }),
+  desc = "Custom lazy load autocmd",
   callback = function()
     vim.defer_fn(function()
       vim.api.nvim_exec_autocmds("User", { pattern = "SuperLazy" })

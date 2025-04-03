@@ -176,7 +176,11 @@ M.setup = function()
           padding = 1,
           desc = "Session Restore",
           action = function()
-            require("auto-session").RestoreSession(vim.fn.getcwd(), { show_message = false })
+            local session_found = require("auto-session").RestoreSession(vim.fn.getcwd(), { show_message = false })
+
+            if not session_found then
+              Snacks.picker.files()
+            end
           end,
         },
         { key = "a", padding = 1, desc = "Actions", action = ":lua Snacks.picker.command_palette()" },
