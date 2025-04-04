@@ -3,8 +3,8 @@
 # theme = "OneHalfDark"
 
 ### VS Code
-# theme = "vscode-dark"
-theme = "vscode-light"
+theme = "vscode-dark"
+# theme = "vscode-light"
 
 ### Solarized
 # theme = "iTerm2 Solarized Light"

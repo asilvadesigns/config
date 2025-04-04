@@ -36,7 +36,6 @@ local palette_items = {
   { text = "Search (project)", cmd = "GrugFar" },
   { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
-  { text = "Toggle Completion", cmd = "ToggleCompletion" },
   {
     text = "Toggle Diagnostic Text",
     cmd = function()
