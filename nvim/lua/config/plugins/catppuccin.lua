@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local is_dark = true
+  local is_dark = false
   local utils = require("catppuccin.utils.colors")
 
   require("catppuccin").setup({

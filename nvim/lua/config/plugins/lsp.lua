@@ -26,13 +26,11 @@ M.setup = function()
     "jsonls",
     "lua_ls",
     "prismals",
-    -- "pyright",
-    "sqlls",
+    -- "sqlls",
     "tailwindcss",
     "taplo",
     "templ",
     "ts_ls",
-    -- "volar",
     "yamlls",
   }
 
@@ -222,6 +220,15 @@ M.setup = function()
         },
       })
     end,
+  })
+
+  -- require("lspconfig").postgres_lsp.setup({
+  -- })
+  require("lspconfig").postgres_lsp.setup({
+    capabilities = capabilities,
+    cmd = { "postgrestools", "lsp-proxy", "--config-path", vim.fn.getcwd() .. "/postgrestools.jsonc" },
+    filetypes = { "sql", "postgres" },
+    root_dir = require("lspconfig").util.root_pattern("postgrestools.jsonc"),
   })
 
   vim.api.nvim_create_autocmd("LspAttach", {
