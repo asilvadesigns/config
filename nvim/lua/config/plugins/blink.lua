@@ -23,8 +23,11 @@ M.setup = function()
         ["<S-Tab>"] = { "select_prev", "fallback" },
       },
     },
+    snippets = {
+      preset = "luasnip",
+    },
     signature = {
-      enabled = true,
+      enabled = false,
       window = { border = "rounded" },
     },
     completion = {
@@ -42,7 +45,7 @@ M.setup = function()
       --   },
       -- },
       menu = {
-        auto_show = false,
+        auto_show = true,
         border = "rounded",
         draw = {
           columns = { { "kind_icon", gap = 1 }, { "label", "label_description" } },
@@ -59,8 +62,7 @@ M.setup = function()
       nerd_font_variant = "mono",
     },
     sources = {
-      -- default = { "lsp", "path", "snippets", "buffer" },
-      default = { "lsp", "path", "buffer" },
+      default = { "lsp", "path", "snippets", "buffer" },
       providers = {
         lsp = {
           name = "LSP",

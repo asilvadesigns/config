@@ -512,7 +512,7 @@ require("lazy").setup({
       version = "*",
       event = { "CmdlineEnter", "InsertEnter" },
       opts_extend = { "sources.default" },
-      dependencies = "rafamadriz/friendly-snippets",
+      dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
       config = require("config.plugins.blink").setup,
     },
     {
