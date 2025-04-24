@@ -494,12 +494,30 @@ require("lazy").setup({
     {
       "neovim/nvim-lspconfig",
       event = "VeryLazy",
-      dependencies = {
-        "williamboman/mason-lspconfig.nvim",
-        "williamboman/mason.nvim",
-      },
+      dependencies = { "williamboman/mason.nvim" },
       config = require("config.plugins.lsp").setup,
     },
+    -- {
+    --   "pmizio/typescript-tools.nvim",
+    --   dependencies = {
+    --     "nvim-lua/plenary.nvim",
+    --     "neovim/nvim-lspconfig",
+    --   },
+    --   config = function()
+    --     require("typescript-tools").setup({
+    --       on_attach = function(client, bufnr)
+    --         client.server_capabilities.documentFormattingProvider = false
+    --         client.server_capabilities.documentRangeFormattingProvider = false
+    --       end,
+    --       settings = {
+    --         jsx_close_tag = {
+    --           enable = true,
+    --           filetypes = { "javascriptreact", "typescriptreact" },
+    --         },
+    --       },
+    --     })
+    --   end,
+    -- },
     -- {
     -- -- NOTE: in progress
     --   "williamboman/mason.nvim",
@@ -512,7 +530,7 @@ require("lazy").setup({
       version = "*",
       event = { "CmdlineEnter", "InsertEnter" },
       opts_extend = { "sources.default" },
-      dependencies = "rafamadriz/friendly-snippets",
+      dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
       config = require("config.plugins.blink").setup,
     },
     {
@@ -533,8 +551,8 @@ require("lazy").setup({
               },
             }
             if grugfar.has_instance(options.instanceName) then
-              grugfar.update_instance_prefills(options.instanceName, options.prefills, false)
-              grugfar.open_instance(options.instanceName)
+              grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
+              grugfar.get_instance(options.instanceName):open()
             else
               grugfar.toggle_instance(options)
             end
@@ -554,8 +572,8 @@ require("lazy").setup({
               },
             }
             if grugfar.has_instance(options.instanceName) then
-              grugfar.update_instance_prefills(options.instanceName, options.prefills, false)
-              grugfar.open_instance(options.instanceName)
+              grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
+              grugfar.get_instance(options.instanceName):open()
             else
               grugfar.toggle_instance(options)
             end
@@ -574,8 +592,8 @@ require("lazy").setup({
               },
             }
             if grugfar.has_instance(options.instanceName) then
-              grugfar.update_instance_prefills(options.instanceName, options.prefills, false)
-              grugfar.open_instance(options.instanceName)
+              grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
+              grugfar.get_instance(options.instanceName):open()
             else
               grugfar.toggle_instance(options)
             end
@@ -594,8 +612,8 @@ require("lazy").setup({
               },
             }
             if grugfar.has_instance(options.instanceName) then
-              grugfar.update_instance_prefills(options.instanceName, options.prefills, false)
-              grugfar.open_instance(options.instanceName)
+              grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
+              grugfar.get_instance(options.instanceName):open()
             else
               grugfar.toggle_instance(options)
             end
@@ -644,6 +662,11 @@ require("lazy").setup({
       event = "User SuperLazy",
       dependencies = { "sindrets/diffview.nvim" },
       config = require("config.plugins.neogit").setup,
+    },
+    {
+      "lewis6991/gitsigns.nvim",
+      event = "User SuperLazy",
+      config = require("config.plugins.gitsigns").setup,
     },
     {
       "mrjones2014/smart-splits.nvim",

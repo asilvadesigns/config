@@ -74,10 +74,10 @@ end
 ---@param buf_id integer
 ---@return string
 local function get_filename(buf_id)
-  if filename_cache[buf_id] ~= nil then
-    return filename_cache[buf_id]
-  end
-
+  -- if filename_cache[buf_id] ~= nil then
+  --   return filename_cache[buf_id]
+  -- end
+  --
   local api = vim.api
   local fn = vim.fn
 
@@ -107,8 +107,9 @@ local function get_filename(buf_id)
     filepath = filepath:sub(1, -#filename - 1)
   end
 
-  filename_cache[buf_id] = "%*" .. filepath .. "%*%#DevIconConfig#" .. filename .. "%*"
-  return filename_cache[buf_id]
+  return "%*" .. filepath .. "%*%#DevIconConfig#" .. filename .. "%*"
+  -- filename_cache[buf_id] = "%*" .. filepath .. "%*%#DevIconConfig#" .. filename .. "%*"
+  -- return filename_cache[buf_id]
 end
 
 local function enable_winbar(win_id)

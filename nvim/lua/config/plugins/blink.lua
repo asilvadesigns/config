@@ -27,6 +27,9 @@ M.setup = function()
       enabled = true,
       window = { border = "rounded" },
     },
+    snippets = {
+      preset = "luasnip",
+    },
     completion = {
       trigger = {
         show_on_insert_on_trigger_character = false,
@@ -42,7 +45,7 @@ M.setup = function()
       --   },
       -- },
       menu = {
-        auto_show = false,
+        auto_show = true,
         border = "rounded",
         draw = {
           columns = { { "kind_icon", gap = 1 }, { "label", "label_description" } },
@@ -59,8 +62,7 @@ M.setup = function()
       nerd_font_variant = "mono",
     },
     sources = {
-      -- default = { "lsp", "path", "snippets", "buffer" },
-      default = { "lsp", "path", "buffer" },
+      default = { "lsp", "path", "snippets", "buffer" },
       providers = {
         lsp = {
           name = "LSP",

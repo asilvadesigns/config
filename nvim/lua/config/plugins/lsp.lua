@@ -30,7 +30,8 @@ M.setup = function()
     "tailwindcss",
     "taplo",
     "templ",
-    "ts_ls",
+    -- "ts_ls",
+    -- "vtsls",
     "yamlls",
   }
 
@@ -45,185 +46,161 @@ M.setup = function()
     ui = { border = "rounded" },
   })
 
-  require("mason-lspconfig").setup({
-    automatic_installation = true,
-    ensure_installed = servers,
+  require("lspconfig").cssls.setup({
+    capabilities = capabilities,
+    settings = {
+      css = {
+        lint = {
+          -- fixes unknown @tailwind rule for css files
+          unknownAtRules = "ignore",
+        },
+      },
+      scss = {
+        lint = {
+          -- fixes unknown @tailwind rule for sass files
+          unknownAtRules = "ignore",
+        },
+      },
+    },
   })
 
-  require("mason-lspconfig").setup_handlers({
-    function(server_name)
-      require("lspconfig")[server_name].setup({
-        capabilities = capabilities,
-      })
-    end,
-    ["cssls"] = function()
-      require("lspconfig").cssls.setup({
-        capabilities = capabilities,
-        settings = {
-          css = {
-            lint = {
-              -- fixes unknown @tailwind rule for css files
-              unknownAtRules = "ignore",
-            },
-          },
-          scss = {
-            lint = {
-              -- fixes unknown @tailwind rule for sass files
-              unknownAtRules = "ignore",
-            },
-          },
-        },
-      })
-    end,
-    ["html"] = function()
-      local defaults = require("lspconfig.configs.html").default_config
-
-      require("lspconfig").html.setup({
-        capabilities = capabilities,
-        filetypes = vim.list_extend({ "templ" }, defaults.filetypes),
-      })
-    end,
-    ["jsonls"] = function()
-      -- NOTE: new schemas see here https://www.schemastore.org/json/
-      require("lspconfig").jsonls.setup({
-        capabilities = capabilities,
-        settings = {
-          json = {
-            schemas = {
-              {
-                fileMatch = { "sqlc.json" },
-                url = { "https://json.schemastore.org/sqlc-2.0.json" },
-              },
-              {
-                fileMatch = { "jsconfig.json" },
-                url = "https://json.schemastore.org/jsconfig",
-              },
-              {
-                fileMatch = { "tsconfig.json" },
-                url = "https://json.schemastore.org/tsconfig",
-              },
-              {
-                fileMatch = { "turbo.json" },
-                url = "https://turbo.build/schema.json",
-              },
-              {
-                fileMatch = { "package.json" },
-                url = "https://json.schemastore.org/package",
-              },
-              {
-                fileMatch = { ".prettierrc.json", ".prettierrc" },
-                url = "https://json.schemastore.org/prettierrc.json",
-              },
-              {
-                fileMatch = { ".eslintrc.json" },
-                url = "https://json.schemastore.org/eslintrc.json",
-              },
-            },
-          },
-        },
-      })
-    end,
-    ["gopls"] = function()
-      require("lspconfig").gopls.setup({
-        capabilities = capabilities,
-        settings = {
-          gopls = {
-            analyses = {
-              unusedparams = true,
-            },
-            completeUnimported = true,
-            usePlaceholders = true,
-          },
-        },
-      })
-    end,
-    ["lua_ls"] = function()
-      require("lspconfig").lua_ls.setup({
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-          },
-        },
-      })
-    end,
-    -- ["sqlls"] = function()
-    --   require("lspconfig").sqlls.setup({
-    --     capabilities = capabilities,
-    --     -- cmd = { "sql-language-server", "up", "--method", "stdio" },
-    --     -- cmd = { "/Users/albertos/.local/share/nvim/mason/bin/sql-language-server", "up", "--method", "stdio" },
-    --     -- /Users/albertos/.local/share/nvim/mason/bin/sql-language-server
-    --     filetypes = { "sql" },
-    --     root_dir = require("lspconfig").util.root_pattern(".sqllsrc.json"),
-    --     single_file_support = true,
-    --     verbose = true,
-    --   })
-    -- end,
-    ["tailwindcss"] = function()
-      local defaults = require("lspconfig.configs.tailwindcss").default_config
-
-      require("lspconfig").tailwindcss.setup({
-        capabilities = capabilities,
-        filetypes = vim.list_extend({ "go" }, defaults.filetypes),
-        setttings = {
-          tailwindCSS = {
-            includeLanguages = {
-              templ = "html",
-            },
-            experimental = {
-              classRegex = {
-                'Class\\("([^"]*)"\\)',
-              },
-            },
-          },
-        },
-      })
-    end,
-    ["ts_ls"] = function()
-      local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
-      local home_path = vim.fn.expand("~")
-
-      require("lspconfig").ts_ls.setup({
-        capabilities = capabilities,
-        init_options = {
-          preferences = {
-            importModuleSpecifierPreference = "non-relative",
-          },
-          plugins = {
-            {
-              name = "ts-lit-plugin",
-              location = home_path
-                .. "/Library/Application Support/fnm/node-versions/v22.11.0/installation/lib/node_modules/ts-lit-plugin/",
-            },
-            {
-              name = "@vue/typescript-plugin",
-              location = volar_path .. "/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin",
-              languages = { "vue" },
-            },
-          },
-        },
-      })
-    end,
-    ["volar"] = function()
-      local ts_path = require("mason-registry").get_package("typescript-language-server"):get_install_path()
-
-      require("lspconfig").volar.setup({
-        capabilities = capabilities,
-        init_options = {
-          vue = {
-            hybridMode = false,
-          },
-          typescript = {
-            tsdk = ts_path .. "/node_modules/typescript/lib",
-          },
-        },
-      })
-    end,
+  local htmldefaults = require("lspconfig.configs.html").default_config
+  require("lspconfig").html.setup({
+    capabilities = capabilities,
+    filetypes = vim.list_extend({ "templ" }, htmldefaults.filetypes),
   })
 
-  -- require("lspconfig").postgres_lsp.setup({
+  -- NOTE: new schemas see here https://www.schemastore.org/json/
+  require("lspconfig").jsonls.setup({
+    capabilities = capabilities,
+    settings = {
+      json = {
+        schemas = {
+          {
+            fileMatch = { "sqlc.json" },
+            url = { "https://json.schemastore.org/sqlc-2.0.json" },
+          },
+          {
+            fileMatch = { "jsconfig.json" },
+            url = "https://json.schemastore.org/jsconfig",
+          },
+          {
+            fileMatch = { "tsconfig.json" },
+            url = "https://json.schemastore.org/tsconfig",
+          },
+          {
+            fileMatch = { "turbo.json" },
+            url = "https://turbo.build/schema.json",
+          },
+          {
+            fileMatch = { "package.json" },
+            url = "https://json.schemastore.org/package",
+          },
+          {
+            fileMatch = { ".prettierrc.json", ".prettierrc" },
+            url = "https://json.schemastore.org/prettierrc.json",
+          },
+          {
+            fileMatch = { ".eslintrc.json" },
+            url = "https://json.schemastore.org/eslintrc.json",
+          },
+        },
+      },
+    },
+  })
+
+  require("lspconfig").gopls.setup({
+    capabilities = capabilities,
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        completeUnimported = true,
+        usePlaceholders = true,
+      },
+    },
+  })
+
+  require("lspconfig").lua_ls.setup({
+    capabilities = capabilities,
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+      },
+    },
+  })
+
+  local tailwind_defaults = require("lspconfig.configs.tailwindcss").default_config
+  require("lspconfig").tailwindcss.setup({
+    capabilities = capabilities,
+    filetypes = vim.list_extend({ "go" }, tailwind_defaults.filetypes),
+    setttings = {
+      tailwindCSS = {
+        includeLanguages = {
+          templ = "html",
+        },
+        experimental = {
+          classRegex = {
+            'Class\\("([^"]*)"\\)',
+          },
+        },
+      },
+    },
+  })
+
+  require("lspconfig").vtsls.setup({
+    settings = {
+      vtsls = {
+        enableMoveToFileCodeAction = true,
+        autoUseWorkspaceTsdk = true,
+      },
+      typescript = {
+        suggest = {
+          autoImports = true,
+        },
+      },
+    },
+  })
+
+  -- local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
+  -- local home_path = vim.fn.expand("~")
+  -- require("lspconfig").ts_ls.setup({
+  --   -- capabilities = capabilities,
+  --   -- root_dir = require("lspconfig.util").root_pattern(".git"),
+  --   -- init_options = {
+  --   --   preferences = {
+  --   --     importModuleSpecifierPreference = "non-relative",
+  --   --   },
+  --   --   plugins = {
+  --   --     {
+  --   --       name = "ts-lit-plugin",
+  --   --       location = home_path
+  --   --         .. "/Library/Application Support/fnm/node-versions/v22.11.0/installation/lib/node_modules/ts-lit-plugin/",
+  --   --     },
+  --   --     {
+  --   --       name = "@vue/typescript-plugin",
+  --   --       location = volar_path .. "/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin",
+  --   --       languages = { "vue" },
+  --   --     },
+  --   --   },
+  --   -- },
   -- })
+
+  local volar_ts_path = require("mason-registry").get_package("typescript-language-server"):get_install_path()
+  require("lspconfig").volar.setup({
+    capabilities = capabilities,
+    init_options = {
+      vue = {
+        hybridMode = false,
+      },
+      typescript = {
+        tsdk = volar_ts_path .. "/node_modules/typescript/lib",
+      },
+    },
+  })
+
   require("lspconfig").postgres_lsp.setup({
     capabilities = capabilities,
     cmd = { "postgrestools", "lsp-proxy", "--config-path", vim.fn.getcwd() .. "/postgrestools.jsonc" },

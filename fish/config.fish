@@ -95,5 +95,9 @@ set PATH $PATH /Users/albertos/.local/bin
 # direnv
 direnv hook fish | source
 
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
+
 # starship must be at the end but we're trying PURE right now...
 starship init fish | source
