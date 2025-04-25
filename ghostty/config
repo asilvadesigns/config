@@ -4,7 +4,7 @@
 
 ### VS Code
 # theme = "vscode-dark"
-theme = "vscode-light"
+# theme = "vscode-light"
 
 ### Solarized
 # theme = "iTerm2 Solarized Light"
@@ -21,6 +21,10 @@ theme = "vscode-light"
 ### Monokai Pro
 # theme = "Monokai Pro Machine"
 # theme = "Monokai Pro Light Sun"
+
+### Gruvbox
+theme = "GruvboxDark"
+# theme = "GruvboxLight"
 
 ### Github
 # theme = "Github-Dark-Dimmed"
@@ -44,7 +48,7 @@ adjust-cursor-height = -2
 # adjust-cell-height = 4
 # adjust-cursor-height = 4
 
-font-thicken = true
+font-thicken = false
 font-thicken-strength = 1
 adjust-cursor-thickness = 3
 # disable ligatures

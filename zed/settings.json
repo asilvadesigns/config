@@ -5,7 +5,7 @@
   "experimental.theme_overrides": {
     "border.variant": "#00000000"
   },
-  "theme": "NeoSolarized Light",
+  "theme": "Catppuccin Frappé - No Italics",
   "buffer_font_size": 18.0,
   "ui_font_size": 16,
   "vim_mode": true,
@@ -24,7 +24,7 @@
     "folds": false
   },
   "toolbar": {
-    "breadcrumbs": true,
+    "breadcrumbs": false,
     "quick_actions": false
   },
   "tab_bar": {

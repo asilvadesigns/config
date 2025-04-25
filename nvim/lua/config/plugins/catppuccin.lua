@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local is_dark = false
+  local is_dark = true
   local utils = require("catppuccin.utils.colors")
 
   require("catppuccin").setup({
@@ -18,8 +18,8 @@ M.setup = function()
       ufo = false,
     },
     color_overrides = {
-      latte = require("config.colors").light.github,
-      frappe = require("config.colors").dark.vscode,
+      latte = require("config.colors").light.gruvboxmaterial,
+      frappe = require("config.colors").dark.gruvboxmaterial,
     },
     highlight_overrides = {
       all = function(c)
