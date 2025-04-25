@@ -477,8 +477,13 @@ require("lazy").setup({
     },
     {
       "windwp/nvim-ts-autotag",
+      enabled = false,
       event = "User SuperLazy",
-      opts = {},
+      opts = {
+        enable_close = false,
+        enable_close_on_slash = true,
+        enable_rename = true,
+      },
     },
     {
       "shortcuts/no-neck-pain.nvim",
