@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  local is_dark = true
+  local is_dark = false
   local utils = require("catppuccin.utils.colors")
 
   require("catppuccin").setup({
@@ -18,8 +18,8 @@ M.setup = function()
       ufo = false,
     },
     color_overrides = {
-      latte = require("config.colors").light.gruvboxmaterial,
-      frappe = require("config.colors").dark.gruvboxmaterial,
+      latte = require("config.colors").light.github,
+      -- frappe = require("config.colors").dark.gruvbox,
     },
     highlight_overrides = {
       all = function(c)
@@ -61,19 +61,29 @@ M.setup = function()
             style = {},
           },
           NormalFloat = { bg = c.base },
+
           NvimTreeCursorLine = { fg = c.blue, bg = bg }, -- or c.base
           NvimTreeCursorLineNr = { fg = c.blue, bg = bg }, -- or c.base
-          NvimTreeExecFile = { fg = c.overlay1 },
-          NvimTreeFolderName = { fg = c.subtext0 },
-          NvimTreeIndentMarker = { fg = c.surface0 },
-          NvimTreeNormal = { fg = c.overlay1, bg = c.base },
-          NvimTreeOpenedFolderName = { fg = c.subtext0 },
-          NvimTreeRootFolder = { fg = c.overlay1 },
-          NvimTreeSpecialFile = { fg = c.overlay1 },
+          --- lightest
+          NvimTreeIndentMarker = { fg = c.surface1 },
+          --- lighter
+          NvimTreeExecFile = { fg = c.overlay2 },
+          NvimTreeNormal = { fg = c.overlay2, bg = c.base },
+          NvimTreeRootFolder = { fg = c.overlay2 },
+          NvimTreeSpecialFile = { fg = c.overlay2 },
+          --- darker
+          NvimTreeFolderName = { fg = c.subtext1 },
+          NvimTreeOpenedFolderName = { fg = c.subtext1 },
+
           QuickFixLine = { bg = c.mantle },
           SnacksIndent = { fg = c.surface0 },
           SnacksIndentScope = { fg = c.surface2 },
+          SnacksPickerBoxCursorLine = { bg = bg },
+          SnacksPickerCursorLine = { bg = bg },
+          SnacksPickerInputCursorLine = { bg = bg },
+          SnacksPickerListCursorLine = { bg = bg },
           SnacksPickerMatch = { fg = c.red },
+          SnacksPickerPreviewCursorLine = { bg = bg },
           StatusLine = { fg = c.surface0, bg = c.base },
           StatusLineNC = { fg = c.surface0, bg = c.base },
           -- StatusLine = { fg = statusline_fg, bg = statusline_bg },

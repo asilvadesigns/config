@@ -440,8 +440,15 @@ require("lazy").setup({
     },
     {
       "lewis6991/satellite.nvim",
+      enabled = false,
       event = "User SuperLazy",
       config = require("config.plugins.satellite").setup,
+    },
+    {
+      "petertriho/nvim-scrollbar",
+      enabled = false,
+      event = "User SuperLazy",
+      config = require("config.plugins.scrollbar").setup,
     },
     {
       "stevearc/conform.nvim",

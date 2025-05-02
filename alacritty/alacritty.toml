@@ -104,10 +104,10 @@ import = [
   # custom
   # "~/.config/alacritty/alacritty-themes/custom.toml",
   # dark
-  "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml",
+  # "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml",
   # "~/.config/alacritty/alacritty-themes/monokai-pro.toml",
   # light
-  # "~/.config/alacritty/alacritty-themes/catppuccin-latte.toml"
+  "~/.config/alacritty/alacritty-themes/catppuccin-latte.toml"
   # "~/.config/alacritty/alacritty-themes/solarized-light.toml"
   # base16
   # "~/.config/alacritty/alacritty-themes/base16-grayscale-light.toml"

@@ -47,6 +47,7 @@ local palette_items = {
       end
     end,
   },
+  { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
   {
     text = "Toggle Indent Lines",
     cmd = function()
@@ -219,7 +220,7 @@ M.setup = function()
       refresh = 50,
     },
     scroll = {
-      enabled = true,
+      enabled = false,
       animate = {
         duration = { step = 10, total = 85 },
         easing = "outSine",

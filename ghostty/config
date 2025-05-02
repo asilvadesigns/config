@@ -1,6 +1,6 @@
 ### One
-# theme = "OneHalfLight"
-# theme = "OneHalfDark"
+# theme = "AtomOneLight"
+# theme = "AtomOneDark"
 
 ### VS Code
 # theme = "vscode-dark"
@@ -11,6 +11,8 @@
 # theme = "iTerm2 Solarized Dark"
 
 ### Catppuccin
+# theme = "cat-latte.conf"
+# theme = "cat-frappe.conf"
 # theme = catppuccin-latte
 # theme = catppuccin-frappe
 
@@ -23,12 +25,12 @@
 # theme = "Monokai Pro Light Sun"
 
 ### Gruvbox
-theme = "GruvboxDark"
+# theme = "GruvboxDark"
 # theme = "GruvboxLight"
 
 ### Github
 # theme = "Github-Dark-Dimmed"
-# theme = "Github-Light-Default"
+theme = "Github-Light-Default"
 
 ### Nord
 # theme = nord
@@ -48,7 +50,7 @@ adjust-cursor-height = -2
 # adjust-cell-height = 4
 # adjust-cursor-height = 4
 
-font-thicken = false
+font-thicken = true
 font-thicken-strength = 1
 adjust-cursor-thickness = 3
 # disable ligatures

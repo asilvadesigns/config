@@ -99,5 +99,8 @@ direnv hook fish | source
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 
+# atuin
+atuin init fish --disable-up-arrow | source
+
 # starship must be at the end but we're trying PURE right now...
 starship init fish | source

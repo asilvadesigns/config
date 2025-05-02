@@ -35,4 +35,8 @@ M.setup = function()
   })
 end
 
+vim.keymap.set("n", "gl", function()
+  require("gitsigns").blame_line()
+end, { desc = "toggle git line blame" })
+
 return M

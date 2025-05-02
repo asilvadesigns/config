@@ -26,12 +26,10 @@ M.setup = function()
     "jsonls",
     "lua_ls",
     "prismals",
-    -- "sqlls",
     "tailwindcss",
     "taplo",
     "templ",
-    -- "ts_ls",
-    -- "vtsls",
+    "vtsls",
     "yamlls",
   }
 
@@ -144,6 +142,7 @@ M.setup = function()
         experimental = {
           classRegex = {
             'Class\\("([^"]*)"\\)',
+            'activeClass\\("([^"]*)"\\)',
           },
         },
       },
@@ -151,6 +150,7 @@ M.setup = function()
   })
 
   require("lspconfig").vtsls.setup({
+    capabilities = capabilities,
     settings = {
       vtsls = {
         enableMoveToFileCodeAction = true,
@@ -164,41 +164,8 @@ M.setup = function()
     },
   })
 
-  -- local volar_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
-  -- local home_path = vim.fn.expand("~")
-  -- require("lspconfig").ts_ls.setup({
-  --   -- capabilities = capabilities,
-  --   -- root_dir = require("lspconfig.util").root_pattern(".git"),
-  --   -- init_options = {
-  --   --   preferences = {
-  --   --     importModuleSpecifierPreference = "non-relative",
-  --   --   },
-  --   --   plugins = {
-  --   --     {
-  --   --       name = "ts-lit-plugin",
-  --   --       location = home_path
-  --   --         .. "/Library/Application Support/fnm/node-versions/v22.11.0/installation/lib/node_modules/ts-lit-plugin/",
-  --   --     },
-  --   --     {
-  --   --       name = "@vue/typescript-plugin",
-  --   --       location = volar_path .. "/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin",
-  --   --       languages = { "vue" },
-  --   --     },
-  --   --   },
-  --   -- },
-  -- })
-
-  local volar_ts_path = require("mason-registry").get_package("typescript-language-server"):get_install_path()
-  require("lspconfig").volar.setup({
+  require("lspconfig").yamlls.setup({
     capabilities = capabilities,
-    init_options = {
-      vue = {
-        hybridMode = false,
-      },
-      typescript = {
-        tsdk = volar_ts_path .. "/node_modules/typescript/lib",
-      },
-    },
   })
 
   require("lspconfig").postgres_lsp.setup({
@@ -218,7 +185,9 @@ M.setup = function()
       vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
 
       vim.keymap.set("n", "K", function()
-        vim.lsp.buf.hover({ border = "rounded" })
+        vim.lsp.buf.hover({
+          border = "rounded",
+        })
       end, opts)
 
       vim.keymap.set("n", "gd", function()
@@ -250,9 +219,6 @@ M.setup = function()
 
   vim.defer_fn(function()
     start_lsp()
-    --
-    -- vim.opt.foldmethod = "expr"
-    -- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
   end, 100)
 end
 
