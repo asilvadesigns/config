@@ -547,6 +547,7 @@ require("lazy").setup({
     },
     {
       "MagicDuck/grug-far.nvim",
+      event = "User SuperLazy",
       cmd = { "GrugFar", "GrugFarLocal", "GrugFarGlobal" },
       keys = {
         {
