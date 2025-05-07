@@ -73,40 +73,18 @@ M.setup = function()
     capabilities = capabilities,
     settings = {
       json = {
-        schemas = {
-          {
-            fileMatch = { "sqlc.json" },
-            url = { "https://json.schemastore.org/sqlc-2.0.json" },
-          },
-          {
-            fileMatch = { "jsconfig.json" },
-            url = "https://json.schemastore.org/jsconfig",
-          },
-          {
-            fileMatch = { "tsconfig.json" },
-            url = "https://json.schemastore.org/tsconfig",
-          },
-          {
-            fileMatch = { "turbo.json" },
-            url = "https://turbo.build/schema.json",
-          },
-          {
-            fileMatch = { "package.json" },
-            url = "https://json.schemastore.org/package",
-          },
-          {
-            fileMatch = { ".prettierrc.json", ".prettierrc" },
-            url = "https://json.schemastore.org/prettierrc.json",
-          },
-          {
-            fileMatch = { ".eslintrc.json" },
-            url = "https://json.schemastore.org/eslintrc.json",
-          },
-        },
+        schemas = require("schemastore").json.schemas(),
+        validate = { enable = true },
       },
     },
   })
 
+  -- require("lspconfig").gleam_lsp.setup({
+  --   cmd = { "gleam", "lsp" },
+  --   filetypes = { "gleam" },
+  --   root_dir = require("lspconfig").util.root_pattern("gleam.toml"),
+  -- })
+  --
   require("lspconfig").gopls.setup({
     capabilities = capabilities,
     settings = {

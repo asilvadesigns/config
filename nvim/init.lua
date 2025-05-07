@@ -65,6 +65,7 @@ vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
 vim.opt.signcolumn = "yes"
 vim.opt.number = false
 vim.opt.relativenumber = false
+vim.opt.showtabline = 1
 vim.opt.smartcase = true
 vim.opt.smartindent = true
 vim.opt.splitbelow = true
@@ -209,30 +210,29 @@ end
 
 vim.diagnostic.config({
   float = { border = "rounded" },
-  signs = false,
-  -- signs = {
-  --   -- text = {
-  --   --   [vim.diagnostic.severity.ERROR] = " ", --signs.icons.square,
-  --   --   [vim.diagnostic.severity.HINT] = " ", --signs.icons.square,
-  --   --   [vim.diagnostic.severity.INFO] = " ", --signs.icons.square,
-  --   --   [vim.diagnostic.severity.WARN] = " ",--signs.icons.square,
-  --   -- },
-  --   -- numhl = {
-  --   --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-  --   --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-  --   --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-  --   --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-  --   -- },
-  -- },
-  -- NOTE: you can toggle this with "ToggleDiagnosticText" defined in config.command.lua
-  underline = true, -- sometimes usefull
-  virtual_text = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = " ", --signs.icons.square,
+      [vim.diagnostic.severity.HINT] = " ", --signs.icons.square,
+      [vim.diagnostic.severity.INFO] = " ", --signs.icons.square,
+      [vim.diagnostic.severity.WARN] = " ", --signs.icons.square,
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+    },
+  },
+  underline = true,
+  virtual_text = false,
   virtual_lines = false,
 })
 
 vim.filetype.add({
   extension = {
     env = "sh",
+    gleam = "gleam",
     mdx = "mdx",
     templ = "templ",
   },
@@ -504,39 +504,21 @@ require("lazy").setup({
       config = require("config.plugins.nvim-tree").setup,
     },
     {
+      "mvllow/modes.nvim",
+      enabled = false,
+      tag = "v0.2.1",
+      event = "User SuperLazy",
+      config = require("config.plugins.modes").setup,
+    },
+    {
       "neovim/nvim-lspconfig",
       event = "VeryLazy",
-      dependencies = { "williamboman/mason.nvim" },
+      dependencies = {
+        "b0o/schemastore.nvim",
+        "williamboman/mason.nvim",
+      },
       config = require("config.plugins.lsp").setup,
     },
-    -- {
-    --   "pmizio/typescript-tools.nvim",
-    --   dependencies = {
-    --     "nvim-lua/plenary.nvim",
-    --     "neovim/nvim-lspconfig",
-    --   },
-    --   config = function()
-    --     require("typescript-tools").setup({
-    --       on_attach = function(client, bufnr)
-    --         client.server_capabilities.documentFormattingProvider = false
-    --         client.server_capabilities.documentRangeFormattingProvider = false
-    --       end,
-    --       settings = {
-    --         jsx_close_tag = {
-    --           enable = true,
-    --           filetypes = { "javascriptreact", "typescriptreact" },
-    --         },
-    --       },
-    --     })
-    --   end,
-    -- },
-    -- {
-    -- -- NOTE: in progress
-    --   "williamboman/mason.nvim",
-    --   event = "VeryLazy",
-    --   dependencies = { "saghen/blink.cmp" },
-    --   config = require("config.plugins.mason").setup,
-    -- },
     {
       "saghen/blink.cmp",
       version = "*",
@@ -714,7 +696,7 @@ require("lazy").setup({
     {
       "andymass/vim-matchup",
       event = "User SuperLazy",
-      init = require("config.plugins.matchup").init,
+      config = require("config.plugins.matchup").config,
     },
     {
       "kevinhwang91/nvim-ufo",

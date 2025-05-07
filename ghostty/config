@@ -2,6 +2,10 @@
 # theme = "AtomOneLight"
 # theme = "AtomOneDark"
 
+### kanso
+# theme = "kanso-dark.conf"
+# theme = "kanso-light.conf"
+
 ### VS Code
 # theme = "vscode-dark"
 # theme = "vscode-light"
@@ -86,17 +90,20 @@ keybind = ctrl+shift+l=text:\x00\x1b[C
 keybind = super+q=quit
 keybind = super+shift+r=reload_config
 
-# neovim | symbols
-keybind = super+shift+o=text:,o
+# neovim | actions
+keybind = super+shift+p=text:,a
+
+# neovim | comments
+keybind = super+/=text:gcc\x1b
 
 # neovim | files
 keybind = super+p=text:,f
 
-# neovim | actions
-keybind = super+shift+p=text:,a
-
 # neovim | save
 keybind = super+s=text:,s
+
+# neovim | symbols
+keybind = super+shift+o=text:,o
 
 # tmux session | picker (sesh)
 keybind = super+shift+k=text:\x00k
@@ -163,7 +170,7 @@ clipboard-write = allow
 cursor-style = block
 cursor-style-blink = true
 # cursor-color = "#e78284"
-cursor-color = "#81c8be"
+# cursor-color = "#81c8be"
 
 # Other
 #copy-on-select = clipboard

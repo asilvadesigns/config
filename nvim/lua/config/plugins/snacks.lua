@@ -36,17 +36,8 @@ local palette_items = {
   { text = "Search (project)", cmd = "GrugFar" },
   { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
-  {
-    text = "Toggle Diagnostic Text",
-    cmd = function()
-      local status_ok, _ = pcall(require, "tiny-inline-diagnostic")
-      if status_ok then
-        vim.cmd("ToggleDiagnosticTiny")
-      else
-        vim.cmd("ToggleDiagnosticText")
-      end
-    end,
-  },
+  { text = "Toggle Completion", cmd = "ToggleCompletion" },
+  { text = "Toggle Diagnostic Text", cmd = "ToggleDiagnosticText" },
   { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
   {
     text = "Toggle Indent Lines",
@@ -153,7 +144,7 @@ M.setup = function()
     bigfile = {
       enabled = true,
       notify = true,
-      size = 1 * 100 * 1024, -- 100KB
+      size = 1 * 1024 * 1000, -- 1MB
       ---@param ctx {buf: number, ft:string}
       setup = function(ctx)
         vim.notify("killing thing!")
@@ -206,9 +197,9 @@ M.setup = function()
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
       left = {}, -- priority of signs on the left (high to low)
-      right = { "fold" }, -- priority of signs on the right (high to low)
+      right = {}, -- priority of signs on the right (high to low)
       folds = {
-        open = false, -- show open fold icons
+        open = true, -- show open fold icons
         git_hl = false, -- use Git Signs hl for fold icons
       },
       git = {

@@ -13,13 +13,14 @@ M.setup = function()
       leap = false,
       notify = false,
       nvimtree = false,
+      neogit = true,
       treesitter = true,
       treesitter_context = false,
       ufo = false,
     },
     color_overrides = {
-      latte = require("config.colors").light.solarized,
-      -- frappe = require("config.colors").dark.gruvbox,
+      latte = require("config.colors").light.dead,
+      frappe = require("config.colors").dark.dead,
     },
     highlight_overrides = {
       all = function(c)
@@ -43,7 +44,7 @@ M.setup = function()
           -- ["@variable.parameter"] = { fg = c.text },
 
           CursorLine = { bg = bg },
-          CursorLineFold = { bg = bg, fg = c.overlay0 }, -- was c.text
+          CursorLineFold = { bg = bg, fg = c.overlay2 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.teal }, -- , fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },

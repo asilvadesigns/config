@@ -1,6 +1,12 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
+_G.autocompletion_enabled = false
+
+vim.api.nvim_create_user_command("ToggleCompletion", function()
+  _G.autocompletion_enabled = not _G.autocompletion_enabled
+end, {})
+
 M.setup = function()
   require("blink.cmp").setup({
     keymap = {
@@ -45,7 +51,9 @@ M.setup = function()
       --   },
       -- },
       menu = {
-        auto_show = true,
+        auto_show = function()
+          return _G.autocompletion_enabled
+        end,
         border = "rounded",
         draw = {
           columns = { { "kind_icon", gap = 1 }, { "label", "label_description" } },

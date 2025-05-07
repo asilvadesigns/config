@@ -12,6 +12,7 @@ M.setup = function()
       "css",
       "dockerfile",
       "gitignore",
+      "gleam",
       "go",
       "gomod",
       "gosum",
