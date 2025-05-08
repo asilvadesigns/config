@@ -68,13 +68,13 @@ font-feature = -dlig
 # gtk-tabs-location = bottom
 # gtk-wide-tabs = false
 
-macos-titlebar-style = hidden
 window-decoration = false
 window-padding-color = background
 # or background, extend, extend-always
 window-padding-x = 0
 window-padding-y = 0
 window-padding-balance = true
+macos-titlebar-style = hidden
 
 # Keybindings
 # \x02 is ctrl+b (default tmux prefix)

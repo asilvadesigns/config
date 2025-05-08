@@ -54,7 +54,6 @@ M.setup = function()
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
           FloatBorder = { bg = c.base, fg = c.overlay0 },
           Folded = { bg = c.base },
-          -- GrugFarResultsPath = { fg = c.text, bg = c.mantle, underline = true },
           MasonNormal = { bg = c.base },
           MatchParen = {
             bg = utils.darken(c.yellow, 0.2, c.base),
@@ -102,7 +101,6 @@ M.setup = function()
     },
   })
 
-  -- # dark
   if is_dark then
     vim.cmd("colorscheme catppuccin-frappe")
   else
