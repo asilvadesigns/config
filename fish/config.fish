@@ -38,15 +38,14 @@ bind yy fish_clipboard_copy
 bind Y fish_clipboard_copy
 bind p fish_clipboard_paste
 
-#  echo $FZF_DEFAULT_OPTS
-# --color=bg+:#414559,bg:#303446,spinner:#f2d5cf,hl:#e78284
-# --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf
-# --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284
-
 # c && c++
 set -gx CPATH "/opt/homebrew/include"
 set -gx LIBRARY_PATH "/opt/homebrew/lib"
 set -gx PATH "/usr/local/include" $PATH;
+
+# fzf
+source $HOME/.config/fish/themes/base16-solarized-light.fish
+# source $HOME/.config/fish/themes/base16-solarized-dark
 
 # go
 set -gx GOPATH "$HOME/go"
