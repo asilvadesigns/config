@@ -3,13 +3,6 @@ export EDITOR=nvim
 export MANPAGER="nvim +Man!"
 export MANWIDTH=999
 
-abbr --add nr 'npm run $(fp)'
-
-# npm run $(fp)
-function fp
-  echo $(cat package.json | jq '.scripts | keys[]' | fzf --reverse | sed 's/"//g')
-end
-
 # bat
 set -gx BAT_CONFIG_PATH "$HOME/.config/bat/bat.conf"
 
@@ -43,9 +36,8 @@ set -gx CPATH "/opt/homebrew/include"
 set -gx LIBRARY_PATH "/opt/homebrew/lib"
 set -gx PATH "/usr/local/include" $PATH;
 
-# fzf
+# fzf @see: https://github.com/tinted-theming/tinted-fzf
 source $HOME/.config/fish/themes/base16-solarized-light.fish
-# source $HOME/.config/fish/themes/base16-solarized-dark
 
 # go
 set -gx GOPATH "$HOME/go"
@@ -69,8 +61,8 @@ set PATH $PATH /Users/albertos/.local/bin
 direnv hook fish | source
 
 # bun
-set --export BUN_INSTALL "$HOME/.bun"
-set --export PATH $BUN_INSTALL/bin $PATH
+set -gx BUN_INSTALL "$HOME/.bun"
+set -gx PATH $BUN_INSTALL/bin $PATH
 
 # atuin
 atuin init fish --disable-up-arrow | source
