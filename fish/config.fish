@@ -43,7 +43,6 @@ bind p fish_clipboard_paste
 # --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf
 # --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284
 
-
 # c && c++
 set -gx CPATH "/opt/homebrew/include"
 set -gx LIBRARY_PATH "/opt/homebrew/lib"
@@ -77,5 +76,8 @@ set --export PATH $BUN_INSTALL/bin $PATH
 # atuin
 atuin init fish --disable-up-arrow | source
 
-# starship must be at the end but we're trying PURE right now...
+# zoxide
+zoxide init fish | source
+
+# starship must be at the end
 starship init fish | source

@@ -12,7 +12,7 @@
   "mason.nvim": { "branch": "main", "commit": "7c7318e8bae7e3536ef6b9e86b9e38e74f2e125e" },
   "modes.nvim": { "branch": "main", "commit": "2cd194d1033ba391d87d386735e15963adbc5f51" },
   "multicursor.nvim": { "branch": "1.0", "commit": "c731e52cee7b69fa05915affb09ba65e7cd31fa9" },
-  "neogit": { "branch": "master", "commit": "704297f2c266799ff0342dad22d9873aecdc4245" },
+  "neogit": { "branch": "master", "commit": "eb28dfbc54f6065c29fae41aa110d382fee8390d" },
   "no-neck-pain.nvim": { "branch": "main", "commit": "a60021e199b585f560ffb380e8c464ab75d0030b" },
   "nvim-lspconfig": { "branch": "master", "commit": "61e5109c8cf24807e4ae29813a3a82b31821dd45" },
   "nvim-scrollbar": { "branch": "main", "commit": "6994eb9f73d5fdc36ee2c8717940e8c853e51a49" },
