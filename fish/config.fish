@@ -38,21 +38,11 @@ bind yy fish_clipboard_copy
 bind Y fish_clipboard_copy
 bind p fish_clipboard_paste
 
-# fzf (THEME: https://github.com/catppuccin/fzf)
-# frappe (DARK)
-# set -gx FZF_DEFAULT_OPTS "\
-# --color=bg+:#414559,bg:#292c3c,spinner:#f2d5cf,hl:#e78284 \
-# --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \
-# --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284 \
-# --color=border:#292c3c"
+#  echo $FZF_DEFAULT_OPTS
+# --color=bg+:#414559,bg:#303446,spinner:#f2d5cf,hl:#e78284
+# --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf
+# --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284
 
-# latte (LIGHT)
-# set -gx FZF_DEFAULT_OPTS "\
-# --color=bg+:#ccd0da,bg:#e6e9ef,spinner:#dc8a78,hl:#d20f39 \
-# --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
-# --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39 \
-# --color=border:#e6e9ef"
-set -gx FZF_DEFAULT_OPTS "--color=border:blue,bg+:-1"
 
 # c && c++
 set -gx CPATH "/opt/homebrew/include"

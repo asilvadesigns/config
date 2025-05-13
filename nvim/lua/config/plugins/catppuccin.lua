@@ -35,8 +35,10 @@ M.setup = function()
         end
 
         return {
-          -- ["@constructor.lua"] = { fg = c.subtext0 },
-          -- ["@punctuation.bracket"] = { fg = c.subtext0 },
+          ["@constructor.lua"] = { fg = c.subtext0 },
+          ["@lsp.type.parameter.typescript"] = { fg = c.text },
+          ["@punctuation.bracket"] = { fg = c.subtext0 },
+          ["@punctuation.special.typescript"] = { fg = c.subtext0 },
           -- -- ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext1 },
           -- -- ["@tag.builtin.tsx"] = { fg = c.mauve },
           -- -- -- ["@variable"] = { fg = c.teal },

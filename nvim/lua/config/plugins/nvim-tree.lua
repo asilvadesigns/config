@@ -57,11 +57,11 @@ M.setup = function()
       enable = false,
       show_on_dirs = false,
     },
-    filesystem_watchers = {
-      ignore_dirs = {
-        "node_modules",
-      },
-    },
+    -- filesystem_watchers = {
+    --   ignore_dirs = {
+    --     "node_modules",
+    --   },
+    -- },
     filters = {
       custom = { ".*_templ.txt$" }, -- "^.git$"
     },
@@ -90,7 +90,7 @@ M.setup = function()
         git_placement = "after",
         web_devicons = {
           file = {
-            enable = true,
+            enable = false,
             color = false,
           },
           folder = {
@@ -126,7 +126,7 @@ M.setup = function()
       },
     },
     update_focused_file = {
-      enable = true, -- just use <leader>j for this, see below
+      enable = false, -- just use <leader>j for this, see below
       update_root = {
         enable = false,
         ignore_list = {},
@@ -135,6 +135,7 @@ M.setup = function()
     },
     view = {
       width = 40,
+      cursorline = true
     },
   })
 end

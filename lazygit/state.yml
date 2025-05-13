@@ -1,8 +1,10 @@
 lastupdatecheck: 0
 recentrepos:
+    - /Users/albertos/dev/libddb-metrics-gitlab-page
+    - /Users/albertos/.config
     - /Users/albertos/dev/libddb-raw-messages-panel
 startuppopupversion: 5
-lastversion: 0.45.2
+lastversion: 0.50.0
 customcommandshistory:
     - qa
 hidecommandlog: true
