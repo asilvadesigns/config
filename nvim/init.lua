@@ -377,6 +377,7 @@ vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
   vim.opt.list = show_invisible_chars
 end, {})
 
+require("config.lastplace")
 require("config.tabbar")
 require("config.winbar")
 
@@ -440,7 +441,6 @@ require("lazy").setup({
     },
     {
       "lewis6991/satellite.nvim",
-      enabled = false,
       event = "User SuperLazy",
       config = require("config.plugins.satellite").setup,
     },
@@ -685,6 +685,11 @@ require("lazy").setup({
       "wurli/visimatch.nvim",
       keys = { "V", "v" },
       opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
+    },
+    {
+      "RRethy/vim-illuminate",
+      event = "User SuperLazy",
+      config = require("config.plugins.illuminate").setup,
     },
     {
       "nvim-treesitter/nvim-treesitter",

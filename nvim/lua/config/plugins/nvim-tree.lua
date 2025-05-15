@@ -4,6 +4,10 @@ M.setup = function()
   local function my_on_attach(bufnr)
     local api = require("nvim-tree.api")
 
+    local function opts(desc)
+      return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    end
+
     -- default mappings
     api.config.mappings.default_on_attach(bufnr)
 
@@ -14,6 +18,15 @@ M.setup = function()
       nowait = true,
       silent = true,
     })
+
+    vim.keymap.set("n", "d", function()
+      vim.notify("could not delete")
+    end, opts("Delete"))
+    vim.keymap.set("n", "D", function()
+      vim.notify("could not put in trash")
+    end, opts("Trash"))
+    -- vim.keymap.set("n", "d", api.fs.remove, opts("Delete"))
+    -- vim.keymap.set("n", "D", api.fs.trash, opts("Trash"))
 
     -- search directory with grug
     vim.keymap.set("n", "f", function()
@@ -135,7 +148,7 @@ M.setup = function()
     },
     view = {
       width = 40,
-      cursorline = true
+      cursorline = true,
     },
   })
 end

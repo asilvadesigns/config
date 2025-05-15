@@ -34,15 +34,15 @@ local severity = vim.diagnostic.severity
 local severity_order = { severity.ERROR, severity.WARN, severity.INFO, severity.HINT }
 local severity_hl = {
   [severity.ERROR] = "DiagnosticSignError",
-  [severity.WARN] = "DiagnosticSignWarn",
-  [severity.INFO] = "DiagnosticSignInfo",
   [severity.HINT] = "DiagnosticSignHint",
+  [severity.INFO] = "DiagnosticSignInfo",
+  [severity.WARN] = "DiagnosticSignWarn",
 }
 local severity_icon = {
-  [severity.ERROR] = "",
-  [severity.WARN] = "",
-  [severity.INFO] = "",
-  [severity.HINT] = "",
+  [severity.ERROR] = " ", --signs.icons.square,
+  [severity.HINT] = " ", --signs.icons.square,
+  [severity.INFO] = " ", --signs.icons.square,
+  [severity.WARN] = " ", --signs.icons.square,
 }
 
 ---@param buf_id integer | nil

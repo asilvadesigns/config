@@ -12,6 +12,11 @@ local palette_items = {
   { text = "Copy file path (Relative)", cmd = "CopyRelativePath" },
   { text = "Copy filetype", cmd = "CopyFiletype" },
   { text = "Diagnostics", cmd = "Trouble diagnostics" },
+  { text = "Fold (level 1)", cmd = "setlocal foldlevel=0" },
+  { text = "Fold (level 2)", cmd = "setlocal foldlevel=1" },
+  { text = "Fold (level 3)", cmd = "setlocal foldlevel=2" },
+  { text = "Fold (level 4)", cmd = "setlocal foldlevel=3" },
+  { text = "Fold (reset)", cmd = "setlocal foldlevel=99" },
   { text = "Format (Biome)", cmd = "FormatWithBiome" },
   { text = "Format (Lsp)", cmd = "FormatWithLsp" },
   { text = "Format (Prettier)", cmd = "FormatWithPrettier" },
@@ -37,6 +42,7 @@ local palette_items = {
   { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
   { text = "Toggle Completion", cmd = "ToggleCompletion" },
+  { text = "Toggle Scrollbar", cmd = "ToggleScrollbar" },
   { text = "Toggle Diagnostic Text", cmd = "ToggleDiagnosticText" },
   { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
   {
@@ -64,7 +70,7 @@ M.setup = function()
     picker = {
       enabled = true,
       layout = {
-        preset = "dropdown", -- dropdown, vscode
+        preset = "dropdown", -- dropdown | vscode
         preview = false,
         reverse = false,
       },
@@ -139,7 +145,7 @@ M.setup = function()
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
-      scope = { enabled = true }, --use this for current scope
+      scope = { enabled = false }, --use this for current scope
     },
     bigfile = {
       enabled = true,
@@ -175,8 +181,8 @@ M.setup = function()
           end,
         },
         { key = "a", padding = 1, desc = "Actions", action = ":lua Snacks.picker.command_palette()" },
-        { key = "f", padding = 1, desc = "Find File", action = ":lua Snacks.picker.files()" }, --:Telescope find_files
-        { key = "e", padding = 1, desc = "Recent Files", action = ":lua Snacks.picker.recent()" }, --:Telescope oldfiles
+        { key = "f", padding = 1, desc = "Find File", action = ":lua Snacks.picker.files()" },
+        { key = "e", padding = 1, desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
         { key = "l", padding = 1, desc = "Lazy", action = ":Lazy" },
         { key = "m", padding = 1, desc = "Mason", action = ":Mason" },
         { key = "q", padding = 1, desc = "Quit", action = ":qa!" },
@@ -196,11 +202,10 @@ M.setup = function()
       enabled = true,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
-      left = {}, -- priority of signs on the left (high to low)
-      right = {}, -- priority of signs on the right (high to low)
+      left = { "sign" }, -- priority of signs on the left (high to low)
+      right = { "fold" }, -- priority of signs on the right (high to low)
       folds = {
-        open = true, -- show open fold icons
-        git_hl = false, -- use Git Signs hl for fold icons
+        open = false, -- show open fold icons
       },
       git = {
         patterns = {

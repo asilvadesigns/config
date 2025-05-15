@@ -55,9 +55,9 @@ adjust-cursor-height = -2
 # adjust-cursor-height = 4
 
 font-thicken = false
-# font-thicken-strength = 1
-adjust-cell-width = -10%
-adjust-cursor-thickness = 3
+font-thicken-strength = 0
+adjust-cell-width = -13%
+adjust-cursor-thickness = 4
 # disable ligatures
 font-feature = -calt
 font-feature = -liga
@@ -69,7 +69,7 @@ font-feature = -dlig
 # gtk-wide-tabs = false
 
 window-decoration = false
-window-padding-color = background
+window-padding-color = extend
 # or background, extend, extend-always
 window-padding-x = 0
 window-padding-y = 0

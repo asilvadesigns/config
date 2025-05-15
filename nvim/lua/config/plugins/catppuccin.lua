@@ -37,6 +37,10 @@ M.setup = function()
         return {
           ["@constructor.lua"] = { fg = c.subtext0 },
           ["@lsp.type.parameter.typescript"] = { fg = c.text },
+          ["@lsp.typemod.interface.defaultLibrary.typescript"] = { fg = c.yellow },
+          ["@lsp.typemod.variable.defaultLibrary.typescript"] = { fg = c.text },
+          ["@lsp.typemod.method.defaultLibrary.typescript"] = { fg = c.text },
+          ["@lsp.typemod.variable.readonly.typescript"] = { fg = c.text },
           ["@punctuation.bracket"] = { fg = c.subtext0 },
           ["@punctuation.special.typescript"] = { fg = c.subtext0 },
           -- -- ["@lsp.type.parameter.typescriptreact"] = { fg = c.subtext1 },
@@ -56,6 +60,8 @@ M.setup = function()
           DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
           FloatBorder = { bg = c.base, fg = c.overlay0 },
           Folded = { bg = c.base },
+          FoldColumn = { fg = c.red },
+          SignColumn = { fg = c.red },
           MasonNormal = { bg = c.base },
           MatchParen = {
             bg = utils.darken(c.yellow, 0.2, c.base),
@@ -109,7 +115,7 @@ M.setup = function()
     vim.cmd("colorscheme catppuccin-latte")
   end
 
-  vim.cmd("hi! link FoldColumn LineNr")
+  -- vim.cmd("hi! link FoldColumn LineNr")
 end
 
 return M

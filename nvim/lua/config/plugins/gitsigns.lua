@@ -18,7 +18,7 @@ M.setup = function()
       changedelete = { text = "~" },
       untracked = { text = "┆" },
     },
-    signcolumn = true,
+    signcolumn = false,
     numhl = false,
     current_line_blame_opts = {
       ignore_whitespace = true,
