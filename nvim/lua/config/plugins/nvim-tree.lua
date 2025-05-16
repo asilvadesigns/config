@@ -22,6 +22,7 @@ M.setup = function()
     vim.keymap.set("n", "d", function()
       vim.notify("could not delete")
     end, opts("Delete"))
+
     vim.keymap.set("n", "D", function()
       vim.notify("could not put in trash")
     end, opts("Trash"))
@@ -37,16 +38,19 @@ M.setup = function()
         path = path .. "/"
       end
 
-      local grug_far = require("grug-far")
-      if not grug_far.has_instance("explorer") then
-        grug_far.open({
-          instanceName = "explorer",
-          prefills = { paths = path },
-          staticTitle = "Find and Replace from Explorer",
-        })
+      local grugfar = require("grug-far")
+      local options = {
+        instanceName = _G.grug_instance,
+        prefills = {
+          paths = path,
+          search = grugfar.get_current_visual_selection(),
+        },
+      }
+      if grugfar.has_instance(options.instanceName) then
+        grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
+        grugfar.get_instance(options.instanceName):open()
       else
-        grug_far.open_instance("explorer")
-        grug_far.update_instance_prefills("explorer", { paths = path }, false)
+        grugfar.toggle_instance(options)
       end
     end, {
       desc = "nvim-tree: Search in directory",
@@ -103,11 +107,11 @@ M.setup = function()
         git_placement = "after",
         web_devicons = {
           file = {
-            enable = false,
-            color = false,
+            enable = true,
+            color = true,
           },
           folder = {
-            enable = false,
+            enable = true,
             color = false,
           },
         },

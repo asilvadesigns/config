@@ -9,14 +9,16 @@ $git_state\
 $git_metrics\
 $git_status\
 ${custom.tmux}\
+$nodejs\
 $line_break\
 $character
 """
 
 [custom.tmux]
-command = "echo 'in tmux'"
+command = "echo 'tmux'"
 when = "[ $TMUX ]"  # Condition to check
-style = "cyan"  # Style for the text
+style = "default"  # Style for the text
+format = 'in [$symbol($output)]($style) '
 
 [character]
 format = ' $symbol '
@@ -26,11 +28,13 @@ error_symbol = ''
 [directory]
 truncation_length = 0
 truncate_to_repo = false
-style = "blue"
+style = "default"
 
 [git_branch]
 symbol = ""
-style = "blue"
+style = "default"
+format = 'on [$symbol$branch(:$remote_branch)]($style) '
+# format = 'on [$symbol$branch(:$remote_branch)]($style) '
 # symbol = " "
 
 [git_status]
@@ -52,7 +56,10 @@ disabled = true
 disabled = true
 
 [nodejs]
-disabled = true
+disabled = false
+format = '| [$symbol($version)]($style)'
+style = "default"
+# format = 'via [$symbol($version )]($style)'
 
 [package]
 disabled = true

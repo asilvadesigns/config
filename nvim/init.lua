@@ -709,6 +709,11 @@ require("lazy").setup({
       dependencies = { "kevinhwang91/promise-async" },
       config = require("config.plugins.ufo").setup,
     },
+    {
+      "monaqa/dial.nvim",
+      event = "User SuperLazy",
+      config = require("config.plugins.dial").setup,
+    },
   },
   performance = {
     rtp = {
