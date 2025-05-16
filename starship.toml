@@ -18,7 +18,8 @@ $character
 command = "echo 'tmux'"
 when = "[ $TMUX ]"  # Condition to check
 style = "default"  # Style for the text
-format = 'in [$symbol($output)]($style) '
+format = '[in](blue) [$symbol($output)]($style) '
+# format = 'in [$symbol($output)]($style) '
 
 [character]
 format = ' $symbol '
@@ -33,7 +34,8 @@ style = "default"
 [git_branch]
 symbol = ""
 style = "default"
-format = 'on [$symbol$branch(:$remote_branch)]($style) '
+format = '[on](blue) [$branch(:$remote_branch)]($style) '
+# format = 'on [$symbol$branch(:$remote_branch)]($style) '
 # format = 'on [$symbol$branch(:$remote_branch)]($style) '
 # symbol = " "
 
@@ -57,7 +59,7 @@ disabled = true
 
 [nodejs]
 disabled = false
-format = '| [$symbol($version)]($style)'
+format = '[$symbol](blue)[($version)]($style)'
 style = "default"
 # format = 'via [$symbol($version )]($style)'
 

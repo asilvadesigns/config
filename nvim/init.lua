@@ -688,6 +688,7 @@ require("lazy").setup({
     },
     {
       "RRethy/vim-illuminate",
+      enabled = false,
       event = "User SuperLazy",
       config = require("config.plugins.illuminate").setup,
     },
