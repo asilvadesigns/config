@@ -103,7 +103,7 @@ M.setup = function()
           WVisiMatch = { bg = c.surface0 },
           WinBar = { fg = c.overlay1 },
           WinBarNC = { fg = c.surface2 },
-          WinSeparator = { fg = c.surface0 }, -- or c.base
+          WinSeparator = { fg = utils.lighten(c.surface0, 0.40, c.base) },
         }
       end,
     },

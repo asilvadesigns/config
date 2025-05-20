@@ -72,3 +72,15 @@ zoxide init fish | source
 
 # starship must be at the end
 starship init fish | source
+
+# NOTE: the following came from stdout after `brew install sqlite`
+# If you need to have sqlite first in your PATH, run:
+#   fish_add_path /opt/homebrew/opt/sqlite/bin
+#
+# For compilers to find sqlite you may need to set:
+#   set -gx LDFLAGS "-L/opt/homebrew/opt/sqlite/lib"
+#   set -gx CPPFLAGS "-I/opt/homebrew/opt/sqlite/include"
+#
+# For pkg-config to find sqlite you may need to set:
+#   set -gx PKG_CONFIG_PATH "/opt/homebrew/opt/sqlite/lib/pkgconfig"
+

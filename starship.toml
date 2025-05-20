@@ -1,7 +1,5 @@
 # format=' $all'
 format = """
-$username\
-$hostname\
 $directory\
 $git_branch\
 $git_commit\
@@ -18,7 +16,8 @@ $character
 command = "echo 'tmux'"
 when = "[ $TMUX ]"  # Condition to check
 style = "default"  # Style for the text
-format = '[in](blue) [$symbol($output)]($style) '
+format = 'in [$symbol($output)]($style) '
+# format = '[in](blue) [$symbol($output)]($style) '
 # format = 'in [$symbol($output)]($style) '
 
 [character]
@@ -29,14 +28,13 @@ error_symbol = ''
 [directory]
 truncation_length = 0
 truncate_to_repo = false
-style = "default"
+style = "bold"
 
 [git_branch]
 symbol = ""
-style = "default"
-format = '[on](blue) [$branch(:$remote_branch)]($style) '
-# format = 'on [$symbol$branch(:$remote_branch)]($style) '
-# format = 'on [$symbol$branch(:$remote_branch)]($style) '
+style = "blue"
+format = '[$branch(:$remote_branch)]($style) '
+# format = '[on](blue) [$branch(:$remote_branch)]($style) '
 # symbol = " "
 
 [git_status]
