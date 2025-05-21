@@ -1,10 +1,9 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
-_G.scrollbar_enabled = true
+_G.scrollbar_enabled = false
 
 M.setup = function()
-  ---@diagnostic disable-next-line: missing-fields
   require("satellite").setup({
     current_only = true,
     excluded_filetypes = { "NvimTree" },
@@ -19,6 +18,13 @@ M.setup = function()
       },
     },
   })
+
+  ---init
+  if _G.scrollbar_enabled then
+    vim.cmd(":SatelliteEnable")
+  else
+    vim.cmd(":SatelliteDisable")
+  end
 
   vim.api.nvim_create_user_command("ToggleScrollbar", function()
     if _G.scrollbar_enabled then

@@ -42,6 +42,7 @@ local palette_items = {
   { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
   { text = "Toggle Completion", cmd = "ToggleCompletion" },
+  { text = "Toggle Cursor Line", cmd = "ToggleCursorLine" },
   { text = "Toggle Scrollbar", cmd = "ToggleScrollbar" },
   { text = "Toggle Diagnostic Text", cmd = "ToggleDiagnosticText" },
   { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
@@ -205,7 +206,7 @@ M.setup = function()
       left = { "sign" }, -- priority of signs on the left (high to low)
       right = { "fold" }, -- priority of signs on the right (high to low)
       folds = {
-        open = false, -- show open fold icons
+        open = true, -- show open fold icons
       },
       git = {
         patterns = {

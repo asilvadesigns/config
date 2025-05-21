@@ -1,8 +1,10 @@
 local M = {}
 
 M.setup = function()
+  local ufo = require("ufo")
+
   ---@diagnostic disable-next-line: missing-fields
-  require("ufo").setup({
+  ufo.setup({
     open_fold_hl_timeout = 0,
     provider_selector = function(bufnr, filetype, buftype)
       return { "treesitter", "indent" }
@@ -18,11 +20,11 @@ M.setup = function()
     },
   })
 
-  vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-  vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-  vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
-  vim.keymap.set("n", "]f", require("ufo").goNextClosedFold)
-  vim.keymap.set("n", "[f", require("ufo").goPreviousClosedFold)
+  vim.keymap.set("n", "zR", ufo.openAllFolds)
+  vim.keymap.set("n", "zM", ufo.closeAllFolds)
+  vim.keymap.set("n", "zm", ufo.closeFoldsWith)
+  vim.keymap.set("n", "]f", ufo.goNextClosedFold)
+  vim.keymap.set("n", "[f", ufo.goPreviousClosedFold)
 
   vim.keymap.set("n", "zp", function()
     require("ufo.preview"):peekFoldedLinesUnderCursor()

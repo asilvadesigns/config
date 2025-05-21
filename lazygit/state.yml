@@ -1,8 +1,8 @@
 lastupdatecheck: 0
 recentrepos:
-    - /Users/albertos/dev/libddb-publint-npmrc-catalog
-    - /Users/albertos/dev/libddb-metrics-gitlab-page
     - /Users/albertos/dev/libddb-raw-messages-panel
+    - /Users/albertos/dev/libddb-metrics-gitlab-page
+    - /Users/albertos/dev/libddb-publint-npmrc-catalog
     - /Users/albertos/.config
 startuppopupversion: 5
 lastversion: 0.50.0

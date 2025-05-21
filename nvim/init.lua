@@ -1,6 +1,7 @@
 ---@diagnostic disable: missing-fields
 
 _G.grug_instance = "grug-instance"
+_G.cursorline_enabled = false
 
 local show_invisible_chars = true
 local use_alternate_directory = false
@@ -44,10 +45,10 @@ vim.g.loaded_python_provider = 0
 vim.g.loaded_ruby_provider = 0
 
 vim.opt.cmdheight = 0
-vim.opt.cursorline = true
+vim.opt.cursorline = _G.cursorline_enabled
 vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
 vim.opt.expandtab = true
-vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
+vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
 vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
@@ -97,6 +98,9 @@ if vim.g.neovide then
   -- TODO: at some point add hotkeys for modifying font size.
 end
 
+---
+--- Keymaps
+---
 vim.keymap.set("n", "<esc>", ":nohl<CR>", { desc = "Clear highlight" })
 
 vim.keymap.set("i", "<c-l>", "<ESC>A", { desc = "Go to end of line" })
@@ -245,141 +249,6 @@ vim.filetype.add({
     [".env%..*"] = "sh",
   },
 })
-
----
---- Utils
----
-local function debounce(func, timeout)
-  local timer = nil
-
-  return function(...)
-    local args = { ... }
-    if timer then
-      timer:stop()
-      timer:close()
-    end
-
-    timer = vim.loop.new_timer()
-    if timer ~= nil then
-      timer:start(
-        timeout,
-        0,
-        vim.schedule_wrap(function()
-          func(unpack(args))
-        end)
-      )
-    end
-  end
-end
-
----
---- Autocmds
----
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
-  group = vim.api.nvim_create_augroup("reload-file-static", { clear = true }),
-  desc = "Reload buffer on focus",
-  callback = function()
-    if vim.fn.getcmdwintype() == "" then
-      vim.cmd("checktime")
-    end
-  end,
-})
-
--- vim.api.nvim_create_autocmd({ "CursorHold" }, {
---   group = vim.api.nvim_create_augroup("reload-file-dyanmic", { clear = true }),
---   desc = "Reload buffer on focus",
---   callback = debounce(function()
---     if vim.fn.getcmdwintype() == "" then
---       vim.cmd("checktime")
---     end
---   end, 1000),
--- })
-
-vim.api.nvim_create_autocmd("VimResized", {
-  group = vim.api.nvim_create_augroup("vim-resized", { clear = true }),
-  desc = "Resset buffer size on window resize",
-  callback = function()
-    local current_tab = vim.fn.tabpagenr()
-    vim.cmd("tabdo wincmd =")
-    vim.cmd("tabnext " .. current_tab)
-  end,
-})
-
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-  desc = "Highlight yanked lines",
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
-
-vim.api.nvim_create_autocmd("VimEnter", {
-  group = vim.api.nvim_create_augroup("user-lazy-done", { clear = true }),
-  desc = "Custom lazy load autocmd",
-  callback = function()
-    vim.defer_fn(function()
-      vim.api.nvim_exec_autocmds("User", { pattern = "SuperLazy" })
-    end, 200)
-  end,
-})
-
----
---- Commands
----
---- @param value string
-local function print_and_copy(value)
-  vim.cmd("call setreg('+', '" .. vim.fn.escape(value, "'") .. "')")
-  print("Copied: " .. value)
-end
-
-vim.api.nvim_create_user_command("BufOnly", function()
-  vim.cmd("%bdelete|edit #|normal`")
-end, {})
-
-vim.api.nvim_create_user_command("CopyFiletype", function()
-  print_and_copy(vim.bo.filetype)
-end, {})
-
-vim.api.nvim_create_user_command("CopyAbsolutePath", function()
-  print_and_copy(vim.fn.expand("%:~p"))
-end, {})
-
-vim.api.nvim_create_user_command("CopyRelativePath", function()
-  print_and_copy(vim.fn.fnamemodify(vim.fn.expand("%"), ":~:."))
-end, {})
-
-vim.api.nvim_create_user_command("CopyHighlightGroup", function()
-  local line = vim.fn.line(".")
-  local col = vim.fn.col(".")
-
-  local captures = vim.treesitter.get_captures_at_pos(0, line - 1, col - 1)
-  if #captures > 0 then
-    vim.notify("treesitter::")
-    print_and_copy(captures[#captures].capture)
-    return
-  end
-
-  local synID = vim.fn.synID(line, col, 1)
-  local synName = vim.fn.synIDattr(synID, "name")
-  vim.notify("OG colors::")
-  print_and_copy(synName)
-end, {})
-
-vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
-  local config = vim.diagnostic.config()
-  if config ~= nil then
-    vim.diagnostic.config({ virtual_text = not config.virtual_text })
-  end
-end, {})
-
-vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
-  show_invisible_chars = not show_invisible_chars
-  vim.opt.list = show_invisible_chars
-end, {})
-
-require("config.lastplace")
-require("config.tabbar")
-require("config.winbar")
 
 require("lazy").setup({
   root = root .. "/lazy/plugins",
@@ -722,7 +591,6 @@ require("lazy").setup({
         "editorconfig",
         "getscriptPlugin",
         "gzip",
-        "man",
         "matchit",
         "matchparen",
         "netrwPlugin",
@@ -743,3 +611,118 @@ require("lazy").setup({
     border = "rounded",
   },
 })
+require("config.lastplace")
+require("config.tabbar")
+require("config.winbar")
+
+---
+--- Autocmds
+---
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  group = vim.api.nvim_create_augroup("reload-file-static", { clear = true }),
+  desc = "Reload buffer on focus",
+  callback = function()
+    if vim.fn.getcmdwintype() == "" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+-- vim.api.nvim_create_autocmd({ "CursorHold" }, {
+--   group = vim.api.nvim_create_augroup("reload-file-dyanmic", { clear = true }),
+--   desc = "Reload buffer on focus",
+--   callback = debounce(function()
+--     if vim.fn.getcmdwintype() == "" then
+--       vim.cmd("checktime")
+--     end
+--   end, 1000),
+-- })
+
+vim.api.nvim_create_autocmd("VimResized", {
+  group = vim.api.nvim_create_augroup("vim-resized", { clear = true }),
+  desc = "Resset buffer size on window resize",
+  callback = function()
+    local current_tab = vim.fn.tabpagenr()
+    vim.cmd("tabdo wincmd =")
+    vim.cmd("tabnext " .. current_tab)
+  end,
+})
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+  desc = "Highlight yanked lines",
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = vim.api.nvim_create_augroup("user-lazy-done", { clear = true }),
+  desc = "Custom lazy load autocmd",
+  callback = function()
+    vim.defer_fn(function()
+      vim.api.nvim_exec_autocmds("User", { pattern = "SuperLazy" })
+    end, 200)
+  end,
+})
+
+
+---
+--- Commands
+---
+--- @param value string
+local function print_and_copy(value)
+  vim.cmd("call setreg('+', '" .. vim.fn.escape(value, "'") .. "')")
+  print("Copied: " .. value)
+end
+
+vim.api.nvim_create_user_command("BufOnly", function()
+  vim.cmd("%bdelete|edit #|normal`")
+end, {})
+
+vim.api.nvim_create_user_command("CopyFiletype", function()
+  print_and_copy(vim.bo.filetype)
+end, {})
+
+vim.api.nvim_create_user_command("CopyAbsolutePath", function()
+  print_and_copy(vim.fn.expand("%:~p"))
+end, {})
+
+vim.api.nvim_create_user_command("CopyRelativePath", function()
+  print_and_copy(vim.fn.fnamemodify(vim.fn.expand("%"), ":~:."))
+end, {})
+
+vim.api.nvim_create_user_command("CopyHighlightGroup", function()
+  local line = vim.fn.line(".")
+  local col = vim.fn.col(".")
+
+  local captures = vim.treesitter.get_captures_at_pos(0, line - 1, col - 1)
+  if #captures > 0 then
+    vim.notify("treesitter::")
+    print_and_copy(captures[#captures].capture)
+    return
+  end
+
+  local synID = vim.fn.synID(line, col, 1)
+  local synName = vim.fn.synIDattr(synID, "name")
+  vim.notify("OG colors::")
+  print_and_copy(synName)
+end, {})
+
+vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
+  local config = vim.diagnostic.config()
+  if config ~= nil then
+    vim.diagnostic.config({ virtual_text = not config.virtual_text })
+  end
+end, {})
+
+vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
+  show_invisible_chars = not show_invisible_chars
+  vim.opt.list = show_invisible_chars
+end, {})
+
+vim.api.nvim_create_user_command("ToggleCursorLine", function()
+  _G.cursorline_enabled = not _G.cursorline_enabled
+  vim.opt.cursorline = _G.cursorline_enabled
+end, {})
+

@@ -84,7 +84,7 @@ M.setup = function()
   --   filetypes = { "gleam" },
   --   root_dir = require("lspconfig").util.root_pattern("gleam.toml"),
   -- })
-  --
+
   require("lspconfig").gopls.setup({
     capabilities = capabilities,
     settings = {

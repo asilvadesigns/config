@@ -1,7 +1,8 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 export EDITOR=nvim
-export MANPAGER="nvim +Man!"
 export MANWIDTH=999
+
+set -gx MANPAGER "nvim +Man!"
 
 # bat
 set -gx BAT_CONFIG_PATH "$HOME/.config/bat/bat.conf"
