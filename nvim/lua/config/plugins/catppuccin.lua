@@ -31,7 +31,8 @@ M.setup = function()
         if is_dark then
           bg = utils.darken(c.surface0, 0.40, c.base)
         else
-          bg = utils.darken(c.surface0, 0.20, c.base)
+          bg = utils.darken(c.yellow, 0.10, c.base)
+          -- bg = utils.darken(c.surface0, 0.20, c.base)
         end
 
         return {
@@ -52,7 +53,7 @@ M.setup = function()
           -- ["@variable.builtin"] = { fg = c.text },
           -- ["@variable.parameter"] = { fg = c.text },
 
-          CursorLine = { bg = bg },
+          CursorLine = { bg = utils.darken(c.yellow, 0.10, c.base) },
           CursorLineFold = { bg = bg, fg = c.overlay2 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.teal }, -- , fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },

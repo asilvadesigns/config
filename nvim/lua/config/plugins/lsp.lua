@@ -179,6 +179,7 @@ M.setup = function()
       vim.keymap.set("n", "gr", function()
         Snacks.picker.lsp_references({
           include_current = false,
+          preview = true,
         })
       end, opts)
     end,

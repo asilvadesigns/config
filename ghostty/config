@@ -11,6 +11,7 @@
 # theme = "vscode-light"
 
 ### Solarized
+# theme = "Builtin Solarized Light"
 theme = "iTerm2 Solarized Light"
 # theme = "iTerm2 Solarized Dark"
 

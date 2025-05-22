@@ -1,7 +1,7 @@
 ---@diagnostic disable: missing-fields
 
 _G.grug_instance = "grug-instance"
-_G.cursorline_enabled = false
+_G.cursorline_enabled = true
 
 local show_invisible_chars = true
 local use_alternate_directory = false
@@ -53,6 +53,7 @@ vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
+vim.opt.modeline = false --- may want these some day but having issues with markdown files
 vim.opt.guicursor =
   "n-v-c:blocki,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff250-blinkon250,sm:block-blinkwait500-blinkoff250-blinkon250"
 vim.opt.ignorecase = true
@@ -666,7 +667,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
-
 ---
 --- Commands
 ---
@@ -725,4 +725,3 @@ vim.api.nvim_create_user_command("ToggleCursorLine", function()
   _G.cursorline_enabled = not _G.cursorline_enabled
   vim.opt.cursorline = _G.cursorline_enabled
 end, {})
-
