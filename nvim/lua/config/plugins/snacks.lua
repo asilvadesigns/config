@@ -142,7 +142,7 @@ M.setup = function()
       enabled = true,
     },
     indent = {
-      enabled = false,
+      enabled = true,
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
@@ -206,7 +206,7 @@ M.setup = function()
       left = { "sign" }, -- priority of signs on the left (high to low)
       right = { "fold" }, -- priority of signs on the right (high to low)
       folds = {
-        open = true, -- show open fold icons
+        open = false, -- show open fold icons
       },
       git = {
         patterns = {

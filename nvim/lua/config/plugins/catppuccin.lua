@@ -7,6 +7,7 @@ M.setup = function()
   require("catppuccin").setup({
     integrations = {
       bufferline = false,
+      diffview = true,
       fzf = false,
       grug_far = true,
       illuminate = false,
