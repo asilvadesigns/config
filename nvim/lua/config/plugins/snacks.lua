@@ -42,21 +42,13 @@ local palette_items = {
   { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
   { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
   { text = "Toggle Completion", cmd = "ToggleCompletion" },
+  { text = "Toggle Context", cmd = "ToggleTreesitterContext" },
   { text = "Toggle Cursor Line", cmd = "ToggleCursorLine" },
-  { text = "Toggle Scrollbar", cmd = "ToggleScrollbar" },
   { text = "Toggle Diagnostic Text", cmd = "ToggleDiagnosticText" },
   { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
-  {
-    text = "Toggle Indent Lines",
-    cmd = function()
-      if Snacks.indent.enabled then
-        Snacks.indent.disable()
-      else
-        Snacks.indent.enable()
-      end
-    end,
-  },
+  { text = "Toggle Indent Lines", cmd = "ToggleIndentLines" },
   { text = "Toggle Invisible Chars", cmd = "ToggleInvisibleChars" },
+  { text = "Toggle Scrollbar", cmd = "ToggleScrollbar" },
   { text = "Toggle Statusline", cmd = "ToggleStatusline" },
   { text = "Toggle Winbar", cmd = "ToggleWinbar" },
   { text = "Trouble", cmd = "Trouble" },
@@ -142,7 +134,7 @@ M.setup = function()
       enabled = true,
     },
     indent = {
-      enabled = true,
+      enabled = false,
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
@@ -217,7 +209,7 @@ M.setup = function()
       refresh = 50,
     },
     scroll = {
-      enabled = false,
+      enabled = true,
       animate = {
         duration = { step = 10, total = 85 },
         easing = "outSine",
@@ -305,5 +297,13 @@ vim.api.nvim_create_autocmd("LspProgress", {
     })
   end,
 })
+
+vim.api.nvim_create_user_command("ToggleIndentLines", function()
+  if Snacks.indent.enabled then
+    Snacks.indent.disable()
+  else
+    Snacks.indent.enable()
+  end
+end, {})
 
 return M

@@ -60,7 +60,7 @@ vim.opt.ignorecase = true
 vim.opt.list = show_invisible_chars
 vim.opt.listchars = "tab:  ,nbsp:+,trail:·,extends:,precedes:" -- space:·,tab:»·, NOTE: tab must have 2 characters
 vim.opt.redrawtime = 1500
-vim.opt.scrolloff = 1
+vim.opt.scrolloff = 3
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 vim.opt.shiftwidth = 2
 vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
@@ -156,8 +156,48 @@ vim.keymap.set("n", "<leader>qf", function()
   vim.cmd("qa!")
 end, { desc = "Save and Quit" })
 
-vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
+
+local function smart_scroll(direction)
+  local cur = vim.fn.line(".")
+  local top = vim.fn.line("w0")
+  local bot = vim.fn.line("w$")
+
+  if cur == top + vim.o.scrolloff or cur == bot - vim.o.scrolloff then
+    if Snacks.scroll.enabled then
+      Snacks.scroll.disable()
+    end
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      group = scroll_group,
+      callback = function()
+        Snacks.scroll.enable()
+      end,
+      once = true,
+    })
+  else
+    if not Snacks.scroll.enabled then
+      Snacks.scroll.enable()
+    end
+  end
+
+  local count = vim.v.count
+  if count == 0 then
+    return direction == "up" and "gk" or "gj"
+  else
+    return direction == "up" and "k" or "j"
+  end
+end
+
+vim.keymap.set("n", "k", function()
+  return smart_scroll("up")
+end, { expr = true, silent = true })
+
+vim.keymap.set("n", "j", function()
+  return smart_scroll("down")
+end, { expr = true, silent = true })
+
+-- vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 vim.keymap.set("n", "<", ":tabprevious<CR>", { desc = "Go to the previous tab" })
 vim.keymap.set("n", ">", ":tabnext<CR>", { desc = "Go to the next tab" })
@@ -561,6 +601,10 @@ require("lazy").setup({
       enabled = false,
       event = "User SuperLazy",
       config = require("config.plugins.illuminate").setup,
+    },
+    {
+      "nvim-treesitter/nvim-treesitter-context",
+      config = require("config.plugins.treesitter-context").setup,
     },
     {
       "nvim-treesitter/nvim-treesitter",
