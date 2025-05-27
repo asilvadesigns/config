@@ -604,6 +604,7 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter-context",
+      cmd = "ToggleTreesitterContext",
       config = require("config.plugins.treesitter-context").setup,
     },
     {
