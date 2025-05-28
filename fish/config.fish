@@ -4,6 +4,10 @@ export MANWIDTH=999
 
 set -gx MANPAGER "nvim +Man!"
 
+# gum
+set -gx GUM_FILTER_INDICATOR_FOREGROUND "4"
+set -gx GUM_FILTER_MATCH_FOREGROUND "4"
+
 # bat
 set -gx BAT_CONFIG_PATH "$HOME/.config/bat/bat.conf"
 

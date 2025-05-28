@@ -60,7 +60,7 @@ vim.opt.ignorecase = true
 vim.opt.list = show_invisible_chars
 vim.opt.listchars = "tab:  ,nbsp:+,trail:·,extends:,precedes:" -- space:·,tab:»·, NOTE: tab must have 2 characters
 vim.opt.redrawtime = 1500
-vim.opt.scrolloff = 3
+vim.opt.scrolloff = 0
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 vim.opt.shiftwidth = 2
 vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
@@ -157,35 +157,42 @@ vim.keymap.set("n", "<leader>qf", function()
 end, { desc = "Save and Quit" })
 
 local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
+local pending_autocmd = false
 
-local function smart_scroll(direction)
-  local cur = vim.fn.line(".")
-  local top = vim.fn.line("w0")
-  local bot = vim.fn.line("w$")
-
-  if cur == top + vim.o.scrolloff or cur == bot - vim.o.scrolloff then
-    if Snacks.scroll.enabled then
-      Snacks.scroll.disable()
-    end
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      group = scroll_group,
-      callback = function()
-        Snacks.scroll.enable()
-      end,
-      once = true,
-    })
-  else
-    if not Snacks.scroll.enabled then
-      Snacks.scroll.enable()
-    end
-  end
-
-  local count = vim.v.count
+local function get_motion(count, direction)
   if count == 0 then
     return direction == "up" and "gk" or "gj"
   else
     return direction == "up" and "k" or "j"
   end
+end
+
+local function smart_scroll(direction)
+  local off = vim.o.scrolloff
+  local cur = vim.fn.line(".")
+  local top = vim.fn.line("w0")
+  local bot = vim.fn.line("w$")
+  local count = vim.v.count
+
+  if cur ~= top + off and cur ~= bot - off then
+    Snacks.scroll.enable()
+    return get_motion(count, direction)
+  end
+
+  if not pending_autocmd then
+    Snacks.scroll.disable()
+    pending_autocmd = true
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      group = scroll_group,
+      callback = function()
+        Snacks.scroll.enable()
+        pending_autocmd = false
+      end,
+      once = true,
+    })
+  end
+
+  return get_motion(count, direction)
 end
 
 vim.keymap.set("n", "k", function()
