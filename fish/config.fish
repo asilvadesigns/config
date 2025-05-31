@@ -62,9 +62,6 @@ set -gx PATH "$HOME/.local/share/nvim/mason/bin" $PATH;
 # Created by `pipx` on 2024-02-28 18:49:16
 set PATH $PATH /Users/albertos/.local/bin
 
-# direnv
-direnv hook fish | source
-
 # bun
 set -gx BUN_INSTALL "$HOME/.bun"
 set -gx PATH $BUN_INSTALL/bin $PATH
@@ -72,10 +69,13 @@ set -gx PATH $BUN_INSTALL/bin $PATH
 # atuin
 atuin init fish --disable-up-arrow | source
 
+# direnv
+direnv hook fish | source
+
 # zoxide
 zoxide init fish | source
 
-# starship must be at the end
+# starship
 starship init fish | source
 
 # NOTE: the following came from stdout after `brew install sqlite`

@@ -2,15 +2,15 @@
 format = """
 $directory\
 $git_branch\
-$git_commit\
-$git_state\
-$git_metrics\
-$git_status\
 ${custom.tmux}\
-$nodejs\
 $line_break\
 $character
 """
+# $git_commit\
+# $git_state\
+# $git_metrics\
+# $git_status\
+# $nodejs\
 
 [custom.tmux]
 command = "echo 'tmux'"
@@ -56,7 +56,7 @@ disabled = true
 disabled = true
 
 [nodejs]
-disabled = false
+disabled = true
 format = '[$symbol](blue)[($version)]($style)'
 style = "default"
 # format = 'via [$symbol($version )]($style)'
