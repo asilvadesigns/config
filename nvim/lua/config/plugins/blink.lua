@@ -1,8 +1,6 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
-_G.autocompletion_enabled = false
-
 vim.api.nvim_create_user_command("ToggleCompletion", function()
   _G.autocompletion_enabled = not _G.autocompletion_enabled
 end, {})

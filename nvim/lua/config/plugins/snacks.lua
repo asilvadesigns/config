@@ -1,59 +1,73 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
+---@param message string
+---@param enabled boolean
+local drawToggle = function(message, enabled)
+  local status = ""
+
+  if enabled then
+    status = ""
+  end
+
+  return status .. " " .. message
+end
+
 ---@class PaletteEntry
 ---@field text string
 ---@field cmd string | fun(): nil
----@type table<string, PaletteEntry>
-local palette_items = {
-  { text = "Commands", cmd = "lua Snacks.picker.commands()" },
-  { text = "Colorschemes", cmd = 'lua Snacks.picker.colorschemes({ layout = { preview = "colorscheme" } })' },
-  { text = "Copy file path (Absolute)", cmd = "CopyAbsolutePath" },
-  { text = "Copy file path (Relative)", cmd = "CopyRelativePath" },
-  { text = "Copy filetype", cmd = "CopyFiletype" },
-  { text = "Diagnostics", cmd = "Trouble diagnostics" },
-  { text = "Fold (level 0 or reset)", cmd = "setlocal foldlevel=99" },
-  { text = "Fold (level 1)", cmd = "setlocal foldlevel=0" },
-  { text = "Fold (level 2)", cmd = "setlocal foldlevel=1" },
-  { text = "Fold (level 3)", cmd = "setlocal foldlevel=2" },
-  { text = "Fold (level 4)", cmd = "setlocal foldlevel=3" },
-  { text = "Format (Biome)", cmd = "FormatWithBiome" },
-  { text = "Format (Lsp)", cmd = "FormatWithLsp" },
-  { text = "Format (Prettier)", cmd = "FormatWithPrettier" },
-  { text = "Format (default)", cmd = "Format" },
-  { text = "Git (Fugitive)", cmd = "Git" },
-  { text = "Git (Neogit)", cmd = "Neogit" },
-  { text = "Help", cmd = "lua Snacks.picker.help()" },
-  { text = "Highlights", cmd = "lua Snacks.picker.highlights()" },
-  { text = "Keymaps", cmd = "lua Snacks.picker.keymaps()" },
-  { text = "Lazy", cmd = "Lazy" },
-  { text = "Lint (Biome)", cmd = "LintWithBiome" },
-  { text = "Lint (EsLint)", cmd = "LintWithPrettier" },
-  { text = "Lint (default)", cmd = "Lint" },
-  { text = "Markdown Preview", cmd = "MarkdownPreviewToggle" },
-  { text = "Mason", cmd = "Mason" },
-  { text = "Notifications", cmd = "lua Snacks.notifier.show_history()" },
-  { text = "Remove All Marks", cmd = "delm! | delm A-Z0-9" },
-  { text = "Remove Other Buffers", cmd = "only|bd|e#" },
-  { text = "Rename File", cmd = "RenameFile" },
-  { text = "Restart LSP", cmd = "LspRestart" },
-  { text = "Search (file)", cmd = "GrugFarLocal" },
-  { text = "Search (project)", cmd = "GrugFar" },
-  { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
-  { text = "Toggle Color Picker", cmd = "ColorPickerToggle" },
-  { text = "Toggle Completion", cmd = "ToggleCompletion" },
-  { text = "Toggle Context", cmd = "ToggleTreesitterContext" },
-  { text = "Toggle Cursor Line", cmd = "ToggleCursorLine" },
-  { text = "Toggle Diagnostic Text", cmd = "ToggleDiagnosticText" },
-  { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
-  { text = "Toggle Indent Lines", cmd = "ToggleIndentLines" },
-  { text = "Toggle Invisible Chars", cmd = "ToggleInvisibleChars" },
-  { text = "Toggle Scrollbar", cmd = "ToggleScrollbar" },
-  { text = "Toggle Statusline", cmd = "ToggleStatusline" },
-  { text = "Toggle Winbar", cmd = "ToggleWinbar" },
-  { text = "Trouble", cmd = "Trouble" },
-  { text = "Zen Mode (no neck pain)", cmd = "NoNeckPain" },
-}
+---@return table<string, PaletteEntry>
+local palette_items = function()
+  return {
+    { text = "Commands", cmd = "lua Snacks.picker.commands()" },
+    { text = "Colorschemes", cmd = 'lua Snacks.picker.colorschemes({ layout = { preview = "colorscheme" } })' },
+    { text = "Copy file path (Absolute)", cmd = "CopyAbsolutePath" },
+    { text = "Copy file path (Relative)", cmd = "CopyRelativePath" },
+    { text = "Copy filetype", cmd = "CopyFiletype" },
+    { text = "Diagnostics", cmd = "Trouble diagnostics" },
+    { text = "Fold (level 0 or reset)", cmd = "setlocal foldlevel=99" },
+    { text = "Fold (level 1)", cmd = "setlocal foldlevel=0" },
+    { text = "Fold (level 2)", cmd = "setlocal foldlevel=1" },
+    { text = "Fold (level 3)", cmd = "setlocal foldlevel=2" },
+    { text = "Fold (level 4)", cmd = "setlocal foldlevel=3" },
+    { text = "Format (Biome)", cmd = "FormatWithBiome" },
+    { text = "Format (Lsp)", cmd = "FormatWithLsp" },
+    { text = "Format (Prettier)", cmd = "FormatWithPrettier" },
+    { text = "Format (default)", cmd = "Format" },
+    { text = "Git (Fugitive)", cmd = "Git" },
+    { text = "Git (Neogit)", cmd = "Neogit" },
+    { text = "Help", cmd = "lua Snacks.picker.help()" },
+    { text = "Highlights", cmd = "lua Snacks.picker.highlights()" },
+    { text = "Keymaps", cmd = "lua Snacks.picker.keymaps()" },
+    { text = "Lazy", cmd = "Lazy" },
+    { text = "Lint (Biome)", cmd = "LintWithBiome" },
+    { text = "Lint (EsLint)", cmd = "LintWithPrettier" },
+    { text = "Lint (default)", cmd = "Lint" },
+    { text = "Markdown Preview", cmd = "MarkdownPreviewToggle" },
+    { text = "Mason", cmd = "Mason" },
+    { text = "Notifications", cmd = "lua Snacks.notifier.show_history()" },
+    { text = "Remove All Marks", cmd = "delm! | delm A-Z0-9" },
+    { text = "Remove Other Buffers", cmd = "only|bd|e#" },
+    { text = "Rename File", cmd = "RenameFile" },
+    { text = "Restart LSP", cmd = "LspRestart" },
+    { text = "Search (file)", cmd = "GrugFarLocal" },
+    { text = "Search (project)", cmd = "GrugFar" },
+    { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
+    { text = drawToggle("Toggle Color Picker", _G.color_picker_enabled), cmd = "ColorPickerToggle" },
+    { text = drawToggle("Toggle Completion", _G.autocompletion_enabled), cmd = "ToggleCompletion" },
+    { text = drawToggle("Toggle Context", _G.treesitter_context_enabled), cmd = "ToggleTreesitterContext" },
+    { text = drawToggle("Toggle Cursor Line", _G.cursorline_enabled), cmd = "ToggleCursorLine" },
+    { text = drawToggle("Toggle Diagnostic Text", _G.user_virtual_text_enabled), cmd = "ToggleDiagnosticText" },
+    { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
+    { text = drawToggle("Toggle Indent Lines", _G.indent_lines_enabled), cmd = "ToggleIndentLines" },
+    { text = drawToggle("Toggle Invisible Chars", _G.show_invisible_chars), cmd = "ToggleInvisibleChars" },
+    { text = drawToggle("Toggle Scrollbar", _G.scrollbar_enabled), cmd = "ToggleScrollbar" },
+    { text = drawToggle("Toggle Statusline", _G.statusline_enabled), cmd = "ToggleStatusline" },
+    { text = drawToggle("Toggle Winbar", _G.winbar_enabled), cmd = "ToggleWinbar" },
+    { text = drawToggle("Toggle Zen Mode", _G.zen_mode_enabled), cmd = "ToggleZenMode" },
+    { text = drawToggle("Trouble", _G.trouble_visible), cmd = "Trouble" },
+  }
+end
 
 local MAX_WIDTH = 80
 
@@ -93,7 +107,6 @@ M.setup = function()
       sources = {
         ["command_palette"] = {
           format = "text",
-          items = palette_items,
           layout = {
             preview = false,
           },
@@ -134,7 +147,7 @@ M.setup = function()
       enabled = true,
     },
     indent = {
-      enabled = false,
+      enabled = _G.indent_lines_enabled,
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
@@ -234,7 +247,7 @@ end
 
 vim.keymap.set("n", "<leader>a", function()
   ---@diagnostic disable-next-line: undefined-field
-  Snacks.picker.command_palette()
+  Snacks.picker.command_palette({ items = palette_items() })
 end, { desc = "Fuzzy actions" })
 
 vim.keymap.set("n", "<leader>b", function()
@@ -304,6 +317,7 @@ vim.api.nvim_create_user_command("ToggleIndentLines", function()
   else
     Snacks.indent.enable()
   end
+  _G.indent_lines_enabled = not _G.indent_lines_enabled
 end, {})
 
 return M

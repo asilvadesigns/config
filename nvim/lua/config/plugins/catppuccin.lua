@@ -68,6 +68,7 @@ M.setup = function()
           FoldColumn = { fg = c.red },
           SignColumn = { fg = c.red },
           MasonNormal = { bg = c.base },
+          MasonBackdrop = { bg = "#0000FF" },
           MatchParen = {
             bg = utils.darken(c.yellow, 0.2, c.base),
             fg = c.yellow,
@@ -97,6 +98,7 @@ M.setup = function()
           SnacksPickerListCursorLine = { bg = bg },
           SnacksPickerMatch = { fg = c.red },
           SnacksPickerPreviewCursorLine = { bg = bg },
+          SatelliteBar = { bg = utils.darken(c.maroon, 0.40, c.base) },
           StatusLine = { fg = c.surface0, bg = c.base },
           StatusLineNC = { fg = c.surface0, bg = c.base },
           -- StatusLine = { fg = statusline_fg, bg = statusline_bg },

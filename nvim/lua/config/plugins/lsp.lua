@@ -41,7 +41,10 @@ M.setup = function()
   }
 
   require("mason").setup({
-    ui = { border = "rounded" },
+    ui = {
+      border = "rounded",
+      backdrop = 100,
+    },
   })
 
   require("lspconfig").cssls.setup({

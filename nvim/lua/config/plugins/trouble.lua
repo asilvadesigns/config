@@ -1,10 +1,17 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
+_G.trouble_visible = false
+
 M.setup = function()
   require("trouble").setup({
     use_diagnostic_signs = true,
   })
+
+  vim.api.nvim_create_user_command("ToggleTrouble", function()
+    _G.trouble_visible = not _G.trouble_visible
+    require("trouble").toggle()
+  end, {})
 
   -- normal
   vim.cmd("hi! link TroubleNormal Normal")

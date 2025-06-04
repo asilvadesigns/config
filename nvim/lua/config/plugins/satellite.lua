@@ -1,11 +1,9 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
-_G.scrollbar_enabled = false
-
 M.setup = function()
   require("satellite").setup({
-    current_only = true,
+    current_only = false,
     excluded_filetypes = { "NvimTree" },
     width = 1,
     handlers = {

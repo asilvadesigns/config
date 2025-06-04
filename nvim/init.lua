@@ -1,9 +1,18 @@
 ---@diagnostic disable: missing-fields
 
-_G.grug_instance = "grug-instance"
+_G.autocompletion_enabled = false
+_G.color_picker_enabled = true
 _G.cursorline_enabled = true
+_G.grug_instance = "grug-instance"
+_G.indent_lines_enabled = false
+_G.scrollbar_enabled = true
+_G.show_invisible_chars = true
+_G.statusline_enabled = false
+_G.treesitter_context_enabled = false
+_G.user_virtual_text_enabled = false
+_G.winbar_enabled = true
+_G.zen_mode_enabled = false
 
-local show_invisible_chars = true
 local use_alternate_directory = false
 
 local root = vim.fn.stdpath("data")
@@ -411,7 +420,8 @@ require("lazy").setup({
     },
     {
       "shortcuts/no-neck-pain.nvim",
-      keys = { { "<leader>z", "<CMD>NoNeckPain<CR>", desc = "Toggle zen mode" } },
+      keys = { { "<leader>z", "<CMD>ToggleZenMode<CR>" }, desc = "Toggle Zen Mode" },
+      cmd = "ToggleZenMode",
       version = "*",
       config = require("config.plugins.no-neck-pain").setup,
     },
@@ -764,13 +774,19 @@ end, {})
 vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
   local config = vim.diagnostic.config()
   if config ~= nil then
-    vim.diagnostic.config({ virtual_text = not config.virtual_text })
+    if not config.virtual_text then
+      _G.user_virtual_text_enabled = true
+    else
+      _G.user_virtual_text_enabled = false
+    end
+
+    vim.diagnostic.config({ virtual_text = _G.user_virtual_text_enabled })
   end
 end, {})
 
 vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
-  show_invisible_chars = not show_invisible_chars
-  vim.opt.list = show_invisible_chars
+  _G.show_invisible_chars = not _G.show_invisible_chars
+  vim.opt.list = _G.show_invisible_chars
 end, {})
 
 vim.api.nvim_create_user_command("ToggleCursorLine", function()

@@ -1,4 +1,3 @@
-_G.statusline_enabled = false
 if _G.statusline_enabled then
   vim.opt.statusline = ""
 else
@@ -6,7 +5,6 @@ else
   vim.opt.statusline = "%{repeat('─', winwidth('.'))}"
 end
 
-_G.winbar_enabled = true
 if _G.winbar_enabled then
   vim.opt.winbar = ""
 else
