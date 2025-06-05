@@ -611,7 +611,7 @@ require("lazy").setup({
     {
       "wurli/visimatch.nvim",
       keys = { "V", "v" },
-      opts = { hl_group = "WVisiMatch", chars_lower_limit = 3 },
+      opts = { hl_group = "WVisiMatch", chars_lower_limit = 2 },
     },
     {
       "RRethy/vim-illuminate",

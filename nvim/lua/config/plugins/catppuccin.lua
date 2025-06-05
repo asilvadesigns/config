@@ -111,7 +111,7 @@ M.setup = function()
           -- TreesitterContextLineNumber = { fg = c.surface0, underline = true },
           -- TreesitterContextLineNumberBottom = { fg = c.surface0, underline = true },
           Visual = { bg = utils.darken(c.yellow, 0.20, c.base), style = {} },
-          WVisiMatch = { bg = c.surface0 },
+          WVisiMatch = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
           WinBar = { fg = c.overlay1 },
           WinBarNC = { fg = c.surface2 },
           WinSeparator = { fg = utils.lighten(c.surface0, 0.40, c.base) },
