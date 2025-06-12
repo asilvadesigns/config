@@ -5,17 +5,17 @@ M.setup = function()
   require("oklch-color-picker").setup({
     highlight = {
       style = "virtual_left",
-      enabled = _G.color_picker_enabled,
+      enabled = _G.enable_color_picker,
     },
   })
 
   vim.api.nvim_create_user_command("ColorPickerToggle", function()
-    if _G.color_picker_enabled then
+    if _G.enable_color_picker then
       require("oklch-color-picker").highlight.disable()
     else
       require("oklch-color-picker").highlight.enable()
     end
-    _G.color_picker_enabled = not _G.color_picker_enabled
+    _G.enable_color_picker = not _G.enable_color_picker
   end, {})
 end
 

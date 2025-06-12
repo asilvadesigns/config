@@ -18,20 +18,20 @@ M.setup = function()
   })
 
   ---init
-  if _G.scrollbar_enabled then
+  if _G.show_scrollbar then
     vim.cmd(":SatelliteEnable")
   else
     vim.cmd(":SatelliteDisable")
   end
 
   vim.api.nvim_create_user_command("ToggleScrollbar", function()
-    if _G.scrollbar_enabled then
+    if _G.show_scrollbar then
       vim.cmd(":SatelliteDisable")
     else
       vim.cmd(":SatelliteEnable")
     end
 
-    _G.scrollbar_enabled = not _G.scrollbar_enabled
+    _G.show_scrollbar = not _G.show_scrollbar
   end, {})
 end
 

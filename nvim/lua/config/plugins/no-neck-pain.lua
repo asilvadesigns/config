@@ -11,7 +11,7 @@ M.setup = function()
   })
 
   vim.api.nvim_create_user_command("ToggleZenMode", function()
-    _G.zen_mode_enabled = not _G.zen_mode_enabled
+    _G.enable_zen_mode = not _G.enable_zen_mode
     require("no-neck-pain").toggle()
   end, {})
 

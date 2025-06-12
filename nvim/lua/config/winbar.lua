@@ -1,11 +1,11 @@
-if _G.statusline_enabled then
+if _G.show_statusline then
   vim.opt.statusline = ""
 else
   vim.opt.laststatus = 0
   vim.opt.statusline = "%{repeat('─', winwidth('.'))}"
 end
 
-if _G.winbar_enabled then
+if _G.show_winbar then
   vim.opt.winbar = ""
 else
   vim.opt.winbar = nil
@@ -175,7 +175,7 @@ end
 
 --- Renderers
 local function render_statusline()
-  if _G.statusline_enabled then
+  if _G.show_statusline then
     enable_statusline(0)
   else
     disable_statusline()
@@ -184,7 +184,7 @@ end
 
 local function render_winbar()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
-    if _G.winbar_enabled then
+    if _G.show_winbar then
       enable_winbar(win)
     else
       disable_winbar(win)
@@ -202,7 +202,7 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 vim.api.nvim_create_user_command("ToggleStatusline", function()
-  _G.statusline_enabled = not _G.statusline_enabled
+  _G.show_statusline = not _G.show_statusline
   vim.api.nvim_exec_autocmds("User", { pattern = "RefreshStatusline" })
 end, {})
 
@@ -214,7 +214,7 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 vim.api.nvim_create_user_command("ToggleWinbar", function()
-  _G.winbar_enabled = not _G.winbar_enabled
+  _G.show_winbar = not _G.show_winbar
   vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
 end, {})
 

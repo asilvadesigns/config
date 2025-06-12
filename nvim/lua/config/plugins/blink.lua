@@ -2,7 +2,7 @@
 local M = {}
 
 vim.api.nvim_create_user_command("ToggleCompletion", function()
-  _G.autocompletion_enabled = not _G.autocompletion_enabled
+  _G.enable_autocompletion = not _G.enable_autocompletion
 end, {})
 
 M.setup = function()
@@ -50,7 +50,7 @@ M.setup = function()
       -- },
       menu = {
         auto_show = function()
-          return _G.autocompletion_enabled
+          return _G.enable_autocompletion
         end,
         border = "rounded",
         draw = {

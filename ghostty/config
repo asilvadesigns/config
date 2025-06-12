@@ -11,8 +11,8 @@
 # theme = "vscode-light"
 
 ### Solarized
-# theme = "Builtin Solarized Light"
-theme = "iTerm2 Solarized Light"
+# theme = "iTerm2 Solarized Light"
+theme = "catppuccin-frappe"
 # theme = "iTerm2 Solarized Dark"
 
 ### Catppuccin
@@ -99,6 +99,9 @@ keybind = super+/=text:gcc\x1b
 
 # neovim | files
 keybind = super+p=text:,f
+
+# neovim | filetree
+keybind = super+j=text:,j
 
 # neovim | save
 keybind = super+s=text:,s

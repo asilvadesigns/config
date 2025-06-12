@@ -2,5 +2,6 @@ invert = true
 style = "full"
 
 [theme]
-name = "catppuccin-latte-sapphire"
+# name = "catppuccin-latte-sapphire"
+name = "catppuccin-frappe-sapphire"
 

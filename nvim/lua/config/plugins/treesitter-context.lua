@@ -2,7 +2,7 @@ local M = {}
 
 M.setup = function()
   require("treesitter-context").setup({
-    enable = _G.treesitter_context_enabled,
+    enable = _G.show_treesitter_context,
     max_lines = 1,
     multiwindow = true,
   })
@@ -12,7 +12,7 @@ M.setup = function()
   end, { silent = true })
 
   vim.api.nvim_create_user_command("ToggleTreesitterContext", function()
-    _G.treesitter_context_enabled = not _G.treesitter_context_enabled
+    _G.show_treesitter_context = not _G.show_treesitter_context
     require("treesitter-context").toggle()
   end, {})
 end

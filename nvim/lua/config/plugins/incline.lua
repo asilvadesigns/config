@@ -43,7 +43,7 @@ M.setup = function()
       buftypes = {},
     },
     render = function(props)
-      if _G.statusline_enabled then
+      if _G.show_statusline then
         local diagnostics = get_diagnostics(props.buf)
         local current = " "
         if props.focused then

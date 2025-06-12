@@ -1,17 +1,19 @@
 ---@diagnostic disable: missing-fields
 
-_G.autocompletion_enabled = false
-_G.color_picker_enabled = true
-_G.cursorline_enabled = true
+_G.enable_autocompletion = true
+_G.enable_color_picker = true
+_G.enable_zen_mode = false
 _G.grug_instance = "grug-instance"
-_G.indent_lines_enabled = false
-_G.scrollbar_enabled = true
-_G.show_invisible_chars = true
-_G.statusline_enabled = false
-_G.treesitter_context_enabled = false
-_G.user_virtual_text_enabled = false
-_G.winbar_enabled = true
-_G.zen_mode_enabled = false
+_G.show_cursorline = true
+_G.show_indent_lines = false
+_G.show_invisible_chars = false
+_G.show_number_lines = false
+_G.show_relative_lines = false
+_G.show_scrollbar = false
+_G.show_statusline = false
+_G.show_treesitter_context = false
+_G.show_virtual_text = false
+_G.show_winbar = true
 
 local use_alternate_directory = false
 
@@ -54,7 +56,7 @@ vim.g.loaded_python_provider = 0
 vim.g.loaded_ruby_provider = 0
 
 vim.opt.cmdheight = 0
-vim.opt.cursorline = _G.cursorline_enabled
+vim.opt.cursorline = _G.show_cursorline
 vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
 vim.opt.expandtab = true
 vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
@@ -67,15 +69,15 @@ vim.opt.guicursor =
   "n-v-c:blocki,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff250-blinkon250,sm:block-blinkwait500-blinkoff250-blinkon250"
 vim.opt.ignorecase = true
 vim.opt.list = show_invisible_chars
-vim.opt.listchars = "tab:  ,nbsp:+,trail:·,extends:,precedes:" -- space:·,tab:»·, NOTE: tab must have 2 characters
+vim.opt.listchars = "nbsp:+,trail:·,extends:,precedes:,space:·,tab:»»" -- NOTE: tab must have 2 characters
 vim.opt.redrawtime = 1500
 vim.opt.scrolloff = 0
 vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 vim.opt.shiftwidth = 2
 vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
 vim.opt.signcolumn = "yes"
-vim.opt.number = false
-vim.opt.relativenumber = false
+vim.opt.number = _G.show_number_lines
+vim.opt.relativenumber = _G.show_relative_lines
 vim.opt.showtabline = 1
 vim.opt.smartcase = true
 vim.opt.smartindent = true
@@ -176,40 +178,43 @@ local function get_motion(count, direction)
   end
 end
 
-local function smart_scroll(direction)
-  local off = vim.o.scrolloff
-  local cur = vim.fn.line(".")
-  local top = vim.fn.line("w0")
-  local bot = vim.fn.line("w$")
+local function smart_scroll(direction, disable)
   local count = vim.v.count
 
-  if cur ~= top + off and cur ~= bot - off then
-    Snacks.scroll.enable()
-    return get_motion(count, direction)
-  end
+  if not disable then
+    local off = vim.o.scrolloff
+    local cur = vim.fn.line(".")
+    local top = vim.fn.line("w0")
+    local bot = vim.fn.line("w$")
 
-  if not pending_autocmd then
-    Snacks.scroll.disable()
-    pending_autocmd = true
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      group = scroll_group,
-      callback = function()
-        Snacks.scroll.enable()
-        pending_autocmd = false
-      end,
-      once = true,
-    })
+    if cur ~= top + off and cur ~= bot - off then
+      Snacks.scroll.enable()
+      return get_motion(count, direction)
+    end
+
+    if not pending_autocmd then
+      Snacks.scroll.disable()
+      pending_autocmd = true
+      vim.api.nvim_create_autocmd("CursorMoved", {
+        group = scroll_group,
+        callback = function()
+          Snacks.scroll.enable()
+          pending_autocmd = false
+        end,
+        once = true,
+      })
+    end
   end
 
   return get_motion(count, direction)
 end
 
 vim.keymap.set("n", "k", function()
-  return smart_scroll("up")
+  return smart_scroll("up", true)
 end, { expr = true, silent = true })
 
 vim.keymap.set("n", "j", function()
-  return smart_scroll("down")
+  return smart_scroll("down", true)
 end, { expr = true, silent = true })
 
 -- vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -259,54 +264,7 @@ vim.keymap.set("n", "ge", vim.diagnostic.open_float, {
   desc = "Open diagnostic message",
 })
 
-local signs = require("config.signs")
-
-for type, icon in pairs(signs.diagnostics) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, {
-    text = icon,
-    texthl = hl,
-  })
-end
-
-vim.diagnostic.config({
-  float = { border = "rounded" },
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = " ", --signs.icons.square,
-      [vim.diagnostic.severity.HINT] = " ", --signs.icons.square,
-      [vim.diagnostic.severity.INFO] = " ", --signs.icons.square,
-      [vim.diagnostic.severity.WARN] = " ", --signs.icons.square,
-    },
-    numhl = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-    },
-  },
-  underline = true,
-  virtual_text = false,
-  virtual_lines = false,
-})
-
-vim.filetype.add({
-  extension = {
-    env = "sh",
-    gleam = "gleam",
-    mdx = "mdx",
-    templ = "templ",
-  },
-  filename = {
-    [".envrc"] = "sh",
-    ["go.mod"] = "gomod",
-    ["go.sum"] = "gosum",
-  },
-  pattern = {
-    [".env%..*"] = "sh",
-  },
-})
-
+--- Section: Plugins
 require("lazy").setup({
   root = root .. "/lazy/plugins",
   spec = {
@@ -367,6 +325,7 @@ require("lazy").setup({
     },
     {
       "lewis6991/satellite.nvim",
+      cmd = { "ToggleScrollbar" },
       event = "User SuperLazy",
       config = require("config.plugins.satellite").setup,
     },
@@ -549,6 +508,14 @@ require("lazy").setup({
       "ggandor/leap.nvim",
       keys = {
         {
+          "<leader>;",
+          function()
+            require("leap").leap({
+              target_windows = require("leap.user").get_focusable_windows(),
+            })
+          end,
+        },
+        {
           "s",
           function()
             require("leap").leap({
@@ -567,7 +534,7 @@ require("lazy").setup({
         require("leap").opts.safe_labels = {}
         require("leap").opts.highlight_unlabeled_phase_one_targets = true
         vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "NonText" }) -- darken everything
-        vim.api.nvim_set_hl(0, "LeapLabel", { link = "DiagnosticVirtualTextInfo" }) -- darken everything
+        vim.api.nvim_set_hl(0, "LeapLabel", { link = "DiagnosticVirtualTextError" }) -- darken everything
       end,
     },
     {
@@ -679,7 +646,7 @@ require("config.tabbar")
 require("config.winbar")
 
 ---
---- Autocmds
+--- Section: Autocmds
 ---
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = vim.api.nvim_create_augroup("reload-file-static", { clear = true }),
@@ -730,7 +697,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 
 ---
---- Commands
+--- Section: Commands
 ---
 --- @param value string
 local function print_and_copy(value)
@@ -775,12 +742,11 @@ vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
   local config = vim.diagnostic.config()
   if config ~= nil then
     if not config.virtual_text then
-      _G.user_virtual_text_enabled = true
+      _G.show_virtual_text = true
     else
-      _G.user_virtual_text_enabled = false
+      _G.show_virtual_text = false
     end
-
-    vim.diagnostic.config({ virtual_text = _G.user_virtual_text_enabled })
+    vim.diagnostic.config({ virtual_text = _G.show_virtual_text })
   end
 end, {})
 
@@ -789,7 +755,75 @@ vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
   vim.opt.list = _G.show_invisible_chars
 end, {})
 
-vim.api.nvim_create_user_command("ToggleCursorLine", function()
-  _G.cursorline_enabled = not _G.cursorline_enabled
-  vim.opt.cursorline = _G.cursorline_enabled
+vim.api.nvim_create_user_command("ToggleNumberLines", function()
+  _G.show_number_lines = not _G.show_number_lines
+  if _G.show_number_lines then
+    vim.cmd("set nu nornu")
+  else
+    vim.cmd("set nonu nornu")
+  end
+  _G.show_relative_lines = false
 end, {})
+
+vim.api.nvim_create_user_command("ToggleRelativeLines", function()
+  _G.show_relative_lines = not _G.show_relative_lines
+  if _G.show_relative_lines then
+    vim.cmd("set nu rnu")
+  else
+    vim.cmd("set nonu nornu")
+  end
+  _G.show_number_lines = false
+end, {})
+
+vim.api.nvim_create_user_command("ToggleCursorLine", function()
+  _G.show_cursorline = not _G.show_cursorline
+  vim.opt.cursorline = _G.show_cursorline
+end, {})
+
+---
+--- Section: Diagnostics
+---
+vim.diagnostic.config({
+  float = { border = "rounded" },
+  signs = false,
+  -- signs = {
+  --   -- NOTE: if you want signs
+  --   -- text = {
+  --   --   [vim.diagnostic.severity.ERROR] = " ", --signs.icons.square,
+  --   --   [vim.diagnostic.severity.HINT] = " ", --signs.icons.square,
+  --   --   [vim.diagnostic.severity.INFO] = " ", --signs.icons.square,
+  --   --   [vim.diagnostic.severity.WARN] = " ", --signs.icons.square,
+  --   -- },
+  --   -- NOTE: if you want to highlight the number line
+  --   -- numhl = {
+  --   --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+  --   --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+  --   --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+  --   --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+  --   -- },
+  -- },
+  underline = true,
+  virtual_text = false,
+  virtual_lines = false,
+})
+
+---
+--- Section: Filetypes
+---
+vim.filetype.add({
+  extension = {
+    env = "sh",
+    gleam = "gleam",
+    mdx = "mdx",
+    templ = "templ",
+  },
+  filename = {
+    [".envrc"] = "sh",
+    ["Brewfile"] = "sh",
+    ["go.mod"] = "gomod",
+    ["go.sum"] = "gosum",
+  },
+  pattern = {
+    [".env%..*"] = "sh",
+  },
+})

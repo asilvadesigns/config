@@ -53,23 +53,27 @@ local palette_items = function()
     { text = "Search (file)", cmd = "GrugFarLocal" },
     { text = "Search (project)", cmd = "GrugFar" },
     { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
-    { text = drawToggle("Toggle Color Picker", _G.color_picker_enabled), cmd = "ColorPickerToggle" },
-    { text = drawToggle("Toggle Completion", _G.autocompletion_enabled), cmd = "ToggleCompletion" },
-    { text = drawToggle("Toggle Context", _G.treesitter_context_enabled), cmd = "ToggleTreesitterContext" },
-    { text = drawToggle("Toggle Cursor Line", _G.cursorline_enabled), cmd = "ToggleCursorLine" },
-    { text = drawToggle("Toggle Diagnostic Text", _G.user_virtual_text_enabled), cmd = "ToggleDiagnosticText" },
+    { text = drawToggle("Toggle Color Picker", _G.enable_color_picker), cmd = "ColorPickerToggle" },
+    { text = drawToggle("Toggle Completion", _G.enable_autocompletion), cmd = "ToggleCompletion" },
+    { text = drawToggle("Toggle Context", _G.show_treesitter_context), cmd = "ToggleTreesitterContext" },
+    { text = drawToggle("Toggle Cursor Line", _G.show_cursorline), cmd = "ToggleCursorLine" },
+    { text = drawToggle("Toggle Diagnostic Text", _G.show_virtual_text), cmd = "ToggleDiagnosticText" },
     { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
-    { text = drawToggle("Toggle Indent Lines", _G.indent_lines_enabled), cmd = "ToggleIndentLines" },
+    { text = drawToggle("Toggle Indent Lines", _G.show_indent_lines), cmd = "ToggleIndentLines" },
     { text = drawToggle("Toggle Invisible Chars", _G.show_invisible_chars), cmd = "ToggleInvisibleChars" },
-    { text = drawToggle("Toggle Scrollbar", _G.scrollbar_enabled), cmd = "ToggleScrollbar" },
-    { text = drawToggle("Toggle Statusline", _G.statusline_enabled), cmd = "ToggleStatusline" },
-    { text = drawToggle("Toggle Winbar", _G.winbar_enabled), cmd = "ToggleWinbar" },
-    { text = drawToggle("Toggle Zen Mode", _G.zen_mode_enabled), cmd = "ToggleZenMode" },
+    { text = drawToggle("Toggle Number Lines", _G.show_number_lines), cmd = "ToggleNumberLines" },
+    { text = drawToggle("Toggle Relative Lines", _G.show_relative_lines), cmd = "ToggleRelativeLines" },
+    { text = drawToggle("Toggle Scrollbar", _G.show_scrollbar), cmd = "ToggleScrollbar" },
+    { text = drawToggle("Toggle Statusline", _G.show_statusline), cmd = "ToggleStatusline" },
+    { text = drawToggle("Toggle Winbar", _G.show_winbar), cmd = "ToggleWinbar" },
+    { text = drawToggle("Toggle Zen Mode", _G.enable_zen_mode), cmd = "ToggleZenMode" },
     { text = drawToggle("Trouble", _G.trouble_visible), cmd = "Trouble" },
   }
 end
 
 local MAX_WIDTH = 80
+
+local PRESET = "select" -- dropdown | vscode | ivy | select
 
 M.setup = function()
   require("snacks").setup({
@@ -77,7 +81,7 @@ M.setup = function()
     picker = {
       enabled = true,
       layout = {
-        preset = "dropdown", -- dropdown | vscode
+        preset = PRESET, -- dropdown | vscode | ivy | select
         preview = false,
         reverse = false,
       },
@@ -87,6 +91,13 @@ M.setup = function()
             max_height = 30,
             max_width = MAX_WIDTH,
             row = 6,
+          },
+        },
+        vscode = {
+          layout = {
+            height = 0.6,
+            row = 4,
+            border = "none",
           },
         },
       },
@@ -111,6 +122,7 @@ M.setup = function()
             preview = false,
           },
           confirm = function(picker, item)
+            --- TODO: could add logic such that if an item is a toggle to keep open for visualizing the toggle.
             picker:close()
             vim.schedule(function()
               local cmd = item.cmd
@@ -147,7 +159,7 @@ M.setup = function()
       enabled = true,
     },
     indent = {
-      enabled = _G.indent_lines_enabled,
+      enabled = _G.show_indent_lines,
       only_current = true,
       animate = { enabled = false },
       chunk = { enabled = false },
@@ -205,7 +217,7 @@ M.setup = function()
       },
     },
     statuscolumn = {
-      enabled = true,
+      enabled = false,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
       left = { "sign" }, -- priority of signs on the left (high to low)
@@ -222,7 +234,7 @@ M.setup = function()
       refresh = 50,
     },
     scroll = {
-      enabled = true,
+      enabled = false,
       animate = {
         duration = { step = 10, total = 85 },
         easing = "outSine",
@@ -266,7 +278,7 @@ vim.keymap.set("n", "<leader>o", function()
   })
 end, { desc = "Fuzzy symbols" })
 
-vim.keymap.set("n", "<leader>;", function()
+vim.keymap.set("n", "<leader><leader>", function()
   Snacks.picker.resume()
 end, { desc = "Fuzzy resume" })
 
@@ -286,7 +298,7 @@ vim.keymap.set("n", "<leader>l", function()
   ---@diagnostic disable-next-line: missing-fields
   Snacks.picker.lines({
     layout = {
-      preset = "dropdown",
+      preset = PRESET,
       preview = "preview",
       reverse = false,
     },
@@ -317,7 +329,7 @@ vim.api.nvim_create_user_command("ToggleIndentLines", function()
   else
     Snacks.indent.enable()
   end
-  _G.indent_lines_enabled = not _G.indent_lines_enabled
+  _G.show_indent_lines = not _G.show_indent_lines
 end, {})
 
 return M

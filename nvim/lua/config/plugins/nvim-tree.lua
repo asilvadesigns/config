@@ -91,7 +91,7 @@ M.setup = function()
     },
     renderer = {
       indent_markers = {
-        enable = false,
+        enable = true,
       },
       highlight_diagnostics = "all",
       icons = {
@@ -108,7 +108,7 @@ M.setup = function()
         web_devicons = {
           file = {
             enable = true,
-            color = true,
+            color = false,
           },
           folder = {
             enable = false,
