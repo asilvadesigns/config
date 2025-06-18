@@ -14,9 +14,6 @@ end
 --- @type table<integer, string>
 local statusline_cache = {}
 
---- @type table<integer, string>
-local filename_cache = {}
-
 --- @type table<string, boolean>
 local excluded_filetypes = {
   ["NeogitStatus"] = true,
@@ -27,7 +24,6 @@ local excluded_filetypes = {
   ["toggleterm"] = true,
 }
 
-local square = vim.fn.nr2char(0x25aa)
 local severity = vim.diagnostic.severity
 local severity_order = { severity.ERROR, severity.WARN, severity.INFO, severity.HINT }
 local severity_hl = {
@@ -175,6 +171,15 @@ end
 
 --- Renderers
 local function render_statusline()
+  local group = _G.show_statusline and "StatusLineGlobal" or "StatusLineLocal"
+  local group_nc = group .. "NC"
+
+  local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+  local hl_nc = vim.api.nvim_get_hl(0, { name = group_nc, link = false })
+
+  vim.api.nvim_set_hl(0, "StatusLine", { fg = hl.fg, bg = hl.bg })
+  vim.api.nvim_set_hl(0, "StatusLineNC", { fg = hl_nc.fg, bg = hl_nc.bg })
+
   if _G.show_statusline then
     enable_statusline(0)
   else

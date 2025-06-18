@@ -64,6 +64,7 @@ local palette_items = function()
     { text = drawToggle("Toggle Number Lines", _G.show_number_lines), cmd = "ToggleNumberLines" },
     { text = drawToggle("Toggle Relative Lines", _G.show_relative_lines), cmd = "ToggleRelativeLines" },
     { text = drawToggle("Toggle Scrollbar", _G.show_scrollbar), cmd = "ToggleScrollbar" },
+    { text = drawToggle("Toggle Smooth Scroll", _G.enable_smooth_scroll), cmd = "ToggleSmoothScroll" },
     { text = drawToggle("Toggle Statusline", _G.show_statusline), cmd = "ToggleStatusline" },
     { text = drawToggle("Toggle Winbar", _G.show_winbar), cmd = "ToggleWinbar" },
     { text = drawToggle("Toggle Zen Mode", _G.enable_zen_mode), cmd = "ToggleZenMode" },
@@ -88,7 +89,8 @@ M.setup = function()
       layouts = {
         dropdown = {
           layout = {
-            max_height = 30,
+            max_height = 40,
+            height = 0.9,
             max_width = MAX_WIDTH,
             row = 6,
           },
@@ -234,13 +236,13 @@ M.setup = function()
       refresh = 50,
     },
     scroll = {
-      enabled = false,
+      enabled = _G.enable_smooth_scroll,
       animate = {
         duration = { step = 10, total = 85 },
         easing = "outSine",
       },
       animate_repeat = {
-        delay = 25,
+        delay = 15,
         duration = { step = 0, total = 0 },
         easing = "linear",
       },
@@ -251,11 +253,6 @@ M.setup = function()
     },
   })
 end
-
--- -- Toggle the profiler
--- Snacks.toggle.profiler():map("<leader>pp")
--- -- Toggle the profiler highlights
--- Snacks.toggle.profiler_highlights():map("<leader>ph")
 
 vim.keymap.set("n", "<leader>a", function()
   ---@diagnostic disable-next-line: undefined-field
@@ -330,6 +327,15 @@ vim.api.nvim_create_user_command("ToggleIndentLines", function()
     Snacks.indent.enable()
   end
   _G.show_indent_lines = not _G.show_indent_lines
+end, {})
+
+vim.api.nvim_create_user_command("ToggleSmoothScroll", function()
+  if Snacks.scroll.enabled then
+    Snacks.scroll.disable()
+  else
+    Snacks.scroll.enable()
+  end
+  _G.enable_smooth_scroll = not _G.enable_smooth_scroll
 end, {})
 
 return M

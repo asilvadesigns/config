@@ -1,16 +1,19 @@
 ---@diagnostic disable: missing-fields
 
+_G.grug_instance = "grug-instance"
+
 _G.enable_autocompletion = true
 _G.enable_color_picker = true
+_G.enable_dark_theme = true
+_G.enable_smooth_scroll = true
 _G.enable_zen_mode = false
-_G.grug_instance = "grug-instance"
 _G.show_cursorline = true
 _G.show_indent_lines = false
 _G.show_invisible_chars = false
 _G.show_number_lines = false
-_G.show_relative_lines = false
+_G.show_relative_lines = true
 _G.show_scrollbar = false
-_G.show_statusline = false
+_G.show_statusline = true
 _G.show_treesitter_context = false
 _G.show_virtual_text = false
 _G.show_winbar = true
@@ -178,10 +181,10 @@ local function get_motion(count, direction)
   end
 end
 
-local function smart_scroll(direction, disable)
+local function smart_scroll(direction, enabled)
   local count = vim.v.count
 
-  if not disable then
+  if enabled then
     local off = vim.o.scrolloff
     local cur = vim.fn.line(".")
     local top = vim.fn.line("w0")
@@ -209,16 +212,13 @@ local function smart_scroll(direction, disable)
   return get_motion(count, direction)
 end
 
-vim.keymap.set("n", "k", function()
-  return smart_scroll("up", true)
+vim.keymap.set({ "n", "v" }, "k", function()
+  return smart_scroll("up", _G.enable_smooth_scroll)
 end, { expr = true, silent = true })
 
-vim.keymap.set("n", "j", function()
-  return smart_scroll("down", true)
+vim.keymap.set({ "n", "v" }, "j", function()
+  return smart_scroll("down", _G.enable_smooth_scroll)
 end, { expr = true, silent = true })
-
--- vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
--- vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 vim.keymap.set("n", "<", ":tabprevious<CR>", { desc = "Go to the previous tab" })
 vim.keymap.set("n", ">", ":tabnext<CR>", { desc = "Go to the next tab" })
@@ -260,11 +260,11 @@ vim.keymap.set("n", "]d", function()
   vim.diagnostic.jump({ count = 1, float = true })
 end, { desc = "Go to next diagnostic message" })
 
-vim.keymap.set("n", "ge", vim.diagnostic.open_float, {
-  desc = "Open diagnostic message",
-})
+vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic message" })
 
+---
 --- Section: Plugins
+---
 require("lazy").setup({
   root = root .. "/lazy/plugins",
   spec = {
@@ -332,6 +332,7 @@ require("lazy").setup({
     {
       "petertriho/nvim-scrollbar",
       enabled = false,
+      cmd = { "ToggleScrollbar" },
       event = "User SuperLazy",
       config = require("config.plugins.scrollbar").setup,
     },
@@ -407,7 +408,7 @@ require("lazy").setup({
     },
     {
       "saghen/blink.cmp",
-      version = "*",
+      version = "1.*",
       event = { "CmdlineEnter", "InsertEnter" },
       opts_extend = { "sources.default" },
       dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
@@ -593,13 +594,15 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      event = "VeryLazy",
+      lazy = false,
+      -- event = "VeryLazy",
       dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       build = ":TSUpdate",
       config = require("config.plugins.treesitter").setup,
     },
     {
       "andymass/vim-matchup",
+      enabled = false,
       event = "User SuperLazy",
       config = require("config.plugins.matchup").config,
     },
@@ -641,6 +644,7 @@ require("lazy").setup({
     border = "rounded",
   },
 })
+
 require("config.lastplace")
 require("config.tabbar")
 require("config.winbar")

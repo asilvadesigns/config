@@ -33,11 +33,11 @@ M.setup = function()
     prefills = {
       flags = "-U",
     },
-    -- folding = {
-    --   enabled = vim.o.foldenable,
-    --   foldcolumn = vim.o.foldcolumn,
-    --   foldlevel = vim.o.foldlevel,
-    -- },
+    folding = {
+      enabled = vim.o.foldenable,
+      foldcolumn = vim.o.foldcolumn,
+      foldlevel = vim.o.foldlevel,
+    },
     wrap = false,
   })
 

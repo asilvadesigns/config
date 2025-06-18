@@ -31,7 +31,7 @@ M.config = function()
   vim.g.matchup_matchparen_offscreen = {}
 
   -- Limit lines searched for matches
-  vim.g.matchup_matchparen_stopline = 50
+  vim.g.matchup_matchparen_stopline = 40 -- I had 40 previously
 
   -- Disable enhanced motions like %, [%, ]%
   vim.g.matchup_motion_enabled = 0

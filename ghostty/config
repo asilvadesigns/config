@@ -13,6 +13,7 @@
 ### Solarized
 # theme = "iTerm2 Solarized Light"
 theme = "catppuccin-frappe"
+
 # theme = "iTerm2 Solarized Dark"
 
 ### Catppuccin
@@ -42,23 +43,15 @@ theme = "catppuccin-frappe"
 # theme = nord-light
 
 # Font
-font-family = "JetBrainsMono Nerd Font Mono"
 # font-family = "Iosevka Nerd Font Mono"
-
-# 32" 4k
-font-size = 18
-adjust-cell-height = -2
+adjust-cell-height = 4
+adjust-cell-width = -13%
 adjust-cursor-height = -2
-
-# 14" 2k
-# font-size = 14
-# adjust-cell-height = 4
-# adjust-cursor-height = 4
-
+adjust-cursor-thickness = 4
+font-family = "JetBrainsMono Nerd Font Mono"
+font-size = 18
 font-thicken = false
 font-thicken-strength = 0
-adjust-cell-width = -13%
-adjust-cursor-thickness = 4
 # disable ligatures
 font-feature = -calt
 font-feature = -liga
@@ -69,12 +62,13 @@ font-feature = -dlig
 # gtk-tabs-location = bottom
 # gtk-wide-tabs = false
 
-window-decoration = false
-window-padding-color = extend
+window-padding-color = background
 # or background, extend, extend-always
 window-padding-x = 0
 window-padding-y = 0
 window-padding-balance = true
+window-decoration = true
+# macos-titlebar-style = tabs
 macos-titlebar-style = hidden
 
 # Keybindings
@@ -83,11 +77,16 @@ macos-titlebar-style = hidden
 # \x00 is ctrl+space (common alternative tmux prefix)
 # keybind = clear
 
-keybind = ctrl+shift+h=text:\x00\x1b[D
-keybind = ctrl+shift+j=text:\x00\x1b[B
-keybind = ctrl+shift+k=text:\x00\x1b[A
-keybind = ctrl+shift+l=text:\x00\x1b[C
+# keybind = ctrl+shift+h=text:\x00\x1b[D
+# keybind = ctrl+shift+j=text:\x00\x1b[B
+# keybind = ctrl+shift+k=text:\x00\x1b[A
+# keybind = ctrl+shift+l=text:\x00\x1b[C
+# keybind = ctrl+l=goto_split:right
+# keybind = ctrl+j=goto_split:down
+# keybind = ctrl+k=goto_split:up
+# keybind = ctrl+h=goto_split:left
 
+# Kitty
 keybind = super+q=quit
 keybind = super+shift+r=reload_config
 
@@ -109,11 +108,11 @@ keybind = super+s=text:,s
 # neovim | symbols
 keybind = super+shift+o=text:,o
 
-# tmux session | picker (sesh)
+# j tmux session | picker (sesh)
 keybind = super+shift+k=text:\x00k
 
 # tmux session | picker (window)
-# keybind = super+p=text:\x00p
+keybind = super+p=text:\x00p
 
 # tmux | toggle status bar
 keybind = super+shift+s=text:\x00S
@@ -173,8 +172,6 @@ clipboard-write = allow
 # Cursor Style
 cursor-style = block
 cursor-style-blink = true
-# cursor-color = "#e78284"
-# cursor-color = "#81c8be"
 
 # Other
 #copy-on-select = clipboard

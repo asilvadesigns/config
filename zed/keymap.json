@@ -1,4 +1,10 @@
 [
+  // global
+  {
+    "bindings": {
+      "cmd+shift+k": "projects::OpenRecent"
+    }
+  },
   // jump out of nvim-tree
   {
     "context": "ProjectPanel && not_editing",

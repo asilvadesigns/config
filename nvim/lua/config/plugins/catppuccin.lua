@@ -1,7 +1,23 @@
 local M = {}
 
+_G.statusline_colors = {
+  ["global"] = {
+    fg = "",
+    bg = "",
+  },
+  ["local"] = {
+    fg = "",
+    bg = "",
+  },
+}
+
+vim.api.nvim_set_hl(0, "StatusLineGlobal", _G.statusline_colors["local"])
+vim.api.nvim_set_hl(0, "StatusLineGlobalNC", _G.statusline_colors["local"])
+
+vim.api.nvim_set_hl(0, "StatusLineLocal", _G.statusline_colors["local"])
+vim.api.nvim_set_hl(0, "StatusLineLocalNC", _G.statusline_colors["local"])
+
 M.setup = function()
-  local is_dark = true
   local utils = require("catppuccin.utils.colors")
 
   require("catppuccin").setup({
@@ -26,11 +42,29 @@ M.setup = function()
     highlight_overrides = {
       all = function(c)
         local bg = ""
-        if is_dark then
+        if _G.enable_dark_theme then
           bg = utils.darken(c.surface0, 0.40, c.base)
         else
           bg = utils.darken(c.yellow, 0.10, c.base)
         end
+
+        local separator_bg = ""
+        if _G.enable_dark_theme then
+          separator_bg = c.surface0
+        else
+          separator_bg = utils.lighten(c.surface0, 0.40, c.base)
+        end
+
+        _G.statusline_colors = {
+          ["global"] = {
+            fg = c.overlay1,
+            bg = c.surface1,
+          },
+          ["local"] = {
+            fg = "#ff0000",
+            bg = c.base,
+          },
+        }
 
         return {
           ["@constructor.lua"] = { fg = c.subtext0 },
@@ -47,7 +81,7 @@ M.setup = function()
 
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay2 }, -- was c.text
-          CursorLineNr = { bg = bg, fg = c.teal }, -- , fg = c.mauve }, -- or c.overlay2
+          CursorLineNr = { bg = bg }, -- , fg = c.teal, fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },
           DiagnosticUnderlineHint = { sp = c.teal, undercurl = true },
@@ -68,6 +102,7 @@ M.setup = function()
           NormalFloat = { bg = c.base },
 
           NvimTreeCursorLine = { fg = c.blue, bg = bg }, -- or c.base
+          -- NvimTreeCursorLine = { bg = bg }, -- or c.base
           NvimTreeCursorLineNr = { fg = c.blue, bg = bg }, -- or c.base
           --- lightest
           NvimTreeIndentMarker = { fg = c.surface1 },
@@ -81,6 +116,7 @@ M.setup = function()
           NvimTreeOpenedFolderName = { fg = c.subtext1 },
 
           QuickFixLine = { bg = c.mantle },
+          SatelliteBar = { bg = utils.darken(c.maroon, 0.40, c.base) },
           SnacksIndent = { fg = utils.lighten(c.surface0, 0.40, c.base) },
           SnacksIndentScope = { fg = c.surface2 },
           SnacksPickerBoxCursorLine = { bg = bg },
@@ -89,13 +125,12 @@ M.setup = function()
           SnacksPickerListCursorLine = { bg = bg },
           SnacksPickerMatch = { fg = c.red },
           SnacksPickerPreviewCursorLine = { bg = bg },
-          SatelliteBar = { bg = utils.darken(c.maroon, 0.40, c.base) },
-          -- need to toggle between these...START
-          StatusLine = { fg = c.surface0, bg = c.base },
-          StatusLineNC = { fg = c.surface0, bg = c.base },
-          -- StatusLine = { fg = c.overlay1, bg = utils.lighten(c.surface0, 0.40, c.base) },
-          -- StatusLineNC = { fg = c.overlay1, bg = utils.lighten(c.surface0, 0.40, c.base) },
-          -- need to toggle between these...END
+
+          StatusLineGlobal = { fg = c.overlay1, bg = separator_bg },
+          StatusLineGlobalNC = { fg = c.overlay1, bg = separator_bg },
+          StatusLineLocal = { fg = separator_bg, bg = c.base },
+          StatusLineLocalNC = { fg = separator_bg, bg = c.base },
+
           TabLine = { bg = c.mantle },
           TreesitterContextBottom = { underline = true },
           TreesitterContextLineNumber = { underline = true },
@@ -104,13 +139,13 @@ M.setup = function()
           WVisiMatch = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
           WinBar = { fg = c.overlay1 },
           WinBarNC = { fg = c.surface2 },
-          WinSeparator = { fg = utils.lighten(c.surface0, 0.40, c.base) },
+          WinSeparator = { fg = separator_bg },
         }
       end,
     },
   })
 
-  if is_dark then
+  if _G.enable_dark_theme then
     vim.cmd("colorscheme catppuccin-frappe")
   else
     vim.cmd("colorscheme catppuccin-latte")

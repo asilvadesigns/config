@@ -7,6 +7,7 @@ end, {})
 
 M.setup = function()
   require("blink.cmp").setup({
+    fuzzy = { implementation = "prefer_rust_with_warning" },
     keymap = {
       preset = "enter",
       ["<C-y>"] = { "show", "show_documentation", "hide_documentation" },
@@ -68,7 +69,8 @@ M.setup = function()
       nerd_font_variant = "mono",
     },
     sources = {
-      default = { "lsp", "path", "snippets", "buffer" },
+      -- default = { "lsp", "path", "snippets", "buffer" },
+      default = { "lsp", "path" },
       providers = {
         lsp = {
           name = "LSP",
