@@ -1,12 +1,12 @@
 ---@diagnostic disable: missing-fields
 
-_G.grug_instance = "grug-instance"
-
 _G.enable_autocompletion = true
 _G.enable_color_picker = true
 _G.enable_dark_theme = true
 _G.enable_smooth_scroll = true
 _G.enable_zen_mode = false
+_G.grug_instance = "grug-instance"
+_G.hide_all = true
 _G.show_cursorline = true
 _G.show_indent_lines = false
 _G.show_invisible_chars = false
@@ -79,8 +79,6 @@ vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
 vim.opt.shiftwidth = 2
 vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
 vim.opt.signcolumn = "yes"
-vim.opt.number = _G.show_number_lines
-vim.opt.relativenumber = _G.show_relative_lines
 vim.opt.showtabline = 1
 vim.opt.smartcase = true
 vim.opt.smartindent = true
@@ -91,6 +89,14 @@ vim.opt.synmaxcol = 256
 vim.opt.tabstop = 2
 vim.opt.updatetime = 100
 vim.opt.wrap = false
+
+if _G.show_number_lines then
+  vim.cmd("set nu nornu")
+else
+  if _G.show_relative_lines then
+    vim.cmd("set nu rnu")
+  end
+end
 
 vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"
@@ -156,7 +162,7 @@ vim.keymap.set("n", "<leader>u", "<C-u>", { desc = "Scroll up" })
 
 vim.keymap.set("n", "<leader>s", function()
   vim.cmd("w")
-end, { desc = "Save" })
+end, { desc = "Save", silent = true })
 
 vim.keymap.set("n", "<leader>qf", function()
   if vim.bo.filetype == "NvimTree" then

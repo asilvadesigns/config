@@ -1,14 +1,19 @@
-if _G.show_statusline then
-  vim.opt.statusline = ""
+if _G.hide_all then
+  _G.show_statusline = false
+  _G.show_winbar = false
 else
-  vim.opt.laststatus = 0
-  vim.opt.statusline = "%{repeat('─', winwidth('.'))}"
-end
+  if _G.show_statusline then
+    vim.opt.statusline = ""
+  else
+    vim.opt.laststatus = 0
+    vim.opt.statusline = "%{repeat('─', winwidth('.'))}"
+  end
 
-if _G.show_winbar then
-  vim.opt.winbar = ""
-else
-  vim.opt.winbar = nil
+  if _G.show_winbar then
+    vim.opt.winbar = ""
+  else
+    vim.opt.winbar = nil
+  end
 end
 
 --- @type table<integer, string>
@@ -56,22 +61,23 @@ local function get_diagnostics(buf_id)
 end
 
 ---@param buf_id integer
+---@param is_winbar boolean
 ---@return string
-local function get_modified(buf_id)
+local function get_modified(buf_id, is_winbar)
   if vim.api.nvim_get_option_value("modified", { buf = buf_id }) then
-    return "%#Normal#󰈸%*"
+    if is_winbar then
+      return "%#Normal#󰈸%*"
+    end
+    return "󰈸"
   else
     return " "
   end
 end
 
 ---@param buf_id integer
+---@param is_winbar boolean
 ---@return string
-local function get_filename(buf_id)
-  -- if filename_cache[buf_id] ~= nil then
-  --   return filename_cache[buf_id]
-  -- end
-  --
+local function get_filename(buf_id, is_winbar)
   local api = vim.api
   local fn = vim.fn
 
@@ -101,9 +107,11 @@ local function get_filename(buf_id)
     filepath = filepath:sub(1, -#filename - 1)
   end
 
-  return "%*" .. filepath .. "%*%#DevIconConfig#" .. filename .. "%*"
-  -- filename_cache[buf_id] = "%*" .. filepath .. "%*%#DevIconConfig#" .. filename .. "%*"
-  -- return filename_cache[buf_id]
+  if is_winbar then
+    return "%*" .. filepath .. "%*%#DevIconConfig#" .. filename .. "%*"
+  end
+
+  return "%*" .. filepath .. filename .. "%*"
 end
 
 local function enable_winbar(win_id)
@@ -126,14 +134,13 @@ local function enable_winbar(win_id)
     local winbar = " "
       .. is_active_icon
       .. " "
-      .. get_filename(buf_id)
+      .. get_filename(buf_id, true)
       .. " "
-      .. get_modified(buf_id)
+      .. get_modified(buf_id, true)
       .. " "
       .. "%="
       .. get_diagnostics(buf_id)
       .. " "
-    -- .. "%*%#NonText# %= %l:%-3c %*"
 
     vim.api.nvim_set_option_value("winbar", winbar, { win = win_id })
   end
@@ -159,7 +166,14 @@ local function enable_statusline(win_id)
   if is_floating or excluded_filetypes[filetype] ~= nil then
     vim.api.nvim_set_option_value("statusline", statusline_cache[win_id], { win = win_id })
   else
-    statusline_cache[win_id] = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:") .. "%= %l/%L:%-3c %y" .. " "
+    local statusline = " "
+      .. get_filename(buf_id, false)
+      .. " "
+      .. get_modified(buf_id, false)
+      .. " "
+      .. "%= %l/%L:%-3c %y"
+      .. " "
+    statusline_cache[win_id] = statusline
     vim.api.nvim_set_option_value("statusline", statusline_cache[win_id], { win = win_id })
   end
 end
@@ -221,6 +235,31 @@ vim.api.nvim_create_autocmd("User", {
 vim.api.nvim_create_user_command("ToggleWinbar", function()
   _G.show_winbar = not _G.show_winbar
   vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
+end, {})
+
+--- Hide both
+vim.api.nvim_create_user_command("ZenEnable", function()
+  _G.show_statusline = false
+  _G.show_winbar = false
+  vim.api.nvim_exec_autocmds("User", { pattern = "RefreshStatusline" })
+  vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
+end, {})
+
+--- Show both
+vim.api.nvim_create_user_command("ZenDisable", function()
+  _G.show_statusline = true
+  _G.show_winbar = true
+  vim.api.nvim_exec_autocmds("User", { pattern = "RefreshStatusline" })
+  vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
+end, {})
+
+vim.api.nvim_create_user_command("ToggleHideAll", function()
+  if _G.hide_all then
+    vim.cmd("ZenDisable")
+  else
+    vim.cmd("ZenEnable")
+  end
+  _G.hide_all = not _G.hide_all
 end, {})
 
 --- Render Statusline and Winbar on autocmds...

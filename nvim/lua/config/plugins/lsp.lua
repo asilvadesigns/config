@@ -53,8 +53,9 @@ M.setup = function()
     },
   })
 
+  require("lspconfig").clangd.setup({})
+
   require("lspconfig").cssls.setup({
-    -- capabilities = capabilities,
     settings = {
       css = {
         lint = {
@@ -73,13 +74,11 @@ M.setup = function()
 
   local htmldefaults = require("lspconfig.configs.html").default_config
   require("lspconfig").html.setup({
-    -- capabilities = capabilities,
     filetypes = vim.list_extend({ "templ" }, htmldefaults.filetypes),
   })
 
   -- NOTE: new schemas see here https://www.schemastore.org/json/
   require("lspconfig").jsonls.setup({
-    -- capabilities = capabilities,
     settings = {
       json = {
         schemas = require("schemastore").json.schemas(),
@@ -88,14 +87,7 @@ M.setup = function()
     },
   })
 
-  -- require("lspconfig").gleam_lsp.setup({
-  --   cmd = { "gleam", "lsp" },
-  --   filetypes = { "gleam" },
-  --   root_dir = require("lspconfig").util.root_pattern("gleam.toml"),
-  -- })
-
   require("lspconfig").gopls.setup({
-    -- capabilities = capabilities,
     settings = {
       gopls = {
         analyses = {
@@ -108,7 +100,6 @@ M.setup = function()
   })
 
   require("lspconfig").lua_ls.setup({
-    -- capabilities = capabilities,
     settings = {
       Lua = {
         workspace = { checkThirdParty = false },
@@ -119,7 +110,6 @@ M.setup = function()
 
   local tailwind_defaults = require("lspconfig.configs.tailwindcss").default_config
   require("lspconfig").tailwindcss.setup({
-    -- capabilities = capabilities,
     filetypes = vim.list_extend({ "go" }, tailwind_defaults.filetypes),
     setttings = {
       tailwindCSS = {
@@ -137,7 +127,6 @@ M.setup = function()
   })
 
   require("lspconfig").vtsls.setup({
-    -- capabilities = capabilities,
     settings = {
       vtsls = {
         enableMoveToFileCodeAction = true,
@@ -151,12 +140,9 @@ M.setup = function()
     },
   })
 
-  require("lspconfig").yamlls.setup({
-    -- capabilities = capabilities,
-  })
+  require("lspconfig").yamlls.setup({})
 
   require("lspconfig").postgres_lsp.setup({
-    -- capabilities = capabilities,
     cmd = { "postgrestools", "lsp-proxy", "--config-path", vim.fn.getcwd() .. "/postgrestools.jsonc" },
     filetypes = { "sql", "postgres" },
     root_dir = require("lspconfig").util.root_pattern("postgrestools.jsonc"),
@@ -168,25 +154,16 @@ M.setup = function()
       local opts = { silent = true, buffer = ev.buf }
 
       vim.keymap.set("n", "g.", vim.lsp.buf.code_action, opts)
-
       vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
-
       vim.keymap.set("n", "K", function()
-        vim.lsp.buf.hover({
-          border = "rounded",
-        })
+        vim.lsp.buf.hover({ border = "rounded" })
       end, opts)
-
       vim.keymap.set("n", "gd", function()
-        Snacks.picker.lsp_definitions({
-          layout = { preview = true },
-        })
+        Snacks.picker.lsp_definitions({ layout = { preview = true } })
       end, opts)
 
       vim.keymap.set("n", "gi", function()
-        Snacks.picker.lsp_implementations({
-          layout = { preview = true },
-        })
+        Snacks.picker.lsp_implementations({ layout = { preview = true } })
       end, opts)
 
       vim.keymap.set("n", "gr", function()

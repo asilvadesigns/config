@@ -59,6 +59,7 @@ local palette_items = function()
     { text = drawToggle("Toggle Cursor Line", _G.show_cursorline), cmd = "ToggleCursorLine" },
     { text = drawToggle("Toggle Diagnostic Text", _G.show_virtual_text), cmd = "ToggleDiagnosticText" },
     { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
+    { text = drawToggle("Toggle Hide All", _G.hide_all), cmd = "ToggleHideAll" },
     { text = drawToggle("Toggle Indent Lines", _G.show_indent_lines), cmd = "ToggleIndentLines" },
     { text = drawToggle("Toggle Invisible Chars", _G.show_invisible_chars), cmd = "ToggleInvisibleChars" },
     { text = drawToggle("Toggle Number Lines", _G.show_number_lines), cmd = "ToggleNumberLines" },

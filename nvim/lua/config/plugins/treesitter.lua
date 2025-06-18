@@ -69,7 +69,7 @@ M.setup = function()
         },
       },
       select = {
-        enable = false,
+        enable = true,
         lookahead = true,
         include_surrounding_whitespace = false,
         keymaps = {

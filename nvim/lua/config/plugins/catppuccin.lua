@@ -59,7 +59,7 @@ M.setup = function()
 
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay2 }, -- was c.text
-          CursorLineNr = { bg = bg }, -- , fg = c.teal, fg = c.mauve }, -- or c.overlay2
+          CursorLineNr = { bg = bg, fg = c.surface2 }, -- , fg = c.teal, fg = c.mauve }, -- or c.overlay2
           CursorLineSign = { bg = bg },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },
           DiagnosticUnderlineHint = { sp = c.teal, undercurl = true },
