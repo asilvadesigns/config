@@ -1,21 +1,10 @@
 local M = {}
 
-_G.statusline_colors = {
-  ["global"] = {
-    fg = "",
-    bg = "",
-  },
-  ["local"] = {
-    fg = "",
-    bg = "",
-  },
-}
+vim.api.nvim_set_hl(0, "StatusLineGlobal", {})
+vim.api.nvim_set_hl(0, "StatusLineGlobalNC", {})
 
-vim.api.nvim_set_hl(0, "StatusLineGlobal", _G.statusline_colors["local"])
-vim.api.nvim_set_hl(0, "StatusLineGlobalNC", _G.statusline_colors["local"])
-
-vim.api.nvim_set_hl(0, "StatusLineLocal", _G.statusline_colors["local"])
-vim.api.nvim_set_hl(0, "StatusLineLocalNC", _G.statusline_colors["local"])
+vim.api.nvim_set_hl(0, "StatusLineLocal", {})
+vim.api.nvim_set_hl(0, "StatusLineLocalNC", {})
 
 M.setup = function()
   local utils = require("catppuccin.utils.colors")
@@ -54,17 +43,6 @@ M.setup = function()
         else
           separator_bg = utils.lighten(c.surface0, 0.40, c.base)
         end
-
-        _G.statusline_colors = {
-          ["global"] = {
-            fg = c.overlay1,
-            bg = c.surface1,
-          },
-          ["local"] = {
-            fg = "#ff0000",
-            bg = c.base,
-          },
-        }
 
         return {
           ["@constructor.lua"] = { fg = c.subtext0 },
