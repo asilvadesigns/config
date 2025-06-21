@@ -1,7 +1,7 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR --export FZF_DEFAULT_OPTS:\x20\x2d\x2dcolor\x3dbg\x2b\x3a\x23eee8d5\x2cbg\x3a\x23fdf6e3\x2cspinner\x3a\x232aa198\x2chl\x3a\x23268bd2\x20\x2d\x2dcolor\x3dfg\x3a\x23657b83\x2cheader\x3a\x23268bd2\x2cinfo\x3a\x23b58900\x2cpointer\x3a\x232aa198\x20\x2d\x2dcolor\x3dmarker\x3a\x232aa198\x2cfg\x2b\x3a\x23073642\x2cprompt\x3a\x23b58900\x2chl\x2b\x3a\x23268bd2
-SETUVAR __fish_initialized:3800
+SETUVAR __fish_initialized:3400
 SETUVAR _fish_abbr_ga:git\x20add
 SETUVAR _fish_abbr_gc:git\x20checkout
 SETUVAR _fish_abbr_gd:git\x20diff
