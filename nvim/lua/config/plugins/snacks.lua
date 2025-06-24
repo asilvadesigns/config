@@ -53,6 +53,7 @@ local palette_items = function()
     { text = "Search (file)", cmd = "GrugFarLocal" },
     { text = "Search (project)", cmd = "GrugFar" },
     { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
+    { text = drawToggle("Toggle Auto Pairs", _G.enable_auto_pair), cmd = "ToggleAutoPairs" },
     { text = drawToggle("Toggle Color Picker", _G.enable_color_picker), cmd = "ColorPickerToggle" },
     { text = drawToggle("Toggle Completion", _G.enable_autocompletion), cmd = "ToggleCompletion" },
     { text = drawToggle("Toggle Context", _G.show_treesitter_context), cmd = "ToggleTreesitterContext" },
@@ -227,13 +228,13 @@ M.setup = function()
       },
     },
     statuscolumn = {
-      enabled = false,
+      enabled = true,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
       left = { "sign" }, -- priority of signs on the left (high to low)
       right = { "fold" }, -- priority of signs on the right (high to low)
       folds = {
-        open = false, -- show open fold icons
+        open = true, -- show open fold icons
       },
       git = {
         patterns = {

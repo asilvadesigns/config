@@ -1,5 +1,6 @@
 ---@diagnostic disable: missing-fields
 
+_G.enable_auto_pair = false
 _G.enable_autocompletion = true
 _G.enable_color_picker = true
 _G.enable_dark_theme = false
@@ -60,11 +61,12 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_python_provider = 0
 vim.g.loaded_ruby_provider = 0
 
+vim.opt.breakindent = true
 vim.opt.cmdheight = 0
 vim.opt.cursorline = _G.show_cursorline
 vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
 vim.opt.expandtab = true
-vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
+vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
 vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
@@ -90,8 +92,12 @@ vim.opt.swapfile = false
 vim.opt.synmaxcol = 256
 vim.opt.tabstop = 2
 vim.opt.updatetime = 100
-vim.opt.linebreak = _G.enable_line_wrap
-vim.opt.wrap = _G.enable_line_wrap
+
+if not _G.enable_line_wrap then
+  vim.cmd("set nowrap nolinebreak")
+else
+  vim.cmd("set wrap linebreak")
+end
 
 if _G.show_number_lines then
   vim.cmd("set nu nornu")
@@ -372,10 +378,14 @@ require("lazy").setup({
       opts = {},
     },
     {
-      "windwp/nvim-autopairs",
-      enabled = false,
+      "max397574/better-escape.nvim",
       event = "InsertEnter",
-      opts = {},
+      config = require("config.plugins.better-escape").setup,
+    },
+    {
+      "windwp/nvim-autopairs",
+      event = "InsertEnter",
+      config = require("config.plugins.autopairs").setup,
     },
     {
       "windwp/nvim-ts-autotag",
@@ -418,7 +428,7 @@ require("lazy").setup({
     {
       "saghen/blink.cmp",
       version = "1.*",
-      event = { "CmdlineEnter", "InsertEnter" },
+      event = { "User SuperLazy" },
       opts_extend = { "sources.default" },
       dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
       config = require("config.plugins.blink").setup,
@@ -477,13 +487,8 @@ require("lazy").setup({
             local grugfar = require("grug-far")
             local options = {
               instanceName = _G.grug_instance_global,
-              -- prefills = {
-              --   paths = "",
-              --   search = "",
-              -- },
             }
             if grugfar.has_instance(options.instanceName) then
-              -- grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
               grugfar.get_instance(options.instanceName):open()
             else
               grugfar.toggle_instance(options)
@@ -497,10 +502,7 @@ require("lazy").setup({
             local grugfar = require("grug-far")
             local options = {
               instanceName = _G.grug_instance_local,
-              prefills = {
-                paths = vim.fn.expand("%"),
-                -- search = "",
-              },
+              prefills = { paths = vim.fn.expand("%") },
             }
             if grugfar.has_instance(options.instanceName) then
               grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
@@ -763,10 +765,29 @@ vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
   end
 end, {})
 
+--- @type table<string, boolean>
+local excluded_filetypes = {
+  ["NeogitStatus"] = true,
+  ["NvimTree"] = true,
+  ["grug-far"] = true,
+  ["no-neck-pain"] = true,
+  ["snacks_dashboard"] = true,
+  ["spectre_panel"] = true,
+  ["toggleterm"] = true,
+}
+
 vim.api.nvim_create_user_command("ToggleLineWrap", function()
   _G.enable_line_wrap = not _G.enable_line_wrap
-  vim.opt.linebreak = _G.enable_line_wrap
-  vim.opt.wrap = _G.enable_line_wrap
+
+  for _, win_id in ipairs(vim.api.nvim_list_wins()) do
+    local buf_id = vim.api.nvim_win_get_buf(win_id)
+    local buf_filetype = vim.bo[buf_id].filetype
+
+    if not excluded_filetypes[buf_filetype] then
+      vim.api.nvim_set_option_value("wrap", _G.enable_line_wrap, { win = win_id })
+      vim.api.nvim_set_option_value("linebreak", _G.enable_line_wrap, { win = win_id })
+    end
+  end
 end, {})
 
 vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
