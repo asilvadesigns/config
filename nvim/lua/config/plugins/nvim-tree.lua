@@ -40,7 +40,7 @@ M.setup = function()
 
       local grugfar = require("grug-far")
       local options = {
-        instanceName = _G.grug_instance,
+        instanceName = _G.grug_instance_global,
         prefills = {
           paths = path,
           search = grugfar.get_current_visual_selection(),

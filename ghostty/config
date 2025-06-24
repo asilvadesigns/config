@@ -11,8 +11,8 @@
 # theme = "vscode-light"
 
 ### Solarized
-# theme = "iTerm2 Solarized Light"
-theme = "catppuccin-frappe"
+theme = "iTerm2 Solarized Light"
+# theme = "catppuccin-frappe"
 
 # theme = "iTerm2 Solarized Dark"
 
@@ -62,7 +62,7 @@ font-feature = -dlig
 # gtk-tabs-location = bottom
 # gtk-wide-tabs = false
 
-window-padding-color = background
+window-padding-color = extend-always
 # or background, extend, extend-always
 window-padding-x = 0
 window-padding-y = 0

@@ -2,16 +2,18 @@
 
 _G.enable_autocompletion = true
 _G.enable_color_picker = true
-_G.enable_dark_theme = true
+_G.enable_dark_theme = false
+_G.enable_line_wrap = false
 _G.enable_smooth_scroll = true
 _G.enable_zen_mode = false
-_G.grug_instance = "grug-instance"
+_G.grug_instance_global = "grug-instance-global"
+_G.grug_instance_local = "grug-instance-local"
 _G.hide_all = true
 _G.show_cursorline = true
 _G.show_indent_lines = false
 _G.show_invisible_chars = false
 _G.show_number_lines = false
-_G.show_relative_lines = true
+_G.show_relative_lines = false
 _G.show_scrollbar = false
 _G.show_statusline = true
 _G.show_treesitter_context = false
@@ -88,7 +90,8 @@ vim.opt.swapfile = false
 vim.opt.synmaxcol = 256
 vim.opt.tabstop = 2
 vim.opt.updatetime = 100
-vim.opt.wrap = false
+vim.opt.linebreak = _G.enable_line_wrap
+vim.opt.wrap = _G.enable_line_wrap
 
 if _G.show_number_lines then
   vim.cmd("set nu nornu")
@@ -432,7 +435,7 @@ require("lazy").setup({
           function()
             local grugfar = require("grug-far")
             local options = {
-              instanceName = _G.grug_instance,
+              instanceName = _G.grug_instance_local,
               prefills = {
                 paths = vim.fn.expand("%"),
                 search = grugfar.get_current_visual_selection(),
@@ -453,7 +456,7 @@ require("lazy").setup({
           function()
             local grugfar = require("grug-far")
             local options = {
-              instanceName = _G.grug_instance,
+              instanceName = _G.grug_instance_global,
               prefills = {
                 paths = "",
                 search = grugfar.get_current_visual_selection(),
@@ -473,14 +476,14 @@ require("lazy").setup({
           function()
             local grugfar = require("grug-far")
             local options = {
-              instanceName = _G.grug_instance,
-              prefills = {
-                paths = "",
-                search = "",
-              },
+              instanceName = _G.grug_instance_global,
+              -- prefills = {
+              --   paths = "",
+              --   search = "",
+              -- },
             }
             if grugfar.has_instance(options.instanceName) then
-              grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
+              -- grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
               grugfar.get_instance(options.instanceName):open()
             else
               grugfar.toggle_instance(options)
@@ -493,10 +496,10 @@ require("lazy").setup({
           function()
             local grugfar = require("grug-far")
             local options = {
-              instanceName = _G.grug_instance,
+              instanceName = _G.grug_instance_local,
               prefills = {
                 paths = vim.fn.expand("%"),
-                search = "",
+                -- search = "",
               },
             }
             if grugfar.has_instance(options.instanceName) then
@@ -758,6 +761,12 @@ vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
     end
     vim.diagnostic.config({ virtual_text = _G.show_virtual_text })
   end
+end, {})
+
+vim.api.nvim_create_user_command("ToggleLineWrap", function()
+  _G.enable_line_wrap = not _G.enable_line_wrap
+  vim.opt.linebreak = _G.enable_line_wrap
+  vim.opt.wrap = _G.enable_line_wrap
 end, {})
 
 vim.api.nvim_create_user_command("ToggleInvisibleChars", function()

@@ -10,6 +10,7 @@ M.setup = function()
       augend.constant.alias.bool,
       augend.semver.alias.semver,
       augend.constant.new({ elements = { "let", "const" } }),
+      augend.constant.new({ elements = { "on", "off" } }),
     },
   })
   vim.keymap.set("n", "<C-a>", function()

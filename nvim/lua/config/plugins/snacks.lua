@@ -62,6 +62,7 @@ local palette_items = function()
     { text = drawToggle("Toggle Hide All", _G.hide_all), cmd = "ToggleHideAll" },
     { text = drawToggle("Toggle Indent Lines", _G.show_indent_lines), cmd = "ToggleIndentLines" },
     { text = drawToggle("Toggle Invisible Chars", _G.show_invisible_chars), cmd = "ToggleInvisibleChars" },
+    { text = drawToggle("Toggle Line Wrap", _G.enable_line_wrap), cmd = "ToggleLineWrap" },
     { text = drawToggle("Toggle Number Lines", _G.show_number_lines), cmd = "ToggleNumberLines" },
     { text = drawToggle("Toggle Relative Lines", _G.show_relative_lines), cmd = "ToggleRelativeLines" },
     { text = drawToggle("Toggle Scrollbar", _G.show_scrollbar), cmd = "ToggleScrollbar" },
@@ -115,7 +116,7 @@ M.setup = function()
       },
       formatters = {
         file = {
-          filename_first = true,
+          filename_first = false,
           truncate = MAX_WIDTH,
         },
       },
