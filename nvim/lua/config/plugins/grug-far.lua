@@ -1,13 +1,11 @@
 local M = {}
 
 M.setup = function()
-  require("grug-far").setup({
-    -- normalModeSearch = true,
+  local grugfar = require("grug-far")
+
+  grugfar.setup({
     startInInsertMode = true,
-    -- maxSearchMatches = 500,
-    -- engine = "astgrep",
-    -- windowCreationCommand = "tab split", -- vsplit, botright split, tab split
-    windowCreationCommand = "vsplit", -- vsplit, botright split, tab split
+    windowCreationCommand = "vsplit",
     resultsHighlight = true,
     inputsHighlight = false,
     maxLineLength = 200,
@@ -48,13 +46,50 @@ M.setup = function()
   vim.cmd("hi! link GrugFarResultsMatchAdded NeogitDiffAdd")
   vim.cmd("hi! link GrugFarResultsMatchRemoved NeogitDiffDelete")
 
-  vim.api.nvim_create_user_command("GrugFarLocal", function()
-    require("grug-far").open({
-      prefills = {
-        paths = vim.fn.expand("%"),
-      },
+  ---@param options grug.far.OptionsOverride
+  local function toggle(options)
+    if grugfar.has_instance(options.instanceName) then
+      if options.prefills ~= nil then
+        grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
+      end
+      grugfar.get_instance(options.instanceName):open()
+    else
+      grugfar.toggle_instance(options)
+    end
+  end
+
+  vim.api.nvim_create_user_command("SearchFile", function()
+    toggle({
+      instanceName = _G.grug_instance_local,
+      prefills = { paths = vim.fn.expand("%") },
     })
   end, {})
+
+  vim.api.nvim_create_user_command("SearchFileVisual", function()
+    toggle({
+      instanceName = _G.grug_instance_local,
+      prefills = {
+        paths = vim.fn.expand("%"),
+        search = grugfar.get_current_visual_selection(),
+      },
+    })
+  end, { range = true })
+
+  vim.api.nvim_create_user_command("SearchProject", function()
+    toggle({
+      instanceName = _G.grug_instance_global,
+    })
+  end, {})
+
+  vim.api.nvim_create_user_command("SearchProjectVisual", function()
+    toggle({
+      instanceName = _G.grug_instance_global,
+      prefills = {
+        paths = "",
+        search = grugfar.get_current_visual_selection(),
+      },
+    })
+  end, { range = true })
 end
 
 return M

@@ -8,6 +8,7 @@ M.setup = function()
       "grug-far",
     },
     modes_allowlist = { "n" },
+    delay = 50,
   })
 
   -- vim.api.nvim_create_autocmd("VimEnter", {

@@ -40,7 +40,7 @@ M.setup = function()
       enable = true,
     },
     indent = {
-      enable = true,
+      enable = false,
     },
     incremental_selection = {
       enable = false,

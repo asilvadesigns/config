@@ -17,7 +17,7 @@
   "neogit": { "branch": "master", "commit": "e3c148905c334c886453df1490360ebb1a2ba2ed" },
   "no-neck-pain.nvim": { "branch": "main", "commit": "ecdfe60f23134089fac92659e688b65fdd8b5cc0" },
   "nvim-autopairs": { "branch": "master", "commit": "2647cce4cb64fb35c212146663384e05ae126bdf" },
-  "nvim-lspconfig": { "branch": "master", "commit": "6ed0fc9f86c93d5a816419e7d99be85a3c6fed10" },
+  "nvim-lspconfig": { "branch": "master", "commit": "6bba673aa8993eceec233be17b42ddfb9540794b" },
   "nvim-scrollbar": { "branch": "main", "commit": "5b103ef0fd2e8b9b4be3878ed38d224522192c6c" },
   "nvim-surround": { "branch": "main", "commit": "8dd9150ca7eae5683660ea20cec86edcd5ca4046" },
   "nvim-tree.lua": { "branch": "master", "commit": "b0b49552c9462900a882fe772993b01d780445fe" },
@@ -33,7 +33,7 @@
   "promise-async": { "branch": "main", "commit": "119e8961014c9bfaf1487bf3c2a393d254f337e2" },
   "quicker.nvim": { "branch": "master", "commit": "51d3926f183c2d98fbc237cc237ae0926839af3a" },
   "satellite.nvim": { "branch": "main", "commit": "8f3a12bc64fbb3df738bf82f8295219f50c5b59d" },
-  "schemastore.nvim": { "branch": "main", "commit": "61ebe237c4cc32d3886def37d72f1b08a811af01" },
+  "schemastore.nvim": { "branch": "main", "commit": "6af106298a8fd50af775d5281ee39a102556e352" },
   "smart-splits.nvim": { "branch": "master", "commit": "0098e376638602bc6aaf779bb8531b840a3fe26e" },
   "snacks.nvim": { "branch": "main", "commit": "bc0630e43be5699bb94dadc302c0d21615421d93" },
   "substitute.nvim": { "branch": "main", "commit": "9db749a880e3dd3b0eb57f698aa8f1e1630e1f25" },
@@ -41,7 +41,7 @@
   "treesj": { "branch": "main", "commit": "3b4a2bc42738a63de17e7485d4cc5e49970ddbcc" },
   "trouble.nvim": { "branch": "main", "commit": "85bedb7eb7fa331a2ccbecb9202d8abba64d37b3" },
   "ts-comments.nvim": { "branch": "main", "commit": "1bd9d0ba1d8b336c3db50692ffd0955fe1bb9f0c" },
-  "vim-illuminate": { "branch": "master", "commit": "fbc16dee336d8cc0d3d2382ea4a53f4a29725abf" },
+  "vim-illuminate": { "branch": "master", "commit": "0d1e93684da00ab7c057410fecfc24f434698898" },
   "vim-matchup": { "branch": "master", "commit": "c478d4a72bbf397eff42743198f1939f6a264736" },
   "visimatch.nvim": { "branch": "main", "commit": "46eb069dabc17863811d1fa23aa760ed6c99c489" }
 }

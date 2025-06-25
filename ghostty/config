@@ -44,7 +44,7 @@ theme = "iTerm2 Solarized Light"
 
 # Font
 # font-family = "Iosevka Nerd Font Mono"
-adjust-cell-height = 4
+adjust-cell-height = 0
 adjust-cell-width = -13%
 adjust-cursor-height = -2
 adjust-cursor-thickness = 4

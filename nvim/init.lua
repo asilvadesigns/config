@@ -15,7 +15,7 @@ _G.show_indent_lines = false
 _G.show_invisible_chars = false
 _G.show_number_lines = false
 _G.show_relative_lines = false
-_G.show_scrollbar = false
+_G.show_scrollbar = true
 _G.show_statusline = true
 _G.show_treesitter_context = false
 _G.show_virtual_text = false
@@ -435,84 +435,11 @@ require("lazy").setup({
     },
     {
       "MagicDuck/grug-far.nvim",
-      event = "User SuperLazy",
-      cmd = { "GrugFar", "GrugFarLocal", "GrugFarGlobal" },
       keys = {
-        {
-          "f",
-          mode = "v",
-          --- TODO: write logic to handle searching within the grug-far instance...
-          function()
-            local grugfar = require("grug-far")
-            local options = {
-              instanceName = _G.grug_instance_local,
-              prefills = {
-                paths = vim.fn.expand("%"),
-                search = grugfar.get_current_visual_selection(),
-              },
-            }
-            if grugfar.has_instance(options.instanceName) then
-              grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
-              grugfar.get_instance(options.instanceName):open()
-            else
-              grugfar.toggle_instance(options)
-            end
-          end,
-          desc = "Find selected in file",
-        },
-        {
-          "F",
-          mode = "v",
-          function()
-            local grugfar = require("grug-far")
-            local options = {
-              instanceName = _G.grug_instance_global,
-              prefills = {
-                paths = "",
-                search = grugfar.get_current_visual_selection(),
-              },
-            }
-            if grugfar.has_instance(options.instanceName) then
-              grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
-              grugfar.get_instance(options.instanceName):open()
-            else
-              grugfar.toggle_instance(options)
-            end
-          end,
-          desc = "Find selected in project",
-        },
-        {
-          "<C-S>",
-          function()
-            local grugfar = require("grug-far")
-            local options = {
-              instanceName = _G.grug_instance_global,
-            }
-            if grugfar.has_instance(options.instanceName) then
-              grugfar.get_instance(options.instanceName):open()
-            else
-              grugfar.toggle_instance(options)
-            end
-          end,
-          desc = "Find in project",
-        },
-        {
-          "<C-F>",
-          function()
-            local grugfar = require("grug-far")
-            local options = {
-              instanceName = _G.grug_instance_local,
-              prefills = { paths = vim.fn.expand("%") },
-            }
-            if grugfar.has_instance(options.instanceName) then
-              grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
-              grugfar.get_instance(options.instanceName):open()
-            else
-              grugfar.toggle_instance(options)
-            end
-          end,
-          desc = "Find in file",
-        },
+        { "f", mode = "v", ":SearchFileVisual<CR>", desc = "Find in file (visual)" },
+        { "F", mode = "v", ":SearchProjectVisual<CR>", desc = "Find in project (visual)" },
+        { "<C-F>", ":SearchFile<CR>", desc = "Find in file" },
+        { "<C-S>", ":SearchProject<CR>", desc = "Find in project" },
       },
       config = require("config.plugins.grug-far").setup,
     },
@@ -594,7 +521,6 @@ require("lazy").setup({
     },
     {
       "RRethy/vim-illuminate",
-      enabled = false,
       event = "User SuperLazy",
       config = require("config.plugins.illuminate").setup,
     },

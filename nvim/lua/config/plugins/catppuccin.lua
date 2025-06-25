@@ -79,6 +79,10 @@ M.setup = function()
           },
           NormalFloat = { bg = c.base },
 
+          IlluminatedWordRead = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
+          IlluminatedWordText = { bg = utils.darken(c.blue, 0.20, c.base), style = {} },
+          IlluminatedWordWrite = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
+
           NvimTreeCursorLine = { fg = c.blue, bg = bg }, -- or c.base
           -- NvimTreeCursorLine = { bg = bg }, -- or c.base
           NvimTreeCursorLineNr = { fg = c.blue, bg = bg }, -- or c.base
@@ -94,7 +98,7 @@ M.setup = function()
           NvimTreeOpenedFolderName = { fg = c.subtext1 },
 
           QuickFixLine = { bg = c.mantle },
-          SatelliteBar = { bg = utils.darken(c.maroon, 0.40, c.base) },
+          SatelliteBar = { bg = utils.darken(c.maroon, 0.60, c.base) },
           SnacksIndent = { fg = utils.lighten(c.surface0, 0.40, c.base) },
           SnacksIndentScope = { fg = c.surface2 },
           SnacksPickerBoxCursorLine = { bg = bg },

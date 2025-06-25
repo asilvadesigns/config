@@ -4,9 +4,14 @@ local M = {}
 M.setup = function()
   require("satellite").setup({
     current_only = false,
-    excluded_filetypes = { "NvimTree" },
+    excluded_filetypes = {
+      "NvimTree",
+    },
     width = 1,
     handlers = {
+      cursor = {
+        enable = false,
+      },
       gitsigns = {
         enable = false,
       },
