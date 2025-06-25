@@ -37,7 +37,8 @@ M.setup = function()
       "yaml",
     },
     highlight = {
-      enable = not _G.enable_simple_colors,
+      -- enable = not _G.enable_simple_colors,
+      enable = true,
     },
     indent = {
       enable = false,

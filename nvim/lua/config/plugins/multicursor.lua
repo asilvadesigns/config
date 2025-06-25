@@ -2,7 +2,6 @@ local M = {}
 
 M.setup = function()
   local mc = require("multicursor-nvim")
-
   mc.setup()
 
   -- -- Add or skip cursor above/below the main cursor.
@@ -21,7 +20,9 @@ M.setup = function()
 
   -- Add or skip adding a new cursor by matching word/selection
   vim.keymap.set({ "n", "v" }, "<C-n>", function()
+    Snacks.scroll.disable()
     mc.matchAddCursor(1)
+    Snacks.scroll.enable()
   end)
 
   -- vim.keymap.set({ "n", "v" }, "<leader>s", function()

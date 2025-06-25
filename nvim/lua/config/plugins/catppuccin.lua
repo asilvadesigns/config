@@ -11,8 +11,8 @@ M.setup = function()
 
   require("catppuccin").setup({
     integrations = {
-      treesitter = not _G.enable_simple_colors,
-      native_lsp = not _G.enable_simple_colors,
+      -- treesitter = not _G.enable_simple_colors,
+      -- native_lsp = not _G.enable_simple_colors,
       ---
       bufferline = false,
       diffview = true,
@@ -47,6 +47,18 @@ M.setup = function()
         end
 
         local colors = {
+          ["@constructor.lua"] = { fg = c.subtext0 },
+          ["@lsp.type.parameter.typescript"] = { fg = c.text },
+          ["@lsp.type.property.lua"] = { fg = c.text },
+          ["@lsp.typemod.interface.defaultLibrary.typescript"] = { fg = c.yellow },
+          ["@lsp.typemod.method.defaultLibrary.typescript"] = { fg = c.text },
+          ["@lsp.typemod.property.declaration.typescript"] = { fg = c.text },
+          ["@lsp.typemod.variable.defaultLibrary.typescript"] = { fg = c.text },
+          ["@lsp.typemod.variable.readonly.typescript"] = { fg = c.text },
+          ["@property.json"] = { fg = c.text },
+          ["@punctuation.bracket"] = { fg = c.subtext0 },
+          ["@punctuation.special.typescript"] = { fg = c.subtext0 },
+
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay2 }, -- was c.text
           CursorLineNr = { bg = bg, fg = c.surface2 }, -- , fg = c.teal, fg = c.mauve , -- or c.overlay2
@@ -70,7 +82,7 @@ M.setup = function()
           NormalFloat = { bg = c.base },
 
           IlluminatedWordRead = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
-          IlluminatedWordText = { bg = utils.darken(c.blue, 0.20, c.base), style = {} },
+          IlluminatedWordText = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
           IlluminatedWordWrite = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
 
           NvimTreeCursorLine = { fg = c.blue, bg = bg }, -- or c.base
@@ -122,47 +134,38 @@ M.setup = function()
             ["@constant"] = { fg = c.text, style = {} },
             ["@field"] = { fg = c.text, style = {} },
             ["@function"] = { fg = c.text, style = {} },
-            ["@keyword"] = { fg = c.text, style = {} },
-            ["@number"] = { fg = c.text, style = {} },
+            ["@keyword"] = { fg = c.maroon, style = {} },
+            ["@number"] = { fg = c.maroon, style = {} },
             ["@operator"] = { fg = c.text, style = {} },
+            ["@property"] = { fg = c.text, style = {} },
             ["@punctuation"] = { fg = c.text, style = {} },
             ["@string"] = { fg = c.green, style = {} },
-            ["@type"] = { fg = c.text, style = {} },
+            ["@type"] = { fg = c.yellow, style = {} },
             ["@variable"] = { fg = c.text, style = {} },
+            ["@variable.builtin"] = { fg = c.text, style = {} },
+            ["@variable.member"] = { fg = c.text, style = {} },
+            ["@variable.parameter"] = { fg = c.text, style = {} },
             --- vim syntax fallback
-            Conditional = { fg = c.text, style = {} },
+            Boolean = { fg = c.maroon, style = {} },
+            Conditional = { fg = c.maroon, style = {} },
             Constant = { fg = c.text, style = {} },
             Exception = { fg = c.text, style = {} },
             Function = { fg = c.text, style = {} },
-            Identifier = { fg = c.text, style = {} },
-            Include = { fg = c.text, style = {} },
-            Keyword = { fg = c.text, style = {} },
+            Identifier = { fg = c.maroon, style = {} },
+            Include = { fg = c.maroon, style = {} },
+            Keyword = { fg = c.maroon, style = {} },
             Label = { fg = c.text, style = {} },
             Number = { fg = c.text, style = {} },
-            Operator = { fg = c.text, style = {} },
+            Operator = { fg = c.maroon, style = {} },
             PreProc = { fg = c.text, style = {} },
-            Repeat = { fg = c.text, style = {} },
-            Special = { fg = c.text, style = {} },
+            Repeat = { fg = c.maroon, style = {} },
+            Special = { fg = c.maroon, style = {} },
             Statement = { fg = c.text, style = {} },
             StorageClass = { fg = c.text, style = {} },
-            String = { fg = c.text, style = {} },
+            String = { fg = c.green, style = {} },
             Structure = { fg = c.text, style = {} },
             Title = { fg = c.text, style = {} },
-            Type = { fg = c.text, style = {} },
-          })
-        else
-          colors = vim.tbl_extend("force", colors, {
-            ["@constructor.lua"] = { fg = c.subtext0 },
-            ["@lsp.type.parameter.typescript"] = { fg = c.text },
-            ["@lsp.type.property.lua"] = { fg = c.text },
-            ["@lsp.typemod.interface.defaultLibrary.typescript"] = { fg = c.yellow },
-            ["@lsp.typemod.method.defaultLibrary.typescript"] = { fg = c.text },
-            ["@lsp.typemod.property.declaration.typescript"] = { fg = c.text },
-            ["@lsp.typemod.variable.defaultLibrary.typescript"] = { fg = c.text },
-            ["@lsp.typemod.variable.readonly.typescript"] = { fg = c.text },
-            ["@property.json"] = { fg = c.text },
-            ["@punctuation.bracket"] = { fg = c.subtext0 },
-            ["@punctuation.special.typescript"] = { fg = c.subtext0 },
+            Type = { fg = c.yellow, style = {} },
           })
         end
 
@@ -175,15 +178,6 @@ M.setup = function()
     vim.cmd("colorscheme catppuccin-frappe")
   else
     vim.cmd("colorscheme catppuccin-latte")
-  end
-
-  if _G.enable_simple_colors then
-    for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
-      vim.api.nvim_set_hl(0, group, {})
-    end
-    for _, group in ipairs(vim.fn.getcompletion("@variable", "highlight")) do
-      vim.api.nvim_set_hl(0, group, {})
-    end
   end
 end
 
