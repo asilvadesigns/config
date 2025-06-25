@@ -37,25 +37,14 @@ M.setup = function()
       "yaml",
     },
     highlight = {
-      enable = true,
+      enable = not _G.enable_simple_colors,
     },
     indent = {
       enable = false,
     },
-    incremental_selection = {
-      enable = false,
-      -- NOTE: conflicts with leap.
-      keymaps = {
-        init_selection = "gsl",
-        node_decremental = "gsd",
-        node_incremental = "gsi",
-        scope_incremental = "gss",
-      },
-    },
     textobjects = {
-      enable = false,
       move = {
-        enable = true,
+        enable = false,
         set_jumps = true,
         goto_previous_start = {
           ["[f"] = { query = "@function.outer", desc = "Previous function" },

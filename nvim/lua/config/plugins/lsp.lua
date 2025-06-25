@@ -150,14 +150,24 @@ M.setup = function()
 
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-    callback = function(ev)
-      local opts = { silent = true, buffer = ev.buf }
+    callback = function(args)
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      if _G.enable_simple_colors then
+        if client and client.server_capabilities.semanticTokensProvider then
+          client.server_capabilities.semanticTokensProvider = nil
+        end
+      end
+
+      local opts = { silent = true, buffer = args.buf }
 
       vim.keymap.set("n", "g.", vim.lsp.buf.code_action, opts)
+
       vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
+
       vim.keymap.set("n", "K", function()
         vim.lsp.buf.hover({ border = "rounded" })
       end, opts)
+
       vim.keymap.set("n", "gd", function()
         Snacks.picker.lsp_definitions({ layout = { preview = true } })
       end, opts)

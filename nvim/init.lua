@@ -1,11 +1,13 @@
 ---@diagnostic disable: missing-fields
 
+-- enable_ && show_ are functionally same, just semantics.
 _G.enable_auto_pair = false
 _G.enable_autocompletion = true
 _G.enable_color_picker = true
 _G.enable_dark_theme = false
 _G.enable_line_wrap = false
 _G.enable_smooth_scroll = true
+_G.enable_simple_colors = true ---restart required
 _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"

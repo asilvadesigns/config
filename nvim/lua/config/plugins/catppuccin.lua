@@ -11,6 +11,9 @@ M.setup = function()
 
   require("catppuccin").setup({
     integrations = {
+      treesitter = not _G.enable_simple_colors,
+      native_lsp = not _G.enable_simple_colors,
+      ---
       bufferline = false,
       diffview = true,
       fzf = false,
@@ -20,7 +23,6 @@ M.setup = function()
       neogit = true,
       notify = false,
       nvimtree = false,
-      treesitter = true,
       treesitter_context = false,
       ufo = false,
     },
@@ -44,22 +46,10 @@ M.setup = function()
           separator_bg = utils.lighten(c.surface0, 0.40, c.base)
         end
 
-        return {
-          ["@constructor.lua"] = { fg = c.subtext0 },
-          ["@lsp.type.parameter.typescript"] = { fg = c.text },
-          ["@lsp.type.property.lua"] = { fg = c.text },
-          ["@lsp.typemod.interface.defaultLibrary.typescript"] = { fg = c.yellow },
-          ["@lsp.typemod.method.defaultLibrary.typescript"] = { fg = c.text },
-          ["@lsp.typemod.property.declaration.typescript"] = { fg = c.text },
-          ["@lsp.typemod.variable.defaultLibrary.typescript"] = { fg = c.text },
-          ["@lsp.typemod.variable.readonly.typescript"] = { fg = c.text },
-          ["@property.json"] = { fg = c.text },
-          ["@punctuation.bracket"] = { fg = c.subtext0 },
-          ["@punctuation.special.typescript"] = { fg = c.subtext0 },
-
+        local colors = {
           CursorLine = { bg = bg },
           CursorLineFold = { bg = bg, fg = c.overlay2 }, -- was c.text
-          CursorLineNr = { bg = bg, fg = c.surface2 }, -- , fg = c.teal, fg = c.mauve }, -- or c.overlay2
+          CursorLineNr = { bg = bg, fg = c.surface2 }, -- , fg = c.teal, fg = c.mauve , -- or c.overlay2
           CursorLineSign = { bg = bg },
           DiagnosticUnderlineError = { sp = c.red, undercurl = true },
           DiagnosticUnderlineHint = { sp = c.teal, undercurl = true },
@@ -123,6 +113,60 @@ M.setup = function()
           WinBarNC = { fg = c.surface2 },
           WinSeparator = { fg = separator_bg },
         }
+
+        if _G.enable_simple_colors then
+          colors = vim.tbl_extend("force", colors, {
+            ["@comment"] = { fg = c.subtext0, style = {} },
+            Comment = { fg = c.subtext0, style = {} },
+            --- lsp tokens
+            ["@constant"] = { fg = c.text, style = {} },
+            ["@field"] = { fg = c.text, style = {} },
+            ["@function"] = { fg = c.text, style = {} },
+            ["@keyword"] = { fg = c.text, style = {} },
+            ["@number"] = { fg = c.text, style = {} },
+            ["@operator"] = { fg = c.text, style = {} },
+            ["@punctuation"] = { fg = c.text, style = {} },
+            ["@string"] = { fg = c.green, style = {} },
+            ["@type"] = { fg = c.text, style = {} },
+            ["@variable"] = { fg = c.text, style = {} },
+            --- vim syntax fallback
+            Conditional = { fg = c.text, style = {} },
+            Constant = { fg = c.text, style = {} },
+            Exception = { fg = c.text, style = {} },
+            Function = { fg = c.text, style = {} },
+            Identifier = { fg = c.text, style = {} },
+            Include = { fg = c.text, style = {} },
+            Keyword = { fg = c.text, style = {} },
+            Label = { fg = c.text, style = {} },
+            Number = { fg = c.text, style = {} },
+            Operator = { fg = c.text, style = {} },
+            PreProc = { fg = c.text, style = {} },
+            Repeat = { fg = c.text, style = {} },
+            Special = { fg = c.text, style = {} },
+            Statement = { fg = c.text, style = {} },
+            StorageClass = { fg = c.text, style = {} },
+            String = { fg = c.text, style = {} },
+            Structure = { fg = c.text, style = {} },
+            Title = { fg = c.text, style = {} },
+            Type = { fg = c.text, style = {} },
+          })
+        else
+          colors = vim.tbl_extend("force", colors, {
+            ["@constructor.lua"] = { fg = c.subtext0 },
+            ["@lsp.type.parameter.typescript"] = { fg = c.text },
+            ["@lsp.type.property.lua"] = { fg = c.text },
+            ["@lsp.typemod.interface.defaultLibrary.typescript"] = { fg = c.yellow },
+            ["@lsp.typemod.method.defaultLibrary.typescript"] = { fg = c.text },
+            ["@lsp.typemod.property.declaration.typescript"] = { fg = c.text },
+            ["@lsp.typemod.variable.defaultLibrary.typescript"] = { fg = c.text },
+            ["@lsp.typemod.variable.readonly.typescript"] = { fg = c.text },
+            ["@property.json"] = { fg = c.text },
+            ["@punctuation.bracket"] = { fg = c.subtext0 },
+            ["@punctuation.special.typescript"] = { fg = c.subtext0 },
+          })
+        end
+
+        return colors
       end,
     },
   })
@@ -131,6 +175,15 @@ M.setup = function()
     vim.cmd("colorscheme catppuccin-frappe")
   else
     vim.cmd("colorscheme catppuccin-latte")
+  end
+
+  if _G.enable_simple_colors then
+    for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
+      vim.api.nvim_set_hl(0, group, {})
+    end
+    for _, group in ipairs(vim.fn.getcompletion("@variable", "highlight")) do
+      vim.api.nvim_set_hl(0, group, {})
+    end
   end
 end
 
