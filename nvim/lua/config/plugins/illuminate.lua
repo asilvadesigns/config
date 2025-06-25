@@ -6,9 +6,11 @@ M.setup = function()
       "NvimTree",
       "fugitiveblame",
       "grug-far",
+      "markdown",
     },
     modes_allowlist = { "n" },
     delay = 50,
+    min_count_to_highlight = 2,
   })
 
   -- vim.api.nvim_create_autocmd("VimEnter", {
