@@ -7,7 +7,7 @@ _G.enable_color_picker = true
 _G.enable_dark_theme = false
 _G.enable_line_wrap = false
 _G.enable_smooth_scroll = true
-_G.enable_simple_colors = true ---restart required
+_G.enable_simple_colors = false ---restart required
 _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
@@ -22,6 +22,12 @@ _G.show_statusline = true
 _G.show_treesitter_context = false
 _G.show_virtual_text = false
 _G.show_winbar = true
+
+-- disable certain languages
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 local use_alternate_directory = false
 
@@ -81,7 +87,7 @@ vim.opt.list = show_invisible_chars
 vim.opt.listchars = "nbsp:+,trail:·,extends:,precedes:,space:·,tab:»»" -- NOTE: tab must have 2 characters
 vim.opt.redrawtime = 1500
 vim.opt.scrolloff = 0
-vim.opt.sessionoptions = "buffers,curdir,winsize,winpos"
+vim.opt.sessionoptions = "buffers,curdir,winsize,winpos" -- could include localoptions
 vim.opt.shiftwidth = 2
 vim.opt.showbreak = "↳  " -- slow on huge linebreaks for some reason
 vim.opt.signcolumn = "yes"
@@ -296,6 +302,7 @@ require("lazy").setup({
     {
       "folke/snacks.nvim",
       lazy = false,
+      priority = 1000,
       config = require("config.plugins.snacks").setup,
     },
     {
@@ -325,7 +332,7 @@ require("lazy").setup({
     },
     {
       "catppuccin/nvim",
-      lazy = false,
+      event = "VimEnter",
       name = "catppuccin",
       config = require("config.plugins.catppuccin").setup,
     },
@@ -409,6 +416,7 @@ require("lazy").setup({
     {
       "nvim-tree/nvim-tree.lua",
       event = "User SuperLazy",
+      cmd = { "NvimTreeFindFile", "NvimTreeOpen" },
       config = require("config.plugins.nvim-tree").setup,
     },
     {
@@ -419,12 +427,13 @@ require("lazy").setup({
       config = require("config.plugins.modes").setup,
     },
     {
+      "b0o/schemastore.nvim",
+      lazy = true,
+    },
+    {
       "neovim/nvim-lspconfig",
       event = "VeryLazy",
-      dependencies = {
-        "b0o/schemastore.nvim",
-        "williamboman/mason.nvim",
-      },
+      dependencies = { "williamboman/mason.nvim" },
       config = require("config.plugins.lsp").setup,
     },
     {
@@ -533,16 +542,13 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      lazy = false,
-      -- event = "VeryLazy",
+      event = "BufReadPre",
       dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       build = ":TSUpdate",
       config = require("config.plugins.treesitter").setup,
     },
     {
       "andymass/vim-matchup",
-      enabled = false,
-      event = "User SuperLazy",
       config = require("config.plugins.matchup").config,
     },
     {

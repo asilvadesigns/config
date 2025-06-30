@@ -17,6 +17,7 @@ M.setup = function()
       bufferline = false,
       diffview = true,
       fzf = false,
+      markview = true,
       grug_far = true,
       illuminate = false,
       leap = false,
@@ -85,11 +86,13 @@ M.setup = function()
           IlluminatedWordText = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
           IlluminatedWordWrite = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
 
-          NvimTreeCursorLine = { fg = c.blue, bg = bg }, -- or c.base
-          -- NvimTreeCursorLine = { bg = bg }, -- or c.base
-          NvimTreeCursorLineNr = { fg = c.blue, bg = bg }, -- or c.base
+          -- NvimTreeCursorLine = { fg = c.blue, bg = bg }, -- or c.base
+          -- NvimTreeCursorLine = { fg = c.overlay2, bg = bg }, -- or c.base
+          -- NvimTreeCursorLineNr = { fg = c.blue, bg = bg }, -- or c.base
+          NvimTreeCursorLine = { bg = bg }, -- or c.base
+          NvimTreeCursorLineNr = { bg = bg }, -- or c.base
           --- lightest
-          NvimTreeIndentMarker = { fg = c.surface1 },
+          NvimTreeIndentMarker = { fg = c.surface0 },
           --- lighter
           NvimTreeExecFile = { fg = c.overlay2 },
           NvimTreeNormal = { fg = c.overlay2, bg = c.base },

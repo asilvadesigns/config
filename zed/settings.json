@@ -5,7 +5,7 @@
   "experimental.theme_overrides": {
     "border.variant": "#00000000"
   },
-  "theme": "Catppuccin Frappé",
+  "theme": "NeoSolarized Light",
   "buffer_font_size": 16.0,
   "ui_font_size": 14,
   "vim_mode": true,

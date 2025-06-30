@@ -41,6 +41,10 @@ set -gx CPATH "/opt/homebrew/include"
 set -gx LIBRARY_PATH "/opt/homebrew/lib"
 set -gx PATH "/usr/local/include" $PATH;
 
+# set -gx PATH "/opt/homebrew/opt/llvm@17/bin" $PATH;
+set -gx LDFLAGS "-L/opt/homebrew/opt/llvm@17/lib"
+set -gx CPPFLAGS "-I/opt/homebrew/opt/llvm@17/include"
+
 # fzf @see: https://github.com/tinted-theming/tinted-fzf
 source $HOME/.config/fish/themes/base16-solarized-light.fish
 

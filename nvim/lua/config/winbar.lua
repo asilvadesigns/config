@@ -23,6 +23,7 @@ local statusline_cache = {}
 local excluded_filetypes = {
   ["NeogitStatus"] = true,
   ["NvimTree"] = true,
+  ["neo-tree"] = true,
   ["no-neck-pain"] = true,
   ["snacks_dashboard"] = true,
   ["spectre_panel"] = true,

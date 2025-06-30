@@ -75,7 +75,7 @@ local palette_items = function()
   }
 end
 
-local MAX_WIDTH = 80
+local MAX_WIDTH = 120
 local PRESET = "select" -- dropdown | vscode | ivy | select
 
 M.setup = function()

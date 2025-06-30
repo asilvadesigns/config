@@ -51,7 +51,7 @@ adjust-cursor-thickness = 4
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 18
 font-thicken = false
-font-thicken-strength = 0
+# font-thicken-strength = 0
 # disable ligatures
 font-feature = -calt
 font-feature = -liga
@@ -110,9 +110,6 @@ keybind = super+shift+o=text:,o
 
 # j tmux session | picker (sesh)
 keybind = super+shift+k=text:\x00k
-
-# tmux session | picker (window)
-keybind = super+p=text:\x00p
 
 # tmux | toggle status bar
 keybind = super+shift+s=text:\x00S

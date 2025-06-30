@@ -2,3 +2,58 @@ git:
   paging:
     colorArg: always
     pager: delta --paging=never
+gui:
+  theme:
+    activeBorderColor:
+      - "#4D8AB8"
+    inactiveBorderColor:
+      - "#9FA2A7"
+    selectedLineBgColor:
+      - "#F4EBCF"
+  scrollHeight: 2
+  scrollPastBottom: true
+  scrollOffMargin: 2
+  scrollOffBehavior: margin
+  tabWidth: 4
+  mouseEvents: true
+  skipAmendWarning: false
+  skipDiscardChangeWarning: false
+  skipStashWarning: false
+  skipNoStagedFilesWarning: false
+  skipRewordInEditorWarning: false
+  sidePanelWidth: 0.3333
+  expandFocusedSidePanel: false
+  expandedSidePanelWeight: 2
+  mainPanelSplitMode: flexible
+  enlargedSideViewLocation: left
+  nerdFontsVersion: "3"
+  wrapLinesInStagingView: true
+  language: auto
+  timeFormat: "02 Jan 06"
+  shortTimeFormat: "3:04PM"
+  showListFooter: true
+  showFileTree: true
+  showRootItemInFileTree: true
+  showNumstatInFilesView: false
+  showRandomTip: true
+  showCommandLog: true
+  showBottomLine: true
+  showPanelJumps: true
+  showIcons: false
+  showFileIcons: true
+  commitAuthorShortLength: 2
+  commitAuthorLongLength: 17
+  commitHashLength: 8
+  showBranchCommitHash: false
+  showDivergenceFromBaseBranch: none
+  commandLogSize: 8
+  splitDiff: auto
+  screenMode: normal
+  border: rounded
+  animateExplosion: true
+  portraitMode: auto
+  filterMode: substring
+  statusPanelView: dashboard
+  switchToFilesAfterStashPop: true
+  switchToFilesAfterStashApply: true
+  switchTabsWithPanelJumpKeys: false
