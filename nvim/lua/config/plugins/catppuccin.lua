@@ -103,7 +103,7 @@ M.setup = function()
           NvimTreeOpenedFolderName = { fg = c.subtext1 },
 
           QuickFixLine = { bg = c.mantle },
-          SatelliteBar = { bg = utils.darken(c.maroon, 0.60, c.base) },
+          SatelliteBar = { bg = utils.darken(c.text, 0.60, c.base) },
           SnacksIndent = { fg = utils.lighten(c.surface0, 0.40, c.base) },
           SnacksIndentScope = { fg = c.surface2 },
           SnacksPickerBoxCursorLine = { bg = bg },

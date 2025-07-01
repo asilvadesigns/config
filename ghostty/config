@@ -44,12 +44,23 @@ theme = "iTerm2 Solarized Light"
 
 # Font
 # font-family = "Iosevka Nerd Font Mono"
-adjust-cell-height = 0
-adjust-cell-width = -13%
-adjust-cursor-height = -2
-adjust-cursor-thickness = 4
 font-family = "JetBrainsMono Nerd Font Mono"
+adjust-cell-width = -13%
+adjust-cursor-thickness = 4
+
+# the cell height should be ~0.45–0.5 of the font-size so...
+# compact  | spacious
+# 16/4       16/10
+# 18/5       18/12
+# 22/8       22/13
+adjust-cell-height = 5
+adjust-cursor-height = 5
 font-size = 18
+
+# 2k monitor idk...
+# adjust-cell-height = 7
+# font-size = 15
+#
 font-thicken = false
 # font-thicken-strength = 0
 # disable ligatures

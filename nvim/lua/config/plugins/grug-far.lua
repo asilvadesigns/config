@@ -4,11 +4,14 @@ M.setup = function()
   local grugfar = require("grug-far")
 
   grugfar.setup({
+    inputsHighlight = false,
+    helpLine = {
+      enabled = false,
+    },
+    maxLineLength = 200,
+    resultsHighlight = true,
     startInInsertMode = true,
     windowCreationCommand = "vsplit",
-    resultsHighlight = true,
-    inputsHighlight = false,
-    maxLineLength = 200,
     keymaps = {
       abort = { n = "<localleader>b" },
       close = { n = "<localleader>c" },

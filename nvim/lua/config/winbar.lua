@@ -23,8 +23,11 @@ local statusline_cache = {}
 local excluded_filetypes = {
   ["NeogitStatus"] = true,
   ["NvimTree"] = true,
+  ["grug-far"] = true,
+  ["help"] = true,
   ["neo-tree"] = true,
   ["no-neck-pain"] = true,
+  ["qf"] = true,
   ["snacks_dashboard"] = true,
   ["spectre_panel"] = true,
   ["toggleterm"] = true,
@@ -85,6 +88,8 @@ local function get_filename(buf_id, is_winbar)
   local bufname = api.nvim_buf_get_name(buf_id)
   local filetype = vim.bo[buf_id].filetype
 
+  --- this doesn't really make sense... if you're just remapping a filetype to some kind of valid directory
+  --- why not build a table of acceptable values for those filetypes, maybe in future.
   if filetype == "oil" then
     return fn.expand("%:~:h")
   end
@@ -108,8 +113,15 @@ local function get_filename(buf_id, is_winbar)
     filepath = filepath:sub(1, -#filename - 1)
   end
 
+  --- TODO: cache this?
+  local icon, color = require("nvim-web-devicons").get_icon_by_filetype(filetype, { color_icons = false })
+  if icon == nil then
+    color = ""
+    icon = ""
+  end
+
   if is_winbar then
-    return "%*" .. filepath .. "%*%#DevIconConfig#" .. filename .. "%*"
+    return "%#" .. color .. "#" .. icon .. "%* %#DevIconConfig#" .. filename .. " %*" .. filepath .. "%*"
   end
 
   return "%*" .. filepath .. filename .. "%*"

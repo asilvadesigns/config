@@ -5,6 +5,7 @@ M.setup = function()
     filetypes_denylist = {
       "NvimTree",
       "fugitiveblame",
+      "fyler",
       "grug-far",
       "markdown",
     },

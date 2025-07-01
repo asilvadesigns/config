@@ -11,16 +11,17 @@ _G.enable_simple_colors = false ---restart required
 _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
-_G.hide_all = true
 _G.show_cursorline = true
-_G.show_indent_lines = false
+_G.show_indent_lines = true
 _G.show_invisible_chars = false
 _G.show_number_lines = false
-_G.show_relative_lines = false
+_G.show_relative_lines = true
 _G.show_scrollbar = true
-_G.show_statusline = true
 _G.show_treesitter_context = false
 _G.show_virtual_text = false
+--- hide_all will override the others btw
+_G.hide_all = false
+_G.show_statusline = false
 _G.show_winbar = true
 
 -- disable certain languages
@@ -367,11 +368,6 @@ require("lazy").setup({
       config = require("config.plugins.conform").setup,
     },
     {
-      "stevearc/oil.nvim",
-      event = "User SuperLazy",
-      config = require("config.plugins.oil").setup,
-    },
-    {
       "axelvc/template-string.nvim",
       ft = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
       opts = {},
@@ -420,8 +416,25 @@ require("lazy").setup({
       config = require("config.plugins.nvim-tree").setup,
     },
     {
-      "mvllow/modes.nvim",
+      "A7Lavinraj/fyler.nvim",
+      dependencies = { "echasnovski/mini.icons" },
+      event = "User SuperLazy",
+      config = require("config.plugins.fyler").setup,
+    },
+    {
+      "stevearc/oil.nvim",
       enabled = false,
+      event = "User SuperLazy",
+      config = require("config.plugins.oil").setup,
+    },
+    {
+      "akinsho/bufferline.nvim",
+      enabled = false,
+      version = "*",
+      config = require("config.plugins.bufferline").setup,
+    },
+    {
+      "mvllow/modes.nvim",
       tag = "v0.2.1",
       event = "User SuperLazy",
       config = require("config.plugins.modes").setup,
@@ -651,7 +664,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 --- @param value string
 local function print_and_copy(value)
   vim.cmd("call setreg('+', '" .. vim.fn.escape(value, "'") .. "')")
-  print("Copied: " .. value)
+  print("Copied: \"" .. value .. "\"")
 end
 
 vim.api.nvim_create_user_command("BufOnly", function()
@@ -736,6 +749,7 @@ vim.api.nvim_create_user_command("ToggleNumberLines", function()
   else
     vim.cmd("set nonu nornu")
   end
+  vim.cmd("e!")
   _G.show_relative_lines = false
 end, {})
 
@@ -746,6 +760,7 @@ vim.api.nvim_create_user_command("ToggleRelativeLines", function()
   else
     vim.cmd("set nonu nornu")
   end
+  vim.cmd("e!")
   _G.show_number_lines = false
 end, {})
 
