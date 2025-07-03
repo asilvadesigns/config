@@ -1,7 +1,8 @@
 local M = {}
 
 M.setup = function()
-  require("oil").setup({
+  local plugin = require("oil")
+  plugin.setup({
     default_file_explorer = true,
     constrain_cursor = "name",
     delete_to_trash = true,
@@ -44,6 +45,18 @@ M.setup = function()
   })
 
   vim.keymap.set("n", "<leader>x", ":Oil<CR>", { desc = "Show Oil" })
+
+  -- vim.api.nvim_create_autocmd("FileType", {
+  --   pattern = "oil",
+  --   callback = function()
+  --     vim.keymap.set("n", "K", function()
+  --       vim.wo.cursorline = false
+  --       vim.cmd("normal! gg")
+  --       plugin.select()
+  --       vim.wo.cursorline = true
+  --     end, { buffer = true })
+  --   end,
+  -- })
 
   -- vim.cmd("hi! link OilDir NvimTreeFolderName")
   -- vim.cmd("hi! link OilDirIcon NvimTreeFolderName")

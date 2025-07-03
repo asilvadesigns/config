@@ -49,10 +49,10 @@ adjust-cell-width = -13%
 adjust-cursor-thickness = 4
 
 # the cell height should be ~0.45–0.5 of the font-size so...
-# compact  | spacious
-# 16/4       16/10
-# 18/5       18/12
-# 22/8       22/13
+# 15/2   # laptop
+# 16/4   # desktop
+# 18/5   # desktop also nice
+# 22/8   
 adjust-cell-height = 5
 adjust-cursor-height = 5
 font-size = 18
@@ -81,6 +81,8 @@ window-padding-balance = true
 window-decoration = true
 # macos-titlebar-style = tabs
 macos-titlebar-style = hidden
+
+resize-overlay = never
 
 # Keybindings
 # \x02 is ctrl+b (default tmux prefix)

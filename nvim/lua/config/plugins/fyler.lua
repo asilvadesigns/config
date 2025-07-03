@@ -12,7 +12,10 @@ M.setup = function()
     },
   })
 
-  vim.keymap.set("n", "<leader>x", ":Fyler<CR>", { desc = "Show Fyler" })
+  vim.keymap.set("n", "<leader>x", ":Fyler<CR>", {
+    desc = "Show Fyler",
+    silent = true,
+  })
 end
 
 return M

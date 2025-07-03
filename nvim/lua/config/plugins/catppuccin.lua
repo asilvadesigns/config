@@ -111,6 +111,7 @@ M.setup = function()
           SnacksPickerInputCursorLine = { bg = bg },
           SnacksPickerListCursorLine = { bg = bg },
           SnacksPickerMatch = { fg = c.red },
+          SnacksPickerDir = { fg = c.overlay2 },
           SnacksPickerPreviewCursorLine = { bg = bg },
 
           StatusLineGlobal = { fg = c.overlay1, bg = separator_bg },
@@ -125,7 +126,7 @@ M.setup = function()
           Visual = { bg = utils.darken(c.yellow, 0.20, c.base), style = {} },
           WVisiMatch = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
           WinBar = { fg = c.overlay1 },
-          WinBarNC = { fg = c.surface2 },
+          WinBarNC = { fg = c.overlay1 },
           WinSeparator = { fg = separator_bg },
         }
 

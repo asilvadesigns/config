@@ -8,6 +8,7 @@ M.setup = function()
       "fyler",
       "grug-far",
       "markdown",
+      "oil",
     },
     modes_allowlist = { "n" },
     delay = 50,

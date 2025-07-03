@@ -116,6 +116,7 @@ M.setup = function()
       },
       matcher = {
         cwd_bonus = true,
+        frecency = true,
       },
       formatters = {
         file = {
@@ -125,7 +126,7 @@ M.setup = function()
       },
       icons = {
         files = {
-          enabled = false,
+          enabled = true,
         },
       },
       sources = {
@@ -249,7 +250,7 @@ M.setup = function()
     scroll = {
       enabled = _G.enable_smooth_scroll,
       animate = {
-        duration = { step = 10, total = 85 },
+        duration = { step = 25, total = 125 },
         easing = "outSine",
       },
       animate_repeat = {
@@ -280,6 +281,23 @@ end, { desc = "Fuzzy oldfiles" })
 
 vim.keymap.set("n", "<leader>o", function()
   Snacks.picker.lsp_symbols({
+    filter = {
+      default = {
+        "Class",
+        "Constructor",
+        -- "Enum",
+        -- "Field",
+        "Function",
+        "Interface",
+        "Method",
+        -- "Module",
+        -- "Namespace",
+        -- "Package",
+        -- "Property",
+        -- "Struct",
+        -- "Trait",
+      },
+    },
     layout = {
       preview = true,
     },

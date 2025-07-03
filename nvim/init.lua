@@ -178,9 +178,7 @@ vim.keymap.set("n", "<leader>wL", "<C-w>L", { desc = "Go to the right window" })
 vim.keymap.set("n", "<leader>d", "<C-d>", { desc = "Scroll down" })
 vim.keymap.set("n", "<leader>u", "<C-u>", { desc = "Scroll up" })
 
-vim.keymap.set("n", "<leader>s", function()
-  vim.cmd("w")
-end, { desc = "Save", silent = true })
+vim.keymap.set("n", "<leader>s", ":silent! w<CR>", { desc = "Save", silent = true })
 
 vim.keymap.set("n", "<leader>qf", function()
   if vim.bo.filetype == "NvimTree" then
@@ -417,13 +415,13 @@ require("lazy").setup({
     },
     {
       "A7Lavinraj/fyler.nvim",
+      enabled = false,
       dependencies = { "echasnovski/mini.icons" },
       event = "User SuperLazy",
       config = require("config.plugins.fyler").setup,
     },
     {
       "stevearc/oil.nvim",
-      enabled = false,
       event = "User SuperLazy",
       config = require("config.plugins.oil").setup,
     },
@@ -664,7 +662,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 --- @param value string
 local function print_and_copy(value)
   vim.cmd("call setreg('+', '" .. vim.fn.escape(value, "'") .. "')")
-  print("Copied: \"" .. value .. "\"")
+  print('Copied: "' .. value .. '"')
 end
 
 vim.api.nvim_create_user_command("BufOnly", function()

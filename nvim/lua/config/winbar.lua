@@ -85,7 +85,7 @@ local function get_filename(buf_id, is_winbar)
   local api = vim.api
   local fn = vim.fn
 
-  local bufname = api.nvim_buf_get_name(buf_id)
+  local filepath = api.nvim_buf_get_name(buf_id)
   local filetype = vim.bo[buf_id].filetype
 
   --- this doesn't really make sense... if you're just remapping a filetype to some kind of valid directory
@@ -94,7 +94,7 @@ local function get_filename(buf_id, is_winbar)
     return fn.expand("%:~:h")
   end
 
-  local filename = fn.fnamemodify(bufname, ":t")
+  local filename = fn.fnamemodify(filepath, ":t")
   if filename == "" then
     return ""
   end
@@ -104,16 +104,18 @@ local function get_filename(buf_id, is_winbar)
     cwd = cwd .. "/"
   end
 
-  local filepath = bufname
-  if bufname:sub(1, #cwd) == cwd then
-    filepath = bufname:sub(#cwd + 1)
+  if filepath:sub(1, #cwd) == cwd then
+    filepath = filepath:sub(#cwd + 1)
   end
 
   if filepath:sub(-#filename) == filename then
     filepath = filepath:sub(1, -#filename - 1)
   end
 
-  --- TODO: cache this?
+  if filepath:sub(-1) == "/" then
+    filepath = filepath:sub(1, -2)
+  end
+
   local icon, color = require("nvim-web-devicons").get_icon_by_filetype(filetype, { color_icons = false })
   if icon == nil then
     color = ""
