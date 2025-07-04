@@ -367,4 +367,21 @@ vim.api.nvim_create_user_command("ToggleSmoothScroll", function()
   _G.enable_smooth_scroll = not _G.enable_smooth_scroll
 end, {})
 
+--- https://github.com/Saghen/blink.cmp/issues/1710#issuecomment-2868735177
+local group = vim.api.nvim_create_augroup("BlinkCmpSnacksToggle", { clear = true })
+vim.api.nvim_create_autocmd("User", {
+  group = group,
+  pattern = "BlinkCmpMenuOpen",
+  callback = function()
+    vim.g.snacks_animate = false
+  end,
+})
+vim.api.nvim_create_autocmd("User", {
+  group = group,
+  pattern = "BlinkCmpMenuClose",
+  callback = function()
+    vim.g.snacks_animate = true
+  end,
+})
+
 return M

@@ -23,17 +23,17 @@ M.setup = function()
       ["<C-n>"] = { "select_next", "fallback" },
     },
     cmdline = {
-      completion = {
-        menu = { auto_show = true },
-      },
       keymap = {
-        -- ["<CR>"] = { "accept", "fallback" },
-        --
-        ["<Down>"] = { "show", "select_next", "fallback" },
-        ["<Tab>"] = { "show", "select_next", "fallback" },
+        ["<Down>"] = { "show_and_insert", "select_next", "fallback" },
+        ["<Tab>"] = { "show_and_insert", "select_next", "fallback" },
         --
         ["<Up>"] = { "select_prev", "fallback" },
         ["<S-Tab>"] = { "select_prev", "fallback" },
+      },
+      completion = {
+        menu = {
+          auto_show = true,
+        },
       },
     },
     signature = {

@@ -119,6 +119,8 @@ M.setup = function()
           StatusLineLocal = { fg = separator_bg, bg = c.base },
           StatusLineLocalNC = { fg = separator_bg, bg = c.base },
 
+          Todo = { fg = c.text, bg = c.base },
+
           TabLine = { bg = c.mantle },
           TreesitterContextBottom = { underline = true },
           TreesitterContextLineNumber = { underline = true },

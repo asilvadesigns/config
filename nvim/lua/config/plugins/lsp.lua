@@ -77,7 +77,6 @@ M.setup = function()
     filetypes = vim.list_extend({ "templ" }, htmldefaults.filetypes),
   })
 
-  -- NOTE: new schemas see here https://www.schemastore.org/json/
   require("lspconfig").jsonls.setup({
     settings = {
       json = {
@@ -147,15 +146,6 @@ M.setup = function()
     filetypes = { "sql", "postgres" },
     root_dir = require("lspconfig").util.root_pattern("postgrestools.jsonc"),
   })
-
-  local original_definition_handler = vim.lsp.handlers["textDocument/definition"]
-  vim.lsp.handlers["textDocument/definition"] = function(_, result, ...)
-    if vim.islist(result) then
-      vim.print("seent it")
-      vim.print(vim.inspect(result))
-    end
-    original_definition_handler(_, result, ...)
-  end
 
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
