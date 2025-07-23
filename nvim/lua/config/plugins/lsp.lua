@@ -167,47 +167,26 @@ M.setup = function()
         vim.lsp.buf.hover({ border = "rounded" })
       end, opts)
 
-      ---@class Item
-      ---@field idx? number
-      ---@field score? number
-      ---
-      ---@class Filter
-      ---@field pattern string Pattern used to filter items by the matcher
-      ---@field search string Initial search string used by finders
-      ---@field buf? number
-      ---@field file? string
-      ---@field cwd string
-      ---@field all boolean
-      ---@field paths {path:string, want:boolean}[]
-      ---@field opts snacks.picker.filter.Config
-      ---@field current_buf number
-      ---@field current_win number
-      ---@field source_id? number
-      ---@field meta table<string, any>
-      ---
-      ---@param item Item
-      ---@param filter Filter
-      local filterfn = function(_, filter)
-        vim.print(vim.inspect(filter))
-      end
-
       vim.keymap.set("n", "gd", function()
-        local seen_lines = {}
+        -- local seen_lines = {}
 
         Snacks.picker.lsp_definitions({
-          auto_confirm = true,
-          layout = { preview = true },
-          filter = {
-            filter = function(result)
-              local key = ("%s:%d"):format(result.file, result.pos[1])
-              if seen_lines[key] then
-                return false
-              end
-              seen_lines[key] = true
-              return true
-            end,
-          },
+          include_current = false,
         })
+        -- Snacks.picker.lsp_definitions({
+        --   auto_confirm = true,
+        --   layout = { preview = true },
+        --   filter = {
+        --     filter = function(result)
+        --       local key = ("%s:%d"):format(result.file, result.pos[1])
+        --       if seen_lines[key] then
+        --         return false
+        --       end
+        --       seen_lines[key] = true
+        --       return true
+        --     end,
+        --   },
+        -- })
       end, opts)
 
       vim.keymap.set("n", "gi", function()

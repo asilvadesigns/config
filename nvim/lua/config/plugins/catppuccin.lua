@@ -134,44 +134,56 @@ M.setup = function()
 
         if _G.enable_simple_colors then
           colors = vim.tbl_extend("force", colors, {
-            ["@comment"] = { fg = c.subtext0, style = {} },
-            Comment = { fg = c.subtext0, style = {} },
+            ["@comment"] = { fg = c.yellow, style = {} }, --- fg = c.subtext0
+            Comment = { fg = c.yellow, style = {} }, --- fg = c.subtext0
             --- lsp tokens
-            ["@constant"] = { fg = c.text, style = {} },
-            ["@field"] = { fg = c.text, style = {} },
-            ["@function"] = { fg = c.text, style = {} },
-            ["@keyword"] = { fg = c.maroon, style = {} },
-            ["@number"] = { fg = c.maroon, style = {} },
-            ["@operator"] = { fg = c.text, style = {} },
-            ["@property"] = { fg = c.text, style = {} },
-            ["@punctuation"] = { fg = c.text, style = {} },
-            ["@string"] = { fg = c.green, style = {} },
-            ["@type"] = { fg = c.yellow, style = {} },
-            ["@variable"] = { fg = c.text, style = {} },
-            ["@variable.builtin"] = { fg = c.text, style = {} },
-            ["@variable.member"] = { fg = c.text, style = {} },
-            ["@variable.parameter"] = { fg = c.text, style = {} },
+            ["@constant"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@constant.builtin"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@constructor"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@constructor.typescript"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@field"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@function"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@function.builtin"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@keyword"] = { fg = c.text, style = {} }, --- fg = c.mauve
+            ["@keyword.export"] = { fg = c.text, style = {} }, --- fg = c.mauve
+            ["@keyword.function"] = { fg = c.text, style = {} }, --- fg = c.mauve
+            ["@keyword.return"] = { fg = c.text, style = {} }, --- fg = c.mauve
+            ["@module"] = { fg = c.text, style = {} }, --- fg = c.mauve
+            ["@number"] = { fg = c.text, style = {} }, --- fg = c.maroon
+            ["@operator"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@property"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@property.class.css"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@property.css"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@punctuation"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@string"] = { fg = c.text, style = {} }, --- fg = c.green
+            ["@type"] = { fg = c.text, style = {} }, --- fg = c.yellow
+            ["@type.builtin"] = { fg = c.text, style = {} }, --- fg = c.yellow
+            ["@type.css"] = { fg = c.text, style = {} }, --- fg = c.yellow
+            ["@variable"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@variable.builtin"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@variable.member"] = { fg = c.text, style = {} }, --- fg = c.text
+            ["@variable.parameter"] = { fg = c.text, style = {} }, --- fg = c.text
             --- vim syntax fallback
-            Boolean = { fg = c.maroon, style = {} },
-            Conditional = { fg = c.maroon, style = {} },
-            Constant = { fg = c.text, style = {} },
-            Exception = { fg = c.text, style = {} },
-            Function = { fg = c.text, style = {} },
-            Identifier = { fg = c.maroon, style = {} },
-            Include = { fg = c.maroon, style = {} },
-            Keyword = { fg = c.maroon, style = {} },
-            Label = { fg = c.text, style = {} },
-            Number = { fg = c.text, style = {} },
-            Operator = { fg = c.maroon, style = {} },
-            PreProc = { fg = c.text, style = {} },
-            Repeat = { fg = c.maroon, style = {} },
-            Special = { fg = c.maroon, style = {} },
-            Statement = { fg = c.text, style = {} },
-            StorageClass = { fg = c.text, style = {} },
-            String = { fg = c.green, style = {} },
-            Structure = { fg = c.text, style = {} },
-            Title = { fg = c.text, style = {} },
-            Type = { fg = c.yellow, style = {} },
+            Boolean = { fg = c.text, style = {} }, --- fg = c.maroon
+            Conditional = { fg = c.text, style = {} }, --- fg = c.mauve
+            Constant = { fg = c.text, style = {} }, --- fg = c.text
+            Exception = { fg = c.text, style = {} }, --- fg = c.text
+            Function = { fg = c.text, style = {} }, --- fg = c.maroon
+            Identifier = { fg = c.text, style = {} }, --- fg = c.maroon
+            Include = { fg = c.text, style = {} }, --- fg = c.maroon
+            Keyword = { fg = c.text, style = {} }, --- fg = c.maroon
+            Label = { fg = c.text, style = {} }, --- fg = c.text
+            Number = { fg = c.text, style = {} }, --- fg = c.text
+            Operator = { fg = c.text, style = {} }, --- fg = c.maroon
+            PreProc = { fg = c.text, style = {} }, --- fg = c.text
+            Repeat = { fg = c.text, style = {} }, --- fg = c.maroon
+            Special = { fg = c.text, style = {} }, --- fg = c.maroon
+            Statement = { fg = c.text, style = {} }, --- fg = c.text
+            StorageClass = { fg = c.text, style = {} }, --- fg = c.text
+            String = { fg = c.text, style = {} }, --- fg = c.green
+            Structure = { fg = c.text, style = {} }, --- fg = c.text
+            Title = { fg = c.text, style = {} }, --- fg = c.text
+            Type = { fg = c.text, style = {} }, --- fg = c.yellow
           })
         end
 

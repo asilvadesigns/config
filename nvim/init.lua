@@ -2,12 +2,12 @@
 
 -- enable_ && show_ are functionally same, just semantics.
 _G.enable_auto_pair = false
-_G.enable_autocompletion = true
+_G.enable_autocompletion = false
 _G.enable_color_picker = true
 _G.enable_dark_theme = false
 _G.enable_line_wrap = false
 _G.enable_smooth_scroll = true
-_G.enable_simple_colors = false ---restart required
+_G.enable_simple_colors = true ---restart required
 _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
@@ -417,6 +417,7 @@ require("lazy").setup({
       "A7Lavinraj/fyler.nvim",
       enabled = false,
       dependencies = { "echasnovski/mini.icons" },
+      branch = "stable",
       event = "User SuperLazy",
       config = require("config.plugins.fyler").setup,
     },
@@ -433,18 +434,15 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
+      enabled = false,
       tag = "v0.2.1",
       event = "User SuperLazy",
       config = require("config.plugins.modes").setup,
     },
     {
-      "b0o/schemastore.nvim",
-      lazy = true,
-    },
-    {
       "neovim/nvim-lspconfig",
       event = "VeryLazy",
-      dependencies = { "williamboman/mason.nvim" },
+      dependencies = { "williamboman/mason.nvim", "b0o/schemastore.nvim" },
       config = require("config.plugins.lsp").setup,
     },
     {
@@ -553,13 +551,15 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      event = "BufReadPre",
+      event = "VeryLazy",
       dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       build = ":TSUpdate",
       config = require("config.plugins.treesitter").setup,
     },
     {
       "andymass/vim-matchup",
+      lazy = false,
+      -- event = "VeryLazy",
       config = require("config.plugins.matchup").config,
     },
     {
@@ -581,7 +581,7 @@ require("lazy").setup({
         "getscriptPlugin",
         "gzip",
         "matchit",
-        "matchparen",
+        -- "matchparen",
         "netrwPlugin",
         "osc52",
         "remotePlugin",
@@ -736,6 +736,20 @@ local excluded_filetypes = {
 
 vim.api.nvim_create_user_command("ToggleLineWrap", function()
   _G.enable_line_wrap = not _G.enable_line_wrap
+
+  for _, win_id in ipairs(vim.api.nvim_list_wins()) do
+    local buf_id = vim.api.nvim_win_get_buf(win_id)
+    local buf_filetype = vim.bo[buf_id].filetype
+
+    if not excluded_filetypes[buf_filetype] then
+      vim.api.nvim_set_option_value("wrap", _G.enable_line_wrap, { win = win_id })
+      vim.api.nvim_set_option_value("linebreak", _G.enable_line_wrap, { win = win_id })
+    end
+  end
+end, {})
+
+vim.api.nvim_create_user_command("DisableLineWrap", function()
+  _G.enable_line_wrap = false
 
   for _, win_id in ipairs(vim.api.nvim_list_wins()) do
     local buf_id = vim.api.nvim_win_get_buf(win_id)

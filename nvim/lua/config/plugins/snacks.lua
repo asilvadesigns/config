@@ -185,13 +185,12 @@ M.setup = function()
       size = 1 * 1024 * 1000, -- 1MB
       ---@param ctx {buf: number, ft:string}
       setup = function(ctx)
-        vim.notify("killing thing!")
-        ---@diagnostic disable-next-line: missing-fields
+        vim.notify("large file detected")
         Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
+        vim.cmd("DisableLineWrap")
         vim.cmd("SatelliteDisable")
         vim.cmd("NoMatchParen")
         vim.cmd("TSBufDisable highlight")
-        -- vim.b.minianimate_disable = true
         vim.schedule(function()
           vim.bo[ctx.buf].syntax = ctx.ft
         end)
@@ -276,7 +275,11 @@ vim.keymap.set("n", "<leader>b", function()
 end, { desc = "Fuzzy buffers" })
 
 vim.keymap.set("n", "<leader>e", function()
-  Snacks.picker.recent({ filter = { cwd = true } })
+  Snacks.picker.recent({
+    filter = {
+      cwd = true,
+    },
+  })
 end, { desc = "Fuzzy oldfiles" })
 
 vim.keymap.set("n", "<leader>o", function()

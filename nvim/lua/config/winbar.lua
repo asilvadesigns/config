@@ -27,6 +27,7 @@ local excluded_filetypes = {
   ["help"] = true,
   ["neo-tree"] = true,
   ["no-neck-pain"] = true,
+  -- ["oil"] = true,
   ["qf"] = true,
   ["snacks_dashboard"] = true,
   ["spectre_panel"] = true,
@@ -82,26 +83,25 @@ end
 ---@param is_winbar boolean
 ---@return string
 local function get_filename(buf_id, is_winbar)
-  local api = vim.api
-  local fn = vim.fn
-
-  local filepath = api.nvim_buf_get_name(buf_id)
-  local filetype = vim.bo[buf_id].filetype
-
-  --- this doesn't really make sense... if you're just remapping a filetype to some kind of valid directory
-  --- why not build a table of acceptable values for those filetypes, maybe in future.
-  if filetype == "oil" then
-    return fn.expand("%:~:h")
-  end
-
-  local filename = fn.fnamemodify(filepath, ":t")
-  if filename == "" then
-    return ""
-  end
-
-  local cwd = fn.getcwd()
+  local cwd = vim.fn.getcwd()
   if cwd:sub(-1) ~= "/" then
     cwd = cwd .. "/"
+  end
+
+  local filepath = vim.api.nvim_buf_get_name(buf_id)
+  local filetype = vim.bo[buf_id].filetype
+
+  if filetype == "oil" then
+    return vim.fn.expand("%:~:h"):sub(#cwd)
+  end
+
+  if filetype == "trouble" then
+    return "Diagnostics"
+  end
+
+  local filename = vim.fn.fnamemodify(filepath, ":t")
+  if filename == "" then
+    return ""
   end
 
   if filepath:sub(1, #cwd) == cwd then
@@ -112,9 +112,9 @@ local function get_filename(buf_id, is_winbar)
     filepath = filepath:sub(1, -#filename - 1)
   end
 
-  if filepath:sub(-1) == "/" then
-    filepath = filepath:sub(1, -2)
-  end
+  -- if filepath:sub(-1) == "/" then
+  --   filepath = filepath:sub(1, -2)
+  -- end
 
   local icon, color = require("nvim-web-devicons").get_icon_by_filetype(filetype, { color_icons = false })
   if icon == nil then
@@ -123,7 +123,10 @@ local function get_filename(buf_id, is_winbar)
   end
 
   if is_winbar then
-    return "%#" .. color .. "#" .. icon .. "%* %#DevIconConfig#" .. filename .. " %*" .. filepath .. "%*"
+    local _file = "%#DevIconConfig#" .. filename .. "%*"
+    local _icon = "%#" .. color .. "#" .. icon .. "%*"
+    return filepath .. _file .. _icon
+    -- return "%#" .. color .. "#" .. icon .. "%* %#DevIconConfig#" .. filename .. " %*" .. filepath .. "%*"
   end
 
   return "%*" .. filepath .. filename .. "%*"
