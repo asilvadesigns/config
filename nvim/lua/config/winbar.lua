@@ -58,7 +58,8 @@ local function get_diagnostics(buf_id)
   for _, sev in ipairs(severity_order) do
     local count = d_count[sev]
     if count and count > 0 then
-      table.insert(d_parts, string.format(" %%#%s#%s %d%%*", severity_hl[sev], severity_icon[sev], count))
+      -- table.insert(d_parts, string.format(" %%#%s#%s %d%%*", severity_hl[sev], severity_icon[sev], count))
+      table.insert(d_parts, string.format("%%#%s#%s %d%%*", severity_hl[sev], severity_icon[sev], count))
     end
   end
 
@@ -149,16 +150,18 @@ local function enable_winbar(win_id)
   if is_floating or excluded_filetypes[filetype] ~= nil then
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
   else
-    local winbar = " "
+    local winbar = ""
       .. is_active_icon
       .. " "
       .. get_filename(buf_id, true)
       .. " "
       .. get_modified(buf_id, true)
       .. " "
+      -- .. "%="
+      -- .. "%= %l/%L:%-3c"
       .. "%="
       .. get_diagnostics(buf_id)
-      .. " "
+      .. "%#Normal# %l/%L %*"
 
     vim.api.nvim_set_option_value("winbar", winbar, { win = win_id })
   end

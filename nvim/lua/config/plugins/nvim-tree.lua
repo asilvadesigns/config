@@ -19,15 +19,15 @@ M.setup = function()
       silent = true,
     })
 
-    vim.keymap.set("n", "d", function()
-      vim.notify("could not delete")
-    end, opts("Delete"))
-
-    vim.keymap.set("n", "D", function()
-      vim.notify("could not put in trash")
-    end, opts("Trash"))
-    -- vim.keymap.set("n", "d", api.fs.remove, opts("Delete"))
-    -- vim.keymap.set("n", "D", api.fs.trash, opts("Trash"))
+    -- vim.keymap.set("n", "d", function()
+    --   vim.notify("could not delete")
+    -- end, opts("Delete"))
+    --
+    -- vim.keymap.set("n", "D", function()
+    --   vim.notify("could not put in trash")
+    -- end, opts("Trash"))
+    vim.keymap.set("n", "d", api.fs.remove, opts("Delete"))
+    vim.keymap.set("n", "D", api.fs.trash, opts("Trash"))
 
     -- search directory with grug
     vim.keymap.set("n", "f", function()

@@ -1,3 +1,5 @@
+---@diagnostic disable: missing-fields
+
 local M = {}
 
 vim.api.nvim_set_hl(0, "StatusLineGlobal", {})
@@ -16,11 +18,12 @@ M.setup = function()
       ---
       bufferline = false,
       diffview = true,
+      flash = false,
       fzf = false,
-      markview = true,
       grug_far = true,
       illuminate = false,
       leap = false,
+      markview = true,
       neogit = true,
       notify = false,
       nvimtree = false,
@@ -82,9 +85,9 @@ M.setup = function()
           },
           NormalFloat = { bg = c.base },
 
-          IlluminatedWordRead = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
-          IlluminatedWordText = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
-          IlluminatedWordWrite = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
+          IlluminatedWordRead = { bg = utils.darken(c.blue, 0.20, c.base), style = {} }, -- c.red
+          IlluminatedWordText = { bg = utils.darken(c.blue, 0.20, c.base), style = {} }, -- c.red
+          IlluminatedWordWrite = { bg = utils.darken(c.blue, 0.20, c.base), style = {} }, -- c.red
 
           -- NvimTreeCursorLine = { fg = c.blue, bg = bg }, -- or c.base
           -- NvimTreeCursorLine = { fg = c.overlay2, bg = bg }, -- or c.base
@@ -101,6 +104,15 @@ M.setup = function()
           --- darker
           NvimTreeFolderName = { fg = c.subtext1 },
           NvimTreeOpenedFolderName = { fg = c.subtext1 },
+
+          -- FylerWhite = { fg = c.subtext1 },
+          -- FylerBlue = { fg = c.subtext1 },
+
+          FlashBackdrop = { fg = c.overlay2 },
+          FlashCurrent = { bg = c.blue, fg = c.base },
+          FlashLabel = { bg = c.red, fg = c.base },
+          -- FlashCursor = { bg = c.blue, fg = c.red },
+          FlashPromptIcon = { fg = c.red },
 
           QuickFixLine = { bg = c.mantle },
           SatelliteBar = { bg = utils.darken(c.text, 0.60, c.base) },
@@ -126,13 +138,15 @@ M.setup = function()
           TreesitterContextLineNumber = { underline = true },
           TreesitterContextLineNumberBottom = { underline = true },
           Visual = { bg = utils.darken(c.yellow, 0.20, c.base), style = {} },
-          WVisiMatch = { bg = utils.darken(c.red, 0.20, c.base), style = {} },
+          WVisiMatch = { bg = utils.darken(c.blue, 0.20, c.base), style = {} }, -- OR c.red
           WinBar = { fg = c.overlay1 },
           WinBarNC = { fg = c.overlay1 },
           WinSeparator = { fg = separator_bg },
         }
 
         if _G.enable_simple_colors then
+          local emphasis = { fg = c.text, style = {}, bold = true } -- blue, mauve, text
+
           colors = vim.tbl_extend("force", colors, {
             ["@comment"] = { fg = c.yellow, style = {} }, --- fg = c.subtext0
             Comment = { fg = c.yellow, style = {} }, --- fg = c.subtext0
@@ -144,11 +158,14 @@ M.setup = function()
             ["@field"] = { fg = c.text, style = {} }, --- fg = c.text
             ["@function"] = { fg = c.text, style = {} }, --- fg = c.text
             ["@function.builtin"] = { fg = c.text, style = {} }, --- fg = c.text
-            ["@keyword"] = { fg = c.text, style = {} }, --- fg = c.mauve
+            ["@keyword"] = emphasis, --- fg = c.mauve
             ["@keyword.export"] = { fg = c.text, style = {} }, --- fg = c.mauve
             ["@keyword.function"] = { fg = c.text, style = {} }, --- fg = c.mauve
-            ["@keyword.return"] = { fg = c.text, style = {} }, --- fg = c.mauve
+            ["@keyword.operator"] = { fg = c.text, style = {} }, --- fg = c.mauve
+            ["@keyword.return"] = emphasis, --- fg = c.mauve
+            ["@nospell.jsdoc"] = { fg = c.yellow, style = {} }, --- fg = c.mauve
             ["@module"] = { fg = c.text, style = {} }, --- fg = c.mauve
+            ["@keyword.jsdoc"] = { fg = c.text, style = {} }, --- fg = c.yellow
             ["@number"] = { fg = c.text, style = {} }, --- fg = c.maroon
             ["@operator"] = { fg = c.text, style = {} }, --- fg = c.text
             ["@property"] = { fg = c.text, style = {} }, --- fg = c.text
@@ -165,9 +182,9 @@ M.setup = function()
             ["@variable.parameter"] = { fg = c.text, style = {} }, --- fg = c.text
             --- vim syntax fallback
             Boolean = { fg = c.text, style = {} }, --- fg = c.maroon
-            Conditional = { fg = c.text, style = {} }, --- fg = c.mauve
+            Conditional = emphasis, --- fg = c.mauve
             Constant = { fg = c.text, style = {} }, --- fg = c.text
-            Exception = { fg = c.text, style = {} }, --- fg = c.text
+            Exception = emphasis, --- fg = c.text
             Function = { fg = c.text, style = {} }, --- fg = c.maroon
             Identifier = { fg = c.text, style = {} }, --- fg = c.maroon
             Include = { fg = c.text, style = {} }, --- fg = c.maroon
@@ -176,13 +193,14 @@ M.setup = function()
             Number = { fg = c.text, style = {} }, --- fg = c.text
             Operator = { fg = c.text, style = {} }, --- fg = c.maroon
             PreProc = { fg = c.text, style = {} }, --- fg = c.text
-            Repeat = { fg = c.text, style = {} }, --- fg = c.maroon
+            Repeat = emphasis, --- fg = c.maroon
             Special = { fg = c.text, style = {} }, --- fg = c.maroon
             Statement = { fg = c.text, style = {} }, --- fg = c.text
             StorageClass = { fg = c.text, style = {} }, --- fg = c.text
             String = { fg = c.text, style = {} }, --- fg = c.green
             Structure = { fg = c.text, style = {} }, --- fg = c.text
             Title = { fg = c.text, style = {} }, --- fg = c.text
+            Todo = { fg = c.text, style = {} }, --- fg = c.yellow
             Type = { fg = c.text, style = {} }, --- fg = c.yellow
           })
         end

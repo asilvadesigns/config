@@ -44,6 +44,7 @@ M.setup = function()
       enable = false,
     },
     textobjects = {
+      enable = false,
       move = {
         enable = false,
         set_jumps = true,
@@ -59,7 +60,7 @@ M.setup = function()
         },
       },
       select = {
-        enable = true,
+        enable = false,
         lookahead = true,
         include_surrounding_whitespace = false,
         keymaps = {

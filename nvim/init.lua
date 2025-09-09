@@ -6,19 +6,21 @@ _G.enable_autocompletion = false
 _G.enable_color_picker = true
 _G.enable_dark_theme = false
 _G.enable_line_wrap = false
-_G.enable_smooth_scroll = true
-_G.enable_simple_colors = true ---restart required
+_G.enable_smooth_scroll = false
+_G.enable_simple_colors = false
 _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
 _G.show_cursorline = true
-_G.show_indent_lines = true
+_G.show_indent_lines = false
 _G.show_invisible_chars = false
 _G.show_number_lines = false
 _G.show_relative_lines = true
 _G.show_scrollbar = true
 _G.show_treesitter_context = false
+_G.show_diagnostics = true
 _G.show_virtual_text = false
+_G.show_virtual_underline = false
 --- hide_all will override the others btw
 _G.hide_all = false
 _G.show_statusline = false
@@ -30,6 +32,14 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 
+-- local snacks = root .. "/lazy/snacks.nvim"
+-- if vim.env.PROF then
+--   vim.opt.rtp:append(snacks)
+--   require("snacks.profiler").startup({
+--     startup = { event = "VimEnter" },
+--   })
+-- end
+
 local use_alternate_directory = false
 
 local root = vim.fn.stdpath("data")
@@ -37,16 +47,8 @@ if use_alternate_directory then
   root = vim.fn.expand("~/dev")
 end
 
-local snacks = root .. "/lazy/snacks.nvim"
-local lazypath = root .. "/lazy/lazy.nvim"
-
-if vim.env.PROF then
-  vim.opt.rtp:append(snacks)
-  require("snacks.profiler").startup({
-    startup = { event = "VimEnter" },
-  })
-end
-
+local lazyroot = root .. "/lazy/"
+local lazypath = lazyroot .. "lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
   local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
@@ -276,11 +278,19 @@ vim.keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev se
 
 vim.keymap.set("n", "[d", function()
   vim.diagnostic.jump({ count = -1, float = true })
-end, { desc = "Go to previous diagnostic message" })
+end, { desc = "Go to prev diagnostic message" })
 
 vim.keymap.set("n", "]d", function()
   vim.diagnostic.jump({ count = 1, float = true })
 end, { desc = "Go to next diagnostic message" })
+
+vim.keymap.set("n", "[e", function()
+  vim.diagnostic.jump({ count = -1, float = true, severity = "ERROR" })
+end, { desc = "Go to prev error message" })
+
+vim.keymap.set("n", "]e", function()
+  vim.diagnostic.jump({ count = 1, float = true, severity = "ERROR" })
+end, { desc = "Go to next error message" })
 
 vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic message" })
 
@@ -288,7 +298,7 @@ vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic m
 --- Section: Plugins
 ---
 require("lazy").setup({
-  root = root .. "/lazy/plugins",
+  root = lazyroot .. "plugins",
   spec = {
     {
       "nvim-tree/nvim-web-devicons",
@@ -297,6 +307,12 @@ require("lazy").setup({
     {
       "nvim-lua/plenary.nvim",
       lazy = true,
+    },
+    {
+      "folke/flash.nvim",
+      enabled = false,
+      event = "VeryLazy",
+      config = require("config.plugins.flash").setup,
     },
     {
       "folke/snacks.nvim",
@@ -322,6 +338,16 @@ require("lazy").setup({
           { path = "${3rd}/luv/library", words = { "vim%.uv" } },
           { path = "snacks.nvim", words = { "Snacks" } },
         },
+      },
+    },
+    {
+      "sphamba/smear-cursor.nvim",
+      enabled = false,
+      event = "VeryLazy",
+      opts = {
+        stiffness = 0.8,
+        trailing_stiffness = 0.5,
+        distance_stop_animating = 0.5,
       },
     },
     {
@@ -416,8 +442,7 @@ require("lazy").setup({
     {
       "A7Lavinraj/fyler.nvim",
       enabled = false,
-      dependencies = { "echasnovski/mini.icons" },
-      branch = "stable",
+      dependencies = { "nvim-tree/nvim-web-devicons" },
       event = "User SuperLazy",
       config = require("config.plugins.fyler").setup,
     },
@@ -465,6 +490,7 @@ require("lazy").setup({
     },
     {
       "ggandor/leap.nvim",
+      enabled = false,
       keys = {
         {
           "<leader>;",
@@ -513,6 +539,7 @@ require("lazy").setup({
     },
     {
       "lewis6991/gitsigns.nvim",
+      enabled = false,
       event = "User SuperLazy",
       config = require("config.plugins.gitsigns").setup,
     },
@@ -552,18 +579,25 @@ require("lazy").setup({
     {
       "nvim-treesitter/nvim-treesitter",
       event = "VeryLazy",
-      dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+      -- dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
       build = ":TSUpdate",
       config = require("config.plugins.treesitter").setup,
     },
     {
       "andymass/vim-matchup",
+      enabled = false,
       lazy = false,
       -- event = "VeryLazy",
       config = require("config.plugins.matchup").config,
     },
     {
+      "chrisgrieser/nvim-origami",
+      event = "User SuperLazy",
+      config = require("config.plugins.origami").setup,
+    },
+    {
       "kevinhwang91/nvim-ufo",
+      enabled = false,
       event = "User SuperLazy",
       dependencies = { "kevinhwang91/promise-async" },
       config = require("config.plugins.ufo").setup,
@@ -617,6 +651,23 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
     end
   end,
 })
+
+-- show
+-- local was_list_enabled = _G.show_invisible_chars
+-- vim.api.nvim_create_autocmd("ModeChanged", {
+--   pattern = "*:[vV]", -- Entering Visual mode (includes Visual Line and Block)
+--   callback = function()
+--     was_list_enabled = vim.wo.list
+--     vim.wo.list = true
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd("ModeChanged", {
+--   pattern = "[vV]:*", -- Leaving Visual mode
+--   callback = function()
+--     vim.wo.list = was_list_enabled
+--   end,
+-- })
 
 -- vim.api.nvim_create_autocmd({ "CursorHold" }, {
 --   group = vim.api.nvim_create_augroup("reload-file-dyanmic", { clear = true }),
@@ -711,6 +762,11 @@ vim.api.nvim_create_user_command("CopyHighlightGroup", function()
   print_and_copy(synName)
 end, {})
 
+vim.api.nvim_create_user_command("ToggleDiagnostics", function()
+  _G.show_diagnostics = not _G.show_diagnostics
+  vim.diagnostic.enable(_G.show_diagnostics)
+end, {})
+
 vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
   local config = vim.diagnostic.config()
   if config ~= nil then
@@ -720,6 +776,18 @@ vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
       _G.show_virtual_text = false
     end
     vim.diagnostic.config({ virtual_text = _G.show_virtual_text })
+  end
+end, {})
+
+vim.api.nvim_create_user_command("ToggleDiagnosticUnderline", function()
+  local config = vim.diagnostic.config()
+  if config ~= nil then
+    if not config.underline then
+      _G.show_virtual_underline = true
+    else
+      _G.show_virtual_underline = false
+    end
+    vim.diagnostic.config({ underline = _G.show_virtual_underline })
   end
 end, {})
 
@@ -799,27 +867,28 @@ end, {})
 ---
 vim.diagnostic.config({
   float = { border = "rounded" },
-  signs = false,
-  -- signs = {
-  --   -- NOTE: if you want signs
-  --   -- text = {
-  --   --   [vim.diagnostic.severity.ERROR] = " ", --signs.icons.square,
-  --   --   [vim.diagnostic.severity.HINT] = " ", --signs.icons.square,
-  --   --   [vim.diagnostic.severity.INFO] = " ", --signs.icons.square,
-  --   --   [vim.diagnostic.severity.WARN] = " ", --signs.icons.square,
-  --   -- },
-  --   -- NOTE: if you want to highlight the number line
-  --   -- numhl = {
-  --   --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-  --   --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-  --   --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-  --   --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-  --   -- },
-  -- },
-  underline = true,
-  virtual_text = false,
+  -- signs = false,
+  signs = {
+    -- NOTE: if you want signs
+    text = {
+      [vim.diagnostic.severity.ERROR] = "", --signs.icons.square,
+      [vim.diagnostic.severity.HINT] = "", --signs.icons.square,
+      [vim.diagnostic.severity.INFO] = "", --signs.icons.square,
+      [vim.diagnostic.severity.WARN] = "", --signs.icons.square,
+    },
+    -- NOTE: if you want to highlight the number line
+    -- numhl = {
+    --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+    --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+    --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+    --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+    -- },
+  },
+  underline = _G.show_virtual_underline,
+  virtual_text = _G.show_virtual_text,
   virtual_lines = false,
 })
+vim.diagnostic.enable(_G.show_diagnostics)
 
 ---
 --- Section: Filetypes

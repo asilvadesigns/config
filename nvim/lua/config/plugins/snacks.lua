@@ -50,15 +50,17 @@ local palette_items = function()
     { text = "Remove Other Buffers", cmd = "only|bd|e#" },
     { text = "Rename File", cmd = "RenameFile" },
     { text = "Restart LSP", cmd = "LspRestart" },
-    { text = "Search (file)", cmd = "GrugFarLocal" },
-    { text = "Search (project)", cmd = "GrugFar" },
+    { text = "Search (file)", cmd = "SearchFile" },
+    { text = "Search (project)", cmd = "SearchProject" },
     { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
     { text = drawToggle("Toggle Auto Pairs", _G.enable_auto_pair), cmd = "ToggleAutoPairs" },
     { text = drawToggle("Toggle Color Picker", _G.enable_color_picker), cmd = "ColorPickerToggle" },
     { text = drawToggle("Toggle Completion", _G.enable_autocompletion), cmd = "ToggleCompletion" },
     { text = drawToggle("Toggle Context", _G.show_treesitter_context), cmd = "ToggleTreesitterContext" },
     { text = drawToggle("Toggle Cursor Line", _G.show_cursorline), cmd = "ToggleCursorLine" },
+    { text = drawToggle("Toggle Diagnostics", _G.show_diagnostics), cmd = "ToggleDiagnostics" },
     { text = drawToggle("Toggle Diagnostic Text", _G.show_virtual_text), cmd = "ToggleDiagnosticText" },
+    { text = drawToggle("Toggle Diagnostic Underline", _G.show_virtual_underline), cmd = "ToggleDiagnosticUnderline" },
     { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
     { text = drawToggle("Toggle Hide All", _G.hide_all), cmd = "ToggleHideAll" },
     { text = drawToggle("Toggle Indent Lines", _G.show_indent_lines), cmd = "ToggleIndentLines" },
@@ -230,11 +232,12 @@ M.setup = function()
       },
     },
     statuscolumn = {
-      enabled = true,
+      enabled = false,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
-      left = { "sign" }, -- priority of signs on the left (high to low)
-      right = { "fold" }, -- priority of signs on the right (high to low)
+      -- left = { "sign" }, -- priority of signs on the left (high to low)
+      -- right = { "fold" }, -- priority of signs on the right (high to low)
+      right = {}, -- priority of signs on the right (high to low)
       folds = {
         open = true, -- show open fold icons
       },
@@ -296,7 +299,7 @@ vim.keymap.set("n", "<leader>o", function()
         -- "Module",
         -- "Namespace",
         -- "Package",
-        -- "Property",
+        "Property",
         -- "Struct",
         -- "Trait",
       },
@@ -331,6 +334,11 @@ vim.keymap.set("n", "<leader>l", function()
       preview = "preview",
       reverse = false,
     },
+    -- on_close = function(picker)
+    --   if (picker.input) then
+    --
+    --   end
+    -- end
     -- sort = {
     --   fields = { "idx" }, --- could add "score:desc", for fuzzy match score
     -- },
