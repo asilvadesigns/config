@@ -5,7 +5,9 @@ M.setup = function()
   require("origami").setup({
     autoFold = {
       enabled = false,
-      kinds = { "comment", "imports" },
+    },
+    foldKeymaps = {
+      setup = false, -- modifies `h`, `l`, and `$`
     },
   })
 end

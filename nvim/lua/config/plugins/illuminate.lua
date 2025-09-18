@@ -15,13 +15,14 @@ M.setup = function()
     min_count_to_highlight = 2,
   })
 
-  -- vim.api.nvim_create_autocmd("VimEnter", {
-  --   group = vim.api.nvim_create_augroup("illuminate_augroup", { clear = true }),
-  --   callback = function()
-  --     vim.api.nvim_set_hl(0, "illuminatedWord", { underline = true })
-  --     vim.api.nvim_set_hl(0, "illuminatedCurWord", { italic = true })
-  --   end,
-  -- })
+  vim.api.nvim_create_user_command("ToggleIlluminate", function()
+    _G.show_illuminate = not _G.show_illuminate
+    if _G.show_illuminate then
+      require("illuminate").resume()
+    else
+      require("illuminate").pause()
+    end
+  end, {})
 end
 
 return M

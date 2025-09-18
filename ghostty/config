@@ -147,6 +147,17 @@ keybind = super+l=text:\x00l
 # tmux pane | last session
 keybind = super+shift+l=text:\x00L
 
+# tmux window | select by number
+keybind = super+1=text:\x00\x31
+keybind = super+2=text:\x00\x32
+keybind = super+3=text:\x00\x33
+keybind = super+4=text:\x004
+keybind = super+5=text:\x005
+keybind = super+6=text:\x006
+keybind = super+7=text:\x007
+keybind = super+8=text:\x008
+keybind = super+9=text:\x009
+
 # tmux window | prev
 keybind = ctrl+shift+tab=text:\x00p
 keybind = super+shift+[=text:\x00p
@@ -156,17 +167,6 @@ keybind = super+shift+{=text:\x00p
 keybind = ctrl+tab=text:\x00n
 keybind = super+shift+]=text:\x00n
 keybind = super+shift+}=text:\x00n
-
-# tmux window | select by number
-keybind = super+1=text:\x001
-keybind = super+2=text:\x002
-keybind = super+3=text:\x003
-keybind = super+4=text:\x004
-keybind = super+5=text:\x005
-keybind = super+6=text:\x006
-keybind = super+7=text:\x007
-keybind = super+8=text:\x008
-keybind = super+9=text:\x009
 
 # Clipboard settings
 clipboard-read = allow

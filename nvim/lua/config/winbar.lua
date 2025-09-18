@@ -72,11 +72,11 @@ end
 local function get_modified(buf_id, is_winbar)
   if vim.api.nvim_get_option_value("modified", { buf = buf_id }) then
     if is_winbar then
-      return "%#Normal#󰈸%*"
+      return "%#Normal#󰰑%*"
     end
-    return "󰈸"
+    return "󰰑" ---󰈸 
   else
-    return " "
+    return "" ---""
   end
 end
 
@@ -146,6 +146,7 @@ local function enable_winbar(win_id)
   --   is_active_icon = ""
   -- end
   local is_active_icon = ""
+  local is_zen_icon = _G.enable_zen_mode and "󰰸" or "" ---
 
   if is_floating or excluded_filetypes[filetype] ~= nil then
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
@@ -157,6 +158,7 @@ local function enable_winbar(win_id)
       .. " "
       .. get_modified(buf_id, true)
       .. " "
+      .. is_zen_icon
       -- .. "%="
       -- .. "%= %l/%L:%-3c"
       .. "%="

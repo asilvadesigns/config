@@ -1,24 +1,26 @@
 ---@diagnostic disable: missing-fields
+---
 
 -- enable_ && show_ are functionally same, just semantics.
 _G.enable_auto_pair = false
 _G.enable_autocompletion = false
 _G.enable_color_picker = true
-_G.enable_dark_theme = false
+_G.enable_syntax_highlight = true
 _G.enable_line_wrap = false
-_G.enable_smooth_scroll = false
+_G.enable_smooth_scroll = true
 _G.enable_simple_colors = false
 _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
 _G.show_cursorline = true
+_G.show_diagnostics = true
+_G.show_illuminate = false
 _G.show_indent_lines = false
 _G.show_invisible_chars = false
 _G.show_number_lines = false
 _G.show_relative_lines = true
-_G.show_scrollbar = true
+_G.show_scrollbar = false
 _G.show_treesitter_context = false
-_G.show_diagnostics = true
 _G.show_virtual_text = false
 _G.show_virtual_underline = false
 --- hide_all will override the others btw
@@ -357,7 +359,6 @@ require("lazy").setup({
     },
     {
       "catppuccin/nvim",
-      event = "VimEnter",
       name = "catppuccin",
       config = require("config.plugins.catppuccin").setup,
     },

@@ -53,9 +53,9 @@ M.setup = function()
     },
   })
 
-  require("lspconfig").clangd.setup({})
+  vim.lsp.config("clangd", {})
 
-  require("lspconfig").cssls.setup({
+  vim.lsp.config("cssls", {
     settings = {
       css = {
         lint = {
@@ -73,11 +73,11 @@ M.setup = function()
   })
 
   local htmldefaults = require("lspconfig.configs.html").default_config
-  require("lspconfig").html.setup({
+  vim.lsp.config("html", {
     filetypes = vim.list_extend({ "templ" }, htmldefaults.filetypes),
   })
 
-  require("lspconfig").jsonls.setup({
+  vim.lsp.config("jsonls", {
     settings = {
       json = {
         schemas = require("schemastore").json.schemas(),
@@ -86,7 +86,7 @@ M.setup = function()
     },
   })
 
-  require("lspconfig").gopls.setup({
+  vim.lsp.config("gopls", {
     settings = {
       gopls = {
         analyses = {
@@ -98,7 +98,7 @@ M.setup = function()
     },
   })
 
-  require("lspconfig").lua_ls.setup({
+  vim.lsp.config("lua_ls", {
     settings = {
       Lua = {
         workspace = { checkThirdParty = false },
@@ -108,7 +108,7 @@ M.setup = function()
   })
 
   local tailwind_defaults = require("lspconfig.configs.tailwindcss").default_config
-  require("lspconfig").tailwindcss.setup({
+  vim.lsp.config("tailwindcss", {
     filetypes = vim.list_extend({ "go" }, tailwind_defaults.filetypes),
     setttings = {
       tailwindCSS = {
@@ -125,7 +125,7 @@ M.setup = function()
     },
   })
 
-  require("lspconfig").vtsls.setup({
+  vim.lsp.config("vtsls", {
     settings = {
       vtsls = {
         enableMoveToFileCodeAction = true,
@@ -139,9 +139,9 @@ M.setup = function()
     },
   })
 
-  require("lspconfig").yamlls.setup({})
+  vim.lsp.config("yamlls", {})
 
-  require("lspconfig").postgres_lsp.setup({
+  vim.lsp.config("postgres_lsp", {
     cmd = { "postgrestools", "lsp-proxy", "--config-path", vim.fn.getcwd() .. "/postgrestools.jsonc" },
     filetypes = { "sql", "postgres" },
     root_dir = require("lspconfig").util.root_pattern("postgrestools.jsonc"),

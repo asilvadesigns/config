@@ -63,14 +63,16 @@ local palette_items = function()
     { text = drawToggle("Toggle Diagnostic Underline", _G.show_virtual_underline), cmd = "ToggleDiagnosticUnderline" },
     { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
     { text = drawToggle("Toggle Hide All", _G.hide_all), cmd = "ToggleHideAll" },
+    { text = drawToggle("Toggle Illuminate", _G.show_illuminate), cmd = "ToggleIlluminate" },
     { text = drawToggle("Toggle Indent Lines", _G.show_indent_lines), cmd = "ToggleIndentLines" },
     { text = drawToggle("Toggle Invisible Chars", _G.show_invisible_chars), cmd = "ToggleInvisibleChars" },
+    { text = drawToggle("Toggle Line Numbers", _G.show_number_lines), cmd = "ToggleNumberLines" },
     { text = drawToggle("Toggle Line Wrap", _G.enable_line_wrap), cmd = "ToggleLineWrap" },
-    { text = drawToggle("Toggle Number Lines", _G.show_number_lines), cmd = "ToggleNumberLines" },
     { text = drawToggle("Toggle Relative Lines", _G.show_relative_lines), cmd = "ToggleRelativeLines" },
     { text = drawToggle("Toggle Scrollbar", _G.show_scrollbar), cmd = "ToggleScrollbar" },
     { text = drawToggle("Toggle Smooth Scroll", _G.enable_smooth_scroll), cmd = "ToggleSmoothScroll" },
     { text = drawToggle("Toggle Statusline", _G.show_statusline), cmd = "ToggleStatusline" },
+    { text = drawToggle("Toggle Syntax Highlight", _G.enable_syntax_highlight), cmd = "ToggleSyntaxHighlight" },
     { text = drawToggle("Toggle Winbar", _G.show_winbar), cmd = "ToggleWinbar" },
     { text = drawToggle("Toggle Zen Mode", _G.enable_zen_mode), cmd = "ToggleZenMode" },
     { text = drawToggle("Trouble", _G.trouble_visible), cmd = "Trouble" },
@@ -78,7 +80,7 @@ local palette_items = function()
 end
 
 local MAX_WIDTH = 140
-local PRESET = "select" -- dropdown | vscode | ivy | select
+local PRESET = "ivy" -- dropdown | vscode | ivy | select
 
 M.setup = function()
   require("snacks").setup({
@@ -206,7 +208,7 @@ M.setup = function()
           padding = 1,
           desc = "Session Restore",
           action = function()
-            local session_found = require("auto-session").RestoreSession(vim.fn.getcwd(), { show_message = false })
+            local session_found = require("auto-session").restore_session(vim.fn.getcwd(), { show_message = false })
 
             if not session_found then
               Snacks.picker.files()
@@ -305,6 +307,7 @@ vim.keymap.set("n", "<leader>o", function()
       },
     },
     layout = {
+      preset = PRESET,
       preview = true,
     },
   })

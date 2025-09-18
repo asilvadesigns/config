@@ -13,6 +13,7 @@ M.setup = function()
   vim.api.nvim_create_user_command("ToggleZenMode", function()
     _G.enable_zen_mode = not _G.enable_zen_mode
     require("no-neck-pain").toggle()
+    vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
   end, {})
 
   -- vim.keymap.set("n", "<leader>z", function()
