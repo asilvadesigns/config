@@ -54,6 +54,7 @@ M.setup = function()
   })
 
   vim.lsp.config("clangd", {})
+  vim.lsp.enable("clangd")
 
   vim.lsp.config("cssls", {
     settings = {
@@ -71,11 +72,13 @@ M.setup = function()
       },
     },
   })
+  vim.lsp.enable("cssls")
 
   local htmldefaults = require("lspconfig.configs.html").default_config
   vim.lsp.config("html", {
     filetypes = vim.list_extend({ "templ" }, htmldefaults.filetypes),
   })
+  vim.lsp.enable("html")
 
   vim.lsp.config("jsonls", {
     settings = {
@@ -85,6 +88,7 @@ M.setup = function()
       },
     },
   })
+  vim.lsp.enable("jsonls")
 
   vim.lsp.config("gopls", {
     settings = {
@@ -97,6 +101,7 @@ M.setup = function()
       },
     },
   })
+  vim.lsp.enable("gopls")
 
   vim.lsp.config("lua_ls", {
     settings = {
@@ -106,6 +111,7 @@ M.setup = function()
       },
     },
   })
+  vim.lsp.enable("lua_ls")
 
   local tailwind_defaults = require("lspconfig.configs.tailwindcss").default_config
   vim.lsp.config("tailwindcss", {
@@ -124,6 +130,7 @@ M.setup = function()
       },
     },
   })
+  vim.lsp.enable("tailwindcss")
 
   vim.lsp.config("vtsls", {
     settings = {
@@ -138,14 +145,20 @@ M.setup = function()
       },
     },
   })
+  vim.lsp.enable("vtsls")
 
   vim.lsp.config("yamlls", {})
+  vim.lsp.enable("yamlls")
 
   vim.lsp.config("postgres_lsp", {
     cmd = { "postgrestools", "lsp-proxy", "--config-path", vim.fn.getcwd() .. "/postgrestools.jsonc" },
     filetypes = { "sql", "postgres" },
     root_dir = require("lspconfig").util.root_pattern("postgrestools.jsonc"),
   })
+  vim.lsp.enable("postgres_lsp")
+
+  vim.lsp.config("sourcekit", {})
+  vim.lsp.enable("sourcekit")
 
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),

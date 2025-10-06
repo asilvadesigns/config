@@ -2,7 +2,7 @@
   // global
   {
     "bindings": {
-      "cmd+shift+k": "projects::OpenRecent"
+      "cmd-shift-k": "projects::OpenRecent"
     }
   },
   // jump out of nvim-tree
@@ -14,7 +14,7 @@
   },
   // normal mode
   {
-    "context": "Editor && (vim_mode == normal) && !VimWaiting && !menu",
+    "context": "Editor && vim_mode == normal",
     "bindings": {
       ", a": "command_palette::Toggle",
       ", d": "vim::ScrollDown",
@@ -43,6 +43,34 @@
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-k": "workspace::ActivatePaneUp",
       "ctrl-j": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-j": "workspace::ToggleBottomDock"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-j": "workspace::ToggleLeftDock"
+    }
+  },
+  {
+    "bindings": {
+      "ctrl-shift-k": "workspace::Open"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-n": [
+        "editor::SelectNext",
+        {
+          "replace_newest": false
+        }
+      ]
     }
   }
 ]

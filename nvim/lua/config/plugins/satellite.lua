@@ -1,6 +1,14 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
+local toggle = function()
+  if _G.show_scrollbar then
+    vim.cmd(":SatelliteEnable")
+  else
+    vim.cmd(":SatelliteDisable")
+  end
+end
+
 M.setup = function()
   require("satellite").setup({
     current_only = false,
@@ -22,21 +30,11 @@ M.setup = function()
     },
   })
 
-  ---init
-  if _G.show_scrollbar then
-    vim.cmd(":SatelliteEnable")
-  else
-    vim.cmd(":SatelliteDisable")
-  end
+  toggle()
 
   vim.api.nvim_create_user_command("ToggleScrollbar", function()
-    if _G.show_scrollbar then
-      vim.cmd(":SatelliteDisable")
-    else
-      vim.cmd(":SatelliteEnable")
-    end
-
     _G.show_scrollbar = not _G.show_scrollbar
+    toggle()
   end, {})
 end
 

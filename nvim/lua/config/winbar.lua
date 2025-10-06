@@ -23,7 +23,7 @@ local statusline_cache = {}
 local excluded_filetypes = {
   ["NeogitStatus"] = true,
   ["NvimTree"] = true,
-  ["grug-far"] = true,
+  -- ["grug-far"] = true,
   ["help"] = true,
   ["neo-tree"] = true,
   ["no-neck-pain"] = true,
@@ -113,10 +113,6 @@ local function get_filename(buf_id, is_winbar)
     filepath = filepath:sub(1, -#filename - 1)
   end
 
-  -- if filepath:sub(-1) == "/" then
-  --   filepath = filepath:sub(1, -2)
-  -- end
-
   local icon, color = require("nvim-web-devicons").get_icon_by_filetype(filetype, { color_icons = false })
   if icon == nil then
     color = ""
@@ -126,7 +122,8 @@ local function get_filename(buf_id, is_winbar)
   if is_winbar then
     local _file = "%#DevIconConfig#" .. filename .. "%*"
     local _icon = "%#" .. color .. "#" .. icon .. "%*"
-    return filepath .. _file .. _icon
+
+    return filepath .. _file .. " " .. _icon
     -- return "%#" .. color .. "#" .. icon .. "%* %#DevIconConfig#" .. filename .. " %*" .. filepath .. "%*"
   end
 
@@ -146,7 +143,7 @@ local function enable_winbar(win_id)
   --   is_active_icon = ""
   -- end
   local is_active_icon = ""
-  local is_zen_icon = _G.enable_zen_mode and "󰰸" or "" ---
+  -- local is_zen_icon = _G.enable_zen_mode and "󰰸" or "" ---
 
   if is_floating or excluded_filetypes[filetype] ~= nil then
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
@@ -158,12 +155,11 @@ local function enable_winbar(win_id)
       .. " "
       .. get_modified(buf_id, true)
       .. " "
-      .. is_zen_icon
-      -- .. "%="
-      -- .. "%= %l/%L:%-3c"
+      -- .. is_zen_icon
+      -- .. "%= %l/%L:%-3c" --- padding for column count
       .. "%="
       .. get_diagnostics(buf_id)
-      .. "%#Normal# %l/%L %*"
+      .. "%#DevIconConfig# %l/%L %*" --- or Normal, highlight group here is w/e, just something light
 
     vim.api.nvim_set_option_value("winbar", winbar, { win = win_id })
   end

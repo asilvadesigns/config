@@ -7,11 +7,16 @@ M.setup = function()
         enabled = false,
       },
     },
-    width = 120,
+    width = 100,
   })
 
   vim.api.nvim_create_user_command("ToggleZenMode", function()
     _G.enable_zen_mode = not _G.enable_zen_mode
+
+    -- if _G.enable_zen_mode then
+    --   require("nvim-tree.api").tree.close()
+    -- end
+
     require("no-neck-pain").toggle()
     vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
   end, {})

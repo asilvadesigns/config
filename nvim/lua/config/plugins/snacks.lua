@@ -59,8 +59,11 @@ local palette_items = function()
     { text = drawToggle("Toggle Context", _G.show_treesitter_context), cmd = "ToggleTreesitterContext" },
     { text = drawToggle("Toggle Cursor Line", _G.show_cursorline), cmd = "ToggleCursorLine" },
     { text = drawToggle("Toggle Diagnostics", _G.show_diagnostics), cmd = "ToggleDiagnostics" },
-    { text = drawToggle("Toggle Diagnostic Text", _G.show_virtual_text), cmd = "ToggleDiagnosticText" },
-    { text = drawToggle("Toggle Diagnostic Underline", _G.show_virtual_underline), cmd = "ToggleDiagnosticUnderline" },
+    { text = drawToggle("Toggle Diagnostic Text", _G.show_diagnostics_text), cmd = "ToggleDiagnosticText" },
+    {
+      text = drawToggle("Toggle Diagnostic Underline", _G.show_diagnostics_underline),
+      cmd = "ToggleDiagnosticUnderline",
+    },
     { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
     { text = drawToggle("Toggle Hide All", _G.hide_all), cmd = "ToggleHideAll" },
     { text = drawToggle("Toggle Illuminate", _G.show_illuminate), cmd = "ToggleIlluminate" },
@@ -191,10 +194,23 @@ M.setup = function()
       setup = function(ctx)
         vim.notify("large file detected")
         Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
-        vim.cmd("DisableLineWrap")
-        vim.cmd("SatelliteDisable")
-        vim.cmd("NoMatchParen")
-        vim.cmd("TSBufDisable highlight")
+
+        if vim.fn.exists(":DisableLineWrap") > 0 then
+          vim.cmd("DisableLineWrap")
+        end
+
+        if vim.fn.exists(":SatelliteDisable") > 0 then
+          vim.cmd("SatelliteDisable")
+        end
+
+        if vim.fn.exists(":NoMatchParen") > 0 then
+          vim.cmd("NoMatchParen")
+        end
+
+        if vim.fn.exists(":TSBufDisable") > 0 then
+          vim.cmd("TSBufDisable highlight")
+        end
+
         vim.schedule(function()
           vim.bo[ctx.buf].syntax = ctx.ft
         end)

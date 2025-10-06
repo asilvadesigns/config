@@ -14,6 +14,8 @@ _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
 _G.show_cursorline = true
 _G.show_diagnostics = true
+_G.show_diagnostics_text = false
+_G.show_diagnostics_underline = true
 _G.show_illuminate = false
 _G.show_indent_lines = false
 _G.show_invisible_chars = false
@@ -21,8 +23,6 @@ _G.show_number_lines = false
 _G.show_relative_lines = true
 _G.show_scrollbar = false
 _G.show_treesitter_context = false
-_G.show_virtual_text = false
-_G.show_virtual_underline = false
 --- hide_all will override the others btw
 _G.hide_all = false
 _G.show_statusline = false
@@ -197,45 +197,26 @@ vim.keymap.set("n", "<leader>qf", function()
 end, { desc = "Save and Quit" })
 
 local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
-local pending_autocmd = false
-
-local function get_motion(count, direction)
-  if count == 0 then
-    return direction == "up" and "gk" or "gj"
-  else
-    return direction == "up" and "k" or "j"
-  end
-end
+local debounce = false
 
 local function smart_scroll(direction, enabled)
-  local count = vim.v.count
+  local motion = direction == "up" and "gk" or "gj"
 
-  if enabled then
-    local off = vim.o.scrolloff
-    local cur = vim.fn.line(".")
-    local top = vim.fn.line("w0")
-    local bot = vim.fn.line("w$")
-
-    if cur ~= top + off and cur ~= bot - off then
-      Snacks.scroll.enable()
-      return get_motion(count, direction)
-    end
-
-    if not pending_autocmd then
-      Snacks.scroll.disable()
-      pending_autocmd = true
-      vim.api.nvim_create_autocmd("CursorMoved", {
-        group = scroll_group,
-        callback = function()
-          Snacks.scroll.enable()
-          pending_autocmd = false
-        end,
-        once = true,
-      })
-    end
+  -- Only disable Snacks scroll if enabled and not already disabled for spam
+  if enabled and not debounce then
+    Snacks.scroll.disable()
+    debounce = true
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      group = scroll_group,
+      callback = function()
+        Snacks.scroll.enable()
+        debounce = false
+      end,
+      once = true,
+    })
   end
 
-  return get_motion(count, direction)
+  return motion
 end
 
 vim.keymap.set({ "n", "v" }, "k", function()
@@ -436,6 +417,7 @@ require("lazy").setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
+      enabled = true,
       event = "User SuperLazy",
       cmd = { "NvimTreeFindFile", "NvimTreeOpen" },
       config = require("config.plugins.nvim-tree").setup,
@@ -449,6 +431,7 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
+      enabled = true,
       event = "User SuperLazy",
       config = require("config.plugins.oil").setup,
     },
@@ -460,8 +443,8 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
-      enabled = false,
-      tag = "v0.2.1",
+      -- enabled = true,
+      -- tag = "v0.2.1",
       event = "User SuperLazy",
       config = require("config.plugins.modes").setup,
     },
@@ -579,9 +562,9 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      event = "VeryLazy",
-      -- dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+      branch = "main",
       build = ":TSUpdate",
+      lazy = false,
       config = require("config.plugins.treesitter").setup,
     },
     {
@@ -772,11 +755,11 @@ vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
   local config = vim.diagnostic.config()
   if config ~= nil then
     if not config.virtual_text then
-      _G.show_virtual_text = true
+      _G.show_diagnostics_text = true
     else
-      _G.show_virtual_text = false
+      _G.show_diagnostics_text = false
     end
-    vim.diagnostic.config({ virtual_text = _G.show_virtual_text })
+    vim.diagnostic.config({ virtual_text = _G.show_diagnostics_text })
   end
 end, {})
 
@@ -784,11 +767,11 @@ vim.api.nvim_create_user_command("ToggleDiagnosticUnderline", function()
   local config = vim.diagnostic.config()
   if config ~= nil then
     if not config.underline then
-      _G.show_virtual_underline = true
+      _G.show_diagnostics_underline = true
     else
-      _G.show_virtual_underline = false
+      _G.show_diagnostics_underline = false
     end
-    vim.diagnostic.config({ underline = _G.show_virtual_underline })
+    vim.diagnostic.config({ underline = _G.show_diagnostics_underline })
   end
 end, {})
 
@@ -885,8 +868,8 @@ vim.diagnostic.config({
     --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
     -- },
   },
-  underline = _G.show_virtual_underline,
-  virtual_text = _G.show_virtual_text,
+  underline = _G.show_diagnostics_underline,
+  virtual_text = _G.show_diagnostics_text,
   virtual_lines = false,
 })
 vim.diagnostic.enable(_G.show_diagnostics)

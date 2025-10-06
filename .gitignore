@@ -14,5 +14,6 @@ maglev-infra
 nvim/plugin
 planetscale
 raycast
+swiftpm
 verdaccio
 yarn

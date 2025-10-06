@@ -4,17 +4,12 @@ local M = {}
 M.setup = function()
   require("fyler").setup({
     icon_provider = "nvim_web_devicons",
-    git_status = false,
-    views = {
-      explorer = {
-        width = 0.8,
-        height = 0.8,
-        kind = "float",
-        border = "rounded",
-        git_status = false,
-      },
+    git_status = {
+      enabled = false,
     },
     win = {
+      kind = "replace",
+      border = "rounded",
       win_opts = {
         number = false,
         relativenumber = false,
@@ -25,6 +20,19 @@ M.setup = function()
   vim.keymap.set("n", "<leader>x", ":Fyler<CR>", {
     desc = "Show Fyler",
     silent = true,
+  })
+
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "Fyler",
+    callback = function(event)
+      -- local opts = { buffer = event.buf, silent = true, noremap = true }
+      local opts = { buffer = event.buf, silent = true }
+
+      vim.keymap.set("n", "<C-o>", "q", opts)
+      -- vim.keymap.set("n", "<C-o>", function()
+      --   vim.notify("yooo")
+      -- end, opts)
+    end,
   })
 end
 

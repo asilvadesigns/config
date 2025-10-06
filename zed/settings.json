@@ -1,11 +1,5 @@
 {
-  "auto_update_extensions": {
-    "catppuccin": false
-  },
-  "experimental.theme_overrides": {
-    "border.variant": "#00000000"
-  },
-  "theme": "JetBrains Light",
+  "theme": "One Dark",
   "buffer_font_size": 16.0,
   "ui_font_size": 14,
   "vim_mode": true,
@@ -20,7 +14,7 @@
     "enabled": false
   },
   "gutter": {
-    "line_numbers": false,
+    "line_numbers": true,
     "folds": false
   },
   "toolbar": {
@@ -41,5 +35,6 @@
   },
   "scrollbar": {
     "git_diff": false
-  }
+  },
+  "vertical_scroll_margin": 0
 }

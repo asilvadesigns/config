@@ -1,5 +1,13 @@
 local M = {}
 
+local toggle = function()
+  if _G.show_illuminate then
+    require("illuminate").resume()
+  else
+    require("illuminate").pause()
+  end
+end
+
 M.setup = function()
   require("illuminate").configure({
     filetypes_denylist = {
@@ -15,13 +23,11 @@ M.setup = function()
     min_count_to_highlight = 2,
   })
 
+  toggle()
+
   vim.api.nvim_create_user_command("ToggleIlluminate", function()
     _G.show_illuminate = not _G.show_illuminate
-    if _G.show_illuminate then
-      require("illuminate").resume()
-    else
-      require("illuminate").pause()
-    end
+    toggle()
   end, {})
 end
 

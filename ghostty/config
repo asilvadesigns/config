@@ -1,46 +1,9 @@
-### One
-# theme = "AtomOneLight"
-# theme = "AtomOneDark"
+# THEMEs: light
+# theme = "iTerm2 Solarized Light"
+theme = "vscode-light"
 
-### kanso
-# theme = "kanso-dark.conf"
-# theme = "kanso-light.conf"
-
-### VS Code
-# theme = "vscode-dark"
-# theme = "vscode-light"
-
-### Solarized
-theme = "iTerm2 Solarized Light"
-# theme = "catppuccin-frappe"
-
-# theme = "iTerm2 Solarized Dark"
-
-### Catppuccin
-# theme = "cat-latte.conf"
-# theme = "cat-frappe.conf"
-# theme = catppuccin-latte
-# theme = catppuccin-frappe
-
-### NightFox
-# theme = nordfox
-# theme = dawnfox
-
-### Monokai Pro
-# theme = "Monokai Pro Machine"
-# theme = "Monokai Pro Light Sun"
-
-### Gruvbox
-# theme = "GruvboxDark"
-# theme = "GruvboxLight"
-
-### Github
-# theme = "Github-Dark-Dimmed"
-# theme = "Github-Light-Default"
-
-### Nord
-# theme = nord
-# theme = nord-light
+# THEMEs: dark
+# theme = "One Half Dark"
 
 # Font
 # font-family = "Iosevka Nerd Font Mono"
@@ -48,8 +11,12 @@ font-family = "JetBrainsMono Nerd Font Mono"
 adjust-cell-width = -10%
 adjust-cursor-thickness = 4
 
-# 16/0   # laptop
-# 17/-1  # desktop
+# FONT_SIZE: laptop
+# adjust-cell-height = 0
+# adjust-cursor-height = 0
+# font-size = 16
+
+# FONT_SIZE: desktop
 adjust-cell-height = -1
 adjust-cursor-height = -1
 font-size = 17
@@ -62,18 +29,18 @@ font-feature = -liga
 font-feature = -dlig
 
 # Window
-# gtk-single-instance = true
-# gtk-tabs-location = bottom
-# gtk-wide-tabs = false
-
 window-padding-color = extend-always
 # or background, extend, extend-always
 window-padding-x = 0
 window-padding-y = 0
 window-padding-balance = true
-window-decoration = true
-# macos-titlebar-style = tabs
+window-decoration = auto
+# DISABLE when using only ghostty, use auto not "always"
+window-show-tab-bar = auto
+# DISABLE when using only ghostty, use hidden not "tabs"
 macos-titlebar-style = hidden
+# or hidden
+window-save-state = always
 
 resize-overlay = never
 
@@ -83,10 +50,12 @@ resize-overlay = never
 # \x00 is ctrl+space (common alternative tmux prefix)
 # keybind = clear
 
-# keybind = ctrl+shift+h=text:\x00\x1b[D
-# keybind = ctrl+shift+j=text:\x00\x1b[B
-# keybind = ctrl+shift+k=text:\x00\x1b[A
-# keybind = ctrl+shift+l=text:\x00\x1b[C
+# TOGGLE when using only ghostty
+keybind = ctrl+shift+h=text:\x00\x1b[D
+keybind = ctrl+shift+j=text:\x00\x1b[B
+keybind = ctrl+shift+k=text:\x00\x1b[A
+keybind = ctrl+shift+l=text:\x00\x1b[C
+# TOGGLE
 # keybind = ctrl+l=goto_split:right
 # keybind = ctrl+j=goto_split:down
 # keybind = ctrl+k=goto_split:up
@@ -96,12 +65,14 @@ resize-overlay = never
 keybind = super+q=quit
 keybind = super+shift+r=reload_config
 
+# DISABLE when using only ghostty
 # neovim | actions
-keybind = super+shift+p=text:,a
+# keybind = super+shift+p=text:,a
 
 # neovim | comments
 keybind = super+/=text:gcc\x1b
 
+# DISABLE when using only ghostty
 # neovim | files
 keybind = super+p=text:,f
 
@@ -139,6 +110,7 @@ keybind = super+;=text:\x00:
 keybind = ctrl+`=text:\x00`
 
 # tmux pane | new
+# DISABLE when using only ghostty
 keybind = super+t=text:\x00c
 
 # tmux pane | last
@@ -147,6 +119,7 @@ keybind = super+l=text:\x00l
 # tmux pane | last session
 keybind = super+shift+l=text:\x00L
 
+# DISABLE when using only ghostty
 # tmux window | select by number
 keybind = super+1=text:\x00\x31
 keybind = super+2=text:\x00\x32
@@ -160,11 +133,13 @@ keybind = super+9=text:\x009
 
 # tmux window | prev
 keybind = ctrl+shift+tab=text:\x00p
+# DISABLE when using only ghostty
 keybind = super+shift+[=text:\x00p
 keybind = super+shift+{=text:\x00p
 
 # tmux window | next
 keybind = ctrl+tab=text:\x00n
+# DISABLE when using only ghostty
 keybind = super+shift+]=text:\x00n
 keybind = super+shift+}=text:\x00n
 
