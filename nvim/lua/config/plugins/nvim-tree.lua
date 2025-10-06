@@ -171,6 +171,6 @@ vim.keymap.set("n", "<leader>j", function()
       vim.cmd("NvimTreeOpen")
     end
   end
-end, { desc = "Open file in file tree" })
+end, { silent = true, desc = "Open file in file tree" })
 
 return M

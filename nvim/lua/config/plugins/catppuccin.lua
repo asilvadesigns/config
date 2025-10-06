@@ -140,14 +140,14 @@ M.setup = function()
       -- LIGHT VsCode
       -- latte = require("config.colors").light.github,
       -- frappe = require("config.colors").light.github,
-      -- LIGHT VsCode
-      latte = require("config.colors").light.vscode,
-      frappe = require("config.colors").light.vscode,
+      -- -- LIGHT VsCode
+      -- latte = require("config.colors").light.vscode,
+      -- frappe = require("config.colors").light.vscode,
       --
       -- THEMEs: dark
       -- DARK Atom One
-      -- latte = require("config.colors").dark.one,
-      -- frappe = require("config.colors").dark.one,
+      latte = require("config.colors").dark.one,
+      frappe = require("config.colors").dark.one,
     },
     highlight_overrides = {
       latte = function(c)

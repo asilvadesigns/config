@@ -28,19 +28,9 @@ _G.hide_all = false
 _G.show_statusline = false
 _G.show_winbar = true
 
--- disable certain languages
-vim.g.loaded_node_provider = 0
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_python3_provider = 0
-vim.g.loaded_ruby_provider = 0
-
--- local snacks = root .. "/lazy/snacks.nvim"
--- if vim.env.PROF then
---   vim.opt.rtp:append(snacks)
---   require("snacks.profiler").startup({
---     startup = { event = "VimEnter" },
---   })
--- end
+if vim.loader then
+  vim.loader.enable()
+end
 
 local use_alternate_directory = false
 
@@ -361,13 +351,6 @@ require("lazy").setup({
       config = require("config.plugins.satellite").setup,
     },
     {
-      "petertriho/nvim-scrollbar",
-      enabled = false,
-      cmd = { "ToggleScrollbar" },
-      event = "User SuperLazy",
-      config = require("config.plugins.scrollbar").setup,
-    },
-    {
       "stevearc/conform.nvim",
       cmd = { "Format", "FormatWithBiome", "FormatWithLsp", "FormatWithPrettier" },
       keys = { { "<leader>m", "<CMD>Format<CR>", desc = "Format" } },
@@ -395,6 +378,7 @@ require("lazy").setup({
     },
     {
       "windwp/nvim-autopairs",
+      enabled = false,
       event = "InsertEnter",
       config = require("config.plugins.autopairs").setup,
     },
@@ -417,7 +401,6 @@ require("lazy").setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
-      enabled = true,
       event = "User SuperLazy",
       cmd = { "NvimTreeFindFile", "NvimTreeOpen" },
       config = require("config.plugins.nvim-tree").setup,
@@ -431,7 +414,6 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
-      enabled = true,
       event = "User SuperLazy",
       config = require("config.plugins.oil").setup,
     },
@@ -443,8 +425,7 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
-      -- enabled = true,
-      -- tag = "v0.2.1",
+      tag = "v0.2.1",
       event = "User SuperLazy",
       config = require("config.plugins.modes").setup,
     },
@@ -578,13 +559,6 @@ require("lazy").setup({
       "chrisgrieser/nvim-origami",
       event = "User SuperLazy",
       config = require("config.plugins.origami").setup,
-    },
-    {
-      "kevinhwang91/nvim-ufo",
-      enabled = false,
-      event = "User SuperLazy",
-      dependencies = { "kevinhwang91/promise-async" },
-      config = require("config.plugins.ufo").setup,
     },
     {
       "monaqa/dial.nvim",
