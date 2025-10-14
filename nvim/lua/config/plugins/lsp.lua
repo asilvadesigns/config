@@ -157,7 +157,9 @@ M.setup = function()
   })
   vim.lsp.enable("postgres_lsp")
 
-  vim.lsp.config("sourcekit", {})
+  vim.lsp.config("sourcekit", {
+    filetypes = { "swift" },
+  })
   vim.lsp.enable("sourcekit")
 
   vim.api.nvim_create_autocmd("LspAttach", {

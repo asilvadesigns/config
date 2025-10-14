@@ -11,15 +11,20 @@ font-family = "JetBrainsMono Nerd Font Mono"
 adjust-cell-width = -10%
 adjust-cursor-thickness = 4
 
+# # FONT_SIZE: laptop
+# adjust-cell-height = -2
+# adjust-cursor-height = -2
+# font-size = 15
+
 # FONT_SIZE: laptop
-adjust-cell-height = 0
-adjust-cursor-height = 0
-font-size = 16
+# adjust-cell-height = 0
+# adjust-cursor-height = 0
+# font-size = 16
 
 # FONT_SIZE: desktop
-# adjust-cell-height = -1
-# adjust-cursor-height = -1
-# font-size = 17
+adjust-cell-height = -1
+adjust-cursor-height = -1
+font-size = 17
 
 font-thicken = true
 # font-thicken-strength = 0

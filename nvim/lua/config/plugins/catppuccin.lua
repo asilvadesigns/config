@@ -81,7 +81,7 @@ local get_colors = function(c, bg, separator_bg)
 
     QuickFixLine = { bg = c.mantle },
     SatelliteBar = { bg = utils.darken(c.text, 0.60, c.base) },
-    SnacksIndent = { fg = utils.lighten(c.surface0, 0.40, c.base) },
+    SnacksIndent = { fg = c.surface0 }, --utils.lighten(c.surface0, 0.40, c.base) },
     SnacksIndentScope = { fg = c.surface2 },
     SnacksPickerBoxCursorLine = { bg = bg },
     SnacksPickerCursorLine = { bg = bg },

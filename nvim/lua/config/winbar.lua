@@ -16,6 +16,8 @@ else
   end
 end
 
+local use_icon_color = false
+
 --- @type table<integer, string>
 local statusline_cache = {}
 
@@ -28,7 +30,7 @@ local excluded_filetypes = {
   ["neo-tree"] = true,
   ["no-neck-pain"] = true,
   -- ["oil"] = true,
-  ["qf"] = true,
+  -- ["qf"] = true,
   ["snacks_dashboard"] = true,
   ["spectre_panel"] = true,
   ["toggleterm"] = true,
@@ -82,9 +84,9 @@ end
 
 ---@param buf_id integer
 ---@param is_winbar boolean
+---@param cwd string
 ---@return string
-local function get_filename(buf_id, is_winbar)
-  local cwd = vim.fn.getcwd()
+local function get_filename(buf_id, is_winbar, cwd)
   if cwd:sub(-1) ~= "/" then
     cwd = cwd .. "/"
   end
@@ -93,11 +95,16 @@ local function get_filename(buf_id, is_winbar)
   local filetype = vim.bo[buf_id].filetype
 
   if filetype == "oil" then
-    return vim.fn.expand("%:~:h"):sub(#cwd)
+    local p = vim.fn.fnamemodify(filepath:gsub("^oil://", ""), ":p")
+    return p:sub(1, #cwd) == cwd and p:sub(#cwd + 1) or p
   end
 
   if filetype == "trouble" then
     return "Diagnostics"
+  end
+
+  if filetype == "qf" then
+    return "Quickfix List"
   end
 
   local filename = vim.fn.fnamemodify(filepath, ":t")
@@ -105,10 +112,12 @@ local function get_filename(buf_id, is_winbar)
     return ""
   end
 
+  --- removes cwd from filepath unless filepath is cwd
   if filepath:sub(1, #cwd) == cwd then
     filepath = filepath:sub(#cwd + 1)
   end
 
+  --- removes filename from filepath unless filepath is filename
   if filepath:sub(-#filename) == filename then
     filepath = filepath:sub(1, -#filename - 1)
   end
@@ -120,17 +129,13 @@ local function get_filename(buf_id, is_winbar)
   end
 
   if is_winbar then
-    local _file = "%#DevIconConfig#" .. filename .. "%*"
-    local _icon = "%#" .. color .. "#" .. icon .. "%*"
-
-    return filepath .. _file .. " " .. _icon
-    -- return "%#" .. color .. "#" .. icon .. "%* %#DevIconConfig#" .. filename .. " %*" .. filepath .. "%*"
+    return filepath .. filename .. " " .. "%#" .. color .. "#" .. icon .. "%*"
   end
 
   return "%*" .. filepath .. filename .. "%*"
 end
 
-local function enable_winbar(win_id)
+local function enable_winbar(win_id, cwd)
   local buf_id = vim.api.nvim_win_get_buf(win_id)
   local win_config = vim.api.nvim_win_get_config(win_id)
 
@@ -151,7 +156,7 @@ local function enable_winbar(win_id)
     local winbar = ""
       .. is_active_icon
       .. " "
-      .. get_filename(buf_id, true)
+      .. get_filename(buf_id, true, cwd)
       .. " "
       .. get_modified(buf_id, true)
       .. " "
@@ -172,8 +177,9 @@ local function disable_winbar(win_id)
 end
 
 --- @param win_id integer
+--- @param cwd string
 --- @return nil
-local function enable_statusline(win_id)
+local function enable_statusline(win_id, cwd)
   vim.opt.laststatus = 3
 
   local buf_id = vim.api.nvim_win_get_buf(win_id)
@@ -186,7 +192,7 @@ local function enable_statusline(win_id)
     vim.api.nvim_set_option_value("statusline", statusline_cache[win_id], { win = win_id })
   else
     local statusline = " "
-      .. get_filename(buf_id, false)
+      .. get_filename(buf_id, false, cwd)
       .. " "
       .. get_modified(buf_id, false)
       .. " "
@@ -204,31 +210,61 @@ end
 
 --- Renderers
 local function render_statusline()
+  local cwd = vim.fn.getcwd()
+
   local group = _G.show_statusline and "StatusLineGlobal" or "StatusLineLocal"
   local group_nc = group .. "NC"
-
   local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
   local hl_nc = vim.api.nvim_get_hl(0, { name = group_nc, link = false })
-
   vim.api.nvim_set_hl(0, "StatusLine", { fg = hl.fg, bg = hl.bg })
   vim.api.nvim_set_hl(0, "StatusLineNC", { fg = hl_nc.fg, bg = hl_nc.bg })
 
   if _G.show_statusline then
-    enable_statusline(0)
+    enable_statusline(0, cwd)
   else
     disable_statusline()
   end
 end
 
 local function render_winbar()
+  local cwd = vim.fn.getcwd()
+
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     if _G.show_winbar then
-      enable_winbar(win)
+      enable_winbar(win, cwd)
     else
       disable_winbar(win)
     end
   end
 end
+
+local function render_popup()
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
+    "-- hi! -- ",
+  })
+
+  local width, height = 10, 1
+  local win_width = vim.api.nvim_win_get_width(0)
+  local col = win_width
+  local row = 0
+
+  vim.api.nvim_open_win(buf, false, {
+    relative = "win",
+    width = width,
+    focusable = false,
+    height = height,
+    row = row,
+    col = col,
+    style = "minimal",
+    anchor = "NE",
+    border = "none",
+    noautocmd = true,
+  })
+end
+vim.api.nvim_create_user_command("OpenPopup", function()
+  render_popup()
+end, {})
 
 local RenderGroup = vim.api.nvim_create_augroup("update_group", { clear = true })
 

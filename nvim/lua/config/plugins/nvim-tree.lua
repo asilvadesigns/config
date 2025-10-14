@@ -11,6 +11,9 @@ M.setup = function()
     -- default mappings
     api.config.mappings.default_on_attach(bufnr)
 
+    -- disable certain mappings
+    vim.keymap.del("n", "s", { buffer = bufnr })
+
     -- custom mappings
     vim.keymap.set("n", "I", api.tree.toggle_enable_filters, {
       desc = "nvim-tree: Toggle filters",
@@ -38,19 +41,21 @@ M.setup = function()
         path = path .. "/"
       end
 
-      local grugfar = require("grug-far")
-      local options = {
-        instanceName = _G.grug_instance_global,
-        prefills = {
-          paths = path,
-          search = grugfar.get_current_visual_selection(),
-        },
-      }
-      if grugfar.has_instance(options.instanceName) then
-        grugfar.get_instance(options.instanceName):update_input_values(options.prefills, false)
-        grugfar.get_instance(options.instanceName):open()
-      else
-        grugfar.toggle_instance(options)
+      local grug_ready, grug = pcall(require, "grug-far")
+      if grug_ready then
+        local options = {
+          instanceName = _G.grug_instance_global,
+          prefills = {
+            paths = path,
+            search = grug.get_current_visual_selection(),
+          },
+        }
+        if grug.has_instance(options.instanceName) then
+          grug.get_instance(options.instanceName):update_input_values(options.prefills, false)
+          grug.get_instance(options.instanceName):open()
+        else
+          grug.toggle_instance(options)
+        end
       end
     end, {
       desc = "nvim-tree: Search in directory",

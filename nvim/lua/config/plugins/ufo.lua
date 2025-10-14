@@ -9,6 +9,11 @@ M.setup = function()
     -- provider_selector = function(bufnr, filetype, buftype)
     --   return { "treesitter", "indent" }
     -- end,
+    fold_virt_text_handler = function(virtText, lnum, endLnum)
+      local count = endLnum - lnum
+      table.insert(virtText, { (" 󰁂 %d "):format(count), "Folded" })
+      return virtText
+    end,
     preview = {
       mappings = {
         scrollU = "<C-u>",

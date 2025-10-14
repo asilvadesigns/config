@@ -52,6 +52,9 @@ local palette_items = function()
     { text = "Restart LSP", cmd = "LspRestart" },
     { text = "Search (file)", cmd = "SearchFile" },
     { text = "Search (project)", cmd = "SearchProject" },
+    { text = "Show Line Numbers", cmd = "ShowLineNumbers" },
+    { text = "Show Relative Numbers", cmd = "ShowRelativeLineNumbers" },
+    { text = "Hide Line Numbers", cmd = "HideLineNumbers" },
     { text = "Symbols", cmd = "lua Snacks.picker.lsp_symbols()" },
     { text = drawToggle("Toggle Auto Pairs", _G.enable_auto_pair), cmd = "ToggleAutoPairs" },
     { text = drawToggle("Toggle Color Picker", _G.enable_color_picker), cmd = "ColorPickerToggle" },
@@ -69,9 +72,9 @@ local palette_items = function()
     { text = drawToggle("Toggle Illuminate", _G.show_illuminate), cmd = "ToggleIlluminate" },
     { text = drawToggle("Toggle Indent Lines", _G.show_indent_lines), cmd = "ToggleIndentLines" },
     { text = drawToggle("Toggle Invisible Chars", _G.show_invisible_chars), cmd = "ToggleInvisibleChars" },
-    { text = drawToggle("Toggle Line Numbers", _G.show_number_lines), cmd = "ToggleNumberLines" },
+    -- { text = drawToggle("Toggle Line Numbers", _G.show_number_lines), cmd = "ToggleNumberLines" },
     { text = drawToggle("Toggle Line Wrap", _G.enable_line_wrap), cmd = "ToggleLineWrap" },
-    { text = drawToggle("Toggle Relative Lines", _G.show_relative_lines), cmd = "ToggleRelativeLines" },
+    -- { text = drawToggle("Toggle Relative Lines", _G.show_relative_lines), cmd = "ToggleRelativeLines" },
     { text = drawToggle("Toggle Scrollbar", _G.show_scrollbar), cmd = "ToggleScrollbar" },
     { text = drawToggle("Toggle Smooth Scroll", _G.enable_smooth_scroll), cmd = "ToggleSmoothScroll" },
     { text = drawToggle("Toggle Statusline", _G.show_statusline), cmd = "ToggleStatusline" },
@@ -253,9 +256,9 @@ M.setup = function()
       enabled = false,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
-      -- left = { "sign" }, -- priority of signs on the left (high to low)
-      -- right = { "fold" }, -- priority of signs on the right (high to low)
-      right = {}, -- priority of signs on the right (high to low)
+      left = { "sign" }, -- priority of signs on the left (high to low)
+      right = { "fold" }, -- priority of signs on the right (high to low)
+      -- right = {}, -- priority of signs on the right (high to low)
       folds = {
         open = true, -- show open fold icons
       },

@@ -7,20 +7,20 @@ _G.enable_autocompletion = false
 _G.enable_color_picker = true
 _G.enable_syntax_highlight = true
 _G.enable_line_wrap = false
-_G.enable_smooth_scroll = true
+_G.enable_smooth_scroll = false
 _G.enable_simple_colors = false
 _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
 _G.show_cursorline = true
-_G.show_diagnostics = true
+_G.show_diagnostics = false
 _G.show_diagnostics_text = false
 _G.show_diagnostics_underline = true
-_G.show_illuminate = false
+_G.show_illuminate = true
 _G.show_indent_lines = false
 _G.show_invisible_chars = false
-_G.show_number_lines = false
-_G.show_relative_lines = true
+-- _G.show_number_lines = false
+-- _G.show_relative_linesr = true
 _G.show_scrollbar = false
 _G.show_treesitter_context = false
 --- hide_all will override the others btw
@@ -69,11 +69,15 @@ vim.opt.cmdheight = 0
 vim.opt.cursorline = _G.show_cursorline
 vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
 vim.opt.expandtab = true
-vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
+vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]] --   ||   ||  
+
 vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
+
 vim.opt.modeline = false --- may want these some day but having issues with markdown files
 vim.opt.guicursor =
   "n-v-c:blocki,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff250-blinkon250,sm:block-blinkwait500-blinkoff250-blinkon250"
@@ -96,19 +100,22 @@ vim.opt.synmaxcol = 256
 vim.opt.tabstop = 2
 vim.opt.updatetime = 100
 
+-- vim.opt.statuscolumn = "%s %r %l"
+
 if not _G.enable_line_wrap then
   vim.cmd("set nowrap nolinebreak")
 else
   vim.cmd("set wrap linebreak")
 end
 
-if _G.show_number_lines then
-  vim.cmd("set nu nornu")
-else
-  if _G.show_relative_lines then
-    vim.cmd("set nu rnu")
-  end
-end
+vim.cmd("set nu rnu")
+-- if _G.show_number_lines then
+--   vim.cmd("set nu nornu")
+-- else
+--   if _G.show_relative_lines then
+--     vim.cmd("set nu rnu")
+--   end
+-- end
 
 vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"
@@ -130,6 +137,45 @@ if vim.g.neovide then
   vim.g.neovide_scroll_animation_length = 0.00
   -- TODO: at some point add hotkeys for modifying font size.
 end
+
+---
+--- Section: Smart Scroll
+---
+local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
+local debounce = false
+
+-- Create one autocmd ahead of time; just reacts when debounce=true
+vim.api.nvim_create_autocmd("CursorMoved", {
+  group = scroll_group,
+  callback = function()
+    if debounce then
+      Snacks.scroll.enable()
+      debounce = false
+    end
+  end,
+})
+
+local function smart_scroll(direction)
+  local motion = direction == "up" and "gk" or "gj"
+
+  if not debounce then
+    Snacks.scroll.disable()
+    debounce = true
+  end
+
+  return motion
+end
+
+local function k_motion()
+  return _G.enable_smooth_scroll and smart_scroll("up") or "gk"
+end
+
+local function j_motion()
+  return _G.enable_smooth_scroll and smart_scroll("down") or "gj"
+end
+
+vim.keymap.set({ "n", "v" }, "k", k_motion, { expr = true, silent = true })
+vim.keymap.set({ "n", "v" }, "j", j_motion, { expr = true, silent = true })
 
 ---
 --- Keymaps
@@ -186,37 +232,6 @@ vim.keymap.set("n", "<leader>qf", function()
   vim.cmd("qa!")
 end, { desc = "Save and Quit" })
 
-local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
-local debounce = false
-
-local function smart_scroll(direction, enabled)
-  local motion = direction == "up" and "gk" or "gj"
-
-  -- Only disable Snacks scroll if enabled and not already disabled for spam
-  if enabled and not debounce then
-    Snacks.scroll.disable()
-    debounce = true
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      group = scroll_group,
-      callback = function()
-        Snacks.scroll.enable()
-        debounce = false
-      end,
-      once = true,
-    })
-  end
-
-  return motion
-end
-
-vim.keymap.set({ "n", "v" }, "k", function()
-  return smart_scroll("up", _G.enable_smooth_scroll)
-end, { expr = true, silent = true })
-
-vim.keymap.set({ "n", "v" }, "j", function()
-  return smart_scroll("down", _G.enable_smooth_scroll)
-end, { expr = true, silent = true })
-
 vim.keymap.set("n", "<", ":tabprevious<CR>", { desc = "Go to the previous tab" })
 vim.keymap.set("n", ">", ":tabnext<CR>", { desc = "Go to the next tab" })
 vim.keymap.set("n", "tl", ":tablast<CR>", { desc = "Go to the last tab" })
@@ -266,6 +281,10 @@ vim.keymap.set("n", "]e", function()
 end, { desc = "Go to next error message" })
 
 vim.keymap.set("n", "ge", vim.diagnostic.open_float, { desc = "Open diagnostic message" })
+
+vim.keymap.set("n", "]c", ":cnext<CR>", { desc = "Go to next quickfix item" })
+
+vim.keymap.set("n", "[c", ":cprev<CR>", { desc = "Go to prev quickfix item" })
 
 ---
 --- Section: Plugins
@@ -425,6 +444,7 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
+      enabled = false,
       tag = "v0.2.1",
       event = "User SuperLazy",
       config = require("config.plugins.modes").setup,
@@ -455,7 +475,7 @@ require("lazy").setup({
     },
     {
       "ggandor/leap.nvim",
-      enabled = false,
+      enabled = true,
       keys = {
         {
           "<leader>;",
@@ -556,7 +576,15 @@ require("lazy").setup({
       config = require("config.plugins.matchup").config,
     },
     {
+      "kevinhwang91/nvim-ufo",
+      enabled = true,
+      event = "User SuperLazy",
+      dependencies = { "kevinhwang91/promise-async" },
+      config = require("config.plugins.ufo").setup,
+    },
+    {
       "chrisgrieser/nvim-origami",
+      enabled = false,
       event = "User SuperLazy",
       config = require("config.plugins.origami").setup,
     },
@@ -793,27 +821,53 @@ vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
   vim.opt.list = _G.show_invisible_chars
 end, {})
 
-vim.api.nvim_create_user_command("ToggleNumberLines", function()
-  _G.show_number_lines = not _G.show_number_lines
-  if _G.show_number_lines then
-    vim.cmd("set nu nornu")
-  else
-    vim.cmd("set nonu nornu")
+---
+--- personal plugin START
+---
+--- @type table<string, boolean>
+local is_affected_by_line_numbers = {
+  ["NeogitStatus"] = true,
+  ["NvimTree"] = true,
+  ["grug-far"] = true,
+  ["help"] = true,
+  ["neo-tree"] = true,
+  ["no-neck-pain"] = true,
+  ["oil"] = false,
+  ["qf"] = true,
+  ["snacks_dashboard"] = true,
+  ["spectre_panel"] = true,
+  ["toggleterm"] = true,
+}
+
+local function set_line_numbers(nu, rnu)
+  for _, win_id in ipairs(vim.api.nvim_list_wins()) do
+    local buf_id = vim.api.nvim_win_get_buf(win_id)
+    local filetype = vim.bo[buf_id].filetype
+
+    if not is_affected_by_line_numbers[filetype] then
+      vim.api.nvim_set_option_value("number", nu, { win = win_id })
+      vim.api.nvim_set_option_value("relativenumber", rnu, { win = win_id })
+    end
   end
-  vim.cmd("e!")
-  _G.show_relative_lines = false
+end
+
+-- TODO: implement a toggle with a previous values cache.
+-- if there are previous values use them, otherwise don't.
+
+vim.api.nvim_create_user_command("HideLineNumbers", function()
+  set_line_numbers(false, false)
 end, {})
 
-vim.api.nvim_create_user_command("ToggleRelativeLines", function()
-  _G.show_relative_lines = not _G.show_relative_lines
-  if _G.show_relative_lines then
-    vim.cmd("set nu rnu")
-  else
-    vim.cmd("set nonu nornu")
-  end
-  vim.cmd("e!")
-  _G.show_number_lines = false
+vim.api.nvim_create_user_command("ShowLineNumbers", function()
+  set_line_numbers(true, false)
 end, {})
+
+vim.api.nvim_create_user_command("ShowRelativeLineNumbers", function()
+  set_line_numbers(true, true)
+end, {})
+---
+--- personal plugin END
+---
 
 vim.api.nvim_create_user_command("ToggleCursorLine", function()
   _G.show_cursorline = not _G.show_cursorline

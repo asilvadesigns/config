@@ -7,7 +7,7 @@ M.setup = function()
         enabled = false,
       },
     },
-    width = 100,
+    width = 120,
   })
 
   vim.api.nvim_create_user_command("ToggleZenMode", function()
