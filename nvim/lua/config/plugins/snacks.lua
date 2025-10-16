@@ -253,14 +253,14 @@ M.setup = function()
       },
     },
     statuscolumn = {
-      enabled = false,
+      enabled = true,
       -- "sign"
       -- left = { "git", "sign", "mark" }, -- priority of signs on the left (high to low)
       left = { "sign" }, -- priority of signs on the left (high to low)
       right = { "fold" }, -- priority of signs on the right (high to low)
       -- right = {}, -- priority of signs on the right (high to low)
       folds = {
-        open = true, -- show open fold icons
+        open = false, -- show open fold icons
       },
       git = {
         patterns = {
@@ -277,144 +277,189 @@ M.setup = function()
         easing = "outSine",
       },
       animate_repeat = {
-        delay = 15,
-        duration = { step = 0, total = 0 },
+        delay = 50,
+        duration = { step = 5, total = 50 },
         easing = "linear",
       },
-      -- what buffers to animate
-      filter = function(buf)
-        return vim.g.snacks_scroll ~= false and vim.b[buf].snacks_scroll ~= false and vim.bo[buf].buftype ~= "terminal"
-      end,
     },
   })
-end
 
-vim.keymap.set("n", "<leader>a", function()
-  ---@diagnostic disable-next-line: undefined-field
-  Snacks.picker.command_palette({ items = palette_items() })
-end, { desc = "Fuzzy actions" })
+  vim.keymap.set("n", "<leader>a", function()
+    ---@diagnostic disable-next-line: undefined-field
+    Snacks.picker.command_palette({ items = palette_items() })
+  end, { desc = "Fuzzy actions" })
 
-vim.keymap.set("n", "<leader>b", function()
-  Snacks.picker.buffers({ filter = { cwd = true } })
-end, { desc = "Fuzzy buffers" })
+  vim.keymap.set("n", "<leader>b", function()
+    Snacks.picker.buffers({ filter = { cwd = true } })
+  end, { desc = "Fuzzy buffers" })
 
-vim.keymap.set("n", "<leader>e", function()
-  Snacks.picker.recent({
-    filter = {
-      cwd = true,
-    },
-  })
-end, { desc = "Fuzzy oldfiles" })
-
-vim.keymap.set("n", "<leader>o", function()
-  Snacks.picker.lsp_symbols({
-    filter = {
-      default = {
-        "Class",
-        "Constructor",
-        -- "Enum",
-        -- "Field",
-        "Function",
-        "Interface",
-        "Method",
-        -- "Module",
-        -- "Namespace",
-        -- "Package",
-        "Property",
-        -- "Struct",
-        -- "Trait",
+  vim.keymap.set("n", "<leader>e", function()
+    Snacks.picker.recent({
+      filter = {
+        cwd = true,
       },
-    },
-    layout = {
-      preset = PRESET,
-      preview = true,
-    },
-  })
-end, { desc = "Fuzzy symbols" })
-
-vim.keymap.set("n", "<leader><leader>", function()
-  Snacks.picker.resume()
-end, { desc = "Fuzzy resume" })
-
-vim.keymap.set("n", "<leader>f", function()
-  Snacks.picker.files()
-end, { desc = "Fuzzy files" })
-
-vim.keymap.set("n", "<leader>g", function()
-  Snacks.picker.grep()
-end, { desc = "Fuzzy grep" })
-
-vim.keymap.set("n", "<leader>p", function()
-  Snacks.picker.projects()
-end, { desc = "Fuzzy projects" })
-
-vim.keymap.set("n", "<leader>l", function()
-  ---@diagnostic disable-next-line: missing-fields
-  Snacks.picker.lines({
-    layout = {
-      preset = PRESET,
-      preview = "preview",
-      reverse = false,
-    },
-    -- on_close = function(picker)
-    --   if (picker.input) then
-    --
-    --   end
-    -- end
-    -- sort = {
-    --   fields = { "idx" }, --- could add "score:desc", for fuzzy match score
-    -- },
-  })
-end, { desc = "Fuzzy buffer lines" })
-
-vim.api.nvim_create_autocmd("LspProgress", {
-  ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
-  callback = function(ev)
-    local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-    vim.notify(vim.lsp.status(), "info", {
-      id = "lsp_progress",
-      title = "LSP Progress",
-      opts = function(notif)
-        notif.icon = ev.data.params.value.kind == "end" and " "
-          or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
-      end,
     })
-  end,
-})
+  end, { desc = "Fuzzy oldfiles" })
 
-vim.api.nvim_create_user_command("ToggleIndentLines", function()
-  if Snacks.indent.enabled then
-    Snacks.indent.disable()
-  else
-    Snacks.indent.enable()
+  vim.keymap.set("n", "<leader>o", function()
+    Snacks.picker.lsp_symbols({
+      filter = {
+        default = {
+          "Class",
+          "Constructor",
+          -- "Enum",
+          -- "Field",
+          "Function",
+          "Interface",
+          "Method",
+          -- "Module",
+          -- "Namespace",
+          -- "Package",
+          "Property",
+          -- "Struct",
+          -- "Trait",
+        },
+      },
+      layout = {
+        preset = PRESET,
+        preview = true,
+      },
+    })
+  end, { desc = "Fuzzy symbols" })
+
+  vim.keymap.set("n", "<leader><leader>", function()
+    Snacks.picker.resume()
+  end, { desc = "Fuzzy resume" })
+
+  vim.keymap.set("n", "<leader>f", function()
+    Snacks.picker.files()
+  end, { desc = "Fuzzy files" })
+
+  vim.keymap.set("n", "<leader>g", function()
+    Snacks.picker.grep()
+  end, { desc = "Fuzzy grep" })
+
+  vim.keymap.set("n", "<leader>p", function()
+    Snacks.picker.projects()
+  end, { desc = "Fuzzy projects" })
+
+  vim.keymap.set("n", "<leader>l", function()
+    ---@diagnostic disable-next-line: missing-fields
+    Snacks.picker.lines({
+      layout = {
+        preset = PRESET,
+        preview = "preview",
+        reverse = false,
+      },
+      -- on_close = function(picker)
+      --   if (picker.input) then
+      --
+      --   end
+      -- end
+      -- sort = {
+      --   fields = { "idx" }, --- could add "score:desc", for fuzzy match score
+      -- },
+    })
+  end, { desc = "Fuzzy buffer lines" })
+
+  vim.api.nvim_create_autocmd("LspProgress", {
+    ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+    callback = function(ev)
+      local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+      vim.notify(vim.lsp.status(), "info", {
+        id = "lsp_progress",
+        title = "LSP Progress",
+        opts = function(notif)
+          notif.icon = ev.data.params.value.kind == "end" and " "
+            or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+        end,
+      })
+    end,
+  })
+
+  ---
+  --- Section: Toggle Indent Lines
+  ---
+  vim.api.nvim_create_user_command("ToggleIndentLines", function()
+    if Snacks.indent.enabled then
+      Snacks.indent.disable()
+    else
+      Snacks.indent.enable()
+    end
+    _G.show_indent_lines = not _G.show_indent_lines
+  end, {})
+
+  ---
+  --- Section: Disable Snacks Animation During Blink CMP
+  ---
+  --- https://github.com/Saghen/blink.cmp/issues/1710#issuecomment-2868735177
+  local group = vim.api.nvim_create_augroup("BlinkCmpSnacksToggle", { clear = true })
+  vim.api.nvim_create_autocmd("User", {
+    group = group,
+    pattern = "BlinkCmpMenuOpen",
+    callback = function()
+      vim.g.snacks_animate = false
+    end,
+  })
+  vim.api.nvim_create_autocmd("User", {
+    group = group,
+    pattern = "BlinkCmpMenuClose",
+    callback = function()
+      vim.g.snacks_animate = true
+    end,
+  })
+
+  ---
+  --- Section: Toggle Smooth Scroll
+  ---
+  local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
+  local debounce = false
+
+  -- Create one autocmd ahead of time; just reacts when debounce=true
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    group = scroll_group,
+    callback = function()
+      if debounce then
+        Snacks.scroll.enable()
+        debounce = false
+      end
+    end,
+  })
+
+  local function smart_scroll(direction)
+    local motion = direction == "up" and "gk" or "gj"
+    if not debounce then
+      Snacks.scroll.disable()
+      debounce = true
+    end
+    return motion
   end
-  _G.show_indent_lines = not _G.show_indent_lines
-end, {})
 
-vim.api.nvim_create_user_command("ToggleSmoothScroll", function()
-  if Snacks.scroll.enabled then
+  local function toggle_smooth_scroll()
+    if _G.enable_smooth_scroll then
+      Snacks.scroll.enable()
+
+      vim.keymap.set({ "n", "v" }, "k", function()
+        return smart_scroll("up")
+      end, { expr = true, silent = true })
+
+      vim.keymap.set({ "n", "v" }, "j", function()
+        return smart_scroll("down")
+      end, { expr = true, silent = true })
+
+      return
+    end
+
     Snacks.scroll.disable()
-  else
-    Snacks.scroll.enable()
+    pcall(vim.keymap.del, { "n", "v" }, "k")
+    pcall(vim.keymap.del, { "n", "v" }, "j")
   end
-  _G.enable_smooth_scroll = not _G.enable_smooth_scroll
-end, {})
 
---- https://github.com/Saghen/blink.cmp/issues/1710#issuecomment-2868735177
-local group = vim.api.nvim_create_augroup("BlinkCmpSnacksToggle", { clear = true })
-vim.api.nvim_create_autocmd("User", {
-  group = group,
-  pattern = "BlinkCmpMenuOpen",
-  callback = function()
-    vim.g.snacks_animate = false
-  end,
-})
-vim.api.nvim_create_autocmd("User", {
-  group = group,
-  pattern = "BlinkCmpMenuClose",
-  callback = function()
-    vim.g.snacks_animate = true
-  end,
-})
+  toggle_smooth_scroll()
+  vim.api.nvim_create_user_command("ToggleSmoothScroll", function()
+    _G.enable_smooth_scroll = not _G.enable_smooth_scroll
+    toggle_smooth_scroll()
+  end, {})
+end
 
 return M

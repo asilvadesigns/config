@@ -27,7 +27,7 @@ M.setup = function()
     presets = {
       lsp_doc_border = true, -- add a border to hover docs and signature help
     },
-    messages = { enabled = true },
+    messages = { enabled = false },
     notify = { enabled = false },
     popupmenu = { enabled = false },
   })

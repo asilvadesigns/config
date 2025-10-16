@@ -94,6 +94,10 @@ local function get_filename(buf_id, is_winbar, cwd)
   local filepath = vim.api.nvim_buf_get_name(buf_id)
   local filetype = vim.bo[buf_id].filetype
 
+  if filetype == "noice" then
+    return "Noice"
+  end
+
   if filetype == "oil" then
     local p = vim.fn.fnamemodify(filepath:gsub("^oil://", ""), ":p")
     return p:sub(1, #cwd) == cwd and p:sub(#cwd + 1) or p

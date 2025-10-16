@@ -41,6 +41,9 @@ set -gx CPATH "/opt/homebrew/include"
 set -gx LIBRARY_PATH "/opt/homebrew/lib"
 set -gx PATH "/usr/local/include" $PATH;
 
+# vulkan
+set -gx VK_ICD_FILENAMES "/opt/homebrew/etc/vulkan/icd.d/MoltenVK_icd.json"
+
 # set -gx PATH "/opt/homebrew/opt/llvm@17/bin" $PATH;
 set -gx LDFLAGS "-L/opt/homebrew/opt/llvm@17/lib"
 set -gx CPPFLAGS "-I/opt/homebrew/opt/llvm@17/include"

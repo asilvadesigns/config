@@ -7,7 +7,7 @@ _G.enable_autocompletion = false
 _G.enable_color_picker = true
 _G.enable_syntax_highlight = true
 _G.enable_line_wrap = false
-_G.enable_smooth_scroll = false
+_G.enable_smooth_scroll = true
 _G.enable_simple_colors = false
 _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
@@ -19,11 +19,8 @@ _G.show_diagnostics_underline = true
 _G.show_illuminate = true
 _G.show_indent_lines = false
 _G.show_invisible_chars = false
--- _G.show_number_lines = false
--- _G.show_relative_linesr = true
 _G.show_scrollbar = false
 _G.show_treesitter_context = false
---- hide_all will override the others btw
 _G.hide_all = false
 _G.show_statusline = false
 _G.show_winbar = true
@@ -108,14 +105,8 @@ else
   vim.cmd("set wrap linebreak")
 end
 
-vim.cmd("set nu rnu")
--- if _G.show_number_lines then
---   vim.cmd("set nu nornu")
--- else
---   if _G.show_relative_lines then
---     vim.cmd("set nu rnu")
---   end
--- end
+-- line numbers FTW
+vim.cmd("set nonu nornu")
 
 vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"
@@ -141,41 +132,41 @@ end
 ---
 --- Section: Smart Scroll
 ---
-local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
-local debounce = false
-
--- Create one autocmd ahead of time; just reacts when debounce=true
-vim.api.nvim_create_autocmd("CursorMoved", {
-  group = scroll_group,
-  callback = function()
-    if debounce then
-      Snacks.scroll.enable()
-      debounce = false
-    end
-  end,
-})
-
-local function smart_scroll(direction)
-  local motion = direction == "up" and "gk" or "gj"
-
-  if not debounce then
-    Snacks.scroll.disable()
-    debounce = true
-  end
-
-  return motion
-end
-
-local function k_motion()
-  return _G.enable_smooth_scroll and smart_scroll("up") or "gk"
-end
-
-local function j_motion()
-  return _G.enable_smooth_scroll and smart_scroll("down") or "gj"
-end
-
-vim.keymap.set({ "n", "v" }, "k", k_motion, { expr = true, silent = true })
-vim.keymap.set({ "n", "v" }, "j", j_motion, { expr = true, silent = true })
+-- local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
+-- local debounce = false
+--
+-- -- Create one autocmd ahead of time; just reacts when debounce=true
+-- vim.api.nvim_create_autocmd("CursorMoved", {
+--   group = scroll_group,
+--   callback = function()
+--     if debounce then
+--       Snacks.scroll.enable()
+--       debounce = false
+--     end
+--   end,
+-- })
+--
+-- local function smart_scroll(direction)
+--   local motion = direction == "up" and "gk" or "gj"
+--
+--   if not debounce then
+--     Snacks.scroll.disable()
+--     debounce = true
+--   end
+--
+--   return motion
+-- end
+--
+-- local function k_motion()
+--   return _G.enable_smooth_scroll and smart_scroll("up") or "gk"
+-- end
+--
+-- local function j_motion()
+--   return _G.enable_smooth_scroll and smart_scroll("down") or "gj"
+-- end
+--
+-- vim.keymap.set({ "n", "v" }, "k", k_motion, { expr = true, silent = true })
+-- vim.keymap.set({ "n", "v" }, "j", j_motion, { expr = true, silent = true })
 
 ---
 --- Keymaps
@@ -313,6 +304,11 @@ require("lazy").setup({
       config = require("config.plugins.snacks").setup,
     },
     {
+      "folke/noice.nvim",
+      event = "VeryLazy",
+      config = require("config.plugins.noice").setup,
+    },
+    {
       "folke/trouble.nvim",
       cmd = { "ToggleTrouble", "Trouble" },
       config = require("config.plugins.trouble").setup,
@@ -333,16 +329,6 @@ require("lazy").setup({
       },
     },
     {
-      "sphamba/smear-cursor.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      opts = {
-        stiffness = 0.8,
-        trailing_stiffness = 0.5,
-        distance_stop_animating = 0.5,
-      },
-    },
-    {
       "rmagatti/auto-session",
       cmd = { "SessionRestore" },
       config = require("config.plugins.auto-session").setup,
@@ -352,6 +338,7 @@ require("lazy").setup({
       name = "catppuccin",
       config = require("config.plugins.catppuccin").setup,
     },
+    --- TODO: try https://github.com/kevinhwang91/nvim-bqf
     {
       "stevearc/quicker.nvim",
       event = "FileType qf",
@@ -362,6 +349,21 @@ require("lazy").setup({
       version = "*",
       event = "User SuperLazy",
       config = require("config.plugins.color-picker").setup,
+    },
+    {
+      "kevinhwang91/nvim-hlslens",
+      enabled = false,
+      keys = {
+        { "n", "<Cmd>execute('normal! ' .. v:count1 .. 'n')<CR><Cmd>lua require('hlslens').start()<CR>", mode = "n" },
+        { "N", "<Cmd>execute('normal! ' .. v:count1 .. 'N')<CR><Cmd>lua require('hlslens').start()<CR>", mode = "n" },
+        { "*", "*<Cmd>lua require('hlslens').start()<CR>", mode = "n" },
+        { "#", "#<Cmd>lua require('hlslens').start()<CR>", mode = "n" },
+        { "g*", "g*<Cmd>lua require('hlslens').start()<CR>", mode = "n" },
+        { "g#", "g#<Cmd>lua require('hlslens').start()<CR>", mode = "n" },
+      },
+      config = function()
+        require("hlslens").setup()
+      end,
     },
     {
       "lewis6991/satellite.nvim",
@@ -466,8 +468,8 @@ require("lazy").setup({
     {
       "MagicDuck/grug-far.nvim",
       keys = {
-        { "f", mode = "v", ":SearchFileVisual<CR>", desc = "Find in file (visual)" },
-        { "F", mode = "v", ":SearchProjectVisual<CR>", desc = "Find in project (visual)" },
+        { "<leader>f", mode = "v", ":SearchFileVisual<CR>", desc = "Find in file (visual)" },
+        { "<leader>s", mode = "v", ":SearchProjectVisual<CR>", desc = "Find in project (visual)" },
         { "<C-F>", ":SearchFile<CR>", desc = "Find in file" },
         { "<C-S>", ":SearchProject<CR>", desc = "Find in project" },
       },
@@ -560,6 +562,29 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter-context",
       cmd = "ToggleTreesitterContext",
       config = require("config.plugins.treesitter-context").setup,
+    },
+    {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      branch = "main",
+      keys = {
+        {
+          "af",
+          function()
+            require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
+          end,
+          mode = { "x", "o" },
+          desc = "Select around function",
+        },
+        {
+          "if",
+          function()
+            require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
+          end,
+          mode = { "x", "o" },
+          desc = "Select inside function",
+        },
+      },
+      opts = {},
     },
     {
       "nvim-treesitter/nvim-treesitter",
@@ -757,6 +782,9 @@ vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
   local config = vim.diagnostic.config()
   if config ~= nil then
     if not config.virtual_text then
+      _G.show_diagnostics = true
+      vim.diagnostic.enable(true)
+
       _G.show_diagnostics_text = true
     else
       _G.show_diagnostics_text = false
@@ -769,6 +797,9 @@ vim.api.nvim_create_user_command("ToggleDiagnosticUnderline", function()
   local config = vim.diagnostic.config()
   if config ~= nil then
     if not config.underline then
+      _G.show_diagnostics = true
+      vim.diagnostic.enable(true)
+
       _G.show_diagnostics_underline = true
     else
       _G.show_diagnostics_underline = false
@@ -853,7 +884,6 @@ end
 
 -- TODO: implement a toggle with a previous values cache.
 -- if there are previous values use them, otherwise don't.
-
 vim.api.nvim_create_user_command("HideLineNumbers", function()
   set_line_numbers(false, false)
 end, {})

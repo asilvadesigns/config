@@ -33,6 +33,25 @@ font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
 
+# Shaders
+# custom-shader = shaders/blaze_sparks.glsl
+# custom-shader = shaders/cursor_blaze.glsl
+# custom-shader = shaders/cursor_blaze_no_trail.glsl
+# custom-shader = shaders/cursor_blaze_tapered.glsl
+# custom-shader = shaders/cursor_border_1.glsl
+# custom-shader = shaders/cursor_frozen.glsl
+# custom-shader = shaders/cursor_smear.glsl
+# custom-shader = shaders/cursor_smear_fade.glsl
+# custom-shader = shaders/cursor_smear_gradient.glsl
+# custom-shader = shaders/cursor_smear_rainbow.glsl
+# custom-shader = shaders/cursor_syn.glsl
+# custom-shader = shaders/debug_cursor_animated.glsl
+# custom-shader = shaders/debug_cursor_static.glsl
+# custom-shader = shaders/manga_slash.glsl
+# custom-shader = shaders/party_sparks.glsl
+# custom-shader = shaders/shake.glsl
+# custom-shader = shaders/sparks.glsl
+
 # Window
 window-padding-color = extend-always
 # or background, extend, extend-always
