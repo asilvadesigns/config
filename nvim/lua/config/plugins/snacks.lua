@@ -86,7 +86,7 @@ local palette_items = function()
 end
 
 local MAX_WIDTH = 140
-local PRESET = "ivy" -- dropdown | vscode | ivy | select
+local PRESET = "dropdown" -- dropdown | vscode | ivy | select
 
 M.setup = function()
   require("snacks").setup({
@@ -412,53 +412,56 @@ M.setup = function()
   ---
   --- Section: Toggle Smooth Scroll
   ---
-  local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
-  local debounce = false
-
-  -- Create one autocmd ahead of time; just reacts when debounce=true
-  vim.api.nvim_create_autocmd("CursorMoved", {
-    group = scroll_group,
-    callback = function()
-      if debounce then
-        Snacks.scroll.enable()
-        debounce = false
-      end
-    end,
-  })
-
-  local function smart_scroll(direction)
-    local motion = direction == "up" and "gk" or "gj"
-    if not debounce then
-      Snacks.scroll.disable()
-      debounce = true
-    end
-    return motion
-  end
-
-  local function toggle_smooth_scroll()
-    if _G.enable_smooth_scroll then
-      Snacks.scroll.enable()
-
-      vim.keymap.set({ "n", "v" }, "k", function()
-        return smart_scroll("up")
-      end, { expr = true, silent = true })
-
-      vim.keymap.set({ "n", "v" }, "j", function()
-        return smart_scroll("down")
-      end, { expr = true, silent = true })
-
-      return
-    end
-
-    Snacks.scroll.disable()
-    pcall(vim.keymap.del, { "n", "v" }, "k")
-    pcall(vim.keymap.del, { "n", "v" }, "j")
-  end
-
-  toggle_smooth_scroll()
+  -- local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
+  -- local debounce = false
+  --
+  -- -- Create one autocmd ahead of time; just reacts when debounce=true
+  -- vim.api.nvim_create_autocmd("CursorMoved", {
+  --   group = scroll_group,
+  --   callback = function()
+  --     if debounce then
+  --       Snacks.scroll.enable()
+  --       debounce = false
+  --     end
+  --   end,
+  -- })
+  --
+  -- local function smart_scroll(direction)
+  --   local motion = direction == "up" and "gk" or "gj"
+  --   if not debounce then
+  --     Snacks.scroll.disable()
+  --     debounce = true
+  --   end
+  --   return motion
+  -- end
+  --
+  -- local function toggle_smooth_scroll()
+  --   if _G.enable_smooth_scroll then
+  --     Snacks.scroll.enable()
+  --
+  --     vim.keymap.set({ "n", "v" }, "k", function()
+  --       return smart_scroll("up")
+  --     end, { expr = true, silent = true })
+  --
+  --     vim.keymap.set({ "n", "v" }, "j", function()
+  --       return smart_scroll("down")
+  --     end, { expr = true, silent = true })
+  --
+  --     return
+  --   end
+  --
+  --   Snacks.scroll.disable()
+  --   pcall(vim.keymap.del, { "n", "v" }, "k")
+  --   pcall(vim.keymap.del, { "n", "v" }, "j")
+  -- end
+  --
   vim.api.nvim_create_user_command("ToggleSmoothScroll", function()
     _G.enable_smooth_scroll = not _G.enable_smooth_scroll
-    toggle_smooth_scroll()
+    if _G.enable_smooth_scroll then
+      Snacks.scroll.enable()
+    else
+      Snacks.scroll.disable()
+    end
   end, {})
 end
 

@@ -7,6 +7,7 @@ M.setup = function()
   plugin.setup({})
 
   plugin.install({
+    "asm",
     "bash",
     "c",
     "cpp",
@@ -40,6 +41,7 @@ M.setup = function()
     "vim",
     "vimdoc",
     "yaml",
+    "zig",
   })
 
   vim.treesitter.language.register("markdown", "mdx")

@@ -4,7 +4,7 @@
 -- enable_ && show_ are functionally same, just semantics.
 _G.enable_auto_pair = false
 _G.enable_autocompletion = false
-_G.enable_color_picker = true
+_G.enable_color_picker = false
 _G.enable_syntax_highlight = true
 _G.enable_line_wrap = false
 _G.enable_smooth_scroll = true
@@ -242,7 +242,7 @@ vim.keymap.set("n", "<leader>9", ":tabn 9<CR>", { desc = "Go to tab 9" })
 
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Add indent" })
 vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Remove indent " })
--- vim.keymap.set("v", "p", '"_dP', { desc="Paste" })
+vim.keymap.set("v", "p", '"_dP', { desc = "Paste" })
 
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-c>", [[<C-\><C-n>]])
@@ -305,6 +305,7 @@ require("lazy").setup({
     },
     {
       "folke/noice.nvim",
+      enabled = false,
       event = "VeryLazy",
       config = require("config.plugins.noice").setup,
     },
@@ -338,7 +339,6 @@ require("lazy").setup({
       name = "catppuccin",
       config = require("config.plugins.catppuccin").setup,
     },
-    --- TODO: try https://github.com/kevinhwang91/nvim-bqf
     {
       "stevearc/quicker.nvim",
       event = "FileType qf",
@@ -399,24 +399,18 @@ require("lazy").setup({
     },
     {
       "windwp/nvim-autopairs",
-      enabled = false,
       event = "InsertEnter",
       config = require("config.plugins.autopairs").setup,
     },
     {
       "windwp/nvim-ts-autotag",
-      enabled = false,
-      event = "User SuperLazy",
-      opts = {
-        enable_close = false,
-        enable_close_on_slash = true,
-        enable_rename = true,
-      },
+      event = "InsertEnter",
+      config = require("config.plugins.autotag").setup,
     },
     {
       "shortcuts/no-neck-pain.nvim",
-      keys = { { "<leader>z", "<CMD>ToggleZenMode<CR>" }, desc = "Toggle Zen Mode" },
       cmd = "ToggleZenMode",
+      keys = { { "<leader>z", "<CMD>ToggleZenMode<CR>" }, desc = "Toggle Zen Mode" },
       version = "*",
       config = require("config.plugins.no-neck-pain").setup,
     },
@@ -437,12 +431,6 @@ require("lazy").setup({
       "stevearc/oil.nvim",
       event = "User SuperLazy",
       config = require("config.plugins.oil").setup,
-    },
-    {
-      "akinsho/bufferline.nvim",
-      enabled = false,
-      version = "*",
-      config = require("config.plugins.bufferline").setup,
     },
     {
       "mvllow/modes.nvim",
@@ -502,12 +490,7 @@ require("lazy").setup({
           end,
         },
       },
-      config = function()
-        require("leap").opts.safe_labels = {}
-        require("leap").opts.highlight_unlabeled_phase_one_targets = true
-        vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "NonText" }) -- darken everything
-        vim.api.nvim_set_hl(0, "LeapLabel", { link = "DiagnosticVirtualTextError" }) -- darken everything
-      end,
+      config = require("config.plugins.leap").setup,
     },
     {
       "Wansmer/treesj",
@@ -871,10 +854,10 @@ local is_affected_by_line_numbers = {
 }
 
 local function set_line_numbers(nu, rnu)
+  -- update each window
   for _, win_id in ipairs(vim.api.nvim_list_wins()) do
     local buf_id = vim.api.nvim_win_get_buf(win_id)
     local filetype = vim.bo[buf_id].filetype
-
     if not is_affected_by_line_numbers[filetype] then
       vim.api.nvim_set_option_value("number", nu, { win = win_id })
       vim.api.nvim_set_option_value("relativenumber", rnu, { win = win_id })

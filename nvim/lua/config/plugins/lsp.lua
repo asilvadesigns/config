@@ -20,31 +20,31 @@ M.setup = function()
   --   },
   -- }
 
-  local servers = {
-    "angularls",
-    "astro",
-    "clangd",
-    "cssls",
-    "dockerls",
-    "eslint",
-    "gopls",
-    "html",
-    "jsonls",
-    "lua_ls",
-    "prismals",
-    "tailwindcss",
-    "taplo",
-    "templ",
-    "vtsls",
-    "yamlls",
-  }
-
-  local formatters = {
-    "htmlbeautifier",
-    "prettier",
-    "sql-formatter",
-    "stylua",
-  }
+  -- local servers = {
+  --   "angularls",
+  --   "astro",
+  --   "clangd",
+  --   "cssls",
+  --   "dockerls",
+  --   "eslint",
+  --   "gopls",
+  --   "html",
+  --   "jsonls",
+  --   "lua_ls",
+  --   "prismals",
+  --   "tailwindcss",
+  --   "taplo",
+  --   "templ",
+  --   "vtsls",
+  --   "yamlls",
+  -- }
+  --
+  -- local formatters = {
+  --   "htmlbeautifier",
+  --   "prettier",
+  --   "sql-formatter",
+  --   "stylua",
+  -- }
 
   require("mason").setup({
     ui = {
@@ -53,9 +53,11 @@ M.setup = function()
     },
   })
 
+  --- C/C++
   vim.lsp.config("clangd", {})
   vim.lsp.enable("clangd")
 
+  --- CSS
   vim.lsp.config("cssls", {
     settings = {
       css = {
@@ -74,12 +76,14 @@ M.setup = function()
   })
   vim.lsp.enable("cssls")
 
+  --- HTML
   local htmldefaults = require("lspconfig.configs.html").default_config
   vim.lsp.config("html", {
     filetypes = vim.list_extend({ "templ" }, htmldefaults.filetypes),
   })
   vim.lsp.enable("html")
 
+  --- JSON
   vim.lsp.config("jsonls", {
     settings = {
       json = {
@@ -90,6 +94,11 @@ M.setup = function()
   })
   vim.lsp.enable("jsonls")
 
+  --- GLSL
+  vim.lsp.config("glsl_analyzer", {})
+  vim.lsp.enable("glsl_analyzer")
+
+  --- GO
   vim.lsp.config("gopls", {
     settings = {
       gopls = {
@@ -103,6 +112,7 @@ M.setup = function()
   })
   vim.lsp.enable("gopls")
 
+  --- LUA
   vim.lsp.config("lua_ls", {
     settings = {
       Lua = {
@@ -113,6 +123,7 @@ M.setup = function()
   })
   vim.lsp.enable("lua_ls")
 
+  --- TAILWIND
   local tailwind_defaults = require("lspconfig.configs.tailwindcss").default_config
   vim.lsp.config("tailwindcss", {
     filetypes = vim.list_extend({ "go" }, tailwind_defaults.filetypes),
@@ -132,6 +143,7 @@ M.setup = function()
   })
   vim.lsp.enable("tailwindcss")
 
+  --- TYPESCRIPT
   vim.lsp.config("vtsls", {
     settings = {
       vtsls = {
@@ -147,9 +159,11 @@ M.setup = function()
   })
   vim.lsp.enable("vtsls")
 
+  --- YAML
   vim.lsp.config("yamlls", {})
   vim.lsp.enable("yamlls")
 
+  --- POSTGRES
   vim.lsp.config("postgres_lsp", {
     cmd = { "postgrestools", "lsp-proxy", "--config-path", vim.fn.getcwd() .. "/postgrestools.jsonc" },
     filetypes = { "sql", "postgres" },
@@ -157,10 +171,15 @@ M.setup = function()
   })
   vim.lsp.enable("postgres_lsp")
 
+  --- SWIFT
   vim.lsp.config("sourcekit", {
     filetypes = { "swift" },
   })
   vim.lsp.enable("sourcekit")
+
+  --- ZIG
+  vim.lsp.config("zig", {})
+  vim.lsp.enable("zig")
 
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),

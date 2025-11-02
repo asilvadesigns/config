@@ -1,7 +1,9 @@
 local M = {}
 
 M.setup = function()
-  require("no-neck-pain").setup({
+  local plugin = require("no-neck-pain")
+
+  plugin.setup({
     buffers = {
       scratchPad = {
         enabled = false,
@@ -10,6 +12,24 @@ M.setup = function()
     width = 120,
   })
 
+  vim.api.nvim_create_user_command("ZenMode80", function()
+    _G.enable_zen_mode = true
+    plugin.enable()
+    plugin.resize(80)
+  end, {})
+
+  vim.api.nvim_create_user_command("ZenMode100", function()
+    _G.enable_zen_mode = true
+    plugin.enable()
+    plugin.resize(100)
+  end, {})
+
+  vim.api.nvim_create_user_command("ZenMode120", function()
+    _G.enable_zen_mode = true
+    plugin.enable()
+    plugin.resize(120)
+  end, {})
+
   vim.api.nvim_create_user_command("ToggleZenMode", function()
     _G.enable_zen_mode = not _G.enable_zen_mode
 
@@ -17,13 +37,9 @@ M.setup = function()
     --   require("nvim-tree.api").tree.close()
     -- end
 
-    require("no-neck-pain").toggle()
+    plugin.toggle()
     vim.api.nvim_exec_autocmds("User", { pattern = "RefreshWinbar" })
   end, {})
-
-  -- vim.keymap.set("n", "<leader>z", function()
-  --   vim.cmd("ToggleZenMode")
-  -- end, { desc = "Toggle Zen Mode" })
 end
 
 return M

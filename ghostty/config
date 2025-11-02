@@ -1,9 +1,9 @@
 # THEMEs: light
-# theme = "iTerm2 Solarized Light"
+theme = "iTerm2 Solarized Light"
 # theme = "vscode-light"
 
 # THEMEs: dark
-theme = "One Half Dark"
+# theme = "One Half Dark"
 
 # Font
 # font-family = "Iosevka Nerd Font Mono"
@@ -11,7 +11,7 @@ font-family = "JetBrainsMono Nerd Font Mono"
 adjust-cell-width = -10%
 adjust-cursor-thickness = 4
 
-# # FONT_SIZE: laptop
+# FONT_SIZE: laptop
 # adjust-cell-height = -2
 # adjust-cursor-height = -2
 # font-size = 15

@@ -168,7 +168,7 @@ local function enable_winbar(win_id, cwd)
       -- .. "%= %l/%L:%-3c" --- padding for column count
       .. "%="
       .. get_diagnostics(buf_id)
-      .. "%#DevIconConfig# %l/%L %*" --- or Normal, highlight group here is w/e, just something light
+      .. "%#DevIconConfig# %l/%L:%-3c %*" --- or Normal, highlight group here is w/e, just something light
 
     vim.api.nvim_set_option_value("winbar", winbar, { win = win_id })
   end

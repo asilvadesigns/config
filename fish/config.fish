@@ -43,6 +43,7 @@ set -gx PATH "/usr/local/include" $PATH;
 
 # vulkan
 set -gx VK_ICD_FILENAMES "/opt/homebrew/etc/vulkan/icd.d/MoltenVK_icd.json"
+set -gx VK_LAYER_PATH "/opt/homebrew/opt/vulkan-validationlayers/share/vulkan/explicit_layer.d"
 
 # set -gx PATH "/opt/homebrew/opt/llvm@17/bin" $PATH;
 set -gx LDFLAGS "-L/opt/homebrew/opt/llvm@17/lib"

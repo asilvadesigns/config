@@ -135,8 +135,8 @@ M.setup = function()
     color_overrides = {
       -- THEMEs: light
       -- LIGHT Solarized
-      -- latte = require("config.colors").light.dead,
-      -- frappe = require("config.colors").light.dead,
+      latte = require("config.colors").light.dead,
+      frappe = require("config.colors").light.dead,
       -- LIGHT VsCode
       -- latte = require("config.colors").light.github,
       -- frappe = require("config.colors").light.github,
@@ -146,13 +146,14 @@ M.setup = function()
       --
       -- THEMEs: dark
       -- DARK Atom One
-      latte = require("config.colors").dark.one,
-      frappe = require("config.colors").dark.one,
+      -- latte = require("config.colors").dark.one,
+      -- frappe = require("config.colors").dark.one,
     },
     highlight_overrides = {
       latte = function(c)
         --- light should be: c.yellow and 0.10
-        local bg = utils.darken(c.surface0, 0.80, c.base)
+        -- local bg = utils.darken(c.surface0, 0.80, c.base)
+        local bg = utils.darken(c.surface0, 0.20, c.base)
         --- was .40
         local separator_bg = utils.darken(c.surface1, 0.80, c.base)
         local colors = get_colors(c, bg, separator_bg)
