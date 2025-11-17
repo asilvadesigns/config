@@ -1,57 +1,9 @@
 local M = {}
 
 M.setup = function()
-  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-  --
-  -- capabilities = {
-  --   textDocument = {
-  --     definition = {
-  --       dynamicRegistration = false,
-  --     },
-  --     foldingRange = {
-  --       dynamicRegistration = false,
-  --       lineFoldingOnly = true,
-  --     },
-  --   },
-  --   workspace = {
-  --     didChangeWatchedFiles = {
-  --       dynamicRegistration = false,
-  --     },
-  --   },
-  -- }
-
-  -- local servers = {
-  --   "angularls",
-  --   "astro",
-  --   "clangd",
-  --   "cssls",
-  --   "dockerls",
-  --   "eslint",
-  --   "gopls",
-  --   "html",
-  --   "jsonls",
-  --   "lua_ls",
-  --   "prismals",
-  --   "tailwindcss",
-  --   "taplo",
-  --   "templ",
-  --   "vtsls",
-  --   "yamlls",
-  -- }
-  --
-  -- local formatters = {
-  --   "htmlbeautifier",
-  --   "prettier",
-  --   "sql-formatter",
-  --   "stylua",
-  -- }
-
-  require("mason").setup({
-    ui = {
-      border = "rounded",
-      backdrop = 100,
-    },
-  })
+  --- Biome
+  vim.lsp.config("biome", {})
+  vim.lsp.enable("biome")
 
   --- C/C++
   vim.lsp.config("clangd", {})

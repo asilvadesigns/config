@@ -14,6 +14,7 @@ M.setup = function()
     "css",
     "dockerfile",
     "fish",
+    "gitcommit",
     "gitignore",
     "gleam",
     "glsl",

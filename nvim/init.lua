@@ -13,7 +13,7 @@ _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
 _G.show_cursorline = true
-_G.show_diagnostics = false
+_G.show_diagnostics = true
 _G.show_diagnostics_text = false
 _G.show_diagnostics_underline = true
 _G.show_illuminate = true
@@ -440,9 +440,21 @@ require("lazy").setup({
       config = require("config.plugins.modes").setup,
     },
     {
+      "williamboman/mason.nvim",
+      cmd = {
+        "Mason",
+        "MasonLog",
+        "MasonUpdate",
+        "MasonInstall",
+        "MasonUninstall",
+        "MasonUninstallAll",
+      },
+      config = require("config.plugins.mason").setup,
+    },
+    {
       "neovim/nvim-lspconfig",
       event = "VeryLazy",
-      dependencies = { "williamboman/mason.nvim", "b0o/schemastore.nvim" },
+      dependencies = { "b0o/schemastore.nvim" },
       config = require("config.plugins.lsp").setup,
     },
     {
@@ -869,14 +881,17 @@ end
 -- if there are previous values use them, otherwise don't.
 vim.api.nvim_create_user_command("HideLineNumbers", function()
   set_line_numbers(false, false)
+  vim.cmd("e!")
 end, {})
 
 vim.api.nvim_create_user_command("ShowLineNumbers", function()
   set_line_numbers(true, false)
+  vim.cmd("e!")
 end, {})
 
 vim.api.nvim_create_user_command("ShowRelativeLineNumbers", function()
   set_line_numbers(true, true)
+  vim.cmd("e!")
 end, {})
 ---
 --- personal plugin END
