@@ -10,7 +10,7 @@ M.setup = function()
   end
 
   vim.api.nvim_create_user_command("ToggleAutoPairs", function()
-    _G._G.enable_auto_pair = not _G._G.enable_auto_pair
+    _G.enable_auto_pair = not _G.enable_auto_pair
     require("nvim-autopairs").toggle()
   end, {})
 end

@@ -68,7 +68,13 @@ M.setup = function()
   vim.lsp.config("lua_ls", {
     settings = {
       Lua = {
-        workspace = { checkThirdParty = false },
+        workspace = {
+          checkThirdParty = false,
+          -- library = {
+          --   -- Add xmake's runtime path
+          --   vim.fn.expand("/opt/homebrew/share/xmake/scripts/"),
+          -- },
+        },
         telemetry = { enable = false },
       },
     },

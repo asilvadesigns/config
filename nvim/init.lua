@@ -19,7 +19,7 @@ _G.show_diagnostics_underline = true
 _G.show_illuminate = true
 _G.show_indent_lines = false
 _G.show_invisible_chars = false
-_G.show_scrollbar = false
+_G.show_scrollbar = true
 _G.show_treesitter_context = false
 _G.hide_all = false
 _G.show_statusline = false
@@ -367,9 +367,17 @@ require("lazy").setup({
     },
     {
       "lewis6991/satellite.nvim",
+      enabled = false,
       cmd = { "ToggleScrollbar" },
       event = "User SuperLazy",
       config = require("config.plugins.satellite").setup,
+    },
+    {
+      "petertriho/nvim-scrollbar",
+      enabled = true,
+      cmd = { "ToggleScrollbar" },
+      event = "User SuperLazy",
+      config = require("config.plugins.scrollbar").setup,
     },
     {
       "stevearc/conform.nvim",
@@ -399,11 +407,13 @@ require("lazy").setup({
     },
     {
       "windwp/nvim-autopairs",
+      enabled = false,
       event = "InsertEnter",
       config = require("config.plugins.autopairs").setup,
     },
     {
       "windwp/nvim-ts-autotag",
+      enabled = false,
       event = "InsertEnter",
       config = require("config.plugins.autotag").setup,
     },
@@ -464,6 +474,14 @@ require("lazy").setup({
       opts_extend = { "sources.default" },
       dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
       config = require("config.plugins.blink").setup,
+    },
+    {
+      "saghen/blink.pairs",
+      enabled = false,
+      event = "User SuperLazy",
+      version = "*",
+      dependencies = "saghen/blink.download",
+      config = require("config.plugins.pairs").setup,
     },
     {
       "MagicDuck/grug-far.nvim",
@@ -768,6 +786,11 @@ vim.api.nvim_create_user_command("CopyHighlightGroup", function()
   print_and_copy(synName)
 end, {})
 
+vim.api.nvim_create_user_command("Datetime", function()
+  local datetime = os.date("%A, %B, %d, %Y %I:%M%p")
+  vim.api.nvim_put({ datetime }, "c", true, true)
+end, {})
+
 vim.api.nvim_create_user_command("ToggleDiagnostics", function()
   _G.show_diagnostics = not _G.show_diagnostics
   vim.diagnostic.enable(_G.show_diagnostics)
@@ -937,6 +960,7 @@ vim.filetype.add({
   extension = {
     env = "sh",
     gleam = "gleam",
+    mdc = "mdc",
     mdx = "mdx",
     templ = "templ",
   },

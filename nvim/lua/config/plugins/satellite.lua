@@ -31,7 +31,6 @@ M.setup = function()
   })
 
   toggle()
-
   vim.api.nvim_create_user_command("ToggleScrollbar", function()
     _G.show_scrollbar = not _G.show_scrollbar
     toggle()

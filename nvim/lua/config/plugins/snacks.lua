@@ -24,6 +24,7 @@ local palette_items = function()
     { text = "Copy file path (Absolute)", cmd = "CopyAbsolutePath" },
     { text = "Copy file path (Relative)", cmd = "CopyRelativePath" },
     { text = "Copy filetype", cmd = "CopyFiletype" },
+    { text = "Datetime", cmd = "Datetime" },
     { text = "Diagnostics", cmd = "Trouble diagnostics" },
     { text = "Fold (level 0 or reset)", cmd = "setlocal foldlevel=99" },
     { text = "Fold (level 1)", cmd = "setlocal foldlevel=0" },
@@ -180,7 +181,7 @@ M.setup = function()
       },
     },
     profiler = {
-      enabled = true,
+      enabled = false,
     },
     indent = {
       enabled = _G.show_indent_lines,

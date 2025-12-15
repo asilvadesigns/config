@@ -4,6 +4,17 @@ local M = {}
 M.setup = function()
   require("scrollbar").setup({
     show = _G.show_scrollbar,
+    marks = {
+      Cursor = {
+        text = "—",
+        priority = 0,
+        gui = nil,
+        color = nil,
+        cterm = nil,
+        color_nr = nil, -- cterm
+        highlight = "Normal",
+      },
+    },
     excluded_filetypes = {
       "DressingInput",
       "NvimTree",

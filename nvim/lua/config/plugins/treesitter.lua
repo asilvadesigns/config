@@ -33,6 +33,7 @@ M.setup = function()
     "prisma",
     "python",
     "regex",
+    "rust",
     "scss",
     "swift",
     "templ",
@@ -45,6 +46,7 @@ M.setup = function()
     "zig",
   })
 
+  vim.treesitter.language.register("markdown", "mdc")
   vim.treesitter.language.register("markdown", "mdx")
   vim.treesitter.language.register("templ", "templ")
 
