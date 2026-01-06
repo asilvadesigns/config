@@ -10,6 +10,7 @@ M.setup = function()
     "asm",
     "bash",
     "c",
+    "cmake",
     "cpp",
     "css",
     "dockerfile",

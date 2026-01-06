@@ -235,7 +235,7 @@ M.setup = function()
             end
           end,
         },
-        { key = "a", padding = 1, desc = "Actions", action = ":lua Snacks.picker.command_palette()" },
+        { key = "a", padding = 1, desc = "Actions", action = ":Actions" },
         { key = "f", padding = 1, desc = "Find File", action = ":lua Snacks.picker.files()" },
         { key = "e", padding = 1, desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
         { key = "l", padding = 1, desc = "Lazy", action = ":Lazy" },
@@ -285,23 +285,24 @@ M.setup = function()
     },
   })
 
-  vim.keymap.set("n", "<leader>a", function()
-    ---@diagnostic disable-next-line: undefined-field
+  --- actions
+  vim.api.nvim_create_user_command("Actions", function()
+    --- @diagnostic disable-next-line: undefined-field
     Snacks.picker.command_palette({ items = palette_items() })
-  end, { desc = "Fuzzy actions" })
+  end, {})
+  vim.keymap.set("n", "<leader>a", ":Actions<CR>", { desc = "Fuzzy actions", silent = true })
 
+  --- buffers
   vim.keymap.set("n", "<leader>b", function()
     Snacks.picker.buffers({ filter = { cwd = true } })
   end, { desc = "Fuzzy buffers" })
 
+  --- recent
   vim.keymap.set("n", "<leader>e", function()
-    Snacks.picker.recent({
-      filter = {
-        cwd = true,
-      },
-    })
+    Snacks.picker.recent({ filter = { cwd = true } })
   end, { desc = "Fuzzy oldfiles" })
 
+  --- symbols
   vim.keymap.set("n", "<leader>o", function()
     Snacks.picker.lsp_symbols({
       filter = {
@@ -328,22 +329,27 @@ M.setup = function()
     })
   end, { desc = "Fuzzy symbols" })
 
+  --- resume
   vim.keymap.set("n", "<leader><leader>", function()
     Snacks.picker.resume()
   end, { desc = "Fuzzy resume" })
 
+  --- files
   vim.keymap.set("n", "<leader>f", function()
     Snacks.picker.files()
   end, { desc = "Fuzzy files" })
 
+  --- grep
   vim.keymap.set("n", "<leader>g", function()
     Snacks.picker.grep()
   end, { desc = "Fuzzy grep" })
 
+  --- projects
   vim.keymap.set("n", "<leader>p", function()
     Snacks.picker.projects()
   end, { desc = "Fuzzy projects" })
 
+  --- lines
   vim.keymap.set("n", "<leader>l", function()
     ---@diagnostic disable-next-line: missing-fields
     Snacks.picker.lines({

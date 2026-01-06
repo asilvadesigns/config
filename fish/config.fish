@@ -41,6 +41,9 @@ set -gx CPATH "/opt/homebrew/include"
 set -gx LIBRARY_PATH "/opt/homebrew/lib"
 set -gx PATH "/usr/local/include" $PATH;
 
+# libomp
+set -gx LIBOMP_PREFIX "/opt/homebrew/opt/libomp"
+
 # vulkan
 set -gx VK_ICD_FILENAMES "/opt/homebrew/etc/vulkan/icd.d/MoltenVK_icd.json"
 set -gx VK_LAYER_PATH "/opt/homebrew/opt/vulkan-validationlayers/share/vulkan/explicit_layer.d"
@@ -70,6 +73,9 @@ set -gx PATH "$HOME/.local/share/nvim/mason/bin" $PATH;
 # Created by `pipx` on 2024-02-28 18:49:16
 set PATH $PATH /Users/albertos/.local/bin
 
+# rust
+set -gx PATH "$HOME/.cargo/bin" $PATH;
+
 # bun
 set -gx BUN_INSTALL "$HOME/.bun"
 set -gx PATH $BUN_INSTALL/bin $PATH
@@ -79,6 +85,7 @@ atuin init fish --disable-up-arrow | source
 
 # direnv
 direnv hook fish | source
+
 
 # zoxide
 zoxide init fish | source

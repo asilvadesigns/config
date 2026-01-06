@@ -19,7 +19,7 @@ _G.show_diagnostics_underline = true
 _G.show_illuminate = true
 _G.show_indent_lines = false
 _G.show_invisible_chars = false
-_G.show_scrollbar = true
+_G.show_scrollbar = false
 _G.show_treesitter_context = false
 _G.hide_all = false
 _G.show_statusline = false
@@ -633,6 +633,9 @@ require("lazy").setup({
     },
   },
   performance = {
+    cache = {
+      enabled = true,
+    },
     rtp = {
       disabled_plugins = {
         "editorconfig",
