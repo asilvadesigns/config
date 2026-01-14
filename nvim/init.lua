@@ -13,11 +13,12 @@ _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
 _G.show_cursorline = true
-_G.show_diagnostics = true
+_G.show_diagnostics = false
 _G.show_diagnostics_text = false
-_G.show_diagnostics_underline = true
+_G.show_diagnostics_underline = false
 _G.show_illuminate = true
 _G.show_indent_lines = false
+_G.show_inlay_hints = false
 _G.show_invisible_chars = false
 _G.show_scrollbar = false
 _G.show_treesitter_context = false
@@ -128,45 +129,6 @@ if vim.g.neovide then
   vim.g.neovide_scroll_animation_length = 0.00
   -- TODO: at some point add hotkeys for modifying font size.
 end
-
----
---- Section: Smart Scroll
----
--- local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
--- local debounce = false
---
--- -- Create one autocmd ahead of time; just reacts when debounce=true
--- vim.api.nvim_create_autocmd("CursorMoved", {
---   group = scroll_group,
---   callback = function()
---     if debounce then
---       Snacks.scroll.enable()
---       debounce = false
---     end
---   end,
--- })
---
--- local function smart_scroll(direction)
---   local motion = direction == "up" and "gk" or "gj"
---
---   if not debounce then
---     Snacks.scroll.disable()
---     debounce = true
---   end
---
---   return motion
--- end
---
--- local function k_motion()
---   return _G.enable_smooth_scroll and smart_scroll("up") or "gk"
--- end
---
--- local function j_motion()
---   return _G.enable_smooth_scroll and smart_scroll("down") or "gj"
--- end
---
--- vim.keymap.set({ "n", "v" }, "k", k_motion, { expr = true, silent = true })
--- vim.keymap.set({ "n", "v" }, "j", j_motion, { expr = true, silent = true })
 
 ---
 --- Keymaps
@@ -292,22 +254,10 @@ require("lazy").setup({
       lazy = true,
     },
     {
-      "folke/flash.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      config = require("config.plugins.flash").setup,
-    },
-    {
       "folke/snacks.nvim",
       lazy = false,
       priority = 1000,
       config = require("config.plugins.snacks").setup,
-    },
-    {
-      "folke/noice.nvim",
-      enabled = false,
-      event = "VeryLazy",
-      config = require("config.plugins.noice").setup,
     },
     {
       "folke/trouble.nvim",
@@ -351,21 +301,6 @@ require("lazy").setup({
       config = require("config.plugins.color-picker").setup,
     },
     {
-      "kevinhwang91/nvim-hlslens",
-      enabled = false,
-      keys = {
-        { "n", "<Cmd>execute('normal! ' .. v:count1 .. 'n')<CR><Cmd>lua require('hlslens').start()<CR>", mode = "n" },
-        { "N", "<Cmd>execute('normal! ' .. v:count1 .. 'N')<CR><Cmd>lua require('hlslens').start()<CR>", mode = "n" },
-        { "*", "*<Cmd>lua require('hlslens').start()<CR>", mode = "n" },
-        { "#", "#<Cmd>lua require('hlslens').start()<CR>", mode = "n" },
-        { "g*", "g*<Cmd>lua require('hlslens').start()<CR>", mode = "n" },
-        { "g#", "g#<Cmd>lua require('hlslens').start()<CR>", mode = "n" },
-      },
-      config = function()
-        require("hlslens").setup()
-      end,
-    },
-    {
       "lewis6991/satellite.nvim",
       enabled = false,
       cmd = { "ToggleScrollbar" },
@@ -405,18 +340,18 @@ require("lazy").setup({
       event = "InsertEnter",
       config = require("config.plugins.better-escape").setup,
     },
-    {
-      "windwp/nvim-autopairs",
-      enabled = false,
-      event = "InsertEnter",
-      config = require("config.plugins.autopairs").setup,
-    },
-    {
-      "windwp/nvim-ts-autotag",
-      enabled = false,
-      event = "InsertEnter",
-      config = require("config.plugins.autotag").setup,
-    },
+    -- {
+    --   "windwp/nvim-autopairs",
+    --   enabled = false,
+    --   event = "InsertEnter",
+    --   config = require("config.plugins.autopairs").setup,
+    -- },
+    -- {
+    --   "windwp/nvim-ts-autotag",
+    --   enabled = false,
+    --   event = "InsertEnter",
+    --   config = require("config.plugins.autotag").setup,
+    -- },
     {
       "shortcuts/no-neck-pain.nvim",
       cmd = "ToggleZenMode",
@@ -444,7 +379,6 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
-      enabled = false,
       tag = "v0.2.1",
       event = "User SuperLazy",
       config = require("config.plugins.modes").setup,
@@ -477,7 +411,6 @@ require("lazy").setup({
     },
     {
       "saghen/blink.pairs",
-      enabled = false,
       event = "User SuperLazy",
       version = "*",
       dependencies = "saghen/blink.download",
@@ -495,7 +428,6 @@ require("lazy").setup({
     },
     {
       "ggandor/leap.nvim",
-      enabled = true,
       keys = {
         {
           "<leader>;",
@@ -603,15 +535,7 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       branch = "main",
       build = ":TSUpdate",
-      lazy = false,
       config = require("config.plugins.treesitter").setup,
-    },
-    {
-      "andymass/vim-matchup",
-      enabled = false,
-      lazy = false,
-      -- event = "VeryLazy",
-      config = require("config.plugins.matchup").config,
     },
     {
       "kevinhwang91/nvim-ufo",
@@ -619,12 +543,6 @@ require("lazy").setup({
       event = "User SuperLazy",
       dependencies = { "kevinhwang91/promise-async" },
       config = require("config.plugins.ufo").setup,
-    },
-    {
-      "chrisgrieser/nvim-origami",
-      enabled = false,
-      event = "User SuperLazy",
-      config = require("config.plugins.origami").setup,
     },
     {
       "monaqa/dial.nvim",
@@ -871,6 +789,11 @@ end, {})
 vim.api.nvim_create_user_command("ToggleInvisibleChars", function()
   _G.show_invisible_chars = not _G.show_invisible_chars
   vim.opt.list = _G.show_invisible_chars
+end, {})
+
+vim.api.nvim_create_user_command("ToggleInlayHints", function()
+  _G.show_inlay_hints = not _G.show_inlay_hints
+  vim.lsp.inlay_hint.enable(_G.show_inlay_hints)
 end, {})
 
 ---

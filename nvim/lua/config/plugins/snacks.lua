@@ -72,6 +72,7 @@ local palette_items = function()
     { text = drawToggle("Toggle Hide All", _G.hide_all), cmd = "ToggleHideAll" },
     { text = drawToggle("Toggle Illuminate", _G.show_illuminate), cmd = "ToggleIlluminate" },
     { text = drawToggle("Toggle Indent Lines", _G.show_indent_lines), cmd = "ToggleIndentLines" },
+    { text = drawToggle("Toggle Inlay Hints", _G.show_inlay_hints), cmd = "ToggleInlayHints" },
     { text = drawToggle("Toggle Invisible Chars", _G.show_invisible_chars), cmd = "ToggleInvisibleChars" },
     -- { text = drawToggle("Toggle Line Numbers", _G.show_number_lines), cmd = "ToggleNumberLines" },
     { text = drawToggle("Toggle Line Wrap", _G.enable_line_wrap), cmd = "ToggleLineWrap" },

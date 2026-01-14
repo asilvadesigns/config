@@ -18,13 +18,17 @@ M.setup = function()
     },
   })
 
-  vim.api.nvim_create_user_command("ToggleAutoPairs", function()
-    _G.enable_auto_pair = not _G.enable_auto_pair
+  local function toggle()
     if _G.enable_auto_pair then
       require("blink.pairs.mappings").enable()
     else
       require("blink.pairs.mappings").disable()
     end
+  end
+
+  vim.api.nvim_create_user_command("ToggleAutoPairs", function()
+    _G.enable_auto_pair = not _G.enable_auto_pair
+    toggle()
   end, {})
 end
 
