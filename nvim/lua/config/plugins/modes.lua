@@ -8,7 +8,7 @@ M.setup = function()
     --   insert = "#78ccc5",
     --   visual = "#8caaee",
     -- },
-    ignore_filetypes = {
+    ignore = {
       "NvimTree",
       "TelescopePrompt",
     },

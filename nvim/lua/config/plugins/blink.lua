@@ -8,17 +8,15 @@ end, {})
 M.setup = function()
   require("blink.cmp").setup({
     fuzzy = {
-      implementation = "prefer_rust_with_warning",
+      implementation = "lua",
       sorts = {
         "exact",
-        --- defaults
         "score",
         "sort_text",
       },
     },
     keymap = {
       preset = "enter",
-      ["<C-y>"] = { "show", "show_documentation", "hide_documentation" },
       ["<C-p>"] = { "select_prev", "fallback" },
       ["<C-n>"] = { "select_next", "fallback" },
     },

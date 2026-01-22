@@ -95,7 +95,7 @@ M.setup = function()
       formatter_to_use = formatters[1].name -- Fallback to the first available formatter
     end
 
-    vim.notify("Formatted with " .. formatter_to_use, vim.log.levels.INFO)
+    vim.print("Formatted with " .. formatter_to_use, vim.log.levels.INFO)
     conform.format({ async = false, lsp_format = "never", formatters = { formatter_to_use } })
   end, {})
 

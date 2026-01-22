@@ -1,73 +1,59 @@
 local M = {}
 
---- NOTE: https://github.com/dcloud/dotfiles/blob/c32b5c0ee79626d26ecb9a3bc887e1550d9ca292/config/nvim/lua/plugins/treesitter.lua#L47
+local parsers = {
+  "bash",
+  "c",
+  "cpp",
+  "css",
+  "dockerfile",
+  "fish",
+  "gitcommit",
+  "gitignore",
+  "go",
+  "gomod",
+  "gosum",
+  "html",
+  "javascript",
+  "jsdoc",
+  "json",
+  "lua",
+  "luadoc",
+  "make",
+  "markdown",
+  "markdown_inline",
+  "python",
+  "regex",
+  "rust",
+  "scss",
+  "swift",
+  "tsx",
+  "typescript",
+  "vim",
+  "vimdoc",
+  "yaml",
+  "zig",
+}
+
 M.setup = function()
-  local plugin = require("nvim-treesitter")
+  local ts = require("nvim-treesitter")
+  ts.setup({})
 
-  plugin.setup({})
-
-  plugin.install({
-    "asm",
-    "bash",
-    "c",
-    "cmake",
-    "cpp",
-    "css",
-    "dockerfile",
-    "fish",
-    "gitcommit",
-    "gitignore",
-    "gleam",
-    "glsl",
-    "go",
-    "gomod",
-    "gosum",
-    "html",
-    "javascript",
-    "jsdoc",
-    "json",
-    "lua",
-    "luadoc",
-    "make",
-    "markdown",
-    "markdown_inline",
-    "prisma",
-    "python",
-    "regex",
-    "rust",
-    "scss",
-    "swift",
-    "templ",
-    "tmux",
-    "tsx",
-    "typescript",
-    "vim",
-    "vimdoc",
-    "yaml",
-    "zig",
-  })
+  -- Install parsers asynchronously
+  vim.defer_fn(function()
+    ts.install(parsers)
+  end, 100)
 
   vim.treesitter.language.register("markdown", "mdc")
   vim.treesitter.language.register("markdown", "mdx")
-  vim.treesitter.language.register("templ", "templ")
 
-  local available = plugin.get_available()
-
-  local available_filetypes = vim
-    .iter(available)
-    :map(function(lang)
-      return vim.treesitter.language.get_filetypes(lang)
-    end)
-    :flatten()
-    :totable()
-
-  -- vim.print(table.concat(available))
-  -- vim.print(table.concat(available_filetypes))
-
+  -- Enable treesitter highlighting for supported filetypes
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = available_filetypes,
-    callback = function()
-      vim.treesitter.start()
+    callback = function(args)
+      local ft = args.match
+      local lang = vim.treesitter.language.get_lang(ft)
+      if lang then
+        pcall(vim.treesitter.start, args.buf, lang)
+      end
     end,
   })
 end

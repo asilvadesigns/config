@@ -160,22 +160,23 @@ M.setup = function()
       cursorline = true,
     },
   })
-end
 
-vim.keymap.set("n", "<leader>j", function()
-  if vim.bo.filetype == "NvimTree" then
-    vim.cmd("NvimTreeClose")
-  else
-    local current_file = vim.fn.expand("%:p")
-    local cwd = vim.fn.getcwd()
+  local api = require("nvim-tree.api")
 
-    if vim.fn.filereadable(current_file) == 1 and string.sub(current_file, 1, #cwd) == cwd then
-      vim.cmd("NvimTreeFindFile")
-      vim.cmd("normal! zz")
+  vim.keymap.set("n", "<leader>j", function()
+    if vim.bo.filetype == "NvimTree" then
+      api.tree.close()
     else
-      vim.cmd("NvimTreeOpen")
+      local current_file = vim.fn.expand("%:p")
+      local cwd = vim.fn.getcwd()
+
+      if vim.fn.filereadable(current_file) == 1 and string.sub(current_file, 1, #cwd) == cwd then
+        api.tree.find_file({ open = true, focus = true })
+      else
+        api.tree.open()
+      end
     end
-  end
-end, { silent = true, desc = "Open file in file tree" })
+  end, { silent = true, desc = "Open file in file tree" })
+end
 
 return M

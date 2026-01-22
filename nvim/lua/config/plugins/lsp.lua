@@ -1,57 +1,65 @@
 local M = {}
 
 M.setup = function()
+  -- Load lspconfig to register server configurations
+  require("lspconfig")
+
   --- Biome
-  vim.lsp.config("biome", {})
+  vim.lsp.config.biome = {}
   vim.lsp.enable("biome")
 
   --- C/C++
-  vim.lsp.config("clangd", {})
+  vim.lsp.config.clangd = {
+    cmd = {
+      "clangd",
+      "--offset-encoding=utf-16",
+    },
+  }
   vim.lsp.enable("clangd")
 
   --- CSS
-  vim.lsp.config("cssls", {
+  vim.lsp.config.cssls = {
     settings = {
       css = {
         lint = {
-          -- fixes unknown @tailwind rule for css files
           unknownAtRules = "ignore",
         },
       },
       scss = {
         lint = {
-          -- fixes unknown @tailwind rule for sass files
           unknownAtRules = "ignore",
         },
       },
     },
-  })
+  }
   vim.lsp.enable("cssls")
 
   --- HTML
-  local htmldefaults = require("lspconfig.configs.html").default_config
-  vim.lsp.config("html", {
-    filetypes = vim.list_extend({ "templ" }, htmldefaults.filetypes),
-  })
+  vim.lsp.config.html = {
+    filetypes = { "html", "templ" },
+  }
   vim.lsp.enable("html")
 
   --- JSON
-  vim.lsp.config("jsonls", {
-    settings = {
-      json = {
-        schemas = require("schemastore").json.schemas(),
-        validate = { enable = true },
+  local jsonok, schemastore = pcall(require, "schemastore")
+  if jsonok then
+    vim.lsp.config.jsonls = {
+      settings = {
+        json = {
+          schemas = schemastore.json.schemas(),
+          validate = { enable = true },
+        },
       },
-    },
-  })
-  vim.lsp.enable("jsonls")
+    }
+    vim.lsp.enable("jsonls")
+  end
 
   --- GLSL
-  vim.lsp.config("glsl_analyzer", {})
+  vim.lsp.config.glsl_analyzer = {}
   vim.lsp.enable("glsl_analyzer")
 
   --- GO
-  vim.lsp.config("gopls", {
+  vim.lsp.config.gopls = {
     settings = {
       gopls = {
         analyses = {
@@ -61,31 +69,29 @@ M.setup = function()
         usePlaceholders = true,
       },
     },
-  })
+  }
   vim.lsp.enable("gopls")
 
   --- LUA
-  vim.lsp.config("lua_ls", {
+  vim.lsp.config.lua_ls = {
     settings = {
       Lua = {
         workspace = {
           checkThirdParty = false,
-          -- library = {
-          --   -- Add xmake's runtime path
-          --   vim.fn.expand("/opt/homebrew/share/xmake/scripts/"),
-          -- },
+          library = {
+            vim.fn.expand("/opt/homebrew/share/xmake/scripts/"),
+          },
         },
         telemetry = { enable = false },
       },
     },
-  })
+  }
   vim.lsp.enable("lua_ls")
 
   --- TAILWIND
-  local tailwind_defaults = require("lspconfig.configs.tailwindcss").default_config
-  vim.lsp.config("tailwindcss", {
-    filetypes = vim.list_extend({ "go" }, tailwind_defaults.filetypes),
-    setttings = {
+  vim.lsp.config.tailwindcss = {
+    filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "go", "templ" },
+    settings = {
       tailwindCSS = {
         includeLanguages = {
           templ = "html",
@@ -98,11 +104,11 @@ M.setup = function()
         },
       },
     },
-  })
+  }
   vim.lsp.enable("tailwindcss")
 
   --- TYPESCRIPT
-  vim.lsp.config("vtsls", {
+  vim.lsp.config.vtsls = {
     settings = {
       vtsls = {
         enableMoveToFileCodeAction = true,
@@ -114,103 +120,48 @@ M.setup = function()
         },
       },
     },
-  })
+  }
   vim.lsp.enable("vtsls")
 
   --- YAML
-  vim.lsp.config("yamlls", {})
+  vim.lsp.config.yamlls = {}
   vim.lsp.enable("yamlls")
 
-  --- POSTGRES
-  vim.lsp.config("postgres_lsp", {
-    cmd = { "postgrestools", "lsp-proxy", "--config-path", vim.fn.getcwd() .. "/postgrestools.jsonc" },
-    filetypes = { "sql", "postgres" },
-    root_dir = require("lspconfig").util.root_pattern("postgrestools.jsonc"),
-  })
-  vim.lsp.enable("postgres_lsp")
-
   --- SWIFT
-  vim.lsp.config("sourcekit", {
+  vim.lsp.config.sourcekit = {
     filetypes = { "swift" },
-  })
+  }
   vim.lsp.enable("sourcekit")
 
   --- ZIG
-  vim.lsp.config("zig", {})
-  vim.lsp.enable("zig")
+  vim.lsp.config.zls = {}
+  vim.lsp.enable("zls")
 
+  --- LSP Attach keymaps
   vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+    group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
     callback = function(args)
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if _G.enable_simple_colors then
-        if client and client.server_capabilities.semanticTokensProvider then
-          client.server_capabilities.semanticTokensProvider = nil
-        end
-      end
-
       local opts = { silent = true, buffer = args.buf }
 
       vim.keymap.set("n", "g.", vim.lsp.buf.code_action, opts)
-
-      vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
-
+      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
       vim.keymap.set("n", "K", function()
         vim.lsp.buf.hover({ border = "rounded" })
       end, opts)
 
       vim.keymap.set("n", "gd", function()
-        -- local seen_lines = {}
-
-        Snacks.picker.lsp_definitions({
-          include_current = false,
-        })
-        -- Snacks.picker.lsp_definitions({
-        --   auto_confirm = true,
-        --   layout = { preview = true },
-        --   filter = {
-        --     filter = function(result)
-        --       local key = ("%s:%d"):format(result.file, result.pos[1])
-        --       if seen_lines[key] then
-        --         return false
-        --       end
-        --       seen_lines[key] = true
-        --       return true
-        --     end,
-        --   },
-        -- })
+        Snacks.picker.lsp_definitions({ include_current = false })
       end, opts)
 
       vim.keymap.set("n", "gi", function()
-        Snacks.picker.lsp_implementations({
-          auto_confirm = true,
-          layout = { preview = true },
-        })
+        Snacks.picker.lsp_implementations({ auto_confirm = true, layout = { preview = true } })
       end, opts)
 
       vim.keymap.set("n", "gr", function()
-        Snacks.picker.lsp_references({
-          include_current = false,
-          layout = { preview = true },
-        })
+        Snacks.picker.lsp_references({ include_current = false, layout = { preview = true } })
       end, opts)
     end,
   })
-
-  local start_lsp = vim.schedule_wrap(function()
-    --- NOTE: https://github.com/wookayin/dotfiles/blob/f2c7b0944135f33db83b218afa2da89fb4b3ef1c/nvim/lua/config/lsp.lua#L318
-    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-      local valid = vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_get_option_value("buflisted", { buf = bufnr })
-      if valid and vim.bo[bufnr].buftype == "" then
-        local augroup_lspconfig = vim.api.nvim_create_augroup("lspconfig", { clear = false })
-        vim.api.nvim_exec_autocmds("FileType", { group = augroup_lspconfig, buffer = bufnr })
-      end
-    end
-  end)
-
-  vim.defer_fn(function()
-    start_lsp()
-  end, 100)
 end
 
 return M

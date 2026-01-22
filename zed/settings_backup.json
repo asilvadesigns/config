@@ -1,5 +1,4 @@
 {
-  "format_on_save": "off",
   "theme": "One Dark",
   "buffer_font_size": 16.0,
   "ui_font_size": 14,
@@ -8,7 +7,7 @@
   "buffer_font_family": "JetBrainsMono Nerd Font Mono",
   // "ui_font_family": "Iosevka Nerd Font Mono",
   // "buffer_font_family": "Iosevka Nerd Font Mono",
-  "relative_line_numbers": "enabled",
+  "relative_line_numbers": true,
   "tab_size": 2,
   "buffer_line_height": "standard",
   "indent_guides": {
