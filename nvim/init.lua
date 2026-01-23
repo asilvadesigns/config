@@ -1,7 +1,7 @@
 ---@diagnostic disable: missing-fields
 ---
 
--- enable_ && show_ are functionally same, just semantics.
+-- enabled functionality things...
 _G.enable_auto_pair = false
 _G.enable_autocompletion = false
 _G.enable_color_picker = false
@@ -26,6 +26,18 @@ _G.hide_all = false
 _G.show_statusline = false
 _G.show_winbar = true
 
+-- enabled plugins
+local settings = {
+  devicons = true,   -- required
+  plenary = true,    -- required
+  snacks = true,     -- used for pickers and dashboard
+  trouble = true,    -- nice diagnostic menu
+  comments = true,   -- nice comment setup
+  lazydev = true,    -- nice lua lsp helpers
+  session = true,    -- auto session management, really nice
+  catppuccin = true, -- lovely theme
+}
+
 if vim.loader then
   vim.loader.enable()
 end
@@ -45,7 +57,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { out,                            "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -78,7 +90,7 @@ vim.opt.foldlevelstart = 99
 
 vim.opt.modeline = false --- may want these some day but having issues with markdown files
 vim.opt.guicursor =
-  "n-v-c:blocki,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff250-blinkon250,sm:block-blinkwait500-blinkoff250-blinkon250"
+"n-v-c:blocki,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff250-blinkon250,sm:block-blinkwait500-blinkoff250-blinkon250"
 vim.opt.ignorecase = true
 vim.opt.list = show_invisible_chars
 vim.opt.listchars = "nbsp:+,trail:·,extends:,precedes:,space:·,tab:»»" -- NOTE: tab must have 2 characters
@@ -247,55 +259,65 @@ require("lazy").setup({
   spec = {
     {
       "nvim-tree/nvim-web-devicons",
+      enabled = settings.devicons,
       lazy = true,
     },
     {
       "nvim-lua/plenary.nvim",
+      enabled = settings.plenary,
       lazy = true,
     },
     {
       "folke/snacks.nvim",
+      enabled = settings.snacks,
       lazy = false,
       priority = 1000,
       config = require("config.plugins.snacks").setup,
     },
     {
       "folke/trouble.nvim",
+      enabled = settings.trouble,
       cmd = { "ToggleTrouble", "Trouble" },
       config = require("config.plugins.trouble").setup,
     },
     {
       "folke/ts-comments.nvim",
+      enabled = settings.comments,
       event = "VeryLazy",
       opts = {},
     },
     {
       "folke/lazydev.nvim",
+      enabled = settings.lazydev,
       ft = "lua",
       opts = {
         library = {
           { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-          { path = "snacks.nvim", words = { "Snacks" } },
+          { path = "snacks.nvim",        words = { "Snacks" } },
         },
       },
     },
     {
       "rmagatti/auto-session",
+      enabled = settings.session,
       cmd = { "SessionRestore" },
       config = require("config.plugins.auto-session").setup,
     },
     {
       "catppuccin/nvim",
+      enabled = settings.catppuccin,
       name = "catppuccin",
       config = require("config.plugins.catppuccin").setup,
     },
     {
       "stevearc/quicker.nvim",
+      enabled = true,
       event = "FileType qf",
       config = require("config.plugins.quicker").setup,
     },
     {
       "eero-lehtinen/oklch-color-picker.nvim",
+      enabled = true,
       version = "*",
       event = "User SuperLazy",
       config = require("config.plugins.color-picker").setup,
@@ -323,21 +345,25 @@ require("lazy").setup({
     },
     {
       "axelvc/template-string.nvim",
+      enabled = true,
       ft = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
       opts = {},
     },
     {
       "gbprod/substitute.nvim",
+      enabled = true,
       keys = { { "X", "<CMD>lua require('substitute.exchange').visual()<CR>", mode = "x" } },
       opts = {},
     },
     {
       "kylechui/nvim-surround",
+      enabled = true,
       keys = { { "S", mode = "v" }, { "cs" }, { "ds" }, { "ys" } },
       opts = {},
     },
     {
       "max397574/better-escape.nvim",
+      enabled = true,
       event = "InsertEnter",
       config = require("config.plugins.better-escape").setup,
     },
@@ -355,6 +381,7 @@ require("lazy").setup({
     -- },
     {
       "shortcuts/no-neck-pain.nvim",
+      enabled = true,
       cmd = "ToggleZenMode",
       keys = { { "<leader>z", "<CMD>ToggleZenMode<CR>" }, desc = "Toggle Zen Mode" },
       version = "*",
@@ -362,6 +389,7 @@ require("lazy").setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
+      enabled = true,
       event = "User SuperLazy",
       cmd = { "NvimTreeFindFile", "NvimTreeOpen" },
       config = require("config.plugins.nvim-tree").setup,
@@ -375,17 +403,20 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
+      enabled = true,
       event = "User SuperLazy",
       config = require("config.plugins.oil").setup,
     },
     {
       "mvllow/modes.nvim",
+      enabled = true,
       tag = "v0.2.1",
       event = "User SuperLazy",
       config = require("config.plugins.modes").setup,
     },
     {
       "williamboman/mason.nvim",
+      enabled = true,
       cmd = {
         "Mason",
         "MasonLog",
@@ -405,6 +436,7 @@ require("lazy").setup({
     },
     {
       "saghen/blink.cmp",
+      enabled = true,
       version = "1.*",
       event = { "User SuperLazy" },
       opts_extend = { "sources.default" },
@@ -421,16 +453,18 @@ require("lazy").setup({
     },
     {
       "MagicDuck/grug-far.nvim",
+      enabled = true,
       keys = {
-        { "<leader>f", mode = "v", ":SearchFileVisual<CR>", desc = "Find in file (visual)" },
-        { "<leader>s", mode = "v", ":SearchProjectVisual<CR>", desc = "Find in project (visual)" },
-        { "<C-F>", ":SearchFile<CR>", desc = "Find in file" },
-        { "<C-S>", ":SearchProject<CR>", desc = "Find in project" },
+        { "<leader>f", mode = "v",           ":SearchFileVisual<CR>",    desc = "Find in file (visual)" },
+        { "<leader>s", mode = "v",           ":SearchProjectVisual<CR>", desc = "Find in project (visual)" },
+        { "<C-F>",     ":SearchFile<CR>",    desc = "Find in file" },
+        { "<C-S>",     ":SearchProject<CR>", desc = "Find in project" },
       },
       config = require("config.plugins.grug-far").setup,
     },
     {
       "ggandor/leap.nvim",
+      enabled = true,
       keys = {
         {
           "<leader>;",
@@ -459,15 +493,17 @@ require("lazy").setup({
     },
     {
       "Wansmer/treesj",
+      enabled = true,
       keys = {
-        { "<leader>tj", ":TSJJoin<CR>", silent = true, desc = "Join TS nodes" },
+        { "<leader>tj", ":TSJJoin<CR>",   silent = true, desc = "Join TS nodes" },
         { "<leader>tm", ":TSJToggle<CR>", silent = true, desc = "Toggle TS nodes" },
-        { "<leader>ts", ":TSJSplit<CR>", silent = true, desc = "Split TS nodes" },
+        { "<leader>ts", ":TSJSplit<CR>",  silent = true, desc = "Split TS nodes" },
       },
       opts = {},
     },
     {
       "NeogitOrg/neogit",
+      enabled = true,
       event = "User SuperLazy",
       dependencies = { "sindrets/diffview.nvim" },
       config = require("config.plugins.neogit").setup,
@@ -480,11 +516,12 @@ require("lazy").setup({
     },
     {
       "mrjones2014/smart-splits.nvim",
+      enabled = true,
       keys = {
         -- stylua: ignore start
-        { "<C-h>", function() require('smart-splits').move_cursor_left() end, desc = "Move cursor left" },
-        { "<C-j>", function() require('smart-splits').move_cursor_down() end, desc = "Move cursor down" },
-        { "<C-k>", function() require('smart-splits').move_cursor_up() end, desc = "Move cursor up" },
+        { "<C-h>", function() require('smart-splits').move_cursor_left() end,  desc = "Move cursor left" },
+        { "<C-j>", function() require('smart-splits').move_cursor_down() end,  desc = "Move cursor down" },
+        { "<C-k>", function() require('smart-splits').move_cursor_up() end,    desc = "Move cursor up" },
         { "<C-l>", function() require('smart-splits').move_cursor_right() end, desc = "Move cursor right" },
         -- stylua: ignore end
       },
@@ -492,27 +529,32 @@ require("lazy").setup({
     },
     {
       "jake-stewart/multicursor.nvim",
+      enabled = true,
       event = "VeryLazy",
       branch = "1.0",
       config = require("config.plugins.multicursor").setup,
     },
     {
       "wurli/visimatch.nvim",
+      enabled = true,
       keys = { "V", "v" },
       opts = { hl_group = "WVisiMatch", chars_lower_limit = 2 },
     },
     {
       "RRethy/vim-illuminate",
+      enabled = true,
       event = "User SuperLazy",
       config = require("config.plugins.illuminate").setup,
     },
     {
       "nvim-treesitter/nvim-treesitter-context",
+      enabled = true,
       cmd = "ToggleTreesitterContext",
       config = require("config.plugins.treesitter-context").setup,
     },
     {
       "nvim-treesitter/nvim-treesitter-textobjects",
+      enabled = true,
       branch = "main",
       keys = {
         {
@@ -536,6 +578,7 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
+      enabled = true,
       branch = "main",
       build = ":TSUpdate",
       config = require("config.plugins.treesitter").setup,
@@ -549,6 +592,7 @@ require("lazy").setup({
     },
     {
       "monaqa/dial.nvim",
+      enabled = true,
       event = "User SuperLazy",
       config = require("config.plugins.dial").setup,
     },
