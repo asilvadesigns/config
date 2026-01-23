@@ -28,14 +28,65 @@ _G.show_winbar = true
 
 -- enabled plugins
 local settings = {
-  devicons = true,   -- required
-  plenary = true,    -- required
-  snacks = true,     -- used for pickers and dashboard
-  trouble = true,    -- nice diagnostic menu
-  comments = true,   -- nice comment setup
-  lazydev = true,    -- nice lua lsp helpers
-  session = true,    -- auto session management, really nice
+  -- core / required
+  devicons = true, -- required by many plugins
+  plenary = true,  -- required by many plugins
+
+  -- ui / theme
   catppuccin = true, -- lovely theme
+  modes = true,      -- cursor line color per mode
+  scrollbar = true,  -- scrollbar with diagnostics
+  satellite = false, -- alternative scrollbar (disabled)
+
+  -- dashboard / session
+  snacks = true,  -- pickers, dashboard, notifications
+  session = true, -- auto session management
+
+  -- lsp / completion
+  lspconfig = true,    -- lsp configuration
+  lazydev = true,      -- lua lsp helpers
+  mason = true,        -- lsp/tool installer
+  blink = true,        -- completion engine
+  blink_pairs = false, -- auto pairs from blink (disabled)
+
+  -- treesitter
+  treesitter = true,             -- syntax highlighting
+  treesitter_context = true,     -- sticky context header
+  treesitter_textobjects = true, -- function/class text objects
+
+  -- editing
+  comments = true,        -- smart comment handling
+  surround = true,        -- surround motions
+  substitute = true,      -- exchange operator
+  template_string = true, -- auto template strings in js/ts
+  better_escape = true,   -- jk to escape
+  multicursor = true,     -- multiple cursors
+  dial = true,            -- increment/decrement values
+
+  -- navigation / search
+  leap = true,         -- quick jump motions
+  smart_splits = true, -- tmux-aware splits
+  grug_far = true,     -- search and replace
+  trouble = true,      -- diagnostic list
+
+  -- file management
+  nvim_tree = true, -- file tree
+  oil = true,       -- file manager buffer
+  fyler = false,    -- alternative file manager (disabled)
+
+  -- git
+  neogit = true,    -- git interface
+  gitsigns = false, -- git signs in gutter (disabled)
+
+  -- misc
+  quicker = true,      -- better quickfix
+  color_picker = true, -- color picker
+  conform = true,      -- formatting
+  no_neck_pain = true, -- zen mode
+  treesj = true,       -- split/join blocks
+  visimatch = true,    -- highlight visual matches
+  illuminate = true,   -- highlight word under cursor
+  ufo = true,          -- better folds
 }
 
 if vim.loader then
@@ -311,59 +362,59 @@ require("lazy").setup({
     },
     {
       "stevearc/quicker.nvim",
-      enabled = true,
+      enabled = settings.quicker,
       event = "FileType qf",
       config = require("config.plugins.quicker").setup,
     },
     {
       "eero-lehtinen/oklch-color-picker.nvim",
-      enabled = true,
+      enabled = settings.color_picker,
       version = "*",
       event = "User SuperLazy",
       config = require("config.plugins.color-picker").setup,
     },
     {
       "lewis6991/satellite.nvim",
-      enabled = false,
+      enabled = settings.satellite,
       cmd = { "ToggleScrollbar" },
       event = "User SuperLazy",
       config = require("config.plugins.satellite").setup,
     },
     {
       "petertriho/nvim-scrollbar",
-      enabled = true,
+      enabled = settings.scrollbar,
       cmd = { "ToggleScrollbar" },
       event = "User SuperLazy",
       config = require("config.plugins.scrollbar").setup,
     },
     {
       "stevearc/conform.nvim",
-      enabled = true,
+      enabled = settings.conform,
       cmd = { "Format", "FormatWithBiome", "FormatWithLsp", "FormatWithPrettier" },
       keys = { { "<leader>m", "<CMD>Format<CR>", desc = "Format" } },
       config = require("config.plugins.conform").setup,
     },
     {
       "axelvc/template-string.nvim",
-      enabled = true,
+      enabled = settings.template_string,
       ft = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
       opts = {},
     },
     {
       "gbprod/substitute.nvim",
-      enabled = true,
+      enabled = settings.substitute,
       keys = { { "X", "<CMD>lua require('substitute.exchange').visual()<CR>", mode = "x" } },
       opts = {},
     },
     {
       "kylechui/nvim-surround",
-      enabled = true,
+      enabled = settings.surround,
       keys = { { "S", mode = "v" }, { "cs" }, { "ds" }, { "ys" } },
       opts = {},
     },
     {
       "max397574/better-escape.nvim",
-      enabled = true,
+      enabled = settings.better_escape,
       event = "InsertEnter",
       config = require("config.plugins.better-escape").setup,
     },
@@ -381,7 +432,7 @@ require("lazy").setup({
     -- },
     {
       "shortcuts/no-neck-pain.nvim",
-      enabled = true,
+      enabled = settings.no_neck_pain,
       cmd = "ToggleZenMode",
       keys = { { "<leader>z", "<CMD>ToggleZenMode<CR>" }, desc = "Toggle Zen Mode" },
       version = "*",
@@ -389,34 +440,34 @@ require("lazy").setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
-      enabled = true,
+      enabled = settings.nvim_tree,
       event = "User SuperLazy",
       cmd = { "NvimTreeFindFile", "NvimTreeOpen" },
       config = require("config.plugins.nvim-tree").setup,
     },
     {
       "A7Lavinraj/fyler.nvim",
-      enabled = false,
+      enabled = settings.fyler,
       dependencies = { "nvim-tree/nvim-web-devicons" },
       event = "User SuperLazy",
       config = require("config.plugins.fyler").setup,
     },
     {
       "stevearc/oil.nvim",
-      enabled = true,
+      enabled = settings.oil,
       event = "User SuperLazy",
       config = require("config.plugins.oil").setup,
     },
     {
       "mvllow/modes.nvim",
-      enabled = true,
+      enabled = settings.modes,
       tag = "v0.2.1",
       event = "User SuperLazy",
       config = require("config.plugins.modes").setup,
     },
     {
       "williamboman/mason.nvim",
-      enabled = true,
+      enabled = settings.mason,
       cmd = {
         "Mason",
         "MasonLog",
@@ -429,14 +480,14 @@ require("lazy").setup({
     },
     {
       "neovim/nvim-lspconfig",
-      enabled = true,
+      enabled = settings.lspconfig,
       lazy = false,
       dependencies = { "b0o/schemastore.nvim" },
       config = require("config.plugins.lsp").setup,
     },
     {
       "saghen/blink.cmp",
-      enabled = true,
+      enabled = settings.blink,
       version = "1.*",
       event = { "User SuperLazy" },
       opts_extend = { "sources.default" },
@@ -445,7 +496,7 @@ require("lazy").setup({
     },
     {
       "saghen/blink.pairs",
-      enabled = false,
+      enabled = settings.blink_pairs,
       event = "User SuperLazy",
       version = "*",
       dependencies = "saghen/blink.download",
@@ -453,7 +504,7 @@ require("lazy").setup({
     },
     {
       "MagicDuck/grug-far.nvim",
-      enabled = true,
+      enabled = settings.grug_far,
       keys = {
         { "<leader>f", mode = "v",           ":SearchFileVisual<CR>",    desc = "Find in file (visual)" },
         { "<leader>s", mode = "v",           ":SearchProjectVisual<CR>", desc = "Find in project (visual)" },
@@ -464,7 +515,7 @@ require("lazy").setup({
     },
     {
       "ggandor/leap.nvim",
-      enabled = true,
+      enabled = settings.leap,
       keys = {
         {
           "<leader>;",
@@ -493,7 +544,7 @@ require("lazy").setup({
     },
     {
       "Wansmer/treesj",
-      enabled = true,
+      enabled = settings.treesj,
       keys = {
         { "<leader>tj", ":TSJJoin<CR>",   silent = true, desc = "Join TS nodes" },
         { "<leader>tm", ":TSJToggle<CR>", silent = true, desc = "Toggle TS nodes" },
@@ -503,20 +554,20 @@ require("lazy").setup({
     },
     {
       "NeogitOrg/neogit",
-      enabled = true,
+      enabled = settings.neogit,
       event = "User SuperLazy",
       dependencies = { "sindrets/diffview.nvim" },
       config = require("config.plugins.neogit").setup,
     },
     {
       "lewis6991/gitsigns.nvim",
-      enabled = false,
+      enabled = settings.gitsigns,
       event = "User SuperLazy",
       config = require("config.plugins.gitsigns").setup,
     },
     {
       "mrjones2014/smart-splits.nvim",
-      enabled = true,
+      enabled = settings.smart_splits,
       keys = {
         -- stylua: ignore start
         { "<C-h>", function() require('smart-splits').move_cursor_left() end,  desc = "Move cursor left" },
@@ -529,32 +580,32 @@ require("lazy").setup({
     },
     {
       "jake-stewart/multicursor.nvim",
-      enabled = true,
+      enabled = settings.multicursor,
       event = "VeryLazy",
       branch = "1.0",
       config = require("config.plugins.multicursor").setup,
     },
     {
       "wurli/visimatch.nvim",
-      enabled = true,
+      enabled = settings.visimatch,
       keys = { "V", "v" },
       opts = { hl_group = "WVisiMatch", chars_lower_limit = 2 },
     },
     {
       "RRethy/vim-illuminate",
-      enabled = true,
+      enabled = settings.illuminate,
       event = "User SuperLazy",
       config = require("config.plugins.illuminate").setup,
     },
     {
       "nvim-treesitter/nvim-treesitter-context",
-      enabled = true,
+      enabled = settings.treesitter_context,
       cmd = "ToggleTreesitterContext",
       config = require("config.plugins.treesitter-context").setup,
     },
     {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      enabled = true,
+      enabled = settings.treesitter_textobjects,
       branch = "main",
       keys = {
         {
@@ -578,21 +629,21 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      enabled = true,
+      enabled = settings.treesitter,
       branch = "main",
       build = ":TSUpdate",
       config = require("config.plugins.treesitter").setup,
     },
     {
       "kevinhwang91/nvim-ufo",
-      enabled = true,
+      enabled = settings.ufo,
       event = "User SuperLazy",
       dependencies = { "kevinhwang91/promise-async" },
       config = require("config.plugins.ufo").setup,
     },
     {
       "monaqa/dial.nvim",
-      enabled = true,
+      enabled = settings.dial,
       event = "User SuperLazy",
       config = require("config.plugins.dial").setup,
     },
