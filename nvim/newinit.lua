@@ -1,7 +1,19 @@
----@diagnostic disable: missing-fields
----
+local path_package = vim.fn.stdpath('data') .. '/site/'
+local mini_path = path_package .. 'pack/deps/start/mini.nvim'
+if not vim.loop.fs_stat(mini_path) then
+  vim.cmd('echo "Installing `mini.nvim`" | redraw')
+  local clone_cmd = {
+    'git', 'clone', '--filter=blob:none',
+    'https://github.com/nvim-mini/mini.nvim', mini_path
+  }
+  vim.fn.system(clone_cmd)
+  vim.cmd('packadd mini.nvim | helptags ALL')
+  vim.cmd('echo "Installed `mini.nvim`" | redraw')
+end
 
--- enable_ && show_ are functionally same, just semantics.
+---
+--- Options
+---
 _G.enable_auto_pair = false
 _G.enable_autocompletion = false
 _G.enable_color_picker = false
@@ -25,34 +37,6 @@ _G.show_treesitter_context = false
 _G.hide_all = false
 _G.show_statusline = false
 _G.show_winbar = true
-
-if vim.loader then
-  vim.loader.enable()
-end
-
-local use_alternate_directory = false
-
-local root = vim.fn.stdpath("data")
-if use_alternate_directory then
-  root = vim.fn.expand("~/dev")
-end
-
-local lazyroot = root .. "/lazy/"
-local lazypath = lazyroot .. "lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
-end
-vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = ","
 vim.g.maplocalleader = " "
@@ -239,350 +223,211 @@ vim.keymap.set("n", "]c", ":cnext<CR>", { desc = "Go to next quickfix item" })
 
 vim.keymap.set("n", "[c", ":cprev<CR>", { desc = "Go to prev quickfix item" })
 
----
---- Section: Plugins
----
-require("lazy").setup({
-  root = lazyroot .. "plugins",
-  spec = {
-    {
-      "nvim-tree/nvim-web-devicons",
-      lazy = true,
-    },
-    {
-      "nvim-lua/plenary.nvim",
-      lazy = true,
-    },
-    {
-      "folke/snacks.nvim",
-      lazy = false,
-      priority = 1000,
-      config = require("config.plugins.snacks").setup,
-    },
-    {
-      "folke/trouble.nvim",
-      cmd = { "ToggleTrouble", "Trouble" },
-      config = require("config.plugins.trouble").setup,
-    },
-    {
-      "folke/ts-comments.nvim",
-      event = "VeryLazy",
-      opts = {},
-    },
-    {
-      "folke/lazydev.nvim",
-      ft = "lua",
-      opts = {
-        library = {
-          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-          { path = "snacks.nvim", words = { "Snacks" } },
-        },
-      },
-    },
-    {
-      "rmagatti/auto-session",
-      cmd = { "SessionRestore" },
-      config = require("config.plugins.auto-session").setup,
-    },
-    {
-      "catppuccin/nvim",
-      name = "catppuccin",
-      config = require("config.plugins.catppuccin").setup,
-    },
-    {
-      "stevearc/quicker.nvim",
-      event = "FileType qf",
-      config = require("config.plugins.quicker").setup,
-    },
-    {
-      "eero-lehtinen/oklch-color-picker.nvim",
-      version = "*",
-      event = "User SuperLazy",
-      config = require("config.plugins.color-picker").setup,
-    },
-    {
-      "lewis6991/satellite.nvim",
-      enabled = false,
-      cmd = { "ToggleScrollbar" },
-      event = "User SuperLazy",
-      config = require("config.plugins.satellite").setup,
-    },
-    {
-      "petertriho/nvim-scrollbar",
-      enabled = true,
-      cmd = { "ToggleScrollbar" },
-      event = "User SuperLazy",
-      config = require("config.plugins.scrollbar").setup,
-    },
-    {
-      "stevearc/conform.nvim",
-      enabled = true,
-      cmd = { "Format", "FormatWithBiome", "FormatWithLsp", "FormatWithPrettier" },
-      keys = { { "<leader>m", "<CMD>Format<CR>", desc = "Format" } },
-      config = require("config.plugins.conform").setup,
-    },
-    {
-      "axelvc/template-string.nvim",
-      ft = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
-      opts = {},
-    },
-    {
-      "gbprod/substitute.nvim",
-      keys = { { "X", "<CMD>lua require('substitute.exchange').visual()<CR>", mode = "x" } },
-      opts = {},
-    },
-    {
-      "kylechui/nvim-surround",
-      keys = { { "S", mode = "v" }, { "cs" }, { "ds" }, { "ys" } },
-      opts = {},
-    },
-    {
-      "max397574/better-escape.nvim",
-      event = "InsertEnter",
-      config = require("config.plugins.better-escape").setup,
-    },
-    -- {
-    --   "windwp/nvim-autopairs",
-    --   enabled = false,
-    --   event = "InsertEnter",
-    --   config = require("config.plugins.autopairs").setup,
-    -- },
-    -- {
-    --   "windwp/nvim-ts-autotag",
-    --   enabled = false,
-    --   event = "InsertEnter",
-    --   config = require("config.plugins.autotag").setup,
-    -- },
-    {
-      "shortcuts/no-neck-pain.nvim",
-      cmd = "ToggleZenMode",
-      keys = { { "<leader>z", "<CMD>ToggleZenMode<CR>" }, desc = "Toggle Zen Mode" },
-      version = "*",
-      config = require("config.plugins.no-neck-pain").setup,
-    },
-    {
-      "nvim-tree/nvim-tree.lua",
-      event = "User SuperLazy",
-      cmd = { "NvimTreeFindFile", "NvimTreeOpen" },
-      config = require("config.plugins.nvim-tree").setup,
-    },
-    {
-      "A7Lavinraj/fyler.nvim",
-      enabled = false,
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      event = "User SuperLazy",
-      config = require("config.plugins.fyler").setup,
-    },
-    {
-      "stevearc/oil.nvim",
-      event = "User SuperLazy",
-      config = require("config.plugins.oil").setup,
-    },
-    {
-      "mvllow/modes.nvim",
-      tag = "v0.2.1",
-      event = "User SuperLazy",
-      config = require("config.plugins.modes").setup,
-    },
-    {
-      "williamboman/mason.nvim",
-      cmd = {
-        "Mason",
-        "MasonLog",
-        "MasonUpdate",
-        "MasonInstall",
-        "MasonUninstall",
-        "MasonUninstallAll",
-      },
-      config = require("config.plugins.mason").setup,
-    },
-    {
-      "neovim/nvim-lspconfig",
-      enabled = true,
-      lazy = false,
-      dependencies = { "b0o/schemastore.nvim" },
-      config = require("config.plugins.lsp").setup,
-    },
-    {
-      "saghen/blink.cmp",
-      version = "1.*",
-      event = { "User SuperLazy" },
-      opts_extend = { "sources.default" },
-      dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
-      config = require("config.plugins.blink").setup,
-    },
-    {
-      "saghen/blink.pairs",
-      enabled = false,
-      event = "User SuperLazy",
-      version = "*",
-      dependencies = "saghen/blink.download",
-      config = require("config.plugins.pairs").setup,
-    },
-    {
-      "MagicDuck/grug-far.nvim",
-      keys = {
-        { "<leader>f", mode = "v", ":SearchFileVisual<CR>", desc = "Find in file (visual)" },
-        { "<leader>s", mode = "v", ":SearchProjectVisual<CR>", desc = "Find in project (visual)" },
-        { "<C-F>", ":SearchFile<CR>", desc = "Find in file" },
-        { "<C-S>", ":SearchProject<CR>", desc = "Find in project" },
-      },
-      config = require("config.plugins.grug-far").setup,
-    },
-    {
-      "ggandor/leap.nvim",
-      keys = {
-        {
-          "<leader>;",
-          function()
-            require("leap").leap({
-              target_windows = require("leap.user").get_focusable_windows(),
-            })
-          end,
-        },
-        {
-          "s",
-          function()
-            require("leap").leap({
-              target_windows = require("leap.user").get_focusable_windows(),
-            })
-          end,
-        },
-        {
-          "gs",
-          function()
-            require("leap.remote").action()
-          end,
-        },
-      },
-      config = require("config.plugins.leap").setup,
-    },
-    {
-      "Wansmer/treesj",
-      keys = {
-        { "<leader>tj", ":TSJJoin<CR>", silent = true, desc = "Join TS nodes" },
-        { "<leader>tm", ":TSJToggle<CR>", silent = true, desc = "Toggle TS nodes" },
-        { "<leader>ts", ":TSJSplit<CR>", silent = true, desc = "Split TS nodes" },
-      },
-      opts = {},
-    },
-    {
-      "NeogitOrg/neogit",
-      event = "User SuperLazy",
-      dependencies = { "sindrets/diffview.nvim" },
-      config = require("config.plugins.neogit").setup,
-    },
-    {
-      "lewis6991/gitsigns.nvim",
-      enabled = false,
-      event = "User SuperLazy",
-      config = require("config.plugins.gitsigns").setup,
-    },
-    {
-      "mrjones2014/smart-splits.nvim",
-      keys = {
-        -- stylua: ignore start
-        { "<C-h>", function() require('smart-splits').move_cursor_left() end, desc = "Move cursor left" },
-        { "<C-j>", function() require('smart-splits').move_cursor_down() end, desc = "Move cursor down" },
-        { "<C-k>", function() require('smart-splits').move_cursor_up() end, desc = "Move cursor up" },
-        { "<C-l>", function() require('smart-splits').move_cursor_right() end, desc = "Move cursor right" },
-        -- stylua: ignore end
-      },
-      config = require("config.plugins.smart-splits").setup,
-    },
-    {
-      "jake-stewart/multicursor.nvim",
-      event = "VeryLazy",
-      branch = "1.0",
-      config = require("config.plugins.multicursor").setup,
-    },
-    {
-      "wurli/visimatch.nvim",
-      keys = { "V", "v" },
-      opts = { hl_group = "WVisiMatch", chars_lower_limit = 2 },
-    },
-    {
-      "RRethy/vim-illuminate",
-      event = "User SuperLazy",
-      config = require("config.plugins.illuminate").setup,
-    },
-    {
-      "nvim-treesitter/nvim-treesitter-context",
-      cmd = "ToggleTreesitterContext",
-      config = require("config.plugins.treesitter-context").setup,
-    },
-    {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      branch = "main",
-      keys = {
-        {
-          "af",
-          function()
-            require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
-          end,
-          mode = { "x", "o" },
-          desc = "Select around function",
-        },
-        {
-          "if",
-          function()
-            require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
-          end,
-          mode = { "x", "o" },
-          desc = "Select inside function",
-        },
-      },
-      opts = {},
-    },
-    {
-      "nvim-treesitter/nvim-treesitter",
-      branch = "main",
-      build = ":TSUpdate",
-      config = require("config.plugins.treesitter").setup,
-    },
-    {
-      "kevinhwang91/nvim-ufo",
-      enabled = true,
-      event = "User SuperLazy",
-      dependencies = { "kevinhwang91/promise-async" },
-      config = require("config.plugins.ufo").setup,
-    },
-    {
-      "monaqa/dial.nvim",
-      event = "User SuperLazy",
-      config = require("config.plugins.dial").setup,
-    },
-  },
-  performance = {
-    cache = {
-      enabled = true,
-    },
-    rtp = {
-      disabled_plugins = {
-        "editorconfig",
-        "getscriptPlugin",
-        "gzip",
-        "matchit",
-        -- "matchparen",
-        "netrwPlugin",
-        "osc52",
-        "remotePlugin",
-        "rplugin",
-        "spellfile",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "vimballPlugin",
-        "zipPlugin",
-      },
-    },
-  },
-  ui = {
-    backdrop = 100,
-    border = "rounded",
+-- Disable plugin/ directory auto-loading for plugins we configure manually
+vim.g.loaded_nvim_treesitter_textobjects = 1
+
+-- deps
+local deps = require("mini.deps")
+deps.setup({ path = { package = path_package } })
+
+deps.add({ source = "nvim-tree/nvim-web-devicons" })
+
+deps.add({ source = "nvim-lua/plenary.nvim" })
+
+deps.add({ source = "folke/snacks.nvim" })
+deps.now(function()
+  require("config.plugins.snacks").setup()
+end)
+
+deps.add({ source = "folke/ts-comments.nvim" })
+
+deps.add({ source = "rmagatti/auto-session" })
+deps.now(require("config.plugins.auto-session").setup)
+
+deps.add({ source = "catppuccin/nvim" })
+deps.now(require("config.plugins.catppuccin").setup)
+
+deps.add({ source = "stevearc/quicker.nvim" })
+deps.later(require("config.plugins.quicker").setup)
+
+deps.add({
+  source = "eero-lehtinen/oklch-color-picker.nvim",
+  hooks = {
+    post_install = function()
+      vim.fn.system({ "npm", "install" })
+      vim.fn.system({ "npm", "run", "build" })
+    end,
   },
 })
+deps.later(require("config.plugins.color-picker").setup)
 
+deps.add({
+  source = "mrjones2014/smart-splits.nvim"
+})
+deps.later(function()
+    require("config.plugins.smart-splits").setup()
+    local splits = require('smart-splits')
+    vim.keymap.set("n", "<C-h>", splits.move_cursor_left, { desc = "Move cursor left" })
+    vim.keymap.set("n", "<C-j>", splits.move_cursor_down, { desc = "Move cursor down" })
+    vim.keymap.set("n", "<C-k>", splits.move_cursor_up, { desc = "Move cursor up" })
+    vim.keymap.set("n", "<C-l>", splits.move_cursor_right, { desc = "Move cursor right" })
+end)
+
+deps.add({
+    source = "jake-stewart/multicursor.nvim",
+    monitor = "1.0",
+})
+deps.later(require("config.plugins.multicursor").setup)
+
+deps.add({
+  source = "nvim-treesitter/nvim-treesitter",
+  checkout = "main",
+  hooks = {
+    post_checkout = function()
+      vim.cmd("TSUpdate")
+    end,
+  },
+})
+deps.now(require("config.plugins.treesitter").setup)
+
+deps.add({
+  source = "nvim-treesitter/nvim-treesitter-textobjects",
+  depends = { "nvim-treesitter/nvim-treesitter" },
+  checkout = "main",
+})
+deps.later(function()
+  local select = require("nvim-treesitter-textobjects.select")
+  vim.keymap.set({"x", "o"}, "af", function() select.select_textobject("@function.outer", "textobjects") end, { desc = "around function" })
+  vim.keymap.set({"x", "o"}, "if", function() select.select_textobject("@function.inner", "textobjects") end, { desc = "inside function" })
+end)
+
+deps.add({
+  source = "nvim-treesitter/nvim-treesitter-context",
+  checkout = "main",
+  depends = { "nvim-treesitter/nvim-treesitter" },
+})
+deps.later(require("config.plugins.treesitter-context").setup)
+
+deps.add({ source = "nvim-tree/nvim-tree.lua" })
+deps.later(require("config.plugins.nvim-tree").setup)
+
+deps.add({ source = "stevearc/oil.nvim" })
+deps.later(require("config.plugins.oil").setup)
+
+deps.add({
+  source = "mvllow/modes.nvim",
+  monitor = "v0.2.1",
+})
+deps.later(require("config.plugins.modes").setup)
+
+deps.add({ source = "folke/trouble.nvim" })
+deps.later(require("config.plugins.trouble").setup)
+
+deps.add({ source = "folke/lazydev.nvim" })
+deps.later(function()
+  require("lazydev").setup({
+    library = {
+      { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      { path = "snacks.nvim", words = { "Snacks" } },
+    },
+  })
+end)
+
+deps.add({ source = "petertriho/nvim-scrollbar" })
+deps.later(require("config.plugins.scrollbar").setup)
+
+deps.add({ source = "stevearc/conform.nvim" })
+deps.later(require("config.plugins.conform").setup)
+
+deps.add({ source = "axelvc/template-string.nvim" })
+deps.later(function()
+  require("template-string").setup({})
+end)
+
+deps.add({ source = "gbprod/substitute.nvim" })
+deps.later(function()
+  require("substitute").setup({})
+  vim.keymap.set("x", "X", function() require("substitute.exchange").visual() end, { desc = "Exchange" })
+end)
+
+deps.add({ source = "kylechui/nvim-surround" })
+deps.later(function()
+  require("nvim-surround").setup({})
+end)
+
+deps.add({ source = "max397574/better-escape.nvim" })
+deps.later(require("config.plugins.better-escape").setup)
+
+deps.add({ source = "shortcuts/no-neck-pain.nvim" })
+deps.later(require("config.plugins.no-neck-pain").setup)
+
+deps.add({ source = "williamboman/mason.nvim" })
+deps.later(require("config.plugins.mason").setup)
+
+deps.add({ source = "b0o/schemastore.nvim" })
+deps.add({ source = "neovim/nvim-lspconfig", depends = { "b0o/schemastore.nvim" } })
+deps.later(require("config.plugins.lsp").setup)
+
+deps.add({ source = "L3MON4D3/LuaSnip" })
+deps.add({
+  source = "saghen/blink.cmp",
+  depends = { "L3MON4D3/LuaSnip" },
+})
+deps.later(require("config.plugins.blink").setup)
+
+deps.add({ source = "MagicDuck/grug-far.nvim" })
+deps.later(function()
+  require("config.plugins.grug-far").setup()
+  vim.keymap.set("v", "<leader>f", ":SearchFileVisual<CR>", { desc = "Find in file (visual)" })
+  vim.keymap.set("v", "<leader>r", ":SearchProjectVisual<CR>", { desc = "Find in project (visual)" })
+  vim.keymap.set("n", "<C-F>", ":SearchFile<CR>", { desc = "Find in file" })
+  vim.keymap.set("n", "<C-S>", ":SearchProject<CR>", { desc = "Find in project" })
+end)
+
+deps.add({ source = "ggandor/leap.nvim" })
+deps.later(function()
+  require("config.plugins.leap").setup()
+  vim.keymap.set("n", "<leader>;", function()
+    require("leap").leap({ target_windows = require("leap.user").get_focusable_windows() })
+  end, { desc = "Leap" })
+  vim.keymap.set("n", "s", function()
+    require("leap").leap({ target_windows = require("leap.user").get_focusable_windows() })
+  end, { desc = "Leap" })
+  vim.keymap.set("n", "gs", function()
+    require("leap.remote").action()
+  end, { desc = "Leap remote" })
+end)
+
+deps.add({ source = "Wansmer/treesj" })
+deps.later(function()
+  require("treesj").setup({})
+  vim.keymap.set("n", "<leader>tj", ":TSJJoin<CR>", { silent = true, desc = "Join TS nodes" })
+  vim.keymap.set("n", "<leader>tm", ":TSJToggle<CR>", { silent = true, desc = "Toggle TS nodes" })
+  vim.keymap.set("n", "<leader>ts", ":TSJSplit<CR>", { silent = true, desc = "Split TS nodes" })
+end)
+
+deps.add({ source = "sindrets/diffview.nvim" })
+deps.add({ source = "NeogitOrg/neogit", depends = { "sindrets/diffview.nvim" } })
+deps.later(require("config.plugins.neogit").setup)
+
+deps.add({ source = "wurli/visimatch.nvim" })
+deps.later(function()
+  require("visimatch").setup({ hl_group = "WVisiMatch", chars_lower_limit = 2 })
+end)
+
+deps.add({ source = "RRethy/vim-illuminate" })
+deps.later(require("config.plugins.illuminate").setup)
+
+deps.add({ source = "kevinhwang91/promise-async" })
+deps.add({ source = "kevinhwang91/nvim-ufo", depends = { "kevinhwang91/promise-async" } })
+deps.later(require("config.plugins.ufo").setup)
+
+deps.add({ source = "monaqa/dial.nvim" })
+deps.later(require("config.plugins.dial").setup)
+
+---
+--- Section: Post-plugin requires
+---
 require("config.lastplace")
 require("config.tabbar")
 require("config.winbar")
@@ -600,35 +445,8 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   end,
 })
 
--- show
--- local was_list_enabled = _G.show_invisible_chars
--- vim.api.nvim_create_autocmd("ModeChanged", {
---   pattern = "*:[vV]", -- Entering Visual mode (includes Visual Line and Block)
---   callback = function()
---     was_list_enabled = vim.wo.list
---     vim.wo.list = true
---   end,
--- })
---
--- vim.api.nvim_create_autocmd("ModeChanged", {
---   pattern = "[vV]:*", -- Leaving Visual mode
---   callback = function()
---     vim.wo.list = was_list_enabled
---   end,
--- })
-
--- vim.api.nvim_create_autocmd({ "CursorHold" }, {
---   group = vim.api.nvim_create_augroup("reload-file-dyanmic", { clear = true }),
---   desc = "Reload buffer on focus",
---   callback = debounce(function()
---     if vim.fn.getcmdwintype() == "" then
---       vim.cmd("checktime")
---     end
---   end, 1000),
--- })
-
--- restore cursor to file position in previous editing session
 vim.api.nvim_create_autocmd("BufReadPost", {
+  desc = "Restore cursor to file position in previous editing session",
   callback = function(args)
     local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
     local line_count = vim.api.nvim_buf_line_count(args.buf)
@@ -642,7 +460,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 vim.api.nvim_create_autocmd("VimResized", {
   group = vim.api.nvim_create_augroup("vim-resized", { clear = true }),
-  desc = "Resset buffer size on window resize",
+  desc = "Reset buffer size on window resize",
   callback = function()
     local current_tab = vim.fn.tabpagenr()
     vim.cmd("tabdo wincmd =")
@@ -726,7 +544,6 @@ vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
     if not config.virtual_text then
       _G.show_diagnostics = true
       vim.diagnostic.enable(true)
-
       _G.show_diagnostics_text = true
     else
       _G.show_diagnostics_text = false
@@ -741,7 +558,6 @@ vim.api.nvim_create_user_command("ToggleDiagnosticUnderline", function()
     if not config.underline then
       _G.show_diagnostics = true
       vim.diagnostic.enable(true)
-
       _G.show_diagnostics_underline = true
     else
       _G.show_diagnostics_underline = false
@@ -799,9 +615,6 @@ vim.api.nvim_create_user_command("ToggleInlayHints", function()
   vim.lsp.inlay_hint.enable(_G.show_inlay_hints)
 end, {})
 
----
---- personal plugin START
----
 --- @type table<string, boolean>
 local is_affected_by_line_numbers = {
   ["NeogitStatus"] = true,
@@ -818,7 +631,6 @@ local is_affected_by_line_numbers = {
 }
 
 local function set_line_numbers(nu, rnu)
-  -- update each window
   for _, win_id in ipairs(vim.api.nvim_list_wins()) do
     local buf_id = vim.api.nvim_win_get_buf(win_id)
     local filetype = vim.bo[buf_id].filetype
@@ -829,8 +641,6 @@ local function set_line_numbers(nu, rnu)
   end
 end
 
--- TODO: implement a toggle with a previous values cache.
--- if there are previous values use them, otherwise don't.
 vim.api.nvim_create_user_command("HideLineNumbers", function()
   set_line_numbers(false, false)
   vim.cmd("e!")
@@ -845,9 +655,6 @@ vim.api.nvim_create_user_command("ShowRelativeLineNumbers", function()
   set_line_numbers(true, true)
   vim.cmd("e!")
 end, {})
----
---- personal plugin END
----
 
 vim.api.nvim_create_user_command("ToggleCursorLine", function()
   _G.show_cursorline = not _G.show_cursorline
@@ -859,22 +666,13 @@ end, {})
 ---
 vim.diagnostic.config({
   float = { border = "rounded" },
-  -- signs = false,
   signs = {
-    -- NOTE: if you want signs
     text = {
-      [vim.diagnostic.severity.ERROR] = "", --signs.icons.square,
-      [vim.diagnostic.severity.HINT] = "", --signs.icons.square,
-      [vim.diagnostic.severity.INFO] = "", --signs.icons.square,
-      [vim.diagnostic.severity.WARN] = "", --signs.icons.square,
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.HINT] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.WARN] = "",
     },
-    -- NOTE: if you want to highlight the number line
-    -- numhl = {
-    --   [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-    --   [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-    --   [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-    --   [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-    -- },
   },
   underline = _G.show_diagnostics_underline,
   virtual_text = _G.show_diagnostics_text,
