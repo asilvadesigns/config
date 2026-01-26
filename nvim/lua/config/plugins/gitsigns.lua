@@ -18,7 +18,7 @@ M.setup = function()
       changedelete = { text = "~" },
       untracked = { text = "┆" },
     },
-    signcolumn = false,
+    signcolumn = _G.show_gitsigns,  -- Toggle with `:Gitsigns toggle_signs`
     numhl = false,
     current_line_blame_opts = {
       ignore_whitespace = true,
@@ -38,5 +38,15 @@ end
 vim.keymap.set("n", "gl", function()
   require("gitsigns").blame_line()
 end, { desc = "toggle git line blame" })
+
+
+vim.api.nvim_create_user_command("ToggleGitBlame", function()
+  _G.show_gitblame = not _G.show_gitblame
+end, {})
+
+vim.api.nvim_create_user_command("ToggleGitSigns", function()
+  _G.show_gitsigns = not _G.show_gitsigns
+  vim.cmd("Gitsigns toggle_signs")
+end, {})
 
 return M

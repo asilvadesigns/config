@@ -41,6 +41,7 @@ local palette_items = function()
     { text = "Highlights", cmd = "lua Snacks.picker.highlights()" },
     { text = "Keymaps", cmd = "lua Snacks.picker.keymaps()" },
     { text = "Deps Update", cmd = "DepsUpdate" },
+    { text = "Lazy", cmd = "Lazy" },
     { text = "Lint (Biome)", cmd = "LintWithBiome" },
     { text = "Lint (EsLint)", cmd = "LintWithPrettier" },
     { text = "Lint (default)", cmd = "Lint" },
@@ -51,8 +52,8 @@ local palette_items = function()
     { text = "Remove Other Buffers", cmd = "only|bd|e#" },
     { text = "Rename File", cmd = "RenameFile" },
     { text = "Restart LSP", cmd = "LspRestart" },
-    { text = "Search (file)", cmd = "SearchFile" },
-    { text = "Search (project)", cmd = "SearchProject" },
+    { text = "Find/Search (file)", cmd = "SearchFile" },
+    { text = "Find/Search (project)", cmd = "SearchProject" },
     { text = "Show Line Numbers", cmd = "ShowLineNumbers" },
     { text = "Show Relative Numbers", cmd = "ShowRelativeLineNumbers" },
     { text = "Hide Line Numbers", cmd = "HideLineNumbers" },
@@ -68,7 +69,8 @@ local palette_items = function()
       text = drawToggle("Toggle Diagnostic Underline", _G.show_diagnostics_underline),
       cmd = "ToggleDiagnosticUnderline",
     },
-    { text = "Toggle Git Blame", cmd = "Gitsigns toggle_current_line_blame" },
+    { text = drawToggle("Toggle Git Blame", _G.show_gitblame), cmd = "ToggleGitBlame" },
+    { text = drawToggle("Toggle Git Signs", _G.show_gitsigns), cmd = "ToggleGitSigns" },
     { text = drawToggle("Toggle Hide All", _G.hide_all), cmd = "ToggleHideAll" },
     { text = drawToggle("Toggle Illuminate", _G.show_illuminate), cmd = "ToggleIlluminate" },
     { text = drawToggle("Toggle Indent Lines", _G.show_indent_lines), cmd = "ToggleIndentLines" },
@@ -81,6 +83,7 @@ local palette_items = function()
     { text = drawToggle("Toggle Smooth Scroll", _G.enable_smooth_scroll), cmd = "ToggleSmoothScroll" },
     { text = drawToggle("Toggle Statusline", _G.show_statusline), cmd = "ToggleStatusline" },
     { text = drawToggle("Toggle Syntax Highlight", _G.enable_syntax_highlight), cmd = "ToggleSyntaxHighlight" },
+    { text = drawToggle("Toggle Vimade", _G.show_vimade), cmd = "ToggleVimade" },
     { text = drawToggle("Toggle Winbar", _G.show_winbar), cmd = "ToggleWinbar" },
     { text = drawToggle("Toggle Zen Mode", _G.enable_zen_mode), cmd = "ToggleZenMode" },
     { text = drawToggle("Trouble", _G.trouble_visible), cmd = "Trouble" },
@@ -408,6 +411,7 @@ M.setup = function()
       vim.g.snacks_animate = false
     end,
   })
+
   vim.api.nvim_create_autocmd("User", {
     group = group,
     pattern = "BlinkCmpMenuClose",
@@ -417,51 +421,8 @@ M.setup = function()
   })
 
   ---
-  --- Section: Toggle Smooth Scroll
+  --- Section: Smooth Scroll
   ---
-  -- local scroll_group = vim.api.nvim_create_augroup("SmartScrollSnacks", { clear = true })
-  -- local debounce = false
-  --
-  -- -- Create one autocmd ahead of time; just reacts when debounce=true
-  -- vim.api.nvim_create_autocmd("CursorMoved", {
-  --   group = scroll_group,
-  --   callback = function()
-  --     if debounce then
-  --       Snacks.scroll.enable()
-  --       debounce = false
-  --     end
-  --   end,
-  -- })
-  --
-  -- local function smart_scroll(direction)
-  --   local motion = direction == "up" and "gk" or "gj"
-  --   if not debounce then
-  --     Snacks.scroll.disable()
-  --     debounce = true
-  --   end
-  --   return motion
-  -- end
-  --
-  -- local function toggle_smooth_scroll()
-  --   if _G.enable_smooth_scroll then
-  --     Snacks.scroll.enable()
-  --
-  --     vim.keymap.set({ "n", "v" }, "k", function()
-  --       return smart_scroll("up")
-  --     end, { expr = true, silent = true })
-  --
-  --     vim.keymap.set({ "n", "v" }, "j", function()
-  --       return smart_scroll("down")
-  --     end, { expr = true, silent = true })
-  --
-  --     return
-  --   end
-  --
-  --   Snacks.scroll.disable()
-  --   pcall(vim.keymap.del, { "n", "v" }, "k")
-  --   pcall(vim.keymap.del, { "n", "v" }, "j")
-  -- end
-  --
   vim.api.nvim_create_user_command("ToggleSmoothScroll", function()
     _G.enable_smooth_scroll = not _G.enable_smooth_scroll
     if _G.enable_smooth_scroll then
