@@ -48,7 +48,7 @@ set -gx LIBOMP_PREFIX "/opt/homebrew/opt/libomp"
 set -gx VK_ICD_FILENAMES "/opt/homebrew/etc/vulkan/icd.d/MoltenVK_icd.json"
 set -gx VK_LAYER_PATH "/opt/homebrew/opt/vulkan-validationlayers/share/vulkan/explicit_layer.d"
 
-# set -gx PATH "/opt/homebrew/opt/llvm@17/bin" $PATH;
+# llvm
 set -gx LDFLAGS "-L/opt/homebrew/opt/llvm@17/lib"
 set -gx CPPFLAGS "-I/opt/homebrew/opt/llvm@17/include"
 
@@ -92,15 +92,4 @@ zoxide init fish | source
 
 # starship
 starship init fish | source
-
-# NOTE: the following came from stdout after `brew install sqlite`
-# If you need to have sqlite first in your PATH, run:
-#   fish_add_path /opt/homebrew/opt/sqlite/bin
-#
-# For compilers to find sqlite you may need to set:
-#   set -gx LDFLAGS "-L/opt/homebrew/opt/sqlite/lib"
-#   set -gx CPPFLAGS "-I/opt/homebrew/opt/sqlite/include"
-#
-# For pkg-config to find sqlite you may need to set:
-#   set -gx PKG_CONFIG_PATH "/opt/homebrew/opt/sqlite/lib/pkgconfig"
 
