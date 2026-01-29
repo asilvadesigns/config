@@ -302,15 +302,9 @@ require("lazy").setup({
       config = require("config.plugins.color-picker").setup,
     },
     {
-      "lewis6991/satellite.nvim",
-      enabled = false,
-      cmd = { "ToggleScrollbar" },
-      event = "User SuperLazy",
-      config = require("config.plugins.satellite").setup,
-    },
-    {
       "petertriho/nvim-scrollbar",
       cmd = { "ToggleScrollbar" },
+      dependencies = { "kevinhwang91/nvim-hlslens" },
       event = "User SuperLazy",
       config = require("config.plugins.scrollbar").setup,
     },
@@ -422,7 +416,7 @@ require("lazy").setup({
       config = require("config.plugins.grug-far").setup,
     },
     {
-      "ggandor/leap.nvim",
+      url = "https://codeberg.org/andyg/leap.nvim",
       keys = {
         {
           "<leader>;",

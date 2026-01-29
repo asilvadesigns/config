@@ -28,6 +28,53 @@ M.setup = function()
     },
   })
 
+
+  require("hlslens").setup({ calm_down = false, })
+
+  local kopts = { noremap = true, silent = true }
+  vim.api.nvim_set_keymap('n', 'n',
+    [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+    kopts)
+  vim.api.nvim_set_keymap('n', 'N',
+    [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+    kopts)
+  vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+  vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+  vim.cmd("hi default link HlSearchNear CurSearch")
+  vim.cmd("hi default link HlSearchLens WildMenu")
+  vim.cmd("hi default link HlSearchLensNear CurSearch")
+
+  require("scrollbar.handlers.search").setup({
+    override_lens = function(render, posList, nearest, idx, relIdx)
+      local sfw = vim.v.searchforward == 1
+      local indicator, text, chunks
+      local absRelIdx = math.abs(relIdx)
+      if absRelIdx > 1 then
+        indicator = ('%d%s'):format(absRelIdx, sfw ~= (relIdx > 1) and '▲' or '▼')
+      elseif absRelIdx == 1 then
+        indicator = sfw ~= (relIdx == 1) and '▲' or '▼'
+      else
+        indicator = ''
+      end
+
+      local lnum, col = unpack(posList[idx])
+      if nearest then
+        local cnt = #posList
+        if indicator ~= '' then
+          text = ('[%s %d/%d]'):format(indicator, idx, cnt)
+        else
+          text = ('[%d/%d]'):format(idx, cnt)
+        end
+        chunks = { { ' ' }, { text, 'HlSearchLensNear' } }
+      else
+        text = ('[%s %d]'):format(indicator, idx)
+        chunks = { { ' ' }, { text, 'HlSearchLens' } }
+      end
+      render.setVirt(0, lnum - 1, col - 1, chunks, nearest)
+    end
+  })
+
   ---init
   vim.api.nvim_create_user_command("ToggleScrollbar", function()
     local config = require("scrollbar.config").get()
