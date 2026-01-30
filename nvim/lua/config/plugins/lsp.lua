@@ -144,7 +144,7 @@ M.setup = function()
       local opts = { silent = true, buffer = args.buf }
 
       vim.keymap.set("n", "g.", vim.lsp.buf.code_action, opts)
-      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+      vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
       vim.keymap.set("n", "K", function()
         vim.lsp.buf.hover({ border = "rounded" })
       end, opts)

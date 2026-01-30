@@ -91,7 +91,7 @@ local palette_items = function()
 end
 
 local MAX_WIDTH = 140
-local PRESET = "ivy" -- dropdown | vscode | ivy | select
+local PRESET = "dropdown" -- dropdown | vscode | ivy | select
 
 M.setup = function()
   require("snacks").setup({
@@ -243,6 +243,7 @@ M.setup = function()
         { key = "f", padding = 1, desc = "Find File",    action = ":lua Snacks.picker.files()" },
         { key = "e", padding = 1, desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
         { key = "d", padding = 1, desc = "Deps Update",  action = ":DepsUpdate" },
+        { key = "l", padding = 1, desc = "Lazy",         action = ":Lazy" },
         { key = "m", padding = 1, desc = "Mason",        action = ":Mason" },
         { key = "q", padding = 1, desc = "Quit",         action = ":qa!" },
       },

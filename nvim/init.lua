@@ -302,6 +302,10 @@ require("lazy").setup({
       config = require("config.plugins.color-picker").setup,
     },
     {
+      "kevinhwang91/nvim-hlslens",
+      config = require("config.plugins.hllens").setup,
+    },
+    {
       "petertriho/nvim-scrollbar",
       cmd = { "ToggleScrollbar" },
       dependencies = { "kevinhwang91/nvim-hlslens" },
