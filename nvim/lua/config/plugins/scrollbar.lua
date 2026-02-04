@@ -1,6 +1,15 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
+local toggle = function()
+  _G.show_scrollbar = not _G.show_scrollbar
+
+  local config = require("scrollbar.config").get()
+  config.show = _G.show_scrollbar
+
+  require("scrollbar").render()
+end
+
 M.setup = function()
   require("scrollbar").setup({
     show = _G.show_scrollbar,
@@ -28,6 +37,7 @@ M.setup = function()
     },
   })
 
+  vim.api.nvim_create_user_command("ToggleScrollbar", toggle, {})
 
   require("scrollbar.handlers.search").setup({
     override_lens = function(render, posList, nearest, idx, relIdx)
@@ -59,20 +69,6 @@ M.setup = function()
       render.setVirt(0, lnum - 1, col - 1, chunks, nearest)
     end
   })
-
-  ---init
-  vim.api.nvim_create_user_command("ToggleScrollbar", function()
-    local config = require("scrollbar.config").get()
-
-    if _G.show_scrollbar then
-      config.show = false
-    else
-      config.show = true
-    end
-
-    _G.show_scrollbar = not _G.show_scrollbar
-    require("scrollbar").render()
-  end, {})
 end
 
 return M

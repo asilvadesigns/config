@@ -7,7 +7,7 @@ _G.enable_autocompletion = false
 _G.enable_color_picker = false
 _G.enable_syntax_highlight = true
 _G.enable_line_wrap = false
-_G.enable_smooth_scroll = true
+_G.enable_smooth_scroll = false
 _G.enable_simple_colors = false
 _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
@@ -23,7 +23,7 @@ _G.show_illuminate = true
 _G.show_indent_lines = false
 _G.show_inlay_hints = false
 _G.show_invisible_chars = false
-_G.show_scrollbar = false
+_G.show_scrollbar = true
 _G.show_statusline = false
 _G.show_treesitter_context = false
 _G.show_vimade = false
@@ -303,13 +303,13 @@ require("lazy").setup({
     },
     {
       "kevinhwang91/nvim-hlslens",
+      keys = { "n", "N", "*", "#", "/", "?" },
       config = require("config.plugins.hllens").setup,
     },
     {
       "petertriho/nvim-scrollbar",
-      cmd = { "ToggleScrollbar" },
-      dependencies = { "kevinhwang91/nvim-hlslens" },
       event = "User SuperLazy",
+      dependencies = { "kevinhwang91/nvim-hlslens" },
       config = require("config.plugins.scrollbar").setup,
     },
     {
@@ -525,14 +525,25 @@ require("lazy").setup({
       opts = {},
     },
     {
+      -- NOTE: you may need to rm -rf ~/.local/share/nvim/site/queries/
       "nvim-treesitter/nvim-treesitter",
+      event = { "BufReadPost", "BufNewFile" },
       branch = "main",
       build = ":TSUpdate",
       config = require("config.plugins.treesitter").setup,
     },
     {
+      -- NOTE: if you want to see the little fold icons in the gutter you have to load this
+      -- event = "User SuperLazy",
       "kevinhwang91/nvim-ufo",
-      event = "User SuperLazy",
+      -- stylua: ignore start
+      keys = {
+        "zc", "zC", "zo", "zO", "za", "zA",
+        "zm", "zM", "zr", "zR",
+        "zj", "zk", "zv", "zx",
+        "zp", "]f", "[f",
+      },
+      -- stylua: ignore end
       dependencies = { "kevinhwang91/promise-async" },
       config = require("config.plugins.ufo").setup,
     },

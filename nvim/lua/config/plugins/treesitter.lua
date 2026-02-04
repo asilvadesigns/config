@@ -34,24 +34,28 @@ local parsers = {
   "zig",
 }
 
-M.setup = function()
-  local ts = require("nvim-treesitter")
-  ts.setup({})
+local function parser_exists(lang)
+  if type(lang) ~= "string" then
+    return false
+  end
+  return #vim.api.nvim_get_runtime_file("parser/" .. lang .. ".so", false) > 0
+end
 
-  -- Install parsers asynchronously
+M.setup = function()
+  local plugin = require("nvim-treesitter")
+  plugin.setup({})
+
   vim.defer_fn(function()
-    ts.install(parsers)
+    plugin.install(parsers)
   end, 100)
 
   vim.treesitter.language.register("markdown", "mdc")
   vim.treesitter.language.register("markdown", "mdx")
 
-  -- Enable treesitter highlighting for supported filetypes
-  vim.api.nvim_create_autocmd("FileType", {
+  vim.api.nvim_create_autocmd('FileType', {
     callback = function(args)
-      local ft = args.match
-      local lang = vim.treesitter.language.get_lang(ft)
-      if lang then
+      local lang = vim.treesitter.language.get_lang(args.match)
+      if lang and parser_exists(lang) then
         pcall(vim.treesitter.start, args.buf, lang)
       end
     end,
