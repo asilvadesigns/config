@@ -1,28 +1,37 @@
 ---@diagnostic disable: missing-fields
 local M = {}
 
-local toggle = function()
-  _G.show_scrollbar = not _G.show_scrollbar
-
-  local config = require("scrollbar.config").get()
-  config.show = _G.show_scrollbar
-
-  require("scrollbar").render()
-end
-
 M.setup = function()
+  --- TODO: will need to update to handle color changes...
+  local colors = require("catppuccin.palettes").get_palette("frappe")
+
   require("scrollbar").setup({
     show = _G.show_scrollbar,
+    set_highlights = true,
     marks = {
       Cursor = {
         text = "—",
         priority = 0,
         gui = nil,
-        color = nil,
+        color = colors.sky,
         cterm = nil,
         color_nr = nil, -- cterm
         highlight = "Normal",
       },
+      Search = { color = colors.green },
+      Error = { color = colors.red },
+      Warn = { color = colors.yellow },
+      Info = { color = colors.blue },
+      Hint = { color = colors.teal },
+      Misc = { color = colors.mauve },
+    },
+    handlers = {
+      cursor = true,
+      diagnostic = true,
+      gitsigns = false,
+      handle = true,
+      search = true,
+      ale = false,
     },
     excluded_filetypes = {
       "DressingInput",
@@ -37,7 +46,11 @@ M.setup = function()
     },
   })
 
-  vim.api.nvim_create_user_command("ToggleScrollbar", toggle, {})
+  vim.api.nvim_create_user_command("ToggleScrollbar", function()
+    _G.show_scrollbar = not _G.show_scrollbar
+    require("scrollbar.config").set({ show = _G.show_scrollbar })
+    require("scrollbar").render()
+  end, {})
 
   require("scrollbar.handlers.search").setup({
     override_lens = function(render, posList, nearest, idx, relIdx)

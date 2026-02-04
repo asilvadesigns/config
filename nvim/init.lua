@@ -526,6 +526,7 @@ require("lazy").setup({
     },
     {
       -- NOTE: you may need to rm -rf ~/.local/share/nvim/site/queries/
+      -- NOTE: you need to install tree-sitter-cli
       "nvim-treesitter/nvim-treesitter",
       event = { "BufReadPost", "BufNewFile" },
       branch = "main",
@@ -726,7 +727,6 @@ vim.api.nvim_create_user_command("ToggleDiagnosticText", function()
     if not config.virtual_text then
       _G.show_diagnostics = true
       vim.diagnostic.enable(true)
-
       _G.show_diagnostics_text = true
     else
       _G.show_diagnostics_text = false
@@ -741,7 +741,6 @@ vim.api.nvim_create_user_command("ToggleDiagnosticUnderline", function()
     if not config.underline then
       _G.show_diagnostics = true
       vim.diagnostic.enable(true)
-
       _G.show_diagnostics_underline = true
     else
       _G.show_diagnostics_underline = false
