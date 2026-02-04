@@ -421,6 +421,7 @@ require("lazy").setup({
     },
     {
       url = "https://codeberg.org/andyg/leap.nvim",
+      enabled = false,
       keys = {
         {
           "<leader>;",
