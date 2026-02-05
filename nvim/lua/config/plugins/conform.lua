@@ -38,6 +38,7 @@ M.setup = function()
       json = { "biome-check", "prettier" },
       jsonc = { "biome-check", "prettier" },
       lua = { "stylua" },
+      rust = { "rustfmt" },
       sh = { "shellcheck", "shfmt" },
       sql = { "sql_formatter" },
       svelte = { "biome-check", "prettier" },

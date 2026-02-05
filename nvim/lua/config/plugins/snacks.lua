@@ -19,8 +19,8 @@ end
 ---@return table<string, PaletteEntry>
 local palette_items = function()
   return {
-    { text = "Commands",                                                     cmd = "lua Snacks.picker.commands()" },
-    { text = "Colorschemes",                                                 cmd = 'lua Snacks.picker.colorschemes({ layout = { preview = "colorscheme" } })' },
+    { text = "Commands",                                                     cmd = "silent lua Snacks.picker.commands()" },
+    { text = "Colorschemes",                                                 cmd = 'silent lua Snacks.picker.colorschemes({ layout = { preview = "colorscheme" } })' },
     { text = "Copy file path (Absolute)",                                    cmd = "CopyAbsolutePath" },
     { text = "Copy file path (Relative)",                                    cmd = "CopyRelativePath" },
     { text = "Copy filetype",                                                cmd = "CopyFiletype" },
@@ -37,9 +37,9 @@ local palette_items = function()
     { text = "Format (default)",                                             cmd = "Format" },
     { text = "Git (Fugitive)",                                               cmd = "Git" },
     { text = "Git (Neogit)",                                                 cmd = "Neogit" },
-    { text = "Help",                                                         cmd = "lua Snacks.picker.help()" },
-    { text = "Highlights",                                                   cmd = "lua Snacks.picker.highlights()" },
-    { text = "Keymaps",                                                      cmd = "lua Snacks.picker.keymaps()" },
+    { text = "Help",                                                         cmd = "silent lua Snacks.picker.help()" },
+    { text = "Highlights",                                                   cmd = "silent lua Snacks.picker.highlights()" },
+    { text = "Keymaps",                                                      cmd = "silent lua Snacks.picker.keymaps()" },
     { text = "Deps Update",                                                  cmd = "DepsUpdate" },
     { text = "Lazy",                                                         cmd = "Lazy" },
     { text = "Lint (Biome)",                                                 cmd = "LintWithBiome" },
@@ -47,7 +47,7 @@ local palette_items = function()
     { text = "Lint (default)",                                               cmd = "Lint" },
     { text = "Markdown Preview",                                             cmd = "MarkdownPreviewToggle" },
     { text = "Mason",                                                        cmd = "Mason" },
-    { text = "Notifications",                                                cmd = "lua Snacks.notifier.show_history()" },
+    { text = "Notifications",                                                cmd = "silent lua Snacks.notifier.show_history()" },
     { text = "Remove All Marks",                                             cmd = "delm! | delm A-Z0-9" },
     { text = "Remove Other Buffers",                                         cmd = "only|bd|e#" },
     { text = "Rename File",                                                  cmd = "RenameFile" },
@@ -57,7 +57,7 @@ local palette_items = function()
     { text = "Show Line Numbers",                                            cmd = "ShowLineNumbers" },
     { text = "Show Relative Numbers",                                        cmd = "ShowRelativeLineNumbers" },
     { text = "Hide Line Numbers",                                            cmd = "HideLineNumbers" },
-    { text = "Symbols",                                                      cmd = "lua Snacks.picker.lsp_symbols()" },
+    { text = "Symbols",                                                      cmd = "silent lua Snacks.picker.lsp_symbols()" },
     { text = drawToggle("Toggle Auto Pairs", _G.enable_auto_pair),           cmd = "ToggleAutoPairs" },
     { text = drawToggle("Toggle Color Picker", _G.enable_color_picker),      cmd = "ColorPickerToggle" },
     { text = drawToggle("Toggle Completion", _G.enable_autocompletion),      cmd = "ToggleCompletion" },
@@ -326,29 +326,30 @@ M.setup = function()
 
   --- symbols
   vim.keymap.set("n", "<leader>o", function()
-    Snacks.picker.lsp_symbols({
-      filter = {
-        default = {
-          "Class",
-          "Constructor",
-          -- "Enum",
-          -- "Field",
-          "Function",
-          "Interface",
-          "Method",
-          -- "Module",
-          -- "Namespace",
-          -- "Package",
-          "Property",
-          -- "Struct",
-          -- "Trait",
-        },
-      },
-      layout = {
-        preset = PRESET,
-        preview = true,
-      },
-    })
+    Snacks.picker.lsp_symbols()
+    -- Snacks.picker.lsp_symbols({
+    --   filter = {
+    --     default = {
+    --       "Class",
+    --       "Constructor",
+    --       -- "Enum",
+    --       -- "Field",
+    --       "Function",
+    --       "Interface",
+    --       "Method",
+    --       -- "Module",
+    --       -- "Namespace",
+    --       -- "Package",
+    --       "Property",
+    --       -- "Struct",
+    --       -- "Trait",
+    --     },
+    --   },
+    --   layout = {
+    --     preset = PRESET,
+    --     preview = false, -- meh...
+    --   },
+    -- })
   end, { desc = "Fuzzy symbols" })
 
   --- resume

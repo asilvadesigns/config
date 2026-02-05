@@ -21,6 +21,9 @@ local use_icon_color = false
 --- @type table<integer, string>
 local statusline_cache = {}
 
+--- @type table<integer, string>
+local winbar_cache = {}
+
 --- @type table<string, boolean>
 local excluded_filetypes = {
   ["NeogitStatus"] = true,
@@ -156,6 +159,7 @@ local function enable_winbar(win_id, cwd)
 
   if is_floating or excluded_filetypes[filetype] ~= nil then
     vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
+    winbar_cache[win_id] = nil
   else
     local winbar = ""
       .. is_active_icon
@@ -170,7 +174,11 @@ local function enable_winbar(win_id, cwd)
       .. get_diagnostics(buf_id)
       .. "%#DevIconConfig# %l/%L:%-3c %*" --- or Normal, highlight group here is w/e, just something light
 
-    vim.api.nvim_set_option_value("winbar", winbar, { win = win_id })
+    -- Only update if changed
+    if winbar_cache[win_id] ~= winbar then
+      winbar_cache[win_id] = winbar
+      vim.api.nvim_set_option_value("winbar", winbar, { win = win_id })
+    end
   end
 end
 
@@ -272,6 +280,18 @@ end, {})
 
 local RenderGroup = vim.api.nvim_create_augroup("update_group", { clear = true })
 
+--- Debounced render for frequent events like DiagnosticChanged
+local diagnostic_timer = nil
+local function render_debounced()
+  if diagnostic_timer then
+    diagnostic_timer:stop()
+  end
+  diagnostic_timer = vim.defer_fn(function()
+    render_statusline()
+    render_winbar()
+  end, 50) -- 50ms debounce
+end
+
 --- Create Statusline autocmd and command
 vim.api.nvim_create_autocmd("User", {
   pattern = "RefreshStatusline",
@@ -321,21 +341,29 @@ vim.api.nvim_create_user_command("ToggleHideAll", function()
   _G.hide_all = not _G.hide_all
 end, {})
 
---- Render Statusline and Winbar on autocmds...
+--- Render Statusline and Winbar on autocmds (immediate)
 vim.api.nvim_create_autocmd({
+  "BufEnter",       -- switching buffers in same window
   "BufModifiedSet",
   "BufNewFile",
   "BufReadPost",
   "BufWritePost",
-  "DiagnosticChanged",
+  "DirChanged",     -- cwd changed, paths need update
   "TabClosed",
   "WinEnter",
+  "WinNew",         -- new window created
 }, {
   group = RenderGroup,
   callback = function()
     render_statusline()
     render_winbar()
   end,
+})
+
+--- Render Statusline and Winbar on autocmds (debounced for frequent events)
+vim.api.nvim_create_autocmd({ "DiagnosticChanged" }, {
+  group = RenderGroup,
+  callback = render_debounced,
 })
 
 --- Render Statusline on vim.cmd("RefreshStatusline")

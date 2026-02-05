@@ -277,6 +277,7 @@ require("lazy").setup({
     },
     {
       "tadaa/vimade",
+      enabled = false,
       event = "User SuperLazy",
       config = require("config.plugins.vimade").setup,
     },
@@ -370,6 +371,7 @@ require("lazy").setup({
     },
     {
       "mvllow/modes.nvim",
+      enabled = false,
       tag = "v0.2.1",
       event = "User SuperLazy",
       config = require("config.plugins.modes").setup,
@@ -397,7 +399,6 @@ require("lazy").setup({
       version = "1.*",
       event = { "User SuperLazy" },
       opts_extend = { "sources.default" },
-      dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
       config = require("config.plugins.blink").setup,
     },
     {
@@ -421,22 +422,17 @@ require("lazy").setup({
     },
     {
       url = "https://codeberg.org/andyg/leap.nvim",
-      enabled = false,
       keys = {
         {
           "<leader>;",
           function()
-            require("leap").leap({
-              target_windows = require("leap.user").get_focusable_windows(),
-            })
+            require("leap").leap({ target_windows = require("leap.user").get_focusable_windows() })
           end,
         },
         {
           "s",
           function()
-            require("leap").leap({
-              target_windows = require("leap.user").get_focusable_windows(),
-            })
+            require("leap").leap({ target_windows = require("leap.user").get_focusable_windows() })
           end,
         },
         {
@@ -459,7 +455,7 @@ require("lazy").setup({
     },
     {
       "NeogitOrg/neogit",
-      event = "User SuperLazy",
+      cmd = "Neogit",
       dependencies = { "sindrets/diffview.nvim" },
       config = require("config.plugins.neogit").setup,
     },
@@ -551,7 +547,7 @@ require("lazy").setup({
     },
     {
       "monaqa/dial.nvim",
-      event = "User SuperLazy",
+      keys = { "<C-a>", "<C-x>" },
       config = require("config.plugins.dial").setup,
     },
   },
