@@ -5,7 +5,7 @@
 _G.enable_auto_pair = false
 _G.enable_autocompletion = false
 _G.enable_color_picker = false
-_G.enable_syntax_highlight = true
+_G.enable_syntax_highlight = false
 _G.enable_line_wrap = false
 _G.enable_smooth_scroll = false
 _G.enable_simple_colors = false
@@ -19,7 +19,7 @@ _G.show_diagnostics_text = false
 _G.show_diagnostics_underline = false
 _G.show_gitblame = false
 _G.show_gitsigns = false
-_G.show_illuminate = true
+_G.show_illuminate = false
 _G.show_indent_lines = false
 _G.show_inlay_hints = false
 _G.show_invisible_chars = false
@@ -339,12 +339,11 @@ require("lazy").setup({
       event = "InsertEnter",
       config = require("config.plugins.better-escape").setup,
     },
-    -- {
-    --   "windwp/nvim-autopairs",
-    --   enabled = false,
-    --   event = "InsertEnter",
-    --   config = require("config.plugins.autopairs").setup,
-    -- },
+    {
+      "windwp/nvim-autopairs",
+      event = "InsertEnter",
+      config = require("config.plugins.autopairs").setup,
+    },
     -- {
     --   "windwp/nvim-ts-autotag",
     --   enabled = false,
@@ -400,14 +399,6 @@ require("lazy").setup({
       event = { "User SuperLazy" },
       opts_extend = { "sources.default" },
       config = require("config.plugins.blink").setup,
-    },
-    {
-      "saghen/blink.pairs",
-      enabled = false,
-      event = "User SuperLazy",
-      version = "*",
-      dependencies = "saghen/blink.download",
-      config = require("config.plugins.pairs").setup,
     },
     {
       "MagicDuck/grug-far.nvim",

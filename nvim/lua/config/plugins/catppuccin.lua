@@ -16,13 +16,6 @@ local get_colors = function(c, bg, separator_bg)
 
   return {
     ["@constructor.lua"] = { fg = c.subtext0 },
-    ["@lsp.type.parameter.typescript"] = { fg = c.text },
-    ["@lsp.type.property.lua"] = { fg = c.text },
-    ["@lsp.typemod.interface.defaultLibrary.typescript"] = { fg = c.yellow },
-    ["@lsp.typemod.method.defaultLibrary.typescript"] = { fg = c.text },
-    ["@lsp.typemod.property.declaration.typescript"] = { fg = c.text },
-    ["@lsp.typemod.variable.defaultLibrary.typescript"] = { fg = c.text },
-    ["@lsp.typemod.variable.readonly.typescript"] = { fg = c.text },
     ["@property.json"] = { fg = c.text },
     ["@punctuation.bracket"] = { fg = c.subtext0 },
     ["@punctuation.special.typescript"] = { fg = c.subtext0 },
@@ -54,9 +47,6 @@ local get_colors = function(c, bg, separator_bg)
     IlluminatedWordText = { bg = utils.darken(c.blue, 0.20, c.base), style = {} },  -- c.red
     IlluminatedWordWrite = { bg = utils.darken(c.blue, 0.20, c.base), style = {} }, -- c.red
 
-    -- NvimTreeCursorLine = { fg = c.blue, bg = bg }, -- or c.base
-    -- NvimTreeCursorLine = { fg = c.overlay2, bg = bg }, -- or c.base
-    -- NvimTreeCursorLineNr = { fg = c.blue, bg = bg }, -- or c.base
     NvimTreeCursorLine = { bg = bg },   -- or c.base
     NvimTreeCursorLineNr = { bg = bg }, -- or c.base
     --- lightest
@@ -69,15 +59,6 @@ local get_colors = function(c, bg, separator_bg)
     --- darker
     NvimTreeFolderName = { fg = c.subtext1 },
     NvimTreeOpenedFolderName = { fg = c.subtext1 },
-
-    -- FylerWhite = { fg = c.subtext1 },
-    -- FylerBlue = { fg = c.subtext1 },
-
-    FlashBackdrop = { fg = c.overlay2 },
-    FlashCurrent = { bg = c.blue, fg = c.base },
-    FlashLabel = { bg = c.red, fg = c.base },
-    -- FlashCursor = { bg = c.blue, fg = c.red },
-    FlashPromptIcon = { fg = c.red },
 
     QuickFixLine = { bg = c.mantle },
     SatelliteBar = { bg = utils.darken(c.text, 0.60, c.base) },
@@ -116,19 +97,9 @@ M.setup = function()
   require("catppuccin").setup({
     integrations = {
       default_integrations = false,
-      -- treesitter = not _G.enable_simple_colors,
-      -- native_lsp = not _G.enable_simple_colors,
-      ---
-      -- bufferline = false,
       diffview = true,
-      -- flash = false,
-      -- fzf = false,
       grug_far = true,
-      -- illuminate = false,
-      -- leap = false,
-      -- markview = false,
       neogit = true,
-      -- notify = false,
       nvimtree = false,
       treesitter_context = false,
       ufo = false,
@@ -153,8 +124,8 @@ M.setup = function()
     highlight_overrides = {
       latte = function(c)
         --- light should be: c.yellow and 0.10
-        -- local bg = utils.darken(c.surface0, 0.80, c.base)
-        local bg = utils.darken(c.surface0, 0.20, c.base)
+        --- local bg = utils.darken(c.surface0, 0.80, c.base)
+        local bg = utils.darken(c.yellow, 0.10, c.base)
         --- was .40
         local separator_bg = utils.darken(c.surface1, 0.80, c.base)
         local colors = get_colors(c, bg, separator_bg)
@@ -162,14 +133,15 @@ M.setup = function()
         return colors
       end,
       frappe = function(c)
-        local bg = utils.darken(c.surface0, 0.40, c.base)
+        --- this one is dead syntax
+        local bg = utils.darken(c.yellow, 0.10, c.base) --- I'd rather darken the base tho..., maybe saturate it
         local separator_bg = c.surface0
-        local emphasis = { fg = c.text, style = {}, bold = true } -- blue, mauve, text
+        local emphasis = { fg = c.text, style = {}, bold = false } -- blue, mauve, text
         local colors = get_colors(c, bg, separator_bg)
 
         colors = vim.tbl_extend("force", colors, {
-          ["@comment"] = { fg = c.yellow, style = {} },              --- fg = c.subtext0
-          Comment = { fg = c.yellow, style = {} },                   --- fg = c.subtext0
+          ["@comment"] = { fg = c.yellow, style = {} },              --- fg = c.subtext0 or green or yellow
+          Comment = { fg = c.yellow, style = {} },                   --- fg = c.subtext0 or green or yellow
           --- lsp tokens
           ["@constant"] = { fg = c.text, style = {} },               --- fg = c.text
           ["@constant.builtin"] = { fg = c.text, style = {} },       --- fg = c.text

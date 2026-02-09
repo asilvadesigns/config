@@ -16,8 +16,6 @@ else
   end
 end
 
-local use_icon_color = false
-
 --- @type table<integer, string>
 local statusline_cache = {}
 
@@ -125,8 +123,8 @@ local function get_filename(buf_id, is_winbar, cwd)
   end
 
   --- removes filename from filepath unless filepath is filename
-  if filepath:sub(-#filename) == filename then
-    filepath = filepath:sub(1, -#filename - 1)
+  if filepath:sub(- #filename) == filename then
+    filepath = filepath:sub(1, - #filename - 1)
   end
 
   local icon, color = require("nvim-web-devicons").get_icon_by_filetype(filetype, { color_icons = false })
@@ -162,17 +160,17 @@ local function enable_winbar(win_id, cwd)
     winbar_cache[win_id] = nil
   else
     local winbar = ""
-      .. is_active_icon
-      .. " "
-      .. get_filename(buf_id, true, cwd)
-      .. " "
-      .. get_modified(buf_id, true)
-      .. " "
-      -- .. is_zen_icon
-      -- .. "%= %l/%L:%-3c" --- padding for column count
-      .. "%="
-      .. get_diagnostics(buf_id)
-      .. "%#DevIconConfig# %l/%L:%-3c %*" --- or Normal, highlight group here is w/e, just something light
+        .. is_active_icon
+        .. " "
+        .. get_filename(buf_id, true, cwd)
+        .. " "
+        .. get_modified(buf_id, true)
+        .. " "
+        -- .. is_zen_icon
+        -- .. "%= %l/%L:%-3c" --- padding for column count
+        .. "%="
+        .. get_diagnostics(buf_id)
+        .. "%#DevIconConfig# %l/%L:%-3c %*" --- or Normal, highlight group here is w/e, just something light
 
     -- Only update if changed
     if winbar_cache[win_id] ~= winbar then
@@ -186,6 +184,7 @@ end
 --- @return nil
 local function disable_winbar(win_id)
   vim.api.nvim_set_option_value("winbar", nil, { win = win_id })
+  winbar_cache[win_id] = nil
 end
 
 --- @param win_id integer
@@ -204,12 +203,12 @@ local function enable_statusline(win_id, cwd)
     vim.api.nvim_set_option_value("statusline", statusline_cache[win_id], { win = win_id })
   else
     local statusline = " "
-      .. get_filename(buf_id, false, cwd)
-      .. " "
-      .. get_modified(buf_id, false)
-      .. " "
-      .. "%= %l/%L:%-3c %y"
-      .. " "
+        .. get_filename(buf_id, false, cwd)
+        .. " "
+        .. get_modified(buf_id, false)
+        .. " "
+        .. "%= %l/%L:%-3c %y"
+        .. " "
     statusline_cache[win_id] = statusline
     vim.api.nvim_set_option_value("statusline", statusline_cache[win_id], { win = win_id })
   end
@@ -343,15 +342,15 @@ end, {})
 
 --- Render Statusline and Winbar on autocmds (immediate)
 vim.api.nvim_create_autocmd({
-  "BufEnter",       -- switching buffers in same window
+  "BufEnter", -- switching buffers in same window
   "BufModifiedSet",
   "BufNewFile",
   "BufReadPost",
   "BufWritePost",
-  "DirChanged",     -- cwd changed, paths need update
+  "DirChanged", -- cwd changed, paths need update
   "TabClosed",
   "WinEnter",
-  "WinNew",         -- new window created
+  "WinNew", -- new window created
 }, {
   group = RenderGroup,
   callback = function()
