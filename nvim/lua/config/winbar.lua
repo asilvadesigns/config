@@ -16,6 +16,8 @@ else
   end
 end
 
+local should_winbar_icon_use_color = false
+
 --- @type table<integer, string>
 local statusline_cache = {}
 
@@ -131,6 +133,9 @@ local function get_filename(buf_id, is_winbar, cwd)
   if icon == nil then
     color = ""
     icon = ""
+  end
+  if not should_winbar_icon_use_color then
+    color = ""
   end
 
   if is_winbar then

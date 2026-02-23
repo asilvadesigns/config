@@ -8,6 +8,14 @@ vim.api.nvim_set_hl(0, "StatusLineGlobalNC", {})
 vim.api.nvim_set_hl(0, "StatusLineLocal", {})
 vim.api.nvim_set_hl(0, "StatusLineLocalNC", {})
 
+local toggle = function()
+  if _G.enable_syntax_highlight then
+    vim.cmd("colorscheme catppuccin-latte")
+  else
+    vim.cmd("colorscheme catppuccin-frappe")
+  end
+end
+
 --- @class c CtpColors<T>: {rosewater: T, flamingo: T, pink: T, mauve: T, red: T, maroon: T, peach: T, yellow: T, green: T, teal: T, sky: T, sapphire: T, blue: T, lavender: T, text: T, subtext1: T, subtext0: T, overlay2: T, overlay1: T, overlay0: T, surface2: T, surface1: T, surface0: T, base: T, mantle: T, crust: T, none: T }
 --- @param bg string
 --- @param separator_bg string
@@ -24,11 +32,13 @@ local get_colors = function(c, bg, separator_bg)
     CursorLineFold = { bg = bg, fg = c.overlay2 }, -- was c.text
     CursorLineNr = { bg = bg, fg = c.surface2 },   -- , fg = c.teal, fg = c.mauve , -- or c.overlay2
     CursorLineSign = { bg = bg },
+
     DiagnosticUnderlineError = { sp = c.red, undercurl = true },
     DiagnosticUnderlineHint = { sp = c.teal, undercurl = true },
     DiagnosticUnderlineInfo = { sp = c.blue, undercurl = true },
     DiagnosticUnderlineWarn = { sp = c.yellow, undercurl = true },
     DiagnosticUnnecessary = { fg = c.overlay2, sp = c.overlay2 },
+
     FloatBorder = { bg = c.base, fg = c.overlay0 },
     Folded = { bg = c.base },
     FoldColumn = { fg = c.red },
@@ -47,8 +57,8 @@ local get_colors = function(c, bg, separator_bg)
     IlluminatedWordText = { bg = utils.darken(c.blue, 0.20, c.base), style = {} },  -- c.red
     IlluminatedWordWrite = { bg = utils.darken(c.blue, 0.20, c.base), style = {} }, -- c.red
 
-    NvimTreeCursorLine = { bg = bg },   -- or c.base
-    NvimTreeCursorLineNr = { bg = bg }, -- or c.base
+    NvimTreeCursorLine = { bg = bg },                                               -- or c.base
+    NvimTreeCursorLineNr = { bg = bg },                                             -- or c.base
     --- lightest
     NvimTreeIndentMarker = { fg = c.surface0 },
     --- lighter
@@ -91,6 +101,28 @@ local get_colors = function(c, bg, separator_bg)
   }
 end
 
+--- NOTE: what is going on here!? why remapping latte and frappe?
+--- because I'm using overriding them to be:
+--- latte:  chromatic
+--- frappe: monochrome
+---
+--- @return CtpFlavors
+local overrides = function()
+  if (_G.enable_dark_mode) then
+    return {
+      latte = require("catppuccin.palettes.frappe"),
+      frappe = require("catppuccin.palettes.frappe"),
+      -- latte = require("config.colors").dark.solarized,
+      -- frappe = require("config.colors").dark.solarized,
+    }
+  end
+
+  return {
+    latte = require("config.colors").light.dead,
+    frappe = require("config.colors").light.dead,
+  }
+end
+
 M.setup = function()
   local utils = require("catppuccin.utils.colors")
 
@@ -104,116 +136,65 @@ M.setup = function()
       treesitter_context = false,
       ufo = false,
     },
-    color_overrides = {
-      -- THEMEs: light
-      -- LIGHT Solarized
-      latte = require("config.colors").light.dead,
-      frappe = require("config.colors").light.dead,
-      -- LIGHT VsCode
-      -- latte = require("config.colors").light.github,
-      -- frappe = require("config.colors").light.github,
-      -- -- LIGHT VsCode
-      -- latte = require("config.colors").light.vscode,
-      -- frappe = require("config.colors").light.vscode,
-      --
-      -- THEMEs: dark
-      -- DARK Atom One
-      -- latte = require("config.colors").dark.one,
-      -- frappe = require("config.colors").dark.one,
-    },
+    color_overrides = overrides(),
     highlight_overrides = {
       latte = function(c)
-        --- light should be: c.yellow and 0.10
-        --- local bg = utils.darken(c.surface0, 0.80, c.base)
-        local bg = utils.darken(c.yellow, 0.10, c.base)
-        --- was .40
-        local separator_bg = utils.darken(c.surface1, 0.80, c.base)
+        local bg = utils.darken(c.surface0, 0.80, c.base)
+        -- local bg = utils.darken(c.yellow, 0.10, c.base)
+
+        local separator_bg = utils.darken(c.surface1, 0.30, c.base)
+        -- local separator_bg = utils.darken(c.yellow, 0.14, c.base)
         local colors = get_colors(c, bg, separator_bg)
 
         return colors
       end,
       frappe = function(c)
-        --- this one is dead syntax
-        local bg = utils.darken(c.yellow, 0.10, c.base) --- I'd rather darken the base tho..., maybe saturate it
-        local separator_bg = c.surface0
-        local emphasis = { fg = c.text, style = {}, bold = false } -- blue, mauve, text
+        local bg = utils.darken(c.surface0, 0.80, c.base)
+        -- local bg = utils.darken(c.yellow, 0.10, c.base)
+
+        -- local separator_bg = c.surface0
+        local separator_bg = utils.darken(c.surface1, 0.30, c.base)
+        -- local separator_bg = utils.darken(c.yellow, 0.14, c.base)
+        local emphasis = { fg = c.text, style = {}, bold = false }
+        local mono = { fg = c.text, style = {} }
         local colors = get_colors(c, bg, separator_bg)
 
-        colors = vim.tbl_extend("force", colors, {
-          ["@comment"] = { fg = c.yellow, style = {} },              --- fg = c.subtext0 or green or yellow
-          Comment = { fg = c.yellow, style = {} },                   --- fg = c.subtext0 or green or yellow
-          --- lsp tokens
-          ["@constant"] = { fg = c.text, style = {} },               --- fg = c.text
-          ["@constant.builtin"] = { fg = c.text, style = {} },       --- fg = c.text
-          ["@constructor"] = { fg = c.text, style = {} },            --- fg = c.text
-          ["@constructor.typescript"] = { fg = c.text, style = {} }, --- fg = c.text
-          ["@field"] = { fg = c.text, style = {} },                  --- fg = c.text
-          ["@function"] = { fg = c.text, style = {} },               --- fg = c.text
-          ["@function.builtin"] = { fg = c.text, style = {} },       --- fg = c.text
-          ["@keyword"] = emphasis,                                   --- fg = c.mauve
-          ["@keyword.export"] = { fg = c.text, style = {} },         --- fg = c.mauve
-          ["@keyword.function"] = { fg = c.text, style = {} },       --- fg = c.mauve
-          ["@keyword.operator"] = { fg = c.text, style = {} },       --- fg = c.mauve
-          ["@keyword.return"] = emphasis,                            --- fg = c.mauve
-          ["@nospell.jsdoc"] = { fg = c.yellow, style = {} },        --- fg = c.mauve
-          ["@module"] = { fg = c.text, style = {} },                 --- fg = c.mauve
-          ["@keyword.jsdoc"] = { fg = c.text, style = {} },          --- fg = c.yellow
-          ["@number"] = { fg = c.text, style = {} },                 --- fg = c.maroon
-          ["@operator"] = { fg = c.text, style = {} },               --- fg = c.text
-          ["@property"] = { fg = c.text, style = {} },               --- fg = c.text
-          ["@property.class.css"] = { fg = c.text, style = {} },     --- fg = c.text
-          ["@property.css"] = { fg = c.text, style = {} },           --- fg = c.text
-          ["@punctuation"] = { fg = c.text, style = {} },            --- fg = c.text
-          ["@string"] = { fg = c.text, style = {} },                 --- fg = c.green
-          ["@type"] = { fg = c.text, style = {} },                   --- fg = c.yellow
-          ["@type.builtin"] = { fg = c.text, style = {} },           --- fg = c.yellow
-          ["@type.css"] = { fg = c.text, style = {} },               --- fg = c.yellow
-          ["@variable"] = { fg = c.text, style = {} },               --- fg = c.text
-          ["@variable.builtin"] = { fg = c.text, style = {} },       --- fg = c.text
-          ["@variable.member"] = { fg = c.text, style = {} },        --- fg = c.text
-          ["@variable.parameter"] = { fg = c.text, style = {} },     --- fg = c.text
-          --- vim syntax fallback
-          Boolean = { fg = c.text, style = {} },                     --- fg = c.maroon
-          Conditional = emphasis,                                    --- fg = c.mauve
-          Constant = { fg = c.text, style = {} },                    --- fg = c.text
-          Exception = emphasis,                                      --- fg = c.text
-          Function = { fg = c.text, style = {} },                    --- fg = c.maroon
-          Identifier = { fg = c.text, style = {} },                  --- fg = c.maroon
-          Include = { fg = c.text, style = {} },                     --- fg = c.maroon
-          Keyword = { fg = c.text, style = {} },                     --- fg = c.maroon
-          Label = { fg = c.text, style = {} },                       --- fg = c.text
-          Number = { fg = c.text, style = {} },                      --- fg = c.text
-          Operator = { fg = c.text, style = {} },                    --- fg = c.maroon
-          PreProc = { fg = c.text, style = {} },                     --- fg = c.text
-          Repeat = emphasis,                                         --- fg = c.maroon
-          Special = { fg = c.text, style = {} },                     --- fg = c.maroon
-          Statement = { fg = c.text, style = {} },                   --- fg = c.text
-          StorageClass = { fg = c.text, style = {} },                --- fg = c.text
-          String = { fg = c.text, style = {} },                      --- fg = c.green
-          Structure = { fg = c.text, style = {} },                   --- fg = c.text
-          Title = { fg = c.text, style = {} },                       --- fg = c.text
-          Todo = { fg = c.text, style = {} },                        --- fg = c.yellow
-          Type = { fg = c.text, style = {} },                        --- fg = c.yellow
-        })
+        -- Monochrome groups (all use fg = c.text)
+        local mono_groups = {
+          "@constant", "@constant.builtin", "@constructor", "@constructor.typescript",
+          "@field", "@function", "@function.builtin",
+          "@keyword.export", "@keyword.function", "@keyword.operator",
+          "@keyword.jsdoc", "@module", "@number", "@operator",
+          "@property", "@property.class.css", "@property.css", "@punctuation",
+          "@string", "@type", "@type.builtin", "@type.css",
+          "@variable", "@variable.builtin", "@variable.member", "@variable.parameter",
+          "Boolean", "Constant", "Function", "Identifier", "Include", "Keyword",
+          "Label", "Number", "Operator", "PreProc", "Special", "Statement",
+          "StorageClass", "String", "Structure", "Title", "Todo", "Type",
+        }
+        for _, group in ipairs(mono_groups) do
+          colors[group] = mono
+        end
+
+        -- Groups with different values
+        colors["@comment"] = { fg = c.yellow, style = {} }
+        colors["Comment"] = { fg = c.yellow, style = {} }
+        colors["@nospell.jsdoc"] = { fg = c.yellow, style = {} }
+        colors["@keyword"] = emphasis
+        colors["@keyword.return"] = emphasis
+        colors["Conditional"] = emphasis
+        colors["Exception"] = emphasis
+        colors["Repeat"] = emphasis
 
         return colors
       end,
     },
   })
 
-  if _G.enable_syntax_highlight then
-    vim.cmd("colorscheme catppuccin-latte")
-  else
-    vim.cmd("colorscheme catppuccin-frappe")
-  end
-
+  toggle()
   vim.api.nvim_create_user_command("ToggleSyntaxHighlight", function()
     _G.enable_syntax_highlight = not _G.enable_syntax_highlight
-    if _G.enable_syntax_highlight then
-      vim.cmd("colorscheme catppuccin-latte")
-    else
-      vim.cmd("colorscheme catppuccin-frappe")
-    end
+    toggle()
   end, {})
 end
 

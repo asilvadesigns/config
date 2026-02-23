@@ -32,12 +32,19 @@ bindings = [
   { key = "D", mods = "Command", chars = "\u0000v" },
   # tmux split | horizontally
   { key = "D", mods = "Command|Shift", chars = "\u0000s" },
+  # tmux split | toggle terminal
+  { key = "`", mods = "Control", chars = "\u0000`" },
   # tmux pane | new
   { key = "T", mods = "Command", chars = "\u0000c" },
   # tmux pane | last
   { key = "L", mods = "Command", chars = "\u0000l" },
   # tmux pane | last session
   { key = "L", mods = "Command|Shift", chars = "\u0000L" },
+  # tmux pane | navigation (ctrl+shift+h/j/k/l)
+  { key = "H", mods = "Control|Shift", chars = "\u0000\u001b[D" },
+  { key = "J", mods = "Control|Shift", chars = "\u0000\u001b[B" },
+  { key = "K", mods = "Control|Shift", chars = "\u0000\u001b[A" },
+  { key = "L", mods = "Control|Shift", chars = "\u0000\u001b[C" },
   # tmux window | prev
   { key = "Tab", mods = "Control|Shift", chars = "\u0000p" },
   { key = "{", mods = "Command|Shift", chars = "\u0000p" },
@@ -56,15 +63,21 @@ bindings = [
   { key = "7", mods = "Command", chars = "\u00007" },
   { key = "8", mods = "Command", chars = "\u00008" },
   { key = "9", mods = "Command", chars = "\u00009" },
-  # nvim comment
-  { key = "/", mods = "Command", chars = "gcc" },
+  # neovim | comments
+  { key = "/", mods = "Command", chars = "gcc\u001b" },
+  # neovim | filetree
+  { key = "J", mods = "Command", chars = ",j" },
+  # neovim | save
+  { key = "S", mods = "Command", chars = ",s" },
+  # neovim | symbols
+  { key = "O", mods = "Command|Shift", chars = ",o" },
 ]
 
 [env]
 TERM = "xterm-256color"
 
 [font]
-size = 14.0
+size = 16.0
 
 [font.bold]
 family = "JetBrainsMono Nerd Font Mono"
@@ -76,11 +89,11 @@ style = "Bold Italic"
 
 [font.offset]
 x = 0
-y = 8 # 4 or 0
+y = 2
 
 [font.glyph_offset]
 x = 0
-y = 4 # 2 or 0
+y = 1
 
 [font.italic]
 family = "JetBrainsMono Nerd Font Mono"
@@ -91,7 +104,7 @@ family = "JetBrainsMono Nerd Font Mono"
 style = "Regular"
 
 [window]
-decorations = "buttonless"
+decorations = "none"
 dynamic_title = true
 dynamic_padding = true
 
@@ -107,7 +120,7 @@ import = [
   # "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml",
   # "~/.config/alacritty/alacritty-themes/monokai-pro.toml",
   # light
-  "~/.config/alacritty/alacritty-themes/catppuccin-latte.toml"
+  "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml"
   # "~/.config/alacritty/alacritty-themes/solarized-light.toml"
   # base16
   # "~/.config/alacritty/alacritty-themes/base16-grayscale-light.toml"

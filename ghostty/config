@@ -1,9 +1,8 @@
 # THEMEs: light
-theme = "iTerm2 Solarized Light"
-# theme = "vscode-light"
+# theme = "iTerm2 Solarized Light"
 
 # THEMEs: dark
-# theme = "One Half Dark"
+theme = "Catppuccin Frappe"
 
 # Font
 # font-family = "Iosevka Nerd Font Mono"
@@ -24,9 +23,9 @@ adjust-cursor-thickness = 4
 # FONT_SIZE: desktop
 adjust-cell-height = -1
 adjust-cursor-height = -1
-font-size = 17
+font-size = 16
 
-font-thicken = true
+font-thicken = false
 # font-thicken-strength = 0
 # disable ligatures
 font-feature = -calt
@@ -183,6 +182,7 @@ clipboard-write = allow
 # Cursor Style
 cursor-style = block
 cursor-style-blink = true
+# TODO: blink style needs to be reduced, timing is not fast enough
 
 # Other
 #copy-on-select = clipboard

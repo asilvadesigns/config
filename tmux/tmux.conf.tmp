@@ -82,9 +82,6 @@ set -g status-left ''
 set -g status-left-length 100
 set -g status-position bottom # or top, bottom
 
-# brightness -gt 170 for light mode.
-# brightness -gt 140 for dark mode.
-#
 # NOTE: the brightness calculation is derived from the
 # "weighted brightness formula" for percieved luminance
 set -g status-right "#( \
@@ -94,7 +91,7 @@ set -g status-right "#( \
   g=\$((0x\${hash:2:2})); \
   b=\$((0x\${hash:4:2})); \
   brightness=\$(( (r * 299 + g * 587 + b * 114) / 1000 )); \
-  [ \$brightness -gt 140 ] && fg=black || fg=#ffffff; \
+  [ \$brightness -gt 170 ] && fg=black || fg=#ffffff; \
   echo \"#[bg=#\$hash fg=\$fg] \$s \" \
 )"
 
@@ -106,14 +103,12 @@ set -g status-right "#( \
 ## @\$git
 
 # $THEME(light)
-# set -g pane-border-style 'bg=default fg=lightgray'
-# set -g status-style 'bg=#eee8d5, fg=default'
+# # set -g pane-border-style 'bg=default fg=lightgray'
+# # set -g status-style 'bg=#eee8d5, fg=default'
 # $END(light)
 
 # $THEME(dark)
-set -g pane-border-style 'bg=default fg=#414559'
-set -g status-style 'bg=#414559 fg=default'
-# $END(dark)
+(null)(null)# $END(dark)
 
 set -g automatic-rename on
 set -g window-status-current-format '#[fg=default,bold]  #{?window_name,#W,#{pane_current_command}}'

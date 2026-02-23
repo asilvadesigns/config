@@ -1,11 +1,12 @@
 ---@diagnostic disable: missing-fields
 ---
 
--- enabled functionality things...
+_G.enable_active_cursorline = true
 _G.enable_auto_pair = false
 _G.enable_autocompletion = false
 _G.enable_color_picker = false
-_G.enable_syntax_highlight = false
+_G.enable_dark_mode = true
+_G.enable_syntax_highlight = true
 _G.enable_line_wrap = false
 _G.enable_smooth_scroll = false
 _G.enable_simple_colors = false
@@ -14,16 +15,18 @@ _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
 _G.hide_all = false
 _G.show_cursorline = true
-_G.show_diagnostics = false
+_G.show_diagnostics = true
 _G.show_diagnostics_text = false
-_G.show_diagnostics_underline = false
-_G.show_gitblame = false
-_G.show_gitsigns = false
-_G.show_illuminate = false
+_G.show_diagnostics_underline = true
+_G.show_gitblame = false -- BUG: this value doesn't lazily load thet plugin
+_G.show_gitsigns = false --
+_G.show_illuminate = true
 _G.show_indent_lines = false
 _G.show_inlay_hints = false
 _G.show_invisible_chars = false
-_G.show_scrollbar = true
+_G.show_line_numbers = true
+_G.show_relative_line_numbers = false
+_G.show_scrollbar = false
 _G.show_statusline = false
 _G.show_treesitter_context = false
 _G.show_vimade = false
@@ -33,13 +36,7 @@ if vim.loader then
   vim.loader.enable()
 end
 
-local use_alternate_directory = false
-
 local root = vim.fn.stdpath("data")
-if use_alternate_directory then
-  root = vim.fn.expand("~/dev")
-end
-
 local lazyroot = root .. "/lazy/"
 local lazypath = lazyroot .. "lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -76,8 +73,6 @@ vim.opt.foldcolumn = "0" -- "0" to hide folds. "1" to show.
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
--- vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
 
 vim.opt.modeline = false --- may want these some day but having issues with markdown files
 vim.opt.guicursor =
@@ -101,16 +96,19 @@ vim.opt.synmaxcol = 256
 vim.opt.tabstop = 2
 vim.opt.updatetime = 100
 
--- vim.opt.statuscolumn = "%s %r %l"
-
 if not _G.enable_line_wrap then
   vim.cmd("set nowrap nolinebreak")
 else
   vim.cmd("set wrap linebreak")
 end
 
--- line numbers FTW
-vim.cmd("set nonu nornu")
+if _G.show_line_numbers then
+  vim.cmd("set nu")
+end
+
+if _G.show_relative_line_numbers then
+  vim.cmd("set rnu")
+end
 
 vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"
@@ -122,7 +120,6 @@ if vim.g.neovide then
   vim.g.neovide_floating_z_height = 10
   vim.g.neovide_light_angle_degrees = 45
   vim.g.neovide_light_radius = 5
-  -- vim.g.neovide_scroll_animation_length = 0.05
   vim.g.neovide_position_animation_length = 0
   vim.g.neovide_cursor_animation_length = 0.00
   vim.g.neovide_cursor_trail_size = 0
@@ -130,7 +127,6 @@ if vim.g.neovide then
   vim.g.neovide_cursor_animate_command_line = false
   vim.g.neovide_scroll_animation_far_lines = 0
   vim.g.neovide_scroll_animation_length = 0.00
-  -- TODO: at some point add hotkeys for modifying font size.
 end
 
 ---
@@ -244,6 +240,9 @@ require("lazy").setup({
     {
       "nvim-tree/nvim-web-devicons",
       lazy = true,
+      opts = {
+        variant = "light",
+      },
     },
     {
       "nvim-lua/plenary.nvim",
@@ -276,14 +275,8 @@ require("lazy").setup({
       },
     },
     {
-      "tadaa/vimade",
-      enabled = false,
-      event = "User SuperLazy",
-      config = require("config.plugins.vimade").setup,
-    },
-    {
       "rmagatti/auto-session",
-      cmd = { "SessionRestore" },
+      cmd = "SessionRestore",
       config = require("config.plugins.auto-session").setup,
     },
     {
@@ -299,7 +292,7 @@ require("lazy").setup({
     {
       "eero-lehtinen/oklch-color-picker.nvim",
       version = "*",
-      event = "User SuperLazy",
+      cmd = "ColorPickerToggle",
       config = require("config.plugins.color-picker").setup,
     },
     {
@@ -309,7 +302,7 @@ require("lazy").setup({
     },
     {
       "petertriho/nvim-scrollbar",
-      event = "User SuperLazy",
+      cmd = "ToggleScrollbar",
       dependencies = { "kevinhwang91/nvim-hlslens" },
       config = require("config.plugins.scrollbar").setup,
     },
@@ -335,11 +328,6 @@ require("lazy").setup({
       opts = {},
     },
     {
-      "max397574/better-escape.nvim",
-      event = "InsertEnter",
-      config = require("config.plugins.better-escape").setup,
-    },
-    {
       "windwp/nvim-autopairs",
       event = "InsertEnter",
       config = require("config.plugins.autopairs").setup,
@@ -359,21 +347,14 @@ require("lazy").setup({
     },
     {
       "nvim-tree/nvim-tree.lua",
-      event = "User SuperLazy",
+      keys = { "<leader>j" },
       cmd = { "NvimTreeFindFile", "NvimTreeOpen" },
       config = require("config.plugins.nvim-tree").setup,
     },
     {
       "stevearc/oil.nvim",
-      event = "User SuperLazy",
+      keys = { { "<leader>x", ":Oil<CR>" }, desc = "Show Oil" },
       config = require("config.plugins.oil").setup,
-    },
-    {
-      "mvllow/modes.nvim",
-      enabled = false,
-      tag = "v0.2.1",
-      event = "User SuperLazy",
-      config = require("config.plugins.modes").setup,
     },
     {
       "williamboman/mason.nvim",
@@ -389,14 +370,14 @@ require("lazy").setup({
     },
     {
       "neovim/nvim-lspconfig",
-      lazy = false,
+      event = "VeryLazy",
       dependencies = { "b0o/schemastore.nvim" },
       config = require("config.plugins.lsp").setup,
     },
     {
       "saghen/blink.cmp",
       version = "1.*",
-      event = { "User SuperLazy" },
+      event = "User SuperLazy",
       opts_extend = { "sources.default" },
       config = require("config.plugins.blink").setup,
     },
@@ -452,8 +433,7 @@ require("lazy").setup({
     },
     {
       "lewis6991/gitsigns.nvim",
-      enabled = false,
-      event = "User SuperLazy",
+      cmd = { "Gitsigns", "ToggleGitBlame", "ToggleGitSigns" },
       config = require("config.plugins.gitsigns").setup,
     },
     {
@@ -477,7 +457,7 @@ require("lazy").setup({
     {
       "wurli/visimatch.nvim",
       keys = { "V", "v" },
-      opts = { hl_group = "WVisiMatch", chars_lower_limit = 2 },
+      opts = { hl_group = "WVisiMatch", chars_lower_limit = 1 },
     },
     {
       "RRethy/vim-illuminate",
@@ -513,8 +493,9 @@ require("lazy").setup({
       opts = {},
     },
     {
-      -- NOTE: you may need to rm -rf ~/.local/share/nvim/site/queries/
       -- NOTE: you need to install tree-sitter-cli
+      -- NOTE: you may need to rm -rf ~/.local/share/nvim/site/queries/
+      -- NOTE: you may need to rm -rf ~/.local/share/nvim/site/parser/
       "nvim-treesitter/nvim-treesitter",
       event = { "BufReadPost", "BufNewFile" },
       branch = "main",
@@ -617,17 +598,17 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 -- })
 
 -- restore cursor to file position in previous editing session
-vim.api.nvim_create_autocmd("BufReadPost", {
-  callback = function(args)
-    local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
-    local line_count = vim.api.nvim_buf_line_count(args.buf)
-    if mark[1] > 0 and mark[1] <= line_count then
-      vim.api.nvim_buf_call(args.buf, function()
-        vim.cmd('normal! g`"zz')
-      end)
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("BufReadPost", {
+--   callback = function(args)
+--     local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+--     local line_count = vim.api.nvim_buf_line_count(args.buf)
+--     if mark[1] > 0 and mark[1] <= line_count then
+--       vim.api.nvim_buf_call(args.buf, function()
+--         vim.cmd('normal! g`"zz')
+--       end)
+--     end
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("VimResized", {
   group = vim.api.nvim_create_augroup("vim-resized", { clear = true }),
@@ -805,33 +786,43 @@ local is_affected_by_line_numbers = {
 }
 
 local function set_line_numbers(nu, rnu)
-  -- update each window
-  for _, win_id in ipairs(vim.api.nvim_list_wins()) do
-    local buf_id = vim.api.nvim_win_get_buf(win_id)
-    local filetype = vim.bo[buf_id].filetype
-    if not is_affected_by_line_numbers[filetype] then
-      vim.api.nvim_set_option_value("number", nu, { win = win_id })
-      vim.api.nvim_set_option_value("relativenumber", rnu, { win = win_id })
+  local wins = vim.api.nvim_list_wins()
+
+  local saved = {}
+  for _, win in ipairs(wins) do
+    saved[win] = vim.fn.winsaveview()
+  end
+
+  for _, win in ipairs(wins) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    local ft = vim.bo[buf].filetype
+    if not is_affected_by_line_numbers[ft] then
+      vim.api.nvim_set_option_value("number", nu, { win = win })
+      vim.api.nvim_set_option_value("relativenumber", rnu, { win = win })
     end
   end
+
+  vim.cmd("e!")
+  vim.schedule(function()
+    for _, win in ipairs(wins) do
+      vim.fn.winrestview(saved[win])
+    end
+  end)
 end
 
--- TODO: implement a toggle with a previous values cache.
--- if there are previous values use them, otherwise don't.
+
 vim.api.nvim_create_user_command("HideLineNumbers", function()
   set_line_numbers(false, false)
-  vim.cmd("e!")
 end, {})
 
 vim.api.nvim_create_user_command("ShowLineNumbers", function()
   set_line_numbers(true, false)
-  vim.cmd("e!")
 end, {})
 
 vim.api.nvim_create_user_command("ShowRelativeLineNumbers", function()
   set_line_numbers(true, true)
-  vim.cmd("e!")
 end, {})
+
 ---
 --- personal plugin END
 ---

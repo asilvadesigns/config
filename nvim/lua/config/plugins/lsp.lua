@@ -40,6 +40,12 @@ M.setup = function()
   })
   vim.lsp.enable("html")
 
+  --- SUPER HTML
+  vim.lsp.config('superhtml', {
+    filetypes = { "html", "templ" },
+  })
+  vim.lsp.enable("superhtml")
+
   --- JSON
   local jsonok, schemastore = pcall(require, "schemastore")
   if jsonok then

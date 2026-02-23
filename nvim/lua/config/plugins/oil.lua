@@ -44,7 +44,7 @@ M.setup = function()
     },
   })
 
-  vim.keymap.set("n", "<leader>x", ":Oil<CR>", { desc = "Show Oil" })
+  -- vim.keymap.set("n", "<leader>x", ":Oil<CR>", { desc = "Show Oil" })
 
   -- vim.api.nvim_create_autocmd("FileType", {
   --   pattern = "oil",
