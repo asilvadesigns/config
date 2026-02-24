@@ -433,6 +433,7 @@ require("lazy").setup({
     },
     {
       "lewis6991/gitsigns.nvim",
+      keys = { "]g", "[g", "gl" },
       cmd = { "Gitsigns", "ToggleGitBlame", "ToggleGitSigns" },
       config = require("config.plugins.gitsigns").setup,
     },

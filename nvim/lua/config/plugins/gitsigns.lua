@@ -1,7 +1,9 @@
 local M = {}
 
 M.setup = function()
-  require("gitsigns").setup({
+  local plugin = require("gitsigns")
+
+  plugin.setup({
     signs = {
       add = { text = "│" },
       change = { text = "│" },
@@ -34,8 +36,29 @@ M.setup = function()
     },
   })
 
+  local enable = function()
+    _G.show_gitsigns = true
+    plugin.toggle_signs(_G.show_gitsigns)
+  end
+
+  local toggle = function()
+    _G.show_gitsigns = not _G.show_gitsigns
+    plugin.toggle_signs(_G.show_gitsigns)
+  end
+
+  vim.keymap.set("n", "[g", function()
+    enable()
+    plugin.nav_hunk("prev")
+  end, { desc = "Go to prev chunk" })
+
+  vim.keymap.set("n", "]g", function()
+    enable()
+    plugin.nav_hunk("next")
+  end, { desc = "Go to next chunk" })
+
   vim.keymap.set("n", "gl", function()
-    require("gitsigns").blame_line()
+    enable()
+    plugin.blame_line()
   end, { desc = "toggle git line blame" })
 
   vim.api.nvim_create_user_command("ToggleGitBlame", function()
@@ -43,8 +66,7 @@ M.setup = function()
   end, {})
 
   vim.api.nvim_create_user_command("ToggleGitSigns", function()
-    _G.show_gitsigns = not _G.show_gitsigns
-    vim.cmd("Gitsigns toggle_signs")
+    toggle()
   end, {})
 end
 
