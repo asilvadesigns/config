@@ -139,8 +139,8 @@ M.setup = function()
     color_overrides = overrides(),
     highlight_overrides = {
       latte = function(c)
-        local bg = utils.darken(c.surface0, 0.80, c.base)
-        -- local bg = utils.darken(c.yellow, 0.10, c.base)
+        -- local bg = utils.darken(c.surface0, 0.80, c.base)
+         bg = utils.darken(c.yellow, 0.10, c.base)
 
         local separator_bg = utils.darken(c.surface1, 0.30, c.base)
         -- local separator_bg = utils.darken(c.yellow, 0.14, c.base)
