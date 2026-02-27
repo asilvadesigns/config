@@ -26,6 +26,7 @@ local parsers = {
   "rust",
   "scss",
   "swift",
+  "templ",
   "tsx",
   "typescript",
   "vim",

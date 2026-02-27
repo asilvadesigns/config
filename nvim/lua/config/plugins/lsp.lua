@@ -35,14 +35,14 @@ M.setup = function()
   vim.lsp.enable("cssls")
 
   --- HTML
-  vim.lsp.config('html', {
-    filetypes = { "html", "templ" },
-  })
-  vim.lsp.enable("html")
+  -- vim.lsp.config('html', {
+  --   filetypes = { "html", "templ" },
+  -- })
+  -- vim.lsp.enable("html")
 
   --- SUPER HTML
   vim.lsp.config('superhtml', {
-    filetypes = { "html", "templ" },
+    filetypes = { "html" },
   })
   vim.lsp.enable("superhtml")
 
@@ -77,6 +77,10 @@ M.setup = function()
     },
   })
   vim.lsp.enable("gopls")
+
+  --- TEMPL
+  vim.lsp.config("templ", {})
+  vim.lsp.enable("templ")
 
   --- LUA
   vim.lsp.config('lua_ls', {
