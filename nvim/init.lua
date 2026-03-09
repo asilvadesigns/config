@@ -3,9 +3,9 @@
 
 _G.enable_active_cursorline = true
 _G.enable_auto_pair = false
-_G.enable_autocompletion = false
+_G.enable_autocompletion = true
 _G.enable_color_picker = false
-_G.enable_dark_mode = false
+_G.enable_dark_mode = true
 _G.enable_syntax_highlight = true
 _G.enable_line_wrap = false
 _G.enable_smooth_scroll = false
@@ -349,11 +349,13 @@ require("lazy").setup({
       "nvim-tree/nvim-tree.lua",
       keys = { "<leader>j" },
       cmd = { "NvimTreeFindFile", "NvimTreeOpen" },
+      event = "User SuperLazy",
       config = require("config.plugins.nvim-tree").setup,
     },
     {
       "stevearc/oil.nvim",
       keys = { { "<leader>x", ":Oil<CR>" }, desc = "Show Oil" },
+      event = "User ExtraLazy",
       config = require("config.plugins.oil").setup,
     },
     {
@@ -383,6 +385,7 @@ require("lazy").setup({
     },
     {
       "MagicDuck/grug-far.nvim",
+      event = "User ExtraLazy",
       cmd = { "SearchFile", "SearchProject" },
       keys = {
         { "<leader>f", mode = "v",           ":SearchFileVisual<CR>",    desc = "Find in file (visual)" },
@@ -521,6 +524,7 @@ require("lazy").setup({
     {
       "monaqa/dial.nvim",
       keys = { "<C-a>", "<C-x>" },
+      event = "User ExtraLazy",
       config = require("config.plugins.dial").setup,
     },
   },
@@ -636,6 +640,16 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.defer_fn(function()
       vim.api.nvim_exec_autocmds("User", { pattern = "SuperLazy" })
     end, 200)
+  end,
+})
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = vim.api.nvim_create_augroup("user-lazy-done", { clear = true }),
+  desc = "Custom lazy load autocmd",
+  callback = function()
+    vim.defer_fn(function()
+      vim.api.nvim_exec_autocmds("User", { pattern = "ExtraLazy" })
+    end, 400)
   end,
 })
 

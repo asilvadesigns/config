@@ -34,6 +34,28 @@ M.setup = function()
   })
   vim.lsp.enable("cssls")
 
+
+  --- TAILWIND
+  vim.lsp.config("tailwindcss", {
+    filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "go", "templ" },
+    settings = {
+      tailwindCSS = {
+        includeLanguages = {
+          templ = "html",
+          go = "html",
+        },
+        experimental = {
+          classRegex = {
+            'Class\\("([^"]*)"\\)',
+            'activeClass\\("([^"]*)"\\)',
+          },
+        },
+        validate = true,
+      },
+    },
+  })
+  vim.lsp.enable("tailwindcss")
+
   --- HTML
   -- vim.lsp.config('html', {
   --   filetypes = { "html", "templ" },
@@ -115,25 +137,6 @@ M.setup = function()
   vim.lsp.enable('rust_analyzer')
 
 
-  --- TAILWIND
-  vim.lsp.config("tailwindcss", {
-    filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "go", "templ" },
-    settings = {
-      tailwindCSS = {
-        includeLanguages = {
-          templ = "html",
-        },
-        experimental = {
-          classRegex = {
-            'Class\\("([^"]*)"\\)',
-            'activeClass\\("([^"]*)"\\)',
-          },
-        },
-      },
-    },
-  })
-  vim.lsp.enable("tailwindcss")
-
   --- TYPESCRIPT
   vim.lsp.config("vtsls", {
     settings = {
@@ -149,6 +152,12 @@ M.setup = function()
     },
   })
   vim.lsp.enable("vtsls")
+
+  --- POSTGRESQL
+  vim.lsp.config('postgres_lsp', {
+    filetypes = { "sql" },
+  })
+  vim.lsp.enable({ "postgres_lsp" })
 
   --- YAML
   vim.lsp.config("yamlls", {})

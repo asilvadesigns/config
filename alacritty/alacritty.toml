@@ -6,7 +6,7 @@ cursor = "0xe78284"
 # text = "0xA6D189"
 
 [cursor]
-thickness = 0.2
+thickness = 0.3
 blink_interval = 400
 blink_timeout = 0
 
@@ -120,8 +120,8 @@ import = [
   # "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml",
   # "~/.config/alacritty/alacritty-themes/monokai-pro.toml",
   # light
-  "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml"
-  # "~/.config/alacritty/alacritty-themes/solarized-light.toml"
+  # "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml"
+  "~/.config/alacritty/alacritty-themes/solarized-light.toml"
   # base16
   # "~/.config/alacritty/alacritty-themes/base16-grayscale-light.toml"
   # "~/.config/alacritty/alacritty-themes/base16-grayscale-dark.toml"

@@ -60,8 +60,11 @@ set -gx GOPATH "$HOME/go"
 set -gx PATH "$GOPATH/bin" $PATH;
 
 # pnpm
-set -gx PNPM_HOME "/Library/pnpm";
-set -gx PATH $PNPM_HOME $PATH;
+set -gx PNPM_HOME "$HOME/Library/pnpm"
+mkdir -p $PNPM_HOME
+if not string match -q "*$PNPM_HOME*" $PATH
+    set -gx PATH $PNPM_HOME $PATH
+end
 
 # python
 set -gx PATH "/Library/Frameworks/Python.framework/Versions/3.10/bin" $PATH;

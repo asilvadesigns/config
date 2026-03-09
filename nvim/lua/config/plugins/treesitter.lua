@@ -25,6 +25,7 @@ local parsers = {
   "regex",
   "rust",
   "scss",
+  "sql",
   "swift",
   "templ",
   "tsx",

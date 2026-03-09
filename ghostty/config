@@ -1,8 +1,8 @@
 # THEMEs: light
-theme = "iTerm2 Solarized Light"
+# theme = "iTerm2 Solarized Light"
 
 # THEMEs: dark
-# theme = "Catppuccin Frappe"
+theme = "Catppuccin Frappe"
 
 # Font
 # font-family = "Iosevka Nerd Font Mono"
