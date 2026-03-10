@@ -3,92 +3,96 @@ local M = {}
 
 ---@param message string
 ---@param enabled boolean
-local drawToggle = function(message, enabled)
+local Toggle = function(message, enabled)
   local status = ""
 
   if enabled then
     status = ""
   end
 
-  return status .. " " .. message
+  return status .. " Toggle " .. message
 end
 
 ---@class PaletteEntry
 ---@field text string
 ---@field cmd string | fun(): nil
 ---@return table<string, PaletteEntry>
-local palette_items = function()
-  return {
-    { text = "Commands",                                                           cmd = "silent lua Snacks.picker.commands()" },
-    { text = "Colorschemes",                                                       cmd = 'silent lua Snacks.picker.colorschemes({ layout = { preview = "colorscheme" } })' },
-    { text = "Copy file path (Absolute)",                                          cmd = "CopyAbsolutePath" },
-    { text = "Copy file path (Relative)",                                          cmd = "CopyRelativePath" },
-    { text = "Copy filetype",                                                      cmd = "CopyFiletype" },
-    { text = "Datetime",                                                           cmd = "Datetime" },
-    { text = "Diagnostics",                                                        cmd = "Trouble diagnostics" },
-    { text = "Fold (level 0 or reset)",                                            cmd = "setlocal foldlevel=99" },
-    { text = "Fold (level 1)",                                                     cmd = "setlocal foldlevel=0" },
-    { text = "Fold (level 2)",                                                     cmd = "setlocal foldlevel=1" },
-    { text = "Fold (level 3)",                                                     cmd = "setlocal foldlevel=2" },
-    { text = "Fold (level 4)",                                                     cmd = "setlocal foldlevel=3" },
-    { text = "Format (Biome)",                                                     cmd = "FormatWithBiome" },
-    { text = "Format (Lsp)",                                                       cmd = "FormatWithLsp" },
-    { text = "Format (Prettier)",                                                  cmd = "FormatWithPrettier" },
-    { text = "Format (default)",                                                   cmd = "Format" },
-    { text = "Git (Fugitive)",                                                     cmd = "Git" },
-    { text = "Git (Neogit)",                                                       cmd = "Neogit" },
-    { text = "Help",                                                               cmd = "silent lua Snacks.picker.help()" },
-    { text = "Highlights",                                                         cmd = "silent lua Snacks.picker.highlights()" },
-    { text = "Keymaps",                                                            cmd = "silent lua Snacks.picker.keymaps()" },
-    { text = "Deps Update",                                                        cmd = "DepsUpdate" },
-    { text = "Lazy",                                                               cmd = "Lazy" },
-    { text = "Lint (Biome)",                                                       cmd = "LintWithBiome" },
-    { text = "Lint (EsLint)",                                                      cmd = "LintWithPrettier" },
-    { text = "Lint (default)",                                                     cmd = "Lint" },
-    { text = "Markdown Preview",                                                   cmd = "MarkdownPreviewToggle" },
-    { text = "Mason",                                                              cmd = "Mason" },
-    { text = "Notifications",                                                      cmd = "silent lua Snacks.notifier.show_history()" },
-    { text = "Remove All Marks",                                                   cmd = "delm! | delm A-Z0-9" },
-    { text = "Remove Other Buffers",                                               cmd = "only|bd|e#" },
-    { text = "Rename File",                                                        cmd = "RenameFile" },
-    { text = "Restart LSP",                                                        cmd = "LspRestart" },
-    { text = "Find/Search (file)",                                                 cmd = "SearchFile" },
-    { text = "Find/Search (project)",                                              cmd = "SearchProject" },
-    { text = "Show Line Numbers",                                                  cmd = "ShowLineNumbers" },
-    { text = "Show Relative Numbers",                                              cmd = "ShowRelativeLineNumbers" },
-    { text = "Hide Line Numbers",                                                  cmd = "HideLineNumbers" },
-    { text = "Symbols",                                                            cmd = "silent lua Snacks.picker.lsp_symbols()" },
-    { text = drawToggle("Toggle Auto Pairs", _G.enable_auto_pair),                 cmd = "ToggleAutoPairs" },
-    { text = drawToggle("Toggle Active Cursor Line", _G.enable_active_cursorline), cmd = "ToggleActiveCursorLine" },
-    { text = drawToggle("Toggle Color Picker", _G.enable_color_picker),            cmd = "ColorPickerToggle" },
-    { text = drawToggle("Toggle Completion", _G.enable_autocompletion),            cmd = "ToggleCompletion" },
-    { text = drawToggle("Toggle Context", _G.show_treesitter_context),             cmd = "ToggleTreesitterContext" },
-    { text = drawToggle("Toggle Cursor Line", _G.show_cursorline),                 cmd = "ToggleCursorLine" },
-    { text = drawToggle("Toggle Diagnostics", _G.show_diagnostics),                cmd = "ToggleDiagnostics" },
-    { text = drawToggle("Toggle Diagnostic Text", _G.show_diagnostics_text),       cmd = "ToggleDiagnosticText" },
-    {
-      text = drawToggle("Toggle Diagnostic Underline", _G.show_diagnostics_underline),
-      cmd = "ToggleDiagnosticUnderline",
-    },
-    { text = drawToggle("Toggle Git Blame", _G.show_gitblame),                  cmd = "ToggleGitBlame" },
-    { text = drawToggle("Toggle Git Signs", _G.show_gitsigns),                  cmd = "ToggleGitSigns" },
-    { text = drawToggle("Toggle Hide All", _G.hide_all),                        cmd = "ToggleHideAll" },
-    { text = drawToggle("Toggle Illuminate", _G.show_illuminate),               cmd = "ToggleIlluminate" },
-    { text = drawToggle("Toggle Indent Lines", _G.show_indent_lines),           cmd = "ToggleIndentLines" },
-    { text = drawToggle("Toggle Inlay Hints", _G.show_inlay_hints),             cmd = "ToggleInlayHints" },
-    { text = drawToggle("Toggle Invisible Chars", _G.show_invisible_chars),     cmd = "ToggleInvisibleChars" },
-    -- { text = drawToggle("Toggle Line Numbers", _G.show_number_lines), cmd = "ToggleNumberLines" },
-    { text = drawToggle("Toggle Line Wrap", _G.enable_line_wrap),               cmd = "ToggleLineWrap" },
-    -- { text = drawToggle("Toggle Relative Lines", _G.show_relative_lines), cmd = "ToggleRelativeLines" },
-    { text = drawToggle("Toggle Scrollbar", _G.show_scrollbar),                 cmd = "ToggleScrollbar" },
-    { text = drawToggle("Toggle Smooth Scroll", _G.enable_smooth_scroll),       cmd = "ToggleSmoothScroll" },
-    { text = drawToggle("Toggle Statusline", _G.show_statusline),               cmd = "ToggleStatusline" },
-    { text = drawToggle("Toggle Syntax Highlight", _G.enable_syntax_highlight), cmd = "ToggleSyntaxHighlight" },
-    { text = drawToggle("Toggle Vimade", _G.show_vimade),                       cmd = "ToggleVimade" },
-    { text = drawToggle("Toggle Winbar", _G.show_winbar),                       cmd = "ToggleWinbar" },
-    { text = drawToggle("Toggle Zen Mode", _G.enable_zen_mode),                 cmd = "ToggleZenMode" },
-    { text = drawToggle("Trouble", _G.trouble_visible),                         cmd = "Trouble" },
+local command_palette_items = function()
+  local items = {
+    { text = "Commands",                                                    cmd = "silent lua Snacks.picker.commands()" },
+    { text = "Colorschemes",                                                cmd = 'silent lua Snacks.picker.colorschemes({ layout = { preview = "colorscheme" } })' },
+    { text = "Copy file path (Absolute)",                                   cmd = "CopyAbsolutePath" },
+    { text = "Copy file path (Relative)",                                   cmd = "CopyRelativePath" },
+    { text = "Copy filetype",                                               cmd = "CopyFiletype" },
+    { text = "Datetime",                                                    cmd = "Datetime" },
+    { text = "Diagnostics",                                                 cmd = "Trouble diagnostics" },
+    { text = "Fold (level 0 or reset)",                                     cmd = "setlocal foldlevel=99" },
+    { text = "Fold (level 1)",                                              cmd = "setlocal foldlevel=0" },
+    { text = "Fold (level 2)",                                              cmd = "setlocal foldlevel=1" },
+    { text = "Fold (level 3)",                                              cmd = "setlocal foldlevel=2" },
+    { text = "Fold (level 4)",                                              cmd = "setlocal foldlevel=3" },
+    { text = "Format (Biome)",                                              cmd = "FormatWithBiome" },
+    { text = "Format (Lsp)",                                                cmd = "FormatWithLsp" },
+    { text = "Format (Prettier)",                                           cmd = "FormatWithPrettier" },
+    { text = "Format (default)",                                            cmd = "Format" },
+    { text = "Git (Fugitive)",                                              cmd = "Git" },
+    { text = "Git (Neogit)",                                                cmd = "Neogit" },
+    { text = "Help",                                                        cmd = "silent lua Snacks.picker.help()" },
+    { text = "Highlights",                                                  cmd = "silent lua Snacks.picker.highlights()" },
+    { text = "Keymaps",                                                     cmd = "silent lua Snacks.picker.keymaps()" },
+    { text = "Deps Update",                                                 cmd = "DepsUpdate" },
+    { text = "Lazy",                                                        cmd = "Lazy" },
+    { text = "Markdown Preview",                                            cmd = "MarkdownPreviewToggle" },
+    { text = "Mason",                                                       cmd = "Mason" },
+    { text = "Notifications",                                               cmd = "silent lua Snacks.notifier.show_history()" },
+    { text = "Remove All Marks",                                            cmd = "delm! | delm A-Z0-9" },
+    { text = "Remove Other Buffers",                                        cmd = "only|bd|e#" },
+    { text = "Rename File",                                                 cmd = "RenameFile" },
+    { text = "Find/Search (file)",                                          cmd = "SearchFile" },
+    { text = "Find/Search (project)",                                       cmd = "SearchProject" },
+    { text = "Show Line Numbers",                                           cmd = "ShowLineNumbers" },
+    { text = "Show Relative Numbers",                                       cmd = "ShowRelativeLineNumbers" },
+    { text = "Hide Line Numbers",                                           cmd = "HideLineNumbers" },
+    { text = "Symbols",                                                     cmd = "silent lua Snacks.picker.lsp_symbols()" },
+    { text = Toggle("Auto Pairs", _G.enable_auto_pair),                     cmd = "ToggleAutoPairs" },
+    { text = Toggle("Active Cursor Line", _G.enable_active_cursorline),     cmd = "ToggleActiveCursorLine" },
+    { text = Toggle("Color Picker", _G.enable_color_picker),                cmd = "ColorPickerToggle" },
+    { text = Toggle("Completion", _G.enable_autocompletion),                cmd = "ToggleCompletion" },
+    { text = Toggle("Context", _G.show_treesitter_context),                 cmd = "ToggleTreesitterContext" },
+    { text = Toggle("Cursor Line", _G.show_cursorline),                     cmd = "ToggleCursorLine" },
+    { text = Toggle("Diagnostics", _G.show_diagnostics),                    cmd = "ToggleDiagnostics" },
+    { text = Toggle("Diagnostic Text", _G.show_diagnostics_text),           cmd = "ToggleDiagnosticText" },
+    { text = Toggle("Diagnostic Underline", _G.show_diagnostics_underline), cmd = "ToggleDiagnosticUnderline", },
+    { text = Toggle("Git Blame", _G.show_gitblame),                         cmd = "ToggleGitBlame" },
+    { text = Toggle("Git Signs", _G.show_gitsigns),                         cmd = "ToggleGitSigns" },
+    { text = Toggle("Hide All", _G.hide_all),                               cmd = "ToggleHideAll" },
+    { text = Toggle("Illuminate", _G.show_illuminate),                      cmd = "ToggleIlluminate" },
+    { text = Toggle("Indent Lines", _G.show_indent_lines),                  cmd = "ToggleIndentLines" },
+    { text = Toggle("Inlay Hints", _G.show_inlay_hints),                    cmd = "ToggleInlayHints" },
+    { text = Toggle("Invisible Chars", _G.show_invisible_chars),            cmd = "ToggleInvisibleChars" },
+    { text = Toggle("Line Wrap", _G.enable_line_wrap),                      cmd = "ToggleLineWrap" },
+    { text = Toggle("Scrollbar", _G.show_scrollbar),                        cmd = "ToggleScrollbar" },
+    { text = Toggle("Smooth Scroll", _G.enable_smooth_scroll),              cmd = "ToggleSmoothScroll" },
+    { text = Toggle("Statusline", _G.show_statusline),                      cmd = "ToggleStatusline" },
+    { text = Toggle("Syntax Highlight", _G.enable_syntax_highlight),        cmd = "ToggleSyntaxHighlight" },
+    { text = Toggle("Vimade", _G.show_vimade),                              cmd = "ToggleVimade" },
+    { text = Toggle("Winbar", _G.show_winbar),                              cmd = "ToggleWinbar" },
+    { text = Toggle("Zen Mode", _G.enable_zen_mode),                        cmd = "ToggleZenMode" },
+    { text = Toggle("Trouble", _G.trouble_visible),                         cmd = "Trouble" },
   }
+
+  local seen = {}
+  for _, client in ipairs(vim.lsp.get_clients()) do
+    if not seen[client.name] then
+      seen[client.name] = true
+      table.insert(items, {
+        text = "Restart " .. client.name,
+        cmd = "LspRestart " .. client.name,
+      })
+    end
+  end
+
+  return items
 end
 
 local MAX_WIDTH = 140
@@ -312,7 +316,7 @@ M.setup = function()
   --- actions
   vim.api.nvim_create_user_command("Actions", function()
     --- @diagnostic disable-next-line: undefined-field
-    Snacks.picker.command_palette({ items = palette_items() })
+    Snacks.picker.command_palette({ items = command_palette_items() })
   end, {})
   vim.keymap.set("n", "<leader>a", ":Actions<CR>", { desc = "Fuzzy actions", silent = true })
 
