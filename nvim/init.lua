@@ -18,7 +18,7 @@ _G.show_cursorline = true
 _G.show_diagnostics = true
 _G.show_diagnostics_text = false
 _G.show_diagnostics_underline = true
-_G.show_gitblame = false -- BUG: this value doesn't lazily load thet plugin
+_G.show_gitblame = false
 _G.show_gitsigns = false --
 _G.show_illuminate = true
 _G.show_indent_lines = false
@@ -29,28 +29,22 @@ _G.show_relative_line_numbers = false
 _G.show_scrollbar = false
 _G.show_statusline = false
 _G.show_treesitter_context = false
-_G.show_vimade = false
 _G.show_winbar = true
 
 if vim.loader then
   vim.loader.enable()
 end
 
-local root = vim.fn.stdpath("data")
-local lazyroot = root .. "/lazy/"
-local lazypath = lazyroot .. "lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out,                            "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.uv.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -235,7 +229,6 @@ vim.keymap.set("n", "[c", ":cprev<CR>", { desc = "Go to prev quickfix item" })
 --- Section: Plugins
 ---
 require("lazy").setup({
-  root = lazyroot .. "plugins",
   spec = {
     {
       "nvim-tree/nvim-web-devicons",
@@ -349,13 +342,13 @@ require("lazy").setup({
       "nvim-tree/nvim-tree.lua",
       keys = { "<leader>j" },
       cmd = { "NvimTreeFindFile", "NvimTreeOpen" },
-      event = "User SuperLazy",
+      event = "VeryLazy",
       config = require("config.plugins.nvim-tree").setup,
     },
     {
       "stevearc/oil.nvim",
       keys = { { "<leader>x", ":Oil<CR>" }, desc = "Show Oil" },
-      event = "User ExtraLazy",
+      event = "VeryLazy",
       config = require("config.plugins.oil").setup,
     },
     {
@@ -379,13 +372,13 @@ require("lazy").setup({
     {
       "saghen/blink.cmp",
       version = "1.*",
-      event = "User SuperLazy",
+      event = "VeryLazy",
       opts_extend = { "sources.default" },
       config = require("config.plugins.blink").setup,
     },
     {
       "MagicDuck/grug-far.nvim",
-      event = "User ExtraLazy",
+      event = "VeryLazy",
       cmd = { "SearchFile", "SearchProject" },
       keys = {
         { "<leader>f", mode = "v",           ":SearchFileVisual<CR>",    desc = "Find in file (visual)" },
@@ -465,16 +458,18 @@ require("lazy").setup({
     },
     {
       "RRethy/vim-illuminate",
-      event = "User SuperLazy",
+      event = "VeryLazy",
       config = require("config.plugins.illuminate").setup,
     },
     {
       "nvim-treesitter/nvim-treesitter-context",
+      enabled = true,
       cmd = "ToggleTreesitterContext",
       config = require("config.plugins.treesitter-context").setup,
     },
     {
       "nvim-treesitter/nvim-treesitter-textobjects",
+      enabled = true,
       branch = "main",
       keys = {
         {
@@ -501,6 +496,7 @@ require("lazy").setup({
       -- NOTE: you may need to rm -rf ~/.local/share/nvim/site/queries/
       -- NOTE: you may need to rm -rf ~/.local/share/nvim/site/parser/
       "nvim-treesitter/nvim-treesitter",
+      enabled = true,
       event = { "BufReadPost", "BufNewFile" },
       branch = "main",
       build = ":TSUpdate",
@@ -633,25 +629,25 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd("VimEnter", {
-  group = vim.api.nvim_create_augroup("user-lazy-done", { clear = true }),
-  desc = "Custom lazy load autocmd",
-  callback = function()
-    vim.defer_fn(function()
-      vim.api.nvim_exec_autocmds("User", { pattern = "SuperLazy" })
-    end, 200)
-  end,
-})
-
-vim.api.nvim_create_autocmd("VimEnter", {
-  group = vim.api.nvim_create_augroup("user-lazy-done", { clear = true }),
-  desc = "Custom lazy load autocmd",
-  callback = function()
-    vim.defer_fn(function()
-      vim.api.nvim_exec_autocmds("User", { pattern = "ExtraLazy" })
-    end, 400)
-  end,
-})
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   group = vim.api.nvim_create_augroup("user-lazy-done", { clear = true }),
+--   desc = "Custom lazy load autocmd",
+--   callback = function()
+--     vim.defer_fn(function()
+--       vim.api.nvim_exec_autocmds("User", { pattern = "SuperLazy" })
+--     end, 200)
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   group = vim.api.nvim_create_augroup("user-lazy-done", { clear = true }),
+--   desc = "Custom lazy load autocmd",
+--   callback = function()
+--     vim.defer_fn(function()
+--       vim.api.nvim_exec_autocmds("User", { pattern = "ExtraLazy" })
+--     end, 400)
+--   end,
+-- })
 
 ---
 --- Section: Commands
