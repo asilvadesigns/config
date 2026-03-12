@@ -325,12 +325,11 @@ require("lazy").setup({
       event = "InsertEnter",
       config = require("config.plugins.autopairs").setup,
     },
-    -- {
-    --   "windwp/nvim-ts-autotag",
-    --   enabled = false,
-    --   event = "InsertEnter",
-    --   config = require("config.plugins.autotag").setup,
-    -- },
+    {
+      "windwp/nvim-ts-autotag",
+      ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "html", "templ" },
+      config = require("config.plugins.autotag").setup,
+    },
     {
       "shortcuts/no-neck-pain.nvim",
       cmd = "ToggleZenMode",
