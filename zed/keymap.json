@@ -1,23 +1,21 @@
 [
-  // global
   {
     "bindings": {
-      "cmd-shift-k": "projects::OpenRecent"
-    }
+      "cmd-shift-k": "projects::OpenRecent",
+    },
   },
-  // jump out of nvim-tree
   {
     "context": "ProjectPanel && not_editing",
     "bindings": {
-      ", j": "workspace::ToggleLeftDock"
-    }
+      ", j": "workspace::ToggleLeftDock",
+    },
   },
-  // normal mode
   {
     "context": "Editor && vim_mode == normal",
     "bindings": {
       ", a": "command_palette::Toggle",
       ", d": "vim::ScrollDown",
+      ", e": "tab_switcher::ToggleAll",
       ", f": "file_finder::Toggle",
       ", j": "project_panel::ToggleFocus",
       ", m": "editor::Format",
@@ -25,42 +23,48 @@
       ", s": "workspace::SaveWithoutFormat",
       ", u": "vim::ScrollUp",
       ", z": "workspace::ToggleCenteredLayout",
-      ", w v": "pane::SplitLeft",
-      ", w s": "pane::SplitUp",
+      ", w v": "pane::SplitRight",
+      ", w s": "pane::SplitDown",
       ", w o": "workspace::CloseInactiveTabsAndPanes",
       ", w q": "pane::CloseAllItems",
       ", w l": "workspace::ActivatePaneRight",
       ", w h": "workspace::ActivatePaneLeft",
       ", w k": "workspace::ActivatePaneUp",
-      ", w j": "workspace::ActivatePaneDown"
-    }
+      ", w j": "workspace::ActivatePaneDown",
+    },
   },
-  // other modes?
+  {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      "A": ["workspace::SendKeystrokes", "g A"],
+      "I": ["workspace::SendKeystrokes", "g I"],
+    },
+  },
   {
     "context": "Editor && VimControl && !VimWaiting && !menu",
     "bindings": {
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-k": "workspace::ActivatePaneUp",
-      "ctrl-j": "workspace::ActivatePaneDown"
-    }
+      "ctrl-j": "workspace::ActivatePaneDown",
+    },
   },
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-j": "workspace::ToggleBottomDock"
-    }
+      "cmd-j": "workspace::ToggleBottomDock",
+    },
   },
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-j": "workspace::ToggleLeftDock"
-    }
+      "cmd-j": "workspace::ToggleLeftDock",
+    },
   },
   {
     "bindings": {
-      "ctrl-shift-k": "workspace::Open"
-    }
+      "ctrl-shift-k": "workspace::Open",
+    },
   },
   {
     "context": "Editor",
@@ -68,9 +72,9 @@
       "ctrl-n": [
         "editor::SelectNext",
         {
-          "replace_newest": false
-        }
-      ]
-    }
-  }
+          "replace_newest": false,
+        },
+      ],
+    },
+  },
 ]

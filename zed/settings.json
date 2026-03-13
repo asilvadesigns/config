@@ -1,4 +1,10 @@
 {
+  "outline_panel": {
+    "indent_guides": {
+      "show": "always"
+    },
+    "indent_size": 14.0
+  },
   "disable_ai": true,
   "format_on_save": "off",
   "theme": "Catppuccin Frappé",
@@ -33,13 +39,17 @@
     },
   },
   "project_panel": {
+    "indent_guides": {
+      "show": "always"
+    },
+    "indent_size": 14.0,
     "git_status": false,
   },
   "scrollbar": {
     "git_diff": false,
   },
   "status_bar": {
-    "experimental.show": false,
+    "experimental.show": true,
   },
   "vertical_scroll_margin": 0,
 }

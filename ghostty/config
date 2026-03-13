@@ -23,7 +23,7 @@ adjust-cursor-thickness = 4
 # FONT_SIZE: desktop
 adjust-cell-height = -1
 adjust-cursor-height = -1
-font-size = 16
+font-size = 15
 
 font-thicken = true
 font-thicken-strength = 0
