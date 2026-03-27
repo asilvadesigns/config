@@ -47,9 +47,10 @@
   },
   "scrollbar": {
     "git_diff": false,
+    "show": "never",
   },
   "status_bar": {
-    "experimental.show": true,
+    "experimental.show": false,
   },
   "vertical_scroll_margin": 0,
 }

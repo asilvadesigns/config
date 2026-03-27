@@ -41,6 +41,13 @@
     },
   },
   {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "ctrl-l": "editor::MoveToEndOfLine",
+      "ctrl-h": "vim::FirstNonWhitespace",
+    },
+  },
+  {
     "context": "Editor && VimControl && !VimWaiting && !menu",
     "bindings": {
       "ctrl-l": "workspace::ActivatePaneRight",
