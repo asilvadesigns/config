@@ -10,6 +10,6 @@
   navigate = true
   side-by-side = true
   ; just run: delta --show-syntax-themes
-  ; syntax-theme = "Solarized (light)"
-  syntax-theme = "Solarized (dark)"
+  syntax-theme = "Solarized (light)"
+  ; syntax-theme = "Solarized (dark)"
   true-color = always
