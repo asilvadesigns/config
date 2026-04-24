@@ -1,3 +1,15 @@
 WRN 2026-03-30T19:22:41.812 ui.61101   tui_handle_term_mode:239: TUI: terminal mode 2031 detected, state 2
 WRN 2026-03-30T19:22:47.511 ui.61462   tui_handle_term_mode:239: TUI: terminal mode 2031 detected, state 2
 WRN 2026-03-30T19:22:54.849 ui.64662   tui_handle_term_mode:239: TUI: terminal mode 2031 detected, state 2
+WRN 2026-03-31T14:09:39.719 ui.77888   tui_handle_term_mode:239: TUI: terminal mode 2031 detected, state 2
+WRN 2026-03-31T14:10:55.861 ui.80066   tui_handle_term_mode:239: TUI: terminal mode 2031 detected, state 2
+WRN 2026-03-31T14:11:14.329 ui.81775   tui_handle_term_mode:239: TUI: terminal mode 2031 detected, state 2
+WRN 2026-04-09T17:17:48.349 ?.33268    server_start:197: Failed to start server: operation not permitted: /var/folders/s_/cplsvq113txghtq9l7jv1m5w0000gp/T/nvim.albertos/8C4Gm0/nvim.33268.0
+WRN 2026-04-09T17:17:58.716 ?.33562    server_start:197: Failed to start server: operation not permitted: /var/folders/s_/cplsvq113txghtq9l7jv1m5w0000gp/T/nvim.albertos/VehMxB/nvim.33562.0
+WRN 2026-04-09T17:18:10.064 ?.33915    server_start:197: Failed to start server: operation not permitted: /var/folders/s_/cplsvq113txghtq9l7jv1m5w0000gp/T/nvim.albertos/9mGp80/nvim.33915.0
+WRN 2026-04-09T17:18:36.414 ?.34708    server_start:197: Failed to start server: operation not permitted: /var/folders/s_/cplsvq113txghtq9l7jv1m5w0000gp/T/nvim.albertos/UHTKNv/nvim.34708.0
+WRN 2026-04-09T17:18:43.347 ?.34914    server_start:197: Failed to start server: operation not permitted: /var/folders/s_/cplsvq113txghtq9l7jv1m5w0000gp/T/nvim.albertos/DUuLeQ/nvim.34914.0
+WRN 2026-04-09T17:18:47.387 ?.35050    server_start:197: Failed to start server: operation not permitted: /var/folders/s_/cplsvq113txghtq9l7jv1m5w0000gp/T/nvim.albertos/NMaDEz/nvim.35050.0
+WRN 2026-04-09T17:18:53.779 ?.35242    server_start:197: Failed to start server: operation not permitted: /var/folders/s_/cplsvq113txghtq9l7jv1m5w0000gp/T/nvim.albertos/50ssNf/nvim.35242.0
+WRN 2026-04-09T17:19:03.138 ?.35588    server_start:197: Failed to start server: operation not permitted: /var/folders/s_/cplsvq113txghtq9l7jv1m5w0000gp/T/nvim.albertos/u4bRjp/nvim.35588.0
+WRN 2026-04-09T17:19:26.275 ?.36262    server_start:197: Failed to start server: operation not permitted: /var/folders/s_/cplsvq113txghtq9l7jv1m5w0000gp/T/nvim.albertos/lJWRSh/nvim.36262.0

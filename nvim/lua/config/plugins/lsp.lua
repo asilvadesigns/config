@@ -5,11 +5,11 @@ M.setup = function()
   require("lspconfig")
 
   --- Biome
-  vim.lsp.config('biome', {})
+  vim.lsp.config("biome", {})
   vim.lsp.enable("biome")
 
   --- C/C++
-  vim.lsp.config('clangd', {
+  vim.lsp.config("clangd", {
     cmd = {
       "clangd",
       "--offset-encoding=utf-16",
@@ -18,7 +18,7 @@ M.setup = function()
   vim.lsp.enable("clangd")
 
   --- CSS
-  vim.lsp.config('cssls', {
+  vim.lsp.config("cssls", {
     settings = {
       css = {
         lint = {
@@ -63,7 +63,7 @@ M.setup = function()
   -- vim.lsp.enable("html")
 
   --- SUPER HTML
-  vim.lsp.config('superhtml', {
+  vim.lsp.config("superhtml", {
     filetypes = { "html" },
   })
   vim.lsp.enable("superhtml")
@@ -121,7 +121,7 @@ M.setup = function()
   vim.lsp.enable("lua_ls")
 
   --- RUST
-  vim.lsp.config('rust_analyzer', {
+  vim.lsp.config("rust_analyzer", {
     settings = {
       ["rust-analyzer"] = {
         cargo = {
@@ -134,7 +134,7 @@ M.setup = function()
       },
     },
   })
-  vim.lsp.enable('rust_analyzer')
+  vim.lsp.enable("rust_analyzer")
 
 
   --- TYPESCRIPT
@@ -154,10 +154,14 @@ M.setup = function()
   vim.lsp.enable("vtsls")
 
   --- POSTGRESQL
-  vim.lsp.config('postgres_lsp', {
+  vim.lsp.config("postgres_lsp", {
     filetypes = { "sql" },
   })
-  vim.lsp.enable({ "postgres_lsp" })
+  vim.lsp.enable("postgres_lsp")
+
+  --- PYTHON
+  vim.lsp.config("basedpyright", {})
+  vim.lsp.enable("basedpyright")
 
   --- YAML
   vim.lsp.config("yamlls", {})

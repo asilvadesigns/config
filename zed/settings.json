@@ -26,28 +26,32 @@
     "folds": false,
   },
   "toolbar": {
-    "breadcrumbs": false,
+    "breadcrumbs": true,
     "quick_actions": false,
   },
   "tab_bar": {
     "show": false,
   },
+  "preview_tabs": {
+    "enabled": false,
+  },
   "git": {
-    "git_gutter": "hide",
+    "git_gutter": "tracked_files",
     "inline_blame": {
       "enabled": false,
     },
   },
   "project_panel": {
+    "git_status_indicator": true,
     "indent_guides": {
       "show": "always"
     },
     "indent_size": 14.0,
-    "git_status": false,
+    "git_status": true,
   },
   "scrollbar": {
     "git_diff": false,
-    "show": "never",
+    "show": "always",
   },
   "status_bar": {
     "experimental.show": false,

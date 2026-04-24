@@ -3,13 +3,13 @@ git:
     colorArg: always
     pager: delta --paging=never
 gui:
-  theme:
-    activeBorderColor:
-      - "#4D8AB8"
-    inactiveBorderColor:
-      - "#9FA2A7"
-    selectedLineBgColor:
-      - "#F4EBCF"
+  # theme:
+  #   activeBorderColor:
+  #     - "#4D8AB8"
+  #   inactiveBorderColor:
+  #     - "#9FA2A7"
+  #   selectedLineBgColor:
+  #     - "#F4EBCF"
   scrollHeight: 2
   scrollPastBottom: true
   scrollOffMargin: 2

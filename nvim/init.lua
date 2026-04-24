@@ -5,7 +5,7 @@ _G.enable_active_cursorline = true
 _G.enable_auto_pair = false
 _G.enable_autocompletion = true
 _G.enable_color_picker = false
-_G.enable_dark_mode = false
+_G.enable_dark_mode = true
 _G.enable_syntax_highlight = true
 _G.enable_line_wrap = false
 _G.enable_smooth_scroll = false
@@ -19,9 +19,9 @@ _G.show_diagnostics = true
 _G.show_diagnostics_text = false
 _G.show_diagnostics_underline = true
 _G.show_gitblame = false
-_G.show_gitsigns = false --
-_G.show_illuminate = true
-_G.show_indent_lines = false
+_G.show_gitsigns = true
+_G.show_illuminate = false
+_G.show_indent_lines = true
 _G.show_inlay_hints = false
 _G.show_invisible_chars = false
 _G.show_line_numbers = true
@@ -351,7 +351,11 @@ require("lazy").setup({
       config = require("config.plugins.oil").setup,
     },
     {
-      "williamboman/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
+      dependencies = {
+        "mason-org/mason.nvim",
+        "neovim/nvim-lspconfig",
+      },
       cmd = {
         "Mason",
         "MasonLog",

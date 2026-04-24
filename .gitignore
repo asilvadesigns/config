@@ -1,9 +1,11 @@
 .DS_Store
+.env.private
 .idea
 buildauth
 configstore
 containers
 gh
+glab
 iterm2
 jgit
 karabiner
@@ -12,6 +14,7 @@ lazygit/state.yml
 maglev
 maglev-infra
 nvim/plugin
+nvinfo
 planetscale
 raycast
 swiftpm

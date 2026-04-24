@@ -42,7 +42,6 @@ local command_palette_items = function()
     { text = "Keymaps",                                                     cmd = "silent lua Snacks.picker.keymaps()" },
     { text = "Deps Update",                                                 cmd = "DepsUpdate" },
     { text = "Lazy",                                                        cmd = "Lazy" },
-    { text = "Markdown Preview",                                            cmd = "MarkdownPreviewToggle" },
     { text = "Mason",                                                       cmd = "Mason" },
     { text = "Notifications",                                               cmd = "silent lua Snacks.notifier.show_history()" },
     { text = "Remove All Marks",                                            cmd = "delm! | delm A-Z0-9" },
