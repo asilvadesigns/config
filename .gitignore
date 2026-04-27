@@ -5,7 +5,7 @@ buildauth
 configstore
 containers
 gh
-glab
+glab-cli
 iterm2
 jgit
 karabiner
@@ -13,6 +13,7 @@ kitty/kitty-themes
 lazygit/state.yml
 maglev
 maglev-infra
+nv-tools
 nvim/plugin
 nvinfo
 planetscale
