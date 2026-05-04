@@ -86,7 +86,7 @@ local command_palette_items = function()
       seen[client.name] = true
       table.insert(items, {
         text = "Restart " .. client.name,
-        cmd = "LspRestart " .. client.name,
+        cmd = "lsp restart " .. client.name,
       })
     end
   end

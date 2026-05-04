@@ -1,5 +1,17 @@
 {
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "agent": {
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "git_panel": {
+    "dock": "left"
+  },
   "outline_panel": {
+    "dock": "left",
     "indent_guides": {
       "show": "always"
     },
@@ -26,7 +38,7 @@
     "folds": false,
   },
   "toolbar": {
-    "breadcrumbs": true,
+    "breadcrumbs": false,
     "quick_actions": false,
   },
   "tab_bar": {
@@ -42,6 +54,7 @@
     },
   },
   "project_panel": {
+    "dock": "left",
     "git_status_indicator": true,
     "indent_guides": {
       "show": "always"
