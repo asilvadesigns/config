@@ -110,10 +110,12 @@ end
 local overrides = function()
   if (_G.enable_dark_mode) then
     return {
+      -- catppuccin
       latte = require("catppuccin.palettes.frappe"),
       frappe = require("catppuccin.palettes.frappe"),
-      -- latte = require("config.colors").dark.solarized,
-      -- frappe = require("config.colors").dark.solarized,
+      -- solarized
+      -- latte = require("config.colors").light.solarized_normal,
+      -- frappe = require("config.colors").light.solarized_normal,
     }
   end
 

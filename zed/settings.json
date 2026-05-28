@@ -67,7 +67,7 @@
     "show": "always",
   },
   "status_bar": {
-    "experimental.show": false,
+    "experimental.show": true,
   },
   "vertical_scroll_margin": 0,
 }
