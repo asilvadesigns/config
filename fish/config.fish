@@ -61,10 +61,7 @@ set -gx PATH "$GOPATH/bin" $PATH;
 
 # pnpm
 set -gx PNPM_HOME "$HOME/Library/pnpm"
-mkdir -p $PNPM_HOME
-if not string match -q "*$PNPM_HOME*" $PATH
-    set -gx PATH $PNPM_HOME $PATH
-end
+fish_add_path --path $PNPM_HOME
 
 # python
 set -gx PATH "/Library/Frameworks/Python.framework/Versions/3.10/bin" $PATH;
@@ -83,16 +80,9 @@ set -gx PATH "$HOME/.cargo/bin" $PATH;
 set -gx BUN_INSTALL "$HOME/.bun"
 set -gx PATH $BUN_INSTALL/bin $PATH
 
-# atuin
-atuin init fish --disable-up-arrow | source
-
-# direnv
-direnv hook fish | source
-
-
-# zoxide
-zoxide init fish | source
-
-# starship
-starship init fish | source
-
+if status is-interactive
+  atuin init fish --disable-up-arrow | source
+  direnv hook fish | source
+  zoxide init fish | source
+  starship init fish | source
+end

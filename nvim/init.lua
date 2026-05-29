@@ -326,6 +326,7 @@ require("lazy").setup({
     },
     {
       "windwp/nvim-ts-autotag",
+      enabled = false,
       ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "html", "templ" },
       config = require("config.plugins.autotag").setup,
     },

@@ -23,7 +23,7 @@ default_channel = "files"
 # Options: bash, zsh, fish, powershell, cmd, nu
 # If not specified, the shell is detected from the environment ($SHELL on Unix).
 # Channel-specific shell settings override this global setting.
-# shell = "bash"
+shell = "bash"
 # History settings
 # ---------------
 # Maximum number of entries to keep in the global history (default: 100)
