@@ -38,7 +38,7 @@
     "folds": false,
   },
   "toolbar": {
-    "breadcrumbs": false,
+    "breadcrumbs": true,
     "quick_actions": false,
   },
   "tab_bar": {

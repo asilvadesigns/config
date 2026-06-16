@@ -35,6 +35,7 @@ M.setup = function()
   vim.lsp.enable("cssls")
 
 
+
   --- TAILWIND
   vim.lsp.config("tailwindcss", {
     filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "go", "templ" },
@@ -119,6 +120,10 @@ M.setup = function()
     },
   })
   vim.lsp.enable("lua_ls")
+
+  --- Odin
+  vim.lsp.config("ols", {})
+  vim.lsp.enable("ols")
 
   --- RUST
   vim.lsp.config("rust_analyzer", {

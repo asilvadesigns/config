@@ -71,7 +71,8 @@ local get_colors = function(c, bg, separator_bg)
     NvimTreeOpenedFolderName = { fg = c.subtext1 },
 
     QuickFixLine = { bg = c.mantle },
-    SatelliteBar = { bg = utils.darken(c.text, 0.60, c.base) },
+    SatelliteBar = { bg = c.surface1 },
+    SatelliteBackground = {},
     SnacksIndent = { fg = c.surface0 }, --utils.lighten(c.surface0, 0.40, c.base) },
     SnacksIndentScope = { fg = c.surface2 },
     SnacksPickerBoxCursorLine = { bg = bg },
@@ -141,22 +142,17 @@ M.setup = function()
     color_overrides = overrides(),
     highlight_overrides = {
       latte = function(c)
-        -- local bg = utils.darken(c.surface0, 0.80, c.base)
-         bg = utils.darken(c.yellow, 0.10, c.base)
+        -- bg = utils.darken(c.yellow, 0.10, c.base)
+        bg = utils.darken(c.overlay1, 0.15, c.base)
 
         local separator_bg = utils.darken(c.surface1, 0.30, c.base)
-        -- local separator_bg = utils.darken(c.yellow, 0.14, c.base)
         local colors = get_colors(c, bg, separator_bg)
 
         return colors
       end,
       frappe = function(c)
         local bg = utils.darken(c.surface0, 0.80, c.base)
-        -- local bg = utils.darken(c.yellow, 0.10, c.base)
-
-        -- local separator_bg = c.surface0
         local separator_bg = utils.darken(c.surface1, 0.30, c.base)
-        -- local separator_bg = utils.darken(c.yellow, 0.14, c.base)
         local emphasis = { fg = c.text, style = {}, bold = false }
         local mono = { fg = c.text, style = {} }
         local colors = get_colors(c, bg, separator_bg)

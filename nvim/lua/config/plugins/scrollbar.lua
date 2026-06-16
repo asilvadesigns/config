@@ -7,7 +7,12 @@ M.setup = function()
 
   require("scrollbar").setup({
     show = _G.show_scrollbar,
+    show_in_active_only = false,
     set_highlights = true,
+    handle = {
+      color = colors.surface1,
+      blend = 0,
+    },
     marks = {
       Cursor = {
         text = "—",

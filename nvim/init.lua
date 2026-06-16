@@ -5,7 +5,7 @@ _G.enable_active_cursorline = true
 _G.enable_auto_pair = false
 _G.enable_autocompletion = false
 _G.enable_color_picker = false
-_G.enable_dark_mode = true
+_G.enable_dark_mode = false
 _G.enable_syntax_highlight = true
 _G.enable_line_wrap = false
 _G.enable_smooth_scroll = true
@@ -24,7 +24,7 @@ _G.show_indent_lines = false
 _G.show_inlay_hints = false
 _G.show_invisible_chars = false
 _G.show_line_numbers = true
-_G.show_relative_line_numbers = false
+_G.show_relative_line_numbers = true
 _G.show_scrollbar = false
 _G.show_statusline = false
 _G.show_treesitter_context = false
@@ -294,9 +294,18 @@ require("lazy").setup({
     },
     {
       "petertriho/nvim-scrollbar",
+      enabled = false,
       cmd = "ToggleScrollbar",
+      event = "VeryLazy",
       dependencies = { "kevinhwang91/nvim-hlslens" },
       config = require("config.plugins.scrollbar").setup,
+    },
+    {
+      "lewis6991/satellite.nvim",
+      enabled = true,
+      cmd = { "SatelliteDisable", "SatelliteEnable", "SatelliteRefresh" },
+      event = "VeryLazy",
+      config = require("config.plugins.satellite").setup,
     },
     {
       "stevearc/conform.nvim",
@@ -321,7 +330,7 @@ require("lazy").setup({
     },
     {
       "windwp/nvim-autopairs",
-      event = "InsertEnter",
+      event = "VeryLazy", --- event = "InsertEnter",
       config = require("config.plugins.autopairs").setup,
     },
     {
@@ -341,13 +350,11 @@ require("lazy").setup({
       "nvim-tree/nvim-tree.lua",
       keys = { "<leader>j" },
       cmd = { "NvimTreeFindFile", "NvimTreeOpen" },
-      event = "VeryLazy",
       config = require("config.plugins.nvim-tree").setup,
     },
     {
       "stevearc/oil.nvim",
       keys = { { "<leader>x", ":Oil<CR>" }, desc = "Show Oil" },
-      event = "VeryLazy",
       config = require("config.plugins.oil").setup,
     },
     {
@@ -548,6 +555,7 @@ require("lazy").setup({
 })
 
 require("config.lastplace")
+require("config.plugins.satellite").register_commands()
 require("config.tabbar")
 require("config.winbar")
 
