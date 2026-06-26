@@ -16,22 +16,66 @@ shape = "Block"
 
 [keyboard]
 bindings = [
-  # tmux | clear
-  { key = "K", mods = "Command", chars = "\u0000C" },
-  # tmux | toggle status bar
-  { key = "S", mods = "Command|Shift", chars = "\u0000S" },
+  # Clipboard
+  { key = "C", mods = "Command", action = "Copy" },
+  { key = "V", mods = "Command", action = "Paste" },
+  # Font size
+  { key = "=", mods = "Command", action = "IncreaseFontSize" },
+  { key = "+", mods = "Command", action = "IncreaseFontSize" },
+  { key = "NumpadAdd", mods = "Command", action = "IncreaseFontSize" },
+  { key = "-", mods = "Command", action = "DecreaseFontSize" },
+  { key = "NumpadSubtract", mods = "Command", action = "DecreaseFontSize" },
+  { key = "0", mods = "Command", action = "ResetFontSize" },
+  # Window/app
+  { key = "N", mods = "Command", action = "CreateNewWindow" },
+  { key = "W", mods = "Command", action = "Quit" },
+  { key = "Q", mods = "Command", action = "Quit" },
+  # Ghostty-only: Alacritty has no native select_all, command palette,
+  # or reload_config actions, so reserve these as no-ops.
+  { key = "A", mods = "Command", action = "None" },
+  { key = "P", mods = "Command|Shift", action = "None" },
+  { key = "R", mods = "Command|Shift", action = "None" },
+  # Alacritty macOS defaults not present after Ghostty's `keybind = clear`.
+  { key = "H", mods = "Command", action = "None" },
+  { key = "H", mods = "Command|Alt", action = "None" },
+  { key = "M", mods = "Command", action = "None" },
+  { key = "F", mods = "Command", action = "None" },
+  { key = "F", mods = "Command|Control", action = "None" },
+  { key = "B", mods = "Command", action = "None" },
+  { key = "Tab", mods = "Command", action = "None" },
+  { key = "Tab", mods = "Command|Shift", action = "None" },
+
+  # tmux pane | navigation (ctrl+shift+h/j/k/l)
+  { key = "H", mods = "Control|Shift", chars = "\u0000\u001b[D" },
+  { key = "J", mods = "Control|Shift", chars = "\u0000\u001b[B" },
+  { key = "K", mods = "Control|Shift", chars = "\u0000\u001b[A" },
+  { key = "L", mods = "Control|Shift", chars = "\u0000\u001b[C" },
+
+  # neovim | comments
+  { key = "/", mods = "Command", chars = "gcc\u001b" },
+  # neovim | files
+  { key = "P", mods = "Command", chars = ",f" },
+  # neovim | filetree
+  { key = "J", mods = "Command", chars = ",j" },
+  # neovim | save
+  { key = "S", mods = "Command", chars = ",s" },
+  # neovim | symbols
+  { key = "O", mods = "Command|Shift", chars = ",o" },
+
   # tmux session | picker (sesh)
   { key = "K", mods = "Command|Shift", chars = "\u0000k" },
-  # tmux session | picker (window)
-  { key = "p", mods = "Command", chars = "\u0000p" },
-  # tmux | command
-  { key = ";", mods = "Command", chars = "\u0000:" },
+  # tmux | toggle status bar
+  { key = "S", mods = "Command|Shift", chars = "\u0000S" },
   # tmux | refresh
   { key = "R", mods = "Command", chars = "\u0000r" },
+  # tmux | clear
+  { key = "K", mods = "Command", chars = "\u0000C" },
   # tmux split | vertically
   { key = "D", mods = "Command", chars = "\u0000v" },
   # tmux split | horizontally
   { key = "D", mods = "Command|Shift", chars = "\u0000s" },
+  # tmux | command
+  { key = ";", mods = "Command", chars = "\u0000:" },
   # tmux split | toggle terminal
   { key = "`", mods = "Control", chars = "\u0000`" },
   # tmux pane | new
@@ -40,19 +84,14 @@ bindings = [
   { key = "L", mods = "Command", chars = "\u0000l" },
   # tmux pane | last session
   { key = "L", mods = "Command|Shift", chars = "\u0000L" },
-  # tmux pane | navigation (ctrl+shift+h/j/k/l)
-  { key = "H", mods = "Control|Shift", chars = "\u0000\u001b[D" },
-  { key = "J", mods = "Control|Shift", chars = "\u0000\u001b[B" },
-  { key = "K", mods = "Control|Shift", chars = "\u0000\u001b[A" },
-  { key = "L", mods = "Control|Shift", chars = "\u0000\u001b[C" },
   # tmux window | prev
   { key = "Tab", mods = "Control|Shift", chars = "\u0000p" },
-  { key = "{", mods = "Command|Shift", chars = "\u0000p" },
   { key = "[", mods = "Command|Shift", chars = "\u0000p" },
+  { key = "{", mods = "Command|Shift", chars = "\u0000p" },
   # tmux window | next
   { key = "Tab", mods = "Control", chars = "\u0000n" },
-  { key = "}", mods = "Command|Shift", chars = "\u0000n" },
   { key = "]", mods = "Command|Shift", chars = "\u0000n" },
+  { key = "}", mods = "Command|Shift", chars = "\u0000n" },
   # tmux window | select by number
   { key = "1", mods = "Command", chars = "\u00001" },
   { key = "2", mods = "Command", chars = "\u00002" },
@@ -63,21 +102,13 @@ bindings = [
   { key = "7", mods = "Command", chars = "\u00007" },
   { key = "8", mods = "Command", chars = "\u00008" },
   { key = "9", mods = "Command", chars = "\u00009" },
-  # neovim | comments
-  { key = "/", mods = "Command", chars = "gcc\u001b" },
-  # neovim | filetree
-  { key = "J", mods = "Command", chars = ",j" },
-  # neovim | save
-  { key = "S", mods = "Command", chars = ",s" },
-  # neovim | symbols
-  { key = "O", mods = "Command|Shift", chars = ",o" },
 ]
 
 [env]
 TERM = "xterm-256color"
 
 [font]
-size = 16.0
+size = 14.0
 
 [font.bold]
 family = "JetBrainsMono Nerd Font Mono"
@@ -88,12 +119,12 @@ family = "JetBrainsMono Nerd Font Mono"
 style = "Bold Italic"
 
 [font.offset]
-x = 0
-y = 2
+x = -1
+y = -2
 
 [font.glyph_offset]
 x = 0
-y = 1
+y = 0
 
 [font.italic]
 family = "JetBrainsMono Nerd Font Mono"
@@ -117,11 +148,10 @@ import = [
   # custom
   # "~/.config/alacritty/alacritty-themes/custom.toml",
   # dark
-  # "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml",
+  "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml"
   # "~/.config/alacritty/alacritty-themes/monokai-pro.toml",
   # light
-  # "~/.config/alacritty/alacritty-themes/catppuccin-frappe.toml"
-  "~/.config/alacritty/alacritty-themes/solarized-light.toml"
+  # "~/.config/alacritty/alacritty-themes/solarized-light.toml"
   # base16
   # "~/.config/alacritty/alacritty-themes/base16-grayscale-light.toml"
   # "~/.config/alacritty/alacritty-themes/base16-grayscale-dark.toml"
