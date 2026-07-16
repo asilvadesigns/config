@@ -20,6 +20,7 @@ M.setup = function()
       "gopls",
       "templ",
       "lua_ls",
+      "ols",
       "rust_analyzer",
       "vtsls",
       "postgres_lsp",

@@ -375,7 +375,7 @@ require("lazy").setup({
     },
     {
       "neovim/nvim-lspconfig",
-      event = "VeryLazy",
+      event = { "BufReadPre", "BufNewFile" },
       dependencies = { "b0o/schemastore.nvim" },
       config = require("config.plugins.lsp").setup,
     },
