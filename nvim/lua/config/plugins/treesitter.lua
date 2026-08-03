@@ -21,6 +21,7 @@ local parsers = {
   "make",
   "markdown",
   "markdown_inline",
+  "objc",
   "odin",
   "python",
   "regex",

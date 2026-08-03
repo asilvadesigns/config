@@ -17,9 +17,10 @@ local toggle = function()
 end
 
 --- @class c CtpColors<T>: {rosewater: T, flamingo: T, pink: T, mauve: T, red: T, maroon: T, peach: T, yellow: T, green: T, teal: T, sky: T, sapphire: T, blue: T, lavender: T, text: T, subtext1: T, subtext0: T, overlay2: T, overlay1: T, overlay0: T, surface2: T, surface1: T, surface0: T, base: T, mantle: T, crust: T, none: T }
+--- @param cbg string cursorbg
 --- @param bg string
 --- @param separator_bg string
-local get_colors = function(c, bg, separator_bg)
+local get_colors = function(c, cbg, bg, separator_bg)
   local utils = require("catppuccin.utils.colors")
 
   return {
@@ -28,10 +29,10 @@ local get_colors = function(c, bg, separator_bg)
     ["@punctuation.bracket"] = { fg = c.subtext0 },
     ["@punctuation.special.typescript"] = { fg = c.subtext0 },
 
-    CursorLine = { bg = bg },
-    CursorLineFold = { bg = bg, fg = c.overlay2 }, -- was c.text
-    CursorLineNr = { bg = bg, fg = c.surface2 },   -- , fg = c.teal, fg = c.mauve , -- or c.overlay2
-    CursorLineSign = { bg = bg },
+    CursorLine = { bg = cbg },
+    CursorLineFold = { bg = cbg, fg = c.overlay2 }, -- was c.text
+    CursorLineNr = { bg = cbg, fg = c.surface2 },   -- , fg = c.teal, fg = c.mauve , -- or c.overlay2
+    CursorLineSign = { bg = cbg },
 
     DiagnosticUnderlineError = { sp = c.red, undercurl = true },
     DiagnosticUnderlineHint = { sp = c.teal, undercurl = true },
@@ -142,20 +143,22 @@ M.setup = function()
     color_overrides = overrides(),
     highlight_overrides = {
       latte = function(c)
-        -- bg = utils.darken(c.yellow, 0.10, c.base)
         bg = utils.darken(c.overlay1, 0.15, c.base)
+        cbg = utils.darken(c.overlay1, 0.08, c.base)
 
         local separator_bg = utils.darken(c.surface1, 0.30, c.base)
-        local colors = get_colors(c, bg, separator_bg)
+        local colors = get_colors(c, cbg, bg, separator_bg)
 
         return colors
       end,
       frappe = function(c)
         local bg = utils.darken(c.surface0, 0.80, c.base)
+        local cbg = utils.darken(c.surface0, 0.80, c.base)
+
         local separator_bg = utils.darken(c.surface1, 0.30, c.base)
         local emphasis = { fg = c.text, style = {}, bold = false }
         local mono = { fg = c.text, style = {} }
-        local colors = get_colors(c, bg, separator_bg)
+        local colors = get_colors(c, cbg, bg, separator_bg)
 
         -- Monochrome groups (all use fg = c.text)
         local mono_groups = {

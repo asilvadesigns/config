@@ -143,12 +143,8 @@ M.setup = function()
 
 
   --- TYPESCRIPT
-  vim.lsp.config("vtsls", {
+  vim.lsp.config("tsgo", {
     settings = {
-      vtsls = {
-        enableMoveToFileCodeAction = true,
-        autoUseWorkspaceTsdk = true,
-      },
       typescript = {
         suggest = {
           autoImports = true,
@@ -156,7 +152,7 @@ M.setup = function()
       },
     },
   })
-  vim.lsp.enable("vtsls")
+  vim.lsp.enable("tsgo")
 
   --- POSTGRESQL
   vim.lsp.config("postgres_lsp", {

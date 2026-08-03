@@ -70,6 +70,7 @@ M.setup = function()
     on_attach = my_on_attach,
     actions = {
       open_file = {
+        resize_window = false,
         window_picker = {
           enable = false,
         },

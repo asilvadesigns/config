@@ -22,7 +22,7 @@ local apply_highlights = function()
   local flavor = (vim.g.colors_name or ""):match("^catppuccin%-(.+)$") or "frappe"
   local colors = palettes.get_palette(flavor)
 
-  vim.api.nvim_set_hl(0, "SatelliteBar", { bg = colors.surface0 })
+  vim.api.nvim_set_hl(0, "SatelliteBar", { bg = colors.surface1 })
   vim.api.nvim_set_hl(0, "SatelliteBackground", {})
   vim.api.nvim_set_hl(0, "SatelliteCursor", { fg = colors.sky })
   vim.api.nvim_set_hl(0, "SatelliteSearch", { fg = colors.green })

@@ -22,7 +22,7 @@ M.setup = function()
       "lua_ls",
       "ols",
       "rust_analyzer",
-      "vtsls",
+      "tsgo",
       "postgres_lsp",
       "basedpyright",
       "yamlls",

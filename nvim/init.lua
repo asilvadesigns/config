@@ -1,14 +1,13 @@
 ---@diagnostic disable: missing-fields
 ---
 
-_G.enable_active_cursorline = true
 _G.enable_auto_pair = false
 _G.enable_autocompletion = false
-_G.enable_color_picker = false
+_G.enable_color_picker = true
 _G.enable_dark_mode = true
 _G.enable_syntax_highlight = true
 _G.enable_line_wrap = false
-_G.enable_smooth_scroll = true
+_G.enable_smooth_scroll = false
 _G.enable_zen_mode = false
 _G.grug_instance_global = "grug-instance-global"
 _G.grug_instance_local = "grug-instance-local"
@@ -19,13 +18,13 @@ _G.show_diagnostics_text = false
 _G.show_diagnostics_underline = true
 _G.show_gitblame = false
 _G.show_gitsigns = true
-_G.show_illuminate = true
+_G.show_illuminate = false
 _G.show_indent_lines = false
 _G.show_inlay_hints = false
 _G.show_invisible_chars = false
-_G.show_line_numbers = true
-_G.show_relative_line_numbers = true
-_G.show_scrollbar = false
+_G.show_line_numbers = false
+_G.show_relative_line_numbers = false
+_G.show_scrollbar = true
 _G.show_statusline = false
 _G.show_treesitter_context = false
 _G.show_winbar = true
@@ -285,6 +284,7 @@ require("lazy").setup({
       "eero-lehtinen/oklch-color-picker.nvim",
       version = "*",
       cmd = "ColorPickerToggle",
+      event = "VeryLazy",
       config = require("config.plugins.color-picker").setup,
     },
     {

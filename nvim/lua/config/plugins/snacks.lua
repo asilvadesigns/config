@@ -54,7 +54,6 @@ local command_palette_items = function()
     { text = "Hide Line Numbers",                                           cmd = "HideLineNumbers" },
     { text = "Symbols",                                                     cmd = "silent lua Snacks.picker.lsp_symbols()" },
     { text = Toggle("Auto Pairs", _G.enable_auto_pair),                     cmd = "ToggleAutoPairs" },
-    { text = Toggle("Active Cursor Line", _G.enable_active_cursorline),     cmd = "ToggleActiveCursorLine" },
     { text = Toggle("Color Picker", _G.enable_color_picker),                cmd = "ColorPickerToggle" },
     { text = Toggle("Completion", _G.enable_autocompletion),                cmd = "ToggleCompletion" },
     { text = Toggle("Context", _G.show_treesitter_context),                 cmd = "ToggleTreesitterContext" },
@@ -326,7 +325,7 @@ M.setup = function()
 
   --- recent
   vim.keymap.set("n", "<leader>e", function()
-    Snacks.picker.recent({ filter = { cwd = true } })
+    Snacks.picker.recent({ filter = { cwd = true }, sort_lastused = true })
   end, { desc = "Fuzzy oldfiles" })
 
   --- symbols
